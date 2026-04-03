@@ -1,0 +1,76 @@
+.section-cards {
+    padding: 2.5rem 2rem;
+    background: var(--cream);
+}
+
+.section-cards-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1.5rem;
+}
+
+.section-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.section-card {
+    background: white;
+    border: 0.5px solid var(--gray-light);
+    border-radius: 10px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.section-card:hover {
+    border-color: var(--green-accent);
+    transform: translateY(-2px);
+}
+
+.section-card-icon {
+    font-size: 24px;
+}
+
+.section-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.section-card-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+/* Планшет */
+@media (max-width: 768px) {
+    .section-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Телефон 420px */
+@media (max-width: 420px) {
+    .section-cards {
+        padding: 1.5rem 1rem;
+    }
+
+    .section-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .section-card {
+        padding: 12px 10px;
+    }
+
+    .section-card-icon {
+        font-size: 20px;
+    }
+}

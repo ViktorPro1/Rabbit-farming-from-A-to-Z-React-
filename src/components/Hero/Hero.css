@@ -5,6 +5,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    min-height: 400px;
+    overflow: hidden;
 }
 
 /* ТЕКСТ */
@@ -22,9 +24,11 @@
 
 .hero-image img {
     width: 100%;
-    max-width: 320px;
+    max-width: 380px;
+    max-height: 360px;
     height: auto;
     object-fit: contain;
+    object-position: bottom;
 }
 
 /* UI */
@@ -52,16 +56,6 @@
     margin-bottom: 20px;
 }
 
-.hero-btn {
-    background: var(--amber);
-    color: var(--amber-light);
-    padding: 10px 24px;
-    border-radius: 8px;
-}
-
-.hero-btn:hover {
-    background: var(--brown);
-}
 
 @media (max-width: 768px) {
     .hero {
@@ -100,8 +94,4 @@
         font-size: 13px;
     }
 
-    .hero-btn {
-        width: 100%;
-        padding: 12px;
-    }
 }

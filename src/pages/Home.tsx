@@ -1,8 +1,11 @@
+import Hero from "../components/Hero/Hero";
+import SectionCards from "../components/SectionCards/SectionCards";
+
 const Home = () => {
   return (
     <main>
-      <h1>Кролівництво від А до Я</h1>
-      <p>Ласкаво просимо!</p>
+      <Hero />
+      <SectionCards />
     </main>
   );
 };

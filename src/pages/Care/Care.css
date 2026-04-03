@@ -1,0 +1,132 @@
+.care-page {
+    min-height: 100vh;
+}
+
+.care-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.care-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.care-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.care-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.care-section {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.care-section h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.care-section p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.care-toggle-btn {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid #d5ead6;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.care-toggle-btn:hover {
+    background: var(--green-pale);
+}
+
+.care-detail {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--gray-light);
+}
+
+.care-tips {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.care-tips h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.care-tips ul {
+    padding-left: 1.2rem;
+}
+
+.care-tips li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+.care-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.care-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.care-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 420px) {
+    .care-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .care-section {
+        padding: 1rem;
+    }
+
+    .care-toggle-btn {
+        width: 100%;
+    }
+}
