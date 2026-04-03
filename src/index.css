@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green-dark: #27500A;
+  --green-mid: #3B6D11;
+  --green-accent: #639922;
+  --green-light: #EAF3DE;
+  --green-pale: #C0DD97;
+  --amber: #BA7517;
+  --amber-light: #FAEEDA;
+  --brown: #633806;
+  --cream: #faf7f0;
+  --gray: #888780;
+  --gray-light: #D3D1C7;
+}
+
+body {
+  font-family: sans-serif;
+  background: var(--cream);
+  color: var(--green-dark);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}

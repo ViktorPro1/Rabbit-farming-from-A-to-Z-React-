@@ -1,0 +1,28 @@
+.footer {
+    background: var(--green-dark);
+    padding: 12px 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-text {
+    color: var(--green-pale);
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.footer-rabbit {
+    color: var(--green-pale);
+    font-size: 18px;
+}
+
+/* Телефон 420px */
+@media (max-width: 420px) {
+    .footer {
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px 1rem;
+        text-align: center;
+    }
+}

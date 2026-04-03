@@ -1,0 +1,24 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Тіло кролика -->
+  <ellipse cx="32" cy="40" rx="16" ry="20" fill="#F5D6A0"></ellipse>
+  
+  <!-- Голова -->
+  <circle cx="32" cy="24" r="10" fill="#F5D6A0"></circle>
+  
+  <!-- Вуха -->
+  <ellipse cx="26" cy="12" rx="3" ry="10" fill="#F5D6A0"></ellipse>
+  <ellipse cx="38" cy="12" rx="3" ry="10" fill="#F5D6A0"></ellipse>
+  
+  <!-- Очі -->
+  <circle cx="28" cy="24" r="2" fill="#000"></circle>
+  <circle cx="36" cy="24" r="2" fill="#000"></circle>
+  
+  <!-- Ніс і рот -->
+  <path d="M32 28 Q32 30 30 30" stroke="#000" stroke-width="1" fill="none"></path>
+  <path d="M32 28 Q32 30 34 30" stroke="#000" stroke-width="1" fill="none"></path>
+  
+  <!-- Простий екран СВДЖ -->
+  <rect x="14" y="46" width="36" height="12" rx="2" fill="#A0D6F5"></rect>
+  <line x1="18" y1="50" x2="46" y2="50" stroke="#fff" stroke-width="2"></line>
+  <line x1="18" y1="54" x2="46" y2="54" stroke="#fff" stroke-width="2"></line>
+</svg>
