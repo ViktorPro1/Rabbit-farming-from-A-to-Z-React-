@@ -89,6 +89,128 @@
     border-left: 3px solid #e65100;
 }
 
+/* MATCHER */
+.breeding-matcher {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.breeding-matcher-selects {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.breeding-select-wrap {
+    flex: 1;
+    min-width: 200px;
+}
+
+.breeding-select-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.breeding-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background: white;
+}
+
+.breeding-matcher-arrow {
+    font-size: 24px;
+    color: var(--green-mid);
+    font-weight: 500;
+    padding-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.breeding-matcher-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.breeding-matcher-btn:hover:not(:disabled) {
+    background: var(--green-mid);
+}
+
+.breeding-matcher-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.breeding-matcher-result {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border-left: 4px solid;
+}
+
+.breeding-matcher-result.excellent {
+    background: #e8f5e9;
+    border-color: #1b5e20;
+}
+
+.breeding-matcher-result.good {
+    background: #e3f2fd;
+    border-color: #0d47a1;
+}
+
+.breeding-matcher-result.ok {
+    background: #fff3e0;
+    border-color: #e65100;
+}
+
+.breeding-matcher-result.warn {
+    background: #ffebee;
+    border-color: #c62828;
+}
+
+.breeding-matcher-rating {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.breeding-matcher-goal {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.breeding-matcher-result p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.breeding-matcher-advice {
+    font-style: italic;
+    color: #555 !important;
+}
+
+/* TABLE */
 .breeding-table-wrap {
     overflow-x: auto;
     margin-bottom: 1rem;
@@ -153,6 +275,7 @@
     border: 1px solid #ffe0b2;
 }
 
+/* GOALS */
 .breeding-goals {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -182,6 +305,7 @@
     margin-bottom: 4px;
 }
 
+/* RULES */
 .breeding-rules-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -220,6 +344,7 @@
     margin: 0;
 }
 
+/* BACK */
 .breeding-back {
     display: flex;
     justify-content: center;
@@ -254,6 +379,18 @@
 @media (max-width: 420px) {
     .breeding-header {
         padding: 1.5rem 1rem;
+    }
+
+    .breeding-matcher-selects {
+        flex-direction: column;
+    }
+
+    .breeding-matcher-arrow {
+        display: none;
+    }
+
+    .breeding-matcher-btn {
+        width: 100%;
     }
 
     .breeding-table th,

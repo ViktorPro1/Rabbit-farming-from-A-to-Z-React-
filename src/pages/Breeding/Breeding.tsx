@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { breedingBreeds, type BreedingBreed } from "../../data/breedingBreeds";
 import "./Breeding.css";
 
 const crossTable = [
@@ -125,7 +127,130 @@ const goals = [
   },
 ];
 
+function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
+  const sizeProblem = male.weightNum > female.weightNum + 3;
+
+  if (sizeProblem) {
+    return {
+      rating: "warn" as const,
+      goal: "",
+      result:
+        "Самець значно більший за самку — ризик ускладненого окролу через великих крільченят.",
+      advice: "Краще замінити самця на меншого або вибрати більшу самку.",
+    };
+  }
+
+  if (female.type === "meat" && male.type === "meat") {
+    return {
+      rating: "excellent" as const,
+      goal: "М'ясо",
+      result:
+        "Відмінна м'ясна пара! Гібриди F1 матимуть швидкий приріст та хорошу конверсію корму.",
+      advice: "Забій на 70–90 день при масі 2.2–2.8 кг живої ваги.",
+    };
+  }
+
+  if (female.type === "meat" && male.type === "universal") {
+    return {
+      rating: "good" as const,
+      goal: "М'ясо",
+      result:
+        "Хороша пара для м'яса. Нащадки матимуть добрий приріст з міцнішим здоров'ям.",
+      advice: "Підходить для невеликих господарств де важлива витривалість.",
+    };
+  }
+
+  if (female.type === "universal" && male.type === "meat") {
+    return {
+      rating: "good" as const,
+      goal: "М'ясо",
+      result: "Добра пара. Самець покращить м'ясні показники нащадків.",
+      advice: "Відбирайте кращих самців F1 для подальшого розведення.",
+    };
+  }
+
+  if (female.type === "universal" && male.type === "universal") {
+    return {
+      rating: "good" as const,
+      goal: "Універсальний",
+      result:
+        "Збалансована пара. Нащадки будуть витривалими з хорошими показниками і м'яса і хутра.",
+      advice:
+        "Ведіть записи щоб оцінити ефективність цієї пари у вашому господарстві.",
+    };
+  }
+
+  if (female.type === "fur" && male.type === "fur") {
+    return {
+      rating: "good" as const,
+      goal: "Хутро",
+      result:
+        "Хутрова пара. Нащадки матимуть якісне хутро, але меншу масу тушки.",
+      advice: "Стежте за якістю підстилки — аміак псує колір хутра.",
+    };
+  }
+
+  if (female.type === "fur" && male.type === "meat") {
+    return {
+      rating: "good" as const,
+      goal: "Хутро + м'ясо",
+      result:
+        "Комбінована пара. Нащадки матимуть кращу масу ніж чисті хутрові та якісніше хутро ніж чисті м'ясні.",
+      advice: "Популярна комбінація в українських господарствах.",
+    };
+  }
+
+  if (female.type === "meat" && male.type === "fur") {
+    return {
+      rating: "ok" as const,
+      goal: "М'ясо + хутро",
+      result:
+        "Прийнятна комбінація. М'ясні показники будуть дещо нижчими ніж при чисто м'ясній парі.",
+      advice:
+        "Краще використовувати м'ясного самця для максимального приросту.",
+    };
+  }
+
+  return {
+    rating: "ok" as const,
+    goal: "Універсальний",
+    result: "Прийнятна пара. Нащадки будуть витривалими завдяки гетерозису.",
+    advice: "Ведіть записи щоб оцінити ефективність цієї пари.",
+  };
+}
+
+const ratingLabel: Record<string, string> = {
+  excellent: "🏆 Відмінна пара",
+  good: "✅ Хороша пара",
+  ok: "👍 Прийнятна пара",
+  warn: "⚠️ Увага",
+};
+
 const Breeding = () => {
+  const [female, setFemale] = useState("");
+  const [male, setMale] = useState("");
+  const [pairResult, setPairResult] = useState<ReturnType<
+    typeof evaluatePair
+  > | null>(null);
+
+  const selectedFemale = breedingBreeds.find((b) => b.id === female);
+  const selectedMale = breedingBreeds.find((b) => b.id === male);
+
+  const handleEvaluate = () => {
+    if (!selectedFemale || !selectedMale) return;
+    if (selectedFemale.id === selectedMale.id) {
+      setPairResult({
+        rating: "warn",
+        goal: "",
+        result:
+          "Не можна схрещувати тварин однієї лінії без контролю інбридингу.",
+        advice: "Оберіть різні породи для кращого результату.",
+      });
+      return;
+    }
+    setPairResult(evaluatePair(selectedFemale, selectedMale));
+  };
+
   return (
     <main className="breeding-page">
       <div className="breeding-header">
@@ -151,6 +276,75 @@ const Breeding = () => {
             ✅ Гібриди F1 ростуть на 10–20% швидше чистих порід при тих самих
             витратах корму.
           </div>
+        </div>
+
+        {/* ПІДБІР ПАРИ */}
+        <div className="breeding-section-title">🔍 Підібрати пару</div>
+        <div className="breeding-matcher">
+          <div className="breeding-matcher-selects">
+            <div className="breeding-select-wrap">
+              <label className="breeding-select-label">♀ Самка</label>
+              <select
+                className="breeding-select"
+                value={female}
+                onChange={(e) => {
+                  setFemale(e.target.value);
+                  setPairResult(null);
+                }}
+              >
+                <option value="">Оберіть породу самки</option>
+                {breedingBreeds.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.name} ({b.weight})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="breeding-matcher-arrow">×</div>
+
+            <div className="breeding-select-wrap">
+              <label className="breeding-select-label">♂ Самець</label>
+              <select
+                className="breeding-select"
+                value={male}
+                onChange={(e) => {
+                  setMale(e.target.value);
+                  setPairResult(null);
+                }}
+              >
+                <option value="">Оберіть породу самця</option>
+                {breedingBreeds.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.name} ({b.weight})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <button
+            className="breeding-matcher-btn"
+            onClick={handleEvaluate}
+            disabled={!female || !male}
+          >
+            Оцінити пару
+          </button>
+
+          {pairResult && (
+            <div className={`breeding-matcher-result ${pairResult.rating}`}>
+              <div className="breeding-matcher-rating">
+                {ratingLabel[pairResult.rating]}
+              </div>
+              {pairResult.goal && (
+                <div className="breeding-matcher-goal">
+                  Мета: {pairResult.goal}
+                </div>
+              )}
+              <p>{pairResult.result}</p>
+              <p className="breeding-matcher-advice">💡 {pairResult.advice}</p>
+            </div>
+          )}
         </div>
 
         {/* ТАБЛИЦЯ СХРЕЩУВАНЬ */}
