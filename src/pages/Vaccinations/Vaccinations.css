@@ -1,0 +1,241 @@
+.vacc-page {
+    min-height: 100vh;
+}
+
+.vacc-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.vacc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.vacc-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.vacc-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.vacc-section {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.vacc-section h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.vacc-section p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.vacc-section ul {
+    padding-left: 1.2rem;
+    margin: 8px 0;
+}
+
+.vacc-section li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+.vacc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 1rem;
+}
+
+.vacc-card {
+    background: var(--green-light);
+    border-radius: 12px;
+    border: 0.5px solid #d5ead6;
+    padding: 1rem;
+}
+
+.vacc-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.vacc-icon {
+    font-size: 22px;
+}
+
+.vacc-card-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.vacc-card ul {
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.vacc-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.vacc-calculator {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vacc-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.vacc-date {
+    padding: 10px 12px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    max-width: 240px;
+}
+
+.vacc-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+    max-width: 280px;
+}
+
+.vacc-btn:hover {
+    background: var(--green-mid);
+}
+
+.vacc-error {
+    color: #c62828;
+    font-size: 13px;
+}
+
+.vacc-result {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vacc-result-block {
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 1rem;
+    border: 0.5px solid #d5ead6;
+}
+
+.vacc-result-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.vacc-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #444;
+    padding: 4px 0;
+    border-bottom: 0.5px solid #d5ead6;
+}
+
+.vacc-row:last-child {
+    border-bottom: none;
+}
+
+.vacc-row strong {
+    color: var(--green-dark);
+}
+
+.vacc-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.vacc-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.vacc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.vacc-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.vacc-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 640px) {
+    .vacc-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .vacc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .vacc-section {
+        padding: 1rem;
+    }
+
+    .vacc-date,
+    .vacc-btn {
+        max-width: 100%;
+    }
+}

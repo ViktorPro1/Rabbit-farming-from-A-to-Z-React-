@@ -9,6 +9,12 @@ const cards = [
     path: "/breeds",
   },
   {
+    icon: "🧬",
+    title: "Схрещування",
+    desc: "Які породи з якими схрещувати",
+    path: "/breeding",
+  },
+  {
     icon: "🏠",
     title: "Клітки",
     desc: "Облаштування житла",
