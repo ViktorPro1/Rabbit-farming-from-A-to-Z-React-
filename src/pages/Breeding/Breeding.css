@@ -89,6 +89,95 @@
     border-left: 3px solid #e65100;
 }
 
+/* ДЛЯ ПОЧАТКІВЦЯ */
+.breeding-beginners-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.breeding-beginner-card {
+    background: #f0f9f0;
+    border-radius: 16px;
+    border: 0.5px solid #d5ead6;
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.breeding-beginner-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.breeding-beginner-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.breeding-beginner-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ПОКОЛІННЯ */
+.breeding-generations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.breeding-gen-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.breeding-gen-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.breeding-gen-term {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.breeding-gen-full {
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 8px;
+}
+
+.breeding-gen-desc {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.breeding-gen-example {
+    font-size: 12px;
+    color: var(--green-mid);
+    background: var(--green-light);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
 /* MATCHER */
 .breeding-matcher {
     background: white;
@@ -195,19 +284,92 @@
 .breeding-matcher-goal {
     font-size: 13px;
     color: #666;
+    margin-bottom: 8px;
+}
+
+/* ВІДСОТОК */
+.breeding-percent-wrap {
+    margin: 10px 0 12px;
+}
+
+.breeding-percent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 6px;
 }
 
-.breeding-matcher-result p {
-    font-size: 14px;
+.breeding-percent-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.breeding-percent-value {
+    font-size: 18px;
+    font-weight: 500;
+    color: #222;
+}
+
+.breeding-percent-bar-wrap {
+    height: 8px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.breeding-percent-bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+.breeding-percent-bar.excellent {
+    background: #1b5e20;
+}
+
+.breeding-percent-bar.good {
+    background: #0d47a1;
+}
+
+.breeding-percent-bar.ok {
+    background: #e65100;
+}
+
+.breeding-percent-bar.warn {
+    background: #c62828;
+}
+
+/* ПРИЧИНИ */
+.breeding-reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0 12px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+}
+
+.breeding-reason-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
     color: #444;
+    line-height: 1.5;
+}
+
+.breeding-matcher-main {
+    font-size: 14px;
+    color: #333;
     line-height: 1.6;
     margin-bottom: 4px;
 }
 
 .breeding-matcher-advice {
+    font-size: 13px;
     font-style: italic;
-    color: #555 !important;
+    color: #555;
+    margin-top: 4px;
 }
 
 /* TABLE */
@@ -372,6 +534,14 @@
     }
 
     .breeding-rules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .breeding-beginners-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .breeding-generations {
         grid-template-columns: 1fr;
     }
 }

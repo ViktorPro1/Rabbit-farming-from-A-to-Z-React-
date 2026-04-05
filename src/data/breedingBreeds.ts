@@ -19,6 +19,7 @@ export const breedingBreeds: BreedingBreed[] = [
     { id: 'vienna-blue', name: 'Віденський блакитний', weight: '4.5–5 кг', weightNum: 4.75, type: 'universal' },
     { id: 'black-brown', name: 'Чорно-бурий', weight: '5–7 кг', weightNum: 6, type: 'universal' },
     { id: 'poltava-silver', name: 'Полтавське срібло', weight: '5–6.5 кг', weightNum: 5.75, type: 'universal' },
+    { id: 'butterfly', name: 'Метелик', weight: '3.5–5 кг', weightNum: 4.25, type: 'universal' },
     { id: 'termond', name: 'Термонський', weight: '4.5–5.5 кг', weightNum: 5, type: 'meat' },
     { id: 'himalayan', name: 'Гімалайський', weight: '2.5–3.5 кг', weightNum: 3, type: 'fur' },
 ]

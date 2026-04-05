@@ -127,6 +127,64 @@ const goals = [
   },
 ];
 
+const forBeginners = [
+  {
+    icon: "❓",
+    title: "Що таке схрещування простими словами?",
+    desc: 'Схрещування — це коли самку однієї породи спаровують із самцем іншої породи. Нащадки від такої пари будуть "змішаними" — вони беруть кращі риси від обох батьків. Це як взяти швидкого татка і здорову маму — дитина буде і швидкою, і здоровою.',
+  },
+  {
+    icon: "🐇",
+    title: "Навіщо це робити?",
+    desc: "Чисті породи красиві, але часто слабші. Змішані кролики (гібриди) ростуть швидше, хворіють рідше і краще переживають холод та спеку. Для господарства це означає менше витрат і більше м'яса.",
+  },
+  {
+    icon: "🥇",
+    title: "Яку пару вибрати?",
+    desc: "Залежить від мети. Хочеш м'яса — бери двох м'ясних. Хочеш і м'яса і хутра — бери м'ясного самця і хутрову самку. Не знаєш — скористайся калькулятором нижче, він підкаже.",
+  },
+  {
+    icon: "📏",
+    title: "Головне правило розміру",
+    desc: "Самка завжди має бути більшою або такою ж як самець. Якщо самець набагато більший — крільченята народяться великими і самці буде важко їх народити. Це найпоширеніша помилка початківців.",
+  },
+];
+
+const generationTerms = [
+  {
+    term: "F1",
+    full: "Перше покоління гібридів",
+    desc: 'Діти від схрещування двох чистих порід. Наприклад: мама — Каліфорнійська, тато — Новозеландський білий. Їхні діти — це F1. Саме F1 найсильніші і найшвидше ростуть — це і є "гібридна сила" або гетерозис.',
+    example: "Каліфорнійська × Новозеландський → діти F1",
+    badge: "Найкращі для відгодівлі",
+    badgeType: "excellent",
+  },
+  {
+    term: "F2",
+    full: "Друге покоління гібридів",
+    desc: "Діти від двох гібридів F1. Тобто якщо схрещувати між собою двох кроликів F1 — отримаємо F2. Вони вже слабші за F1, гетерозис зменшується. Забарвлення та характеристики стають непередбачуваними.",
+    example: "F1 × F1 → діти F2",
+    badge: "Менш передбачувані",
+    badgeType: "ok",
+  },
+  {
+    term: "Чиста порода",
+    full: "Тварини однієї породи з відомим походженням",
+    desc: "Кролик чистої породи — це коли і мама, і тато, і дідусь з бабусею — всі тієї ж породи. Такі тварини передбачувані за характеристиками, але часто менш витривалі ніж гібриди.",
+    example: "Каліфорнійська × Каліфорнійська → чиста порода",
+    badge: "Для племінної роботи",
+    badgeType: "good",
+  },
+  {
+    term: "Гетерозис",
+    full: "Гібридна сила",
+    desc: "Явище коли гібрид (F1) перевершує обох батьків за приростом, здоров'ям та виживаністю. Це не магія — це біологія. Саме тому більшість промислових господарств у світі використовують гібриди, а не чисті породи.",
+    example: "F1 росте на 10–20% швидше ніж чисті породи",
+    badge: "Ключова перевага схрещування",
+    badgeType: "excellent",
+  },
+];
+
 function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
   const sizeProblem = male.weightNum > female.weightNum + 3;
 
@@ -137,6 +195,16 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
       result:
         "Самець значно більший за самку — ризик ускладненого окролу через великих крільченят.",
       advice: "Краще замінити самця на меншого або вибрати більшу самку.",
+      percent: 20,
+      percentLabel: "Низький потенціал",
+      reasons: [
+        {
+          icon: "⚠️",
+          text: "Різниця у вазі понад 3 кг — ризик для самки при окролі",
+        },
+        { icon: "⚠️", text: "Крільченята можуть бути надто великими" },
+        { icon: "⚠️", text: "Складний окріл збільшує смертність молодняку" },
+      ],
     };
   }
 
@@ -147,6 +215,20 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
       result:
         "Відмінна м'ясна пара! Гібриди F1 матимуть швидкий приріст та хорошу конверсію корму.",
       advice: "Забій на 70–90 день при масі 2.2–2.8 кг живої ваги.",
+      percent: 95,
+      percentLabel: "Відмінний потенціал",
+      reasons: [
+        {
+          icon: "✅",
+          text: "Обидві породи м'ясного напряму — максимальний приріст",
+        },
+        { icon: "✅", text: "Гетерозис F1 дає +10–20% до швидкості росту" },
+        {
+          icon: "✅",
+          text: "Висока конверсія корму — менше витрат на кілограм м'яса",
+        },
+        { icon: "✅", text: "Стабільні однорідні помети" },
+      ],
     };
   }
 
@@ -157,6 +239,22 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
       result:
         "Хороша пара для м'яса. Нащадки матимуть добрий приріст з міцнішим здоров'ям.",
       advice: "Підходить для невеликих господарств де важлива витривалість.",
+      percent: 75,
+      percentLabel: "Хороший потенціал",
+      reasons: [
+        {
+          icon: "✅",
+          text: "М'ясна самка забезпечує гарну молочність і великі помети",
+        },
+        {
+          icon: "✅",
+          text: "Універсальний самець додає витривалості нащадкам",
+        },
+        {
+          icon: "➖",
+          text: "Приріст дещо нижчий ніж при двох м'ясних породах",
+        },
+      ],
     };
   }
 
@@ -166,6 +264,16 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
       goal: "М'ясо",
       result: "Добра пара. Самець покращить м'ясні показники нащадків.",
       advice: "Відбирайте кращих самців F1 для подальшого розведення.",
+      percent: 75,
+      percentLabel: "Хороший потенціал",
+      reasons: [
+        { icon: "✅", text: "М'ясний самець передає гени швидкого приросту" },
+        { icon: "✅", text: "Витривала самка знижує ризик хвороб молодняку" },
+        {
+          icon: "➖",
+          text: "Помети можуть бути меншими ніж у чисто м'ясних самок",
+        },
+      ],
     };
   }
 
@@ -177,6 +285,19 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
         "Збалансована пара. Нащадки будуть витривалими з хорошими показниками і м'яса і хутра.",
       advice:
         "Ведіть записи щоб оцінити ефективність цієї пари у вашому господарстві.",
+      percent: 70,
+      percentLabel: "Хороший потенціал",
+      reasons: [
+        {
+          icon: "✅",
+          text: "Обидві породи витривалі — низька смертність молодняку",
+        },
+        { icon: "✅", text: "Непогана якість хутра і м'яса одночасно" },
+        {
+          icon: "➖",
+          text: "Немає вираженої спеціалізації — середні показники по всьому",
+        },
+      ],
     };
   }
 
@@ -187,6 +308,16 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
       result:
         "Хутрова пара. Нащадки матимуть якісне хутро, але меншу масу тушки.",
       advice: "Стежте за якістю підстилки — аміак псує колір хутра.",
+      percent: 72,
+      percentLabel: "Хороший потенціал",
+      reasons: [
+        { icon: "✅", text: "Відмінна якість хутра від обох батьків" },
+        { icon: "✅", text: "Густий підшерсток та рівне забарвлення нащадків" },
+        {
+          icon: "➖",
+          text: "Мала маса тушки — невигідно для м'ясного напряму",
+        },
+      ],
     };
   }
 
@@ -197,6 +328,14 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
       result:
         "Комбінована пара. Нащадки матимуть кращу масу ніж чисті хутрові та якісніше хутро ніж чисті м'ясні.",
       advice: "Популярна комбінація в українських господарствах.",
+      percent: 78,
+      percentLabel: "Хороший потенціал",
+      reasons: [
+        { icon: "✅", text: "М'ясний самець підвищує масу тушки нащадків" },
+        { icon: "✅", text: "Хутрова самка передає якісну шкурку" },
+        { icon: "✅", text: "Гетерозис дає витривалість і швидший ріст" },
+        { icon: "➖", text: "Хутро гірше ніж у чистих хутрових порід" },
+      ],
     };
   }
 
@@ -208,6 +347,16 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
         "Прийнятна комбінація. М'ясні показники будуть дещо нижчими ніж при чисто м'ясній парі.",
       advice:
         "Краще використовувати м'ясного самця для максимального приросту.",
+      percent: 50,
+      percentLabel: "Прийнятний потенціал",
+      reasons: [
+        { icon: "✅", text: "М'ясна самка забезпечує хорошу молочність" },
+        {
+          icon: "➖",
+          text: "Хутровий самець знижує м'ясні показники нащадків",
+        },
+        { icon: "➖", text: "Непередбачувана якість хутра у нащадків" },
+      ],
     };
   }
 
@@ -216,6 +365,19 @@ function evaluatePair(female: BreedingBreed, male: BreedingBreed) {
     goal: "Універсальний",
     result: "Прийнятна пара. Нащадки будуть витривалими завдяки гетерозису.",
     advice: "Ведіть записи щоб оцінити ефективність цієї пари.",
+    percent: 45,
+    percentLabel: "Прийнятний потенціал",
+    reasons: [
+      { icon: "✅", text: "Гетерозис забезпечує базову витривалість нащадків" },
+      {
+        icon: "➖",
+        text: "Немає чіткої спеціалізації — результат непередбачуваний",
+      },
+      {
+        icon: "➖",
+        text: "Рекомендується підібрати більш цілеспрямовану пару",
+      },
+    ],
   };
 }
 
@@ -245,6 +407,13 @@ const Breeding = () => {
         result:
           "Не можна схрещувати тварин однієї лінії без контролю інбридингу.",
         advice: "Оберіть різні породи для кращого результату.",
+        percent: 10,
+        percentLabel: "Не рекомендовано",
+        reasons: [
+          { icon: "⚠️", text: "Та сама порода — ризик інбридингу" },
+          { icon: "⚠️", text: "Гетерозис відсутній — немає гібридної сили" },
+          { icon: "⚠️", text: "Закріплення дефектів у нащадків" },
+        ],
       });
       return;
     }
@@ -276,6 +445,44 @@ const Breeding = () => {
             ✅ Гібриди F1 ростуть на 10–20% швидше чистих порід при тих самих
             витратах корму.
           </div>
+        </div>
+
+        {/* ДЛЯ ПОЧАТКІВЦЯ */}
+        <div className="breeding-section-title">
+          🌱 Для початківця — просто про складне
+        </div>
+        <div className="breeding-beginners-grid">
+          {forBeginners.map((item) => (
+            <article key={item.title} className="breeding-beginner-card">
+              <span className="breeding-beginner-icon">{item.icon}</span>
+              <div>
+                <strong className="breeding-beginner-title">
+                  {item.title}
+                </strong>
+                <p>{item.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* ЩО ТАКЕ F1, F2 */}
+        <div className="breeding-section-title">
+          🧬 Що таке F1, F2 та гетерозис
+        </div>
+        <div className="breeding-generations">
+          {generationTerms.map((item) => (
+            <article key={item.term} className="breeding-gen-card">
+              <div className="breeding-gen-header">
+                <span className="breeding-gen-term">{item.term}</span>
+                <span className={`breeding-badge ${item.badgeType}`}>
+                  {item.badge}
+                </span>
+              </div>
+              <div className="breeding-gen-full">{item.full}</div>
+              <p className="breeding-gen-desc">{item.desc}</p>
+              <div className="breeding-gen-example">📌 {item.example}</div>
+            </article>
+          ))}
         </div>
 
         {/* ПІДБІР ПАРИ */}
@@ -341,7 +548,35 @@ const Breeding = () => {
                   Мета: {pairResult.goal}
                 </div>
               )}
-              <p>{pairResult.result}</p>
+
+              <div className="breeding-percent-wrap">
+                <div className="breeding-percent-header">
+                  <span className="breeding-percent-label">
+                    {pairResult.percentLabel}
+                  </span>
+                  <span className="breeding-percent-value">
+                    {pairResult.percent}%
+                  </span>
+                </div>
+                <div className="breeding-percent-bar-wrap">
+                  <div
+                    className={`breeding-percent-bar ${pairResult.rating}`}
+                    style={{ width: `${pairResult.percent}%` }}
+                  />
+                </div>
+              </div>
+
+              <p className="breeding-matcher-main">{pairResult.result}</p>
+
+              <div className="breeding-reasons">
+                {pairResult.reasons.map((r, i) => (
+                  <div key={i} className="breeding-reason-row">
+                    <span>{r.icon}</span>
+                    <span>{r.text}</span>
+                  </div>
+                ))}
+              </div>
+
               <p className="breeding-matcher-advice">💡 {pairResult.advice}</p>
             </div>
           )}

@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# 🐰 Rabbit Farming From A to Z
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-додаток про кролівництво — від базових знань до практичних порад. Проєкт створений для тих, хто хоче почати або розвивати власне господарство.
 
-Currently, two official plugins are available:
+## 🔗 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+👉 https://rabbit-farming-from-a-to-z-react.vercel.app/
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📌 Опис проєкту
 
-## Expanding the ESLint configuration
+Це інформаційний SPA-додаток, створений на базі React, який надає структуровану інформацію про:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- утримання кролів
+- розведення
+- годування
+- вибір порід
+- базові помилки та поради
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Проєкт орієнтований на простий та зрозумілий UX.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⚙️ Технології
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- React
+- JavaScript (ES6+)
+- CSS / SCSS
+- Vite / CRA
+- Vercel
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚀 Основний функціонал
+
+- Структурований контент по темах
+- Адаптивний дизайн
+- Швидке завантаження
+- Зручна навігація
+- Компонентна архітектура
+
+---
+
+## 📂 Структура проєкту
+
+src/
+components/ — UI компоненти  
+pages/ — сторінки  
+assets/ — зображення  
+data/ — контент  
+App.jsx  
+main.jsx
+
+---
+
+## 🛠️ Встановлення та запуск
+
+Клонувати:
+git clone https://github.com/your-username/rabbit-farming.git
+
+Перейти:
+cd rabbit-farming
+
+Встановити:
+npm install
+
+Запуск:
+npm run dev
+
+---
+
+## 📦 Збірка
+
+npm run build
+
+---
+
+## 🌍 Деплой
+
+Vercel:
+
+- авто деплой
+- CDN
+- HTTPS
+
+---
+
+## 🎯 Мета
+
+- Зручний довідник по кролівництву
+- Демонстрація React навичок
+- Основа для масштабування
+
+---
+
+## 🔮 Покращення
+
+- Пошук
+- Адмінка
+- Мультимовність
+- Калькулятори
+
+---
+
+## 👨‍💻 Автор
+
+Розроблено вручну у VS Code
