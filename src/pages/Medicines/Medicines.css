@@ -164,6 +164,32 @@
     gap: 8px;
 }
 
+/* Блок "Що це і від чого" */
+.med-what-is-it {
+    background: #fffbea;
+    border-left: 3px solid #f6c90e;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+}
+
+.med-what-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #7a5c00;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+}
+
+.med-what-is-it p {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+}
+
 .med-row {
     display: flex;
     flex-direction: column;
@@ -185,6 +211,31 @@
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
+}
+
+/* Дози окремо */
+.med-row.dose-prev {
+    background: #f0f7e6;
+    border-radius: 6px;
+    padding: 8px 10px;
+    border-bottom: none;
+    margin-bottom: 2px;
+}
+
+.med-row.dose-treat {
+    background: #fce8e8;
+    border-radius: 6px;
+    padding: 8px 10px;
+    border-bottom: none;
+    margin-bottom: 2px;
+}
+
+.med-row.dose-prev .med-row-label {
+    color: #2e6b00;
+}
+
+.med-row.dose-treat .med-row-label {
+    color: #8b0000;
 }
 
 .med-card.injection .med-row-label {
