@@ -75,6 +75,18 @@ const cards = [
     desc: "Практичні поради господаря",
     path: "/tips",
   },
+  {
+    icon: "📅",
+    title: "Сезонний календар",
+    desc: "Що робити по місяцях",
+    path: "/calendar",
+  },
+  {
+    icon: "🔪",
+    title: "Забій та переробка",
+    desc: "Підготовка, технологія, зберігання",
+    path: "/slaughter",
+  },
 ];
 
 const SectionCards = () => {

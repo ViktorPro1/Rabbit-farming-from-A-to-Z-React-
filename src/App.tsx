@@ -15,6 +15,8 @@ import Tips from "./pages/Tips/Tips";
 import Calculator from "./pages/Calculator/Calculator";
 import Vaccinations from "./pages/Vaccinations/Vaccinations";
 import Enclosure from "./pages/Enclosure/Enclosure";
+import Calendar from "./pages/Calendar/Calendar";
+import Slaughter from "./pages/Slaughter/Slaughter";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/enclosure" element={<Enclosure />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/slaughter" element={<Slaughter />} />
       </Routes>
       <Footer />
     </BrowserRouter>

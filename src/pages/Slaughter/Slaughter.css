@@ -1,0 +1,350 @@
+.slaughter-page {
+    min-height: 100vh;
+}
+
+.slaughter-header {
+    background: linear-gradient(90deg, #4a1942, #7b2d5e);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.slaughter-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.slaughter-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.slaughter-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.slaughter-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.slaughter-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.slaughter-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.slaughter-note ul {
+    padding-left: 1.2rem;
+    margin: 8px 0;
+}
+
+.slaughter-note li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+.slaughter-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.slaughter-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.slaughter-fact-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.slaughter-fact-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.slaughter-fact-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.slaughter-fact-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.slaughter-prep-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.slaughter-prep-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.slaughter-prep-icon {
+    font-size: 22px;
+}
+
+.slaughter-prep-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.slaughter-prep-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.slaughter-prep-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.slaughter-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.slaughter-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.slaughter-step:last-child {
+    border-bottom: none;
+}
+
+.slaughter-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.slaughter-step-content {
+    flex: 1;
+}
+
+.slaughter-step-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.slaughter-step-content p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0 0 8px;
+}
+
+.slaughter-inline-alert {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+.slaughter-inline-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.slaughter-inline-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.slaughter-byproduct-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.slaughter-byproduct-icon {
+    font-size: 24px;
+}
+
+.slaughter-byproduct-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.slaughter-byproduct-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.slaughter-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.slaughter-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.slaughter-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.slaughter-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.slaughter-table tr:hover td {
+    background: #eef7ee;
+}
+
+.slaughter-table tr:last-child td {
+    border-bottom: none;
+}
+
+.slaughter-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.slaughter-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.slaughter-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.slaughter-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.slaughter-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.slaughter-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 960px) {
+    .slaughter-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .slaughter-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .slaughter-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .slaughter-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .slaughter-table th,
+    .slaughter-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .slaughter-step {
+        gap: 10px;
+    }
+}
