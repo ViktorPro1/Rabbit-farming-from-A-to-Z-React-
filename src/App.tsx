@@ -17,6 +17,7 @@ import Vaccinations from "./pages/Vaccinations/Vaccinations";
 import Enclosure from "./pages/Enclosure/Enclosure";
 import Calendar from "./pages/Calendar/Calendar";
 import Slaughter from "./pages/Slaughter/Slaughter";
+import Medicines from "./pages/Medicines/Medicines";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/slaughter" element={<Slaughter />} />
+        <Route path="/medicines" element={<Medicines />} />
       </Routes>
       <Footer />
     </BrowserRouter>

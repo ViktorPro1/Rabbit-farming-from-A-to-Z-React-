@@ -52,7 +52,7 @@ const cards = [
     path: "/parasites",
   },
   {
-    icon: "💊",
+    icon: "🩺",
     title: "Хвороби",
     desc: "Хвороби та лікування",
     path: "/diseases",
@@ -62,6 +62,12 @@ const cards = [
     title: "Перша допомога",
     desc: "Екстрені ситуації та аптечка",
     path: "/first-aid",
+  },
+  {
+    icon: "💊",
+    title: "Препарати",
+    desc: "Ліки, уколи, мазі та дозування",
+    path: "/medicines",
   },
   {
     icon: "🧮",
