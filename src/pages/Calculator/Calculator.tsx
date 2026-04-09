@@ -69,6 +69,14 @@ const breedingGrains: Grain[] = [
     pct: 0,
     defaultOn: false,
   },
+  {
+    id: "soy",
+    icon: "🟤",
+    name: "Соєва макуха",
+    note: "Білок 35–40%, до 10-15%",
+    pct: 0,
+    defaultOn: false,
+  },
 ];
 
 const fatteningGrains: Grain[] = [
@@ -128,9 +136,23 @@ const fatteningGrains: Grain[] = [
     pct: 0,
     defaultOn: false,
   },
+  {
+    id: "soy",
+    icon: "🟤",
+    name: "Соєва макуха",
+    note: "Білок 35–40%, до 10-15%",
+    pct: 0,
+    defaultOn: false,
+  },
 ];
 
-const EXTRA_PCT: Record<string, number> = { corn: 10, pea: 8, rye: 8, buck: 8 };
+const EXTRA_PCT: Record<string, number> = {
+  corn: 10,
+  pea: 8,
+  rye: 8,
+  buck: 8,
+  soy: 10,
+};
 
 const grainTable = [
   {
@@ -174,6 +196,12 @@ const grainTable = [
     breeding: "до 10%",
     fattening: "до 10%",
     note: "Різноманітність раціону. Ціла або лузга, помірно",
+  },
+  {
+    name: "🟤 Соєва макуха",
+    breeding: "до 10%",
+    fattening: "до 10%",
+    note: "Термооброблена. Концентрований білок. Не перевищувати 10% — розлади травлення",
   },
 ];
 
