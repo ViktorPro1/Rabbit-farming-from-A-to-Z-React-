@@ -199,8 +199,8 @@ const grainTable = [
   },
   {
     name: "🟤 Соєва макуха",
-    breeding: "до 10%",
-    fattening: "до 10%",
+    breeding: "до 10-15%",
+    fattening: "до 10-15%",
     note: "Термооброблена. Концентрований білок. Не перевищувати 10% — розлади травлення",
   },
 ];
@@ -228,12 +228,25 @@ function calcGrains(
     Object.keys(basePcts).forEach((k) => {
       basePcts[k] = (basePcts[k] / sum) * 100;
     });
-  return checked.map((g) => ({
+
+  const roundHalf = (n: number) => Math.round(n * 2) / 2;
+
+  const results: GrainResult[] = checked.map((g) => ({
     icon: g.icon,
     name: g.name,
     pct: basePcts[g.id],
-    kg: Math.round((totalKg * basePcts[g.id]) / 100),
+    kg: roundHalf((totalKg * basePcts[g.id]) / 100),
   }));
+
+  // Коригуємо останній елемент щоб сума кг точно = totalKg
+  const sumKg = results.reduce((a, r) => a + r.kg, 0);
+  const diff = parseFloat((totalKg - sumKg).toFixed(1));
+  if (diff !== 0)
+    results[results.length - 1].kg = roundHalf(
+      results[results.length - 1].kg + diff,
+    );
+
+  return results;
 }
 
 const fmt = (d: Date) => d.toLocaleDateString("uk-UA");
