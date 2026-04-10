@@ -212,6 +212,22 @@ interface GrainResult {
   kg: number;
 }
 
+interface GranulatorAdditives {
+  lucerne: number;
+  salt: number;
+  waterMin: number;
+  waterMax: number;
+}
+
+function calcGranulatorAdditives(totalKg: number): GranulatorAdditives {
+  return {
+    lucerne: Math.round(totalKg * 0.2 * 10) / 10,
+    salt: Math.round(totalKg * 0.005 * 1000) / 10,
+    waterMin: Math.round(totalKg * 0.08 * 10) / 10,
+    waterMax: Math.round(totalKg * 0.12 * 10) / 10,
+  };
+}
+
 function calcGrains(
   grains: Grain[],
   selected: string[],
@@ -238,7 +254,6 @@ function calcGrains(
     kg: roundHalf((totalKg * basePcts[g.id]) / 100),
   }));
 
-  // Коригуємо останній елемент щоб сума кг точно = totalKg
   const sumKg = results.reduce((a, r) => a + r.kg, 0);
   const diff = parseFloat((totalKg - sumKg).toFixed(1));
   if (diff !== 0)
@@ -275,6 +290,7 @@ export default function Calculator() {
   const [grainWeight, setGrainWeight] = useState<number>(10);
   const [grainResults, setGrainResults] = useState<GrainResult[]>([]);
   const [grainError, setGrainError] = useState("");
+  const [hasGranulator, setHasGranulator] = useState(false);
 
   const currentGrains =
     grainMode === "breeding" ? breedingGrains : fatteningGrains;
@@ -517,6 +533,100 @@ export default function Calculator() {
                     <span className="result-kg">{r.kg} кг</span>
                   </div>
                 ))}
+
+                {/* ===== ГРАНУЛЯТОР ===== */}
+                <label className="granulator-toggle">
+                  <input
+                    type="checkbox"
+                    checked={hasGranulator}
+                    onChange={(e) => setHasGranulator(e.target.checked)}
+                  />
+                  <span>Є гранулятор</span>
+                </label>
+
+                {hasGranulator &&
+                  (() => {
+                    const { lucerne, salt, waterMin, waterMax } =
+                      calcGranulatorAdditives(grainWeight);
+                    return (
+                      <div className="granulator-block">
+                        <div className="calc-alert warn">
+                          ⚙️ Перед закладкою в гранулятор перемоліть всю суміш
+                          через млин або зернодробарку. Рекомендована фракція
+                          після помолу: <strong>1.5–2 мм</strong>. Розмір гранул
+                          на виході: <strong>4–5 мм</strong>.
+                        </div>
+
+                        <h3>Добавки до суміші</h3>
+
+                        <div className="result-row">
+                          <span className="result-icon">🌿</span>
+                          <div className="result-info">
+                            <div className="result-top">
+                              <span className="result-name">
+                                Люцерна подрібнена
+                              </span>
+                              <span className="result-pct">20%</span>
+                            </div>
+                            <span className="granulator-note">
+                              Клітковина та білок (15–18%). Подрібнити до 3–5 мм
+                              окремо, потім змішати із зерном. Якщо люцерни
+                              немає — можна замінити частково або повністю
+                              ячмінною чи пшеничною соломою: солома дає
+                              клітковину, але білка в ній майже немає, тому
+                              гранула буде менш поживною
+                            </span>
+                          </div>
+                          <span className="result-kg">{lucerne} кг</span>
+                        </div>
+
+                        <div className="result-row">
+                          <span className="result-icon">🧂</span>
+                          <div className="result-info">
+                            <div className="result-top">
+                              <span className="result-name">Сіль кухонна</span>
+                              <span className="result-pct">0.5%</span>
+                            </div>
+                            <span className="granulator-note">
+                              Проста харчова сіль (NaCl). Додати в суміш і
+                              рівномірно перемішати
+                            </span>
+                          </div>
+                          <span className="result-kg">{salt} г</span>
+                        </div>
+
+                        <div className="result-row">
+                          <span className="result-icon">💧</span>
+                          <div className="result-info">
+                            <div className="result-top">
+                              <span className="result-name">Вода</span>
+                              <span className="result-pct">8–12%</span>
+                            </div>
+                            <span className="granulator-note">
+                              Технологічна волога для пресування — в годівницю
+                              не додається. Вливати поступово перед
+                              гранулятором. Суміш має ліпитись у руці, але не
+                              розтікатись. Точна кількість залежить від
+                              вологості сировини
+                            </span>
+                          </div>
+                          <span className="result-kg">
+                            {waterMin}–{waterMax} л
+                          </span>
+                        </div>
+
+                        <div
+                          className="calc-alert ok"
+                          style={{ marginTop: "14px" }}
+                        >
+                          ✅ Після переходу на гранули окрема люцерна, зернова
+                          суміш і сіль-лизунець з клітки прибираються — все це
+                          вже в складі гранули. В клітці залишається тільки
+                          годівниця з гранулами і поїлка з чистою водою.
+                        </div>
+                      </div>
+                    );
+                  })()}
               </div>
             )}
 

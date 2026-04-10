@@ -389,6 +389,42 @@
     background: var(--green-mid);
 }
 
+.granulator-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.granulator-toggle input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.granulator-block {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.granulator-block h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.granulator-note {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 3px;
+    display: block;
+}
+
 @media (max-width: 640px) {
     .grain-grid {
         grid-template-columns: repeat(3, 1fr);
