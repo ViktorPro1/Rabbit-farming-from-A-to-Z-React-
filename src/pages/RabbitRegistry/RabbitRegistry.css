@@ -1,0 +1,256 @@
+.registry-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.registry-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.registry-header h1 {
+    color: var(--green-dark);
+    font-size: 1.8rem;
+    flex: 1;
+}
+
+.registry-email {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.registry-add-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.registry-add-btn:hover {
+    background: var(--green-mid);
+}
+
+.registry-form {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.registry-form h2 {
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.registry-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.registry-form-grid input,
+.registry-form-grid select {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    background: white;
+    color: var(--green-dark);
+}
+
+.registry-form-grid input:focus,
+.registry-form-grid select:focus {
+    border-color: var(--green-dark);
+}
+
+.registry-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.registry-save-btn {
+    padding: 0.65rem 1.5rem;
+    background: var(--green-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.registry-save-btn:hover {
+    background: var(--green-mid);
+}
+
+.registry-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.registry-loading,
+.registry-empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 3rem;
+    font-size: 1.1rem;
+}
+
+.registry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.rabbit-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 3px solid var(--green-accent);
+}
+
+.rabbit-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.rabbit-gender {
+    font-size: 1.3rem;
+    color: var(--green-mid);
+}
+
+.rabbit-card-header h3 {
+    color: var(--green-dark);
+    font-size: 1.1rem;
+    flex: 1;
+}
+
+.rabbit-cage {
+    font-size: 0.8rem;
+    background: var(--green-light);
+    color: var(--green-dark);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+}
+
+.rabbit-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    color: var(--green-dark);
+    flex: 1;
+}
+
+.rabbit-notes {
+    color: var(--gray);
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.rabbit-archive-btn {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 6px;
+    color: var(--gray);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: flex-start;
+}
+
+.rabbit-archive-btn:hover {
+    border-color: #c0392b;
+    color: #c0392b;
+}
+
+.rabbit-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.rabbit-edit-btn {
+    padding: 0.4rem 0.8rem;
+    background: none;
+    border: 1px solid var(--green-accent);
+    border-radius: 6px;
+    color: var(--green-accent);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rabbit-edit-btn:hover {
+    background: var(--green-accent);
+    color: white;
+}
+
+.registry-archive-link {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    color: var(--gray);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.registry-archive-link:hover {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+@media (max-width: 960px) {
+    .registry-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .registry-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .registry-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .registry-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .registry-page {
+        padding: 1rem;
+    }
+
+    .registry-grid {
+        grid-template-columns: 1fr;
+    }
+}

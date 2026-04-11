@@ -1,7 +1,17 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
+import type { Session } from "@supabase/supabase-js";
 import "./Header.css";
 
-const Header = () => {
+interface Props {
+  session: Session | null;
+}
+
+const Header = ({ session }: Props) => {
+  async function handleLogout() {
+    await supabase.auth.signOut();
+  }
+
   return (
     <header className="header">
       <div className="header-logo">
@@ -9,11 +19,22 @@ const Header = () => {
         <span>Кролівництво від А до Я</span>
       </div>
       <nav className="header-nav">
-        <Link to="/breeds">Породи</Link>
-        <Link to="/care">Догляд</Link>
-        <Link to="/feeding">Годування</Link>
-        <Link to="/diseases">Хвороби</Link>
-        <Link to="/calculator">Калькулятор</Link>
+        <NavLink to="/breeds">Породи</NavLink>
+        <NavLink to="/care">Догляд</NavLink>
+        <NavLink to="/feeding">Годування</NavLink>
+        <NavLink to="/diseases">Хвороби</NavLink>
+        <NavLink to="/calculator">Калькулятор</NavLink>
+        {session ? (
+          <>
+            <NavLink to="/registry">Мої кролики</NavLink>
+            <NavLink to="/admin">Адмін</NavLink>
+            <button className="header-logout" onClick={handleLogout}>
+              Вийти
+            </button>
+          </>
+        ) : (
+          <NavLink to="/auth">Увійти</NavLink>
+        )}
       </nav>
     </header>
   );

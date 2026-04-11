@@ -1,0 +1,279 @@
+.matings-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.matings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.matings-header h1 {
+    color: var(--green-dark);
+    font-size: 1.8rem;
+}
+
+.matings-back-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.matings-back-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.matings-add-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.2s;
+}
+
+.matings-add-btn:hover {
+    background: var(--green-mid);
+}
+
+.matings-form {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.matings-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.matings-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.matings-form-field label {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.matings-form-grid input,
+.matings-form-grid select {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    background: white;
+    color: var(--green-dark);
+}
+
+.matings-form-grid input:focus,
+.matings-form-grid select:focus {
+    border-color: var(--green-dark);
+}
+
+.matings-form-full {
+    grid-column: 1 / -1;
+}
+
+.matings-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.matings-save-btn {
+    padding: 0.65rem 1.5rem;
+    background: var(--green-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.matings-save-btn:hover {
+    background: var(--green-mid);
+}
+
+.matings-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.matings-empty {
+    color: var(--gray);
+    text-align: center;
+    padding: 2rem;
+}
+
+.matings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mating-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-left: 4px solid var(--green-accent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mating-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.mating-pair {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 1rem;
+}
+
+.mating-dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.95rem;
+    color: var(--green-dark);
+}
+
+.mating-notes {
+    color: var(--gray);
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.mating-delete-btn {
+    padding: 0.3rem 0.7rem;
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mating-delete-btn:hover {
+    background: #c0392b;
+    color: white;
+}
+
+.litter-block {
+    background: var(--amber-light);
+    border-radius: 8px;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    border-left: 3px solid var(--amber);
+}
+
+.litter-block-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.litter-stats {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--green-dark);
+    flex-wrap: wrap;
+}
+
+.litter-weaned {
+    font-size: 0.9rem;
+    color: var(--brown);
+}
+
+.litter-delete-btn {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.1rem 0.4rem;
+    transition: color 0.2s;
+}
+
+.litter-delete-btn:hover {
+    color: #c0392b;
+}
+
+.litter-add-btn {
+    padding: 0.4rem 0.9rem;
+    background: none;
+    border: 1px solid var(--amber);
+    border-radius: 6px;
+    color: var(--amber);
+    font-size: 0.9rem;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.2s;
+}
+
+.litter-add-btn:hover {
+    background: var(--amber);
+    color: white;
+}
+
+.litter-form {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+@media (max-width: 640px) {
+    .matings-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .matings-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .mating-dates {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .matings-page {
+        padding: 1rem;
+    }
+}

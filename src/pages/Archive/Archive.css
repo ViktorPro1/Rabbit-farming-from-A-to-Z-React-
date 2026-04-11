@@ -1,0 +1,166 @@
+.archive-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.archive-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.archive-header h1 {
+    color: var(--green-dark);
+    font-size: 1.8rem;
+}
+
+.archive-back-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.archive-back-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.archive-empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 3rem;
+    font-size: 1.1rem;
+}
+
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.archive-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 3px solid var(--gray-light);
+    opacity: 0.85;
+}
+
+.archive-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.archive-gender {
+    font-size: 1.3rem;
+    color: var(--gray);
+}
+
+.archive-card-header h3 {
+    color: var(--gray);
+    font-size: 1.1rem;
+    flex: 1;
+}
+
+.archive-cage {
+    font-size: 0.8rem;
+    background: var(--gray-light);
+    color: var(--gray);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+}
+
+.archive-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    color: var(--green-dark);
+    flex: 1;
+}
+
+.archive-notes {
+    color: var(--gray);
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.archive-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.archive-restore-btn {
+    padding: 0.4rem 0.8rem;
+    background: none;
+    border: 1px solid var(--green-accent);
+    border-radius: 6px;
+    color: var(--green-accent);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.archive-restore-btn:hover {
+    background: var(--green-accent);
+    color: white;
+}
+
+.archive-delete-btn {
+    padding: 0.4rem 0.8rem;
+    background: none;
+    border: 1px solid #c0392b;
+    border-radius: 6px;
+    color: #c0392b;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.archive-delete-btn:hover {
+    background: #c0392b;
+    color: white;
+}
+
+@media (max-width: 960px) {
+    .archive-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .archive-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .archive-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .archive-page {
+        padding: 1rem;
+    }
+
+    .archive-grid {
+        grid-template-columns: 1fr;
+    }
+}

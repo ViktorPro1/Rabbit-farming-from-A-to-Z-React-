@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { supabase } from "./lib/supabase";
+import type { Session } from "@supabase/supabase-js";
+import Admin from "./pages/Admin/Admin";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
@@ -18,12 +22,46 @@ import Enclosure from "./pages/Enclosure/Enclosure";
 import Calendar from "./pages/Calendar/Calendar";
 import Slaughter from "./pages/Slaughter/Slaughter";
 import Medicines from "./pages/Medicines/Medicines";
+import Auth from "./pages/Auth/Auth";
+import RabbitRegistry from "./pages/RabbitRegistry/RabbitRegistry";
+import RabbitEdit from "./pages/RabbitEdit/RabbitEdit";
+import Archive from "./pages/Archive/Archive";
+import Matings from "./pages/Matings/Matings";
 
 function App() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading)
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        Завантаження...
+      </div>
+    );
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header session={session} />
       <Routes>
+        <Route
+          path="/admin"
+          element={session ? <Admin session={session} /> : <Auth />}
+        />
         <Route path="/" element={<Home />} />
         <Route path="/breeds" element={<Breeds />} />
         <Route path="/breeding" element={<Breeding />} />
@@ -41,6 +79,24 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/slaughter" element={<Slaughter />} />
         <Route path="/medicines" element={<Medicines />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route
+          path="/registry"
+          element={session ? <RabbitRegistry session={session} /> : <Auth />}
+        />
+
+        <Route
+          path="/registry/edit/:id"
+          element={session ? <RabbitEdit session={session} /> : <Auth />}
+        />
+        <Route
+          path="/archive"
+          element={session ? <Archive session={session} /> : <Auth />}
+        />
+        <Route
+          path="/matings"
+          element={session ? <Matings session={session} /> : <Auth />}
+        />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -35,6 +35,27 @@
     opacity: 1;
 }
 
+.header-logout {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.header-logout:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.header-nav a.active {
+    color: var(--amber-light);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
 /* Планшет */
 @media (max-width: 768px) {
     .header {
