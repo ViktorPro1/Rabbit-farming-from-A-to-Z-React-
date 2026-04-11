@@ -27,6 +27,7 @@ import RabbitRegistry from "./pages/RabbitRegistry/RabbitRegistry";
 import RabbitEdit from "./pages/RabbitEdit/RabbitEdit";
 import Archive from "./pages/Archive/Archive";
 import Matings from "./pages/Matings/Matings";
+import Leaves from "./pages/Leaves/Leaves";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -80,6 +81,7 @@ function App() {
         <Route path="/slaughter" element={<Slaughter />} />
         <Route path="/medicines" element={<Medicines />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/leaves" element={<Leaves />} />
         <Route
           path="/registry"
           element={session ? <RabbitRegistry session={session} /> : <Auth />}

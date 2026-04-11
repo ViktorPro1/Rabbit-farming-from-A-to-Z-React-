@@ -1,0 +1,697 @@
+.leaves-page {
+    font-family: 'Nunito', sans-serif;
+    background: #fafaf5;
+    color: #1a2e1b;
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+/* HERO */
+.lv-hero {
+    background: linear-gradient(135deg, #2d6a30 0%, #1e4d20 100%);
+    color: #fff;
+    padding: 36px 20px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.lv-hero::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 180px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+}
+
+.lv-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+}
+
+.lv-hero-emoji {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.lv-hero h1 {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.lv-hero p {
+    font-size: 14px;
+    opacity: 0.85;
+    max-width: 340px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* INTRO */
+.lv-intro-box {
+    background: #fff;
+    margin: 16px;
+    border-radius: 16px;
+    padding: 18px;
+    border-left: 5px solid #4a9b50;
+    box-shadow: 0 2px 12px rgba(30, 77, 32, 0.12);
+}
+
+.lv-intro-box p {
+    font-size: 14px;
+    color: #4a5c4b;
+    line-height: 1.7;
+}
+
+/* SECTION */
+.lv-section {
+    padding: 0 16px 24px;
+}
+
+.lv-section-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: #1e4d20;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lv-section-intro {
+    font-size: 13.5px;
+    color: #4a5c4b;
+    margin-bottom: 14px;
+    line-height: 1.6;
+}
+
+/* CARD */
+.lv-card {
+    background: #fff;
+    border-radius: 16px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(30, 77, 32, 0.12);
+    transition: transform 0.15s;
+}
+
+.lv-card:active {
+    transform: scale(0.98);
+}
+
+.lv-card-header {
+    padding: 14px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.lv-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+}
+
+.icon-green {
+    background: #e8f5e9;
+}
+
+.icon-yellow {
+    background: #fff8e1;
+}
+
+.icon-orange {
+    background: #fff3e0;
+}
+
+.icon-red {
+    background: #ffebee;
+}
+
+.icon-blue {
+    background: #e3f2fd;
+}
+
+.lv-card-title-group {
+    flex: 1;
+}
+
+.lv-card-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a2e1b;
+    line-height: 1.2;
+}
+
+.lv-card-subtitle {
+    font-size: 12px;
+    color: #4a5c4b;
+    margin-top: 2px;
+}
+
+.lv-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.badge-ok {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-limit {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.badge-no {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.lv-chevron {
+    font-size: 11px;
+    color: #4a5c4b;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+}
+
+.lv-card.open .lv-chevron {
+    transform: rotate(180deg);
+}
+
+/* CARD BODY */
+.lv-card-body {
+    padding: 12px 16px 16px;
+    border-top: 1px solid #f0f4f0;
+}
+
+.lv-card-body p {
+    font-size: 13.5px;
+    color: #4a5c4b;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.lv-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* INFO ROW */
+.lv-info-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 13.5px;
+}
+
+.lv-info-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.lv-info-text {
+    color: #4a5c4b;
+    line-height: 1.5;
+}
+
+.lv-info-text strong {
+    color: #1a2e1b;
+    font-weight: 700;
+}
+
+/* TIP BOX */
+.lv-tip-box {
+    background: #e8f5e9;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #1e4d20;
+    line-height: 1.6;
+}
+
+.lv-tip-title {
+    font-weight: 800;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+/* WARN / DANGER */
+.lv-warn-box {
+    background: #fff3cd;
+    border-left: 4px solid #f9a825;
+    border-radius: 0 12px 12px 0;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #5d4037;
+    line-height: 1.6;
+}
+
+.lv-danger-box {
+    background: #ffebee;
+    border-left: 4px solid #c62828;
+    border-radius: 0 12px 12px 0;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #b71c1c;
+    line-height: 1.6;
+}
+
+/* BUD SECTION */
+.lv-bud-section {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border-radius: 16px;
+    margin: 0 16px 24px;
+    padding: 18px;
+    border: 2px solid #66bb6a;
+}
+
+.lv-bud-section h2 {
+    font-size: 18px;
+    font-weight: 900;
+    color: #1e4d20;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lv-bud-section p {
+    font-size: 13.5px;
+    color: #4a5c4b;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+/* FORBIDDEN */
+.lv-forbidden {
+    background: #fff;
+    margin: 0 16px 24px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(30, 77, 32, 0.12);
+}
+
+.lv-forbidden-header {
+    background: linear-gradient(135deg, #c62828, #e53935);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lv-forbidden-header h2 {
+    font-size: 17px;
+    font-weight: 900;
+    color: #fff;
+}
+
+.lv-forbidden-body {
+    padding: 16px;
+}
+
+.lv-forbidden-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #fce4e4;
+}
+
+.lv-forbidden-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.lv-forbidden-name {
+    font-weight: 800;
+    color: #c62828;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.lv-forbidden-why {
+    color: #4a5c4b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* SEASON GRID */
+.lv-season-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0 16px 24px;
+}
+
+.lv-season-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(30, 77, 32, 0.12);
+}
+
+.lv-season-name {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.lv-season-card ul {
+    list-style: none;
+    font-size: 12.5px;
+    color: #4a5c4b;
+    line-height: 1.7;
+    padding: 0;
+    margin: 0;
+}
+
+.lv-season-card ul li::before {
+    content: '• ';
+    color: #4a9b50;
+    font-weight: 700;
+}
+
+/* QUICK TIPS */
+.lv-quick-tips {
+    background: #1e4d20;
+    color: #fff;
+    margin: 0 16px 24px;
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.lv-quick-tips h2 {
+    font-size: 17px;
+    font-weight: 900;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lv-tip-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+.lv-tip-item:last-child {
+    margin-bottom: 0;
+}
+
+.lv-tip-num {
+    background: #66bb6a;
+    color: #1e4d20;
+    font-weight: 900;
+    font-size: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.lv-tip-item p {
+    opacity: 0.9;
+    margin: 0;
+}
+
+
+@media (min-width: 481px) {
+    .lv-hero h1 {
+        font-size: 30px;
+    }
+
+    .lv-hero p {
+        font-size: 15px;
+        max-width: 480px;
+    }
+
+    .lv-intro-box {
+        margin: 20px 24px;
+        padding: 20px;
+    }
+
+    .lv-section {
+        padding: 0 24px 28px;
+    }
+
+    .lv-section-title {
+        font-size: 22px;
+    }
+
+    /* Листя — 2 колонки */
+    .lv-leaves-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .lv-card {
+        margin-bottom: 0;
+    }
+
+    /* Сезони — 2 колонки (вже є, але більший gap) */
+    .lv-season-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 0 24px 28px;
+    }
+
+    .lv-season-card {
+        padding: 16px;
+    }
+
+    .lv-season-card ul {
+        font-size: 13px;
+    }
+
+    .lv-bud-section {
+        margin: 0 24px 28px;
+        padding: 22px;
+    }
+
+    .lv-forbidden {
+        margin: 0 24px 28px;
+    }
+
+    .lv-quick-tips {
+        margin: 0 24px 28px;
+        padding: 22px;
+    }
+
+    .lv-card-name {
+        font-size: 17px;
+    }
+
+    .lv-card-body p,
+    .lv-info-text {
+        font-size: 14px;
+    }
+}
+
+/* ── Desktop (769px+) ── */
+@media (min-width: 769px) {
+    .lv-hero {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+
+    .lv-hero {
+        padding: 52px 40px 40px;
+        border-radius: 0;
+    }
+
+    .lv-hero h1 {
+        font-size: 36px;
+    }
+
+    .lv-hero p {
+        font-size: 16px;
+        max-width: 560px;
+    }
+
+    .lv-hero-emoji {
+        font-size: 64px;
+    }
+
+    .lv-intro-box {
+        margin: 24px 32px;
+        padding: 22px 26px;
+        font-size: 15px;
+    }
+
+    .lv-intro-box p {
+        font-size: 15px;
+    }
+
+    .lv-section {
+        padding: 0 32px 32px;
+    }
+
+    .lv-section-title {
+        font-size: 24px;
+        margin-bottom: 18px;
+    }
+
+    /* Листя — 2 колонки на десктопі */
+    .lv-leaves-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .lv-card {
+        margin-bottom: 0;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .lv-card:hover {
+        box-shadow: 0 6px 24px rgba(30, 77, 32, 0.18);
+        transform: translateY(-2px);
+    }
+
+    .lv-card-header {
+        padding: 18px 20px 14px;
+    }
+
+    .lv-card-icon {
+        width: 54px;
+        height: 54px;
+        font-size: 28px;
+        border-radius: 14px;
+    }
+
+    .lv-card-name {
+        font-size: 18px;
+    }
+
+    .lv-card-subtitle {
+        font-size: 13px;
+    }
+
+    .lv-badge {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+
+    .lv-card-body {
+        padding: 14px 20px 20px;
+    }
+
+    .lv-card-body p,
+    .lv-info-text {
+        font-size: 14.5px;
+    }
+
+    /* Сезони — 4 колонки на десктопі */
+    .lv-season-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin: 0 32px 32px;
+    }
+
+    .lv-season-card {
+        padding: 18px;
+    }
+
+    .lv-season-name {
+        font-size: 14px;
+    }
+
+    .lv-season-card ul {
+        font-size: 13px;
+    }
+
+    .lv-bud-section {
+        margin: 0 32px 32px;
+        padding: 26px;
+    }
+
+    .lv-bud-section h2 {
+        font-size: 20px;
+    }
+
+    .lv-bud-section p {
+        font-size: 14.5px;
+    }
+
+    .lv-forbidden {
+        margin: 0 32px 32px;
+    }
+
+    .lv-forbidden-header h2 {
+        font-size: 18px;
+    }
+
+    .lv-forbidden-body {
+        padding: 20px;
+    }
+
+    /* Заборонені — 2 колонки */
+    .lv-forbidden-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 24px;
+    }
+
+    .lv-forbidden-item {
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+    }
+
+    .lv-forbidden-name {
+        font-size: 15px;
+    }
+
+    .lv-quick-tips {
+        margin: 0 32px 32px;
+        padding: 26px;
+    }
+
+    .lv-quick-tips h2 {
+        font-size: 19px;
+    }
+
+    .lv-tip-item {
+        font-size: 14.5px;
+    }
+}
