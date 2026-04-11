@@ -19,6 +19,16 @@ interface Rabbit {
   is_active: boolean;
 }
 
+interface Stats {
+  total: number;
+  males: number;
+  females: number;
+  youngTotal: number;
+  youngMales: number;
+  youngFemales: number;
+  youngUnknown: number;
+}
+
 const emptyForm = {
   name: "",
   breed: "",
@@ -35,27 +45,120 @@ export default function RabbitRegistry({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [stats, setStats] = useState<Stats>({
+    total: 0,
+    males: 0,
+    females: 0,
+    youngTotal: 0,
+    youngMales: 0,
+    youngFemales: 0,
+    youngUnknown: 0,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     supabase
       .from("rabbits")
       .select("*")
+      .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("cage_number", { ascending: true })
-      .then(({ data }) => {
-        setRabbits(data || []);
-        setLoading(false);
-      });
-  }, []);
+      .then(({ data: rabbitsData }) => {
+        const list = rabbitsData || [];
+        setRabbits(list);
 
-  async function fetchRabbits() {
-    const { data } = await supabase
+        Promise.all([
+          supabase
+            .from("litters")
+            .select("alive, weaned_males, weaned_females")
+            .eq("user_id", session.user.id),
+          supabase
+            .from("paddock_litters")
+            .select("alive, weaned_males, weaned_females")
+            .eq("user_id", session.user.id),
+        ]).then(([{ data: littersData }, { data: paddockLittersData }]) => {
+          let youngMales = 0;
+          let youngFemales = 0;
+          let youngUnknown = 0;
+
+          [...(littersData || []), ...(paddockLittersData || [])].forEach(
+            (l) => {
+              const alive = l.alive || 0;
+              const wm = l.weaned_males || 0;
+              const wf = l.weaned_females || 0;
+              const weanedTotal = wm + wf;
+              const remaining = Math.max(0, alive - weanedTotal);
+              youngMales += wm;
+              youngFemales += wf;
+              youngUnknown += remaining;
+            },
+          );
+
+          const youngTotal = youngMales + youngFemales + youngUnknown;
+
+          setStats({
+            total: list.length + youngTotal,
+            males: list.filter((r) => r.gender === "male").length,
+            females: list.filter((r) => r.gender === "female").length,
+            youngTotal,
+            youngMales,
+            youngFemales,
+            youngUnknown,
+          });
+          setLoading(false);
+        });
+      });
+  }, [session.user.id]);
+
+  async function loadData() {
+    const { data: rabbitsData } = await supabase
       .from("rabbits")
       .select("*")
+      .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("cage_number", { ascending: true });
-    setRabbits(data || []);
+
+    const list = rabbitsData || [];
+    setRabbits(list);
+
+    const [{ data: littersData }, { data: paddockLittersData }] =
+      await Promise.all([
+        supabase
+          .from("litters")
+          .select("alive, weaned_males, weaned_females")
+          .eq("user_id", session.user.id),
+        supabase
+          .from("paddock_litters")
+          .select("alive, weaned_males, weaned_females")
+          .eq("user_id", session.user.id),
+      ]);
+
+    let youngMales = 0;
+    let youngFemales = 0;
+    let youngUnknown = 0;
+
+    [...(littersData || []), ...(paddockLittersData || [])].forEach((l) => {
+      const alive = l.alive || 0;
+      const wm = l.weaned_males || 0;
+      const wf = l.weaned_females || 0;
+      const weanedTotal = wm + wf;
+      const remaining = Math.max(0, alive - weanedTotal);
+      youngMales += wm;
+      youngFemales += wf;
+      youngUnknown += remaining;
+    });
+
+    const youngTotal = youngMales + youngFemales + youngUnknown;
+
+    setStats({
+      total: list.length + youngTotal,
+      males: list.filter((r) => r.gender === "male").length,
+      females: list.filter((r) => r.gender === "female").length,
+      youngTotal,
+      youngMales,
+      youngFemales,
+      youngUnknown,
+    });
   }
 
   async function handleAdd() {
@@ -70,14 +173,14 @@ export default function RabbitRegistry({ session }: Props) {
     } else {
       setForm(emptyForm);
       setShowForm(false);
-      fetchRabbits();
+      loadData();
     }
     setSaving(false);
   }
 
   async function handleArchive(id: string) {
     await supabase.from("rabbits").update({ is_active: false }).eq("id", id);
-    fetchRabbits();
+    loadData();
   }
 
   return (
@@ -92,17 +195,49 @@ export default function RabbitRegistry({ session }: Props) {
           📦 Архів
         </button>
         <button
-          className="registry-add-btn"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? "✕ Скасувати" : "+ Додати кролика"}
-        </button>
-        <button
           className="registry-archive-link"
           onClick={() => navigate("/matings")}
         >
           🐇 Розведення
         </button>
+        <button
+          className="registry-archive-link"
+          onClick={() => navigate("/paddocks")}
+        >
+          🏠 Підлогове
+        </button>
+        <button
+          className="registry-add-btn"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? "✕ Скасувати" : "+ Додати кролика"}
+        </button>
+      </div>
+
+      <div className="registry-stats">
+        <div className="registry-stat-card total">
+          <span className="registry-stat-value">{stats.total}</span>
+          <span className="registry-stat-label">Всього</span>
+        </div>
+        <div className="registry-stat-card male">
+          <span className="registry-stat-value">{stats.males}</span>
+          <span className="registry-stat-label">Самців</span>
+        </div>
+        <div className="registry-stat-card female">
+          <span className="registry-stat-value">{stats.females}</span>
+          <span className="registry-stat-label">Самиць</span>
+        </div>
+        <div className="registry-stat-card young">
+          <span className="registry-stat-value">{stats.youngTotal}</span>
+          <span className="registry-stat-label">Молодняк</span>
+          {stats.youngTotal > 0 && (
+            <span className="registry-stat-sub">
+              {stats.youngMales > 0 && `Самців: ${stats.youngMales} `}
+              {stats.youngFemales > 0 && `Самиць: ${stats.youngFemales} `}
+              {stats.youngUnknown > 0 && `Стать невід.: ${stats.youngUnknown}`}
+            </span>
+          )}
+        </div>
       </div>
 
       {showForm && (

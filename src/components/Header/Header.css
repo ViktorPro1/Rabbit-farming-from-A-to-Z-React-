@@ -44,6 +44,7 @@
     cursor: pointer;
     font-size: 0.95rem;
     transition: background 0.2s;
+    text-decoration: none;
 }
 
 .header-logout:hover {

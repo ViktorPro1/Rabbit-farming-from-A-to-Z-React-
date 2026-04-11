@@ -28,6 +28,7 @@ import RabbitEdit from "./pages/RabbitEdit/RabbitEdit";
 import Archive from "./pages/Archive/Archive";
 import Matings from "./pages/Matings/Matings";
 import Leaves from "./pages/Leaves/Leaves";
+import Paddocks from "./pages/Paddocks/Paddocks";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -98,6 +99,10 @@ function App() {
         <Route
           path="/matings"
           element={session ? <Matings session={session} /> : <Auth />}
+        />
+        <Route
+          path="/paddocks"
+          element={session ? <Paddocks session={session} /> : <Auth />}
         />
       </Routes>
       <Footer />

@@ -14,10 +14,10 @@ const Header = ({ session }: Props) => {
 
   return (
     <header className="header">
-      <div className="header-logo">
+      <NavLink to="/" className="header-logo">
         <span>🐇</span>
         <span>Кролівництво від А до Я</span>
-      </div>
+      </NavLink>
       <nav className="header-nav">
         <NavLink to="/breeds">Породи</NavLink>
         <NavLink to="/care">Догляд</NavLink>

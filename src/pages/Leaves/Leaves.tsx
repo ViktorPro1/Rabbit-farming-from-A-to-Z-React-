@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Leaves.css";
 
 interface LeafItem {
@@ -390,6 +391,8 @@ const Leaves: React.FC = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="leaves-page">
       {/* HERO */}
@@ -681,6 +684,13 @@ const Leaves: React.FC = () => {
             <p>{tip.text}</p>
           </div>
         ))}
+      </div>
+
+      {/* КНОПКА ВНИЗ */}
+      <div className="lv-footer-nav">
+        <button className="lv-footer-btn" onClick={() => navigate("/")}>
+          ← На головну
+        </button>
       </div>
     </div>
   );

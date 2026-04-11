@@ -59,6 +59,34 @@
     line-height: 1.6;
 }
 
+/* BACK BUTTON */
+.lv-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: background 0.2s, border-color 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.lv-back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.lv-back-btn:active {
+    transform: scale(0.96);
+}
+
 /* INTRO */
 .lv-intro-box {
     background: #fff;
@@ -453,6 +481,40 @@
     margin: 0;
 }
 
+/* FOOTER NAV */
+.lv-footer-nav {
+    padding: 8px 16px 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.lv-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #1e4d20;
+    border: 2px solid #4a9b50;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    box-shadow: 0 2px 10px rgba(30, 77, 32, 0.12);
+}
+
+.lv-footer-btn:hover {
+    background: #1e4d20;
+    color: #fff;
+    border-color: #1e4d20;
+}
+
+.lv-footer-btn:active {
+    transform: scale(0.96);
+}
+
 
 @media (min-width: 481px) {
     .lv-hero h1 {
@@ -529,12 +591,6 @@
 
 /* ── Desktop (769px+) ── */
 @media (min-width: 769px) {
-    .lv-hero {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-    }
-
     .lv-hero {
         padding: 52px 40px 40px;
         border-radius: 0;
