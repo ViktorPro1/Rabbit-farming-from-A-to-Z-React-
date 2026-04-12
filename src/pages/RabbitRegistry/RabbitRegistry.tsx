@@ -27,6 +27,13 @@ interface Stats {
   youngMales: number;
   youngFemales: number;
   youngUnknown: number;
+  youngFromCages: number;
+  youngFromPaddocks: number;
+  paddockFemales: number;
+  fatteningMales: number;
+  fatteningFemales: number;
+  fatteningUnknown: number;
+  fatteningTotal: number;
 }
 
 const emptyForm = {
@@ -53,6 +60,13 @@ export default function RabbitRegistry({ session }: Props) {
     youngMales: 0,
     youngFemales: 0,
     youngUnknown: 0,
+    youngFromCages: 0,
+    youngFromPaddocks: 0,
+    paddockFemales: 0,
+    fatteningMales: 0,
+    fatteningFemales: 0,
+    fatteningUnknown: 0,
+    fatteningTotal: 0,
   });
   const navigate = useNavigate();
 
@@ -76,37 +90,83 @@ export default function RabbitRegistry({ session }: Props) {
             .from("paddock_litters")
             .select("alive, weaned_males, weaned_females")
             .eq("user_id", session.user.id),
-        ]).then(([{ data: littersData }, { data: paddockLittersData }]) => {
-          let youngMales = 0;
-          let youngFemales = 0;
-          let youngUnknown = 0;
+          supabase
+            .from("paddock_females")
+            .select("id")
+            .not("paddock_id", "is", null),
+          supabase
+            .from("fattening")
+            .select("males, females, unknown")
+            .eq("user_id", session.user.id)
+            .eq("is_active", true),
+        ]).then(
+          ([
+            { data: littersData },
+            { data: paddockLittersData },
+            { data: paddockFemalesData },
+            { data: fatteningData },
+          ]) => {
+            let youngMales = 0;
+            let youngFemales = 0;
+            let youngUnknown = 0;
+            let youngFromCages = 0;
+            let youngFromPaddocks = 0;
 
-          [...(littersData || []), ...(paddockLittersData || [])].forEach(
-            (l) => {
+            (littersData || []).forEach((l) => {
               const alive = l.alive || 0;
               const wm = l.weaned_males || 0;
               const wf = l.weaned_females || 0;
-              const weanedTotal = wm + wf;
-              const remaining = Math.max(0, alive - weanedTotal);
+              const remaining = Math.max(0, alive - (wm + wf));
               youngMales += wm;
               youngFemales += wf;
               youngUnknown += remaining;
-            },
-          );
+              youngFromCages += alive;
+            });
 
-          const youngTotal = youngMales + youngFemales + youngUnknown;
+            (paddockLittersData || []).forEach((l) => {
+              const alive = l.alive || 0;
+              const wm = l.weaned_males || 0;
+              const wf = l.weaned_females || 0;
+              const remaining = Math.max(0, alive - (wm + wf));
+              youngMales += wm;
+              youngFemales += wf;
+              youngUnknown += remaining;
+              youngFromPaddocks += alive;
+            });
 
-          setStats({
-            total: list.length + youngTotal,
-            males: list.filter((r) => r.gender === "male").length,
-            females: list.filter((r) => r.gender === "female").length,
-            youngTotal,
-            youngMales,
-            youngFemales,
-            youngUnknown,
-          });
-          setLoading(false);
-        });
+            const youngTotal = youngMales + youngFemales + youngUnknown;
+            const paddockFemales = (paddockFemalesData || []).length;
+
+            let fatteningMales = 0;
+            let fatteningFemales = 0;
+            let fatteningUnknown = 0;
+            (fatteningData || []).forEach((f) => {
+              fatteningMales += f.males || 0;
+              fatteningFemales += f.females || 0;
+              fatteningUnknown += f.unknown || 0;
+            });
+            const fatteningTotal =
+              fatteningMales + fatteningFemales + fatteningUnknown;
+
+            setStats({
+              total: list.length + youngTotal + paddockFemales + fatteningTotal,
+              males: list.filter((r) => r.gender === "male").length,
+              females: list.filter((r) => r.gender === "female").length,
+              youngTotal,
+              youngMales,
+              youngFemales,
+              youngUnknown,
+              youngFromCages,
+              youngFromPaddocks,
+              paddockFemales,
+              fatteningMales,
+              fatteningFemales,
+              fatteningUnknown,
+              fatteningTotal,
+            });
+            setLoading(false);
+          },
+        );
       });
   }, [session.user.id]);
 
@@ -121,53 +181,96 @@ export default function RabbitRegistry({ session }: Props) {
     const list = rabbitsData || [];
     setRabbits(list);
 
-    const [{ data: littersData }, { data: paddockLittersData }] =
-      await Promise.all([
-        supabase
-          .from("litters")
-          .select("alive, weaned_males, weaned_females")
-          .eq("user_id", session.user.id),
-        supabase
-          .from("paddock_litters")
-          .select("alive, weaned_males, weaned_females")
-          .eq("user_id", session.user.id),
-      ]);
+    const [
+      { data: littersData },
+      { data: paddockLittersData },
+      { data: paddockFemalesData },
+      { data: fatteningData },
+    ] = await Promise.all([
+      supabase
+        .from("litters")
+        .select("alive, weaned_males, weaned_females")
+        .eq("user_id", session.user.id),
+      supabase
+        .from("paddock_litters")
+        .select("alive, weaned_males, weaned_females")
+        .eq("user_id", session.user.id),
+      supabase
+        .from("paddock_females")
+        .select("id")
+        .not("paddock_id", "is", null),
+      supabase
+        .from("fattening")
+        .select("males, females, unknown")
+        .eq("user_id", session.user.id)
+        .eq("is_active", true),
+    ]);
 
     let youngMales = 0;
     let youngFemales = 0;
     let youngUnknown = 0;
+    let youngFromCages = 0;
+    let youngFromPaddocks = 0;
 
-    [...(littersData || []), ...(paddockLittersData || [])].forEach((l) => {
+    (littersData || []).forEach((l) => {
       const alive = l.alive || 0;
       const wm = l.weaned_males || 0;
       const wf = l.weaned_females || 0;
-      const weanedTotal = wm + wf;
-      const remaining = Math.max(0, alive - weanedTotal);
+      const remaining = Math.max(0, alive - (wm + wf));
       youngMales += wm;
       youngFemales += wf;
       youngUnknown += remaining;
+      youngFromCages += alive;
+    });
+
+    (paddockLittersData || []).forEach((l) => {
+      const alive = l.alive || 0;
+      const wm = l.weaned_males || 0;
+      const wf = l.weaned_females || 0;
+      const remaining = Math.max(0, alive - (wm + wf));
+      youngMales += wm;
+      youngFemales += wf;
+      youngUnknown += remaining;
+      youngFromPaddocks += alive;
     });
 
     const youngTotal = youngMales + youngFemales + youngUnknown;
+    const paddockFemales = (paddockFemalesData || []).length;
+
+    let fatteningMales = 0;
+    let fatteningFemales = 0;
+    let fatteningUnknown = 0;
+    (fatteningData || []).forEach((f) => {
+      fatteningMales += f.males || 0;
+      fatteningFemales += f.females || 0;
+      fatteningUnknown += f.unknown || 0;
+    });
+    const fatteningTotal = fatteningMales + fatteningFemales + fatteningUnknown;
 
     setStats({
-      total: list.length + youngTotal,
+      total: list.length + youngTotal + paddockFemales + fatteningTotal,
       males: list.filter((r) => r.gender === "male").length,
       females: list.filter((r) => r.gender === "female").length,
       youngTotal,
       youngMales,
       youngFemales,
       youngUnknown,
+      youngFromCages,
+      youngFromPaddocks,
+      paddockFemales,
+      fatteningMales,
+      fatteningFemales,
+      fatteningUnknown,
+      fatteningTotal,
     });
   }
 
   async function handleAdd() {
     setSaving(true);
     setError("");
-    const { error } = await supabase.from("rabbits").insert({
-      ...form,
-      user_id: session.user.id,
-    });
+    const { error } = await supabase
+      .from("rabbits")
+      .insert({ ...form, user_id: session.user.id });
     if (error) {
       setError("Помилка збереження");
     } else {
@@ -207,6 +310,12 @@ export default function RabbitRegistry({ session }: Props) {
           🏠 Підлогове
         </button>
         <button
+          className="registry-archive-link"
+          onClick={() => navigate("/fattening")}
+        >
+          🥩 Відгодівля
+        </button>
+        <button
           className="registry-add-btn"
           onClick={() => setShowForm(!showForm)}
         >
@@ -230,14 +339,39 @@ export default function RabbitRegistry({ session }: Props) {
         <div className="registry-stat-card young">
           <span className="registry-stat-value">{stats.youngTotal}</span>
           <span className="registry-stat-label">Молодняк</span>
-          {stats.youngTotal > 0 && (
+          {stats.youngFromCages > 0 && (
             <span className="registry-stat-sub">
-              {stats.youngMales > 0 && `Самців: ${stats.youngMales} `}
-              {stats.youngFemales > 0 && `Самиць: ${stats.youngFemales} `}
-              {stats.youngUnknown > 0 && `Стать невід.: ${stats.youngUnknown}`}
+              З кліток: {stats.youngFromCages}
+            </span>
+          )}
+          {stats.youngFromPaddocks > 0 && (
+            <span className="registry-stat-sub">
+              З підлог.: {stats.youngFromPaddocks}
             </span>
           )}
         </div>
+        {stats.paddockFemales > 0 && (
+          <div className="registry-stat-card paddock">
+            <span className="registry-stat-value">{stats.paddockFemales}</span>
+            <span className="registry-stat-label">Підлогове</span>
+            <span className="registry-stat-sub">
+              ♀ самок: {stats.paddockFemales}
+            </span>
+          </div>
+        )}
+        {stats.fatteningTotal > 0 && (
+          <div className="registry-stat-card fattening">
+            <span className="registry-stat-value">{stats.fatteningTotal}</span>
+            <span className="registry-stat-label">Відгодівля</span>
+            {(stats.fatteningMales > 0 || stats.fatteningFemales > 0) && (
+              <span className="registry-stat-sub">
+                {stats.fatteningMales > 0 && `♂ ${stats.fatteningMales} `}
+                {stats.fatteningFemales > 0 && `♀ ${stats.fatteningFemales} `}
+                {stats.fatteningUnknown > 0 && `? ${stats.fatteningUnknown}`}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {showForm && (

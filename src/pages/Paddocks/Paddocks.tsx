@@ -58,18 +58,8 @@ interface Paddock {
   matings?: PaddockMating[];
 }
 
-const emptyPaddockForm = {
-  name: "",
-  male_id: "",
-  notes: "",
-};
-
-const emptyMatingForm = {
-  mating_date: "",
-  control_date: "",
-  notes: "",
-};
-
+const emptyPaddockForm = { name: "", male_id: "", notes: "" };
+const emptyMatingForm = { mating_date: "", control_date: "", notes: "" };
 const emptyLitterForm = {
   birth_date: "",
   females_birthed: "",
@@ -81,12 +71,7 @@ const emptyLitterForm = {
   weaned_females: "",
   notes: "",
 };
-
-const emptyFemaleForm = {
-  name: "",
-  breed: "",
-  birth_year: "",
-};
+const emptyFemaleForm = { name: "", breed: "", birth_year: "" };
 
 export default function Paddocks({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
@@ -111,6 +96,9 @@ export default function Paddocks({ session }: Props) {
   const [showFemaleForm, setShowFemaleForm] = useState<Record<string, boolean>>(
     {},
   );
+  const [editingLitter, setEditingLitter] = useState<PaddockLitter | null>(
+    null,
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -125,18 +113,15 @@ export default function Paddocks({ session }: Props) {
     if (!data) return;
 
     const ids = data.map((p) => p.id);
-
     const { data: femalesData } = await supabase
       .from("paddock_females")
       .select("*")
       .in("paddock_id", ids);
-
     const { data: matingsData } = await supabase
       .from("paddock_matings")
       .select("*")
       .in("paddock_id", ids)
       .order("mating_date", { ascending: false });
-
     const matingIds = (matingsData || []).map((m) => m.id);
     const { data: littersData } = await supabase
       .from("paddock_litters")
@@ -148,14 +133,12 @@ export default function Paddocks({ session }: Props) {
       if (!femalesMap[f.paddock_id]) femalesMap[f.paddock_id] = [];
       femalesMap[f.paddock_id].push(f);
     });
-
     const littersMap: Record<string, PaddockLitter[]> = {};
     (littersData || []).forEach((l) => {
       if (!littersMap[l.paddock_mating_id])
         littersMap[l.paddock_mating_id] = [];
       littersMap[l.paddock_mating_id].push(l);
     });
-
     const matingsMap: Record<string, PaddockMating[]> = {};
     (matingsData || []).forEach((m) => {
       if (!matingsMap[m.paddock_id]) matingsMap[m.paddock_id] = [];
@@ -344,6 +327,33 @@ export default function Paddocks({ session }: Props) {
     setSaving(false);
   }
 
+  async function handleEditLitter() {
+    if (!editingLitter) return;
+    setSaving(true);
+    setError("");
+    const { error } = await supabase
+      .from("paddock_litters")
+      .update({
+        birth_date: editingLitter.birth_date,
+        females_birthed: Number(editingLitter.females_birthed) || 0,
+        total_born: Number(editingLitter.total_born) || 0,
+        alive: Number(editingLitter.alive) || 0,
+        dead: Number(editingLitter.dead) || 0,
+        weaned_date: editingLitter.weaned_date || null,
+        weaned_males: Number(editingLitter.weaned_males) || 0,
+        weaned_females: Number(editingLitter.weaned_females) || 0,
+        notes: editingLitter.notes || null,
+      })
+      .eq("id", editingLitter.id);
+    if (error) {
+      setError("Помилка збереження");
+    } else {
+      setEditingLitter(null);
+      fetchPaddocks();
+    }
+    setSaving(false);
+  }
+
   async function handleDeletePaddock(id: string) {
     if (!confirm("Видалити загін?")) return;
     await supabase.from("paddocks").update({ is_active: false }).eq("id", id);
@@ -430,6 +440,132 @@ export default function Paddocks({ session }: Props) {
         </div>
       )}
 
+      {editingLitter && (
+        <div className="paddocks-form">
+          <h3 style={{ color: "var(--green-dark)", marginBottom: "1rem" }}>
+            ✏️ Редагування окролу
+          </h3>
+          <div className="paddocks-form-grid">
+            <div className="paddocks-form-field">
+              <label>Дата окролу *</label>
+              <input
+                type="date"
+                value={editingLitter.birth_date}
+                onChange={(e) =>
+                  setEditingLitter({
+                    ...editingLitter,
+                    birth_date: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <input
+              type="number"
+              placeholder="Скільки самок родило"
+              value={editingLitter.females_birthed || ""}
+              onChange={(e) =>
+                setEditingLitter({
+                  ...editingLitter,
+                  females_birthed: Number(e.target.value),
+                })
+              }
+            />
+            <input
+              type="number"
+              placeholder="Народилось всього"
+              value={editingLitter.total_born || ""}
+              onChange={(e) =>
+                setEditingLitter({
+                  ...editingLitter,
+                  total_born: Number(e.target.value),
+                })
+              }
+            />
+            <input
+              type="number"
+              placeholder="Живих"
+              value={editingLitter.alive || ""}
+              onChange={(e) =>
+                setEditingLitter({
+                  ...editingLitter,
+                  alive: Number(e.target.value),
+                })
+              }
+            />
+            <input
+              type="number"
+              placeholder="Мертвих"
+              value={editingLitter.dead || ""}
+              onChange={(e) =>
+                setEditingLitter({
+                  ...editingLitter,
+                  dead: Number(e.target.value),
+                })
+              }
+            />
+            <div className="paddocks-form-field">
+              <label>Дата відлучення</label>
+              <input
+                type="date"
+                value={editingLitter.weaned_date || ""}
+                onChange={(e) =>
+                  setEditingLitter({
+                    ...editingLitter,
+                    weaned_date: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <input
+              type="number"
+              placeholder="♂ Відлучено самців"
+              value={editingLitter.weaned_males || ""}
+              onChange={(e) =>
+                setEditingLitter({
+                  ...editingLitter,
+                  weaned_males: Number(e.target.value),
+                })
+              }
+            />
+            <input
+              type="number"
+              placeholder="♀ Відлучено самиць"
+              value={editingLitter.weaned_females || ""}
+              onChange={(e) =>
+                setEditingLitter({
+                  ...editingLitter,
+                  weaned_females: Number(e.target.value),
+                })
+              }
+            />
+            <input
+              placeholder="Нотатки"
+              value={editingLitter.notes || ""}
+              onChange={(e) =>
+                setEditingLitter({ ...editingLitter, notes: e.target.value })
+              }
+              className="paddocks-form-full"
+            />
+          </div>
+          {error && <p className="paddocks-error">{error}</p>}
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <button
+              className="matings-cancel-btn"
+              onClick={() => setEditingLitter(null)}
+            >
+              Скасувати
+            </button>
+            <button
+              className="paddocks-save-btn"
+              onClick={handleEditLitter}
+              disabled={saving}
+            >
+              {saving ? "Збереження..." : "Зберегти зміни"}
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="paddocks-list">
         {paddocks.length === 0 ? (
           <p className="paddocks-empty">Загонів ще немає.</p>
@@ -464,7 +600,6 @@ export default function Paddocks({ session }: Props) {
                     </span>
                   ))}
                 </div>
-
                 <button
                   className="paddock-mating-add-btn"
                   onClick={() =>
@@ -476,7 +611,6 @@ export default function Paddocks({ session }: Props) {
                 >
                   {showFemaleForm[p.id] ? "✕ Скасувати" : "+ Додати самку"}
                 </button>
-
                 {showFemaleForm[p.id] && (
                   <div className="paddock-female-form">
                     <div className="paddocks-form-grid">
@@ -579,12 +713,20 @@ export default function Paddocks({ session }: Props) {
                             {new Date(l.birth_date).toLocaleDateString("uk-UA")}
                           </strong>
                         </span>
-                        <button
-                          className="litter-delete-btn"
-                          onClick={() => handleDeleteLitter(l.id)}
-                        >
-                          ✕
-                        </button>
+                        <div className="litter-block-btns">
+                          <button
+                            className="mating-edit-btn"
+                            onClick={() => setEditingLitter(l)}
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            className="litter-delete-btn"
+                            onClick={() => handleDeleteLitter(l.id)}
+                          >
+                            ✕
+                          </button>
+                        </div>
                       </div>
                       <div className="litter-stats">
                         <span>

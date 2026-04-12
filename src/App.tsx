@@ -29,6 +29,7 @@ import Archive from "./pages/Archive/Archive";
 import Matings from "./pages/Matings/Matings";
 import Leaves from "./pages/Leaves/Leaves";
 import Paddocks from "./pages/Paddocks/Paddocks";
+import Fattening from "./pages/Fattening/Fattening";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -103,6 +104,10 @@ function App() {
         <Route
           path="/paddocks"
           element={session ? <Paddocks session={session} /> : <Auth />}
+        />
+        <Route
+          path="/fattening"
+          element={session ? <Fattening session={session} /> : <Auth />}
         />
       </Routes>
       <Footer />
