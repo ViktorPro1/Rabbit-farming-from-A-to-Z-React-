@@ -31,6 +31,7 @@ import Leaves from "./pages/Leaves/Leaves";
 import Paddocks from "./pages/Paddocks/Paddocks";
 import Fattening from "./pages/Fattening/Fattening";
 import Quarantine from "./pages/Quarantine/Quarantine";
+import Community from "./pages/Community/Community";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -85,6 +86,7 @@ function App() {
         <Route path="/medicines" element={<Medicines />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/leaves" element={<Leaves />} />
+        <Route path="/community" element={<Community />} />
         <Route
           path="/registry"
           element={session ? <RabbitRegistry session={session} /> : <Auth />}

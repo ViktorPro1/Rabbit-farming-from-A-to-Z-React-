@@ -24,6 +24,7 @@ const Header = ({ session }: Props) => {
         <NavLink to="/feeding">Годування</NavLink>
         <NavLink to="/diseases">Хвороби</NavLink>
         <NavLink to="/calculator">Калькулятор</NavLink>
+        <NavLink to="/community">Спільноти</NavLink>
         {session ? (
           <>
             <NavLink to="/registry">Мої кролики</NavLink>
