@@ -16,6 +16,8 @@ interface FatteningCage {
   unknown: number;
   breed: string;
   birth_year: string;
+  birth_date: string;
+  slaughter_date: string;
   notes: string;
 }
 
@@ -26,8 +28,18 @@ const emptyForm = {
   unknown: "",
   breed: "",
   birth_year: "",
+  birth_date: "",
+  slaughter_date: "",
   notes: "",
 };
+
+// 90 днів = стандарт для м'ясних порід (мінімум 3 місяці)
+function calcSlaughterDate(birthDate: string): string {
+  if (!birthDate) return "";
+  const d = new Date(birthDate);
+  d.setDate(d.getDate() + 90);
+  return d.toISOString().split("T")[0];
+}
 
 export default function Fattening({ session }: Props) {
   const [cages, setCages] = useState<FatteningCage[]>([]);
@@ -73,6 +85,8 @@ export default function Fattening({ session }: Props) {
       unknown: Number(form.unknown) || 0,
       breed: form.breed || null,
       birth_year: form.birth_year || null,
+      birth_date: form.birth_date || null,
+      slaughter_date: form.slaughter_date || null,
       notes: form.notes || null,
     });
     if (error) {
@@ -98,6 +112,8 @@ export default function Fattening({ session }: Props) {
         unknown: Number(editingCage.unknown) || 0,
         breed: editingCage.breed || null,
         birth_year: editingCage.birth_year || null,
+        birth_date: editingCage.birth_date || null,
+        slaughter_date: editingCage.slaughter_date || null,
         notes: editingCage.notes || null,
       })
       .eq("id", editingCage.id);
@@ -161,6 +177,7 @@ export default function Fattening({ session }: Props) {
         {showForm ? "✕ Скасувати" : "+ Додати клітку"}
       </button>
 
+      {/* ── Форма додавання ── */}
       {showForm && (
         <div className="fattening-form">
           <div className="fattening-form-grid">
@@ -182,6 +199,30 @@ export default function Fattening({ session }: Props) {
               onChange={(e) => setForm({ ...form, birth_year: e.target.value })}
             />
             <div></div>
+            <div className="fattening-form-field">
+              <label>Дата народження</label>
+              <input
+                type="date"
+                value={form.birth_date}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    birth_date: e.target.value,
+                    slaughter_date: calcSlaughterDate(e.target.value),
+                  })
+                }
+              />
+            </div>
+            <div className="fattening-form-field">
+              <label>Планова дата забою (авто +90 днів)</label>
+              <input
+                type="date"
+                value={form.slaughter_date}
+                onChange={(e) =>
+                  setForm({ ...form, slaughter_date: e.target.value })
+                }
+              />
+            </div>
             <input
               type="number"
               placeholder="Самців"
@@ -219,6 +260,7 @@ export default function Fattening({ session }: Props) {
         </div>
       )}
 
+      {/* ── Форма редагування ── */}
       {editingCage && (
         <div className="fattening-form fattening-edit-form">
           <h3>✏️ Редагування клітки {editingCage.cage_number}</h3>
@@ -245,6 +287,33 @@ export default function Fattening({ session }: Props) {
               }
             />
             <div></div>
+            <div className="fattening-form-field">
+              <label>Дата народження</label>
+              <input
+                type="date"
+                value={editingCage.birth_date || ""}
+                onChange={(e) =>
+                  setEditingCage({
+                    ...editingCage,
+                    birth_date: e.target.value,
+                    slaughter_date: calcSlaughterDate(e.target.value),
+                  })
+                }
+              />
+            </div>
+            <div className="fattening-form-field">
+              <label>Планова дата забою (авто +90 днів)</label>
+              <input
+                type="date"
+                value={editingCage.slaughter_date || ""}
+                onChange={(e) =>
+                  setEditingCage({
+                    ...editingCage,
+                    slaughter_date: e.target.value,
+                  })
+                }
+              />
+            </div>
             <input
               type="number"
               placeholder="Самців"
@@ -307,53 +376,166 @@ export default function Fattening({ session }: Props) {
         </div>
       )}
 
+      {/* ── Список кліток ── */}
       {loading ? (
         <p className="fattening-loading">Завантаження...</p>
       ) : cages.length === 0 ? (
         <p className="fattening-empty">Кліток ще немає.</p>
       ) : (
         <div className="fattening-grid">
-          {cages.map((cage) => (
-            <div key={cage.id} className="fattening-card">
-              <div className="fattening-card-top">
-                <span className="fattening-cage-num">
-                  Клітка {cage.cage_number}
-                </span>
-                <div className="fattening-card-btns">
-                  <button
-                    className="fattening-edit-btn"
-                    onClick={() => setEditingCage(cage)}
-                  >
-                    Редагувати
-                  </button>
-                  <button
-                    className="fattening-delete-btn"
-                    onClick={() => handleDelete(cage.id)}
-                  >
-                    Видалити
-                  </button>
+          {cages.map((cage) => {
+            const today = new Date();
+
+            // парсимо birth_year якщо там повна дата у форматі DD.MM.YYYY
+            const parseBirthYear = (val: string): string => {
+              if (!val) return "";
+              const parts = val.split(".");
+              if (parts.length === 3)
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
+              return "";
+            };
+
+            const birthIso = cage.birth_date || parseBirthYear(cage.birth_year);
+
+            // якщо slaughter_date порожній але є дата народження — рахуємо на льоту
+            const slaughterStr =
+              cage.slaughter_date ||
+              (birthIso ? calcSlaughterDate(birthIso) : null);
+
+            const slaughter = slaughterStr ? new Date(slaughterStr) : null;
+            const daysLeft = slaughter
+              ? Math.ceil(
+                  (slaughter.getTime() - today.getTime()) /
+                    (1000 * 60 * 60 * 24),
+                )
+              : null;
+
+            return (
+              <div key={cage.id} className="fattening-card">
+                <div className="fattening-card-top">
+                  <span className="fattening-cage-num">
+                    Клітка {cage.cage_number}
+                  </span>
+                  <div className="fattening-card-btns">
+                    <button
+                      className="fattening-edit-btn"
+                      onClick={() => setEditingCage(cage)}
+                    >
+                      Редагувати
+                    </button>
+                    <button
+                      className="fattening-delete-btn"
+                      onClick={() => handleDelete(cage.id)}
+                    >
+                      Видалити
+                    </button>
+                  </div>
                 </div>
+                {cage.breed && (
+                  <p className="fattening-breed">
+                    Порода: <strong>{cage.breed}</strong>
+                  </p>
+                )}
+                {cage.birth_year && (
+                  <p className="fattening-year">
+                    Рік нар.: <strong>{cage.birth_year}</strong>
+                  </p>
+                )}
+                {cage.birth_date && (
+                  <p className="fattening-year">
+                    Нар.:{" "}
+                    <strong>
+                      {new Date(cage.birth_date).toLocaleDateString("uk-UA")}
+                    </strong>
+                  </p>
+                )}
+                {slaughter && daysLeft !== null && (
+                  <p
+                    className={`fattening-slaughter ${daysLeft <= 7 ? "soon" : ""}`}
+                  >
+                    Забій:{" "}
+                    <strong>{slaughter.toLocaleDateString("uk-UA")}</strong>
+                    {daysLeft > 0
+                      ? ` (через ${daysLeft} дн.)`
+                      : daysLeft === 0
+                        ? " (сьогодні!)"
+                        : " (прострочено)"}
+                  </p>
+                )}
+                <div className="fattening-card-stats">
+                  {cage.males > 0 && <span>♂ {cage.males} самців</span>}
+                  {cage.females > 0 && <span>♀ {cage.females} самиць</span>}
+                  {cage.unknown > 0 && <span>? {cage.unknown} невід.</span>}
+                </div>
+                {cage.notes && <p className="fattening-notes">{cage.notes}</p>}
               </div>
-              {cage.breed && (
-                <p className="fattening-breed">
-                  Порода: <strong>{cage.breed}</strong>
-                </p>
-              )}
-              {cage.birth_year && (
-                <p className="fattening-year">
-                  Рік нар.: <strong>{cage.birth_year}</strong>
-                </p>
-              )}
-              <div className="fattening-card-stats">
-                {cage.males > 0 && <span>♂ {cage.males} самців</span>}
-                {cage.females > 0 && <span>♀ {cage.females} самиць</span>}
-                {cage.unknown > 0 && <span>? {cage.unknown} невід.</span>}
-              </div>
-              {cage.notes && <p className="fattening-notes">{cage.notes}</p>}
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
+      {/* ── Зноска ── */}
+      <div className="fattening-note">
+        <h3>📋 Рекомендовані терміни забою</h3>
+        <p>
+          Оптимальний вік забою кроликів залежить від породи та мети розведення.
+          Загальне правило — <strong>не раніше 3 місяців (90 днів)</strong> від
+          народження.
+        </p>
+        <div className="fattening-note-grid">
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">🥩</span>
+            <div>
+              <strong>М'ясні породи</strong>
+              <span>Каліфорнійський, Новозеландський, HYLA</span>
+              <span className="fattening-note-days">70–90 днів</span>
+            </div>
+          </div>
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">🐇</span>
+            <div>
+              <strong>Універсальні породи</strong>
+              <span>Бургундський, Віденський, Термонський</span>
+              <span className="fattening-note-days">90–110 днів</span>
+            </div>
+          </div>
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">🦁</span>
+            <div>
+              <strong>Великі породи</strong>
+              <span>Фландр, Сірий велетень, Білий велетень</span>
+              <span className="fattening-note-days">120–150 днів</span>
+            </div>
+          </div>
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">✂️</span>
+            <div>
+              <strong>Хутрові породи</strong>
+              <span>Рекс, Шиншила, Віденський блакитний</span>
+              <span className="fattening-note-days">
+                після линьки (4–7 міс)
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="fattening-note-warn">
+          ⚠️ <strong>Важливо:</strong> Не забивайте під час линьки — шкурка
+          втратить товарний вигляд. У молодняку перша линька закінчується до
+          4–4.5 місяців, друга — до 7–7.5 місяців.
+        </div>
+        <div
+          className="fattening-note-warn"
+          style={{
+            background: "#e8f5e9",
+            borderColor: "#a5d6a7",
+            color: "#1b5e20",
+          }}
+        >
+          ✅ <strong>Економічно вигідний вік:</strong> За даними досліджень,
+          найвища рентабельність досягається при забої у віці{" "}
+          <strong>77 днів</strong> для промислових кросів типу HYLA. Для
+          звичайних порід — 90–100 днів.
+        </div>
+      </div>
     </div>
   );
 }
