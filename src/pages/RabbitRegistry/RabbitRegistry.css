@@ -283,6 +283,10 @@
     border-top-color: var(--brown);
 }
 
+.registry-stat-card.quarantine {
+    border-top-color: var(--amber);
+}
+
 @media (max-width: 960px) {
     .registry-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

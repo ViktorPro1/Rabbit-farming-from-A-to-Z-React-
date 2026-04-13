@@ -1,0 +1,412 @@
+.quarantine-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.quarantine-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.quarantine-header h1 {
+    color: var(--green-dark);
+    font-size: 1.8rem;
+}
+
+.quarantine-back-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quarantine-back-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.quarantine-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.quarantine-stat {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid var(--amber);
+    min-width: 90px;
+}
+
+.quarantine-stat.male {
+    border-top-color: var(--green-mid);
+}
+
+.quarantine-stat.female {
+    border-top-color: var(--amber);
+}
+
+.quarantine-stat.unknown {
+    border-top-color: var(--gray);
+}
+
+.quarantine-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1;
+}
+
+.quarantine-stat-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.quarantine-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.quarantine-add-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.quarantine-add-btn:hover {
+    background: var(--green-mid);
+}
+
+.quarantine-archive-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    color: var(--gray);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quarantine-archive-btn:hover {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+.quarantine-form {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.quarantine-form h3 {
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.quarantine-edit-form {
+    border-left: 4px solid var(--amber);
+}
+
+.quarantine-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.quarantine-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.quarantine-form-field label {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.quarantine-form-grid input,
+.quarantine-form-grid select {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    background: white;
+    color: var(--green-dark);
+}
+
+.quarantine-form-grid input:focus,
+.quarantine-form-grid select:focus {
+    border-color: var(--green-dark);
+}
+
+.quarantine-form-full {
+    grid-column: 1 / -1;
+}
+
+.quarantine-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.quarantine-save-btn {
+    padding: 0.65rem 1.5rem;
+    background: var(--green-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.quarantine-save-btn:hover {
+    background: var(--green-mid);
+}
+
+.quarantine-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quarantine-edit-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.quarantine-cancel-btn {
+    padding: 0.65rem 1.2rem;
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    color: var(--gray);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.quarantine-cancel-btn:hover {
+    border-color: var(--gray);
+    color: var(--green-dark);
+}
+
+.quarantine-loading,
+.quarantine-empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 2rem;
+}
+
+.quarantine-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.quarantine-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-left: 4px solid var(--amber);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.quarantine-card.archived {
+    opacity: 0.8;
+    border-left-color: var(--gray-light);
+}
+
+.quarantine-card.archived.recovered {
+    border-left-color: var(--green-accent);
+}
+
+.quarantine-card.archived.slaughter {
+    border-left-color: var(--brown);
+}
+
+.quarantine-card.archived.died {
+    border-left-color: #c0392b;
+}
+
+.quarantine-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.quarantine-name {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 1rem;
+}
+
+.quarantine-card-btns {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.quarantine-edit-btn {
+    background: none;
+    border: 1px solid var(--green-accent);
+    color: var(--green-accent);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.quarantine-edit-btn:hover {
+    background: var(--green-accent);
+    color: white;
+}
+
+.quarantine-delete-btn {
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.quarantine-delete-btn:hover {
+    background: #c0392b;
+    color: white;
+}
+
+.quarantine-info {
+    font-size: 0.9rem;
+    color: var(--green-dark);
+}
+
+.quarantine-reason {
+    font-size: 0.9rem;
+    color: var(--amber);
+}
+
+.quarantine-notes {
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-style: italic;
+}
+
+.quarantine-result-btns {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.quarantine-result-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.quarantine-result-btn {
+    padding: 0.3rem 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.quarantine-result-btn:hover {
+    opacity: 0.85;
+}
+
+.quarantine-result-btn.recovered {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.quarantine-result-btn.slaughter {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+.quarantine-result-btn.died {
+    background: #fde8e8;
+    color: #c0392b;
+}
+
+.quarantine-result-tag {
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.quarantine-result-tag.recovered {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.quarantine-result-tag.slaughter {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+.quarantine-result-tag.died {
+    background: #fde8e8;
+    color: #c0392b;
+}
+
+.quarantine-archive-section {
+    margin-top: 1rem;
+}
+
+.quarantine-archive-section h2 {
+    color: var(--green-dark);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+    .quarantine-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .quarantine-page {
+        padding: 1rem;
+    }
+}

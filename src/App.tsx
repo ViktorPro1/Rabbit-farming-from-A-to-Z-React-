@@ -30,6 +30,7 @@ import Matings from "./pages/Matings/Matings";
 import Leaves from "./pages/Leaves/Leaves";
 import Paddocks from "./pages/Paddocks/Paddocks";
 import Fattening from "./pages/Fattening/Fattening";
+import Quarantine from "./pages/Quarantine/Quarantine";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -108,6 +109,10 @@ function App() {
         <Route
           path="/fattening"
           element={session ? <Fattening session={session} /> : <Auth />}
+        />
+        <Route
+          path="/quarantine"
+          element={session ? <Quarantine session={session} /> : <Auth />}
         />
       </Routes>
       <Footer />

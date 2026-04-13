@@ -24,9 +24,6 @@ interface Stats {
   males: number;
   females: number;
   youngTotal: number;
-  youngMales: number;
-  youngFemales: number;
-  youngUnknown: number;
   youngFromCages: number;
   youngFromPaddocks: number;
   paddockFemales: number;
@@ -34,6 +31,10 @@ interface Stats {
   fatteningFemales: number;
   fatteningUnknown: number;
   fatteningTotal: number;
+  quarantineMales: number;
+  quarantineFemales: number;
+  quarantineUnknown: number;
+  quarantineTotal: number;
 }
 
 const emptyForm = {
@@ -57,9 +58,6 @@ export default function RabbitRegistry({ session }: Props) {
     males: 0,
     females: 0,
     youngTotal: 0,
-    youngMales: 0,
-    youngFemales: 0,
-    youngUnknown: 0,
     youngFromCages: 0,
     youngFromPaddocks: 0,
     paddockFemales: 0,
@@ -67,6 +65,10 @@ export default function RabbitRegistry({ session }: Props) {
     fatteningFemales: 0,
     fatteningUnknown: 0,
     fatteningTotal: 0,
+    quarantineMales: 0,
+    quarantineFemales: 0,
+    quarantineUnknown: 0,
+    quarantineTotal: 0,
   });
   const navigate = useNavigate();
 
@@ -99,27 +101,32 @@ export default function RabbitRegistry({ session }: Props) {
             .select("males, females, unknown")
             .eq("user_id", session.user.id)
             .eq("is_active", true),
+          supabase
+            .from("quarantine")
+            .select("gender")
+            .eq("user_id", session.user.id)
+            .eq("is_active", true),
         ]).then(
           ([
             { data: littersData },
             { data: paddockLittersData },
             { data: paddockFemalesData },
             { data: fatteningData },
+            { data: quarantineData },
           ]) => {
+            let youngFromCages = 0;
+            let youngFromPaddocks = 0;
             let youngMales = 0;
             let youngFemales = 0;
             let youngUnknown = 0;
-            let youngFromCages = 0;
-            let youngFromPaddocks = 0;
 
             (littersData || []).forEach((l) => {
               const alive = l.alive || 0;
               const wm = l.weaned_males || 0;
               const wf = l.weaned_females || 0;
-              const remaining = Math.max(0, alive - (wm + wf));
               youngMales += wm;
               youngFemales += wf;
-              youngUnknown += remaining;
+              youngUnknown += Math.max(0, alive - (wm + wf));
               youngFromCages += alive;
             });
 
@@ -127,19 +134,18 @@ export default function RabbitRegistry({ session }: Props) {
               const alive = l.alive || 0;
               const wm = l.weaned_males || 0;
               const wf = l.weaned_females || 0;
-              const remaining = Math.max(0, alive - (wm + wf));
               youngMales += wm;
               youngFemales += wf;
-              youngUnknown += remaining;
+              youngUnknown += Math.max(0, alive - (wm + wf));
               youngFromPaddocks += alive;
             });
 
             const youngTotal = youngMales + youngFemales + youngUnknown;
             const paddockFemales = (paddockFemalesData || []).length;
 
-            let fatteningMales = 0;
-            let fatteningFemales = 0;
-            let fatteningUnknown = 0;
+            let fatteningMales = 0,
+              fatteningFemales = 0,
+              fatteningUnknown = 0;
             (fatteningData || []).forEach((f) => {
               fatteningMales += f.males || 0;
               fatteningFemales += f.females || 0;
@@ -148,14 +154,27 @@ export default function RabbitRegistry({ session }: Props) {
             const fatteningTotal =
               fatteningMales + fatteningFemales + fatteningUnknown;
 
+            let quarantineMales = 0,
+              quarantineFemales = 0,
+              quarantineUnknown = 0;
+            (quarantineData || []).forEach((q) => {
+              if (q.gender === "male") quarantineMales++;
+              else if (q.gender === "female") quarantineFemales++;
+              else quarantineUnknown++;
+            });
+            const quarantineTotal =
+              quarantineMales + quarantineFemales + quarantineUnknown;
+
             setStats({
-              total: list.length + youngTotal + paddockFemales + fatteningTotal,
+              total:
+                list.length +
+                youngTotal +
+                paddockFemales +
+                fatteningTotal +
+                quarantineTotal,
               males: list.filter((r) => r.gender === "male").length,
               females: list.filter((r) => r.gender === "female").length,
               youngTotal,
-              youngMales,
-              youngFemales,
-              youngUnknown,
               youngFromCages,
               youngFromPaddocks,
               paddockFemales,
@@ -163,6 +182,10 @@ export default function RabbitRegistry({ session }: Props) {
               fatteningFemales,
               fatteningUnknown,
               fatteningTotal,
+              quarantineMales,
+              quarantineFemales,
+              quarantineUnknown,
+              quarantineTotal,
             });
             setLoading(false);
           },
@@ -186,6 +209,7 @@ export default function RabbitRegistry({ session }: Props) {
       { data: paddockLittersData },
       { data: paddockFemalesData },
       { data: fatteningData },
+      { data: quarantineData },
     ] = await Promise.all([
       supabase
         .from("litters")
@@ -204,22 +228,26 @@ export default function RabbitRegistry({ session }: Props) {
         .select("males, females, unknown")
         .eq("user_id", session.user.id)
         .eq("is_active", true),
+      supabase
+        .from("quarantine")
+        .select("gender")
+        .eq("user_id", session.user.id)
+        .eq("is_active", true),
     ]);
 
-    let youngMales = 0;
-    let youngFemales = 0;
-    let youngUnknown = 0;
-    let youngFromCages = 0;
-    let youngFromPaddocks = 0;
+    let youngFromCages = 0,
+      youngFromPaddocks = 0;
+    let youngMales = 0,
+      youngFemales = 0,
+      youngUnknown = 0;
 
     (littersData || []).forEach((l) => {
       const alive = l.alive || 0;
       const wm = l.weaned_males || 0;
       const wf = l.weaned_females || 0;
-      const remaining = Math.max(0, alive - (wm + wf));
       youngMales += wm;
       youngFemales += wf;
-      youngUnknown += remaining;
+      youngUnknown += Math.max(0, alive - (wm + wf));
       youngFromCages += alive;
     });
 
@@ -227,19 +255,18 @@ export default function RabbitRegistry({ session }: Props) {
       const alive = l.alive || 0;
       const wm = l.weaned_males || 0;
       const wf = l.weaned_females || 0;
-      const remaining = Math.max(0, alive - (wm + wf));
       youngMales += wm;
       youngFemales += wf;
-      youngUnknown += remaining;
+      youngUnknown += Math.max(0, alive - (wm + wf));
       youngFromPaddocks += alive;
     });
 
     const youngTotal = youngMales + youngFemales + youngUnknown;
     const paddockFemales = (paddockFemalesData || []).length;
 
-    let fatteningMales = 0;
-    let fatteningFemales = 0;
-    let fatteningUnknown = 0;
+    let fatteningMales = 0,
+      fatteningFemales = 0,
+      fatteningUnknown = 0;
     (fatteningData || []).forEach((f) => {
       fatteningMales += f.males || 0;
       fatteningFemales += f.females || 0;
@@ -247,14 +274,27 @@ export default function RabbitRegistry({ session }: Props) {
     });
     const fatteningTotal = fatteningMales + fatteningFemales + fatteningUnknown;
 
+    let quarantineMales = 0,
+      quarantineFemales = 0,
+      quarantineUnknown = 0;
+    (quarantineData || []).forEach((q) => {
+      if (q.gender === "male") quarantineMales++;
+      else if (q.gender === "female") quarantineFemales++;
+      else quarantineUnknown++;
+    });
+    const quarantineTotal =
+      quarantineMales + quarantineFemales + quarantineUnknown;
+
     setStats({
-      total: list.length + youngTotal + paddockFemales + fatteningTotal,
+      total:
+        list.length +
+        youngTotal +
+        paddockFemales +
+        fatteningTotal +
+        quarantineTotal,
       males: list.filter((r) => r.gender === "male").length,
       females: list.filter((r) => r.gender === "female").length,
       youngTotal,
-      youngMales,
-      youngFemales,
-      youngUnknown,
       youngFromCages,
       youngFromPaddocks,
       paddockFemales,
@@ -262,6 +302,10 @@ export default function RabbitRegistry({ session }: Props) {
       fatteningFemales,
       fatteningUnknown,
       fatteningTotal,
+      quarantineMales,
+      quarantineFemales,
+      quarantineUnknown,
+      quarantineTotal,
     });
   }
 
@@ -316,6 +360,12 @@ export default function RabbitRegistry({ session }: Props) {
           🥩 Відгодівля
         </button>
         <button
+          className="registry-archive-link"
+          onClick={() => navigate("/quarantine")}
+        >
+          🔒 Карантин
+        </button>
+        <button
           className="registry-add-btn"
           onClick={() => setShowForm(!showForm)}
         >
@@ -363,15 +413,24 @@ export default function RabbitRegistry({ session }: Props) {
           <div className="registry-stat-card fattening">
             <span className="registry-stat-value">{stats.fatteningTotal}</span>
             <span className="registry-stat-label">Відгодівля</span>
-            {(stats.fatteningMales > 0 || stats.fatteningFemales > 0) && (
-              <span className="registry-stat-sub">
-                {stats.fatteningMales > 0 && `♂ ${stats.fatteningMales} `}
-                {stats.fatteningFemales > 0 && `♀ ${stats.fatteningFemales} `}
-                {stats.fatteningUnknown > 0 && `? ${stats.fatteningUnknown}`}
-              </span>
-            )}
+            <span className="registry-stat-sub">
+              {stats.fatteningMales > 0 && `♂ ${stats.fatteningMales} `}
+              {stats.fatteningFemales > 0 && `♀ ${stats.fatteningFemales} `}
+              {stats.fatteningUnknown > 0 && `? ${stats.fatteningUnknown}`}
+            </span>
           </div>
         )}
+        <div className="registry-stat-card quarantine">
+          <span className="registry-stat-value">{stats.quarantineTotal}</span>
+          <span className="registry-stat-label">Карантин</span>
+          {stats.quarantineTotal > 0 && (
+            <span className="registry-stat-sub">
+              {stats.quarantineMales > 0 && `♂ ${stats.quarantineMales} `}
+              {stats.quarantineFemales > 0 && `♀ ${stats.quarantineFemales} `}
+              {stats.quarantineUnknown > 0 && `? ${stats.quarantineUnknown}`}
+            </span>
+          )}
+        </div>
       </div>
 
       {showForm && (

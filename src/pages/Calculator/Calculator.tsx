@@ -254,6 +254,7 @@ interface GrainResult {
 interface GranulatorAdditives {
   lucerne: number;
   salt: number;
+  premix: number;
   waterMin: number;
   waterMax: number;
 }
@@ -261,7 +262,8 @@ interface GranulatorAdditives {
 function calcGranulatorAdditives(totalKg: number): GranulatorAdditives {
   return {
     lucerne: Math.round(totalKg * 0.2 * 10) / 10,
-    salt: Math.round(totalKg * 0.005 * 1000) / 10,
+    salt: Math.round(totalKg * 0.005 * 10000) / 10,
+    premix: Math.round(totalKg * 0.01 * 1000),
     waterMin: Math.round(totalKg * 0.08 * 10) / 10,
     waterMax: Math.round(totalKg * 0.12 * 10) / 10,
   };
@@ -634,7 +636,7 @@ export default function Calculator() {
 
                 {hasGranulator &&
                   (() => {
-                    const { lucerne, salt, waterMin, waterMax } =
+                    const { lucerne, salt, premix, waterMin, waterMax } =
                       calcGranulatorAdditives(grainWeight);
                     return (
                       <div className="granulator-block">
@@ -681,6 +683,22 @@ export default function Calculator() {
                             </span>
                           </div>
                           <span className="result-kg">{salt} г</span>
+                        </div>
+
+                        <div className="result-row">
+                          <span className="result-icon">💊</span>
+                          <div className="result-info">
+                            <div className="result-top">
+                              <span className="result-name">Премікс</span>
+                              <span className="result-pct">1%</span>
+                            </div>
+                            <span className="granulator-note">
+                              Вітамінно-мінеральна добавка. Забезпечує кролів
+                              необхідними мікроелементами для росту та
+                              імунітету.
+                            </span>
+                          </div>
+                          <span className="result-kg">{premix} г</span>
                         </div>
 
                         <div className="result-row">
