@@ -1,0 +1,413 @@
+.equipment-page {
+    min-height: 100vh;
+}
+
+.equipment-header {
+    background: linear-gradient(90deg, #3e2723, #6d4c41);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.equipment-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.equipment-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.equipment-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.equipment-section-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--green-light);
+}
+
+.equipment-section-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 1.5rem 0 0.75rem;
+    padding-left: 12px;
+    border-left: 3px solid var(--green-accent);
+}
+
+.equipment-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.equipment-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.equipment-note ul,
+.equipment-note ol {
+    padding-left: 1.2rem;
+    margin: 8px 0;
+}
+
+.equipment-note li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+/* DEVICE INTRO */
+.equipment-device-intro {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+}
+
+.equipment-image-placeholder {
+    background: var(--green-light);
+    border-radius: 12px;
+    border: 2px dashed var(--green-accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 200px;
+    color: var(--green-mid);
+}
+
+.equipment-image-placeholder span {
+    font-size: 40px;
+}
+
+.equipment-image-placeholder p {
+    font-size: 13px;
+    color: var(--green-mid);
+    margin: 0;
+}
+
+.equipment-device-desc h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.equipment-device-desc p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+/* SPECS TABLE */
+.equipment-specs-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.equipment-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.equipment-specs-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.equipment-specs-table td:first-child {
+    background: #f9fdf9;
+    width: 220px;
+    color: var(--green-dark);
+}
+
+.equipment-specs-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* STEPS LIST */
+.equipment-steps-list {
+    padding-left: 1.4rem;
+    margin: 8px 0;
+}
+
+.equipment-steps-list li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+/* MAINTENANCE */
+.equipment-maintenance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.equipment-maintenance-card {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1rem;
+}
+
+.equipment-maintenance-period {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    background: var(--green-light);
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.equipment-maintenance-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* PROBLEMS TABLE */
+.equipment-problems-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.equipment-problems-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.equipment-problems-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.equipment-problems-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.equipment-problems-table tr:hover td {
+    background: #eef7ee;
+}
+
+.equipment-problems-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* COMPARE */
+.equipment-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.equipment-compare-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 0.5px solid var(--gray-light);
+}
+
+.equipment-compare-card.granulator {
+    background: #e8f5e9;
+}
+
+.equipment-compare-card.extruder {
+    background: #e3f2fd;
+}
+
+.equipment-compare-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.equipment-compare-card ul {
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.equipment-compare-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+    padding: 4px 0;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+}
+
+.equipment-compare-card li:last-child {
+    border-bottom: none;
+}
+
+/* CHOPPER */
+.equipment-chopper-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.equipment-chopper-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 0.5px solid var(--gray-light);
+}
+
+.equipment-chopper-card.allowed {
+    background: #e8f5e9;
+}
+
+.equipment-chopper-card.forbidden {
+    background: #ffebee;
+}
+
+.equipment-chopper-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.equipment-chopper-card.allowed h3 {
+    color: #1b5e20;
+}
+
+.equipment-chopper-card.forbidden h3 {
+    color: #c62828;
+}
+
+.equipment-chopper-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.equipment-chopper-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* ALERTS */
+.equipment-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.equipment-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.equipment-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* BACK */
+.equipment-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.equipment-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.equipment-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* Замінити .equipment-image-placeholder або додати після нього: */
+.equipment-device-img {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .equipment-device-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .equipment-compare-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .equipment-chopper-types {
+        grid-template-columns: 1fr;
+    }
+
+    .equipment-maintenance-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .equipment-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .equipment-problems-table th,
+    .equipment-problems-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

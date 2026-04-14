@@ -99,6 +99,12 @@ const cards = [
     desc: "Підготовка, технологія, зберігання",
     path: "/slaughter",
   },
+  {
+    icon: "⚙️",
+    title: "Обладнання",
+    desc: "Гранулятор, екструдер, траворізка",
+    path: "/equipment",
+  },
 ];
 
 const SectionCards = () => {

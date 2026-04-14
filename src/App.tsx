@@ -33,6 +33,7 @@ import Fattening from "./pages/Fattening/Fattening";
 import Quarantine from "./pages/Quarantine/Quarantine";
 import Community from "./pages/Community/Community";
 import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
+import Equipment from "./pages/Equipment/Equipment";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -117,6 +118,7 @@ function App() {
           path="/quarantine"
           element={session ? <Quarantine session={session} /> : <Auth />}
         />
+        <Route path="/equipment" element={<Equipment />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
