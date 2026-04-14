@@ -287,6 +287,11 @@
     border-top-color: var(--amber);
 }
 
+.rabbit-age {
+    font-size: 0.82rem;
+    color: var(--gray);
+}
+
 @media (max-width: 960px) {
     .registry-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

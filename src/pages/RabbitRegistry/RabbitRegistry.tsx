@@ -513,12 +513,40 @@ export default function RabbitRegistry({ session }: Props) {
                     <strong>Порода:</strong> {rabbit.breed}
                   </p>
                 )}
-                {rabbit.birth_date && (
-                  <p>
-                    <strong>Нар.:</strong>{" "}
-                    {new Date(rabbit.birth_date).toLocaleDateString("uk-UA")}
-                  </p>
-                )}
+                {rabbit.birth_date &&
+                  (() => {
+                    const birth = new Date(rabbit.birth_date);
+                    const today = new Date();
+                    const diffMs = today.getTime() - birth.getTime();
+                    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                    const months = Math.floor(days / 30);
+                    const years = Math.floor(days / 365);
+                    let age = "";
+                    if (years >= 1) {
+                      const remMonths = Math.floor((days - years * 365) / 30);
+                      age =
+                        remMonths > 0
+                          ? `${years} р. ${remMonths} міс.`
+                          : `${years} р.`;
+                    } else if (months >= 1) {
+                      const remDays = days - months * 30;
+                      age =
+                        remDays > 0
+                          ? `${months} міс. ${remDays} дн.`
+                          : `${months} міс.`;
+                    } else {
+                      age = `${days} дн.`;
+                    }
+                    return (
+                      <>
+                        <p>
+                          <strong>Нар.:</strong>{" "}
+                          {birth.toLocaleDateString("uk-UA")}
+                        </p>
+                        <p className="rabbit-age">Вік: {age}</p>
+                      </>
+                    );
+                  })()}
                 {rabbit.notes && <p className="rabbit-notes">{rabbit.notes}</p>}
               </div>
               <div className="rabbit-card-actions">
