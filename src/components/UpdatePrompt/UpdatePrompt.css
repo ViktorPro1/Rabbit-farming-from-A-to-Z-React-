@@ -1,0 +1,33 @@
+.update-prompt {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #27500A;
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 9999;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    white-space: nowrap;
+}
+
+.update-prompt button {
+    background: #f5c842;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.update-prompt__dismiss {
+    background: transparent !important;
+    color: #fff !important;
+    padding: 0.2rem 0.4rem !important;
+    font-size: 1rem;
+}

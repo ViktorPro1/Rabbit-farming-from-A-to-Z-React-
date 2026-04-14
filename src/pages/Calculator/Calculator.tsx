@@ -26,15 +26,15 @@ const breedingGrains: Grain[] = [
     icon: "🌾",
     name: "Ячмінь",
     note: "Дробити або замочити",
-    pct: 40,
+    pct: 56,
     defaultOn: true,
   },
   {
     id: "wheat",
     icon: "🌾",
     name: "Пшениця",
-    note: "До 20%, не більше",
-    pct: 20,
+    note: "До 30%, не більше",
+    pct: 33,
     defaultOn: true,
   },
   {
@@ -42,7 +42,7 @@ const breedingGrains: Grain[] = [
     icon: "🌽",
     name: "Кукурудза",
     note: "Небажано — знижує плідність",
-    pct: 0,
+    pct: 11,
     defaultOn: false,
   },
   {
@@ -50,7 +50,7 @@ const breedingGrains: Grain[] = [
     icon: "🟡",
     name: "Горох",
     note: "До 10%, тільки дроблений",
-    pct: 0,
+    pct: 8,
     defaultOn: false,
   },
   {
@@ -58,7 +58,7 @@ const breedingGrains: Grain[] = [
     icon: "🌾",
     name: "Жито",
     note: "До 10%, тільки в суміші",
-    pct: 0,
+    pct: 8,
     defaultOn: false,
   },
   {
@@ -66,7 +66,7 @@ const breedingGrains: Grain[] = [
     icon: "⚫",
     name: "Гречка",
     note: "До 10%, помірно",
-    pct: 0,
+    pct: 8,
     defaultOn: false,
   },
   {
@@ -74,7 +74,7 @@ const breedingGrains: Grain[] = [
     icon: "🟤",
     name: "Соєва макуха",
     note: "Білок 35–40%, до 10%",
-    pct: 0,
+    pct: 5,
     defaultOn: false,
   },
   {
@@ -82,7 +82,7 @@ const breedingGrains: Grain[] = [
     icon: "🌻",
     name: "Соняшникова макуха",
     note: "Білок 28–35%, до 10%",
-    pct: 0,
+    pct: 5,
     defaultOn: false,
   },
 ];
@@ -133,7 +133,7 @@ const fatteningGrains: Grain[] = [
     icon: "🌾",
     name: "Жито",
     note: "До 10%, тільки в суміші",
-    pct: 0,
+    pct: 8,
     defaultOn: false,
   },
   {
@@ -141,7 +141,7 @@ const fatteningGrains: Grain[] = [
     icon: "⚫",
     name: "Гречка",
     note: "До 10%, помірно",
-    pct: 0,
+    pct: 8,
     defaultOn: false,
   },
   {
@@ -149,7 +149,7 @@ const fatteningGrains: Grain[] = [
     icon: "🟤",
     name: "Соєва макуха",
     note: "Білок 35–40%, до 10%",
-    pct: 0,
+    pct: 10,
     defaultOn: false,
   },
   {
@@ -157,35 +157,13 @@ const fatteningGrains: Grain[] = [
     icon: "🌻",
     name: "Соняшникова макуха",
     note: "Білок 28–35%, до 10%",
-    pct: 0,
+    pct: 10,
     defaultOn: false,
   },
 ];
 
-// Базові відсотки для зерен з pct: 0
-const EXTRA_PCT: Record<string, number> = {
-  corn: 10,
-  pea: 8,
-  rye: 8,
-  buck: 8,
-  soy: 10,
-  sunflower: 10,
-};
-
-// Максимально допустимий відсоток для окремих зерен
-const MAX_PCT: Record<string, number> = {
-  corn: 15,
-  pea: 10,
-  rye: 10,
-  buck: 10,
-  soy: 10,
-  sunflower: 10,
-};
-
-// Ідентифікатори макух
+// Ідентифікатори макух — рахуються окремо від зернових
 const MAKUHA_IDS = ["soy", "sunflower"];
-// Максимальна сумарна частка макух
-const MAKUHA_MAX_TOTAL = 15;
 
 const grainTable = [
   {
@@ -196,51 +174,51 @@ const grainTable = [
   },
   {
     name: "🌾 Ячмінь",
-    breeding: "40%",
+    breeding: "~56%",
     fattening: "40%",
     note: "Основне зерно в обох раціонах. Дробити або замочувати",
   },
   {
     name: "🌾 Пшениця",
-    breeding: "20%",
+    breeding: "~33%",
     fattening: "20%",
-    note: "Не більше 20%. При надлишку — здуття через клейковину",
+    note: "Для племінного більше — формує м'язово-кісткову основу. При надлишку — здуття",
   },
   {
     name: "🌽 Кукурудза",
-    breeding: "не рекоменд.",
+    breeding: "до 11%",
     fattening: "15%",
-    note: "Для відгодівлі — обов'язково дробити, тільки від 4 міс.",
+    note: "Для племінного — небажана, знижує плідність. Для відгодівлі — дробити, від 4 міс.",
   },
   {
     name: "🟡 Горох",
-    breeding: "до 10%",
+    breeding: "до 8%",
     fattening: "до 10%",
     note: "Тільки дроблений або запарений. Додатковий білок",
   },
   {
     name: "🌾 Жито",
-    breeding: "до 10%",
-    fattening: "до 10%",
+    breeding: "до 8%",
+    fattening: "до 8%",
     note: "Тільки в суміші з іншими. Самостійно викликає розлади",
   },
   {
     name: "⚫ Гречка",
-    breeding: "до 10%",
-    fattening: "до 10%",
-    note: "Різноманітність раціону. Ціла або лузга, помірно",
+    breeding: "до 8%",
+    fattening: "до 8%",
+    note: "Різноманітність раціону. Польова в чорній оболонці — нормально, лузга дає клітковину",
   },
   {
     name: "🟤 Соєва макуха",
-    breeding: "до 10%",
+    breeding: "до 5%",
     fattening: "до 10%",
-    note: "Термооброблена. Білок 35–40%. Не перевищувати 10% — розлади травлення",
+    note: "Термооброблена. Білок 35–40%. Рахується окремо від зернових",
   },
   {
     name: "🌻 Соняшникова макуха",
-    breeding: "до 10%",
+    breeding: "до 5%",
     fattening: "до 10%",
-    note: "Білок 28–35%, менше ніж у соєвій. Суха, без цвілі. До 10% — можна поєднувати з соєвою, але сумарно не більше 10–15%",
+    note: "Білок 28–35%. Суха, без цвілі. Рахується окремо від зернових. Сумарно з соєвою — не більше 15%",
   },
 ];
 
@@ -277,71 +255,53 @@ function calcGrains(
   const checked = grains.filter((g) => selected.includes(g.id));
   if (!checked.length || totalKg <= 0) return [];
 
-  // Крок 1: визначаємо початковий відсоток для кожного зерна
-  const basePcts: Record<string, number> = {};
-  checked.forEach((g) => {
-    basePcts[g.id] = g.pct > 0 ? g.pct : (EXTRA_PCT[g.id] ?? 8);
-  });
-
-  // Крок 2: застосовуємо максимальні обмеження для окремих зерен
-  Object.keys(basePcts).forEach((id) => {
-    if (MAX_PCT[id] !== undefined) {
-      basePcts[id] = Math.min(basePcts[id], MAX_PCT[id]);
-    }
-  });
-
-  // Крок 3: обмежуємо сумарну частку макух до MAKUHA_MAX_TOTAL%
-  const selectedMakuha = checked.filter((g) => MAKUHA_IDS.includes(g.id));
-  if (selectedMakuha.length > 0) {
-    const totalMakuhaPct = selectedMakuha.reduce(
-      (sum, g) => sum + basePcts[g.id],
-      0,
-    );
-    if (totalMakuhaPct > MAKUHA_MAX_TOTAL) {
-      // Розподіляємо MAKUHA_MAX_TOTAL порівну між вибраними макухами
-      const pctEach = MAKUHA_MAX_TOTAL / selectedMakuha.length;
-      selectedMakuha.forEach((g) => {
-        basePcts[g.id] = pctEach;
-      });
-    }
-  }
-
-  // Крок 4: нормалізуємо до 100%
-  const sum = Object.values(basePcts).reduce((a, b) => a + b, 0);
-  if (sum !== 100) {
-    Object.keys(basePcts).forEach((k) => {
-      basePcts[k] = (basePcts[k] / sum) * 100;
-    });
-  }
-
   const roundHalf = (n: number) => Math.round(n * 2) / 2;
 
-  // Точні кг без округлення
-  const exact: GrainResult[] = checked.map((g) => ({
+  // Розділяємо на зернові і макухи
+  const grainItems = checked.filter((g) => !MAKUHA_IDS.includes(g.id));
+  const mealItems = checked.filter((g) => MAKUHA_IDS.includes(g.id));
+
+  // Макухи — фіксована сумарна частка 10% від totalKg, рівномірно між вибраними
+  const MAKUHA_TOTAL_PCT = 10;
+  const mealPctEach =
+    mealItems.length > 0 ? MAKUHA_TOTAL_PCT / mealItems.length : 0;
+  const mealPcts: Record<string, number> = {};
+  mealItems.forEach((g) => {
+    mealPcts[g.id] = mealPctEach;
+  });
+
+  const mealResults: GrainResult[] = mealItems.map((g) => ({
     icon: g.icon,
     name: g.name,
-    pct: basePcts[g.id],
-    kg: (totalKg * basePcts[g.id]) / 100,
+    pct: mealPcts[g.id],
+    kg: roundHalf((totalKg * mealPcts[g.id]) / 100),
   }));
 
-  // Округлюємо кожен до 0.5
-  const results: GrainResult[] = exact.map((r) => ({
-    ...r,
-    kg: roundHalf(r.kg),
+  const mealKg = mealResults.reduce((a, r) => a + r.kg, 0);
+
+  // Зернові ділять між собою решту ваги після макух
+  const grainKg = totalKg - mealKg;
+  const grainSum = grainItems.reduce((a, g) => a + g.pct, 0);
+
+  const grainResults: GrainResult[] = grainItems.map((g) => ({
+    icon: g.icon,
+    name: g.name,
+    pct: grainSum > 0 ? (g.pct / grainSum) * (grainKg / totalKg) * 100 : 0,
+    kg: grainSum > 0 ? roundHalf((grainKg * g.pct) / grainSum) : 0,
   }));
 
-  // Крок 5: коригуємо залишок через округлення — додаємо до найбільшого зерна
-  const sumKg = results.reduce((a, r) => a + r.kg, 0);
-  const diff = parseFloat((totalKg - sumKg).toFixed(1));
-  if (diff !== 0) {
-    const maxIdx = results.reduce(
-      (bestIdx, r, i) => (r.kg > results[bestIdx].kg ? i : bestIdx),
+  // Коригуємо залишок через округлення — до найбільшого зернового
+  const sumGrainKg = grainResults.reduce((a, r) => a + r.kg, 0);
+  const diff = parseFloat((grainKg - sumGrainKg).toFixed(1));
+  if (diff !== 0 && grainResults.length > 0) {
+    const maxIdx = grainResults.reduce(
+      (bestIdx, r, i) => (r.kg > grainResults[bestIdx].kg ? i : bestIdx),
       0,
     );
-    results[maxIdx].kg = roundHalf(results[maxIdx].kg + diff);
+    grainResults[maxIdx].kg = roundHalf(grainResults[maxIdx].kg + diff);
   }
 
-  return results;
+  return [...grainResults, ...mealResults];
 }
 
 const fmt = (d: Date) => d.toLocaleDateString("uk-UA");
@@ -394,8 +354,6 @@ export default function Calculator() {
       setGrainResults([]);
       return;
     }
-
-    // Інформаційне попередження якщо вибрані обидві макухи
     const selectedMakuha = currentSel.filter((id) => MAKUHA_IDS.includes(id));
     if (selectedMakuha.length === 2) {
       setGrainError(
@@ -404,7 +362,6 @@ export default function Calculator() {
     } else {
       setGrainError("");
     }
-
     setGrainResults(calcGrains(currentGrains, currentSel, grainWeight));
   };
 
@@ -645,6 +602,16 @@ export default function Calculator() {
                           через млин або зернодробарку. Рекомендована фракція
                           після помолу: <strong>1.5–2 мм</strong>. Розмір гранул
                           на виході: <strong>4–5 мм</strong>.
+                        </div>
+                        <div
+                          className="calc-alert warn"
+                          style={{ marginTop: "8px" }}
+                        >
+                          💡 При гранулюванні частину пшениці можна замінити
+                          грисом (висівкою) — він краще зв'язує масу перед
+                          пресуванням і додає клітковину. Грис — це тверда
+                          оболонка зерна що залишається після помелу борошна,
+                          продається на ринку або в магазині для тварин.
                         </div>
 
                         <h3>Добавки до суміші</h3>

@@ -32,6 +32,7 @@ import Paddocks from "./pages/Paddocks/Paddocks";
 import Fattening from "./pages/Fattening/Fattening";
 import Quarantine from "./pages/Quarantine/Quarantine";
 import Community from "./pages/Community/Community";
+import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -118,6 +119,7 @@ function App() {
         />
       </Routes>
       <Footer />
+      <UpdatePrompt />
     </BrowserRouter>
   );
 }
