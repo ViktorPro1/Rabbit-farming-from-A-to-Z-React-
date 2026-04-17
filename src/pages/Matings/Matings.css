@@ -315,6 +315,41 @@
     align-items: center;
 }
 
+.litter-age-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.litter-age {
+    color: var(--green-dark);
+}
+
+.litter-weaning-alert {
+    background: #fde8e8;
+    color: #c0392b;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.litter-weaning-soon {
+    background: var(--amber-light);
+    color: var(--brown);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.litter-weaning-info {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
 @media (max-width: 640px) {
     .matings-form-grid {
         grid-template-columns: 1fr;

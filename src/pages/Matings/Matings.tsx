@@ -658,6 +658,56 @@ export default function Matings({ session }: Props) {
                       Мертвих: <strong>{l.dead}</strong>
                     </span>
                   </div>
+                  {(() => {
+                    const birth = new Date(l.birth_date);
+                    const today = new Date();
+                    const days = Math.floor(
+                      (today.getTime() - birth.getTime()) /
+                        (1000 * 60 * 60 * 24),
+                    );
+                    const months = Math.floor(days / 30);
+                    const remDays = days - months * 30;
+                    let ageStr = "";
+                    if (months >= 1) {
+                      ageStr =
+                        remDays > 0
+                          ? `${months} міс. ${remDays} дн.`
+                          : `${months} міс.`;
+                    } else {
+                      ageStr = `${days} дн.`;
+                    }
+                    const weaningDate = new Date(birth);
+                    weaningDate.setDate(weaningDate.getDate() + 60);
+                    const daysToWeaning = Math.ceil(
+                      (weaningDate.getTime() - today.getTime()) /
+                        (1000 * 60 * 60 * 24),
+                    );
+                    return (
+                      <div className="litter-age-row">
+                        <span className="litter-age">
+                          Вік: <strong>{ageStr}</strong>
+                        </span>
+                        {!l.weaned_date && daysToWeaning <= 0 && (
+                          <span className="litter-weaning-alert">
+                            ✂️ Час відлучення!
+                          </span>
+                        )}
+                        {!l.weaned_date &&
+                          daysToWeaning > 0 &&
+                          daysToWeaning <= 7 && (
+                            <span className="litter-weaning-soon">
+                              ✂️ Відлучення через {daysToWeaning} дн.
+                            </span>
+                          )}
+                        {!l.weaned_date && daysToWeaning > 7 && (
+                          <span className="litter-weaning-info">
+                            ✂️ Відлучення:{" "}
+                            {weaningDate.toLocaleDateString("uk-UA")}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
                   {l.weaned_date && (
                     <div className="litter-weaned">
                       <span>
