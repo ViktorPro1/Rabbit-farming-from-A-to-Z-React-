@@ -129,6 +129,109 @@
     background: var(--green-mid);
 }
 
+/* ЛІКУВАЛЬНІ ТРАВИ */
+.feeding-herbs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 1rem;
+}
+
+.feeding-herb-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+}
+
+.feeding-herb-card.safe {
+    border-left: 3px solid #1b5e20;
+}
+
+.feeding-herb-card.caution {
+    border-left: 3px solid #e65100;
+}
+
+.feeding-herb-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #f9fdf9;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.feeding-herb-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.feeding-herb-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.feeding-herb-latin {
+    display: block;
+    font-size: 11px;
+    color: var(--gray);
+    font-style: italic;
+}
+
+.feeding-herb-badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.feeding-herb-badge.safe {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+.feeding-herb-badge.caution {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffe0b2;
+}
+
+.feeding-herb-body {
+    padding: 12px 14px;
+}
+
+.feeding-herb-body p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.feeding-herb-caution {
+    font-size: 12px !important;
+    color: #666 !important;
+    font-style: italic;
+    margin-top: 6px !important;
+}
+
+/* BADGE CAUTION */
+.feeding-badge.caution {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffe0b2;
+}
+
+@media (max-width: 640px) {
+    .feeding-herbs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 420px) {
     .feeding-header {
         padding: 1.5rem 1rem;
