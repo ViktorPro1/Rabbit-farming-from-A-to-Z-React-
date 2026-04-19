@@ -122,8 +122,11 @@
     margin-bottom: 1rem;
 }
 
+/* DILUTIONS */
 .disinfection-dilutions-wrap {
     margin-bottom: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .disinfection-dilutions-title {
@@ -137,7 +140,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    overflow-x: auto;
+    min-width: 480px;
 }
 
 .disinfection-dilutions-table th {
@@ -146,6 +149,7 @@
     padding: 8px 12px;
     text-align: left;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .disinfection-dilutions-table td {
@@ -378,6 +382,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
+    min-width: 480px;
 }
 
 .disinfection-mistakes-table th {
@@ -386,6 +391,7 @@
     padding: 10px 12px;
     text-align: left;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .disinfection-mistakes-table td {
@@ -505,15 +511,15 @@
         grid-template-columns: 1fr;
     }
 
-    .disinfection-dilutions-table th,
-    .disinfection-dilutions-table td {
-        padding: 8px;
-        font-size: 12px;
+    .disinfection-drug-card {
+        padding: 1rem;
     }
 
-    .disinfection-mistakes-table th,
-    .disinfection-mistakes-table td {
-        padding: 8px;
-        font-size: 12px;
+    .disinfection-drug-icon {
+        font-size: 24px;
+    }
+
+    .disinfection-drug-header h2 {
+        font-size: 15px;
     }
 }

@@ -473,7 +473,6 @@ const Disinfection = () => {
           </div>
         </div>
 
-        {/* ПРЕПАРАТИ */}
         <div className="disinfection-section-title">
           🧴 Основні препарати та пропорції
         </div>
@@ -545,7 +544,6 @@ const Disinfection = () => {
           </div>
         ))}
 
-        {/* ПОРОШКИ */}
         <div className="disinfection-section-title">
           🪣 Порошки та сипучі засоби
         </div>
@@ -570,7 +568,6 @@ const Disinfection = () => {
           ))}
         </div>
 
-        {/* СХЕМИ */}
         <div className="disinfection-section-title">
           📅 Схеми та графік дезінфекції
         </div>
@@ -580,7 +577,7 @@ const Disinfection = () => {
               <div className="disinfection-schedule-trigger">{s.trigger}</div>
               <div className="disinfection-schedule-body">
                 <div className="disinfection-schedule-row">
-                  <span>Об\'єкт обробки:</span>
+                  <span>Об'єкт обробки:</span>
                   <strong>{s.scope}</strong>
                 </div>
                 <div className="disinfection-schedule-row">
@@ -600,7 +597,6 @@ const Disinfection = () => {
           ))}
         </div>
 
-        {/* ЛАЙФХАКИ */}
         <div className="disinfection-section-title">
           💡 Лайфхаки та важливі нюанси
         </div>
@@ -618,7 +614,6 @@ const Disinfection = () => {
           ))}
         </div>
 
-        {/* ПОМИЛКИ */}
         <div className="disinfection-section-title">
           🚫 Типові помилки при дезінфекції
         </div>
@@ -626,7 +621,7 @@ const Disinfection = () => {
           className="disinfection-note"
           style={{ padding: 0, overflow: "hidden" }}
         >
-          <div style={{ overflowX: "auto" }}>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
             <table className="disinfection-mistakes-table">
               <thead>
                 <tr>
@@ -650,7 +645,6 @@ const Disinfection = () => {
           </div>
         </div>
 
-        {/* ШВИДКА ШПАРГАЛКА */}
         <div className="disinfection-section-title">📌 Швидка шпаргалка</div>
         <div className="disinfection-cheatsheet">
           <div className="disinfection-cheat-card">
