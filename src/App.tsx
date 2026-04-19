@@ -34,6 +34,8 @@ import Quarantine from "./pages/Quarantine/Quarantine";
 import Community from "./pages/Community/Community";
 import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
 import Equipment from "./pages/Equipment/Equipment";
+import Disinfection from "./pages/Disinfection/Disinfection";
+import WeightControl from "./pages/WeightControl/WeightControl";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -119,6 +121,8 @@ function App() {
           element={session ? <Quarantine session={session} /> : <Auth />}
         />
         <Route path="/equipment" element={<Equipment />} />
+        <Route path="/disinfection" element={<Disinfection />} />
+        <Route path="/weight-control" element={<WeightControl />} />
       </Routes>
       <Footer />
       <UpdatePrompt />

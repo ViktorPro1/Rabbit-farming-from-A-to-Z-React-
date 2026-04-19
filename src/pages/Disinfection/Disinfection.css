@@ -1,0 +1,519 @@
+.disinfection-page {
+    min-height: 100vh;
+}
+
+.disinfection-header {
+    background: linear-gradient(90deg, #1a237e, #283593);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.disinfection-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.disinfection-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.disinfection-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.disinfection-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.disinfection-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.disinfection-note h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.disinfection-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.disinfection-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.disinfection-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.disinfection-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* DRUG CARD */
+.disinfection-drug-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.disinfection-drug-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.disinfection-drug-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.disinfection-drug-header h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 4px;
+}
+
+.disinfection-drug-type {
+    font-size: 12px;
+    color: var(--gray);
+    background: var(--green-light);
+    padding: 2px 10px;
+    border-radius: 999px;
+}
+
+.disinfection-drug-desc {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.disinfection-dilutions-wrap {
+    margin-bottom: 1rem;
+}
+
+.disinfection-dilutions-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.disinfection-dilutions-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    overflow-x: auto;
+}
+
+.disinfection-dilutions-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.disinfection-dilutions-table td {
+    padding: 9px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.disinfection-dilutions-table tr:last-child td {
+    border-bottom: none;
+}
+
+.disinfection-dilutions-table tr:hover td {
+    background: #f9fdf9;
+}
+
+.disinfection-ml {
+    color: #1a237e;
+    background: #e8eaf6;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.disinfection-drug-footer {
+    border-top: 0.5px solid var(--gray-light);
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+}
+
+.disinfection-pros-cons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 10px;
+}
+
+.disinfection-pros-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1b5e20;
+    margin-bottom: 6px;
+}
+
+.disinfection-cons-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 6px;
+}
+
+.disinfection-pros-cons ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.disinfection-pros-cons li {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 3px;
+}
+
+.disinfection-safety {
+    background: #fff3e0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #e65100;
+    line-height: 1.5;
+}
+
+/* POWDERS */
+.disinfection-powders-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.disinfection-powder-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.disinfection-powder-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.disinfection-powder-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+    color: #444;
+    padding: 5px 0;
+    border-bottom: 0.5px solid #f0f0f0;
+}
+
+.disinfection-powder-row span:first-child {
+    color: var(--gray);
+    flex-shrink: 0;
+}
+
+.disinfection-powder-note {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* SCHEDULE */
+.disinfection-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.disinfection-schedule-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+}
+
+.disinfection-schedule-trigger {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.disinfection-schedule-body {
+    padding: 1rem 1.25rem;
+}
+
+.disinfection-schedule-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 8px;
+    align-items: flex-start;
+}
+
+.disinfection-schedule-row span {
+    color: var(--gray);
+    flex-shrink: 0;
+    min-width: 120px;
+}
+
+.disinfection-schedule-steps {
+    font-size: 13px;
+    color: #444;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.disinfection-schedule-steps span {
+    color: var(--gray);
+    flex-shrink: 0;
+    min-width: 120px;
+}
+
+.disinfection-schedule-steps ol {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.disinfection-schedule-steps li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* LIFEHACKS */
+.disinfection-lifehacks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.disinfection-lifehack-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.disinfection-lifehack-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.disinfection-lifehack-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.disinfection-lifehack-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* MISTAKES TABLE */
+.disinfection-mistakes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.disinfection-mistakes-table th {
+    background: #c62828;
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.disinfection-mistakes-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.disinfection-mistakes-table tr:nth-child(even) td {
+    background: #fff8f8;
+}
+
+.disinfection-mistakes-table tr:hover td {
+    background: #ffebee;
+}
+
+.disinfection-mistakes-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* CHEATSHEET */
+.disinfection-cheatsheet {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.disinfection-cheat-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1rem;
+    text-align: center;
+}
+
+.disinfection-cheat-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.disinfection-cheat-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* BACK */
+.disinfection-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.disinfection-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.disinfection-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 960px) {
+    .disinfection-cheatsheet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .disinfection-powders-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .disinfection-lifehacks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .disinfection-pros-cons {
+        grid-template-columns: 1fr;
+    }
+
+    .disinfection-schedule-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .disinfection-schedule-steps {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .disinfection-schedule-row span,
+    .disinfection-schedule-steps span {
+        min-width: unset;
+    }
+}
+
+@media (max-width: 420px) {
+    .disinfection-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .disinfection-cheatsheet {
+        grid-template-columns: 1fr;
+    }
+
+    .disinfection-dilutions-table th,
+    .disinfection-dilutions-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .disinfection-mistakes-table th,
+    .disinfection-mistakes-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

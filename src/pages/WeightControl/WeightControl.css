@@ -1,0 +1,430 @@
+.weight-page {
+    min-height: 100vh;
+}
+
+.weight-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.weight-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.weight-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.weight-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.weight-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.weight-intro {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.weight-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.weight-intro p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.weight-intro-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.weight-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.weight-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.weight-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* TABLES */
+.weight-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.weight-table,
+.weight-gain-table,
+.weight-breeding-table,
+.weight-journal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+}
+
+.weight-table th,
+.weight-gain-table th,
+.weight-breeding-table th,
+.weight-journal-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.weight-table td,
+.weight-gain-table td,
+.weight-breeding-table td,
+.weight-journal-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.weight-table tr:nth-child(even) td,
+.weight-gain-table tr:nth-child(even) td,
+.weight-breeding-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.weight-table tr:hover td,
+.weight-gain-table tr:hover td,
+.weight-breeding-table tr:hover td {
+    background: #eef7ee;
+}
+
+.weight-table tr:last-child td,
+.weight-gain-table tr:last-child td,
+.weight-breeding-table tr:last-child td {
+    border-bottom: none;
+}
+
+.weight-cell-meat {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.weight-cell-large {
+    color: #0d47a1;
+    font-weight: 500;
+}
+
+.weight-cell-deco {
+    color: #6a1b9a;
+    font-weight: 500;
+}
+
+.weight-gain-value {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.weight-signal {
+    color: #e65100;
+    font-size: 12px;
+}
+
+/* PROBLEMS */
+.weight-problems-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.weight-problem-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+}
+
+.weight-problem-card.danger {
+    border-left: 4px solid #c62828;
+}
+
+.weight-problem-card.warn {
+    border-left: 4px solid #e65100;
+}
+
+.weight-problem-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.weight-problem-header.danger {
+    background: #ffebee;
+}
+
+.weight-problem-header.warn {
+    background: #fff3e0;
+}
+
+.weight-problem-card.danger .weight-problem-header {
+    background: #ffebee;
+}
+
+.weight-problem-card.warn .weight-problem-header {
+    background: #fff3e0;
+}
+
+.weight-problem-icon {
+    font-size: 26px;
+}
+
+.weight-problem-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.weight-problem-body {
+    padding: 14px 16px;
+}
+
+.weight-problem-section {
+    margin-bottom: 10px;
+}
+
+.weight-problem-section strong {
+    display: block;
+    font-size: 13px;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.weight-problem-section ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.weight-problem-section li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.weight-actions li {
+    color: #1b5e20;
+}
+
+/* TIPS */
+.weight-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.weight-tip-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.weight-tip-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.weight-tip-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.weight-tip-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* CALCULATOR EXAMPLE */
+.weight-calc-example {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.weight-calc-example h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.weight-calc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.weight-calc-card {
+    background: #f9fdf9;
+    border-radius: 12px;
+    border: 0.5px solid #d5ead6;
+    padding: 1rem;
+}
+
+.weight-calc-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.weight-calc-formula {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a237e;
+    background: #e8eaf6;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-family: monospace;
+}
+
+.weight-calc-example-text {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+}
+
+/* JOURNAL */
+.weight-journal {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.weight-journal h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.weight-journal p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.weight-journal-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.weight-journal-table tr:nth-child(3) td {
+    background: #fff3e0;
+}
+
+/* BACK */
+.weight-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.weight-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.weight-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 768px) {
+    .weight-problems-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weight-tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weight-calc-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .weight-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .weight-table th,
+    .weight-table td,
+    .weight-gain-table th,
+    .weight-gain-table td,
+    .weight-breeding-table th,
+    .weight-breeding-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
