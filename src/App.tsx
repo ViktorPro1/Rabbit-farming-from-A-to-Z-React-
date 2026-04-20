@@ -36,6 +36,8 @@ import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
 import Equipment from "./pages/Equipment/Equipment";
 import Disinfection from "./pages/Disinfection/Disinfection";
 import WeightControl from "./pages/WeightControl/WeightControl";
+import Treatment from "./pages/Treatment/Treatment";
+import Crops from "./pages/Crops/Crops";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -123,6 +125,8 @@ function App() {
         <Route path="/equipment" element={<Equipment />} />
         <Route path="/disinfection" element={<Disinfection />} />
         <Route path="/weight-control" element={<WeightControl />} />
+        <Route path="/treatment" element={<Treatment />} />
+        <Route path="/crops" element={<Crops />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
