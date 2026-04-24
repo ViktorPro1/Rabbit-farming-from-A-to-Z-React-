@@ -5,7 +5,11 @@ import "./Auth.css";
 
 type Mode = "login" | "register";
 
-export default function Auth() {
+interface Props {
+  returnTo?: string;
+}
+
+export default function Auth({ returnTo = "/registry" }: Props) {
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +28,7 @@ export default function Auth() {
     if (error) {
       setError("Невірний email або пароль");
     } else {
-      navigate("/registry");
+      navigate(returnTo);
     }
     setLoading(false);
   }
@@ -62,7 +66,7 @@ export default function Auth() {
       .update({ is_used: true, used_by: authData.user.id })
       .eq("id", code.id);
 
-    navigate("/registry");
+    navigate(returnTo);
     setLoading(false);
   }
 

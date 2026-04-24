@@ -85,7 +85,10 @@ function App() {
         <Route path="/parasites" element={<Parasites />} />
         <Route path="/first-aid" element={<FirstAid />} />
         <Route path="/tips" element={<Tips />} />
-        <Route path="/calculator" element={<Calculator />} />
+        <Route
+          path="/calculator"
+          element={session ? <Calculator /> : <Auth returnTo="/calculator" />}
+        />
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/calendar" element={<Calendar />} />
