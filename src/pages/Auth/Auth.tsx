@@ -73,7 +73,9 @@ export default function Auth({ returnTo = "/registry" }: Props) {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>🐇 Облік кроликів</h1>
+        <h1>
+          🐇 Облік кроликів <br /> та калькулятор кролівництва{" "}
+        </h1>
 
         <div className="auth-tabs">
           <button
