@@ -39,6 +39,7 @@ import WeightControl from "./pages/WeightControl/WeightControl";
 import Treatment from "./pages/Treatment/Treatment";
 import Crops from "./pages/Crops/Crops";
 import Selection from "./pages/Selection/Selection";
+import Recipes from "./pages/Recipes/Recipes";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -132,6 +133,7 @@ function App() {
         <Route path="/treatment" element={<Treatment />} />
         <Route path="/crops" element={<Crops />} />
         <Route path="/selection" element={<Selection />} />
+        <Route path="/recipes" element={<Recipes />} />
       </Routes>
       <Footer />
       <UpdatePrompt />

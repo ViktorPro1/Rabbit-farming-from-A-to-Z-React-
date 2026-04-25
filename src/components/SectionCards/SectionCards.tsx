@@ -152,6 +152,14 @@ const cards = [
     desc: "Підготовка, технологія, зберігання",
     path: "/slaughter",
   },
+
+  // 9. РЕЦЕПТИ
+  {
+    icon: "🍽️",
+    title: "Рецепти",
+    desc: "Тушонка, копчення, смаження кролика",
+    path: "/recipes",
+  },
 ];
 
 const SectionCards = () => {
