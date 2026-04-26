@@ -46,10 +46,49 @@ const emptyForm = {
   notes: "",
 };
 
+const helpItems = [
+  {
+    icon: "🐇",
+    title: "Мої кролики",
+    desc: "Реєстр дорослих тварин. Додавай кожного кролика з кличкою, породою, кліткою і датою народження. Вік розраховується автоматично.",
+  },
+  {
+    icon: "📦",
+    title: "Архів",
+    desc: "Архівовані кролики. Тварини яких прибрав з активного реєстру. Можна відновити або видалити назавжди.",
+  },
+  {
+    icon: "🐇",
+    title: "Розведення",
+    desc: "Індивідуальні злучки. Вказуєш коєць + кроличка, дату злучки — система автоматично розраховує контрольну дату і очікуваний окріл. Після окролу вносиш скільки народилось і коли відлучив.",
+  },
+  {
+    icon: "🏠",
+    title: "Підлогове утримання",
+    desc: "Групове розведення в загоні. Один коєць + кілька самок. Самок додаєш вручну. Так само вносиш злучки і окроли для всього загону.",
+  },
+  {
+    icon: "🥩",
+    title: "Відгодівля",
+    desc: "Клітки з кроликами на забій. Вказуєш номер клітки, кількість, породу і дату народження. Система показує скільки днів до планової дати забою.",
+  },
+  {
+    icon: "🔒",
+    title: "Карантин",
+    desc: "Ізольовані тварини. Вказуєш з якої клітки, причину і дату переміщення. Після карантину фіксуєш результат: видужав, пішов на забій або загинув.",
+  },
+  {
+    icon: "📊",
+    title: "Лічильник",
+    desc: "Блок з цифрами вгорі автоматично рахує всіх тварин з усіх розділів: реєстр + молодняк з окролів + підлогове + відгодівля + карантин.",
+  },
+];
+
 export default function RabbitRegistry({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -82,7 +121,6 @@ export default function RabbitRegistry({ session }: Props) {
       .then(({ data: rabbitsData }) => {
         const list = rabbitsData || [];
         setRabbits(list);
-
         Promise.all([
           supabase
             .from("litters")
@@ -114,12 +152,11 @@ export default function RabbitRegistry({ session }: Props) {
             { data: fatteningData },
             { data: quarantineData },
           ]) => {
-            let youngFromCages = 0;
-            let youngFromPaddocks = 0;
-            let youngMales = 0;
-            let youngFemales = 0;
-            let youngUnknown = 0;
-
+            let youngFromCages = 0,
+              youngFromPaddocks = 0;
+            let youngMales = 0,
+              youngFemales = 0,
+              youngUnknown = 0;
             (littersData || []).forEach((l) => {
               const alive = l.alive || 0;
               const wm = l.weaned_males || 0;
@@ -129,7 +166,6 @@ export default function RabbitRegistry({ session }: Props) {
               youngUnknown += Math.max(0, alive - (wm + wf));
               youngFromCages += alive;
             });
-
             (paddockLittersData || []).forEach((l) => {
               const alive = l.alive || 0;
               const wm = l.weaned_males || 0;
@@ -139,10 +175,8 @@ export default function RabbitRegistry({ session }: Props) {
               youngUnknown += Math.max(0, alive - (wm + wf));
               youngFromPaddocks += alive;
             });
-
             const youngTotal = youngMales + youngFemales + youngUnknown;
             const paddockFemales = (paddockFemalesData || []).length;
-
             let fatteningMales = 0,
               fatteningFemales = 0,
               fatteningUnknown = 0;
@@ -153,7 +187,6 @@ export default function RabbitRegistry({ session }: Props) {
             });
             const fatteningTotal =
               fatteningMales + fatteningFemales + fatteningUnknown;
-
             let quarantineMales = 0,
               quarantineFemales = 0,
               quarantineUnknown = 0;
@@ -164,7 +197,6 @@ export default function RabbitRegistry({ session }: Props) {
             });
             const quarantineTotal =
               quarantineMales + quarantineFemales + quarantineUnknown;
-
             setStats({
               total:
                 list.length +
@@ -200,10 +232,8 @@ export default function RabbitRegistry({ session }: Props) {
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("cage_number", { ascending: true });
-
     const list = rabbitsData || [];
     setRabbits(list);
-
     const [
       { data: littersData },
       { data: paddockLittersData },
@@ -234,13 +264,11 @@ export default function RabbitRegistry({ session }: Props) {
         .eq("user_id", session.user.id)
         .eq("is_active", true),
     ]);
-
     let youngFromCages = 0,
       youngFromPaddocks = 0;
     let youngMales = 0,
       youngFemales = 0,
       youngUnknown = 0;
-
     (littersData || []).forEach((l) => {
       const alive = l.alive || 0;
       const wm = l.weaned_males || 0;
@@ -250,7 +278,6 @@ export default function RabbitRegistry({ session }: Props) {
       youngUnknown += Math.max(0, alive - (wm + wf));
       youngFromCages += alive;
     });
-
     (paddockLittersData || []).forEach((l) => {
       const alive = l.alive || 0;
       const wm = l.weaned_males || 0;
@@ -260,10 +287,8 @@ export default function RabbitRegistry({ session }: Props) {
       youngUnknown += Math.max(0, alive - (wm + wf));
       youngFromPaddocks += alive;
     });
-
     const youngTotal = youngMales + youngFemales + youngUnknown;
     const paddockFemales = (paddockFemalesData || []).length;
-
     let fatteningMales = 0,
       fatteningFemales = 0,
       fatteningUnknown = 0;
@@ -273,7 +298,6 @@ export default function RabbitRegistry({ session }: Props) {
       fatteningUnknown += f.unknown || 0;
     });
     const fatteningTotal = fatteningMales + fatteningFemales + fatteningUnknown;
-
     let quarantineMales = 0,
       quarantineFemales = 0,
       quarantineUnknown = 0;
@@ -284,7 +308,6 @@ export default function RabbitRegistry({ session }: Props) {
     });
     const quarantineTotal =
       quarantineMales + quarantineFemales + quarantineUnknown;
-
     setStats({
       total:
         list.length +
@@ -332,6 +355,30 @@ export default function RabbitRegistry({ session }: Props) {
 
   return (
     <div className="registry-page">
+      {showHelp && (
+        <div className="help-overlay" onClick={() => setShowHelp(false)}>
+          <div className="help-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="help-modal-header">
+              <h2>Як користуватись</h2>
+              <button className="help-close" onClick={() => setShowHelp(false)}>
+                ✕
+              </button>
+            </div>
+            <div className="help-list">
+              {helpItems.map((item) => (
+                <div key={item.title} className="help-item">
+                  <span className="help-icon">{item.icon}</span>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <p>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="registry-header">
         <h1>🐇 Мої кролики</h1>
         <p className="registry-email">{session.user.email}</p>
@@ -364,6 +411,9 @@ export default function RabbitRegistry({ session }: Props) {
           onClick={() => navigate("/quarantine")}
         >
           🔒 Карантин
+        </button>
+        <button className="registry-help-btn" onClick={() => setShowHelp(true)}>
+          ? Довідка
         </button>
         <button
           className="registry-add-btn"
@@ -517,8 +567,10 @@ export default function RabbitRegistry({ session }: Props) {
                   (() => {
                     const birth = new Date(rabbit.birth_date);
                     const today = new Date();
-                    const diffMs = today.getTime() - birth.getTime();
-                    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                    const days = Math.floor(
+                      (today.getTime() - birth.getTime()) /
+                        (1000 * 60 * 60 * 24),
+                    );
                     const months = Math.floor(days / 30);
                     const years = Math.floor(days / 365);
                     let age = "";
