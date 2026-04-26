@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import type { Session } from "@supabase/supabase-js";
@@ -8,6 +9,28 @@ interface Props {
 }
 
 const Header = ({ session }: Props) => {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!session) return;
+
+    let cancelled = false;
+
+    supabase
+      .from("admins")
+      .select("user_id")
+      .eq("user_id", session.user.id)
+      .single()
+      .then(({ data }) => {
+        if (!cancelled) setIsAdmin(!!data);
+      });
+
+    return () => {
+      cancelled = true;
+      setIsAdmin(false);
+    };
+  }, [session]);
+
   async function handleLogout() {
     await supabase.auth.signOut();
   }
@@ -28,7 +51,7 @@ const Header = ({ session }: Props) => {
         {session ? (
           <>
             <NavLink to="/registry">Мої кролики</NavLink>
-            <NavLink to="/admin">Адмін</NavLink>
+            {isAdmin && <NavLink to="/admin">Адмін</NavLink>}
             <button className="header-logout" onClick={handleLogout}>
               Вийти
             </button>

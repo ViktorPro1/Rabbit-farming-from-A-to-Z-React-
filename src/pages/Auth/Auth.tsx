@@ -27,10 +27,10 @@ export default function Auth({ returnTo = "/registry" }: Props) {
     });
     if (error) {
       setError("Невірний email або пароль");
+      setLoading(false);
     } else {
       navigate(returnTo);
     }
-    setLoading(false);
   }
 
   async function handleRegister() {
@@ -40,7 +40,7 @@ export default function Auth({ returnTo = "/registry" }: Props) {
     const { data: code, error: codeError } = await supabase
       .from("invite_codes")
       .select("*")
-      .eq("code", inviteCode.trim())
+      .eq("code", inviteCode.trim().toUpperCase())
       .eq("is_used", false)
       .single();
 
@@ -55,19 +55,39 @@ export default function Auth({ returnTo = "/registry" }: Props) {
       password,
     });
 
-    if (authError || !authData.user) {
-      setError("Помилка реєстрації: " + authError?.message);
+    if (authError) {
+      setError("Помилка реєстрації: " + authError.message);
+      setLoading(false);
+      return;
+    }
+
+    const userId = authData.user?.id;
+
+    if (!userId) {
+      setError("✅ Перевірте email для підтвердження реєстрації");
       setLoading(false);
       return;
     }
 
     await supabase
       .from("invite_codes")
-      .update({ is_used: true, used_by: authData.user.id })
+      .update({ is_used: true, used_by: userId })
       .eq("id", code.id);
 
+    // Входимо одразу після реєстрації
+    const { error: loginError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (loginError) {
+      setError("Зареєстровано! Тепер увійдіть вручну.");
+      setMode("login");
+      setLoading(false);
+      return;
+    }
+
     navigate(returnTo);
-    setLoading(false);
   }
 
   return (
@@ -111,7 +131,7 @@ export default function Auth({ returnTo = "/registry" }: Props) {
               type="text"
               placeholder="Інвайт код"
               value={inviteCode}
-              onChange={(e) => setInviteCode(e.target.value)}
+              onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
             />
           )}
 
