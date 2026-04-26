@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { Link } from "react-router-dom";
 import "./Auth.css";
 
 type Mode = "login" | "register";
@@ -164,6 +165,8 @@ export default function Auth({ returnTo = "/registry" }: Props) {
             >
               Наш телеграм
             </a>
+            <br />
+            📋 <Link to="/subscription">Що входить у підписку →</Link>
           </p>
         )}
       </div>

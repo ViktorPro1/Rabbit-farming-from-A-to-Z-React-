@@ -40,6 +40,7 @@ import Treatment from "./pages/Treatment/Treatment";
 import Crops from "./pages/Crops/Crops";
 import Selection from "./pages/Selection/Selection";
 import Recipes from "./pages/Recipes/Recipes";
+import Subscription from "./pages/Subscription/Subscription";
 
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -235,6 +236,7 @@ function App() {
         <Route path="/crops" element={<Crops />} />
         <Route path="/selection" element={<Selection />} />
         <Route path="/recipes" element={<Recipes />} />
+        <Route path="/subscription" element={<Subscription />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
