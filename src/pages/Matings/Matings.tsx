@@ -33,6 +33,8 @@ interface Litter {
 
 interface Mating {
   id: string;
+  female_id: string; // ← додано
+  male_id: string; // ← додано
   mating_date: string;
   control_date: string;
   expected_birth: string;
@@ -174,6 +176,8 @@ export default function Matings({ session }: Props) {
     const { error } = await supabase
       .from("matings")
       .update({
+        female_id: editingMating.female_id, // ← додано
+        male_id: editingMating.male_id, // ← додано
         male_cage: editingMating.male_cage,
         mating_date: editingMating.mating_date,
         control_date: editingMating.control_date,
@@ -245,9 +249,9 @@ export default function Matings({ session }: Props) {
     setSaving(false);
   }
 
+  // ← ЗМІНЕНО: більше не видаляє окроли перед видаленням злучки
   async function handleDeleteMating(id: string) {
-    if (!confirm("Видалити злучку?")) return;
-    await supabase.from("litters").delete().eq("mating_id", id);
+    if (!confirm("Видалити злучку? Окроли залишаться в базі.")) return;
     await supabase.from("matings").delete().eq("id", id);
     fetchMatings();
   }
@@ -366,6 +370,38 @@ export default function Matings({ session }: Props) {
         <div className="matings-form matings-edit-form">
           <h3>✏️ Редагування злучки</h3>
           <div className="matings-form-grid">
+            {/* ← НОВІ селекти для зміни кроликів у парі */}
+            <select
+              value={editingMating.male_id}
+              onChange={(e) =>
+                setEditingMating({ ...editingMating, male_id: e.target.value })
+              }
+            >
+              <option value="">♂ Коєць *</option>
+              {males.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.name} {r.breed ? `(${r.breed})` : ""}{" "}
+                  {r.cage_number ? `кл.${r.cage_number}` : ""}
+                </option>
+              ))}
+            </select>
+            <select
+              value={editingMating.female_id}
+              onChange={(e) =>
+                setEditingMating({
+                  ...editingMating,
+                  female_id: e.target.value,
+                })
+              }
+            >
+              <option value="">♀ Кроличка *</option>
+              {females.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.name} {r.breed ? `(${r.breed})` : ""}{" "}
+                  {r.cage_number ? `кл.${r.cage_number}` : ""}
+                </option>
+              ))}
+            </select>
             <input
               placeholder="Коєць №"
               value={editingMating.male_cage || ""}
@@ -423,7 +459,9 @@ export default function Matings({ session }: Props) {
             <button
               className="matings-save-btn"
               onClick={handleEditMating}
-              disabled={saving}
+              disabled={
+                saving || !editingMating.male_id || !editingMating.female_id
+              }
             >
               {saving ? "Збереження..." : "Зберегти зміни"}
             </button>
