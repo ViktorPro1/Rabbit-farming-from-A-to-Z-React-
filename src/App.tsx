@@ -41,6 +41,7 @@ import Crops from "./pages/Crops/Crops";
 import Selection from "./pages/Selection/Selection";
 import Recipes from "./pages/Recipes/Recipes";
 import Subscription from "./pages/Subscription/Subscription";
+import Statistics from "./pages/Statistics/Statistics";
 
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -237,6 +238,10 @@ function App() {
         <Route path="/selection" element={<Selection />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/subscription" element={<Subscription />} />
+        <Route
+          path="/statistics"
+          element={session ? <Statistics session={session} /> : <Auth />}
+        />
       </Routes>
       <Footer />
       <UpdatePrompt />

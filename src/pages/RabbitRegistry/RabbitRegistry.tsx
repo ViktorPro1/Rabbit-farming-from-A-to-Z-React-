@@ -412,6 +412,12 @@ export default function RabbitRegistry({ session }: Props) {
         >
           🔒 Карантин
         </button>
+        <button
+          className="registry-archive-link"
+          onClick={() => navigate("/statistics")}
+        >
+          📊 Статистика
+        </button>
         <button className="registry-help-btn" onClick={() => setShowHelp(true)}>
           ? Довідка
         </button>

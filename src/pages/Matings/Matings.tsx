@@ -33,12 +33,13 @@ interface Litter {
 
 interface Mating {
   id: string;
-  female_id: string; // ← додано
-  male_id: string; // ← додано
+  female_id: string;
+  male_id: string;
   mating_date: string;
   control_date: string;
   expected_birth: string;
   male_cage: string;
+  female_cage: string; // ← ДОДАНО
   notes: string;
   female: { name: string; breed: string; cage_number: string };
   male: { name: string; breed: string; cage_number: string };
@@ -49,6 +50,7 @@ const emptyMatingForm = {
   female_id: "",
   male_id: "",
   male_cage: "",
+  female_cage: "", // ← ДОДАНО
   mating_date: "",
   control_date: "",
   notes: "",
@@ -176,9 +178,10 @@ export default function Matings({ session }: Props) {
     const { error } = await supabase
       .from("matings")
       .update({
-        female_id: editingMating.female_id, // ← додано
-        male_id: editingMating.male_id, // ← додано
+        female_id: editingMating.female_id,
+        male_id: editingMating.male_id,
         male_cage: editingMating.male_cage,
+        female_cage: editingMating.female_cage, // ← ДОДАНО
         mating_date: editingMating.mating_date,
         control_date: editingMating.control_date,
         notes: editingMating.notes,
@@ -249,7 +252,6 @@ export default function Matings({ session }: Props) {
     setSaving(false);
   }
 
-  // ← ЗМІНЕНО: більше не видаляє окроли перед видаленням злучки
   async function handleDeleteMating(id: string) {
     if (!confirm("Видалити злучку? Окроли залишаться в базі.")) return;
     await supabase.from("matings").delete().eq("id", id);
@@ -315,6 +317,7 @@ export default function Matings({ session }: Props) {
                 </option>
               ))}
             </select>
+            {/* ← ДОДАНО: два поля для кліток поряд */}
             <input
               placeholder="Коєць №"
               value={matingForm.male_cage}
@@ -322,7 +325,13 @@ export default function Matings({ session }: Props) {
                 setMatingForm({ ...matingForm, male_cage: e.target.value })
               }
             />
-            <div></div>
+            <input
+              placeholder="Крольчиха №"
+              value={matingForm.female_cage}
+              onChange={(e) =>
+                setMatingForm({ ...matingForm, female_cage: e.target.value })
+              }
+            />
             <div className="matings-form-field">
               <label>Дата злучки *</label>
               <input
@@ -370,7 +379,6 @@ export default function Matings({ session }: Props) {
         <div className="matings-form matings-edit-form">
           <h3>✏️ Редагування злучки</h3>
           <div className="matings-form-grid">
-            {/* ← НОВІ селекти для зміни кроликів у парі */}
             <select
               value={editingMating.male_id}
               onChange={(e) =>
@@ -402,6 +410,7 @@ export default function Matings({ session }: Props) {
                 </option>
               ))}
             </select>
+            {/* ← ДОДАНО: два поля для кліток поряд */}
             <input
               placeholder="Коєць №"
               value={editingMating.male_cage || ""}
@@ -412,7 +421,16 @@ export default function Matings({ session }: Props) {
                 })
               }
             />
-            <div></div>
+            <input
+              placeholder="Крольчиха №"
+              value={editingMating.female_cage || ""}
+              onChange={(e) =>
+                setEditingMating({
+                  ...editingMating,
+                  female_cage: e.target.value,
+                })
+              }
+            />
             <div className="matings-form-field">
               <label>Дата злучки</label>
               <input
@@ -635,6 +653,12 @@ export default function Matings({ session }: Props) {
                 {m.male_cage && (
                   <span>
                     🏠 Коєць №: <strong>{m.male_cage}</strong>
+                  </span>
+                )}
+                {/* ← ДОДАНО: відображення клітки крольчихи */}
+                {m.female_cage && (
+                  <span>
+                    🏠 Крольчиха №: <strong>{m.female_cage}</strong>
                   </span>
                 )}
                 <span>
