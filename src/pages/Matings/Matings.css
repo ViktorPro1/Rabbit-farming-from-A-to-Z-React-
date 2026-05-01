@@ -350,6 +350,18 @@
     font-size: 0.85rem;
 }
 
+.litter-mating-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.4rem;
+}
+
 @media (max-width: 640px) {
     .matings-form-grid {
         grid-template-columns: 1fr;

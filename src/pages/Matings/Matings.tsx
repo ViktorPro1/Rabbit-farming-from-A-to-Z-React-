@@ -39,7 +39,7 @@ interface Mating {
   control_date: string;
   expected_birth: string;
   male_cage: string;
-  female_cage: string; // ← ДОДАНО
+  female_cage: string;
   notes: string;
   female: { name: string; breed: string; cage_number: string };
   male: { name: string; breed: string; cage_number: string };
@@ -50,7 +50,7 @@ const emptyMatingForm = {
   female_id: "",
   male_id: "",
   male_cage: "",
-  female_cage: "", // ← ДОДАНО
+  female_cage: "",
   mating_date: "",
   control_date: "",
   notes: "",
@@ -67,6 +67,9 @@ const emptyLitterForm = {
   weaned_females: "",
   weaned_females_cage: "",
   notes: "",
+  litter_mating_date: "",
+  litter_control_date: "",
+  litter_expected_birth: "",
 };
 
 export default function Matings({ session }: Props) {
@@ -74,8 +77,14 @@ export default function Matings({ session }: Props) {
   const [matings, setMatings] = useState<Mating[]>([]);
   const [showMatingForm, setShowMatingForm] = useState(false);
   const [matingForm, setMatingForm] = useState(emptyMatingForm);
-  const [editingMating, setEditingMating] = useState<Mating | null>(null);
-  const [editingLitter, setEditingLitter] = useState<Litter | null>(null);
+  const [editingMatingId, setEditingMatingId] = useState<string | null>(null);
+  const [editingMatingData, setEditingMatingData] = useState<Mating | null>(
+    null,
+  );
+  const [editingLitterId, setEditingLitterId] = useState<string | null>(null);
+  const [editingLitterData, setEditingLitterData] = useState<Litter | null>(
+    null,
+  );
   const [litterForms, setLitterForms] = useState<
     Record<string, typeof emptyLitterForm>
   >({});
@@ -84,15 +93,24 @@ export default function Matings({ session }: Props) {
   );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
 
+  function fetchMatings() {
+    setRefreshKey((k) => k + 1);
+  }
+
   useEffect(() => {
+    let cancelled = false;
+
     supabase
       .from("rabbits")
       .select("id, name, breed, gender, cage_number")
       .eq("user_id", session.user.id)
       .eq("is_active", true)
-      .then(({ data }) => setRabbits(data || []));
+      .then(({ data }) => {
+        if (!cancelled) setRabbits(data || []);
+      });
 
     supabase
       .from("matings")
@@ -101,47 +119,28 @@ export default function Matings({ session }: Props) {
       )
       .eq("user_id", session.user.id)
       .order("mating_date", { ascending: false })
-      .then(({ data }) => {
-        if (!data) return;
+      .then(async ({ data }) => {
+        if (cancelled || !data) return;
         const ids = data.map((m) => m.id);
-        supabase
+        const { data: littersData } = await supabase
           .from("litters")
           .select("*")
-          .in("mating_id", ids)
-          .then(({ data: littersData }) => {
-            const littersMap: Record<string, Litter[]> = {};
-            (littersData || []).forEach((l) => {
-              if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
-              littersMap[l.mating_id].push(l);
-            });
-            setMatings(
-              data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })),
-            );
-          });
+          .in("mating_id", ids);
+        if (cancelled) return;
+        const littersMap: Record<string, Litter[]> = {};
+        (littersData || []).forEach((l) => {
+          if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
+          littersMap[l.mating_id].push(l);
+        });
+        setMatings(
+          data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })),
+        );
       });
-  }, [session.user.id]);
 
-  async function fetchMatings() {
-    const { data } = await supabase
-      .from("matings")
-      .select(
-        "*, female:female_id(name, breed, cage_number), male:male_id(name, breed, cage_number)",
-      )
-      .eq("user_id", session.user.id)
-      .order("mating_date", { ascending: false });
-    if (!data) return;
-    const ids = data.map((m) => m.id);
-    const { data: littersData } = await supabase
-      .from("litters")
-      .select("*")
-      .in("mating_id", ids);
-    const littersMap: Record<string, Litter[]> = {};
-    (littersData || []).forEach((l) => {
-      if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
-      littersMap[l.mating_id].push(l);
-    });
-    setMatings(data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })));
-  }
+    return () => {
+      cancelled = true;
+    };
+  }, [session.user.id, refreshKey]);
 
   function handleMatingDateChange(date: string) {
     if (!date) {
@@ -150,17 +149,47 @@ export default function Matings({ session }: Props) {
     }
     const d = new Date(date);
     d.setDate(d.getDate() + 7);
-    const control = d.toISOString().split("T")[0];
-    setMatingForm({ ...matingForm, mating_date: date, control_date: control });
+    setMatingForm({
+      ...matingForm,
+      mating_date: date,
+      control_date: d.toISOString().split("T")[0],
+    });
+  }
+
+  function handleLitterMatingDateChange(matingId: string, date: string) {
+    if (!date) {
+      setLitterForms({
+        ...litterForms,
+        [matingId]: {
+          ...(litterForms[matingId] || emptyLitterForm),
+          litter_mating_date: date,
+          litter_control_date: "",
+          litter_expected_birth: "",
+        },
+      });
+      return;
+    }
+    const control = new Date(date);
+    control.setDate(control.getDate() + 7);
+    const expected = new Date(date);
+    expected.setDate(expected.getDate() + 31);
+    setLitterForms({
+      ...litterForms,
+      [matingId]: {
+        ...(litterForms[matingId] || emptyLitterForm),
+        litter_mating_date: date,
+        litter_control_date: control.toISOString().split("T")[0],
+        litter_expected_birth: expected.toISOString().split("T")[0],
+      },
+    });
   }
 
   async function handleAddMating() {
     setSaving(true);
     setError("");
-    const { error } = await supabase.from("matings").insert({
-      ...matingForm,
-      user_id: session.user.id,
-    });
+    const { error } = await supabase
+      .from("matings")
+      .insert({ ...matingForm, user_id: session.user.id });
     if (error) {
       setError("Помилка збереження");
     } else {
@@ -172,53 +201,55 @@ export default function Matings({ session }: Props) {
   }
 
   async function handleEditMating() {
-    if (!editingMating) return;
+    if (!editingMatingData) return;
     setSaving(true);
     setError("");
     const { error } = await supabase
       .from("matings")
       .update({
-        female_id: editingMating.female_id,
-        male_id: editingMating.male_id,
-        male_cage: editingMating.male_cage,
-        female_cage: editingMating.female_cage, // ← ДОДАНО
-        mating_date: editingMating.mating_date,
-        control_date: editingMating.control_date,
-        notes: editingMating.notes,
+        female_id: editingMatingData.female_id,
+        male_id: editingMatingData.male_id,
+        male_cage: editingMatingData.male_cage,
+        female_cage: editingMatingData.female_cage,
+        mating_date: editingMatingData.mating_date,
+        control_date: editingMatingData.control_date,
+        notes: editingMatingData.notes,
       })
-      .eq("id", editingMating.id);
+      .eq("id", editingMatingData.id);
     if (error) {
       setError("Помилка збереження");
     } else {
-      setEditingMating(null);
+      setEditingMatingId(null);
+      setEditingMatingData(null);
       fetchMatings();
     }
     setSaving(false);
   }
 
   async function handleEditLitter() {
-    if (!editingLitter) return;
+    if (!editingLitterData) return;
     setSaving(true);
     setError("");
     const { error } = await supabase
       .from("litters")
       .update({
-        birth_date: editingLitter.birth_date,
-        total_born: Number(editingLitter.total_born) || 0,
-        alive: Number(editingLitter.alive) || 0,
-        dead: Number(editingLitter.dead) || 0,
-        weaned_date: editingLitter.weaned_date || null,
-        weaned_males: Number(editingLitter.weaned_males) || 0,
-        weaned_males_cage: editingLitter.weaned_males_cage || null,
-        weaned_females: Number(editingLitter.weaned_females) || 0,
-        weaned_females_cage: editingLitter.weaned_females_cage || null,
-        notes: editingLitter.notes || null,
+        birth_date: editingLitterData.birth_date || null,
+        total_born: Number(editingLitterData.total_born) || 0,
+        alive: Number(editingLitterData.alive) || 0,
+        dead: Number(editingLitterData.dead) || 0,
+        weaned_date: editingLitterData.weaned_date || null,
+        weaned_males: Number(editingLitterData.weaned_males) || 0,
+        weaned_males_cage: editingLitterData.weaned_males_cage || null,
+        weaned_females: Number(editingLitterData.weaned_females) || 0,
+        weaned_females_cage: editingLitterData.weaned_females_cage || null,
+        notes: editingLitterData.notes || null,
       })
-      .eq("id", editingLitter.id);
+      .eq("id", editingLitterData.id);
     if (error) {
       setError("Помилка збереження");
     } else {
-      setEditingLitter(null);
+      setEditingLitterId(null);
+      setEditingLitterData(null);
       fetchMatings();
     }
     setSaving(false);
@@ -231,7 +262,7 @@ export default function Matings({ session }: Props) {
     const { error } = await supabase.from("litters").insert({
       user_id: session.user.id,
       mating_id: matingId,
-      birth_date: form.birth_date,
+      birth_date: form.birth_date || null,
       total_born: Number(form.total_born) || 0,
       alive: Number(form.alive) || 0,
       dead: Number(form.dead) || 0,
@@ -317,7 +348,6 @@ export default function Matings({ session }: Props) {
                 </option>
               ))}
             </select>
-            {/* ← ДОДАНО: два поля для кліток поряд */}
             <input
               placeholder="Коєць №"
               value={matingForm.male_cage}
@@ -375,252 +405,6 @@ export default function Matings({ session }: Props) {
         </div>
       )}
 
-      {editingMating && (
-        <div className="matings-form matings-edit-form">
-          <h3>✏️ Редагування злучки</h3>
-          <div className="matings-form-grid">
-            <select
-              value={editingMating.male_id}
-              onChange={(e) =>
-                setEditingMating({ ...editingMating, male_id: e.target.value })
-              }
-            >
-              <option value="">♂ Коєць *</option>
-              {males.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.name} {r.breed ? `(${r.breed})` : ""}{" "}
-                  {r.cage_number ? `кл.${r.cage_number}` : ""}
-                </option>
-              ))}
-            </select>
-            <select
-              value={editingMating.female_id}
-              onChange={(e) =>
-                setEditingMating({
-                  ...editingMating,
-                  female_id: e.target.value,
-                })
-              }
-            >
-              <option value="">♀ Кроличка *</option>
-              {females.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.name} {r.breed ? `(${r.breed})` : ""}{" "}
-                  {r.cage_number ? `кл.${r.cage_number}` : ""}
-                </option>
-              ))}
-            </select>
-            {/* ← ДОДАНО: два поля для кліток поряд */}
-            <input
-              placeholder="Коєць №"
-              value={editingMating.male_cage || ""}
-              onChange={(e) =>
-                setEditingMating({
-                  ...editingMating,
-                  male_cage: e.target.value,
-                })
-              }
-            />
-            <input
-              placeholder="Крольчиха №"
-              value={editingMating.female_cage || ""}
-              onChange={(e) =>
-                setEditingMating({
-                  ...editingMating,
-                  female_cage: e.target.value,
-                })
-              }
-            />
-            <div className="matings-form-field">
-              <label>Дата злучки</label>
-              <input
-                type="date"
-                value={editingMating.mating_date}
-                onChange={(e) =>
-                  setEditingMating({
-                    ...editingMating,
-                    mating_date: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="matings-form-field">
-              <label>Контрольна дата</label>
-              <input
-                type="date"
-                value={editingMating.control_date || ""}
-                onChange={(e) =>
-                  setEditingMating({
-                    ...editingMating,
-                    control_date: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <input
-              placeholder="Нотатки"
-              value={editingMating.notes || ""}
-              onChange={(e) =>
-                setEditingMating({ ...editingMating, notes: e.target.value })
-              }
-              className="matings-form-full"
-            />
-          </div>
-          {error && <p className="matings-error">{error}</p>}
-          <div className="matings-edit-actions">
-            <button
-              className="matings-cancel-btn"
-              onClick={() => setEditingMating(null)}
-            >
-              Скасувати
-            </button>
-            <button
-              className="matings-save-btn"
-              onClick={handleEditMating}
-              disabled={
-                saving || !editingMating.male_id || !editingMating.female_id
-              }
-            >
-              {saving ? "Збереження..." : "Зберегти зміни"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {editingLitter && (
-        <div className="matings-form matings-edit-form">
-          <h3>✏️ Редагування окролу</h3>
-          <div className="matings-form-grid">
-            <div className="matings-form-field">
-              <label>Дата окролу</label>
-              <input
-                type="date"
-                value={editingLitter.birth_date}
-                onChange={(e) =>
-                  setEditingLitter({
-                    ...editingLitter,
-                    birth_date: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <input
-              type="number"
-              placeholder="Народилось всього"
-              value={editingLitter.total_born || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  total_born: Number(e.target.value),
-                })
-              }
-            />
-            <input
-              type="number"
-              placeholder="Живих"
-              value={editingLitter.alive || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  alive: Number(e.target.value),
-                })
-              }
-            />
-            <input
-              type="number"
-              placeholder="Мертвих"
-              value={editingLitter.dead || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  dead: Number(e.target.value),
-                })
-              }
-            />
-            <div className="matings-form-field">
-              <label>Дата відлучення</label>
-              <input
-                type="date"
-                value={editingLitter.weaned_date || ""}
-                onChange={(e) =>
-                  setEditingLitter({
-                    ...editingLitter,
-                    weaned_date: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div></div>
-            <input
-              type="number"
-              placeholder="♂ Кількість самців"
-              value={editingLitter.weaned_males || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  weaned_males: Number(e.target.value),
-                })
-              }
-            />
-            <input
-              placeholder="♂ Клітка / куди"
-              value={editingLitter.weaned_males_cage || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  weaned_males_cage: e.target.value,
-                })
-              }
-            />
-            <input
-              type="number"
-              placeholder="♀ Кількість самиць"
-              value={editingLitter.weaned_females || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  weaned_females: Number(e.target.value),
-                })
-              }
-            />
-            <input
-              placeholder="♀ Клітка / куди"
-              value={editingLitter.weaned_females_cage || ""}
-              onChange={(e) =>
-                setEditingLitter({
-                  ...editingLitter,
-                  weaned_females_cage: e.target.value,
-                })
-              }
-            />
-            <input
-              placeholder="Нотатки"
-              value={editingLitter.notes || ""}
-              onChange={(e) =>
-                setEditingLitter({ ...editingLitter, notes: e.target.value })
-              }
-              className="matings-form-full"
-            />
-          </div>
-          {error && <p className="matings-error">{error}</p>}
-          <div className="matings-edit-actions">
-            <button
-              className="matings-cancel-btn"
-              onClick={() => setEditingLitter(null)}
-            >
-              Скасувати
-            </button>
-            <button
-              className="matings-save-btn"
-              onClick={handleEditLitter}
-              disabled={saving}
-            >
-              {saving ? "Збереження..." : "Зберегти зміни"}
-            </button>
-          </div>
-        </div>
-      )}
-
       <div className="matings-list">
         {matings.length === 0 ? (
           <p className="matings-empty">Злучок ще немає.</p>
@@ -636,9 +420,17 @@ export default function Matings({ session }: Props) {
                 <div className="mating-card-btns">
                   <button
                     className="mating-edit-btn"
-                    onClick={() => setEditingMating(m)}
+                    onClick={() => {
+                      if (editingMatingId === m.id) {
+                        setEditingMatingId(null);
+                        setEditingMatingData(null);
+                      } else {
+                        setEditingMatingId(m.id);
+                        setEditingMatingData({ ...m });
+                      }
+                    }}
                   >
-                    Редагувати
+                    {editingMatingId === m.id ? "✕" : "Редагувати"}
                   </button>
                   <button
                     className="mating-delete-btn"
@@ -655,96 +447,236 @@ export default function Matings({ session }: Props) {
                     🏠 Коєць №: <strong>{m.male_cage}</strong>
                   </span>
                 )}
-                {/* ← ДОДАНО: відображення клітки крольчихи */}
-                {m.female_cage && (
-                  <span>
-                    🏠 Крольчиха №: <strong>{m.female_cage}</strong>
-                  </span>
-                )}
-                <span>
-                  📅 Злучка:{" "}
-                  <strong>
-                    {new Date(m.mating_date).toLocaleDateString("uk-UA")}
-                  </strong>
-                </span>
-                {m.control_date && (
-                  <span>
-                    🔍 Контрольна:{" "}
-                    <strong>
-                      {new Date(m.control_date).toLocaleDateString("uk-UA")}
-                    </strong>
-                  </span>
-                )}
-                <span>
-                  🗓 Очікуваний окріл:{" "}
-                  <strong>
-                    {new Date(m.expected_birth).toLocaleDateString("uk-UA")}
-                  </strong>
-                </span>
               </div>
-
               {m.notes && <p className="mating-notes">{m.notes}</p>}
 
-              {(m.litters || []).map((l) => (
-                <div key={l.id} className="litter-block">
-                  <div className="litter-block-row">
-                    <span>
-                      📦 Окріл:{" "}
-                      <strong>
-                        {new Date(l.birth_date).toLocaleDateString("uk-UA")}
-                      </strong>
-                    </span>
-                    <div className="litter-block-btns">
-                      <button
-                        className="mating-edit-btn"
-                        onClick={() => setEditingLitter(l)}
-                      >
-                        ✏️
-                      </button>
-                      <button
-                        className="litter-delete-btn"
-                        onClick={() => handleDeleteLitter(l.id)}
-                      >
-                        ✕
-                      </button>
+              {/* Форма редагування злучки — прямо в картці */}
+              {editingMatingId === m.id && editingMatingData && (
+                <div className="matings-form matings-edit-form">
+                  <h3>✏️ Редагування злучки</h3>
+                  <div className="matings-form-grid">
+                    <select
+                      value={editingMatingData.male_id}
+                      onChange={(e) =>
+                        setEditingMatingData({
+                          ...editingMatingData,
+                          male_id: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">♂ Коєць *</option>
+                      {males.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {r.name} {r.breed ? `(${r.breed})` : ""}{" "}
+                          {r.cage_number ? `кл.${r.cage_number}` : ""}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={editingMatingData.female_id}
+                      onChange={(e) =>
+                        setEditingMatingData({
+                          ...editingMatingData,
+                          female_id: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">♀ Кроличка *</option>
+                      {females.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {r.name} {r.breed ? `(${r.breed})` : ""}{" "}
+                          {r.cage_number ? `кл.${r.cage_number}` : ""}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      placeholder="Коєць №"
+                      value={editingMatingData.male_cage || ""}
+                      onChange={(e) =>
+                        setEditingMatingData({
+                          ...editingMatingData,
+                          male_cage: e.target.value,
+                        })
+                      }
+                    />
+                    <input
+                      placeholder="Крольчиха №"
+                      value={editingMatingData.female_cage || ""}
+                      onChange={(e) =>
+                        setEditingMatingData({
+                          ...editingMatingData,
+                          female_cage: e.target.value,
+                        })
+                      }
+                    />
+                    <div className="matings-form-field">
+                      <label>Дата злучки</label>
+                      <input
+                        type="date"
+                        value={editingMatingData.mating_date}
+                        onChange={(e) =>
+                          setEditingMatingData({
+                            ...editingMatingData,
+                            mating_date: e.target.value,
+                          })
+                        }
+                      />
                     </div>
+                    <div className="matings-form-field">
+                      <label>Контрольна дата</label>
+                      <input
+                        type="date"
+                        value={editingMatingData.control_date || ""}
+                        onChange={(e) =>
+                          setEditingMatingData({
+                            ...editingMatingData,
+                            control_date: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <input
+                      placeholder="Нотатки"
+                      value={editingMatingData.notes || ""}
+                      onChange={(e) =>
+                        setEditingMatingData({
+                          ...editingMatingData,
+                          notes: e.target.value,
+                        })
+                      }
+                      className="matings-form-full"
+                    />
                   </div>
-                  <div className="litter-stats">
-                    <span>
-                      Народилось: <strong>{l.total_born}</strong>
-                    </span>
-                    <span>
-                      Живих: <strong>{l.alive}</strong>
-                    </span>
-                    <span>
-                      Мертвих: <strong>{l.dead}</strong>
-                    </span>
+                  {error && <p className="matings-error">{error}</p>}
+                  <div className="matings-edit-actions">
+                    <button
+                      className="matings-cancel-btn"
+                      onClick={() => {
+                        setEditingMatingId(null);
+                        setEditingMatingData(null);
+                      }}
+                    >
+                      Скасувати
+                    </button>
+                    <button
+                      className="matings-save-btn"
+                      onClick={handleEditMating}
+                      disabled={
+                        saving ||
+                        !editingMatingData.male_id ||
+                        !editingMatingData.female_id
+                      }
+                    >
+                      {saving ? "Збереження..." : "Зберегти зміни"}
+                    </button>
                   </div>
-                  {(() => {
-                    const birth = new Date(l.birth_date);
-                    const today = new Date();
-                    const days = Math.floor(
-                      (today.getTime() - birth.getTime()) /
-                        (1000 * 60 * 60 * 24),
-                    );
-                    const months = Math.floor(days / 30);
-                    const remDays = days - months * 30;
-                    let ageStr = "";
-                    if (months >= 1) {
-                      ageStr =
-                        remDays > 0
-                          ? `${months} міс. ${remDays} дн.`
-                          : `${months} міс.`;
-                    } else {
-                      ageStr = `${days} дн.`;
-                    }
-                    const weaningDate = new Date(birth);
-                    weaningDate.setDate(weaningDate.getDate() + 60);
-                    const daysToWeaning = Math.ceil(
-                      (weaningDate.getTime() - today.getTime()) /
-                        (1000 * 60 * 60 * 24),
-                    );
-                    return (
+                </div>
+              )}
+
+              {(m.litters || []).map((l) => {
+                const hasBirthDate = !!l.birth_date;
+                const birth = hasBirthDate ? new Date(l.birth_date) : null;
+                const today = new Date();
+                let ageStr = "—";
+                let daysToWeaning = 0;
+                let weaningDate: Date | null = null;
+                if (birth) {
+                  const days = Math.floor(
+                    (today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24),
+                  );
+                  const months = Math.floor(days / 30);
+                  const remDays = days - months * 30;
+                  ageStr =
+                    months >= 1
+                      ? remDays > 0
+                        ? `${months} міс. ${remDays} дн.`
+                        : `${months} міс.`
+                      : `${days} дн.`;
+                  weaningDate = new Date(birth);
+                  weaningDate.setDate(weaningDate.getDate() + 60);
+                  daysToWeaning = Math.ceil(
+                    (weaningDate.getTime() - today.getTime()) /
+                      (1000 * 60 * 60 * 24),
+                  );
+                }
+
+                return (
+                  <div key={l.id} className="litter-block">
+                    <div className="litter-block-row">
+                      <span>
+                        📦 Окріл:{" "}
+                        <strong>
+                          {hasBirthDate
+                            ? new Date(l.birth_date).toLocaleDateString("uk-UA")
+                            : "очікується"}
+                        </strong>
+                      </span>
+                      <div className="litter-block-btns">
+                        <button
+                          className="mating-edit-btn"
+                          onClick={() => {
+                            if (editingLitterId === l.id) {
+                              setEditingLitterId(null);
+                              setEditingLitterData(null);
+                            } else {
+                              setEditingLitterId(l.id);
+                              setEditingLitterData({ ...l });
+                            }
+                          }}
+                        >
+                          {editingLitterId === l.id ? "✕" : "✏️"}
+                        </button>
+                        <button
+                          className="litter-delete-btn"
+                          onClick={() => handleDeleteLitter(l.id)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="litter-mating-info">
+                      <span>
+                        📅 Злучка:{" "}
+                        <strong>
+                          {new Date(m.mating_date).toLocaleDateString("uk-UA")}
+                        </strong>
+                      </span>
+                      {m.control_date && (
+                        <span>
+                          🔍 Контрольна:{" "}
+                          <strong>
+                            {new Date(m.control_date).toLocaleDateString(
+                              "uk-UA",
+                            )}
+                          </strong>
+                        </span>
+                      )}
+                      <span>
+                        🗓 Очікуваний окріл:{" "}
+                        <strong>
+                          {new Date(m.expected_birth).toLocaleDateString(
+                            "uk-UA",
+                          )}
+                        </strong>
+                      </span>
+                    </div>
+
+                    {hasBirthDate && (
+                      <div className="litter-stats">
+                        <span>
+                          Народилось: <strong>{l.total_born}</strong>
+                        </span>
+                        <span>
+                          Живих: <strong>{l.alive}</strong>
+                        </span>
+                        <span>
+                          Мертвих: <strong>{l.dead}</strong>
+                        </span>
+                      </div>
+                    )}
+
+                    {hasBirthDate && (
                       <div className="litter-age-row">
                         <span className="litter-age">
                           Вік: <strong>{ageStr}</strong>
@@ -761,38 +693,182 @@ export default function Matings({ session }: Props) {
                               ✂️ Відлучення через {daysToWeaning} дн.
                             </span>
                           )}
-                        {!l.weaned_date && daysToWeaning > 7 && (
+                        {!l.weaned_date && daysToWeaning > 7 && weaningDate && (
                           <span className="litter-weaning-info">
                             ✂️ Відлучення:{" "}
                             {weaningDate.toLocaleDateString("uk-UA")}
                           </span>
                         )}
                       </div>
-                    );
-                  })()}
-                  {l.weaned_date && (
-                    <div className="litter-weaned">
-                      <span>
-                        ✂️ Відлучено:{" "}
-                        <strong>
-                          {new Date(l.weaned_date).toLocaleDateString("uk-UA")}
-                        </strong>
-                      </span>
-                      {l.weaned_males > 0 && (
+                    )}
+
+                    {l.weaned_date && (
+                      <div className="litter-weaned">
                         <span>
-                          ♂ {l.weaned_males} гол. → {l.weaned_males_cage}
+                          ✂️ Відлучено:{" "}
+                          <strong>
+                            {new Date(l.weaned_date).toLocaleDateString(
+                              "uk-UA",
+                            )}
+                          </strong>
                         </span>
-                      )}
-                      {l.weaned_females > 0 && (
-                        <span>
-                          ♀ {l.weaned_females} гол. → {l.weaned_females_cage}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                  {l.notes && <p className="mating-notes">{l.notes}</p>}
-                </div>
-              ))}
+                        {l.weaned_males > 0 && (
+                          <span>
+                            ♂ {l.weaned_males} гол. → {l.weaned_males_cage}
+                          </span>
+                        )}
+                        {l.weaned_females > 0 && (
+                          <span>
+                            ♀ {l.weaned_females} гол. → {l.weaned_females_cage}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    {l.notes && <p className="mating-notes">{l.notes}</p>}
+
+                    {/* Форма редагування окролу — прямо під окролом */}
+                    {editingLitterId === l.id && editingLitterData && (
+                      <div className="matings-form matings-edit-form">
+                        <h3>✏️ Редагування окролу</h3>
+                        <div className="matings-form-grid">
+                          <div className="matings-form-field">
+                            <label>Дата окролу</label>
+                            <input
+                              type="date"
+                              value={editingLitterData.birth_date || ""}
+                              onChange={(e) =>
+                                setEditingLitterData({
+                                  ...editingLitterData,
+                                  birth_date: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <input
+                            type="number"
+                            placeholder="Народилось всього"
+                            value={editingLitterData.total_born || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                total_born: Number(e.target.value),
+                              })
+                            }
+                          />
+                          <input
+                            type="number"
+                            placeholder="Живих"
+                            value={editingLitterData.alive || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                alive: Number(e.target.value),
+                              })
+                            }
+                          />
+                          <input
+                            type="number"
+                            placeholder="Мертвих"
+                            value={editingLitterData.dead || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                dead: Number(e.target.value),
+                              })
+                            }
+                          />
+                          <div className="matings-form-field">
+                            <label>Дата відлучення</label>
+                            <input
+                              type="date"
+                              value={editingLitterData.weaned_date || ""}
+                              onChange={(e) =>
+                                setEditingLitterData({
+                                  ...editingLitterData,
+                                  weaned_date: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <div></div>
+                          <input
+                            type="number"
+                            placeholder="♂ Кількість самців"
+                            value={editingLitterData.weaned_males || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                weaned_males: Number(e.target.value),
+                              })
+                            }
+                          />
+                          <input
+                            placeholder="♂ Клітка / куди"
+                            value={editingLitterData.weaned_males_cage || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                weaned_males_cage: e.target.value,
+                              })
+                            }
+                          />
+                          <input
+                            type="number"
+                            placeholder="♀ Кількість самиць"
+                            value={editingLitterData.weaned_females || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                weaned_females: Number(e.target.value),
+                              })
+                            }
+                          />
+                          <input
+                            placeholder="♀ Клітка / куди"
+                            value={editingLitterData.weaned_females_cage || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                weaned_females_cage: e.target.value,
+                              })
+                            }
+                          />
+                          <input
+                            placeholder="Нотатки"
+                            value={editingLitterData.notes || ""}
+                            onChange={(e) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                notes: e.target.value,
+                              })
+                            }
+                            className="matings-form-full"
+                          />
+                        </div>
+                        {error && <p className="matings-error">{error}</p>}
+                        <div className="matings-edit-actions">
+                          <button
+                            className="matings-cancel-btn"
+                            onClick={() => {
+                              setEditingLitterId(null);
+                              setEditingLitterData(null);
+                            }}
+                          >
+                            Скасувати
+                          </button>
+                          <button
+                            className="matings-save-btn"
+                            onClick={handleEditLitter}
+                            disabled={saving}
+                          >
+                            {saving ? "Збереження..." : "Зберегти зміни"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
 
               <button
                 className="litter-add-btn"
@@ -810,7 +886,49 @@ export default function Matings({ session }: Props) {
                 <div className="litter-form">
                   <div className="matings-form-grid">
                     <div className="matings-form-field">
-                      <label>Дата окролу *</label>
+                      <label>Злучка</label>
+                      <input
+                        type="date"
+                        value={litterForms[m.id]?.litter_mating_date || ""}
+                        onChange={(e) =>
+                          handleLitterMatingDateChange(m.id, e.target.value)
+                        }
+                      />
+                    </div>
+                    <div className="matings-form-field">
+                      <label>Контрольна</label>
+                      <input
+                        type="date"
+                        value={litterForms[m.id]?.litter_control_date || ""}
+                        onChange={(e) =>
+                          setLitterForms({
+                            ...litterForms,
+                            [m.id]: {
+                              ...(litterForms[m.id] || emptyLitterForm),
+                              litter_control_date: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="matings-form-field">
+                      <label>Очікуваний окріл</label>
+                      <input
+                        type="date"
+                        value={litterForms[m.id]?.litter_expected_birth || ""}
+                        onChange={(e) =>
+                          setLitterForms({
+                            ...litterForms,
+                            [m.id]: {
+                              ...(litterForms[m.id] || emptyLitterForm),
+                              litter_expected_birth: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="matings-form-field">
+                      <label>Дата окролу</label>
                       <input
                         type="date"
                         value={litterForms[m.id]?.birth_date || ""}
@@ -867,6 +985,7 @@ export default function Matings({ session }: Props) {
                         })
                       }
                     />
+                    <div></div>
                     <div className="matings-form-field">
                       <label>Дата відлучення</label>
                       <input
@@ -957,7 +1076,7 @@ export default function Matings({ session }: Props) {
                   <button
                     className="matings-save-btn"
                     onClick={() => handleAddLitter(m.id)}
-                    disabled={saving || !litterForms[m.id]?.birth_date}
+                    disabled={saving}
                   >
                     {saving ? "Збереження..." : "Зберегти окріл"}
                   </button>
