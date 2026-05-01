@@ -142,7 +142,7 @@ const Subscription = () => {
         {/* ЦІНА */}
         <div className="sub-price-block">
           <div className="sub-price">
-            <span className="sub-price-amount">250 грн</span>
+            <span className="sub-price-amount">149 грн</span>
             <span className="sub-price-period">/ місяць</span>
           </div>
           <p className="sub-price-desc">
