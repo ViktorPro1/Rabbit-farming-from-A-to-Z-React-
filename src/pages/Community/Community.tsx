@@ -13,6 +13,25 @@ export default function Community() {
       </div>
 
       <div className="community__grid">
+        {/* Ваша спільнота */}
+        <a
+          href="https://t.me/rabbit_farming_from_a_to_z"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="community__item-link"
+        >
+          <div className="community__item">
+            <div className="community__item-icon">🐇</div>
+            <h3 className="community__item-title">Кролівництво від А до Я</h3>
+            <p className="community__item-desc">
+              Офіційна спільнота нашої платформи про розведення, годівлю та
+              догляд за кроликами.
+            </p>
+            <span className="community__item-btn">Приєднатися</span>
+          </div>
+        </a>
+
+        {/* Блок додавання нової спільноти */}
         <div className="community__add-box">
           <div className="community__add-icon">+</div>
           <p className="community__add-text">
