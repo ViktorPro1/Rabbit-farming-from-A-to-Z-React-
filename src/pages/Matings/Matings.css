@@ -362,6 +362,36 @@
     margin-bottom: 0.4rem;
 }
 
+.matings-sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+}
+
+.matings-sort-label {
+    font-size: 0.9em;
+    color: var(--text-muted, #888);
+}
+
+.matings-sort-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color, #ccc);
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s;
+}
+
+.matings-sort-btn.active {
+    background: var(--accent, #6a994e);
+    color: #fff;
+    border-color: var(--accent, #6a994e);
+}
+
+
 @media (max-width: 640px) {
     .matings-form-grid {
         grid-template-columns: 1fr;

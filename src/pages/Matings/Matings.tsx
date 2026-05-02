@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
@@ -49,6 +49,8 @@ interface Mating {
   litters?: Litter[];
 }
 
+type SortType = "date_desc" | "date_asc" | "male";
+
 const emptyMatingForm = {
   female_id: "",
   male_id: "",
@@ -78,6 +80,7 @@ const emptyLitterForm = {
 export default function Matings({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
   const [matings, setMatings] = useState<Mating[]>([]);
+  const [sortType, setSortType] = useState<SortType>("date_desc");
   const [showMatingForm, setShowMatingForm] = useState(false);
   const [matingForm, setMatingForm] = useState(emptyMatingForm);
   const [editingMatingId, setEditingMatingId] = useState<string | null>(null);
@@ -121,7 +124,6 @@ export default function Matings({ session }: Props) {
         "*, female:female_id(name, breed, cage_number), male:male_id(name, breed, cage_number)",
       )
       .eq("user_id", session.user.id)
-      .order("mating_date", { ascending: false })
       .then(async ({ data }) => {
         if (cancelled || !data) return;
         const ids = data.map((m) => m.id);
@@ -144,6 +146,28 @@ export default function Matings({ session }: Props) {
       cancelled = true;
     };
   }, [session.user.id, refreshKey]);
+
+  const sortedMatings = useMemo(() => {
+    const copy = [...matings];
+    if (sortType === "date_desc") {
+      copy.sort(
+        (a, b) =>
+          new Date(b.mating_date).getTime() - new Date(a.mating_date).getTime(),
+      );
+    } else if (sortType === "date_asc") {
+      copy.sort(
+        (a, b) =>
+          new Date(a.mating_date).getTime() - new Date(b.mating_date).getTime(),
+      );
+    } else if (sortType === "male") {
+      copy.sort((a, b) => {
+        const cageA = parseInt(a.male_cage || "0", 10);
+        const cageB = parseInt(b.male_cage || "0", 10);
+        return cageA - cageB;
+      });
+    }
+    return copy;
+  }, [matings, sortType]);
 
   function handleMatingDateChange(date: string) {
     if (!date) {
@@ -454,11 +478,33 @@ export default function Matings({ session }: Props) {
         </div>
       )}
 
+      <div className="matings-sort-bar">
+        <span className="matings-sort-label">Сортування:</span>
+        <button
+          className={`matings-sort-btn${sortType === "date_desc" ? " active" : ""}`}
+          onClick={() => setSortType("date_desc")}
+        >
+          📅 Дата ↓
+        </button>
+        <button
+          className={`matings-sort-btn${sortType === "date_asc" ? " active" : ""}`}
+          onClick={() => setSortType("date_asc")}
+        >
+          📅 Дата ↑
+        </button>
+        <button
+          className={`matings-sort-btn${sortType === "male" ? " active" : ""}`}
+          onClick={() => setSortType("male")}
+        >
+          🏠 За кліткою коєця
+        </button>
+      </div>
+
       <div className="matings-list">
-        {matings.length === 0 ? (
+        {sortedMatings.length === 0 ? (
           <p className="matings-empty">Злучок ще немає.</p>
         ) : (
-          matings.map((m) => (
+          sortedMatings.map((m) => (
             <div key={m.id} className="mating-card">
               <div className="mating-card-top">
                 <span className="mating-pair">
@@ -667,7 +713,6 @@ export default function Matings({ session }: Props) {
               {(m.litters || []).map((l) => {
                 const hasBirth = !!l.birth_date;
                 const weanInfo = hasBirth ? getWeaningInfo(l.birth_date) : null;
-
                 return (
                   <div key={l.id} className="litter-block">
                     <div className="litter-block-row">
@@ -678,17 +723,6 @@ export default function Matings({ session }: Props) {
                             ? new Date(l.birth_date).toLocaleDateString("uk-UA")
                             : "очікується"}
                         </strong>
-                        {hasBirth && (
-                          <span
-                            style={{
-                              color: "var(--text-muted, #888)",
-                              fontSize: "0.85em",
-                              marginLeft: 8,
-                            }}
-                          >
-                            {getLitterAge(l.birth_date)}
-                          </span>
-                        )}
                       </span>
                       <div className="litter-block-btns">
                         <button
