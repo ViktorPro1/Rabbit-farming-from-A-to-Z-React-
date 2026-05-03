@@ -45,6 +45,7 @@ import Statistics from "./pages/Statistics/Statistics";
 import PaddockInfo from "./pages/Paddocks/PaddockInfo";
 import Tools from "./pages/Tools/Tools";
 import Biology from "./pages/Biology/Biology";
+import Genetics from "./pages/Genetics/Genetics";
 
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -248,6 +249,7 @@ function App() {
         <Route path="/pit-keeping" element={<PaddockInfo />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/biology" element={<Biology />} />
+        <Route path="/genetics" element={<Genetics />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
