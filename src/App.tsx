@@ -43,6 +43,7 @@ import Recipes from "./pages/Recipes/Recipes";
 import Subscription from "./pages/Subscription/Subscription";
 import Statistics from "./pages/Statistics/Statistics";
 import PaddockInfo from "./pages/Paddocks/PaddockInfo";
+import Tools from "./pages/Tools/Tools";
 
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -244,6 +245,7 @@ function App() {
           element={session ? <Statistics session={session} /> : <Auth />}
         />
         <Route path="/pit-keeping" element={<PaddockInfo />} />
+        <Route path="/tools" element={<Tools />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
