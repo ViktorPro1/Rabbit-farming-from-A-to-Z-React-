@@ -42,6 +42,7 @@ import Selection from "./pages/Selection/Selection";
 import Recipes from "./pages/Recipes/Recipes";
 import Subscription from "./pages/Subscription/Subscription";
 import Statistics from "./pages/Statistics/Statistics";
+import PaddockInfo from "./pages/Paddocks/PaddockInfo";
 
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -242,6 +243,7 @@ function App() {
           path="/statistics"
           element={session ? <Statistics session={session} /> : <Auth />}
         />
+        <Route path="/pit-keeping" element={<PaddockInfo />} />
       </Routes>
       <Footer />
       <UpdatePrompt />

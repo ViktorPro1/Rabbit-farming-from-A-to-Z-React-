@@ -1,0 +1,493 @@
+.paddockinfo-page {
+    min-height: 100vh;
+}
+
+.paddockinfo-header {
+    background: linear-gradient(135deg, #4e342e, #6d4c41, #8d6e63);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.paddockinfo-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.paddockinfo-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.paddockinfo-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.paddockinfo-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.paddockinfo-intro {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-intro p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.paddockinfo-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.paddockinfo-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.paddockinfo-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.paddockinfo-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* PROS CONS */
+.paddockinfo-pros-cons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-pros {
+    background: #f0fdf0;
+    border-radius: 16px;
+    border: 0.5px solid #c8e6c9;
+    padding: 1.25rem;
+}
+
+.paddockinfo-cons {
+    background: #fff8f0;
+    border-radius: 16px;
+    border: 0.5px solid #ffe0b2;
+    padding: 1.25rem;
+}
+
+.paddockinfo-pros h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1b5e20;
+    margin-bottom: 12px;
+}
+
+.paddockinfo-cons h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #e65100;
+    margin-bottom: 12px;
+}
+
+.paddockinfo-pro-item,
+.paddockinfo-con-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+
+.paddockinfo-item-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.paddockinfo-pro-item strong,
+.paddockinfo-con-item strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 2px;
+}
+
+.paddockinfo-pro-item p,
+.paddockinfo-con-item p {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* STEPS */
+.paddockinfo-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-step {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.paddockinfo-step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.paddockinfo-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.paddockinfo-step-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.paddockinfo-step-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 4px;
+}
+
+.paddockinfo-step-desc {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+    font-style: italic;
+}
+
+.paddockinfo-step-details {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.paddockinfo-step-details li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* MANAGEMENT */
+.paddockinfo-management-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-management-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.paddockinfo-management-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.paddockinfo-management-icon {
+    font-size: 24px;
+}
+
+.paddockinfo-management-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.paddockinfo-management-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.paddockinfo-management-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* TABLE */
+.paddockinfo-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.paddockinfo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    min-width: 400px;
+}
+
+.paddockinfo-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.paddockinfo-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.paddockinfo-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.paddockinfo-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* LIFEHACKS */
+.paddockinfo-lifehacks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-lifehack-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.paddockinfo-lifehack-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.paddockinfo-lifehack-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.paddockinfo-lifehack-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* MISTAKES TABLE */
+.paddockinfo-mistakes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 500px;
+}
+
+.paddockinfo-mistakes-table th {
+    background: #c62828;
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.paddockinfo-mistakes-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.paddockinfo-mistakes-table tr:nth-child(even) td {
+    background: #fff8f8;
+}
+
+.paddockinfo-mistakes-table tr:hover td {
+    background: #ffebee;
+}
+
+.paddockinfo-mistakes-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* WHO */
+.paddockinfo-who-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.paddockinfo-who-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+}
+
+.paddockinfo-who-card.yes {
+    background: #e8f5e9;
+    border: 0.5px solid #c8e6c9;
+}
+
+.paddockinfo-who-card.no {
+    background: #ffebee;
+    border: 0.5px solid #ffcdd2;
+}
+
+.paddockinfo-who-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.paddockinfo-who-card.yes h3 {
+    color: #1b5e20;
+}
+
+.paddockinfo-who-card.no h3 {
+    color: #c62828;
+}
+
+.paddockinfo-who-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.paddockinfo-who-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* BACK */
+.paddockinfo-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.paddockinfo-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.paddockinfo-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 768px) {
+    .paddockinfo-pros-cons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .paddockinfo-management-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .paddockinfo-lifehacks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .paddockinfo-who-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .paddockinfo-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .paddockinfo-step-header {
+        flex-wrap: wrap;
+    }
+
+    .paddockinfo-mistakes-table th,
+    .paddockinfo-mistakes-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
