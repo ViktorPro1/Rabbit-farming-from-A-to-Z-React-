@@ -1,0 +1,456 @@
+.fur-page {
+    min-height: 100vh;
+}
+
+.fur-header {
+    background: linear-gradient(90deg, #2d4a1e, #4a7c2f);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.fur-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.fur-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.fur-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.fur-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.fur-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.fur-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.fur-note ul,
+.fur-note ol {
+    padding-left: 1.2rem;
+    margin: 8px 0;
+}
+
+.fur-note li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+/* GRIDS */
+.fur-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.fur-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+/* TABLE */
+.fur-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.fur-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.fur-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.fur-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.fur-table tr:hover td {
+    background: #eef7ee;
+}
+
+.fur-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* BADGE */
+.fur-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-high {
+    background: #e8f5e9;
+    color: #1b5e20;
+}
+
+.badge-mid {
+    background: #fff8e1;
+    color: #f57f17;
+}
+
+/* STEPS */
+.fur-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.fur-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.fur-step:last-child {
+    border-bottom: none;
+}
+
+.fur-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.fur-step-content {
+    flex: 1;
+}
+
+.fur-step-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.fur-step-content p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0 0 8px;
+}
+
+/* INLINE ALERT */
+.fur-inline-alert {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+.fur-inline-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.fur-inline-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* ALERT */
+.fur-alert {
+    margin-top: 12px;
+    margin-bottom: 1rem;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.fur-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.fur-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* INFO CARDS (2-col) */
+.fur-info-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.fur-info-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.fur-info-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.fur-info-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0 0 6px;
+}
+
+.fur-info-card ul {
+    padding-left: 1.1rem;
+    margin: 4px 0 0;
+}
+
+.fur-info-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 3px;
+}
+
+/* METHOD CARDS */
+.fur-method-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.fur-method-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.fur-method-icon {
+    font-size: 22px;
+}
+
+.fur-method-header strong {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.fur-method-card ol {
+    padding-left: 1.2rem;
+    margin: 0 0 10px;
+}
+
+.fur-method-card li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.fur-method-note {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+    padding: 8px 10px;
+    background: #f5f9f5;
+    border-radius: 8px;
+    border-left: 2px solid var(--green-light);
+}
+
+/* STORAGE CARDS */
+.fur-storage-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fur-storage-icon {
+    font-size: 24px;
+}
+
+.fur-storage-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* HARVEST CARDS */
+.fur-harvest-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fur-harvest-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.fur-harvest-icon {
+    font-size: 22px;
+}
+
+.fur-harvest-header strong {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.fur-harvest-desc {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.fur-harvest-pros,
+.fur-harvest-cons {
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.fur-harvest-pros {
+    background: #e8f5e9;
+    color: #1b5e20;
+}
+
+.fur-harvest-cons {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.label-pro,
+.label-con {
+    margin-right: 4px;
+}
+
+/* BACK */
+.fur-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.fur-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.fur-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+    .fur-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .fur-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .fur-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .fur-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .fur-table th,
+    .fur-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .fur-step {
+        gap: 10px;
+    }
+}

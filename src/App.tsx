@@ -46,6 +46,9 @@ import PaddockInfo from "./pages/Paddocks/PaddockInfo";
 import Tools from "./pages/Tools/Tools";
 import Biology from "./pages/Biology/Biology";
 import Genetics from "./pages/Genetics/Genetics";
+import FurProcessing from "./pages/FurProcessing/FurProcessing";
+import ArtificialInsemination from "./pages/ArtificialInsemination/ArtificialInsemination";
+import Weaning from "./pages/Weaning/Weaning";
 
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -250,6 +253,12 @@ function App() {
         <Route path="/tools" element={<Tools />} />
         <Route path="/biology" element={<Biology />} />
         <Route path="/genetics" element={<Genetics />} />
+        <Route path="/fur-processing" element={<FurProcessing />} />
+        <Route
+          path="/artificial-insemination"
+          element={<ArtificialInsemination />}
+        />
+        <Route path="/weaning" element={<Weaning />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
