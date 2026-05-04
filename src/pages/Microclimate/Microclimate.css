@@ -1,0 +1,612 @@
+.microclimate-page {
+    min-height: 100vh;
+}
+
+.microclimate-header {
+    background: linear-gradient(135deg, #01579b, #0277bd, #0288d1);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.microclimate-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.microclimate-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.microclimate-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.microclimate-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.microclimate-intro {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.microclimate-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.microclimate-intro p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.microclimate-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.microclimate-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.microclimate-note ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.microclimate-note li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 5px;
+}
+
+.microclimate-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.microclimate-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.microclimate-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* NORMS TABLE */
+.microclimate-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.microclimate-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    min-width: 600px;
+}
+
+.microclimate-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.microclimate-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+    font-size: 13px;
+}
+
+.microclimate-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.microclimate-table tr:last-child td {
+    border-bottom: none;
+}
+
+.mc-optimal {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.mc-allowed {
+    color: #e65100;
+}
+
+.mc-critical {
+    color: #c62828;
+    font-weight: 500;
+}
+
+/* SEASONS */
+.microclimate-seasons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.mc-season-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+}
+
+.mc-season-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.mc-season-card.winter .mc-season-header {
+    background: #e3f2fd;
+}
+
+.mc-season-card.spring .mc-season-header {
+    background: #e8f5e9;
+}
+
+.mc-season-card.summer .mc-season-header {
+    background: #fff8e1;
+}
+
+.mc-season-card.autumn .mc-season-header {
+    background: #fff3e0;
+}
+
+.mc-season-icon {
+    font-size: 24px;
+}
+
+.mc-season-header h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.mc-season-params {
+    padding: 12px 16px;
+    border-bottom: 0.5px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mc-season-param {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #444;
+}
+
+.mc-season-param span {
+    color: var(--gray);
+}
+
+.mc-season-param strong {
+    color: var(--green-dark);
+}
+
+.mc-season-risks,
+.mc-season-actions {
+    padding: 12px 16px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.mc-season-actions {
+    border-bottom: none;
+}
+
+.mc-risks-title,
+.mc-actions-title {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.mc-risks-title {
+    color: #c62828;
+}
+
+.mc-actions-title {
+    color: #1b5e20;
+}
+
+.mc-season-risks ul,
+.mc-season-actions ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.mc-season-risks li,
+.mc-season-actions li {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 3px;
+}
+
+/* VENTILATION */
+.mc-ventilation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.mc-ventilation-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.mc-ventilation-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.mc-ventilation-icon {
+    font-size: 24px;
+}
+
+.mc-ventilation-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.mc-ventilation-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.mc-vent-pros-cons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.mc-pros-title,
+.mc-cons-title {
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.mc-pros-title {
+    color: #1b5e20;
+}
+
+.mc-cons-title {
+    color: #444;
+}
+
+.mc-vent-pros-cons ul {
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.mc-vent-pros-cons li {
+    font-size: 11px;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 2px;
+}
+
+.mc-how-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.mc-how-list {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.mc-how-list li {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 3px;
+}
+
+/* LIGHTING TABLE */
+.mc-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mc-lighting-table,
+.mc-problems-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    min-width: 500px;
+}
+
+.mc-lighting-table th,
+.mc-problems-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.mc-lighting-table td,
+.mc-problems-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.mc-lighting-table tr:nth-child(even) td,
+.mc-problems-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.mc-lighting-table tr:last-child td,
+.mc-problems-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* AMMONIA */
+.mc-ammonia-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.mc-ammonia-step {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1rem;
+    align-items: flex-start;
+}
+
+.mc-ammonia-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #01579b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.mc-ammonia-content {
+    flex: 1;
+}
+
+.mc-ammonia-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.mc-ammonia-content p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* BUILDING */
+.mc-building-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.mc-building-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.mc-building-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.mc-building-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.mc-building-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* EQUIPMENT */
+.mc-equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.mc-equipment-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+.mc-equipment-card.critical {
+    border-top: 3px solid #c62828;
+}
+
+.mc-equipment-card.high {
+    border-top: 3px solid #e65100;
+}
+
+.mc-equipment-card.medium {
+    border-top: 3px solid #f9a825;
+}
+
+.mc-eq-icon {
+    font-size: 32px;
+}
+
+.mc-equipment-card strong {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.mc-equipment-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.mc-eq-price {
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* BACK */
+.microclimate-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.microclimate-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.microclimate-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 960px) {
+    .mc-ventilation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-equipment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .microclimate-seasons {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-building-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mc-equipment-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .microclimate-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .microclimate-table th,
+    .microclimate-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

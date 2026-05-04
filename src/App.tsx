@@ -2,54 +2,84 @@ import { useEffect, useState, useCallback } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { supabase } from "./lib/supabase";
 import type { Session } from "@supabase/supabase-js";
+
+//  АДМІН
 import Admin from "./pages/Admin/Admin";
+
+// ЗАГАЛЬНІ КОМПОНЕНТИ
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
+
+// ГОЛОВНА
 import Home from "./pages/Home";
+import Auth from "./pages/Auth/Auth";
+import Subscription from "./pages/Subscription/Subscription";
+import Community from "./pages/Community/Community";
+
+// ПОЧАТОК — знайомство з твариною
+import Biology from "./pages/Biology/Biology";
 import Breeds from "./pages/Breeds/Breeds";
 import Breeding from "./pages/Breeding/Breeding";
-import Care from "./pages/Care/Care";
-import Feeding from "./pages/Feeding/Feeding";
-import FloorCare from "./pages/FloorCare/FloorCare";
-import Diseases from "./pages/Diseases/Diseases";
-import Okril from "./pages/Okril/Okril";
-import Parasites from "./pages/Parasites/Parasites";
-import FirstAid from "./pages/FirstAid/FirstAid";
-import Tips from "./pages/Tips/Tips";
-import Calculator from "./pages/Calculator/Calculator";
-import Vaccinations from "./pages/Vaccinations/Vaccinations";
+import ArtificialInsemination from "./pages/ArtificialInsemination/ArtificialInsemination";
+import Selection from "./pages/Selection/Selection";
+import Genetics from "./pages/Genetics/Genetics";
+
+// ЖИТЛО
 import Enclosure from "./pages/Enclosure/Enclosure";
-import Calendar from "./pages/Calendar/Calendar";
-import Slaughter from "./pages/Slaughter/Slaughter";
+import FloorCare from "./pages/FloorCare/FloorCare";
+import PaddockInfo from "./pages/Paddocks/PaddockInfo";
+import Microclimate from "./pages/Microclimate/Microclimate";
+
+// ХАРЧУВАННЯ
+import Feeding from "./pages/Feeding/Feeding";
+import Leaves from "./pages/Leaves/Leaves";
+import Crops from "./pages/Crops/Crops";
+
+// ДОГЛЯД
+import Care from "./pages/Care/Care";
+import Disinfection from "./pages/Disinfection/Disinfection";
+
+// РОЗВЕДЕННЯ
+import Okril from "./pages/Okril/Okril";
+import Weaning from "./pages/Weaning/Weaning";
+import WeightControl from "./pages/WeightControl/WeightControl";
+
+// ЗДОРОВ'Я
+import Vaccinations from "./pages/Vaccinations/Vaccinations";
+import Parasites from "./pages/Parasites/Parasites";
+import Diseases from "./pages/Diseases/Diseases";
 import Medicines from "./pages/Medicines/Medicines";
-import Auth from "./pages/Auth/Auth";
+import Treatment from "./pages/Treatment/Treatment";
+import FirstAid from "./pages/FirstAid/FirstAid";
+
+// ПЛАНУВАННЯ
+import Calendar from "./pages/Calendar/Calendar";
+import Tips from "./pages/Tips/Tips";
+
+// ІНСТРУМЕНТИ
+import Equipment from "./pages/Equipment/Equipment";
+import Tools from "./pages/Tools/Tools";
+
+// ФІНАЛ
+import Slaughter from "./pages/Slaughter/Slaughter";
+import FurProcessing from "./pages/FurProcessing/FurProcessing";
+
+// РЕЦЕПТИ
+import Recipes from "./pages/Recipes/Recipes";
+
+// ОСОБИСТИЙ КАБІНЕТ (потребують авторизації)
 import RabbitRegistry from "./pages/RabbitRegistry/RabbitRegistry";
 import RabbitEdit from "./pages/RabbitEdit/RabbitEdit";
 import Archive from "./pages/Archive/Archive";
 import Matings from "./pages/Matings/Matings";
-import Leaves from "./pages/Leaves/Leaves";
 import Paddocks from "./pages/Paddocks/Paddocks";
 import Fattening from "./pages/Fattening/Fattening";
 import Quarantine from "./pages/Quarantine/Quarantine";
-import Community from "./pages/Community/Community";
-import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
-import Equipment from "./pages/Equipment/Equipment";
-import Disinfection from "./pages/Disinfection/Disinfection";
-import WeightControl from "./pages/WeightControl/WeightControl";
-import Treatment from "./pages/Treatment/Treatment";
-import Crops from "./pages/Crops/Crops";
-import Selection from "./pages/Selection/Selection";
-import Recipes from "./pages/Recipes/Recipes";
-import Subscription from "./pages/Subscription/Subscription";
 import Statistics from "./pages/Statistics/Statistics";
-import PaddockInfo from "./pages/Paddocks/PaddockInfo";
-import Tools from "./pages/Tools/Tools";
-import Biology from "./pages/Biology/Biology";
-import Genetics from "./pages/Genetics/Genetics";
-import FurProcessing from "./pages/FurProcessing/FurProcessing";
-import ArtificialInsemination from "./pages/ArtificialInsemination/ArtificialInsemination";
-import Weaning from "./pages/Weaning/Weaning";
+import Calculator from "./pages/Calculator/Calculator";
 
+// ─────────────────────────────────────────────
 function SubscriptionExpired() {
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -77,11 +107,7 @@ function SubscriptionExpired() {
       >
         <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔒</div>
         <h2
-          style={{
-            color: "#2d5a1b",
-            marginBottom: "1rem",
-            fontSize: "1.4rem",
-          }}
+          style={{ color: "#2d5a1b", marginBottom: "1rem", fontSize: "1.4rem" }}
         >
           Підписка закінчилась
         </h2>
@@ -128,6 +154,7 @@ function SubscriptionExpired() {
   );
 }
 
+// ─────────────────────────────────────────────
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -146,22 +173,16 @@ function App() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      if (session) {
-        checkProfile(session.user.id);
-      } else {
-        setLoading(false);
-      }
+      if (session) checkProfile(session.user.id);
+      else setLoading(false);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session) {
-        checkProfile(session.user.id);
-      } else {
-        setHasProfile(true);
-      }
+      if (session) checkProfile(session.user.id);
+      else setHasProfile(true);
     });
 
     return () => subscription.unsubscribe();
@@ -173,42 +194,83 @@ function App() {
         Завантаження...
       </div>
     );
-
-  if (session && !hasProfile) {
-    return <SubscriptionExpired />;
-  }
+  if (session && !hasProfile) return <SubscriptionExpired />;
 
   return (
     <BrowserRouter>
       <Header session={session} />
       <Routes>
+        {/* — АДМІН — */}
         <Route
           path="/admin"
           element={session ? <Admin session={session} /> : <Auth />}
         />
+
+        {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/subscription" element={<Subscription />} />
+        <Route path="/community" element={<Community />} />
+
+        {/* 1. ПОЧАТОК — знайомство з твариною */}
+        <Route path="/biology" element={<Biology />} />
         <Route path="/breeds" element={<Breeds />} />
         <Route path="/breeding" element={<Breeding />} />
-        <Route path="/care" element={<Care />} />
-        <Route path="/feeding" element={<Feeding />} />
+        <Route
+          path="/artificial-insemination"
+          element={<ArtificialInsemination />}
+        />
+        <Route path="/selection" element={<Selection />} />
+        <Route path="/genetics" element={<Genetics />} />
+
+        {/* 2. ЖИТЛО */}
+        <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
-        <Route path="/diseases" element={<Diseases />} />
+        <Route path="/pit-keeping" element={<PaddockInfo />} />
+        <Route path="/microclimate" element={<Microclimate />} />
+
+        {/* 3. ХАРЧУВАННЯ */}
+        <Route path="/feeding" element={<Feeding />} />
+        <Route path="/leaves" element={<Leaves />} />
+        <Route path="/crops" element={<Crops />} />
+
+        {/* 4. ДОГЛЯД */}
+        <Route path="/care" element={<Care />} />
+        <Route path="/disinfection" element={<Disinfection />} />
+
+        {/* 5. РОЗВЕДЕННЯ */}
         <Route path="/okril" element={<Okril />} />
+        <Route path="/weaning" element={<Weaning />} />
+        <Route path="/weight-control" element={<WeightControl />} />
+
+        {/* 6. ЗДОРОВ'Я */}
+        <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
+        <Route path="/diseases" element={<Diseases />} />
+        <Route path="/medicines" element={<Medicines />} />
+        <Route path="/treatment" element={<Treatment />} />
         <Route path="/first-aid" element={<FirstAid />} />
+
+        {/* 7. ПЛАНУВАННЯ */}
+        <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />
+
+        {/* 8. ІНСТРУМЕНТИ */}
         <Route
           path="/calculator"
           element={session ? <Calculator /> : <Auth returnTo="/calculator" />}
         />
-        <Route path="/vaccinations" element={<Vaccinations />} />
-        <Route path="/enclosure" element={<Enclosure />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/equipment" element={<Equipment />} />
+        <Route path="/tools" element={<Tools />} />
+
+        {/* 9. ФІНАЛ */}
         <Route path="/slaughter" element={<Slaughter />} />
-        <Route path="/medicines" element={<Medicines />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/leaves" element={<Leaves />} />
-        <Route path="/community" element={<Community />} />
+        <Route path="/fur-processing" element={<FurProcessing />} />
+
+        {/* 10. РЕЦЕПТИ */}
+        <Route path="/recipes" element={<Recipes />} />
+
+        {/* — ОСОБИСТИЙ КАБІНЕТ — */}
         <Route
           path="/registry"
           element={session ? <RabbitRegistry session={session} /> : <Auth />}
@@ -237,28 +299,10 @@ function App() {
           path="/quarantine"
           element={session ? <Quarantine session={session} /> : <Auth />}
         />
-        <Route path="/equipment" element={<Equipment />} />
-        <Route path="/disinfection" element={<Disinfection />} />
-        <Route path="/weight-control" element={<WeightControl />} />
-        <Route path="/treatment" element={<Treatment />} />
-        <Route path="/crops" element={<Crops />} />
-        <Route path="/selection" element={<Selection />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/subscription" element={<Subscription />} />
         <Route
           path="/statistics"
           element={session ? <Statistics session={session} /> : <Auth />}
         />
-        <Route path="/pit-keeping" element={<PaddockInfo />} />
-        <Route path="/tools" element={<Tools />} />
-        <Route path="/biology" element={<Biology />} />
-        <Route path="/genetics" element={<Genetics />} />
-        <Route path="/fur-processing" element={<FurProcessing />} />
-        <Route
-          path="/artificial-insemination"
-          element={<ArtificialInsemination />}
-        />
-        <Route path="/weaning" element={<Weaning />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
