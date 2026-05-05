@@ -79,6 +79,9 @@ import Quarantine from "./pages/Quarantine/Quarantine";
 import Statistics from "./pages/Statistics/Statistics";
 import Calculator from "./pages/Calculator/Calculator";
 
+// ЕКОНОМІКА ТА РОЗТРАТИ
+import Economics from "./pages/Economics/Economics";
+
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
   async function handleLogout() {
@@ -303,6 +306,9 @@ function App() {
           path="/statistics"
           element={session ? <Statistics session={session} /> : <Auth />}
         />
+
+        {/* — ЕКОНОМИКА ТА РОЗТРАТИ — */}
+        <Route path="/economics" element={<Economics />} />
       </Routes>
       <Footer />
       <UpdatePrompt />
