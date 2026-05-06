@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { supabase } from "./lib/supabase";
 import type { Session } from "@supabase/supabase-js";
+import CopyProtection from "./components/CopyProtection/CopyProtection";
 
 //  АДМІН
 import Admin from "./pages/Admin/Admin";
@@ -203,122 +204,125 @@ function App() {
   if (session && !hasProfile) return <SubscriptionExpired />;
 
   return (
-    <BrowserRouter>
-      <Header session={session} />
-      <Routes>
-        {/* — АДМІН — */}
-        <Route
-          path="/admin"
-          element={session ? <Admin session={session} /> : <Auth />}
-        />
+    <>
+      <CopyProtection />
+      <BrowserRouter>
+        <Header session={session} />
+        <Routes>
+          {/* — АДМІН — */}
+          <Route
+            path="/admin"
+            element={session ? <Admin session={session} /> : <Auth />}
+          />
 
-        {/* — ГОЛОВНА — */}
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/subscription" element={<Subscription />} />
-        <Route path="/community" element={<Community />} />
+          {/* — ГОЛОВНА — */}
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/community" element={<Community />} />
 
-        {/* 1. ПОЧАТОК — знайомство з твариною */}
-        <Route path="/biology" element={<Biology />} />
-        <Route path="/breeds" element={<Breeds />} />
-        <Route path="/breeding" element={<Breeding />} />
-        <Route
-          path="/artificial-insemination"
-          element={<ArtificialInsemination />}
-        />
-        <Route path="/selection" element={<Selection />} />
-        <Route path="/genetics" element={<Genetics />} />
+          {/* 1. ПОЧАТОК — знайомство з твариною */}
+          <Route path="/biology" element={<Biology />} />
+          <Route path="/breeds" element={<Breeds />} />
+          <Route path="/breeding" element={<Breeding />} />
+          <Route
+            path="/artificial-insemination"
+            element={<ArtificialInsemination />}
+          />
+          <Route path="/selection" element={<Selection />} />
+          <Route path="/genetics" element={<Genetics />} />
 
-        {/* 2. ЖИТЛО */}
-        <Route path="/enclosure" element={<Enclosure />} />
-        <Route path="/floor-care" element={<FloorCare />} />
-        <Route path="/pit-keeping" element={<PaddockInfo />} />
-        <Route path="/microclimate" element={<Microclimate />} />
+          {/* 2. ЖИТЛО */}
+          <Route path="/enclosure" element={<Enclosure />} />
+          <Route path="/floor-care" element={<FloorCare />} />
+          <Route path="/pit-keeping" element={<PaddockInfo />} />
+          <Route path="/microclimate" element={<Microclimate />} />
 
-        {/* 3. ХАРЧУВАННЯ */}
-        <Route path="/feeding" element={<Feeding />} />
-        <Route path="/leaves" element={<Leaves />} />
-        <Route path="/crops" element={<Crops />} />
+          {/* 3. ХАРЧУВАННЯ */}
+          <Route path="/feeding" element={<Feeding />} />
+          <Route path="/leaves" element={<Leaves />} />
+          <Route path="/crops" element={<Crops />} />
 
-        {/* 4. ДОГЛЯД */}
-        <Route path="/care" element={<Care />} />
-        <Route path="/disinfection" element={<Disinfection />} />
+          {/* 4. ДОГЛЯД */}
+          <Route path="/care" element={<Care />} />
+          <Route path="/disinfection" element={<Disinfection />} />
 
-        {/* 5. РОЗВЕДЕННЯ */}
-        <Route path="/okril" element={<Okril />} />
-        <Route path="/weaning" element={<Weaning />} />
-        <Route path="/weight-control" element={<WeightControl />} />
+          {/* 5. РОЗВЕДЕННЯ */}
+          <Route path="/okril" element={<Okril />} />
+          <Route path="/weaning" element={<Weaning />} />
+          <Route path="/weight-control" element={<WeightControl />} />
 
-        {/* 6. ЗДОРОВ'Я */}
-        <Route path="/vaccinations" element={<Vaccinations />} />
-        <Route path="/parasites" element={<Parasites />} />
-        <Route path="/diseases" element={<Diseases />} />
-        <Route path="/medicines" element={<Medicines />} />
-        <Route path="/treatment" element={<Treatment />} />
-        <Route path="/first-aid" element={<FirstAid />} />
+          {/* 6. ЗДОРОВ'Я */}
+          <Route path="/vaccinations" element={<Vaccinations />} />
+          <Route path="/parasites" element={<Parasites />} />
+          <Route path="/diseases" element={<Diseases />} />
+          <Route path="/medicines" element={<Medicines />} />
+          <Route path="/treatment" element={<Treatment />} />
+          <Route path="/first-aid" element={<FirstAid />} />
 
-        {/* 7. ПЛАНУВАННЯ */}
-        <Route path="/calendar" element={<Calendar />} />
-        <Route path="/tips" element={<Tips />} />
+          {/* 7. ПЛАНУВАННЯ */}
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/tips" element={<Tips />} />
 
-        {/* 8. ІНСТРУМЕНТИ */}
-        <Route
-          path="/calculator"
-          element={session ? <Calculator /> : <Auth returnTo="/calculator" />}
-        />
-        <Route path="/equipment" element={<Equipment />} />
-        <Route path="/tools" element={<Tools />} />
+          {/* 8. ІНСТРУМЕНТИ */}
+          <Route
+            path="/calculator"
+            element={session ? <Calculator /> : <Auth returnTo="/calculator" />}
+          />
+          <Route path="/equipment" element={<Equipment />} />
+          <Route path="/tools" element={<Tools />} />
 
-        {/* 9. ФІНАЛ */}
-        <Route path="/slaughter" element={<Slaughter />} />
-        <Route path="/fur-processing" element={<FurProcessing />} />
+          {/* 9. ФІНАЛ */}
+          <Route path="/slaughter" element={<Slaughter />} />
+          <Route path="/fur-processing" element={<FurProcessing />} />
 
-        {/* 10. РЕЦЕПТИ */}
-        <Route path="/recipes" element={<Recipes />} />
+          {/* 10. РЕЦЕПТИ */}
+          <Route path="/recipes" element={<Recipes />} />
 
-        {/* — ОСОБИСТИЙ КАБІНЕТ — */}
-        <Route
-          path="/registry"
-          element={session ? <RabbitRegistry session={session} /> : <Auth />}
-        />
-        <Route
-          path="/registry/edit/:id"
-          element={session ? <RabbitEdit session={session} /> : <Auth />}
-        />
-        <Route
-          path="/archive"
-          element={session ? <Archive session={session} /> : <Auth />}
-        />
-        <Route
-          path="/matings"
-          element={session ? <Matings session={session} /> : <Auth />}
-        />
-        <Route
-          path="/paddocks"
-          element={session ? <Paddocks session={session} /> : <Auth />}
-        />
-        <Route
-          path="/fattening"
-          element={session ? <Fattening session={session} /> : <Auth />}
-        />
-        <Route
-          path="/quarantine"
-          element={session ? <Quarantine session={session} /> : <Auth />}
-        />
-        <Route
-          path="/statistics"
-          element={session ? <Statistics session={session} /> : <Auth />}
-        />
+          {/* — ОСОБИСТИЙ КАБІНЕТ — */}
+          <Route
+            path="/registry"
+            element={session ? <RabbitRegistry session={session} /> : <Auth />}
+          />
+          <Route
+            path="/registry/edit/:id"
+            element={session ? <RabbitEdit session={session} /> : <Auth />}
+          />
+          <Route
+            path="/archive"
+            element={session ? <Archive session={session} /> : <Auth />}
+          />
+          <Route
+            path="/matings"
+            element={session ? <Matings session={session} /> : <Auth />}
+          />
+          <Route
+            path="/paddocks"
+            element={session ? <Paddocks session={session} /> : <Auth />}
+          />
+          <Route
+            path="/fattening"
+            element={session ? <Fattening session={session} /> : <Auth />}
+          />
+          <Route
+            path="/quarantine"
+            element={session ? <Quarantine session={session} /> : <Auth />}
+          />
+          <Route
+            path="/statistics"
+            element={session ? <Statistics session={session} /> : <Auth />}
+          />
 
-        {/* — ЕКОНОМИКА ТА РОЗТРАТИ — */}
-        <Route path="/economics" element={<Economics />} />
+          {/* — ЕКОНОМИКА ТА РОЗТРАТИ — */}
+          <Route path="/economics" element={<Economics />} />
 
-        {/* — ЗОНИ — */}
-        <Route path="/zoonoses" element={<Zoonoses />} />
-      </Routes>
-      <Footer />
-      <UpdatePrompt />
-    </BrowserRouter>
+          {/* — ЗОНИ — */}
+          <Route path="/zoonoses" element={<Zoonoses />} />
+        </Routes>
+        <Footer />
+        <UpdatePrompt />
+      </BrowserRouter>
+    </>
   );
 }
 

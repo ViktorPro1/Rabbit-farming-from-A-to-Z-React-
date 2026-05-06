@@ -1,0 +1,175 @@
+.cp-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(3px);
+    animation: cp-fadeIn 0.2s ease;
+}
+
+.cp-modal {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px 32px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: cp-slideUp 0.25s ease;
+}
+
+.cp-emoji {
+    font-size: 56px;
+    margin-bottom: 12px;
+    animation: cp-bounce 0.6s ease;
+}
+
+.cp-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 6px;
+}
+
+.cp-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 16px;
+}
+
+.cp-preview {
+    background: #f5f5f5;
+    border-left: 3px solid #e07b39;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 16px;
+    text-align: left;
+    word-break: break-word;
+}
+
+.cp-link-text {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 6px;
+}
+
+.cp-link {
+    display: inline-block;
+    font-size: 13px;
+    color: #e07b39;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 24px;
+    word-break: break-all;
+}
+
+.cp-link:hover {
+    text-decoration: underline;
+}
+
+.cp-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.cp-btn-allow {
+    background: #e07b39;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cp-btn-allow:hover {
+    background: #c96a2a;
+}
+
+.cp-btn-dismiss {
+    background: #f0f0f0;
+    color: #444;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cp-btn-dismiss:hover {
+    background: #ddd;
+}
+
+/* Адаптив */
+@media (max-width: 480px) {
+    .cp-modal {
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    .cp-emoji {
+        font-size: 44px;
+    }
+
+    .cp-title {
+        font-size: 18px;
+    }
+
+    .cp-buttons {
+        flex-direction: column;
+    }
+
+    .cp-btn-allow,
+    .cp-btn-dismiss {
+        width: 100%;
+    }
+}
+
+@keyframes cp-fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes cp-slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes cp-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-12px);
+    }
+
+    60% {
+        transform: translateY(-6px);
+    }
+}
