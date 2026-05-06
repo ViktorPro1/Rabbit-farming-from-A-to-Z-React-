@@ -68,6 +68,9 @@ import FurProcessing from "./pages/FurProcessing/FurProcessing";
 // РЕЦЕПТИ
 import Recipes from "./pages/Recipes/Recipes";
 
+// ЗОНИ
+import Zoonoses from "./pages/Zoonoses/Zoonoses";
+
 // ОСОБИСТИЙ КАБІНЕТ (потребують авторизації)
 import RabbitRegistry from "./pages/RabbitRegistry/RabbitRegistry";
 import RabbitEdit from "./pages/RabbitEdit/RabbitEdit";
@@ -309,6 +312,9 @@ function App() {
 
         {/* — ЕКОНОМИКА ТА РОЗТРАТИ — */}
         <Route path="/economics" element={<Economics />} />
+
+        {/* — ЗОНИ — */}
+        <Route path="/zoonoses" element={<Zoonoses />} />
       </Routes>
       <Footer />
       <UpdatePrompt />

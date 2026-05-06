@@ -1,0 +1,561 @@
+.zoonoses-page {
+    min-height: 100vh;
+}
+
+/* БАНЕР ДЛЯ ГОСПОДАРЯ */
+.zoonoses-owner-banner {
+    background: linear-gradient(135deg, #33691e, #558b2f);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.zoonoses-owner-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.zoonoses-owner-banner strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.zoonoses-owner-banner p {
+    font-size: 13px;
+    opacity: 0.9;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.zoonoses-header {
+    background: linear-gradient(135deg, #880e4f, #ad1457, #c2185b);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.zoonoses-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.zoonoses-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.zoonoses-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.zoonoses-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.zoonoses-intro {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.zoonoses-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.zoonoses-intro p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.zoonoses-disclaimer {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: #e3f2fd;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    border-left: 3px solid #0d47a1;
+}
+
+.zoonoses-disclaimer span {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.zoonoses-disclaimer p {
+    font-size: 13px;
+    color: #1a237e;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.zoonoses-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.zoonoses-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.zoonoses-alert.critical {
+    background: #ffebee;
+    color: #c62828;
+    border-left: 3px solid #c62828;
+    font-weight: 500;
+}
+
+/* DISEASE CARDS */
+.zoonoses-disease-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.zoonoses-disease-card.high {
+    border-left: 4px solid #c62828;
+}
+
+.zoonoses-disease-card.medium {
+    border-left: 4px solid #e65100;
+}
+
+.zoonoses-disease-card.low {
+    border-left: 4px solid #f9a825;
+}
+
+.zoonoses-disease-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 0.5px solid var(--gray-light);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.zoonoses-disease-header h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 4px;
+}
+
+.zoonoses-latin {
+    font-size: 12px;
+    color: var(--gray);
+    font-style: italic;
+}
+
+.zoonoses-danger-badge {
+    font-size: 13px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.zoonoses-danger-badge.high {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.zoonoses-danger-badge.medium {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffe0b2;
+}
+
+.zoonoses-danger-badge.low {
+    background: #fffde7;
+    color: #f57f17;
+    border: 1px solid #fff9c4;
+}
+
+.zoonoses-disease-body {
+    padding: 1.25rem 1.5rem;
+}
+
+/* TWO COL */
+.zoonoses-two-col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.zoonoses-rabbit-side,
+.zoonoses-human-side {
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.zoonoses-rabbit-side {
+    background: #f0fdf0;
+    border: 0.5px solid #c8e6c9;
+}
+
+.zoonoses-human-side {
+    background: #fff3e0;
+    border: 0.5px solid #ffe0b2;
+}
+
+.zoonoses-side-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.zoonoses-side-title.rabbit {
+    color: #1b5e20;
+}
+
+.zoonoses-side-title.human {
+    color: #e65100;
+}
+
+.zoonoses-rabbit-side ul,
+.zoonoses-human-side ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.zoonoses-rabbit-side li,
+.zoonoses-human-side li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* RISK BLOCK */
+.zoonoses-risk-block {
+    background: #ffebee;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 1rem;
+    border-left: 3px solid #c62828;
+}
+
+.zoonoses-risk-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #c62828;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.zoonoses-risk-block p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.zoonoses-risk-who {
+    font-size: 12px;
+    color: #555;
+    font-style: italic;
+}
+
+/* TIPS BLOCK — ВИДІЛЕНИЙ ДЛЯ ГОСПОДАРЯ */
+.zoonoses-tips-block {
+    background: #e8f5e9;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #c8e6c9;
+}
+
+.zoonoses-tips-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1b5e20;
+    margin-bottom: 10px;
+}
+
+.owner-badge {
+    background: var(--green-dark);
+    color: white !important;
+    padding: 4px 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    font-size: 12px !important;
+}
+
+.zoonoses-tips-block ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.zoonoses-tips-block li {
+    font-size: 13px;
+    color: #1b5e20;
+    line-height: 1.6;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* PREVENTION BLOCK */
+.zoonoses-prevention-block {
+    background: #f9fdf9;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 0.5px solid var(--gray-light);
+}
+
+.zoonoses-prevention-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.zoonoses-prevention-block ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.zoonoses-prevention-block li {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 3px;
+}
+
+/* GENERAL RULES */
+.zoonoses-rules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.zoonoses-rule-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.zoonoses-rule-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.zoonoses-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 5px;
+}
+
+.zoonoses-rule-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* TABLE */
+.zoonoses-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.zoonoses-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    min-width: 500px;
+}
+
+.zoonoses-table th {
+    background: #880e4f;
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.zoonoses-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.zoonoses-table tr:nth-child(even) td {
+    background: #fdf9fb;
+}
+
+.zoonoses-table tr:last-child td {
+    border-bottom: none;
+}
+
+.z-badge {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.z-badge.high {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.z-badge.medium {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.z-badge.low {
+    background: #fffde7;
+    color: #f57f17;
+}
+
+/* EMERGENCY */
+.zoonoses-emergency {
+    background: white;
+    border-radius: 16px;
+    border: 2px solid #c62828;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.zoonoses-emergency h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: #c62828;
+    margin-bottom: 1rem;
+}
+
+.zoonoses-emergency-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.zoonoses-emergency-item {
+    background: #ffebee;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.zoonoses-emergency-item span {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.zoonoses-emergency-item p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* BACK */
+.zoonoses-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.zoonoses-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.zoonoses-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 768px) {
+    .zoonoses-two-col {
+        grid-template-columns: 1fr;
+    }
+
+    .zoonoses-rules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .zoonoses-emergency-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .zoonoses-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .zoonoses-owner-banner {
+        padding: 1rem;
+    }
+
+    .zoonoses-disease-header {
+        flex-direction: column;
+    }
+
+    .zoonoses-table th,
+    .zoonoses-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
