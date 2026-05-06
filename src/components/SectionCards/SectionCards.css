@@ -210,6 +210,33 @@
     flex-shrink: 0;
 }
 
+.section-group {
+    margin-bottom: 2.5rem;
+}
+
+.section-group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #27500A;
+}
+
+.section-group-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.section-group-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #27500A;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
 @media (max-width: 420px) {
     .sc-search-input {
         font-size: 14px;

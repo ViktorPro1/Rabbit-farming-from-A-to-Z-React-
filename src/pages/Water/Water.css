@@ -1,0 +1,508 @@
+.water-page {
+    min-height: 100vh;
+}
+
+.water-header {
+    background: linear-gradient(135deg, #01579b, #0288d1, #039be5);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.water-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.water-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.water-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.water-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.water-intro,
+.water-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.water-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.water-intro p,
+.water-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.water-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.water-alert.ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-left: 3px solid #1b5e20;
+}
+
+.water-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* TABLE */
+.water-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.water-table,
+.water-maintenance-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    min-width: 500px;
+}
+
+.water-table th,
+.water-maintenance-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.water-table td,
+.water-maintenance-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+}
+
+.water-table tr:nth-child(even) td,
+.water-maintenance-table tr:nth-child(even) td {
+    background: #f9fdf9;
+}
+
+.water-table tr:last-child td,
+.water-maintenance-table tr:last-child td {
+    border-bottom: none;
+}
+
+.water-norm {
+    color: #0288d1;
+    font-weight: 500;
+}
+
+/* QUALITY */
+.water-quality-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.water-quality-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.water-quality-header {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.water-quality-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.water-quality-values {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.water-optimal {
+    font-size: 12px;
+    color: #1b5e20;
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.water-warning {
+    font-size: 12px;
+    color: #e65100;
+    background: #fff3e0;
+    padding: 2px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.water-quality-effect {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.water-quality-check {
+    font-size: 12px;
+    color: #555;
+    background: #f9fdf9;
+    padding: 8px 10px;
+    border-radius: 8px;
+    line-height: 1.5;
+}
+
+/* NITRATE LEVELS */
+.water-nitrate-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.water-nitrate-item {
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.water-nitrate-item.safe {
+    background: #e8f5e9;
+    border: 0.5px solid #c8e6c9;
+}
+
+.water-nitrate-item.caution {
+    background: #fffde7;
+    border: 0.5px solid #fff9c4;
+}
+
+.water-nitrate-item.warning {
+    background: #fff3e0;
+    border: 0.5px solid #ffe0b2;
+}
+
+.water-nitrate-item.critical {
+    background: #ffebee;
+    border: 0.5px solid #ffcdd2;
+}
+
+.water-nitrate-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.water-nitrate-level {
+    font-size: 14px;
+    font-weight: 500;
+    color: #222;
+    font-family: monospace;
+}
+
+.water-nitrate-badge {
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+.water-nitrate-badge.safe {
+    background: #1b5e20;
+    color: white;
+}
+
+.water-nitrate-badge.caution {
+    background: #f57f17;
+    color: white;
+}
+
+.water-nitrate-badge.warning {
+    background: #e65100;
+    color: white;
+}
+
+.water-nitrate-badge.critical {
+    background: #c62828;
+    color: white;
+}
+
+.water-nitrate-item p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* SOURCES */
+.water-sources-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.water-source-card,
+.water-drinker-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.water-source-card h3,
+.water-drinker-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.water-source-body,
+.water-drinker-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.water-source-label {
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.water-source-label.pros {
+    color: #1b5e20;
+}
+
+.water-source-label.cons {
+    color: #444;
+}
+
+.water-source-card ul,
+.water-drinker-card ul {
+    padding-left: 1.1rem;
+    margin: 0;
+}
+
+.water-source-card li,
+.water-drinker-card li {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 3px;
+}
+
+.water-source-rec {
+    font-size: 12px;
+    color: #1b5e20;
+    background: #e8f5e9;
+    padding: 8px 10px;
+    border-radius: 8px;
+    line-height: 1.5;
+}
+
+/* DRINKERS */
+.water-drinkers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+/* WINTER */
+.water-winter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.water-winter-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    border-top: 3px solid #0288d1;
+}
+
+.water-winter-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.water-winter-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.water-winter-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 4px;
+}
+
+.water-winter-cost {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.water-winter-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* LIFEHACKS */
+.water-lifehacks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.water-lifehack-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.water-lifehack-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.water-lifehack-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 5px;
+}
+
+.water-lifehack-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* BACK */
+.water-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.water-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.water-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 768px) {
+    .water-quality-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .water-sources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .water-drinkers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .water-winter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .water-lifehacks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .water-source-body,
+    .water-drinker-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .water-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .water-table th,
+    .water-table td,
+    .water-maintenance-table th,
+    .water-maintenance-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

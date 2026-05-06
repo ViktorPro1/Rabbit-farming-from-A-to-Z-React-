@@ -36,6 +36,7 @@ import Microclimate from "./pages/Microclimate/Microclimate";
 import Feeding from "./pages/Feeding/Feeding";
 import Leaves from "./pages/Leaves/Leaves";
 import Crops from "./pages/Crops/Crops";
+import Water from "./pages/Water/Water";
 
 // ДОГЛЯД
 import Care from "./pages/Care/Care";
@@ -242,6 +243,7 @@ function App() {
           <Route path="/feeding" element={<Feeding />} />
           <Route path="/leaves" element={<Leaves />} />
           <Route path="/crops" element={<Crops />} />
+          <Route path="/water" element={<Water />} />
 
           {/* 4. ДОГЛЯД */}
           <Route path="/care" element={<Care />} />
