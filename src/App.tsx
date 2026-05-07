@@ -84,8 +84,9 @@ import Quarantine from "./pages/Quarantine/Quarantine";
 import Statistics from "./pages/Statistics/Statistics";
 import Calculator from "./pages/Calculator/Calculator";
 
-// ЕКОНОМІКА ТА РОЗТРАТИ
+// УПРАВЛІННЯ ГОСПОДАРСТВОМ
 import Economics from "./pages/Economics/Economics";
+import Legal from "./pages/Legal/Legal";
 
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
@@ -315,8 +316,9 @@ function App() {
             element={session ? <Statistics session={session} /> : <Auth />}
           />
 
-          {/* — ЕКОНОМИКА ТА РОЗТРАТИ — */}
+          {/* — Управління господарством — */}
           <Route path="/economics" element={<Economics />} />
+          <Route path="/legal" element={<Legal />} />
 
           {/* — ЗОНИ — */}
           <Route path="/zoonoses" element={<Zoonoses />} />
