@@ -54,6 +54,7 @@ import Diseases from "./pages/Diseases/Diseases";
 import Medicines from "./pages/Medicines/Medicines";
 import Treatment from "./pages/Treatment/Treatment";
 import FirstAid from "./pages/FirstAid/FirstAid";
+import LabDiagnostics from "./pages/LabDiagnostics/LabDiagnostics";
 
 // ПЛАНУВАННЯ
 import Calendar from "./pages/Calendar/Calendar";
@@ -262,6 +263,7 @@ function App() {
           <Route path="/medicines" element={<Medicines />} />
           <Route path="/treatment" element={<Treatment />} />
           <Route path="/first-aid" element={<FirstAid />} />
+          <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
 
           {/* 7. ПЛАНУВАННЯ */}
           <Route path="/calendar" element={<Calendar />} />
