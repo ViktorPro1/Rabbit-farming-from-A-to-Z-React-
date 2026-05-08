@@ -46,6 +46,7 @@ import Disinfection from "./pages/Disinfection/Disinfection";
 import Okril from "./pages/Okril/Okril";
 import Weaning from "./pages/Weaning/Weaning";
 import WeightControl from "./pages/WeightControl/WeightControl";
+import ArtificialFeeding from "./pages/ArtificialFeeding/ArtificialFeeding";
 
 // ЗДОРОВ'Я
 import Vaccinations from "./pages/Vaccinations/Vaccinations";
@@ -55,6 +56,7 @@ import Medicines from "./pages/Medicines/Medicines";
 import Treatment from "./pages/Treatment/Treatment";
 import FirstAid from "./pages/FirstAid/FirstAid";
 import LabDiagnostics from "./pages/LabDiagnostics/LabDiagnostics";
+import Symptoms from "./pages/Symptoms/Symptoms";
 
 // ПЛАНУВАННЯ
 import Calendar from "./pages/Calendar/Calendar";
@@ -255,6 +257,7 @@ function App() {
           <Route path="/okril" element={<Okril />} />
           <Route path="/weaning" element={<Weaning />} />
           <Route path="/weight-control" element={<WeightControl />} />
+          <Route path="/artificial-feeding" element={<ArtificialFeeding />} />
 
           {/* 6. ЗДОРОВ'Я */}
           <Route path="/vaccinations" element={<Vaccinations />} />
@@ -264,6 +267,7 @@ function App() {
           <Route path="/treatment" element={<Treatment />} />
           <Route path="/first-aid" element={<FirstAid />} />
           <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
+          <Route path="/symptoms" element={<Symptoms />} />
 
           {/* 7. ПЛАНУВАННЯ */}
           <Route path="/calendar" element={<Calendar />} />
