@@ -41,6 +41,7 @@ import Water from "./pages/Water/Water";
 // ДОГЛЯД
 import Care from "./pages/Care/Care";
 import Disinfection from "./pages/Disinfection/Disinfection";
+import Biosecurity from "./pages/Biosecurity/Biosecurity";
 
 // РОЗВЕДЕННЯ
 import Okril from "./pages/Okril/Okril";
@@ -57,6 +58,7 @@ import Treatment from "./pages/Treatment/Treatment";
 import FirstAid from "./pages/FirstAid/FirstAid";
 import LabDiagnostics from "./pages/LabDiagnostics/LabDiagnostics";
 import Symptoms from "./pages/Symptoms/Symptoms";
+import Necropsy from "./pages/Necropsy/Necropsy";
 
 // ПЛАНУВАННЯ
 import Calendar from "./pages/Calendar/Calendar";
@@ -252,6 +254,7 @@ function App() {
           {/* 4. ДОГЛЯД */}
           <Route path="/care" element={<Care />} />
           <Route path="/disinfection" element={<Disinfection />} />
+          <Route path="/biosecurity" element={<Biosecurity />} />
 
           {/* 5. РОЗВЕДЕННЯ */}
           <Route path="/okril" element={<Okril />} />
@@ -268,6 +271,7 @@ function App() {
           <Route path="/first-aid" element={<FirstAid />} />
           <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
           <Route path="/symptoms" element={<Symptoms />} />
+          <Route path="/necropsy" element={<Necropsy />} />
 
           {/* 7. ПЛАНУВАННЯ */}
           <Route path="/calendar" element={<Calendar />} />

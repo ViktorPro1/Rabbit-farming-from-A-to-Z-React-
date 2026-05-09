@@ -1,0 +1,246 @@
+.necropsy-page {
+    min-height: 100vh;
+}
+
+.necropsy-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.necropsy-header h1 {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.necropsy-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.necropsy-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.necropsy-alert {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #7c3b00;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* ─── Навігація ─── */
+
+.necropsy-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.necropsy-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #444;
+    font-size: 13px;
+}
+
+.necropsy-nav-btn:hover,
+.necropsy-nav-btn.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+/* ─── Заголовок секції ─── */
+
+.necropsy-section-header {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: white;
+    border: 0.5px solid var(--gray-light);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.necropsy-section-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.necropsy-section-header h2 {
+    font-size: 18px;
+    color: var(--green-dark);
+    margin: 0 0 4px;
+    font-weight: 500;
+}
+
+.necropsy-section-header p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+}
+
+/* ─── Кроки ─── */
+
+.necropsy-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.necropsy-step {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.necropsy-step:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.necropsy-step-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.necropsy-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.necropsy-step-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.necropsy-step-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    line-height: 1.4;
+}
+
+.necropsy-step-body {
+    border-top: 0.5px solid var(--gray-light);
+    background: var(--green-light);
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.necropsy-step-body p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #444;
+}
+
+.necropsy-warning {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #7c3b00;
+}
+
+.necropsy-tip {
+    background: #fffbea;
+    border-left: 3px solid #f6c90e;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #6d4c00;
+}
+
+/* ─── Кнопка назад ─── */
+
+.necropsy-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.necropsy-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.necropsy-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+    .necropsy-header {
+        padding: 1.7rem 1rem;
+    }
+
+    .necropsy-nav-btn {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .necropsy-section-header {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .necropsy-step-top {
+        padding: 0.9rem;
+    }
+
+    .necropsy-step-body {
+        padding: 0.9rem;
+    }
+
+    .necropsy-nav {
+        gap: 6px;
+    }
+
+    .necropsy-nav-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+}
