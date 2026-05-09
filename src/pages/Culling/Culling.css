@@ -1,0 +1,360 @@
+.culling-page {
+    min-height: 100vh;
+}
+
+.culling-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.culling-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.culling-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.culling-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.culling-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── NOTE ── */
+
+.culling-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.culling-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── ALERT ── */
+
+.culling-alert {
+    margin-top: 12px;
+    margin-bottom: 4px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.culling-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.culling-tip {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    background: #fffbea;
+    border-left: 3px solid #f6c90e;
+    color: #6d4c00;
+}
+
+/* ── ТИПИ ВИБРАКОВКИ ── */
+
+.culling-types-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.culling-type-card {
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.culling-type-card.soft {
+    background: #f0f9f0;
+    border-color: #d5ead6;
+}
+
+.culling-type-card.hard {
+    background: #fff5f5;
+    border-color: #ffd5d5;
+}
+
+.culling-type-icon {
+    font-size: 26px;
+    line-height: 1;
+}
+
+.culling-type-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.culling-type-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── КАРТКИ МОЛОДНЯКУ ── */
+
+.culling-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.culling-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.culling-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.culling-card-header span:first-child {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.culling-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── ТАБЛИЦІ ── */
+
+.culling-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.culling-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.culling-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.culling-table td {
+    padding: 11px 14px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.culling-table tr:last-child td {
+    border-bottom: none;
+}
+
+.culling-table tr:hover td {
+    background: #eef7ee;
+}
+
+.culling-table-sub {
+    font-size: 12px;
+    color: #888;
+}
+
+.culling-badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.culling-badge.soft {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+.culling-badge.hard {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+/* ── ГЕНЕТИЧНІ ДЕФЕКТИ ── */
+
+.culling-defects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.culling-defect-card {
+    background: #fff5f5;
+    border-radius: 16px;
+    border: 0.5px solid #ffd5d5;
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.culling-defect-card>span {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.culling-defect-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.culling-defect-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── СИСТЕМНИЙ ПІДХІД ── */
+
+.culling-rules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.culling-rule-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.culling-rule-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.culling-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.culling-rule-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── BACK ── */
+
+.culling-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.culling-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.culling-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .culling-types-grid,
+    .culling-cards-grid,
+    .culling-defects-grid,
+    .culling-rules-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .culling-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .culling-table th,
+    .culling-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
