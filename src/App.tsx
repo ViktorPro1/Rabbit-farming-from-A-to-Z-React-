@@ -48,6 +48,7 @@ import Okril from "./pages/Okril/Okril";
 import Weaning from "./pages/Weaning/Weaning";
 import WeightControl from "./pages/WeightControl/WeightControl";
 import ArtificialFeeding from "./pages/ArtificialFeeding/ArtificialFeeding";
+import MatingPage from "./pages/MatingFrequency/MatingFrequency";
 
 // ЗДОРОВ'Я
 import Vaccinations from "./pages/Vaccinations/Vaccinations";
@@ -262,6 +263,7 @@ function App() {
           <Route path="/weaning" element={<Weaning />} />
           <Route path="/weight-control" element={<WeightControl />} />
           <Route path="/artificial-feeding" element={<ArtificialFeeding />} />
+          <Route path="/mating-frequency" element={<MatingPage />} />
 
           {/* 6. ЗДОРОВ'Я */}
           <Route path="/vaccinations" element={<Vaccinations />} />
