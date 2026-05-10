@@ -9,6 +9,10 @@ import WelcomePopup from "./components/WelcomePopup/WelcomePopup";
 //  АДМІН
 import Admin from "./pages/Admin/Admin";
 
+//  З ЧОГО ПОЧАТИ
+import BeginnerGuide from "./pages/BeginnerGuide/BeginnerGuide";
+import FAQ from "./pages/FAQ/FAQ";
+
 // ЗАГАЛЬНІ КОМПОНЕНТИ
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -228,6 +232,10 @@ function App() {
             path="/admin"
             element={session ? <Admin session={session} /> : <Auth />}
           />
+
+          {/* — З ЧОГО ПОЧАТИ — */}
+          <Route path="/beginner-guide" element={<BeginnerGuide />} />
+          <Route path="/faq" element={<FAQ />} />
 
           {/* — ГОЛОВНА — */}
           <Route path="/" element={<Home />} />
