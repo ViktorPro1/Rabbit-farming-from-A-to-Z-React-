@@ -2,23 +2,16 @@
     position: fixed;
     right: 20px;
     bottom: 20px;
-
     width: 64px;
     height: 64px;
-
     border: none;
     border-radius: 50%;
-
     background: #2f6f1e;
     color: white;
-
     font-size: 28px;
     cursor: pointer;
-
     z-index: 9999;
-
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-
     transition: 0.2s;
 }
 
@@ -28,83 +21,58 @@
 
 .assistant-window {
     position: fixed;
-
     right: 20px;
     bottom: 100px;
-
     width: 360px;
     height: 520px;
-
     background: white;
-
     border-radius: 20px;
-
     overflow: hidden;
-
     z-index: 9999;
-
     display: flex;
     flex-direction: column;
-
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
 }
 
 .assistant-header {
     height: 70px;
-
     background: #2f6f1e;
     color: white;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 18px;
 }
 
 .assistant-header span {
     display: block;
-
     margin-top: 4px;
-
     font-size: 13px;
-
     opacity: 0.8;
 }
 
 .assistant-close {
     border: none;
     background: transparent;
-
     color: white;
-
     font-size: 22px;
-
     cursor: pointer;
 }
 
 .assistant-body {
     flex: 1;
-
     padding: 16px;
-
     overflow-y: auto;
-
     background: #f5f5f5;
-
     display: flex;
     flex-direction: column;
 }
 
 .assistant-message {
     max-width: 80%;
-
     padding: 12px 14px;
-
     border-radius: 14px;
-
     margin-bottom: 14px;
-
     font-size: 15px;
     line-height: 1.5;
 }
@@ -115,58 +83,41 @@
 
 .assistant-message.bot {
     background: white;
-
     color: #222;
-
     align-self: flex-start;
 }
 
 .assistant-message.user {
     background: #2f6f1e;
-
     color: white;
-
     align-self: flex-end;
 }
 
 .assistant-link {
     display: inline-block;
-
     margin-top: 10px;
-
     color: #2f6f1e;
-
     font-weight: 600;
-
     text-decoration: none;
 }
 
 .assistant-footer {
     height: 70px;
-
     border-top: 1px solid #ddd;
-
     display: flex;
     align-items: center;
     gap: 10px;
-
     padding: 0 14px;
-
     background: white;
 }
 
 .assistant-footer input {
     flex: 1;
-
     height: 44px;
-
     border: 1px solid #ccc;
     border-radius: 12px;
-
     padding: 0 14px;
-
     outline: none;
-
     font-size: 15px;
 }
 
@@ -177,17 +128,12 @@
 .assistant-footer button {
     width: 44px;
     height: 44px;
-
     border: none;
     border-radius: 12px;
-
     background: #2f6f1e;
     color: white;
-
     cursor: pointer;
-
     font-size: 18px;
-
     transition: 0.2s;
 }
 
@@ -196,6 +142,14 @@
 }
 
 @media (max-width: 480px) {
+    .assistant-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+        right: 14px;
+        bottom: 14px;
+    }
+
     .assistant-window {
         width: 90%;
         height: 70%;
@@ -220,6 +174,14 @@
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
+    .assistant-toggle {
+        width: 54px;
+        height: 54px;
+        font-size: 24px;
+        right: 16px;
+        bottom: 16px;
+    }
+
     .assistant-window {
         width: 70%;
         height: 65%;

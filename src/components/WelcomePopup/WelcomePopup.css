@@ -1,0 +1,101 @@
+.welcome-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1rem;
+    padding-top: 8vh;
+}
+
+.welcome-popup {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem 4.5rem;
+    width: 100%;
+    max-width: 620px;
+    text-align: center;
+    position: relative;
+}
+
+.welcome-popup__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+    line-height: 1;
+}
+
+.welcome-popup__title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #1a1a1a;
+}
+
+.welcome-popup__text {
+    color: #555;
+    line-height: 1.4;
+    margin: 0;
+    font-size: 15px;
+}
+
+.welcome-overlay {
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.welcome-overlay--fade {
+    opacity: 0;
+}
+
+/* Мобільний — до 480px */
+@media (max-width: 480px) {
+    .welcome-overlay {
+        padding-top: 5vh;
+    }
+
+    .welcome-popup {
+        padding: 1.25rem 1.5rem;
+        border-radius: 10px;
+        max-width: 100%;
+    }
+
+    .welcome-popup__title {
+        font-size: 18px;
+    }
+
+    .welcome-popup__text {
+        font-size: 14px;
+    }
+}
+
+/* Планшет — 481px до 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .welcome-popup {
+        max-width: 580px;
+        padding: 1.5rem 3rem;
+    }
+
+    .welcome-popup__title {
+        font-size: 20px;
+    }
+}
+
+/* Десктоп — від 769px */
+@media (min-width: 769px) {
+    .welcome-popup {
+        max-width: 620px;
+        padding: 1.5rem 4.5rem;
+    }
+
+    .welcome-popup__title {
+        font-size: 22px;
+    }
+}

@@ -4,6 +4,7 @@ import { supabase } from "./lib/supabase";
 import type { Session } from "@supabase/supabase-js";
 import CopyProtection from "./components/CopyProtection/CopyProtection";
 import Assistant from "./components/Assistant/Assistant";
+import WelcomePopup from "./components/WelcomePopup/WelcomePopup";
 
 //  АДМІН
 import Admin from "./pages/Admin/Admin";
@@ -217,6 +218,7 @@ function App() {
     <>
       <CopyProtection />
       <BrowserRouter>
+        <WelcomePopup />
         <Assistant />
         <Header session={session} />
         <Routes>
