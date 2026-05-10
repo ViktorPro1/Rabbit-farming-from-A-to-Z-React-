@@ -33,11 +33,11 @@ const emptyForm = {
   notes: "",
 };
 
-// 90 днів = стандарт для м'ясних порід (мінімум 3 місяці)
+// 110 днів — оптимум для домашнього господарства (звичайні породи)
 function calcSlaughterDate(birthDate: string): string {
   if (!birthDate) return "";
   const d = new Date(birthDate);
-  d.setDate(d.getDate() + 90);
+  d.setDate(d.getDate() + 110);
   return d.toISOString().split("T")[0];
 }
 
@@ -214,7 +214,7 @@ export default function Fattening({ session }: Props) {
               />
             </div>
             <div className="fattening-form-field">
-              <label>Планова дата забою (авто +90 днів)</label>
+              <label>Планова дата забою (авто +110 днів)</label>
               <input
                 type="date"
                 value={form.slaughter_date}
@@ -302,7 +302,7 @@ export default function Fattening({ session }: Props) {
               />
             </div>
             <div className="fattening-form-field">
-              <label>Планова дата забою (авто +90 днів)</label>
+              <label>Планова дата забою (авто +110 днів)</label>
               <input
                 type="date"
                 value={editingCage.slaughter_date || ""}
@@ -386,7 +386,6 @@ export default function Fattening({ session }: Props) {
           {cages.map((cage) => {
             const today = new Date();
 
-            // парсимо birth_year якщо там повна дата у форматі DD.MM.YYYY
             const parseBirthYear = (val: string): string => {
               if (!val) return "";
               const parts = val.split(".");
@@ -397,7 +396,6 @@ export default function Fattening({ session }: Props) {
 
             const birthIso = cage.birth_date || parseBirthYear(cage.birth_year);
 
-            // якщо slaughter_date порожній але є дата народження — рахуємо на льоту
             const slaughterStr =
               cage.slaughter_date ||
               (birthIso ? calcSlaughterDate(birthIso) : null);
@@ -473,6 +471,7 @@ export default function Fattening({ session }: Props) {
           })}
         </div>
       )}
+
       {/* ── Зноска ── */}
       <div className="fattening-note">
         <h3>📋 Рекомендовані терміни забою</h3>
@@ -495,7 +494,7 @@ export default function Fattening({ session }: Props) {
             <div>
               <strong>Універсальні породи</strong>
               <span>Бургундський, Віденський, Термонський</span>
-              <span className="fattening-note-days">90–110 днів</span>
+              <span className="fattening-note-days">90–120 днів</span>
             </div>
           </div>
           <div className="fattening-note-item">
@@ -530,10 +529,11 @@ export default function Fattening({ session }: Props) {
             color: "#1b5e20",
           }}
         >
-          ✅ <strong>Економічно вигідний вік:</strong> За даними досліджень,
-          найвища рентабельність досягається при забої у віці{" "}
-          <strong>77 днів</strong> для промислових кросів типу HYLA. Для
-          звичайних порід — 90–100 днів.
+          ✅ <strong>Оптимальний вік для домашнього господарства:</strong> Для
+          звичайних порід в домашніх умовах найкращий результат за якістю м'яса
+          і рентабельністю — <strong>100–120 днів</strong>. Система автоматично
+          пропонує <strong>110 днів</strong> як середнє значення, але ви завжди
+          можете скоригувати дату вручну.
         </div>
       </div>
     </div>

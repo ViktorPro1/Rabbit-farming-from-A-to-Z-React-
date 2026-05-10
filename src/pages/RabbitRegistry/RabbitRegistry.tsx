@@ -124,11 +124,11 @@ export default function RabbitRegistry({ session }: Props) {
         Promise.all([
           supabase
             .from("litters")
-            .select("alive, weaned_males, weaned_females")
+            .select("alive, weaned_males, weaned_females, weaned_date")
             .eq("user_id", session.user.id),
           supabase
             .from("paddock_litters")
-            .select("alive, weaned_males, weaned_females")
+            .select("alive, weaned_males, weaned_females, weaned_date")
             .eq("user_id", session.user.id),
           supabase
             .from("paddock_females")
@@ -154,28 +154,23 @@ export default function RabbitRegistry({ session }: Props) {
           ]) => {
             let youngFromCages = 0,
               youngFromPaddocks = 0;
-            let youngMales = 0,
-              youngFemales = 0,
-              youngUnknown = 0;
+            let youngTotal = 0;
+
+            // Рахуємо тільки НЕ відлучених (weaned_date відсутня)
             (littersData || []).forEach((l) => {
+              if (l.weaned_date) return;
               const alive = l.alive || 0;
-              const wm = l.weaned_males || 0;
-              const wf = l.weaned_females || 0;
-              youngMales += wm;
-              youngFemales += wf;
-              youngUnknown += Math.max(0, alive - (wm + wf));
               youngFromCages += alive;
+              youngTotal += alive;
             });
+
             (paddockLittersData || []).forEach((l) => {
+              if (l.weaned_date) return;
               const alive = l.alive || 0;
-              const wm = l.weaned_males || 0;
-              const wf = l.weaned_females || 0;
-              youngMales += wm;
-              youngFemales += wf;
-              youngUnknown += Math.max(0, alive - (wm + wf));
               youngFromPaddocks += alive;
+              youngTotal += alive;
             });
-            const youngTotal = youngMales + youngFemales + youngUnknown;
+
             const paddockFemales = (paddockFemalesData || []).length;
             let fatteningMales = 0,
               fatteningFemales = 0,
@@ -243,11 +238,11 @@ export default function RabbitRegistry({ session }: Props) {
     ] = await Promise.all([
       supabase
         .from("litters")
-        .select("alive, weaned_males, weaned_females")
+        .select("alive, weaned_males, weaned_females, weaned_date")
         .eq("user_id", session.user.id),
       supabase
         .from("paddock_litters")
-        .select("alive, weaned_males, weaned_females")
+        .select("alive, weaned_males, weaned_females, weaned_date")
         .eq("user_id", session.user.id),
       supabase
         .from("paddock_females")
@@ -264,30 +259,26 @@ export default function RabbitRegistry({ session }: Props) {
         .eq("user_id", session.user.id)
         .eq("is_active", true),
     ]);
+
     let youngFromCages = 0,
       youngFromPaddocks = 0;
-    let youngMales = 0,
-      youngFemales = 0,
-      youngUnknown = 0;
+    let youngTotal = 0;
+
+    // Рахуємо тільки НЕ відлучених (weaned_date відсутня)
     (littersData || []).forEach((l) => {
+      if (l.weaned_date) return;
       const alive = l.alive || 0;
-      const wm = l.weaned_males || 0;
-      const wf = l.weaned_females || 0;
-      youngMales += wm;
-      youngFemales += wf;
-      youngUnknown += Math.max(0, alive - (wm + wf));
       youngFromCages += alive;
+      youngTotal += alive;
     });
+
     (paddockLittersData || []).forEach((l) => {
+      if (l.weaned_date) return;
       const alive = l.alive || 0;
-      const wm = l.weaned_males || 0;
-      const wf = l.weaned_females || 0;
-      youngMales += wm;
-      youngFemales += wf;
-      youngUnknown += Math.max(0, alive - (wm + wf));
       youngFromPaddocks += alive;
+      youngTotal += alive;
     });
-    const youngTotal = youngMales + youngFemales + youngUnknown;
+
     const paddockFemales = (paddockFemalesData || []).length;
     let fatteningMales = 0,
       fatteningFemales = 0,

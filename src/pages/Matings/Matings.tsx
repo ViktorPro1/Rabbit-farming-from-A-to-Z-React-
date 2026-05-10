@@ -77,6 +77,13 @@ const emptyLitterForm = {
   litter_expected_birth: "",
 };
 
+function calcSlaughterDate(birthDate: string): string {
+  if (!birthDate) return "";
+  const d = new Date(birthDate);
+  d.setDate(d.getDate() + 110);
+  return d.toISOString().split("T")[0];
+}
+
 export default function Matings({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
   const [matings, setMatings] = useState<Mating[]>([]);
@@ -211,6 +218,50 @@ export default function Matings({ session }: Props) {
     });
   }
 
+  // Створює записи у відгодівлі для самців і/або самиць окремо
+  async function createFatteningRecords(
+    birthDate: string,
+    breed: string,
+    males: number,
+    malesCage: string,
+    females: number,
+    femalesCage: string,
+  ) {
+    const inserts = [];
+
+    if (males > 0 && malesCage) {
+      inserts.push({
+        user_id: session.user.id,
+        cage_number: malesCage,
+        males,
+        females: 0,
+        unknown: 0,
+        breed: breed || null,
+        birth_date: birthDate || null,
+        slaughter_date: birthDate ? calcSlaughterDate(birthDate) : null,
+        is_active: true,
+      });
+    }
+
+    if (females > 0 && femalesCage) {
+      inserts.push({
+        user_id: session.user.id,
+        cage_number: femalesCage,
+        males: 0,
+        females,
+        unknown: 0,
+        breed: breed || null,
+        birth_date: birthDate || null,
+        slaughter_date: birthDate ? calcSlaughterDate(birthDate) : null,
+        is_active: true,
+      });
+    }
+
+    if (inserts.length > 0) {
+      await supabase.from("fattening").insert(inserts);
+    }
+  }
+
   async function handleAddMating() {
     setSaving(true);
     setError("");
@@ -253,10 +304,18 @@ export default function Matings({ session }: Props) {
     setSaving(false);
   }
 
-  async function handleEditLitter() {
+  async function handleEditLitter(mating: Mating) {
     if (!editingLitterData) return;
     setSaving(true);
     setError("");
+
+    // Перевіряємо чи weaned_date щойно з'явилась (була порожня)
+    const originalLitter = (mating.litters || []).find(
+      (l) => l.id === editingLitterData.id,
+    );
+    const wasNotWeaned = !originalLitter?.weaned_date;
+    const isNowWeaned = !!editingLitterData.weaned_date;
+
     const { error } = await supabase
       .from("litters")
       .update({
@@ -275,9 +334,22 @@ export default function Matings({ session }: Props) {
         litter_expected_birth: editingLitterData.litter_expected_birth || null,
       })
       .eq("id", editingLitterData.id);
+
     if (error) {
       setError("Помилка збереження");
     } else {
+      // Автоматично створюємо записи у відгодівлі тільки якщо відлучення щойно виставили
+      if (wasNotWeaned && isNowWeaned) {
+        const breed = mating.female?.breed || mating.male?.breed || "";
+        await createFatteningRecords(
+          editingLitterData.birth_date,
+          breed,
+          Number(editingLitterData.weaned_males) || 0,
+          editingLitterData.weaned_males_cage || "",
+          Number(editingLitterData.weaned_females) || 0,
+          editingLitterData.weaned_females_cage || "",
+        );
+      }
       setEditingLitterId(null);
       setEditingLitterData(null);
       fetchMatings();
@@ -285,7 +357,7 @@ export default function Matings({ session }: Props) {
     setSaving(false);
   }
 
-  async function handleAddLitter(matingId: string) {
+  async function handleAddLitter(matingId: string, mating: Mating) {
     setSaving(true);
     setError("");
     const form = litterForms[matingId] || emptyLitterForm;
@@ -309,6 +381,18 @@ export default function Matings({ session }: Props) {
     if (error) {
       setError("Помилка збереження");
     } else {
+      // Якщо одразу вказали відлучення — створюємо записи у відгодівлі
+      if (form.weaned_date) {
+        const breed = mating.female?.breed || mating.male?.breed || "";
+        await createFatteningRecords(
+          form.birth_date,
+          breed,
+          Number(form.weaned_males) || 0,
+          form.weaned_males_cage || "",
+          Number(form.weaned_females) || 0,
+          form.weaned_females_cage || "",
+        );
+      }
       setLitterForms({ ...litterForms, [matingId]: emptyLitterForm });
       setShowLitterForm({ ...showLitterForm, [matingId]: false });
       fetchMatings();
@@ -365,7 +449,7 @@ export default function Matings({ session }: Props) {
           className="matings-back-btn"
           onClick={() => navigate("/registry")}
         >
-          ⬅ Мої кролики
+          {"⬅"} Мої кролики
         </button>
       </div>
 
@@ -509,7 +593,7 @@ export default function Matings({ session }: Props) {
               <div className="mating-card-top">
                 <span className="mating-pair">
                   ♂ {m.male?.name}
-                  {m.male?.breed ? ` (${m.male.breed})` : ""} × ♀{" "}
+                  {m.male?.breed ? ` (${m.male.breed})` : ""} {"×"} ♀{" "}
                   {m.female?.name}
                   {m.female?.breed ? ` (${m.female.breed})` : ""}
                 </span>
@@ -836,12 +920,13 @@ export default function Matings({ session }: Props) {
                         </span>
                         {l.weaned_males > 0 && (
                           <span>
-                            ♂ {l.weaned_males} гол. → {l.weaned_males_cage}
+                            ♂ {l.weaned_males} гол. {"→"} {l.weaned_males_cage}
                           </span>
                         )}
                         {l.weaned_females > 0 && (
                           <span>
-                            ♀ {l.weaned_females} гол. → {l.weaned_females_cage}
+                            ♀ {l.weaned_females} гол. {"→"}{" "}
+                            {l.weaned_females_cage}
                           </span>
                         )}
                       </div>
@@ -1024,7 +1109,7 @@ export default function Matings({ session }: Props) {
                           </button>
                           <button
                             className="matings-save-btn"
-                            onClick={handleEditLitter}
+                            onClick={() => handleEditLitter(m)}
                             disabled={saving}
                           >
                             {saving ? "Збереження..." : "Зберегти зміни"}
@@ -1241,7 +1326,7 @@ export default function Matings({ session }: Props) {
                   {error && <p className="matings-error">{error}</p>}
                   <button
                     className="matings-save-btn"
-                    onClick={() => handleAddLitter(m.id)}
+                    onClick={() => handleAddLitter(m.id, m)}
                     disabled={saving}
                   >
                     {saving ? "Збереження..." : "Зберегти окріл"}
