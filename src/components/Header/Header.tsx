@@ -38,7 +38,7 @@ const Header = ({ session }: Props) => {
   return (
     <header className="header">
       <NavLink to="/" className="header-logo">
-        <span>🐇</span>
+        <span>🇺🇦</span>
         <span>Кролівництво від А до Я</span>
       </NavLink>
       <nav className="header-nav">
