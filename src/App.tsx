@@ -49,6 +49,7 @@ import Feeders from "./pages/Feeders/Feeders";
 import Care from "./pages/Care/Care";
 import Disinfection from "./pages/Disinfection/Disinfection";
 import Biosecurity from "./pages/Biosecurity/Biosecurity";
+import Grooming from "./pages/Grooming/Grooming";
 
 // РОЗВЕДЕННЯ
 import Okril from "./pages/Okril/Okril";
@@ -271,6 +272,7 @@ function App() {
           <Route path="/care" element={<Care />} />
           <Route path="/disinfection" element={<Disinfection />} />
           <Route path="/biosecurity" element={<Biosecurity />} />
+          <Route path="/grooming" element={<Grooming />} />
 
           {/* 5. РОЗВЕДЕННЯ */}
           <Route path="/okril" element={<Okril />} />
