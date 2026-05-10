@@ -42,10 +42,6 @@ const Header = ({ session }: Props) => {
         <span>Кролівництво від А до Я</span>
       </NavLink>
       <nav className="header-nav">
-        <NavLink to="/breeds">Породи</NavLink>
-        <NavLink to="/care">Догляд</NavLink>
-        <NavLink to="/feeding">Годування</NavLink>
-        <NavLink to="/diseases">Хвороби</NavLink>
         <NavLink to="/calculator">Калькулятор</NavLink>
         <NavLink to="/community">Спільноти</NavLink>
         <NavLink to="/subscription">Підписка</NavLink>

@@ -32,6 +32,8 @@ interface Litter {
   litter_mating_date: string;
   litter_control_date: string;
   litter_expected_birth: string;
+  actual_male_id: string | null;
+  actual_female_id: string | null;
 }
 
 interface Mating {
@@ -75,6 +77,8 @@ const emptyLitterForm = {
   litter_mating_date: "",
   litter_control_date: "",
   litter_expected_birth: "",
+  actual_male_id: "",
+  actual_female_id: "",
 };
 
 function calcSlaughterDate(birthDate: string): string {
@@ -120,7 +124,6 @@ export default function Matings({ session }: Props) {
       .from("rabbits")
       .select("id, name, breed, gender, cage_number")
       .eq("user_id", session.user.id)
-      .eq("is_active", true)
       .then(({ data }) => {
         if (!cancelled) setRabbits(data || []);
       });
@@ -153,6 +156,9 @@ export default function Matings({ session }: Props) {
       cancelled = true;
     };
   }, [session.user.id, refreshKey]);
+
+  const allMales = rabbits.filter((r) => r.gender === "male");
+  const allFemales = rabbits.filter((r) => r.gender === "female");
 
   const sortedMatings = useMemo(() => {
     const copy = [...matings];
@@ -218,7 +224,29 @@ export default function Matings({ session }: Props) {
     });
   }
 
-  // Створює записи у відгодівлі для самців і/або самиць окремо
+  function getRabbitName(id: string | null): string {
+    if (!id) return "";
+    const r = rabbits.find((r) => r.id === id);
+    if (!r) return "невідомий";
+    return `${r.name}${r.breed ? ` (${r.breed})` : ""}`;
+  }
+
+  function getBreedForFattening(
+    mating: Mating,
+    actualMaleId: string,
+    actualFemaleId: string,
+  ): string {
+    if (actualMaleId) {
+      const r = rabbits.find((r) => r.id === actualMaleId);
+      if (r?.breed) return r.breed;
+    }
+    if (actualFemaleId) {
+      const r = rabbits.find((r) => r.id === actualFemaleId);
+      if (r?.breed) return r.breed;
+    }
+    return mating.female?.breed || mating.male?.breed || "";
+  }
+
   async function createFatteningRecords(
     birthDate: string,
     breed: string,
@@ -228,7 +256,6 @@ export default function Matings({ session }: Props) {
     femalesCage: string,
   ) {
     const inserts = [];
-
     if (males > 0 && malesCage) {
       inserts.push({
         user_id: session.user.id,
@@ -242,7 +269,6 @@ export default function Matings({ session }: Props) {
         is_active: true,
       });
     }
-
     if (females > 0 && femalesCage) {
       inserts.push({
         user_id: session.user.id,
@@ -256,7 +282,6 @@ export default function Matings({ session }: Props) {
         is_active: true,
       });
     }
-
     if (inserts.length > 0) {
       await supabase.from("fattening").insert(inserts);
     }
@@ -309,7 +334,6 @@ export default function Matings({ session }: Props) {
     setSaving(true);
     setError("");
 
-    // Перевіряємо чи weaned_date щойно з'явилась (була порожня)
     const originalLitter = (mating.litters || []).find(
       (l) => l.id === editingLitterData.id,
     );
@@ -332,15 +356,20 @@ export default function Matings({ session }: Props) {
         litter_mating_date: editingLitterData.litter_mating_date || null,
         litter_control_date: editingLitterData.litter_control_date || null,
         litter_expected_birth: editingLitterData.litter_expected_birth || null,
+        actual_male_id: editingLitterData.actual_male_id || null,
+        actual_female_id: editingLitterData.actual_female_id || null,
       })
       .eq("id", editingLitterData.id);
 
     if (error) {
       setError("Помилка збереження");
     } else {
-      // Автоматично створюємо записи у відгодівлі тільки якщо відлучення щойно виставили
       if (wasNotWeaned && isNowWeaned) {
-        const breed = mating.female?.breed || mating.male?.breed || "";
+        const breed = getBreedForFattening(
+          mating,
+          editingLitterData.actual_male_id || "",
+          editingLitterData.actual_female_id || "",
+        );
         await createFatteningRecords(
           editingLitterData.birth_date,
           breed,
@@ -377,13 +406,18 @@ export default function Matings({ session }: Props) {
       litter_mating_date: form.litter_mating_date || null,
       litter_control_date: form.litter_control_date || null,
       litter_expected_birth: form.litter_expected_birth || null,
+      actual_male_id: form.actual_male_id || null,
+      actual_female_id: form.actual_female_id || null,
     });
     if (error) {
       setError("Помилка збереження");
     } else {
-      // Якщо одразу вказали відлучення — створюємо записи у відгодівлі
       if (form.weaned_date) {
-        const breed = mating.female?.breed || mating.male?.breed || "";
+        const breed = getBreedForFattening(
+          mating,
+          form.actual_male_id,
+          form.actual_female_id,
+        );
         await createFatteningRecords(
           form.birth_date,
           breed,
@@ -412,9 +446,6 @@ export default function Matings({ session }: Props) {
     fetchMatings();
   }
 
-  const females = rabbits.filter((r) => r.gender === "female");
-  const males = rabbits.filter((r) => r.gender === "male");
-
   function getLitterAge(birthDate: string) {
     const birth = new Date(birthDate);
     const today = new Date();
@@ -439,6 +470,59 @@ export default function Matings({ session }: Props) {
       (weaningDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
     return { daysLeft, weaningDate };
+  }
+
+  function renderParentSelects(
+    maleValue: string,
+    femaleValue: string,
+    onMaleChange: (v: string) => void,
+    onFemaleChange: (v: string) => void,
+    mating: Mating,
+  ) {
+    return (
+      <>
+        <div className="matings-form-field">
+          <label>Коєць цього окролу ♂</label>
+          <select
+            value={maleValue}
+            onChange={(e) => onMaleChange(e.target.value)}
+          >
+            <option value="">
+              {mating.male?.name
+                ? `За замовч.: ${mating.male.name}${mating.male.breed ? ` (${mating.male.breed})` : ""}`
+                : "Оберіть коєця"}
+            </option>
+            {allMales.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+                {r.breed ? ` (${r.breed})` : ""}
+                {r.cage_number ? ` кл.${r.cage_number}` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="matings-form-field">
+          <label>Крольчиха цього окролу ♀</label>
+          <select
+            value={femaleValue}
+            onChange={(e) => onFemaleChange(e.target.value)}
+          >
+            <option value="">
+              {mating.female?.name
+                ? `За замовч.: ${mating.female.name}${mating.female.breed ? ` (${mating.female.breed})` : ""}`
+                : "Оберіть крольчиху"}
+            </option>
+            {allFemales.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+                {r.breed ? ` (${r.breed})` : ""}
+                {r.cage_number ? ` кл.${r.cage_number}` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -472,7 +556,7 @@ export default function Matings({ session }: Props) {
                 }
               >
                 <option value="">Оберіть коєця</option>
-                {males.map((r) => (
+                {allMales.map((r) => (
                   <option key={r.id} value={r.id}>
                     {r.name}
                     {r.breed ? ` (${r.breed})` : ""}
@@ -490,7 +574,7 @@ export default function Matings({ session }: Props) {
                 }
               >
                 <option value="">Оберіть крольчиху</option>
-                {females.map((r) => (
+                {allFemales.map((r) => (
                   <option key={r.id} value={r.id}>
                     {r.name}
                     {r.breed ? ` (${r.breed})` : ""}
@@ -674,7 +758,7 @@ export default function Matings({ session }: Props) {
                         }
                       >
                         <option value="">Оберіть коєця</option>
-                        {males.map((r) => (
+                        {allMales.map((r) => (
                           <option key={r.id} value={r.id}>
                             {r.name}
                             {r.breed ? ` (${r.breed})` : ""}
@@ -695,7 +779,7 @@ export default function Matings({ session }: Props) {
                         }
                       >
                         <option value="">Оберіть крольчиху</option>
-                        {females.map((r) => (
+                        {allFemales.map((r) => (
                           <option key={r.id} value={r.id}>
                             {r.name}
                             {r.breed ? ` (${r.breed})` : ""}
@@ -832,6 +916,18 @@ export default function Matings({ session }: Props) {
                       </div>
                     </div>
 
+                    {/* Фактичні батьки якщо відрізняються від злучки */}
+                    {(l.actual_male_id || l.actual_female_id) && (
+                      <div className="litter-actual-parents">
+                        {l.actual_male_id && (
+                          <span>♂ {getRabbitName(l.actual_male_id)}</span>
+                        )}
+                        {l.actual_female_id && (
+                          <span>♀ {getRabbitName(l.actual_female_id)}</span>
+                        )}
+                      </div>
+                    )}
+
                     {!hasBirth &&
                       (l.litter_mating_date ||
                         l.litter_control_date ||
@@ -938,6 +1034,21 @@ export default function Matings({ session }: Props) {
                       <div className="matings-form matings-edit-form">
                         <h3>✏️ Редагування окролу</h3>
                         <div className="matings-form-grid">
+                          {renderParentSelects(
+                            editingLitterData.actual_male_id || "",
+                            editingLitterData.actual_female_id || "",
+                            (v) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                actual_male_id: v,
+                              }),
+                            (v) =>
+                              setEditingLitterData({
+                                ...editingLitterData,
+                                actual_female_id: v,
+                              }),
+                            m,
+                          )}
                           <div className="matings-form-field">
                             <label>Злучка</label>
                             <input
@@ -1136,6 +1247,27 @@ export default function Matings({ session }: Props) {
               {showLitterForm[m.id] && (
                 <div className="litter-form">
                   <div className="matings-form-grid">
+                    {renderParentSelects(
+                      litterForms[m.id]?.actual_male_id || "",
+                      litterForms[m.id]?.actual_female_id || "",
+                      (v) =>
+                        setLitterForms({
+                          ...litterForms,
+                          [m.id]: {
+                            ...(litterForms[m.id] || emptyLitterForm),
+                            actual_male_id: v,
+                          },
+                        }),
+                      (v) =>
+                        setLitterForms({
+                          ...litterForms,
+                          [m.id]: {
+                            ...(litterForms[m.id] || emptyLitterForm),
+                            actual_female_id: v,
+                          },
+                        }),
+                      m,
+                    )}
                     <div className="matings-form-field">
                       <label>Злучка</label>
                       <input
