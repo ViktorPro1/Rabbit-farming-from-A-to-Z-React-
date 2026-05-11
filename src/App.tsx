@@ -102,6 +102,8 @@ import Calculator from "./pages/Calculator/Calculator";
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 import Economics from "./pages/Economics/Economics";
 import Legal from "./pages/Legal/Legal";
+import Sales from "./pages/Sales/Sales";
+import ProfitCalc from "./pages/ProfitCalc/ProfitCalc";
 
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
@@ -349,6 +351,8 @@ function App() {
           {/* — Управління господарством — */}
           <Route path="/economics" element={<Economics />} />
           <Route path="/legal" element={<Legal />} />
+          <Route path="/sales" element={<Sales />} />
+          <Route path="/profit-calculator" element={<ProfitCalc />} />
 
           {/* — ЗОНИ — */}
           <Route path="/zoonoses" element={<Zoonoses />} />

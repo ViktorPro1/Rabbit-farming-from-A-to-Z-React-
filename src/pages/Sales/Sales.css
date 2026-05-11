@@ -1,0 +1,676 @@
+.sales-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+    font-family: inherit;
+    color: #2c2c1e;
+}
+
+.sales-header {
+    background: linear-gradient(135deg, #3a5f2a 0%, #5a8a3a 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 2rem 2rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.sales-header h1 {
+    margin: 0 0 0.4rem;
+    font-size: 1.8rem;
+}
+
+.sales-header p {
+    margin: 0;
+    opacity: 0.85;
+    font-size: 1rem;
+}
+
+.sales-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sales-intro {
+    background: #f7f5ef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #5a8a3a;
+}
+
+.sales-intro h2 {
+    margin: 0 0 0.8rem;
+    font-size: 1.2rem;
+    color: #3a5f2a;
+}
+
+.sales-intro p {
+    margin: 0 0 1rem;
+    line-height: 1.6;
+}
+
+.sales-alert {
+    background: #eef6e8;
+    border: 1px solid #a8d48a;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.sales-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #3a5f2a;
+    border-bottom: 2px solid #c8e0b0;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.2rem;
+}
+
+.sales-note {
+    font-size: 0.88rem;
+    color: #666;
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+/* CHANNELS */
+.sales-channels {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.sales-channel-card {
+    border: 1px solid #d8e8c8;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.sales-channel-card.open {
+    box-shadow: 0 4px 16px rgba(90, 138, 58, 0.12);
+}
+
+.sales-channel-header {
+    width: 100%;
+    background: #f0f7e8;
+    border: none;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-align: left;
+    transition: background 0.2s;
+    flex-wrap: wrap;
+}
+
+.sales-channel-header:hover {
+    background: #e4f0d8;
+}
+
+.sales-channel-card.open .sales-channel-header {
+    background: #d8ecc8;
+}
+
+.sales-ch-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.sales-ch-title {
+    font-weight: 700;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 120px;
+}
+
+.sales-ch-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+.sales-ch-badge.start {
+    background: #d4edda;
+    color: #2d6a4f;
+}
+
+.sales-ch-badge.stable {
+    background: #cce5ff;
+    color: #1a5276;
+}
+
+.sales-ch-badge.premium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.sales-ch-badge.online {
+    background: #e8daef;
+    color: #6c3483;
+}
+
+.sales-ch-badge.grow {
+    background: #fde8d8;
+    color: #884400;
+}
+
+.sales-ch-badge.scale {
+    background: #d6eaf8;
+    color: #1a5276;
+}
+
+.sales-ch-meta {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    color: #555;
+}
+
+.sales-ch-margin {
+    color: #3a5f2a;
+    font-weight: 600;
+}
+
+.sales-ch-arrow {
+    margin-left: auto;
+    color: #5a8a3a;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.sales-channel-body {
+    padding: 1.2rem 1.4rem;
+    border-top: 1px solid #d8e8c8;
+    background: #fff;
+}
+
+.sales-ch-desc {
+    margin: 0 0 1rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+.sales-ch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+    .sales-ch-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sales-ch-sub {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+    color: #3a5f2a;
+}
+
+.sales-ch-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+.sales-ch-list.green li::marker {
+    color: #5a8a3a;
+}
+
+.sales-ch-list.red li::marker {
+    color: #c0392b;
+}
+
+.sales-ch-steps {
+    margin: 0 0 1rem;
+    padding-left: 1.4rem;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.sales-ch-price-box {
+    background: #eef6e8;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    color: #3a5f2a;
+}
+
+.sales-ch-price-box strong {
+    color: #2d6a4f;
+}
+
+/* PRICING TABLE */
+.sales-table-wrap {
+    overflow-x: auto;
+}
+
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.sales-table th {
+    background: #3a5f2a;
+    color: #fff;
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.sales-table td {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid #e8f0e0;
+    vertical-align: top;
+}
+
+.sales-table tr:hover td {
+    background: #f4faf0;
+}
+
+.sales-price-avg {
+    font-weight: 700;
+    color: #3a5f2a;
+}
+
+/* SEASONALITY */
+.sales-season-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0.4rem;
+    align-items: end;
+}
+
+@media (max-width: 700px) {
+    .sales-season-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.sales-season-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.sales-season-month {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #555;
+    text-align: center;
+}
+
+.sales-season-bar-wrap {
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.sales-season-bar {
+    width: 100%;
+    background: linear-gradient(180deg, #7ab85a 0%, #3a5f2a 100%);
+    border-radius: 4px 4px 0 0;
+    min-height: 8px;
+    transition: opacity 0.2s;
+}
+
+.sales-season-bar:hover {
+    opacity: 0.8;
+}
+
+.sales-season-pct {
+    font-size: 0.65rem;
+    color: #3a5f2a;
+    font-weight: 700;
+}
+
+.sales-season-note {
+    font-size: 0.6rem;
+    color: #888;
+    text-align: center;
+    line-height: 1.3;
+    display: none;
+}
+
+.sales-season-item:hover .sales-season-note {
+    display: block;
+}
+
+/* DOCUMENTS */
+.sales-docs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+@media (max-width: 600px) {
+    .sales-docs {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sales-doc-card {
+    background: #f7f5ef;
+    border: 1px solid #d8e8c8;
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.sales-doc-name {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #3a5f2a;
+    margin-bottom: 0.3rem;
+}
+
+.sales-doc-row {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.83rem;
+    flex-wrap: wrap;
+}
+
+.sales-doc-label {
+    color: #888;
+    flex-shrink: 0;
+}
+
+.sales-doc-cost {
+    font-weight: 700;
+    color: #2d6a4f;
+}
+
+.sales-doc-note {
+    font-size: 0.8rem;
+    color: #666;
+    background: #eef6e8;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    margin-top: 0.3rem;
+}
+
+/* MISTAKES */
+.sales-mistakes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.sales-mistake-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #f0c8c8;
+}
+
+.sales-mistake-top {
+    background: #fdf0f0;
+    padding: 0.8rem 1rem;
+}
+
+.sales-mistake-top strong {
+    display: block;
+    font-size: 0.92rem;
+    color: #8b2020;
+    margin-bottom: 0.3rem;
+}
+
+.sales-mistake-consequence {
+    font-size: 0.82rem;
+    color: #a03030;
+}
+
+.sales-mistake-fix {
+    background: #f0f9ec;
+    padding: 0.7rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: #2d6a4f;
+    line-height: 1.5;
+}
+
+/* STRATEGY */
+.sales-strategy {
+    background: #f0f7e8;
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid #c8e0b0;
+}
+
+.sales-strategy h2 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    color: #3a5f2a;
+}
+
+.sales-strategy-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.sales-strategy-step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+}
+
+.sales-strategy-num {
+    width: 32px;
+    height: 32px;
+    background: #3a5f2a;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 0.95rem;
+}
+
+.sales-strategy-step strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+
+.sales-strategy-step p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* BACK */
+.sales-back {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.sales-back-btn {
+    display: inline-block;
+    padding: 0.65rem 1.4rem;
+    background: #3a5f2a;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.sales-back-btn:hover {
+    background: #2d4a20;
+}
+
+.sales-back-btn.secondary {
+    background: #6b8f5a;
+}
+
+.sales-back-btn.secondary:hover {
+    background: #5a7a4a;
+}
+
+/* ─── RESPONSIVE ─── */
+
+@media (max-width: 768px) {
+    .sales-header {
+        padding: 1.5rem 1.2rem 1.2rem;
+        border-radius: 10px;
+    }
+
+    .sales-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .sales-wrap {
+        gap: 1.5rem;
+    }
+
+    .sales-intro {
+        padding: 1.1rem;
+    }
+
+    .sales-channel-header {
+        padding: 0.8rem 1rem;
+        gap: 0.5rem;
+    }
+
+    .sales-ch-title {
+        font-size: 0.92rem;
+        min-width: 100px;
+    }
+
+    .sales-ch-meta {
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .sales-channel-body {
+        padding: 1rem;
+    }
+
+    .sales-ch-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sales-season-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.3rem;
+    }
+
+    .sales-season-bar-wrap {
+        height: 60px;
+    }
+
+    .sales-docs {
+        grid-template-columns: 1fr;
+    }
+
+    .sales-table th,
+    .sales-table td {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .sales-strategy {
+        padding: 1.1rem;
+    }
+
+    .sales-strategy-step {
+        padding: 0.8rem;
+        gap: 0.7rem;
+    }
+
+    .sales-back {
+        flex-direction: column;
+    }
+
+    .sales-back-btn {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .sales-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .sales-header p {
+        font-size: 0.85rem;
+    }
+
+    .sales-section-title {
+        font-size: 0.98rem;
+    }
+
+    .sales-ch-badge {
+        display: none;
+    }
+
+    .sales-ch-meta {
+        font-size: 0.72rem;
+    }
+
+    .sales-channel-body {
+        padding: 0.8rem;
+    }
+
+    .sales-ch-list,
+    .sales-ch-steps {
+        font-size: 0.82rem;
+    }
+
+    .sales-season-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .sales-season-month {
+        font-size: 0.58rem;
+    }
+
+    .sales-doc-card {
+        padding: 0.8rem;
+    }
+
+    .sales-mistake-top,
+    .sales-mistake-fix {
+        padding: 0.65rem 0.8rem;
+    }
+
+    .sales-strategy-num {
+        width: 26px;
+        height: 26px;
+        font-size: 0.82rem;
+    }
+
+    .sales-strategy-step strong {
+        font-size: 0.88rem;
+    }
+
+    .sales-strategy-step p {
+        font-size: 0.8rem;
+    }
+}
