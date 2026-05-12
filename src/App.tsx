@@ -83,6 +83,7 @@ import Tools from "./pages/Tools/Tools";
 import Slaughter from "./pages/Slaughter/Slaughter";
 import FurProcessing from "./pages/FurProcessing/FurProcessing";
 import Culling from "./pages/Culling/Culling";
+import Transport from "./pages/Transport/Transport";
 
 // РЕЦЕПТИ
 import Recipes from "./pages/Recipes/Recipes";
@@ -314,6 +315,7 @@ function App() {
           <Route path="/slaughter" element={<Slaughter />} />
           <Route path="/fur-processing" element={<FurProcessing />} />
           <Route path="/culling" element={<Culling />} />
+          <Route path="/transport" element={<Transport />} />
 
           {/* 10. РЕЦЕПТИ */}
           <Route path="/recipes" element={<Recipes />} />
