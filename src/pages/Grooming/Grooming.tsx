@@ -618,6 +618,18 @@ const Grooming = () => {
           </ul>
         </div>
 
+        <div className="gr-credits">
+          <div className="gr-credits-inner">
+            <span className="gr-credits-icon">📷</span>
+            <p>
+              Ілюстрації до розділу «Кігті» надані Адміністратором спільноти
+              <br />
+              <strong>Шевченко Інною</strong> (Facebook-група ). Дякуємо за
+              матеріали які допомагають кролівникам-початківцям.
+            </p>
+          </div>
+        </div>
+
         <div className="gr-back">
           <Link to="/" className="gr-back-btn">
             ⬅ На головну

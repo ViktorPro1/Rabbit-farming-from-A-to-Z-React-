@@ -53,6 +53,7 @@ import Grooming from "./pages/Grooming/Grooming";
 
 // РОЗВЕДЕННЯ
 import Okril from "./pages/Okril/Okril";
+import WinterLitter from "./pages/WinterLitter/WinterLitter";
 import Weaning from "./pages/Weaning/Weaning";
 import WeightControl from "./pages/WeightControl/WeightControl";
 import ArtificialFeeding from "./pages/ArtificialFeeding/ArtificialFeeding";
@@ -72,6 +73,7 @@ import Necropsy from "./pages/Necropsy/Necropsy";
 // ПЛАНУВАННЯ
 import Calendar from "./pages/Calendar/Calendar";
 import Tips from "./pages/Tips/Tips";
+import BreedingHerd from "./pages/BreedingHerd/BreedingHerd";
 
 // ІНСТРУМЕНТИ
 import Equipment from "./pages/Equipment/Equipment";
@@ -278,6 +280,7 @@ function App() {
 
           {/* 5. РОЗВЕДЕННЯ */}
           <Route path="/okril" element={<Okril />} />
+          <Route path="/winter-litter" element={<WinterLitter />} />
           <Route path="/weaning" element={<Weaning />} />
           <Route path="/weight-control" element={<WeightControl />} />
           <Route path="/artificial-feeding" element={<ArtificialFeeding />} />
@@ -297,6 +300,7 @@ function App() {
           {/* 7. ПЛАНУВАННЯ */}
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/tips" element={<Tips />} />
+          <Route path="/breeding-herd" element={<BreedingHerd />} />
 
           {/* 8. ІНСТРУМЕНТИ */}
           <Route
