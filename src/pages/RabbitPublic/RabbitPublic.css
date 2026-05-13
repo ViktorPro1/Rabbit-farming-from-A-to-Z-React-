@@ -1,0 +1,147 @@
+.rp-wrap {
+    min-height: 100vh;
+    background: var(--green-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.rp-loading,
+.rp-not-found {
+    text-align: center;
+    color: var(--green-dark);
+    font-size: 1.1rem;
+}
+
+.rp-not-found-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.rp-not-found h2 {
+    margin-bottom: 0.5rem;
+    color: var(--green-dark);
+}
+
+.rp-not-found p {
+    color: var(--gray);
+}
+
+.rp-card {
+    background: var(--cream);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(39, 80, 10, 0.13);
+    max-width: 420px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.rp-cage-header {
+    background: var(--green-dark);
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem 1rem 1.2rem;
+}
+
+.rp-cage-label {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 0.3rem;
+}
+
+.rp-cage-number {
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+}
+
+.rp-gender-badge {
+    background: var(--amber);
+    color: var(--green-dark);
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+.rp-name {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--green-dark);
+    margin: 1.2rem 1rem 0.5rem;
+}
+
+.rp-info {
+    padding: 0.5rem 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.rp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(39, 80, 10, 0.08);
+    padding-bottom: 0.5rem;
+}
+
+.rp-row:last-child {
+    border-bottom: none;
+}
+
+.rp-row--notes {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.rp-row-label {
+    font-size: 0.82rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.rp-row-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    text-align: right;
+}
+
+.rp-row--notes .rp-row-value {
+    text-align: left;
+    font-weight: 400;
+    color: var(--brown);
+    font-size: 0.95rem;
+    margin-top: 0.2rem;
+}
+
+.rp-footer {
+    text-align: center;
+    padding: 0.8rem;
+    background: var(--green-pale);
+    color: var(--green-mid);
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+@media (max-width: 420px) {
+    .rp-cage-number {
+        font-size: 2.2rem;
+    }
+
+    .rp-name {
+        font-size: 1.6rem;
+    }
+}

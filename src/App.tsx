@@ -23,6 +23,8 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth/Auth";
 import Subscription from "./pages/Subscription/Subscription";
 import Community from "./pages/Community/Community";
+import RabbitPublic from "./pages/RabbitPublic/RabbitPublic";
+import FatteningPublic from "./pages/FatteningPublic/FatteningPublic";
 
 // ПОЧАТОК — знайомство з твариною
 import Biology from "./pages/Biology/Biology";
@@ -248,6 +250,8 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/rabbit/:id" element={<RabbitPublic />} />
+          <Route path="/fattening-public/:id" element={<FatteningPublic />} />
 
           {/* 1. ПОЧАТОК — знайомство з твариною */}
           <Route path="/biology" element={<Biology />} />

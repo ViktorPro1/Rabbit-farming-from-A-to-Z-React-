@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
+import { QRCodeCanvas } from "qrcode.react";
 import { supabase } from "../../lib/supabase";
 import "./Fattening.css";
 
@@ -45,6 +46,7 @@ export default function Fattening({ session }: Props) {
   const [cages, setCages] = useState<FatteningCage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
   const [editingCage, setEditingCage] = useState<FatteningCage | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -132,6 +134,18 @@ export default function Fattening({ session }: Props) {
     fetchCages();
   }
 
+  function downloadQr(cage: FatteningCage) {
+    const canvas = document.getElementById(
+      `qr-fat-${cage.id}`,
+    ) as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const link = document.createElement("a");
+    link.download = `qr-відгодівля-клітка-${cage.cage_number}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }
+
+  const baseUrl = window.location.origin;
   const totalMales = cages.reduce((s, c) => s + (c.males || 0), 0);
   const totalFemales = cages.reduce((s, c) => s + (c.females || 0), 0);
   const totalUnknown = cages.reduce((s, c) => s + (c.unknown || 0), 0);
@@ -148,6 +162,61 @@ export default function Fattening({ session }: Props) {
           ⬅ Мої кролики
         </button>
       </div>
+
+      {/* QR MODAL */}
+      {showQrModal && (
+        <div className="help-overlay" onClick={() => setShowQrModal(false)}>
+          <div
+            className="help-modal qr-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="help-modal-header">
+              <h2>QR-коди — Відгодівля</h2>
+              <button
+                className="help-close"
+                onClick={() => setShowQrModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <p className="qr-modal-desc">
+              Збережіть QR-код, роздрукуйте і прикріпіть на клітку. При
+              скануванні відкриється паспорт клітки відгодівлі.
+            </p>
+            {cages.length === 0 ? (
+              <p className="qr-modal-empty">Немає кліток у відгодівлі.</p>
+            ) : (
+              <div className="qr-grid">
+                {cages.map((cage) => (
+                  <div key={cage.id} className="qr-item">
+                    <div className="qr-item-title">
+                      Клітка № {cage.cage_number}
+                    </div>
+                    <div className="qr-item-name">
+                      {cage.breed || "Відгодівля"}
+                    </div>
+                    <QRCodeCanvas
+                      id={`qr-fat-${cage.id}`}
+                      value={`${baseUrl}/fattening-public/${cage.id}`}
+                      size={180}
+                      bgColor="#fffef5"
+                      fgColor="#27500A"
+                      level="H"
+                      marginSize={2}
+                    />
+                    <button
+                      className="qr-download-btn"
+                      onClick={() => downloadQr(cage)}
+                    >
+                      Зберегти PNG
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="fattening-stats">
         <div className="fattening-stat">
@@ -170,12 +239,20 @@ export default function Fattening({ session }: Props) {
         )}
       </div>
 
-      <button
-        className="fattening-add-btn"
-        onClick={() => setShowForm(!showForm)}
-      >
-        {showForm ? "✕ Скасувати" : "+ Додати клітку"}
-      </button>
+      <div className="fattening-top-actions">
+        <button
+          className="fattening-add-btn"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? "✕ Скасувати" : "+ Додати клітку"}
+        </button>
+        <button
+          className="fattening-qr-btn"
+          onClick={() => setShowQrModal(true)}
+        >
+          📷 QR-коди
+        </button>
+      </div>
 
       {/* ── Форма додавання ── */}
       {showForm && (

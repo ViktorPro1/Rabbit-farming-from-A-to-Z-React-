@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
+import { QRCodeCanvas } from "qrcode.react";
 import { supabase } from "../../lib/supabase";
 import "./RabbitRegistry.css";
 
@@ -89,6 +90,7 @@ export default function RabbitRegistry({ session }: Props) {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -111,7 +113,109 @@ export default function RabbitRegistry({ session }: Props) {
   });
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const loadStats = useCallback(
+    (list: Rabbit[]) => {
+      Promise.all([
+        supabase
+          .from("litters")
+          .select("alive, weaned_males, weaned_females, weaned_date")
+          .eq("user_id", session.user.id),
+        supabase
+          .from("paddock_litters")
+          .select("alive, weaned_males, weaned_females, weaned_date")
+          .eq("user_id", session.user.id),
+        supabase
+          .from("paddock_females")
+          .select("id")
+          .not("paddock_id", "is", null),
+        supabase
+          .from("fattening")
+          .select("males, females, unknown")
+          .eq("user_id", session.user.id)
+          .eq("is_active", true),
+        supabase
+          .from("quarantine")
+          .select("gender")
+          .eq("user_id", session.user.id)
+          .eq("is_active", true),
+      ]).then(
+        ([
+          { data: littersData },
+          { data: paddockLittersData },
+          { data: paddockFemalesData },
+          { data: fatteningData },
+          { data: quarantineData },
+        ]) => {
+          let youngFromCages = 0,
+            youngFromPaddocks = 0,
+            youngTotal = 0;
+
+          (littersData || []).forEach((l) => {
+            if (l.weaned_date) return;
+            const alive = l.alive || 0;
+            youngFromCages += alive;
+            youngTotal += alive;
+          });
+
+          (paddockLittersData || []).forEach((l) => {
+            if (l.weaned_date) return;
+            const alive = l.alive || 0;
+            youngFromPaddocks += alive;
+            youngTotal += alive;
+          });
+
+          const paddockFemales = (paddockFemalesData || []).length;
+          let fatteningMales = 0,
+            fatteningFemales = 0,
+            fatteningUnknown = 0;
+          (fatteningData || []).forEach((f) => {
+            fatteningMales += f.males || 0;
+            fatteningFemales += f.females || 0;
+            fatteningUnknown += f.unknown || 0;
+          });
+          const fatteningTotal =
+            fatteningMales + fatteningFemales + fatteningUnknown;
+          let quarantineMales = 0,
+            quarantineFemales = 0,
+            quarantineUnknown = 0;
+          (quarantineData || []).forEach((q) => {
+            if (q.gender === "male") quarantineMales++;
+            else if (q.gender === "female") quarantineFemales++;
+            else quarantineUnknown++;
+          });
+          const quarantineTotal =
+            quarantineMales + quarantineFemales + quarantineUnknown;
+
+          setStats({
+            total:
+              list.length +
+              youngTotal +
+              paddockFemales +
+              fatteningTotal +
+              quarantineTotal,
+            males: list.filter((r) => r.gender === "male").length,
+            females: list.filter((r) => r.gender === "female").length,
+            youngTotal,
+            youngFromCages,
+            youngFromPaddocks,
+            paddockFemales,
+            fatteningMales,
+            fatteningFemales,
+            fatteningUnknown,
+            fatteningTotal,
+            quarantineMales,
+            quarantineFemales,
+            quarantineUnknown,
+            quarantineTotal,
+          });
+          setLoading(false);
+        },
+      );
+    },
+    [session.user.id],
+  );
+
+  const loadData = useCallback(() => {
     supabase
       .from("rabbits")
       .select("*")
@@ -121,207 +225,13 @@ export default function RabbitRegistry({ session }: Props) {
       .then(({ data: rabbitsData }) => {
         const list = rabbitsData || [];
         setRabbits(list);
-        Promise.all([
-          supabase
-            .from("litters")
-            .select("alive, weaned_males, weaned_females, weaned_date")
-            .eq("user_id", session.user.id),
-          supabase
-            .from("paddock_litters")
-            .select("alive, weaned_males, weaned_females, weaned_date")
-            .eq("user_id", session.user.id),
-          supabase
-            .from("paddock_females")
-            .select("id")
-            .not("paddock_id", "is", null),
-          supabase
-            .from("fattening")
-            .select("males, females, unknown")
-            .eq("user_id", session.user.id)
-            .eq("is_active", true),
-          supabase
-            .from("quarantine")
-            .select("gender")
-            .eq("user_id", session.user.id)
-            .eq("is_active", true),
-        ]).then(
-          ([
-            { data: littersData },
-            { data: paddockLittersData },
-            { data: paddockFemalesData },
-            { data: fatteningData },
-            { data: quarantineData },
-          ]) => {
-            let youngFromCages = 0,
-              youngFromPaddocks = 0;
-            let youngTotal = 0;
-
-            // Рахуємо тільки НЕ відлучених (weaned_date відсутня)
-            (littersData || []).forEach((l) => {
-              if (l.weaned_date) return;
-              const alive = l.alive || 0;
-              youngFromCages += alive;
-              youngTotal += alive;
-            });
-
-            (paddockLittersData || []).forEach((l) => {
-              if (l.weaned_date) return;
-              const alive = l.alive || 0;
-              youngFromPaddocks += alive;
-              youngTotal += alive;
-            });
-
-            const paddockFemales = (paddockFemalesData || []).length;
-            let fatteningMales = 0,
-              fatteningFemales = 0,
-              fatteningUnknown = 0;
-            (fatteningData || []).forEach((f) => {
-              fatteningMales += f.males || 0;
-              fatteningFemales += f.females || 0;
-              fatteningUnknown += f.unknown || 0;
-            });
-            const fatteningTotal =
-              fatteningMales + fatteningFemales + fatteningUnknown;
-            let quarantineMales = 0,
-              quarantineFemales = 0,
-              quarantineUnknown = 0;
-            (quarantineData || []).forEach((q) => {
-              if (q.gender === "male") quarantineMales++;
-              else if (q.gender === "female") quarantineFemales++;
-              else quarantineUnknown++;
-            });
-            const quarantineTotal =
-              quarantineMales + quarantineFemales + quarantineUnknown;
-            setStats({
-              total:
-                list.length +
-                youngTotal +
-                paddockFemales +
-                fatteningTotal +
-                quarantineTotal,
-              males: list.filter((r) => r.gender === "male").length,
-              females: list.filter((r) => r.gender === "female").length,
-              youngTotal,
-              youngFromCages,
-              youngFromPaddocks,
-              paddockFemales,
-              fatteningMales,
-              fatteningFemales,
-              fatteningUnknown,
-              fatteningTotal,
-              quarantineMales,
-              quarantineFemales,
-              quarantineUnknown,
-              quarantineTotal,
-            });
-            setLoading(false);
-          },
-        );
+        loadStats(list);
       });
-  }, [session.user.id]);
+  }, [session.user.id, loadStats]);
 
-  async function loadData() {
-    const { data: rabbitsData } = await supabase
-      .from("rabbits")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .eq("is_active", true)
-      .order("cage_number", { ascending: true });
-    const list = rabbitsData || [];
-    setRabbits(list);
-    const [
-      { data: littersData },
-      { data: paddockLittersData },
-      { data: paddockFemalesData },
-      { data: fatteningData },
-      { data: quarantineData },
-    ] = await Promise.all([
-      supabase
-        .from("litters")
-        .select("alive, weaned_males, weaned_females, weaned_date")
-        .eq("user_id", session.user.id),
-      supabase
-        .from("paddock_litters")
-        .select("alive, weaned_males, weaned_females, weaned_date")
-        .eq("user_id", session.user.id),
-      supabase
-        .from("paddock_females")
-        .select("id")
-        .not("paddock_id", "is", null),
-      supabase
-        .from("fattening")
-        .select("males, females, unknown")
-        .eq("user_id", session.user.id)
-        .eq("is_active", true),
-      supabase
-        .from("quarantine")
-        .select("gender")
-        .eq("user_id", session.user.id)
-        .eq("is_active", true),
-    ]);
-
-    let youngFromCages = 0,
-      youngFromPaddocks = 0;
-    let youngTotal = 0;
-
-    // Рахуємо тільки НЕ відлучених (weaned_date відсутня)
-    (littersData || []).forEach((l) => {
-      if (l.weaned_date) return;
-      const alive = l.alive || 0;
-      youngFromCages += alive;
-      youngTotal += alive;
-    });
-
-    (paddockLittersData || []).forEach((l) => {
-      if (l.weaned_date) return;
-      const alive = l.alive || 0;
-      youngFromPaddocks += alive;
-      youngTotal += alive;
-    });
-
-    const paddockFemales = (paddockFemalesData || []).length;
-    let fatteningMales = 0,
-      fatteningFemales = 0,
-      fatteningUnknown = 0;
-    (fatteningData || []).forEach((f) => {
-      fatteningMales += f.males || 0;
-      fatteningFemales += f.females || 0;
-      fatteningUnknown += f.unknown || 0;
-    });
-    const fatteningTotal = fatteningMales + fatteningFemales + fatteningUnknown;
-    let quarantineMales = 0,
-      quarantineFemales = 0,
-      quarantineUnknown = 0;
-    (quarantineData || []).forEach((q) => {
-      if (q.gender === "male") quarantineMales++;
-      else if (q.gender === "female") quarantineFemales++;
-      else quarantineUnknown++;
-    });
-    const quarantineTotal =
-      quarantineMales + quarantineFemales + quarantineUnknown;
-    setStats({
-      total:
-        list.length +
-        youngTotal +
-        paddockFemales +
-        fatteningTotal +
-        quarantineTotal,
-      males: list.filter((r) => r.gender === "male").length,
-      females: list.filter((r) => r.gender === "female").length,
-      youngTotal,
-      youngFromCages,
-      youngFromPaddocks,
-      paddockFemales,
-      fatteningMales,
-      fatteningFemales,
-      fatteningUnknown,
-      fatteningTotal,
-      quarantineMales,
-      quarantineFemales,
-      quarantineUnknown,
-      quarantineTotal,
-    });
-  }
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   async function handleAdd() {
     setSaving(true);
@@ -344,8 +254,25 @@ export default function RabbitRegistry({ session }: Props) {
     loadData();
   }
 
+  function downloadQr(rabbit: Rabbit) {
+    const canvas = document.getElementById(
+      `qr-canvas-${rabbit.id}`,
+    ) as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const link = document.createElement("a");
+    const cageLabel = rabbit.cage_number
+      ? `клітка-${rabbit.cage_number}`
+      : rabbit.name;
+    link.download = `qr-${cageLabel}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }
+
+  const baseUrl = window.location.origin;
+
   return (
     <div className="registry-page">
+      {/* HELP MODAL */}
       {showHelp && (
         <div className="help-overlay" onClick={() => setShowHelp(false)}>
           <div className="help-modal" onClick={(e) => e.stopPropagation()}>
@@ -366,6 +293,61 @@ export default function RabbitRegistry({ session }: Props) {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* QR MODAL */}
+      {showQrModal && (
+        <div className="help-overlay" onClick={() => setShowQrModal(false)}>
+          <div
+            className="help-modal qr-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="help-modal-header">
+              <h2>QR-коди кроликів</h2>
+              <button
+                className="help-close"
+                onClick={() => setShowQrModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <p className="qr-modal-desc">
+              Збережіть QR-код, роздрукуйте і прикріпіть на клітку. При
+              скануванні відкриється паспорт кроля.
+            </p>
+            {rabbits.length === 0 ? (
+              <p className="qr-modal-empty">Немає кроликів у реєстрі.</p>
+            ) : (
+              <div className="qr-grid">
+                {rabbits.map((rabbit) => (
+                  <div key={rabbit.id} className="qr-item">
+                    <div className="qr-item-title">
+                      {rabbit.cage_number
+                        ? `Клітка № ${rabbit.cage_number}`
+                        : rabbit.name}
+                    </div>
+                    <div className="qr-item-name">{rabbit.name}</div>
+                    <QRCodeCanvas
+                      id={`qr-canvas-${rabbit.id}`}
+                      value={`${baseUrl}/rabbit/${rabbit.id}`}
+                      size={180}
+                      bgColor="#fffef5"
+                      fgColor="#27500A"
+                      level="H"
+                      marginSize={2}
+                    />
+                    <button
+                      className="qr-download-btn"
+                      onClick={() => downloadQr(rabbit)}
+                    >
+                      Зберегти PNG
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -408,6 +390,12 @@ export default function RabbitRegistry({ session }: Props) {
           onClick={() => navigate("/statistics")}
         >
           📊 Статистика
+        </button>
+        <button
+          className="registry-archive-link qr-nav-btn"
+          onClick={() => setShowQrModal(true)}
+        >
+          📷 QR-коди
         </button>
         <button className="registry-help-btn" onClick={() => setShowHelp(true)}>
           ? Довідка

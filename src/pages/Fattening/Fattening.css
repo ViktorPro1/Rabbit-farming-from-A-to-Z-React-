@@ -377,6 +377,30 @@
     margin-top: 10px;
 }
 
+/* ── QR кнопка і модалка у відгодівлі ── */
+.fattening-top-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.fattening-qr-btn {
+    background: var(--amber-light);
+    color: var(--green-dark);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.fattening-qr-btn:hover {
+    background: var(--amber);
+}
+
 @media (max-width: 480px) {
     .fattening-note-grid {
         grid-template-columns: 1fr;
