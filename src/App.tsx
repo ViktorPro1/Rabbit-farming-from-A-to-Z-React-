@@ -46,6 +46,7 @@ import Leaves from "./pages/Leaves/Leaves";
 import Crops from "./pages/Crops/Crops";
 import Water from "./pages/Water/Water";
 import Feeders from "./pages/Feeders/Feeders";
+import NewFood from "./pages/NewFood/NewFood";
 
 // ДОГЛЯД
 import Care from "./pages/Care/Care";
@@ -276,6 +277,7 @@ function App() {
           <Route path="/crops" element={<Crops />} />
           <Route path="/water" element={<Water />} />
           <Route path="/feeders" element={<Feeders />} />
+          <Route path="/new-food" element={<NewFood />} />
 
           {/* 4. ДОГЛЯД */}
           <Route path="/care" element={<Care />} />

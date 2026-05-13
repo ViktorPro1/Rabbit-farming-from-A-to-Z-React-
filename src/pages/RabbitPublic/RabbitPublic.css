@@ -145,3 +145,33 @@
         font-size: 1.6rem;
     }
 }
+
+/* ── Блок останньої злучки ── */
+.rp-mating-block {
+    margin: 0 0 0;
+    border-top: 2px solid var(--green-pale);
+}
+
+.rp-mating-title {
+    background: var(--green-pale);
+    color: var(--green-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.rp-info--mating {
+    padding-top: 0.5rem;
+}
+
+.rp-expected {
+    color: var(--amber) !important;
+    font-weight: 700 !important;
+}
+
+.rp-born {
+    color: var(--green-mid) !important;
+    font-weight: 700 !important;
+}

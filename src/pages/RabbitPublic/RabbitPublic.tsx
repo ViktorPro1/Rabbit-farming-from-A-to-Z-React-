@@ -13,25 +13,68 @@ interface Rabbit {
   notes: string;
 }
 
+interface MatingInfo {
+  mating_date: string;
+  control_date: string | null;
+  expected_birth: string | null;
+  last_litter_birth: string | null;
+  last_litter_alive: number | null;
+}
+
 export default function RabbitPublic() {
   const { id } = useParams<{ id: string }>();
   const [rabbit, setRabbit] = useState<Rabbit | null>(null);
+  const [mating, setMating] = useState<MatingInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (!id) return;
+
     supabase
       .from("rabbits")
       .select("*")
       .eq("id", id)
       .single()
-      .then(({ data }) => {
-        if (data) {
-          setRabbit(data);
-        } else {
+      .then(async ({ data: rabbitData }) => {
+        if (!rabbitData) {
           setNotFound(true);
+          setLoading(false);
+          return;
         }
+        setRabbit(rabbitData);
+
+        // Остання злучка де цей кролик є самцем або самицею
+        const { data: matingsData } = await supabase
+          .from("matings")
+          .select("id, mating_date, control_date, expected_birth")
+          .or(`male_id.eq.${id},female_id.eq.${id}`)
+          .order("mating_date", { ascending: false })
+          .limit(1);
+
+        if (matingsData && matingsData.length > 0) {
+          const lastMating = matingsData[0];
+
+          // Останній окріл по цій злучці
+          const { data: littersData } = await supabase
+            .from("litters")
+            .select("birth_date, alive")
+            .eq("mating_id", lastMating.id)
+            .order("birth_date", { ascending: false })
+            .limit(1);
+
+          const lastLitter =
+            littersData && littersData.length > 0 ? littersData[0] : null;
+
+          setMating({
+            mating_date: lastMating.mating_date,
+            control_date: lastMating.control_date || null,
+            expected_birth: lastMating.expected_birth || null,
+            last_litter_birth: lastLitter?.birth_date || null,
+            last_litter_alive: lastLitter?.alive ?? null,
+          });
+        }
+
         setLoading(false);
       });
   }, [id]);
@@ -79,6 +122,7 @@ export default function RabbitPublic() {
   return (
     <div className="rp-wrap">
       <div className="rp-card">
+        {/* ── Клітка ── */}
         <div className="rp-cage-header">
           <span className="rp-cage-label">Клітка</span>
           <span className="rp-cage-number">
@@ -92,6 +136,7 @@ export default function RabbitPublic() {
 
         <h1 className="rp-name">{rabbit.name}</h1>
 
+        {/* ── Основна інформація ── */}
         <div className="rp-info">
           {rabbit.breed && (
             <div className="rp-row">
@@ -120,6 +165,55 @@ export default function RabbitPublic() {
             </div>
           )}
         </div>
+
+        {/* ── Остання злучка ── */}
+        {mating && (
+          <div className="rp-mating-block">
+            <div className="rp-mating-title">🐇 Остання злучка</div>
+            <div className="rp-info rp-info--mating">
+              <div className="rp-row">
+                <span className="rp-row-label">Дата злучки</span>
+                <span className="rp-row-value">
+                  {new Date(mating.mating_date).toLocaleDateString("uk-UA")}
+                </span>
+              </div>
+
+              {mating.control_date && (
+                <div className="rp-row">
+                  <span className="rp-row-label">Контрольна дата</span>
+                  <span className="rp-row-value">
+                    {new Date(mating.control_date).toLocaleDateString("uk-UA")}
+                  </span>
+                </div>
+              )}
+
+              {mating.expected_birth && (
+                <div className="rp-row">
+                  <span className="rp-row-label">Очікуваний окріл</span>
+                  <span className="rp-row-value rp-expected">
+                    {new Date(mating.expected_birth).toLocaleDateString(
+                      "uk-UA",
+                    )}
+                  </span>
+                </div>
+              )}
+
+              {mating.last_litter_birth && (
+                <div className="rp-row">
+                  <span className="rp-row-label">Окріл відбувся</span>
+                  <span className="rp-row-value rp-born">
+                    {new Date(mating.last_litter_birth).toLocaleDateString(
+                      "uk-UA",
+                    )}
+                    {mating.last_litter_alive !== null &&
+                      mating.last_litter_alive > 0 &&
+                      ` · живих: ${mating.last_litter_alive}`}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <div className="rp-footer">
           <span>🐇 Кролівництво від А до Я</span>
