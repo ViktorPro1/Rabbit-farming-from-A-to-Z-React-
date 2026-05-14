@@ -10,7 +10,14 @@ const Hero = () => {
         <p>Повний посібник для початківців і досвідчених кролівників.</p>
       </div>
       <div className="hero-image">
-        <img src={rabbitPhoto} alt="Мій кролик" />
+        <img
+          src={rabbitPhoto}
+          alt="Мій кролик"
+          width={408}
+          height={612}
+          fetchPriority="high"
+          decoding="async"
+        />
       </div>
     </section>
   );
