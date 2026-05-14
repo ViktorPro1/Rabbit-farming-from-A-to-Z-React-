@@ -1,46 +1,96 @@
 <!doctype html>
-<html lang="en">
+<html lang="uk">
 
 <head>
+  <meta charset="UTF-8" />
+
+  <!-- Основні META -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#27500A" />
+
+  <title>Кролівництво від А до Я — облік, догляд та лікування кролів</title>
+
+  <meta name="description"
+    content="Кролівництво від А до Я — сучасна платформа для обліку кролів, годівлі, вакцинації, лікування та ведення господарства." />
+
+  <meta name="keywords"
+    content="кролівництво, кролі, облік кролів, вакцинація кролів, лікування кролів, ферма, господарство" />
+
+  <meta name="author" content="Кролівництво від А до Я" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://rabbit-farming-from-a-to-z-react.vercel.app/" />
+
+  <!-- PWA / Apple -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Кролівництво" />
-  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/breed.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Кролівництво</title>
 
-  <!-- Google tag (gtag.js) -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/breed.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Кролівництво від А до Я" />
+
+  <meta property="og:description"
+    content="Повний посібник з кролівництва, обліку, лікування та ведення господарства." />
+
+  <meta property="og:image" content="https://rabbit-farming-from-a-to-z-react.vercel.app/og-image.webp" />
+
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta property="og:url" content="https://rabbit-farming-from-a-to-z-react.vercel.app" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="uk_UA" />
+  <meta property="og:site_name" content="Кролівництво від А до Я" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="twitter:title" content="Кролівництво від А до Я" />
+
+  <meta name="twitter:description" content="Повний посібник з кролівництва, лікування та ведення господарства." />
+
+  <meta name="twitter:image" content="https://rabbit-farming-from-a-to-z-react.vercel.app/og-image.webp" />
+
+  <!-- Robots -->
+  <meta name="robots" content="index, follow" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Кролівництво від А до Я",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/",
+      "description": "Платформа для кролівництва, обліку, лікування, годівлі та ведення господарства.",
+      "inLanguage": "uk-UA"
+    }
+  </script>
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RL8GL7SHMR"></script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
 
     gtag('config', 'G-RL8GL7SHMR');
   </script>
-
-  <!-- Open Graph (Facebook, Telegram, WhatsApp, Discord, Viber) -->
-  <meta property="og:title" content="Кролівництво від А до Я" />
-  <meta property="og:description" content="Повний посібник з кролівництва" />
-  <meta property="og:image" content="https://rabbit-farming-from-a-to-z-react.vercel.app/og-image.webp" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://rabbit-farming-from-a-to-z-react.vercel.app" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="uk_UA" />
-
-  <!-- Twitter/X Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Кролівництво від А до Я" />
-  <meta name="twitter:description" content="Повний посібник з кролівництва" />
-  <meta name="twitter:image" content="https://rabbit-farming-from-a-to-z-react.vercel.app/og-image.webp" />
 </head>
 
 <body>
   <div id="root"></div>
+
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

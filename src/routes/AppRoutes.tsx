@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../pages/Auth/Auth";
+import { usePageMeta } from "../seo/usePageMeta";
 
 // АДМІН
 const Admin = lazy(() => import("../pages/Admin/Admin"));
@@ -131,6 +132,8 @@ interface AppRoutesProps {
 }
 
 export default function AppRoutes({ session }: AppRoutesProps) {
+  usePageMeta();
+
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
