@@ -12,6 +12,9 @@ const BeginnerGuide = lazy(
   () => import("../pages/BeginnerGuide/BeginnerGuide"),
 );
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
+const BeginnerMistakes = lazy(
+  () => import("../pages/BeginnerMistakes/BeginnerMistakes"),
+);
 
 // ГОЛОВНА
 const Home = lazy(() => import("../pages/Home"));
@@ -78,6 +81,9 @@ const LabDiagnostics = lazy(
 );
 const Symptoms = lazy(() => import("../pages/Symptoms/Symptoms"));
 const Necropsy = lazy(() => import("../pages/Necropsy/Necropsy"));
+const DrugCompatibility = lazy(
+  () => import("../pages/DrugCompatibility/DrugCompatibility"),
+);
 
 // ПЛАНУВАННЯ
 const Calendar = lazy(() => import("../pages/Calendar/Calendar"));
@@ -146,6 +152,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         {/* — З ЧОГО ПОЧАТИ — */}
         <Route path="/beginner-guide" element={<BeginnerGuide />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/beginner-mistakes" element={<BeginnerMistakes />} />
 
         {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
@@ -204,6 +211,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/necropsy" element={<Necropsy />} />
+        <Route path="/drug-compatibility" element={<DrugCompatibility />} />
 
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />

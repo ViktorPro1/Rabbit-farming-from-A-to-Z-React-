@@ -1,0 +1,270 @@
+.bm-page {
+    min-height: 100vh;
+}
+
+.bm-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.bm-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.bm-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.bm-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.bm-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #f0f9f0;
+    border-left: 4px solid var(--green-mid);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+}
+
+.bm-banner>span {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ── TABS ── */
+
+.bm-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.bm-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #444;
+    font-size: 13px;
+}
+
+.bm-tab:hover,
+.bm-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+/* ── COUNT ── */
+
+.bm-count {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+/* ── CARDS ── */
+
+.bm-mistakes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bm-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.bm-card:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.bm-card.open {
+    border-color: var(--green-mid);
+}
+
+.bm-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 1.2rem;
+}
+
+.bm-card-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.bm-card-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.bm-card-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    line-height: 1.4;
+}
+
+.bm-card-arrow {
+    font-size: 12px;
+    color: #aaa;
+    flex-shrink: 0;
+}
+
+/* ── CARD BODY ── */
+
+.bm-card-body {
+    border-top: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fafafa;
+}
+
+.bm-block {
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bm-block.mistake {
+    background: #fff5f5;
+    border: 0.5px solid #ffcdd2;
+}
+
+.bm-block.why {
+    background: #fff8f0;
+    border: 0.5px solid #ffe0b2;
+}
+
+.bm-block.fix {
+    background: #f0f9f0;
+    border: 0.5px solid #d5ead6;
+}
+
+.bm-block-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 0.2px;
+}
+
+.bm-block p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── ALERTS ── */
+
+.bm-alert {
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.bm-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.bm-alert.tip {
+    background: #fffbea;
+    color: #6d4c00;
+    border-left: 3px solid #f6c90e;
+}
+
+/* ── BACK ── */
+
+.bm-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.bm-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.bm-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+    .bm-card-title {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .bm-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .bm-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .bm-card-top {
+        padding: 0.9rem;
+    }
+
+    .bm-card-body {
+        padding: 0.9rem;
+    }
+}

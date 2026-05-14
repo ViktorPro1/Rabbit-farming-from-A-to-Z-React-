@@ -1,0 +1,448 @@
+.dc-page {
+    min-height: 100vh;
+}
+
+.dc-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.dc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.dc-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.dc-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.dc-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #fff8e1;
+    border-left: 4px solid var(--amber);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+}
+
+.dc-banner>span {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.dc-banner strong {
+    color: #c62828;
+}
+
+/* ── TABS ── */
+
+.dc-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.dc-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #444;
+    font-size: 13px;
+}
+
+.dc-tab:hover,
+.dc-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+/* ── CONTENT ── */
+
+.dc-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.dc-intro {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem 1.4rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.dc-sub-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0.5rem 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── ALERT ── */
+
+.dc-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.dc-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* ── DANGER CARDS ── */
+
+.dc-danger-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.dc-danger-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dc-danger-card.critical {
+    background: #fff5f5;
+    border: 1px solid #ffcdd2;
+}
+
+.dc-danger-card.high {
+    background: #fff8f0;
+    border: 1px solid #ffe0b2;
+}
+
+.dc-danger-card.medium {
+    background: #fffde7;
+    border: 1px solid #fff176;
+}
+
+.dc-danger-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.dc-danger-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+.dc-danger-badge.critical {
+    background: #c62828;
+    color: white;
+}
+
+.dc-danger-badge.high {
+    background: #e65100;
+    color: white;
+}
+
+.dc-danger-badge.medium {
+    background: #f9a825;
+    color: #333;
+}
+
+.dc-danger-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222;
+}
+
+.dc-danger-brands {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+    font-style: italic;
+}
+
+.dc-danger-desc {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.dc-danger-action {
+    font-size: 12px;
+    color: #c62828;
+    background: #ffebee;
+    border-radius: 6px;
+    padding: 6px 10px;
+    line-height: 1.5;
+}
+
+/* ── TABLE ── */
+
+.dc-table-wrap {
+    overflow-x: auto;
+}
+
+.dc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.dc-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.dc-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.dc-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dc-table tr:hover td {
+    background: #eef7ee;
+}
+
+.dc-badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dc-badge.red {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.dc-badge.orange {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffe0b2;
+}
+
+.dc-badge.yellow {
+    background: #fffde7;
+    color: #f57f17;
+    border: 1px solid #fff176;
+}
+
+.dc-badge.green {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+/* ── COMBO CARDS ── */
+
+.dc-combo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.dc-combo-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dc-combo-card.ok {
+    background: #f0f9f0;
+    border: 1px solid #d5ead6;
+}
+
+.dc-combo-card.danger {
+    background: #fff5f5;
+    border: 1px solid #ffcdd2;
+}
+
+.dc-combo-card.warn {
+    background: #fffde7;
+    border: 1px solid #fff176;
+}
+
+.dc-combo-pair {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dc-combo-drug {
+    background: white;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    border: 1px solid var(--gray-light);
+}
+
+.dc-combo-plus {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1b5e20;
+}
+
+.dc-combo-plus.danger-plus {
+    color: #c62828;
+}
+
+.dc-combo-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── RULES ── */
+
+.dc-rules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.dc-rule-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.dc-rule-card.highlight {
+    background: #f0f9f0;
+    border-color: #d5ead6;
+}
+
+.dc-rule-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.dc-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.dc-rule-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── BACK ── */
+
+.dc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.dc-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.dc-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .dc-danger-grid,
+    .dc-combo-grid,
+    .dc-rules-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .dc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .dc-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .dc-table th,
+    .dc-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
