@@ -1689,6 +1689,8 @@ const SectionCards = () => {
           <span className="sc-search-icon">🔍</span>
           <input
             className="sc-search-input"
+            id="search"
+            name="search"
             type="text"
             placeholder="Пошук по довіднику... (петрушка, байкокс, вакцина...)"
             value={query}
