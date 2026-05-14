@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import "./Statistics.css";
@@ -326,6 +326,7 @@ export default function Statistics({ session }: Props) {
     "females" | "males" | "pairs" | "cages"
   >("females");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     async function loadStats() {
@@ -348,16 +349,26 @@ export default function Statistics({ session }: Props) {
         .select("*")
         .in("mating_id", matingIds);
 
+      // Реальні окроли (з датою народження)
       const littersMap: Record<
         string,
         { total_born: number; alive: number }[]
       > = {};
       (litters || []).forEach((l) => {
+        if (!l.birth_date) return;
         if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
         littersMap[l.mating_id].push({
           total_born: l.total_born,
           alive: l.alive,
         });
+      });
+
+      // Додаткові злучки записані всередині окролів (litter_mating_date)
+      const litterMatingCounts: Record<string, number> = {};
+      (litters || []).forEach((l) => {
+        if (!l.litter_mating_date) return;
+        litterMatingCounts[l.mating_id] =
+          (litterMatingCounts[l.mating_id] || 0) + 1;
       });
 
       // Female stats
@@ -381,7 +392,7 @@ export default function Statistics({ session }: Props) {
           };
         }
         const stat = femaleMap[fid];
-        stat.matingsCount += 1;
+        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
         const mLitters = littersMap[m.id] || [];
         stat.littersCount += mLitters.length;
         mLitters.forEach((l) => {
@@ -441,7 +452,7 @@ export default function Statistics({ session }: Props) {
           };
         }
         const stat = maleMap[mid];
-        stat.matingsCount += 1;
+        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
         const mLitters = littersMap[m.id] || [];
         stat.littersCount += mLitters.length;
         mLitters.forEach((l) => {
@@ -503,7 +514,7 @@ export default function Statistics({ session }: Props) {
           };
         }
         const stat = pairMap[key];
-        stat.matingsCount += 1;
+        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
         const mLitters = littersMap[m.id] || [];
         stat.littersCount += mLitters.length;
         mLitters.forEach((l) => {
@@ -540,7 +551,7 @@ export default function Statistics({ session }: Props) {
           };
         }
         const stat = cageMap[cage];
-        stat.matingsCount += 1;
+        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
         const mLitters = littersMap[m.id] || [];
         stat.littersCount += mLitters.length;
         mLitters.forEach((l) => {
@@ -567,7 +578,7 @@ export default function Statistics({ session }: Props) {
       setLoading(false);
     }
     loadStats();
-  }, [session.user.id]);
+  }, [session.user.id, location.key]);
 
   const currentStats =
     activeTab === "females"
