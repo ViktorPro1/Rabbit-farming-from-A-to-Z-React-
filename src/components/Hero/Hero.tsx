@@ -1,5 +1,5 @@
 import "./Hero.css";
-import rabbitPhoto from "../../assets/my-breed.png";
+import rabbitPhoto from "../../assets/my-breed.webp";
 
 const Hero = () => {
   return (
