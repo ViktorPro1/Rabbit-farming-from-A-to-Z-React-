@@ -1,16 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
-<url>
-  <loc>https://rabbit-farming-from-a-to-z-react.vercel.app/</loc>
-  <lastmod>2026-05-14T05:23:21+00:00</lastmod>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/breeds</loc><priority>0.8</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/biology</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/care</loc><priority>0.8</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/feeding</loc><priority>0.8</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/diseases</loc><priority>0.8</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/parasites</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/vaccinations</loc><priority>0.8</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/first-aid</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/symptoms</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/treatment</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/medicines</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/community</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/beginner-guide</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/faq</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/okril</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/breeding</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/genetics</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/selection</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/enclosure</loc><priority>0.7</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/floor-care</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/microclimate</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/leaves</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/crops</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/water</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/feeders</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/new-food</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/disinfection</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/biosecurity</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/grooming</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/weaning</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/weight-control</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/artificial-feeding</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/mating-frequency</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/winter-litter</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/artificial-insemination</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/lab-diagnostics</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/necropsy</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/calendar</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/tips</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/breeding-herd</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/equipment</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/tools</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/slaughter</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/fur-processing</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/culling</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/transport</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/recipes</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/zoonoses</loc><priority>0.6</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/economics</loc><priority>0.5</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/legal</loc><priority>0.5</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/sales</loc><priority>0.5</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/profit-calculator</loc><priority>0.5</priority></url>
+  <url><loc>https://rabbit-farming-from-a-to-z-react.vercel.app/pit-keeping</loc><priority>0.6</priority></url>
 </urlset>
