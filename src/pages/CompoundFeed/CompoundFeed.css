@@ -1,0 +1,531 @@
+.cf-page {
+    min-height: 100vh;
+}
+
+.cf-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.cf-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.cf-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.cf-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.cf-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #f0f9f0;
+    border-left: 4px solid var(--green-mid);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+}
+
+.cf-banner>span {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ── TABS ── */
+
+.cf-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.cf-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #444;
+    font-size: 13px;
+}
+
+.cf-tab:hover,
+.cf-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+/* ── CONTENT ── */
+
+.cf-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cf-intro {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem 1.4rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.cf-note {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.4rem;
+}
+
+.cf-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.cf-sub-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0.5rem 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── ALERT ── */
+
+.cf-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.cf-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.cf-alert.tip {
+    background: #fffbea;
+    color: #6d4c00;
+    border-left: 3px solid #f6c90e;
+}
+
+/* ── CARDS ── */
+
+.cf-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.cf-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.cf-card.ok {
+    background: #f0f9f0;
+    border-color: #d5ead6;
+}
+
+.cf-card.warn {
+    background: #fffde7;
+    border-color: #fff176;
+}
+
+.cf-card.danger {
+    background: #fff5f5;
+    border-color: #ffcdd2;
+}
+
+.cf-card.start {
+    background: #eef7ff;
+    border-color: #bbdefb;
+}
+
+.cf-card.finish {
+    background: #fff8f0;
+    border-color: #ffcc80;
+}
+
+.cf-card-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.cf-card-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.cf-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── INLINE ALERT ── */
+
+.cf-inline-alert {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.cf-inline-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* ── TABLE ── */
+
+.cf-table-wrap {
+    overflow-x: auto;
+}
+
+.cf-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.cf-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.cf-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: #444;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.cf-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cf-table tr:hover td {
+    background: #eef7ee;
+}
+
+/* ── BADGES ── */
+
+.cf-badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cf-badge.green {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+.cf-badge.orange {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffcc80;
+}
+
+/* ── PK ── */
+
+.cf-pk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.cf-pk-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cf-pk-code {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.cf-pk-age {
+    font-size: 12px;
+    color: #666;
+}
+
+.cf-pk-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── COMPONENTS ── */
+
+.cf-comp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cf-comp-item {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+}
+
+.cf-comp-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.cf-comp-icon {
+    font-size: 22px;
+}
+
+.cf-comp-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.cf-comp-item p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.cf-comp-tip {
+    margin-top: 10px;
+    background: #fffbea;
+    border-left: 3px solid #f6c90e;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #6d4c00;
+    line-height: 1.5;
+}
+
+/* ── NUTRIENT ── */
+
+.cf-nutrient-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.3rem;
+}
+
+.cf-nutrient-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.cf-nutrient-header span:first-child {
+    font-size: 22px;
+}
+
+.cf-nutrient-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── CHECKLIST ── */
+
+.cf-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cf-check-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.cf-check-item.ok {
+    background: #f0f9f0;
+    color: #1b5e20;
+}
+
+.cf-check-item.warn {
+    background: #fff8f0;
+    color: #e65100;
+}
+
+.cf-check-item span:first-child {
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* ── RECIPES ── */
+
+.cf-recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.cf-recipe-card {
+    background: white;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.3rem;
+}
+
+.cf-recipe-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+.cf-recipe-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cf-recipe-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #444;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid #f1f1f1;
+}
+
+.cf-recipe-result {
+    margin-top: 12px;
+    background: #eef7ee;
+    color: var(--green-dark);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ── BACK ── */
+
+.cf-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.cf-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.cf-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .cf-cards-grid,
+    .cf-pk-grid,
+    .cf-recipe-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .cf-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .cf-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .cf-table th,
+    .cf-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

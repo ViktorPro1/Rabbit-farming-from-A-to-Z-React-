@@ -48,6 +48,7 @@ const Crops = lazy(() => import("../pages/Crops/Crops"));
 const Water = lazy(() => import("../pages/Water/Water"));
 const Feeders = lazy(() => import("../pages/Feeders/Feeders"));
 const NewFood = lazy(() => import("../pages/NewFood/NewFood"));
+const CompoundFeed = lazy(() => import("../pages/CompoundFeed/CompoundFeed"));
 
 // ДОГЛЯД
 const Care = lazy(() => import("../pages/Care/Care"));
@@ -67,6 +68,9 @@ const ArtificialFeeding = lazy(
 );
 const MatingPage = lazy(
   () => import("../pages/MatingFrequency/MatingFrequency"),
+);
+const MatingBehavior = lazy(
+  () => import("../pages/MatingBehavior/MatingBehavior"),
 );
 
 // ЗДОРОВ'Я
@@ -186,6 +190,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/water" element={<Water />} />
         <Route path="/feeders" element={<Feeders />} />
         <Route path="/new-food" element={<NewFood />} />
+        <Route path="/compound-feed" element={<CompoundFeed />} />
 
         {/* 4. ДОГЛЯД */}
         <Route path="/care" element={<Care />} />
@@ -200,6 +205,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/weight-control" element={<WeightControl />} />
         <Route path="/artificial-feeding" element={<ArtificialFeeding />} />
         <Route path="/mating-frequency" element={<MatingPage />} />
+        <Route path="/mating-behavior" element={<MatingBehavior />} />
 
         {/* 6. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
