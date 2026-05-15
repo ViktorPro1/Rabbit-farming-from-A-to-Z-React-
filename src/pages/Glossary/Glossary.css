@@ -1,0 +1,371 @@
+.gl-page {
+    min-height: 100vh;
+    background: #f5f7f2;
+    padding: 40px 16px 80px;
+    color: #1f2937;
+}
+
+.gl-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.gl-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.gl-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 12px;
+    color: #27500a;
+}
+
+.gl-header p {
+    font-size: 1.05rem;
+    color: #4b5563;
+}
+
+.gl-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.gl-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #d1d5db;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.gl-search-box span {
+    padding-left: 16px;
+    font-size: 1.1rem;
+}
+
+.gl-search {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 16px 14px;
+    font-size: 1rem;
+    color: #111827;
+}
+
+.gl-clear {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0 16px;
+    font-size: 1rem;
+    color: #6b7280;
+    transition: 0.2s;
+}
+
+.gl-clear:hover {
+    color: #dc2626;
+}
+
+.gl-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gl-cat {
+    border: none;
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    color: #374151;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.gl-cat:hover {
+    background: #d1d5db;
+}
+
+.gl-cat.active {
+    background: #27500a;
+    color: #fff;
+}
+
+.gl-count {
+    margin-bottom: 24px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.gl-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid #e5e7eb;
+}
+
+.gl-empty span {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.gl-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.gl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.gl-letter {
+    position: sticky;
+    top: 10px;
+    z-index: 2;
+    width: fit-content;
+    padding: 8px 18px;
+    border-radius: 14px;
+    background: #27500a;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(39, 80, 10, 0.2);
+}
+
+.gl-group-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.gl-item {
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid #e5e7eb;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+}
+
+.gl-item:hover {
+    transform: translateY(-2px);
+    border-color: #c8d5bc;
+}
+
+.gl-item.open {
+    border-color: #27500a;
+    box-shadow: 0 8px 24px rgba(39, 80, 10, 0.12);
+}
+
+.gl-item-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.gl-item-texts {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.gl-item-term {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.gl-item-short {
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.gl-item-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.gl-item-cat {
+    background: #eef7e8;
+    color: #27500a;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.gl-item-arrow {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.gl-item-body {
+    margin-top: 22px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 22px;
+}
+
+.gl-definition {
+    line-height: 1.8;
+    color: #374151;
+    font-size: 1rem;
+}
+
+.gl-example {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #f9fafb;
+    border-left: 4px solid #27500a;
+    padding: 14px 16px;
+    border-radius: 14px;
+}
+
+.gl-example span:last-child {
+    line-height: 1.6;
+    color: #374151;
+}
+
+.gl-related {
+    margin-top: 22px;
+}
+
+.gl-related-label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.gl-related-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gl-tag {
+    background: #eef2ff;
+    color: #3730a3;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.gl-tag:hover {
+    background: #dbe4ff;
+}
+
+.gl-back {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.gl-back-btn {
+    text-decoration: none;
+    background: #27500a;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 16px;
+    font-weight: 700;
+    transition: 0.25s;
+    box-shadow: 0 5px 18px rgba(39, 80, 10, 0.2);
+}
+
+.gl-back-btn:hover {
+    transform: translateY(-2px);
+    background: #1f4207;
+}
+
+@media (max-width: 768px) {
+    .gl-page {
+        padding-top: 28px;
+    }
+
+    .gl-item-top {
+        flex-direction: column;
+    }
+
+    .gl-item-right {
+        justify-content: space-between;
+    }
+
+    .gl-item-term {
+        font-size: 1.1rem;
+    }
+
+    .gl-definition {
+        font-size: 0.96rem;
+    }
+
+    .gl-search {
+        padding: 14px 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .gl-page {
+        padding: 24px 10px 60px;
+    }
+
+    .gl-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .gl-header p {
+        font-size: 0.92rem;
+    }
+
+    .gl-item {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .gl-item-term {
+        font-size: 1rem;
+    }
+
+    .gl-item-short {
+        font-size: 0.88rem;
+    }
+
+    .gl-definition {
+        font-size: 0.92rem;
+        line-height: 1.7;
+    }
+
+    .gl-cat {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+    }
+
+    .gl-tag {
+        font-size: 0.8rem;
+        padding: 7px 12px;
+    }
+
+    .gl-back-btn {
+        padding: 10px 14px;
+        font-size: 0.88rem;
+        border-radius: 12px;
+    }
+}

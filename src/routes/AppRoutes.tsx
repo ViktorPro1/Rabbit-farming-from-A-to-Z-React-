@@ -15,6 +15,7 @@ const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const BeginnerMistakes = lazy(
   () => import("../pages/BeginnerMistakes/BeginnerMistakes"),
 );
+const Glossary = lazy(() => import("../pages/Glossary/Glossary"));
 
 // ГОЛОВНА
 const Home = lazy(() => import("../pages/Home"));
@@ -34,6 +35,7 @@ const ArtificialInsemination = lazy(
 );
 const Selection = lazy(() => import("../pages/Selection/Selection"));
 const Genetics = lazy(() => import("../pages/Genetics/Genetics"));
+const RabbitMyths = lazy(() => import("../pages/RabbitMyths/RabbitMyths"));
 
 // ЖИТЛО
 const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
@@ -157,6 +159,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/beginner-guide" element={<BeginnerGuide />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/beginner-mistakes" element={<BeginnerMistakes />} />
+        <Route path="/rabbit-myths" element={<RabbitMyths />} />
+        <Route path="/glossary" element={<Glossary />} />
 
         {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
