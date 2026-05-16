@@ -1,0 +1,272 @@
+.myvac-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+/* ── HEADER ── */
+.myvac-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.myvac-header h1 {
+    flex: 1;
+    font-size: 1.6rem;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.myvac-back-btn {
+    background: none;
+    border: 1px solid var(--green-mid);
+    color: var(--green-dark);
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.myvac-back-btn:hover {
+    background: var(--green-pale);
+}
+
+.myvac-add-btn {
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.myvac-add-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── FORM ── */
+.myvac-form {
+    background: var(--cream);
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.myvac-form h2 {
+    margin: 0 0 1rem;
+    color: var(--green-dark);
+    font-size: 1.1rem;
+}
+
+.myvac-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.myvac-form-grid input,
+.myvac-form-grid select {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--green-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: var(--green-dark);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.myvac-field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.myvac-field-wrap label {
+    font-size: 0.8rem;
+    color: var(--green-mid);
+}
+
+.myvac-save-btn {
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.myvac-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.myvac-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ── LIST ── */
+.myvac-loading,
+.myvac-empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 2rem;
+}
+
+.myvac-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+/* ── CARD ── */
+.myvac-card {
+    background: #fff;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.myvac-card.overdue {
+    border-color: #e74c3c;
+    background: #fff5f5;
+}
+
+.myvac-card.soon {
+    border-color: var(--amber);
+    background: #fffbf0;
+}
+
+.myvac-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.myvac-cage {
+    font-weight: 700;
+    color: var(--green-dark);
+    font-size: 1rem;
+}
+
+.myvac-type {
+    font-size: 0.8rem;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.myvac-drug {
+    font-size: 0.95rem;
+    color: var(--brown);
+    margin: 0;
+}
+
+.myvac-date,
+.myvac-next,
+.myvac-notes {
+    font-size: 0.88rem;
+    color: var(--gray);
+    margin: 0;
+}
+
+.myvac-next.text-overdue {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.myvac-next.text-soon {
+    color: var(--amber);
+    font-weight: 600;
+}
+
+.myvac-delete-btn {
+    margin-top: 0.5rem;
+    background: none;
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    align-self: flex-start;
+}
+
+.myvac-delete-btn:hover {
+    background: #fff0f0;
+}
+
+/* ══════════════════════════════
+   АДАПТИВ 760px
+══════════════════════════════ */
+@media (max-width: 760px) {
+    .myvac-header h1 {
+        font-size: 1.35rem;
+    }
+
+    .myvac-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .myvac-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ══════════════════════════════
+   АДАПТИВ 420px
+══════════════════════════════ */
+@media (max-width: 420px) {
+    .myvac-page {
+        padding: 1rem 0.75rem 2.5rem;
+    }
+
+    .myvac-header {
+        gap: 0.6rem;
+    }
+
+    .myvac-header h1 {
+        font-size: 1.15rem;
+        width: 100%;
+        order: -1;
+    }
+
+    .myvac-back-btn,
+    .myvac-add-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .myvac-add-btn {
+        margin-left: auto;
+    }
+
+    .myvac-form {
+        padding: 1rem;
+    }
+
+    .myvac-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .myvac-card {
+        padding: 0.85rem 1rem;
+    }
+}

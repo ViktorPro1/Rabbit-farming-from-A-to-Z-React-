@@ -126,6 +126,10 @@ const Paddocks = lazy(() => import("../pages/Paddocks/Paddocks"));
 const Fattening = lazy(() => import("../pages/Fattening/Fattening"));
 const Quarantine = lazy(() => import("../pages/Quarantine/Quarantine"));
 const Statistics = lazy(() => import("../pages/Statistics/Statistics"));
+const MyVaccinations = lazy(
+  () => import("../pages/MyVaccinations/MyVaccinations"),
+);
+const MyTreatments = lazy(() => import("../pages/MyTreatments/MyTreatments"));
 
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
@@ -154,14 +158,12 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/admin"
           element={session ? <Admin session={session} /> : <Auth />}
         />
-
         {/* — З ЧОГО ПОЧАТИ — */}
         <Route path="/beginner-guide" element={<BeginnerGuide />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/beginner-mistakes" element={<BeginnerMistakes />} />
         <Route path="/rabbit-myths" element={<RabbitMyths />} />
         <Route path="/glossary" element={<Glossary />} />
-
         {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
@@ -169,7 +171,6 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/community" element={<Community />} />
         <Route path="/rabbit/:id" element={<RabbitPublic />} />
         <Route path="/fattening-public/:id" element={<FatteningPublic />} />
-
         {/* 1. ПОЧАТОК — знайомство з твариною */}
         <Route path="/biology" element={<Biology />} />
         <Route path="/breeds" element={<Breeds />} />
@@ -180,13 +181,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route path="/selection" element={<Selection />} />
         <Route path="/genetics" element={<Genetics />} />
-
         {/* 2. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
         <Route path="/pit-keeping" element={<PaddockInfo />} />
         <Route path="/microclimate" element={<Microclimate />} />
-
         {/* 3. ХАРЧУВАННЯ */}
         <Route path="/feeding" element={<Feeding />} />
         <Route path="/leaves" element={<Leaves />} />
@@ -195,13 +194,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/feeders" element={<Feeders />} />
         <Route path="/new-food" element={<NewFood />} />
         <Route path="/compound-feed" element={<CompoundFeed />} />
-
         {/* 4. ДОГЛЯД */}
         <Route path="/care" element={<Care />} />
         <Route path="/disinfection" element={<Disinfection />} />
         <Route path="/biosecurity" element={<Biosecurity />} />
         <Route path="/grooming" element={<Grooming />} />
-
         {/* 5. РОЗВЕДЕННЯ */}
         <Route path="/okril" element={<Okril />} />
         <Route path="/winter-litter" element={<WinterLitter />} />
@@ -210,7 +207,6 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/artificial-feeding" element={<ArtificialFeeding />} />
         <Route path="/mating-frequency" element={<MatingPage />} />
         <Route path="/mating-behavior" element={<MatingBehavior />} />
-
         {/* 6. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
@@ -222,12 +218,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/necropsy" element={<Necropsy />} />
         <Route path="/drug-compatibility" element={<DrugCompatibility />} />
-
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />
         <Route path="/breeding-herd" element={<BreedingHerd />} />
-
         {/* 8. ІНСТРУМЕНТИ */}
         <Route
           path="/calculator"
@@ -235,16 +229,13 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route path="/equipment" element={<Equipment />} />
         <Route path="/tools" element={<Tools />} />
-
         {/* 9. ФІНАЛ */}
         <Route path="/slaughter" element={<Slaughter />} />
         <Route path="/fur-processing" element={<FurProcessing />} />
         <Route path="/culling" element={<Culling />} />
         <Route path="/transport" element={<Transport />} />
-
         {/* 10. РЕЦЕПТИ */}
         <Route path="/recipes" element={<Recipes />} />
-
         {/* — ОСОБИСТИЙ КАБІНЕТ — */}
         <Route
           path="/registry"
@@ -278,13 +269,19 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/statistics"
           element={session ? <Statistics session={session} /> : <Auth />}
         />
-
+        <Route
+          path="/my-vaccinations"
+          element={session ? <MyVaccinations session={session} /> : <Auth />}
+        />
+        <Route
+          path="/my-treatments"
+          element={session ? <MyTreatments session={session} /> : <Auth />}
+        />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/sales" element={<Sales />} />
         <Route path="/profit-calculator" element={<ProfitCalc />} />
-
         {/* — ЗОНИ — */}
         <Route path="/zoonoses" element={<Zoonoses />} />
       </Routes>
