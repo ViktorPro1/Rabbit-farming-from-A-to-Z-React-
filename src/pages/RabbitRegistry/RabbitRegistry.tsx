@@ -616,6 +616,73 @@ export default function RabbitRegistry({ session }: Props) {
           ))}
         </div>
       )}
+
+      {/* ── Зноска: вік утримання у племінному стаді ── */}
+      <div className="fattening-note">
+        <h3>📋 Рекомендований вік утримання у племінному стаді</h3>
+        <p>
+          Правильний підбір племінних тварин за віком безпосередньо впливає на
+          якість потомства та продуктивність стада.
+        </p>
+        <div className="fattening-note-grid">
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">♀</span>
+            <div>
+              <strong>Самки — перша злучка</strong>
+              <span>Середні породи: 5–6 міс., вага не менше 2,5 кг</span>
+              <span>
+                Великі породи (Фландр, Велетень): 6–7 міс., від 3,5 кг
+              </span>
+              <span className="fattening-note-days">після першої линьки</span>
+            </div>
+          </div>
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">♂</span>
+            <div>
+              <strong>Самці — перша злучка</strong>
+              <span>Середні породи: 6–7 міс.</span>
+              <span>Великі породи: 7–8 міс.</span>
+              <span className="fattening-note-days">після другої линьки</span>
+            </div>
+          </div>
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">📅</span>
+            <div>
+              <strong>Самки — строк використання</strong>
+              <span>В середньому 3 роки у продуктивному стаді</span>
+              <span>За хорошого здоров'я — до 4–5 років</span>
+              <span className="fattening-note-days">вибраковка після 3 р.</span>
+            </div>
+          </div>
+          <div className="fattening-note-item">
+            <span className="fattening-note-icon">📅</span>
+            <div>
+              <strong>Самці — строк використання</strong>
+              <span>Зазвичай не більше 3 років</span>
+              <span>1 самець на 8–10 самок</span>
+              <span className="fattening-note-days">вибраковка після 3 р.</span>
+            </div>
+          </div>
+        </div>
+        <div className="fattening-note-warn">
+          ⚠️ <strong>Підбір пар:</strong> За молодими самками закріплюють
+          старшого самця, за старими — молодого. Не допускайте до злучки тварин,
+          які не досягли 2/3 живої маси дорослих особин своєї породи.
+        </div>
+        <div
+          className="fattening-note-warn"
+          style={{
+            background: "#e8f5e9",
+            borderColor: "#a5d6a7",
+            color: "#1b5e20",
+          }}
+        >
+          ✅ <strong>Причини дострокового вибракування самок:</strong> з'їла
+          кроленят двічі поспіль, не завагітніла після контрольної злучки, менше
+          4–5 кроленят в двох окролах поспіль, погане здоров'я або надмірна
+          агресивність.
+        </div>
+      </div>
     </div>
   );
 }

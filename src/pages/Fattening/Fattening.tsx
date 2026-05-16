@@ -485,6 +485,13 @@ export default function Fattening({ session }: Props) {
                 )
               : null;
 
+            const ageInDays = birthIso
+              ? Math.floor(
+                  (today.getTime() - new Date(birthIso).getTime()) /
+                    (1000 * 60 * 60 * 24),
+                )
+              : null;
+
             return (
               <div key={cage.id} className="fattening-card">
                 <div className="fattening-card-top">
@@ -522,6 +529,11 @@ export default function Fattening({ session }: Props) {
                     <strong>
                       {new Date(cage.birth_date).toLocaleDateString("uk-UA")}
                     </strong>
+                  </p>
+                )}
+                {ageInDays !== null && (
+                  <p className="fattening-year">
+                    Вік: <strong>{ageInDays} дн.</strong>
                   </p>
                 )}
                 {slaughter && daysLeft !== null && (

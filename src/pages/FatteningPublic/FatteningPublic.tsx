@@ -79,6 +79,10 @@ export default function FatteningPublic() {
     ? Math.ceil((slaughter.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
     : null;
 
+  const ageInDays = birth
+    ? Math.floor((today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24))
+    : null;
+
   return (
     <div className="fp-wrap">
       <div className="fp-card">
@@ -117,6 +121,13 @@ export default function FatteningPublic() {
               <span className="fp-row-value">
                 {birth.toLocaleDateString("uk-UA")}
               </span>
+            </div>
+          )}
+
+          {ageInDays !== null && (
+            <div className="fp-row">
+              <span className="fp-row-label">Вік</span>
+              <span className="fp-row-value">{ageInDays} дн.</span>
             </div>
           )}
 
