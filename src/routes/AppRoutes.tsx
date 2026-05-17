@@ -36,6 +36,9 @@ const ArtificialInsemination = lazy(
 const Selection = lazy(() => import("../pages/Selection/Selection"));
 const Genetics = lazy(() => import("../pages/Genetics/Genetics"));
 const RabbitMyths = lazy(() => import("../pages/RabbitMyths/RabbitMyths"));
+const RabbitsAndGuineaPigs = lazy(
+  () => import("../pages/RabbitsAndGuineaPigs/RabbitsAndGuineaPigs"),
+);
 
 // ЖИТЛО
 const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
@@ -185,6 +188,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route path="/selection" element={<Selection />} />
         <Route path="/genetics" element={<Genetics />} />
+        <Route
+          path="/rabbits-and-guinea-pigs"
+          element={<RabbitsAndGuineaPigs />}
+        />
         {/* 2. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />

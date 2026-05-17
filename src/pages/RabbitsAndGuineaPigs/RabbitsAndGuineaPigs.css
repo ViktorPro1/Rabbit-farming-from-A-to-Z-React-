@@ -1,0 +1,751 @@
+.ragp-page {
+    min-height: 100vh;
+    background: #f7f5f0;
+}
+
+/* ── HEADER ── */
+
+.ragp-header {
+    background: linear-gradient(135deg, #1a3a0a 0%, #2d5a1b 60%, #4a7c32 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.ragp-header::before {
+    content: "🐇🐹";
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.06;
+    top: -10px;
+    right: 30px;
+    pointer-events: none;
+}
+
+.ragp-header h1 {
+    font-size: clamp(20px, 3.4vw, 34px);
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.ragp-header p {
+    opacity: 0.85;
+    font-size: 15px;
+}
+
+/* ── WRAP ── */
+
+.ragp-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.ragp-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #fff8e1;
+    border-left: 4px solid var(--amber);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.ragp-banner>span {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ragp-banner strong {
+    color: #c62828;
+}
+
+/* ── TABS ── */
+
+.ragp-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.ragp-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid #ddd;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ragp-tab:hover {
+    border-color: var(--green-mid);
+    color: var(--green-dark);
+    background: #f0f9f0;
+}
+
+.ragp-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.25);
+}
+
+/* ── CONTENT ── */
+
+.ragp-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ragp-intro {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1.2rem 1.4rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.ragp-note {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1.4rem;
+}
+
+.ragp-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.ragp-sub-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0.5rem 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── SOURCE ── */
+
+.ragp-source {
+    font-size: 12px;
+    color: #999;
+    padding: 8px 12px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border-left: 3px solid #ddd;
+}
+
+/* ── ALERTS ── */
+
+.ragp-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.ragp-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.ragp-alert.tip {
+    background: #fffbea;
+    color: #6d4c00;
+    border-left: 3px solid #f6c90e;
+}
+
+.ragp-inline-tip {
+    margin-top: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #fffbea;
+    color: #6d4c00;
+    border-left: 3px solid #f6c90e;
+}
+
+.ragp-inline-alert {
+    margin-top: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.ragp-inline-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+/* ── VERDICT GRID ── */
+
+.ragp-verdict-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.ragp-verdict-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.ragp-verdict-card.no {
+    background: #fff5f5;
+    border: 1.5px solid #ffcdd2;
+}
+
+.ragp-verdict-card.caution {
+    background: #fff8f0;
+    border: 1.5px solid #ffe0b2;
+}
+
+.ragp-verdict-card.ok {
+    background: #f0f9f0;
+    border: 1.5px solid #d5ead6;
+}
+
+.ragp-verdict-icon {
+    font-size: 28px;
+}
+
+.ragp-verdict-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.ragp-verdict-card p {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── THREE GRID ── */
+
+.ragp-three-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.ragp-three-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8e0d0;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.ragp-three-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.ragp-three-icon {
+    font-size: 26px;
+}
+
+.ragp-three-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.ragp-three-card p {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── DISEASE CARDS ── */
+
+.ragp-disease-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.ragp-disease-card.main {
+    border: 1.5px solid #ffcdd2;
+}
+
+.ragp-disease-head {
+    background: #ffebee;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ragp-disease-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+}
+
+.ragp-disease-badge.danger {
+    background: #c62828;
+    color: white;
+}
+
+.ragp-disease-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #c62828;
+    font-style: italic;
+}
+
+.ragp-disease-body {
+    background: white;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ragp-disease-row {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #fafafa;
+    border: 1px solid #f0ebe2;
+}
+
+.ragp-disease-row.danger-row {
+    background: #fff5f5;
+    border-color: #ffcdd2;
+}
+
+.ragp-disease-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.ragp-disease-row p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── CARDS GRID ── */
+
+.ragp-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.ragp-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8e0d0;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.ragp-card.danger {
+    background: #fff5f5;
+    border-color: #ffcdd2;
+}
+
+.ragp-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.ragp-card-header span:first-child {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.ragp-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── TABLE ── */
+
+.ragp-diet-table-wrap {
+    overflow-x: auto;
+}
+
+.ragp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.ragp-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.ragp-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid #f0ebe2;
+    color: #444;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.ragp-table tr:last-child td {
+    border-bottom: none;
+}
+
+.ragp-table tr:hover td {
+    background: #f7f5f0;
+}
+
+.ragp-badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.ragp-badge.green {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+.ragp-badge.red {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.ragp-badge.yellow {
+    background: #fffde7;
+    color: #f57f17;
+    border: 1px solid #fff176;
+}
+
+.ragp-badge.gray {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #e0e0e0;
+}
+
+/* ── COMPARE ── */
+
+.ragp-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.ragp-compare-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ragp-compare-card.rabbit {
+    background: #f0f9f0;
+    border: 1px solid #d5ead6;
+}
+
+.ragp-compare-card.guinea {
+    background: #fff8f0;
+    border: 1px solid #ffe0b2;
+}
+
+.ragp-compare-header {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.ragp-compare-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+    font-size: 13px;
+}
+
+.ragp-compare-item:last-child {
+    border-bottom: none;
+}
+
+.ragp-compare-item span:first-child {
+    color: #333;
+    font-weight: 500;
+}
+
+.ragp-compare-meaning {
+    color: #777;
+    font-style: italic;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* ── HOUSING ── */
+
+.ragp-housing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.ragp-housing-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8e0d0;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ragp-housing-icon {
+    font-size: 28px;
+}
+
+.ragp-housing-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.ragp-housing-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ragp-housing-item {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+    align-items: flex-start;
+}
+
+.ragp-housing-item span:first-child {
+    flex-shrink: 0;
+}
+
+/* ── STEPS ── */
+
+.ragp-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ragp-step {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1rem 1.2rem;
+    align-items: flex-start;
+}
+
+.ragp-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ragp-step-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.ragp-step p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── RULES ── */
+
+.ragp-rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ragp-rule {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1.1rem 1.2rem;
+    align-items: flex-start;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.ragp-rule-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.ragp-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.ragp-rule p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── BACK ── */
+
+.ragp-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.ragp-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.ragp-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .ragp-verdict-grid,
+    .ragp-cards-grid,
+    .ragp-compare-grid,
+    .ragp-housing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ragp-three-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .ragp-header {
+        padding: 2rem 1rem;
+    }
+
+    .ragp-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .ragp-table th,
+    .ragp-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
