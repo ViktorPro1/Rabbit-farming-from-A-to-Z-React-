@@ -1,0 +1,474 @@
+.neuter {
+    min-height: 100vh;
+    background: var(--green-light);
+    color: #222;
+}
+
+/* ─── HEADER ─── */
+
+.neuter__hero {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2.2rem 1rem;
+    text-align: center;
+}
+
+.neuter__hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.neuter__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 13px;
+    margin-bottom: 1rem;
+}
+
+.neuter__title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.neuter__subtitle {
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.8;
+    opacity: 0.92;
+}
+
+.neuter__hero-alert {
+    margin: 1.5rem auto 0;
+    max-width: 760px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.12);
+    border-left: 3px solid #facc15;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: left;
+}
+
+/* ─── CONTENT ─── */
+
+.neuter__content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.neuter__section {
+    margin-bottom: 2rem;
+}
+
+.neuter__section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.neuter__section-intro {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+/* ─── TERMS ─── */
+
+.neuter__terms {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.neuter__term {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+}
+
+.neuter__term p {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #444;
+}
+
+.neuter__term-label {
+    display: inline-flex;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.neuter__term-label--buck {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.neuter__term-label--doe {
+    background: #ffe4e6;
+    color: #be123c;
+}
+
+/* ─── BLOCKS ─── */
+
+.neuter__context-tabs,
+.neuter__stats,
+.neuter__procedure-grid,
+.neuter__risks-grid,
+.neuter__faq,
+.neuter__aftercare,
+.neuter__age-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.neuter__context-block,
+.neuter__procedure-block,
+.neuter__risk,
+.neuter__faq-item,
+.neuter__aftercare-step,
+.neuter__age-card,
+.neuter__stat-card {
+    background: white;
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+}
+
+/* ─── HEADINGS ─── */
+
+.neuter__context-heading,
+.neuter__subsection-title {
+    font-size: 17px;
+    margin-bottom: 12px;
+    color: var(--green-dark);
+    font-weight: 500;
+}
+
+.neuter__context-heading--pet {
+    color: #2563eb;
+}
+
+.neuter__context-heading--farm {
+    color: #15803d;
+}
+
+/* ─── LISTS ─── */
+
+.neuter__reason-list,
+.neuter__procedure-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 20px;
+}
+
+.neuter__reason-list li,
+.neuter__procedure-steps li {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #444;
+}
+
+/* ─── NOTES ─── */
+
+.neuter__farm-note,
+.neuter__note,
+.neuter__card,
+.neuter__procedure-note {
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.neuter__farm-note,
+.neuter__card--warning {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    color: #7c3b00;
+}
+
+.neuter__note {
+    background: #fdecea;
+    border-left: 3px solid #dc2626;
+    color: #7f1d1d;
+}
+
+.neuter__card--accent,
+.neuter__procedure-note {
+    background: #eefaf2;
+    border-left: 3px solid #2e7d32;
+    color: #1f5130;
+}
+
+/* ─── STATS ─── */
+
+.neuter__stat-card {
+    text-align: center;
+}
+
+.neuter__stat-num {
+    display: block;
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.neuter__stat-desc,
+.neuter__stat-note {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #555;
+}
+
+.neuter__stat-card--mid {
+    border-left: 3px solid #f59e0b;
+}
+
+.neuter__stat-card--high {
+    border-left: 3px solid #dc2626;
+}
+
+/* ─── SIGNS ─── */
+
+.neuter__signs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.neuter__sign {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1rem;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #444;
+}
+
+/* ─── AGE ─── */
+
+.neuter__age-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.neuter__age-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.neuter__age-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+    padding-bottom: 10px;
+    font-size: 13px;
+}
+
+.neuter__age-row span {
+    color: #666;
+}
+
+.neuter__age-row strong {
+    color: #222;
+    text-align: right;
+}
+
+.neuter__age-row--warn strong {
+    color: #b45309;
+}
+
+.neuter__age-row--ok strong {
+    color: #15803d;
+}
+
+/* ─── AFTERCARE ─── */
+
+.neuter__aftercare-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.neuter__aftercare-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.neuter__aftercare-step p,
+.neuter__faq-item p,
+.neuter__risk p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #444;
+}
+
+/* ─── RISKS ─── */
+
+.neuter__risk-label {
+    display: inline-flex;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.neuter__risk--low .neuter__risk-label {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.neuter__risk--mid .neuter__risk-label {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.neuter__risk--rare .neuter__risk-label {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.neuter__risk strong,
+.neuter__faq-item strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--green-dark);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* ─── NAV ─── */
+
+.neuter__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.neuter__nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    color: #444;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.neuter__nav-link:hover {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+/* ─── Кнопка назад ─── */
+
+.neuter-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.neuter-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.neuter-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ─── RESPONSIVE ─── */
+
+@media (max-width: 768px) {
+    .neuter__hero {
+        padding: 1.8rem 1rem;
+    }
+
+    .neuter__title {
+        line-height: 1.2;
+    }
+
+    .neuter__aftercare-step,
+    .neuter__hero-alert,
+    .neuter__age-row {
+        flex-direction: column;
+    }
+
+    .neuter__age-row strong {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .neuter__badge {
+        font-size: 11px;
+    }
+
+    .neuter__subtitle,
+    .neuter__section-intro,
+    .neuter__reason-list li,
+    .neuter__faq-item p,
+    .neuter__risk p {
+        font-size: 13px;
+    }
+
+    .neuter__section-title {
+        font-size: 18px;
+    }
+
+    .neuter__nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}

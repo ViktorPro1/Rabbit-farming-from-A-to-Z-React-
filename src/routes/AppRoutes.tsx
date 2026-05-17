@@ -90,6 +90,10 @@ const Necropsy = lazy(() => import("../pages/Necropsy/Necropsy"));
 const DrugCompatibility = lazy(
   () => import("../pages/DrugCompatibility/DrugCompatibility"),
 );
+const PainManagement = lazy(
+  () => import("../pages/PainManagement/PainManagement"),
+);
+const Neutering = lazy(() => import("../pages/Neutering/Neutering"));
 
 // ПЛАНУВАННЯ
 const Calendar = lazy(() => import("../pages/Calendar/Calendar"));
@@ -218,6 +222,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/necropsy" element={<Necropsy />} />
         <Route path="/drug-compatibility" element={<DrugCompatibility />} />
+        <Route path="/pain-management" element={<PainManagement />} />
+        <Route path="/neutering" element={<Neutering />} />
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />

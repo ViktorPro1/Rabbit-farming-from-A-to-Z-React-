@@ -1,0 +1,699 @@
+.pain-mgmt {
+    min-height: 100vh;
+    background: var(--cream);
+}
+
+/* ── HERO ── */
+.pain-mgmt__hero {
+    background: linear-gradient(135deg, var(--green-dark) 0%, #1a3a06 100%);
+    padding: 3rem 1.25rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.pain-mgmt__hero::before {
+    content: "💊";
+    position: absolute;
+    font-size: 10rem;
+    opacity: 0.05;
+    right: -1rem;
+    top: -1rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.pain-mgmt__hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.pain-mgmt__badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--green-pale);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pain-mgmt__title {
+    color: #fff;
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 0 1rem;
+}
+
+.pain-mgmt__subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin: 0 0 1.5rem;
+}
+
+.pain-mgmt__hero-alert {
+    background: rgba(255, 180, 0, 0.18);
+    border: 1px solid rgba(255, 180, 0, 0.4);
+    border-radius: 10px;
+    padding: 0.875rem 1.1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.pain-mgmt__hero-alert-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+}
+
+/* ── CONTENT ── */
+.pain-mgmt__content {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* ── SECTION ── */
+.pain-mgmt__section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.pain-mgmt__section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--green-pale);
+}
+
+.pain-mgmt__section-icon {
+    font-size: 1.3rem;
+}
+
+.pain-mgmt__section-intro {
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+    font-size: 0.97rem;
+}
+
+/* ── CARDS ── */
+.pain-mgmt__card {
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #333;
+}
+
+.pain-mgmt__card p {
+    margin: 0;
+}
+
+.pain-mgmt__card--accent {
+    background: #f0f7e8;
+    border-left: 4px solid var(--green-mid);
+}
+
+.pain-mgmt__card--warning {
+    background: #fff8e6;
+    border-left: 4px solid var(--amber);
+}
+
+.pain-mgmt__card--warning strong {
+    color: #7a5500;
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.97rem;
+}
+
+/* ── WHY GRID ── */
+.pain-mgmt__why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.pain-mgmt__why-item {
+    background: #fff;
+    border: 1px solid #e0e8d6;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.pain-mgmt__why-icon {
+    font-size: 1.4rem;
+}
+
+.pain-mgmt__why-item strong {
+    color: var(--green-dark);
+    font-size: 0.93rem;
+}
+
+.pain-mgmt__why-item span {
+    color: #555;
+    font-size: 0.87rem;
+    line-height: 1.5;
+}
+
+/* ── RGS GRID ── */
+.pain-mgmt__rgs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1rem;
+}
+
+.pain-mgmt__rgs-card {
+    background: #fff;
+    border: 1px solid #dde8cc;
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.pain-mgmt__rgs-emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.pain-mgmt__rgs-card h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.pain-mgmt__rgs-scores {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.pain-mgmt__rgs-score {
+    font-size: 0.84rem;
+    line-height: 1.45;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+}
+
+.pain-mgmt__rgs-score strong {
+    display: inline-block;
+    min-width: 1.2rem;
+    margin-right: 0.2rem;
+}
+
+.pain-mgmt__rgs-score--0 {
+    background: #edf7e5;
+    color: #2d5a16;
+}
+
+.pain-mgmt__rgs-score--1 {
+    background: #fff8e0;
+    color: #7a5500;
+}
+
+.pain-mgmt__rgs-score--2 {
+    background: #fde8e8;
+    color: #8b1a1a;
+}
+
+.pain-mgmt__rgs-result {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.pain-mgmt__rgs-result-item {
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.87rem;
+    line-height: 1.45;
+}
+
+.pain-mgmt__rgs-result-item strong {
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+}
+
+.pain-mgmt__rgs-result-item--ok {
+    background: #eaf7e0;
+    border: 1.5px solid #8bc34a;
+    color: #2d5a16;
+}
+
+.pain-mgmt__rgs-result-item--mid {
+    background: #fff8e0;
+    border: 1.5px solid var(--amber);
+    color: #7a5500;
+}
+
+.pain-mgmt__rgs-result-item--bad {
+    background: #fde8e8;
+    border: 1.5px solid #d32f2f;
+    color: #8b1a1a;
+}
+
+.pain-mgmt__note {
+    font-size: 0.85rem;
+    color: #666;
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* ── SIGNS GRID ── */
+.pain-mgmt__signs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.pain-mgmt__signs-block {
+    background: #fff;
+    border: 1px solid #e0e8d6;
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+}
+
+.pain-mgmt__signs-heading {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.pain-mgmt__signs-list {
+    margin: 0;
+    padding: 0 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: #444;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+/* ── CAUSES ── */
+.pain-mgmt__causes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.pain-mgmt__cause {
+    background: #fff;
+    border: 1px solid #e0e8d6;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.pain-mgmt__cause-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.pain-mgmt__cause strong {
+    color: var(--green-dark);
+    font-size: 0.97rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.pain-mgmt__cause p {
+    margin: 0;
+    color: #555;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+/* ── DRUGS ── */
+.pain-mgmt__drug-warning {
+    background: #fff8e0;
+    border: 1.5px solid var(--amber);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #5a3e00;
+}
+
+.pain-mgmt__drug-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.pain-mgmt__drug-group-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.pain-mgmt__drug-group-desc {
+    margin: 0;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.pain-mgmt__drug-card {
+    background: #fff;
+    border: 1px solid #dde8cc;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.pain-mgmt__drug-header {
+    background: var(--green-pale);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.pain-mgmt__drug-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.pain-mgmt__drug-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pain-mgmt__drug-tag--nsaid {
+    background: #d4edda;
+    color: #1a5c2e;
+}
+
+.pain-mgmt__drug-tag--opioid {
+    background: #fde8e8;
+    color: #8b1a1a;
+}
+
+.pain-mgmt__drug-tag--local {
+    background: #e8f0fd;
+    color: #1a3c8b;
+}
+
+.pain-mgmt__drug-body {
+    padding: 1rem 1.2rem;
+    display: flex;
+    gap: 1.25rem;
+}
+
+.pain-mgmt__drug-info {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex-shrink: 0;
+}
+
+.pain-mgmt__drug-row {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+    background: #f5f8f0;
+    border-radius: 6px;
+}
+
+.pain-mgmt__drug-row span {
+    color: #777;
+    font-size: 0.78rem;
+}
+
+.pain-mgmt__drug-row strong {
+    color: #222;
+}
+
+.pain-mgmt__drug-notes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pain-mgmt__drug-notes p {
+    margin: 0;
+    font-size: 0.87rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+.pain-mgmt__drug-caution {
+    background: #fff8e0;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    color: #7a5500 !important;
+    font-size: 0.84rem !important;
+}
+
+/* ── FORBIDDEN ── */
+.pain-mgmt__forbidden-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.85rem;
+}
+
+.pain-mgmt__forbidden-card {
+    background: #fff;
+    border: 1.5px solid #f5c6c6;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.pain-mgmt__forbidden-name {
+    font-weight: 700;
+    color: #c0392b;
+    font-size: 0.97rem;
+}
+
+.pain-mgmt__forbidden-reason {
+    color: #555;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* ── ALGO ── */
+.pain-mgmt__algo {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    counter-reset: none;
+}
+
+.pain-mgmt__algo-step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    position: relative;
+    padding-bottom: 1.25rem;
+}
+
+.pain-mgmt__algo-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 1.25rem;
+    top: 2.8rem;
+    width: 2px;
+    bottom: 0;
+    background: var(--green-pale);
+}
+
+.pain-mgmt__algo-num {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.pain-mgmt__algo-content {
+    background: #fff;
+    border: 1px solid #dde8cc;
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    flex: 1;
+}
+
+.pain-mgmt__algo-content strong {
+    display: block;
+    color: var(--green-dark);
+    font-size: 0.97rem;
+    margin-bottom: 0.3rem;
+}
+
+.pain-mgmt__algo-content p {
+    margin: 0;
+    color: #555;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+/* ── REFS ── */
+.pain-mgmt__section--refs {
+    border-top: 2px solid var(--green-pale);
+    padding-top: 1.5rem;
+}
+
+.pain-mgmt__refs {
+    margin: 0;
+    padding: 0 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pain-mgmt__refs li {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: #555;
+}
+
+.pain-mgmt__refs em {
+    color: #333;
+}
+
+/* ── NAV ── */
+.pain-mgmt__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--green-pale);
+}
+
+.pain-mgmt__nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--green-dark);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background 0.18s;
+}
+
+.pain-mgmt__nav-link:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+    .pain-mgmt__why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pain-mgmt__rgs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pain-mgmt__rgs-result {
+        grid-template-columns: 1fr;
+    }
+
+    .pain-mgmt__signs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pain-mgmt__drug-body {
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+
+    .pain-mgmt__drug-info {
+        min-width: unset;
+    }
+
+    .pain-mgmt__forbidden-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pain-mgmt__drug-header {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 420px) {
+    .pain-mgmt__hero {
+        padding: 2rem 1rem 1.75rem;
+    }
+
+    .pain-mgmt__content {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .pain-mgmt__section-title {
+        font-size: 1.15rem;
+    }
+
+    .pain-mgmt__title {
+        font-size: 1.5rem;
+    }
+}
