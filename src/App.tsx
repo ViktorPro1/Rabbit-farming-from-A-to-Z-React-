@@ -42,10 +42,12 @@ function SubscriptionExpired() {
         >
           Підписка закінчилась
         </h2>
+
         <p style={{ color: "#555", marginBottom: "2rem", lineHeight: 1.6 }}>
           Вибачте, ваша підписка була деактивована. Для поновлення доступу
           зверніться до адміністратора:
         </p>
+
         <p style={{ marginBottom: "0.5rem" }}>
           📧{" "}
           <a
@@ -55,6 +57,7 @@ function SubscriptionExpired() {
             webstartstudio978@gmail.com
           </a>
         </p>
+
         <p style={{ marginBottom: "2rem" }}>
           ✈️{" "}
           <a
@@ -66,6 +69,7 @@ function SubscriptionExpired() {
             Telegram
           </a>
         </p>
+
         <button
           onClick={handleLogout}
           style={{
@@ -92,14 +96,33 @@ function App() {
   const [hasProfile, setHasProfile] = useState(true);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
 
+  // ✔ NEW: offline state
+  const [isOffline, setIsOffline] = useState(false);
+
   const checkProfile = useCallback(async (userId: string) => {
     const { data } = await supabase
       .from("profiles")
       .select("id")
       .eq("id", userId)
       .single();
+
     setHasProfile(!!data);
     setLoading(false);
+  }, []);
+
+  // ✔ NEW: internet detection (ONLY ADDITION)
+  useEffect(() => {
+    const updateStatus = () => setIsOffline(!navigator.onLine);
+
+    window.addEventListener("online", updateStatus);
+    window.addEventListener("offline", updateStatus);
+
+    updateStatus();
+
+    return () => {
+      window.removeEventListener("online", updateStatus);
+      window.removeEventListener("offline", updateStatus);
+    };
   }, []);
 
   useEffect(() => {
@@ -127,6 +150,58 @@ function App() {
     };
   }, [checkProfile]);
 
+  // ✔ NEW: OFFLINE SCREEN (HIGHEST PRIORITY)
+  if (isOffline) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f5f0e8",
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "16px",
+            padding: "2.5rem 2rem",
+            maxWidth: "380px",
+            textAlign: "center",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>📡</div>
+
+          <h2 style={{ color: "#2d5a1b", marginBottom: "1rem" }}>
+            Немає інтернету
+          </h2>
+
+          <p style={{ color: "#555", marginBottom: "1.5rem" }}>
+            Перевірте підключення і спробуйте ще раз
+          </p>
+
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "#2d5a1b",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              padding: "0.75rem 2rem",
+              cursor: "pointer",
+              fontSize: "1rem",
+            }}
+          >
+            Оновити сторінку
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─────────────────────────────────────────────
   if (loading && loadingTimeout) {
     return (
       <div
