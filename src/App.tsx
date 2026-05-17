@@ -90,6 +90,7 @@ function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [hasProfile, setHasProfile] = useState(true);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   const checkProfile = useCallback(async (userId: string) => {
     const { data } = await supabase
@@ -102,6 +103,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadingTimeout(true);
+    }, 30000);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) checkProfile(session.user.id);
@@ -116,15 +121,73 @@ function App() {
       else setHasProfile(true);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timer);
+    };
   }, [checkProfile]);
 
-  if (loading)
+  if (loading && loadingTimeout) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f5f0e8",
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "16px",
+            padding: "2.5rem 2rem",
+            maxWidth: "380px",
+            textAlign: "center",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>📡</div>
+          <h2
+            style={{
+              color: "#2d5a1b",
+              marginBottom: "1rem",
+              fontSize: "1.2rem",
+            }}
+          >
+            Не вдалося підключитися
+          </h2>
+          <p style={{ color: "#555", lineHeight: 1.6, marginBottom: "1.5rem" }}>
+            Перевірте інтернет і спробуйте ще раз.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "#2d5a1b",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              padding: "0.75rem 2rem",
+              cursor: "pointer",
+              fontSize: "1rem",
+            }}
+          >
+            Оновити сторінку
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
     return (
       <div style={{ padding: "2rem", textAlign: "center" }}>
         Завантаження...
       </div>
     );
+  }
+
   if (session && !hasProfile) return <SubscriptionExpired />;
 
   return (
