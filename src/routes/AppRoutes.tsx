@@ -100,6 +100,7 @@ const Neutering = lazy(() => import("../pages/Neutering/Neutering"));
 const WaterMedication = lazy(
   () => import("../pages/WaterMedication/WaterMedication"),
 );
+const Droppings = lazy(() => import("../pages/Droppings/Droppings"));
 
 // ПЛАНУВАННЯ
 const Calendar = lazy(() => import("../pages/Calendar/Calendar"));
@@ -235,6 +236,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/pain-management" element={<PainManagement />} />
         <Route path="/neutering" element={<Neutering />} />
         <Route path="/water-medication" element={<WaterMedication />} />
+        <Route path="/droppings" element={<Droppings />} />
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />
