@@ -43,7 +43,24 @@ export default function Archive({ session }: Props) {
 
   async function handleDelete(id: string) {
     if (!confirm("Видалити назавжди?")) return;
-    await supabase.from("rabbits").delete().eq("id", id);
+
+    const { error } = await supabase
+      .from("rabbits")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", session.user.id);
+
+    if (error) {
+      if (error.code === "23503") {
+        alert(
+          "❌ Неможливо видалити — цей кролик задіяний у записах розведення.",
+        );
+      } else {
+        alert("Помилка видалення: " + error.message);
+      }
+      return;
+    }
+
     setRabbits((prev) => prev.filter((r) => r.id !== id));
   }
 

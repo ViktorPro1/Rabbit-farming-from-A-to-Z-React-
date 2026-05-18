@@ -1,0 +1,616 @@
+.wm-page {
+    min-height: 100vh;
+    background: #f7f5f0;
+}
+
+/* ── HEADER ── */
+
+.wm-header {
+    background: linear-gradient(135deg, #1a3a0a 0%, #2d5a1b 60%, #4a7c32 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.wm-header::before {
+    content: "💧";
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.06;
+    top: -20px;
+    right: 40px;
+    pointer-events: none;
+}
+
+.wm-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.wm-header p {
+    opacity: 0.85;
+    font-size: 15px;
+}
+
+/* ── WRAP ── */
+
+.wm-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.wm-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #fff8e1;
+    border-left: 4px solid var(--amber);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.wm-banner>span {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.wm-banner strong {
+    color: #c62828;
+}
+
+/* ── TABS ── */
+
+.wm-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.wm-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid #ddd;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.wm-tab:hover {
+    border-color: var(--green-mid);
+    color: var(--green-dark);
+    background: #f0f9f0;
+}
+
+.wm-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.25);
+}
+
+/* ── CONTENT ── */
+
+.wm-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wm-intro {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1.2rem 1.4rem;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.wm-note {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1.4rem;
+}
+
+.wm-note p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.wm-sub-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0.5rem 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── ALERTS ── */
+
+.wm-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wm-alert.warn {
+    background: #fff3e0;
+    color: #e65100;
+    border-left: 3px solid #e65100;
+}
+
+.wm-alert.tip {
+    background: #fffbea;
+    color: #6d4c00;
+    border-left: 3px solid #f6c90e;
+}
+
+/* ── RULES ── */
+
+.wm-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.wm-rule {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1rem 1.2rem;
+    align-items: flex-start;
+}
+
+.wm-rule-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.wm-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.wm-rule p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── TABLE ── */
+
+.wm-table-wrap {
+    overflow-x: auto;
+}
+
+.wm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.wm-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.wm-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid #f0ebe2;
+    color: #444;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.wm-table tr:last-child td {
+    border-bottom: none;
+}
+
+.wm-table tr:hover td {
+    background: #f7f5f0;
+}
+
+/* ── DRUG CARDS ── */
+
+.wm-drug-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8e0d0;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.wm-drug-card.main-drug {
+    border-color: #c8e6c9;
+    border-width: 1.5px;
+}
+
+.wm-drug-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: #fafaf8;
+    border-bottom: 1px solid #f0ebe2;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.wm-drug-name {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 3px;
+}
+
+.wm-drug-type {
+    font-size: 12px;
+    color: #888;
+}
+
+.wm-drug-badge {
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.wm-drug-badge.green {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+.wm-drug-badge.yellow {
+    background: #fffde7;
+    color: #f57f17;
+    border: 1px solid #fff176;
+}
+
+.wm-drug-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ── DOSE GRID ── */
+
+.wm-dose-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.wm-dose-item {
+    background: #f7f5f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border: 1px solid #ede8df;
+}
+
+.wm-dose-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.wm-dose-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1.2;
+}
+
+.wm-dose-sub {
+    font-size: 11px;
+    color: #777;
+    line-height: 1.4;
+}
+
+.wm-drug-source {
+    font-size: 12px;
+    color: #999;
+    padding: 6px 10px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border-left: 3px solid #ddd;
+}
+
+.wm-drug-note {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    font-style: italic;
+}
+
+.wm-scheme-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 8px;
+}
+
+/* ── FORBIDDEN LIST ── */
+
+.wm-forbidden-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.wm-forbidden-item {
+    display: flex;
+    gap: 12px;
+    background: #fff5f5;
+    border: 1px solid #ffcdd2;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    align-items: flex-start;
+}
+
+.wm-forbidden-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.wm-forbidden-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #c62828;
+    margin-bottom: 4px;
+}
+
+.wm-forbidden-item p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── CARDS GRID ── */
+
+.wm-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.wm-card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e8e0d0;
+    padding: 1.1rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 22px;
+}
+
+.wm-card-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.wm-card p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── SCHEDULE ── */
+
+.wm-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wm-schedule-item {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e8e0d0;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.wm-schedule-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.2rem;
+    background: var(--green-dark);
+    color: white;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.wm-schedule-period {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wm-schedule-badge {
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.wm-schedule-body {
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wm-schedule-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: #f7f5f0;
+    border: 1px solid #ede8df;
+}
+
+.wm-schedule-drug {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.wm-schedule-dose {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1b5e20;
+    white-space: nowrap;
+}
+
+.wm-schedule-days {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.wm-schedule-note {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    margin: 4px 0 0;
+}
+
+/* ── SOURCE ── */
+
+.wm-source {
+    font-size: 12px;
+    color: #999;
+    padding: 8px 12px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border-left: 3px solid #ddd;
+    margin-top: 0.5rem;
+}
+
+/* ── BACK ── */
+
+.wm-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.wm-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.wm-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .wm-dose-grid,
+    .wm-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wm-schedule-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .wm-schedule-days {
+        text-align: left;
+    }
+}
+
+@media (max-width: 420px) {
+    .wm-header {
+        padding: 2rem 1rem;
+    }
+
+    .wm-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .wm-table th,
+    .wm-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
