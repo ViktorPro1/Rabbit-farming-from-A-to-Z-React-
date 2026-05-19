@@ -8,6 +8,7 @@ import WelcomePopup from "./components/WelcomePopup/WelcomePopup";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
+import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import AppRoutes from "./routes/AppRoutes";
 
 // ─────────────────────────────────────────────
@@ -95,8 +96,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [hasProfile, setHasProfile] = useState(true);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
-
-  // ✔ NEW: offline state
   const [isOffline, setIsOffline] = useState(false);
 
   const checkProfile = useCallback(async (userId: string) => {
@@ -110,7 +109,6 @@ function App() {
     setLoading(false);
   }, []);
 
-  // ✔ NEW: internet detection (ONLY ADDITION)
   useEffect(() => {
     const updateStatus = () => setIsOffline(!navigator.onLine);
 
@@ -150,7 +148,6 @@ function App() {
     };
   }, [checkProfile]);
 
-  // ✔ NEW: OFFLINE SCREEN (HIGHEST PRIORITY)
   if (isOffline) {
     return (
       <div
@@ -173,15 +170,12 @@ function App() {
           }}
         >
           <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>📡</div>
-
           <h2 style={{ color: "#2d5a1b", marginBottom: "1rem" }}>
             Немає інтернету
           </h2>
-
           <p style={{ color: "#555", marginBottom: "1.5rem" }}>
             Перевірте підключення і спробуйте ще раз
           </p>
-
           <button
             onClick={() => window.location.reload()}
             style={{
@@ -201,7 +195,6 @@ function App() {
     );
   }
 
-  // ─────────────────────────────────────────────
   if (loading && loadingTimeout) {
     return (
       <div
@@ -272,6 +265,9 @@ function App() {
         <WelcomePopup />
         <Assistant />
         <Header session={session} />
+        <div className="breadcrumbs-wrap">
+          <Breadcrumbs />
+        </div>
         <AppRoutes session={session} />
         <Footer />
         <UpdatePrompt />
