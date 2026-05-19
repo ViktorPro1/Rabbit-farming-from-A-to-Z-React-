@@ -32,13 +32,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #f0f9f0;
+    background: var(--green-light);
     border-left: 4px solid var(--green-mid);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 1.5rem;
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
 }
 
@@ -64,10 +64,10 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     cursor: pointer;
     transition: 0.2s;
-    color: #444;
+    color: var(--green-dark);
     font-size: 13px;
 }
 
@@ -87,18 +87,18 @@
 }
 
 .cf-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem 1.4rem;
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
 
 .cf-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.4rem;
@@ -106,7 +106,7 @@
 
 .cf-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
@@ -130,15 +130,15 @@
 }
 
 .cf-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
+    border-left: 3px solid var(--amber);
 }
 
 .cf-alert.tip {
-    background: #fffbea;
-    color: #6d4c00;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── CARDS ── */
@@ -150,7 +150,7 @@
 }
 
 .cf-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -160,28 +160,28 @@
 }
 
 .cf-card.ok {
-    background: #f0f9f0;
-    border-color: #d5ead6;
+    background: var(--green-light);
+    border-color: var(--green-pale);
 }
 
 .cf-card.warn {
-    background: #fffde7;
-    border-color: #fff176;
+    background: var(--amber-light);
+    border-color: var(--amber);
 }
 
 .cf-card.danger {
-    background: #fff5f5;
-    border-color: #ffcdd2;
+    background: var(--amber-light);
+    border-color: var(--brown);
 }
 
 .cf-card.start {
-    background: #eef7ff;
-    border-color: #bbdefb;
+    background: var(--green-light);
+    border-color: var(--green-pale);
 }
 
 .cf-card.finish {
-    background: #fff8f0;
-    border-color: #ffcc80;
+    background: var(--amber-light);
+    border-color: var(--amber);
 }
 
 .cf-card-icon {
@@ -200,7 +200,7 @@
 
 .cf-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -216,9 +216,9 @@
 }
 
 .cf-inline-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── TABLE ── */
@@ -231,7 +231,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     overflow: hidden;
 }
@@ -247,7 +247,7 @@
 .cf-table td {
     padding: 10px 14px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: middle;
     line-height: 1.5;
 }
@@ -257,7 +257,7 @@
 }
 
 .cf-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 /* ── BADGES ── */
@@ -272,15 +272,15 @@
 }
 
 .cf-badge.green {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 .cf-badge.orange {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffcc80;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 /* ── PK ── */
@@ -292,7 +292,7 @@
 }
 
 .cf-pk-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -309,12 +309,12 @@
 
 .cf-pk-age {
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
 }
 
 .cf-pk-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -328,7 +328,7 @@
 }
 
 .cf-comp-item {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem;
@@ -353,26 +353,26 @@
 
 .cf-comp-item p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
 
 .cf-comp-tip {
     margin-top: 10px;
-    background: #fffbea;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 12px;
-    color: #6d4c00;
+    color: var(--brown);
     line-height: 1.5;
 }
 
 /* ── NUTRIENT ── */
 
 .cf-nutrient-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.3rem;
@@ -394,7 +394,7 @@
 
 .cf-nutrient-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
@@ -418,13 +418,13 @@
 }
 
 .cf-check-item.ok {
-    background: #f0f9f0;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .cf-check-item.warn {
-    background: #fff8f0;
-    color: #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .cf-check-item span:first-child {
@@ -441,7 +441,7 @@
 }
 
 .cf-recipe-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.3rem;
@@ -465,14 +465,14 @@
     display: flex;
     justify-content: space-between;
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     padding-bottom: 6px;
-    border-bottom: 0.5px solid #f1f1f1;
+    border-bottom: 0.5px solid var(--gray-light);
 }
 
 .cf-recipe-result {
     margin-top: 12px;
-    background: #eef7ee;
+    background: var(--green-light);
     color: var(--green-dark);
     padding: 8px 12px;
     border-radius: 8px;

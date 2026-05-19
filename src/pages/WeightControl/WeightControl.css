@@ -32,11 +32,11 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .weight-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,14 +52,14 @@
 
 .weight-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
 
 .weight-intro-text {
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 1rem;
 }
@@ -73,15 +73,15 @@
 }
 
 .weight-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .weight-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* TABLES */
@@ -97,7 +97,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
 }
 
 .weight-table th,
@@ -117,20 +117,20 @@
 .weight-journal-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .weight-table tr:nth-child(even) td,
 .weight-gain-table tr:nth-child(even) td,
 .weight-breeding-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .weight-table tr:hover td,
 .weight-gain-table tr:hover td,
 .weight-breeding-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .weight-table tr:last-child td,
@@ -140,7 +140,7 @@
 }
 
 .weight-cell-meat {
-    color: #1b5e20;
+    color: var(--green-dark);
     font-weight: 500;
 }
 
@@ -155,7 +155,7 @@
 }
 
 .weight-gain-value {
-    color: #1b5e20;
+    color: var(--green-dark);
     font-weight: 500;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .weight-problem-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -200,15 +200,7 @@
 }
 
 .weight-problem-header.warn {
-    background: #fff3e0;
-}
-
-.weight-problem-card.danger .weight-problem-header {
-    background: #ffebee;
-}
-
-.weight-problem-card.warn .weight-problem-header {
-    background: #fff3e0;
+    background: var(--amber-light);
 }
 
 .weight-problem-icon {
@@ -218,7 +210,7 @@
 .weight-problem-header h3 {
     font-size: 15px;
     font-weight: 500;
-    color: #333;
+    color: var(--green-dark);
     margin: 0;
 }
 
@@ -244,13 +236,13 @@
 
 .weight-problem-section li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
 
 .weight-actions li {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 /* TIPS */
@@ -262,7 +254,7 @@
 }
 
 .weight-tip-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -287,14 +279,14 @@
 
 .weight-tip-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
 
 /* CALCULATOR EXAMPLE */
 .weight-calc-example {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -315,9 +307,9 @@
 }
 
 .weight-calc-card {
-    background: #f9fdf9;
+    background: var(--green-light);
     border-radius: 12px;
-    border: 0.5px solid #d5ead6;
+    border: 0.5px solid var(--green-light);
     padding: 1rem;
 }
 
@@ -341,13 +333,13 @@
 
 .weight-calc-example-text {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
 }
 
 /* JOURNAL */
 .weight-journal {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -363,7 +355,7 @@
 
 .weight-journal p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 1rem;
 }
@@ -374,7 +366,7 @@
 }
 
 .weight-journal-table tr:nth-child(3) td {
-    background: #fff3e0;
+    background: var(--amber-light);
 }
 
 /* BACK */

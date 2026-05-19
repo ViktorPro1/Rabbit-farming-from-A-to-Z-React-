@@ -32,11 +32,11 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .feeders-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -50,7 +50,7 @@
 
 .feeders-note li {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -95,16 +95,16 @@
 .feeders-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .feeders-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .feeders-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .feeders-table tr:last-child td {
@@ -113,7 +113,7 @@
 
 /* FEEDER TYPE CARDS */
 .feeders-type-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -145,7 +145,7 @@
 .feeders-type-meta {
     display: block;
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
     margin-top: 2px;
 }
 
@@ -170,8 +170,8 @@
 }
 
 .feeders-pro {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .feeders-con {
@@ -181,8 +181,8 @@
 
 .feeders-type-note {
     font-size: 12px;
-    color: #555;
-    background: #f5f9f5;
+    color: var(--gray);
+    background: var(--green-light);
     border-left: 2px solid var(--green-light);
     padding: 6px 10px;
     border-radius: 0 6px 6px 0;
@@ -191,13 +191,13 @@
 
 .feeders-type-material {
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
 }
 
 .material-label,
 .dims-label {
     font-weight: 500;
-    color: #333;
+    color: var(--green-dark);
 }
 
 /* STEPS */
@@ -245,7 +245,7 @@
 
 .feeders-step-content p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0 0 6px;
 }
@@ -260,9 +260,9 @@
 }
 
 .feeders-inline-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .feeders-inline-alert.warn {
@@ -282,9 +282,9 @@
 }
 
 .feeders-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .feeders-alert.warn {
@@ -295,7 +295,7 @@
 
 /* HAYRACK CARDS */
 .feeders-hay-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     border-top-width: 3px;
@@ -341,15 +341,15 @@
 
 .feeders-hay-desc {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
 
 .feeders-hay-dims {
     font-size: 12px;
-    color: #555;
-    background: #f5f9f5;
+    color: var(--gray);
+    background: var(--green-light);
     padding: 5px 10px;
     border-radius: 6px;
     border-left: 2px solid var(--green-light);
@@ -360,20 +360,20 @@
     flex-direction: column;
     gap: 4px;
     font-size: 12px;
-    color: #555;
+    color: var(--gray);
 }
 
 .feeders-hay-pros {
     font-size: 12px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 4px 8px;
     border-radius: 6px;
 }
 
 /* MATERIAL CARDS */
 .feeders-material-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -407,13 +407,13 @@
 
 .feeders-material-use {
     font-size: 12px;
-    color: #555;
+    color: var(--gray);
 }
 
 .feeders-pro-small {
     font-size: 12px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 4px 8px;
     border-radius: 6px;
     line-height: 1.5;
@@ -430,7 +430,7 @@
 
 /* RULE CARDS */
 .feeders-rule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -446,14 +446,14 @@
 
 .feeders-rule-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
 
 /* MISTAKE CARDS */
 .feeders-mistake-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -470,7 +470,7 @@
 
 .feeders-mistake-result {
     font-size: 13px;
-    color: #666;
+    color: var(--gray);
     line-height: 1.5;
     margin: 0;
     padding: 6px 10px;
@@ -480,11 +480,11 @@
 
 .feeders-mistake-fix {
     font-size: 13px;
-    color: #1b5e20;
+    color: var(--green-dark);
     line-height: 1.5;
     margin: 0;
     padding: 6px 10px;
-    background: #e8f5e9;
+    background: var(--green-light);
     border-radius: 6px;
 }
 
@@ -509,8 +509,8 @@
 }
 
 .freq-month {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 /* BACK */

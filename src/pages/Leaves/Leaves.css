@@ -1,7 +1,9 @@
 .leaves-page {
     font-family: 'Nunito', sans-serif;
-    background: #fafaf5;
-    color: #1a2e1b;
+    background: var(--cream);
+    /* Замінено #fafaf5 на var(--cream) */
+    color: var(--green-dark);
+    /* Замінено #1a2e1b на var(--green-dark) */
     line-height: 1.7;
     min-height: 100vh;
 }
@@ -89,7 +91,8 @@
 
 /* INTRO */
 .lv-intro-box {
-    background: #fff;
+    background: var(--cream);
+    /* Замінено white на var(--cream) */
     margin: 16px;
     border-radius: 16px;
     padding: 18px;
@@ -99,7 +102,8 @@
 
 .lv-intro-box p {
     font-size: 14px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
 }
 
@@ -111,7 +115,8 @@
 .lv-section-title {
     font-size: 20px;
     font-weight: 900;
-    color: #1e4d20;
+    color: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
     margin-bottom: 14px;
     display: flex;
     align-items: center;
@@ -120,14 +125,16 @@
 
 .lv-section-intro {
     font-size: 13.5px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     margin-bottom: 14px;
     line-height: 1.6;
 }
 
 /* CARD */
 .lv-card {
-    background: #fff;
+    background: var(--cream);
+    /* Замінено white на var(--cream) */
     border-radius: 16px;
     margin-bottom: 14px;
     overflow: hidden;
@@ -160,15 +167,18 @@
 }
 
 .icon-green {
-    background: #e8f5e9;
+    background: var(--green-light);
+    /* Замінено #e8f5e9 на var(--green-light) */
 }
 
 .icon-yellow {
-    background: #fff8e1;
+    background: var(--amber-light);
+    /* Замінено #fff8e1 на var(--amber-light) */
 }
 
 .icon-orange {
-    background: #fff3e0;
+    background: var(--amber-light);
+    /* Замінено #fff3e0 на var(--amber-light) */
 }
 
 .icon-red {
@@ -186,13 +196,15 @@
 .lv-card-name {
     font-size: 16px;
     font-weight: 800;
-    color: #1a2e1b;
+    color: var(--green-dark);
+    /* Замінено #1a2e1b на var(--green-dark) */
     line-height: 1.2;
 }
 
 .lv-card-subtitle {
     font-size: 12px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     margin-top: 2px;
 }
 
@@ -206,13 +218,17 @@
 }
 
 .badge-ok {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: var(--green-light);
+    /* Замінено #e8f5e9 на var(--green-light) */
+    color: var(--green-dark);
+    /* Замінено #2e7d32 на var(--green-dark) */
 }
 
 .badge-limit {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--amber-light);
+    /* Замінено #fff3e0 на var(--amber-light) */
+    color: var(--amber);
+    /* Замінено #e65100 на var(--amber) */
 }
 
 .badge-no {
@@ -222,7 +238,8 @@
 
 .lv-chevron {
     font-size: 11px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     transition: transform 0.3s;
     flex-shrink: 0;
 }
@@ -234,12 +251,14 @@
 /* CARD BODY */
 .lv-card-body {
     padding: 12px 16px 16px;
-    border-top: 1px solid #f0f4f0;
+    border-top: 1px solid var(--gray-light);
+    /* Замінено #f0f4f0 на var(--gray-light) */
 }
 
 .lv-card-body p {
     font-size: 13.5px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
     margin-bottom: 10px;
 }
@@ -264,23 +283,27 @@
 }
 
 .lv-info-text {
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.5;
 }
 
 .lv-info-text strong {
-    color: #1a2e1b;
+    color: var(--green-dark);
+    /* Замінено #1a2e1b на var(--green-dark) */
     font-weight: 700;
 }
 
 /* TIP BOX */
 .lv-tip-box {
-    background: #e8f5e9;
+    background: var(--green-light);
+    /* Замінено #e8f5e9 на var(--green-light) */
     border-radius: 12px;
     padding: 12px 14px;
     margin-top: 10px;
     font-size: 13px;
-    color: #1e4d20;
+    color: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
     line-height: 1.6;
 }
 
@@ -292,13 +315,16 @@
 
 /* WARN / DANGER */
 .lv-warn-box {
-    background: #fff3cd;
-    border-left: 4px solid #f9a825;
+    background: var(--amber-light);
+    /* Замінено #fff3cd на var(--amber-light) */
+    border-left: 4px solid var(--amber);
+    /* Замінено #f9a825 на var(--amber) */
     border-radius: 0 12px 12px 0;
     padding: 12px 14px;
     margin-top: 10px;
     font-size: 13px;
-    color: #5d4037;
+    color: var(--brown);
+    /* Замінено #5d4037 на var(--brown) */
     line-height: 1.6;
 }
 
@@ -315,17 +341,20 @@
 
 /* BUD SECTION */
 .lv-bud-section {
-    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    background: linear-gradient(135deg, var(--green-light), var(--green-pale));
+    /* Замінено #e8f5e9 та #f1f8e9 на змінні */
     border-radius: 16px;
     margin: 0 16px 24px;
     padding: 18px;
-    border: 2px solid #66bb6a;
+    border: 2px solid var(--green-accent);
+    /* Замінено #66bb6a на var(--green-accent) */
 }
 
 .lv-bud-section h2 {
     font-size: 18px;
     font-weight: 900;
-    color: #1e4d20;
+    color: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -334,14 +363,16 @@
 
 .lv-bud-section p {
     font-size: 13.5px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
     margin-bottom: 10px;
 }
 
 /* FORBIDDEN */
 .lv-forbidden {
-    background: #fff;
+    background: var(--cream);
+    /* Замінено white на var(--cream) */
     margin: 0 16px 24px;
     border-radius: 16px;
     overflow: hidden;
@@ -389,7 +420,8 @@
 }
 
 .lv-forbidden-why {
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     font-size: 13px;
     line-height: 1.5;
 }
@@ -403,7 +435,8 @@
 }
 
 .lv-season-card {
-    background: #fff;
+    background: var(--cream);
+    /* Замінено white на var(--cream) */
     border-radius: 14px;
     padding: 14px;
     box-shadow: 0 2px 8px rgba(30, 77, 32, 0.12);
@@ -418,7 +451,8 @@
 .lv-season-card ul {
     list-style: none;
     font-size: 12.5px;
-    color: #4a5c4b;
+    color: var(--gray);
+    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
     padding: 0;
     margin: 0;
@@ -426,13 +460,15 @@
 
 .lv-season-card ul li::before {
     content: '• ';
-    color: #4a9b50;
+    color: var(--green-accent);
+    /* Замінено #4a9b50 на var(--green-accent) */
     font-weight: 700;
 }
 
 /* QUICK TIPS */
 .lv-quick-tips {
-    background: #1e4d20;
+    background: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
     color: #fff;
     margin: 0 16px 24px;
     border-radius: 16px;
@@ -462,8 +498,10 @@
 }
 
 .lv-tip-num {
-    background: #66bb6a;
-    color: #1e4d20;
+    background: var(--green-accent);
+    /* Замінено #66bb6a на var(--green-accent) */
+    color: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
     font-weight: 900;
     font-size: 12px;
     width: 22px;
@@ -492,9 +530,12 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #fff;
-    color: #1e4d20;
-    border: 2px solid #4a9b50;
+    background: var(--cream);
+    /* Замінено white на var(--cream) */
+    color: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
+    border: 2px solid var(--green-mid);
+    /* Замінено #4a9b50 на var(--green-mid) */
     border-radius: 24px;
     padding: 12px 28px;
     font-size: 15px;
@@ -506,9 +547,11 @@
 }
 
 .lv-footer-btn:hover {
-    background: #1e4d20;
+    background: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
     color: #fff;
-    border-color: #1e4d20;
+    border-color: var(--green-dark);
+    /* Замінено #1e4d20 на var(--green-dark) */
 }
 
 .lv-footer-btn:active {
@@ -550,7 +593,7 @@
         margin-bottom: 0;
     }
 
-    /* Сезони — 2 колонки (вже є, але більший gap) */
+    /* Сезони — 2 колонки */
     .lv-season-grid {
         grid-template-columns: 1fr 1fr;
         gap: 14px;
@@ -612,7 +655,6 @@
     .lv-intro-box {
         margin: 24px 32px;
         padding: 22px 26px;
-        font-size: 15px;
     }
 
     .lv-intro-box p {
@@ -718,15 +760,12 @@
         font-size: 18px;
     }
 
-    .lv-forbidden-body {
-        padding: 20px;
-    }
-
     /* Заборонені — 2 колонки */
     .lv-forbidden-body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0 24px;
+        padding: 20px;
     }
 
     .lv-forbidden-item {

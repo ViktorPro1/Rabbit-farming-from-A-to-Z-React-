@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding: 1.5rem 1rem 3rem;
     font-family: inherit;
-    color: #2c2c1e;
+    color: var(--green-dark);
 }
 
 .wl-header {
@@ -34,7 +34,7 @@
 
 /* INTRO */
 .wl-intro {
-    background: #f0f5fb;
+    background: var(--green-light);
     border-radius: 12px;
     padding: 1.5rem;
     border-left: 4px solid #2e6da4;
@@ -44,14 +44,14 @@
     margin: 0 0 0.8rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1a3a5c;
+    color: var(--green-dark);
 }
 
 .wl-intro p {
     margin: 0 0 0.8rem;
     font-size: 0.9rem;
     line-height: 1.7;
-    color: #444;
+    color: var(--green-dark);
 }
 
 /* ALERTS */
@@ -63,23 +63,23 @@
 }
 
 .wl-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #2e7d32;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .wl-alert.warn {
-    background: #fff8e1;
-    color: #6d4c00;
-    border-left: 3px solid #f9a825;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* SECTION TITLE */
 .wl-section-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1a3a5c;
-    border-bottom: 2px solid #b8d4ee;
+    color: var(--green-dark);
+    border-bottom: 2px solid var(--gray-light);
     padding-bottom: 0.4rem;
 }
 
@@ -93,16 +93,16 @@
 .wl-temp-card {
     border-radius: 12px;
     padding: 1.1rem 1.2rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--gray-light);
 }
 
 .wl-temp-card.low {
-    background: #f1f8e9;
+    background: var(--green-light);
     border-color: #aed581;
 }
 
 .wl-temp-card.medium {
-    background: #fff8e1;
+    background: var(--amber-light);
     border-color: #ffcc02;
 }
 
@@ -122,7 +122,7 @@
 .wl-temp-range {
     font-size: 1rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--green-dark);
 }
 
 .wl-temp-badge {
@@ -139,7 +139,7 @@
 
 .wl-temp-badge.medium {
     background: #ffe082;
-    color: #6d4c00;
+    color: var(--brown);
 }
 
 .wl-temp-badge.high {
@@ -149,7 +149,7 @@
 
 .wl-temp-desc {
     font-size: 0.86rem;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0 0 0.7rem;
 }
@@ -161,7 +161,7 @@
 
 .wl-temp-actions li {
     font-size: 0.84rem;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 0.25rem;
 }
@@ -176,8 +176,8 @@
 .wl-nest-card {
     display: flex;
     gap: 1rem;
-    background: #fff;
-    border: 1px solid #d0e4f4;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
     border-radius: 12px;
     padding: 1rem 1.2rem;
     align-items: flex-start;
@@ -191,21 +191,21 @@
 .wl-nest-title {
     font-size: 0.95rem;
     font-weight: 700;
-    color: #1a3a5c;
+    color: var(--green-dark);
     margin-bottom: 0.3rem;
 }
 
 .wl-nest-desc {
     font-size: 0.85rem;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0 0 0.5rem;
 }
 
 .wl-nest-critical {
     font-size: 0.8rem;
-    color: #7a3800;
-    background: #fff3e0;
+    color: var(--brown);
+    background: var(--amber-light);
     border-radius: 6px;
     padding: 0.35rem 0.7rem;
     line-height: 1.5;
@@ -219,7 +219,7 @@
 }
 
 .wl-timeline-item {
-    border: 1px solid #d0e4f4;
+    border: 1px solid var(--gray-light);
     border-radius: 10px;
     margin-bottom: 0.5rem;
     overflow: hidden;
@@ -231,7 +231,7 @@
 
 .wl-timeline-header {
     width: 100%;
-    background: #f0f6fc;
+    background: var(--cream);
     border: none;
     padding: 0.85rem 1rem;
     display: flex;
@@ -265,7 +265,7 @@
 .wl-timeline-day {
     font-size: 0.92rem;
     font-weight: 600;
-    color: #1a3a5c;
+    color: var(--green-dark);
     flex: 1;
 }
 
@@ -278,13 +278,13 @@
 .wl-timeline-actions {
     padding: 0.8rem 1rem 0.8rem 2.4rem;
     margin: 0;
-    background: #fff;
-    border-top: 1px solid #d0e4f4;
+    background: var(--cream);
+    border-top: 1px solid var(--gray-light);
 }
 
 .wl-timeline-actions li {
     font-size: 0.85rem;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 0.2rem;
 }
@@ -297,8 +297,8 @@
 }
 
 .wl-checklist-block {
-    background: #fff;
-    border: 1px solid #d0e4f4;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -318,7 +318,7 @@
 
 .wl-checklist-items li {
     font-size: 0.85rem;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 0.2rem;
 }
@@ -344,20 +344,20 @@
     font-size: 0.88rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #1a3a5c;
+    color: var(--green-dark);
 }
 
 .wl-reanimate-steps {
     padding-left: 1.3rem;
     margin: 0;
-    background: #f1f8e9;
+    background: var(--green-light);
     border-radius: 8px;
     padding: 0.8rem 0.8rem 0.8rem 1.8rem;
 }
 
 .wl-reanimate-steps li {
     font-size: 0.84rem;
-    color: #2d5a1a;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 0.2rem;
 }
@@ -385,8 +385,8 @@
 }
 
 .wl-feeding-card {
-    background: #fff;
-    border: 1px solid #d8e8c8;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
     border-radius: 10px;
     padding: 0.9rem 1.1rem;
 }
@@ -399,7 +399,7 @@
 .wl-feeding-title {
     font-size: 0.92rem;
     font-weight: 700;
-    color: #1a3a5c;
+    color: var(--green-dark);
     margin-bottom: 0.3rem;
     display: flex;
     align-items: center;
@@ -417,7 +417,7 @@
 
 .wl-feeding-desc {
     font-size: 0.84rem;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -432,11 +432,11 @@
 .wl-proscons-card {
     border-radius: 12px;
     padding: 1.1rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--gray-light);
 }
 
 .wl-proscons-card.pro {
-    background: #f1f8e9;
+    background: var(--green-light);
     border-color: #a5d6a7;
 }
 
@@ -452,7 +452,7 @@
 }
 
 .wl-proscons-card.pro .wl-proscons-title {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .wl-proscons-card.con .wl-proscons-title {
@@ -466,24 +466,24 @@
 
 .wl-proscons-list li {
     font-size: 0.84rem;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 0.2rem;
 }
 
 /* CONCLUSION */
 .wl-conclusion {
-    background: #f0f5fb;
+    background: var(--green-light);
     border-radius: 14px;
     padding: 1.5rem;
-    border: 1px solid #b8d4ee;
+    border: 1px solid var(--gray-light);
 }
 
 .wl-conclusion h2 {
     margin: 0 0 1rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1a3a5c;
+    color: var(--green-dark);
 }
 
 .wl-conclusion-points {
@@ -496,11 +496,11 @@
     display: flex;
     gap: 0.9rem;
     align-items: flex-start;
-    background: #fff;
+    background: var(--cream);
     border-radius: 8px;
     padding: 0.8rem 1rem;
     font-size: 0.87rem;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.55;
 }
 

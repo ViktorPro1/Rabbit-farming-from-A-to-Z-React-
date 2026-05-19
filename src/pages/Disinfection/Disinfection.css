@@ -32,11 +32,11 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .disinfection-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,7 +52,7 @@
 
 .disinfection-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -66,9 +66,9 @@
 }
 
 .disinfection-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .disinfection-alert.warn {
@@ -79,7 +79,7 @@
 
 /* DRUG CARD */
 .disinfection-drug-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -117,7 +117,7 @@
 
 .disinfection-drug-desc {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 1rem;
 }
@@ -155,7 +155,7 @@
 .disinfection-dilutions-table td {
     padding: 9px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .disinfection-dilutions-table tr:hover td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .disinfection-ml {
@@ -191,14 +191,14 @@
 .disinfection-pros-title {
     font-size: 13px;
     font-weight: 500;
-    color: #1b5e20;
+    color: var(--green-dark);
     margin-bottom: 6px;
 }
 
 .disinfection-cons-title {
     font-size: 13px;
     font-weight: 500;
-    color: #444;
+    color: var(--green-dark);
     margin-bottom: 6px;
 }
 
@@ -209,7 +209,7 @@
 
 .disinfection-pros-cons li {
     font-size: 12px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 3px;
 }
@@ -232,7 +232,7 @@
 }
 
 .disinfection-powder-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -252,9 +252,9 @@
     justify-content: space-between;
     gap: 8px;
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     padding: 5px 0;
-    border-bottom: 0.5px solid #f0f0f0;
+    border-bottom: 0.5px solid var(--gray-light);
 }
 
 .disinfection-powder-row span:first-child {
@@ -265,7 +265,7 @@
 .disinfection-powder-note {
     margin-top: 8px;
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
     font-style: italic;
     line-height: 1.5;
 }
@@ -279,7 +279,7 @@
 }
 
 .disinfection-schedule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -301,7 +301,7 @@
     display: flex;
     gap: 8px;
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     margin-bottom: 8px;
     align-items: flex-start;
 }
@@ -314,7 +314,7 @@
 
 .disinfection-schedule-steps {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     display: flex;
     gap: 8px;
     align-items: flex-start;
@@ -333,7 +333,7 @@
 
 .disinfection-schedule-steps li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -347,7 +347,7 @@
 }
 
 .disinfection-lifehack-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -372,7 +372,7 @@
 
 .disinfection-lifehack-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -397,16 +397,16 @@
 .disinfection-mistakes-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .disinfection-mistakes-table tr:nth-child(even) td {
-    background: #fff8f8;
+    background: var(--green-light);
 }
 
 .disinfection-mistakes-table tr:hover td {
-    background: #ffebee;
+    background: var(--green-light);
 }
 
 .disinfection-mistakes-table tr:last-child td {
@@ -422,7 +422,7 @@
 }
 
 .disinfection-cheat-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -440,7 +440,7 @@
 
 .disinfection-cheat-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }

@@ -27,12 +27,12 @@
 }
 
 .bio-notice {
-    background: #fff8e1;
-    border-left: 3px solid #f9a825;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     border-radius: 8px;
     padding: 10px 14px;
     font-size: 13px;
-    color: #6d4c00;
+    color: var(--brown);
     margin-bottom: 1.5rem;
 }
 
@@ -51,10 +51,10 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     font-size: 13px;
     cursor: pointer;
-    color: #444;
+    color: var(--green-dark);
     transition: all 0.2s;
     text-align: left;
 }
@@ -80,7 +80,7 @@
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem 1.4rem;
@@ -102,7 +102,7 @@
 
 .bio-section-desc {
     font-size: 13px;
-    color: #666;
+    color: var(--gray);
     margin: 0;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .bio-step {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -163,7 +163,7 @@
 
 .bio-chevron {
     font-size: 11px;
-    color: #aaa;
+    color: var(--gray);
     flex-shrink: 0;
 }
 
@@ -178,7 +178,7 @@
 
 .bio-step-text {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
@@ -193,19 +193,19 @@
 }
 
 .bio-tip {
-    background: #fffbea;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 13px;
-    color: #6d4c00;
+    color: var(--brown);
 }
 
 /* ── Шпаргалка ── */
 .bio-cheatsheet {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 0.5px solid #c5d9ff;
+    border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
     margin-top: 0.5rem;
 }
@@ -213,7 +213,7 @@
 .bio-cheat-title {
     font-size: 16px;
     font-weight: 500;
-    color: #1a3a6b;
+    color: var(--green-dark);
     margin-bottom: 1rem;
 }
 
@@ -224,15 +224,15 @@
 }
 
 .bio-cheat-card {
-    background: #f0f5ff;
+    background: var(--green-light);
     border-radius: 12px;
     padding: 12px 14px;
-    border: 0.5px solid #c5d9ff;
+    border: 0.5px solid var(--gray-light);
 }
 
 .bio-cheat-label {
     font-size: 12px;
-    color: #555;
+    color: var(--gray);
     margin-bottom: 4px;
     line-height: 1.4;
 }
@@ -240,9 +240,10 @@
 .bio-cheat-value {
     font-size: 15px;
     font-weight: 600;
-    color: #1a3a6b;
+    color: var(--green-dark);
 }
 
+/* ── Кнопка назад ── */
 .bio-back {
     display: flex;
     justify-content: center;

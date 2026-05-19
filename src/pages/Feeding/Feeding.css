@@ -27,7 +27,7 @@
 }
 
 .feeding-section {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -43,7 +43,7 @@
 
 .feeding-section p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
 }
 
@@ -54,7 +54,7 @@
 
 .feeding-list li {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -81,7 +81,7 @@
 .feeding-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
@@ -97,15 +97,15 @@
 }
 
 .feeding-badge.allowed {
-    background: #eef7ee;
+    background: var(--green-light);
     color: var(--green-mid);
-    border: 1px solid #d5ead6;
+    border: 1px solid var(--green-pale);
 }
 
 .feeding-badge.forbidden {
-    background: #fdecea;
-    color: #c0392b;
-    border: 1px solid #f5c6c2;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .feeding-back {
@@ -138,18 +138,18 @@
 }
 
 .feeding-herb-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
 }
 
 .feeding-herb-card.safe {
-    border-left: 3px solid #1b5e20;
+    border-left: 3px solid var(--green-dark);
 }
 
 .feeding-herb-card.caution {
-    border-left: 3px solid #e65100;
+    border-left: 3px solid var(--amber);
 }
 
 .feeding-herb-header {
@@ -157,7 +157,7 @@
     align-items: center;
     gap: 10px;
     padding: 12px 14px;
-    background: #f9fdf9;
+    background: var(--green-light);
     border-bottom: 0.5px solid var(--gray-light);
 }
 
@@ -190,15 +190,15 @@
 }
 
 .feeding-herb-badge.safe {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 .feeding-herb-badge.caution {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .feeding-herb-body {
@@ -207,23 +207,23 @@
 
 .feeding-herb-body p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
 
 .feeding-herb-caution {
     font-size: 12px !important;
-    color: #666 !important;
+    color: var(--gray) !important;
     font-style: italic;
     margin-top: 6px !important;
 }
 
 /* BADGE CAUTION */
 .feeding-badge.caution {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 @media (max-width: 640px) {

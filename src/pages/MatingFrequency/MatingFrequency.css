@@ -1,11 +1,6 @@
-/* ─── КОЛЬОРОВА ПАЛІТРА СТОРІНКИ ─────────────────────────
-   Тема: тепла, земляна — бежево-коричнево-бронзова
-   Акцент: #8a6a3a (бронза), #c8956c (теракота), #f5ede0 (бежевий фон)
-───────────────────────────────────────────────────────── */
-
 .mat-page {
     min-height: 100vh;
-    background: #faf7f3;
+    background: var(--cream);
 }
 
 /* HEADER */
@@ -48,16 +43,16 @@
 
 /* INTRO */
 .mat-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
-    border: 0.5px solid #e8ddd0;
+    border: 0.5px solid var(--gray-light);
     padding: 1.25rem 1.5rem;
     margin-bottom: 0.5rem;
 }
 
 .mat-intro p {
     font-size: 14.5px;
-    color: #4a3728;
+    color: var(--brown);
     line-height: 1.75;
     margin: 0;
 }
@@ -66,7 +61,7 @@
 .mat-section-title {
     font-size: 18px;
     font-weight: 500;
-    color: #5c3d1e;
+    color: var(--brown);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
     border-bottom: 2px solid #e8c99a;
@@ -82,14 +77,14 @@
 }
 
 .mat-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .mat-alert.warn {
-    background: #fff8ee;
-    color: #7a4a00;
+    background: var(--amber-light);
+    color: var(--brown);
     border-left: 3px solid #c8956c;
 }
 
@@ -108,9 +103,9 @@
 }
 
 .mat-scheme {
-    background: white;
+    background: var(--cream);
     border-radius: 18px;
-    border: 1px solid #e8ddd0;
+    border: 1px solid var(--gray-light);
     overflow: hidden;
 }
 
@@ -131,7 +126,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 18px 20px 14px;
-    border-bottom: 0.5px solid #f0e8df;
+    border-bottom: 0.5px solid var(--gray-light);
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -150,7 +145,7 @@
 .mat-scheme-left h2 {
     font-size: 18px;
     font-weight: 600;
-    color: #3a2410;
+    color: var(--brown);
     margin: 0 0 2px;
 }
 
@@ -174,14 +169,14 @@
 }
 
 .mat-scheme-badge--gold {
-    background: #fff8e1;
+    background: var(--amber-light);
     color: #8a6a00;
     border: 1px solid #ffe082;
 }
 
 .mat-scheme-badge--green {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: var(--green-light);
+    color: var(--green-dark);
     border: 1px solid #c8e6c9;
 }
 
@@ -191,15 +186,9 @@
     align-items: center;
     gap: 10px;
     padding: 14px 20px;
-    background: #fdf8f3;
-    border-bottom: 0.5px solid #f0e8df;
+    background: var(--cream);
+    border-bottom: 0.5px solid var(--gray-light);
     flex-wrap: wrap;
-}
-
-.mat-timing-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
 }
 
 .mat-timing-label {
@@ -212,7 +201,7 @@
 
 .mat-timing-val {
     font-size: 13.5px;
-    color: #3a2410;
+    color: var(--brown);
     font-weight: 500;
 }
 
@@ -236,7 +225,7 @@
 
 .mat-scheme-col {
     padding: 16px 18px;
-    border-right: 0.5px solid #f0e8df;
+    border-right: 0.5px solid var(--gray-light);
 }
 
 .mat-scheme-col:last-child {
@@ -252,7 +241,7 @@
 }
 
 .mat-col-label--green {
-    color: #2e7d32;
+    color: var(--green-dark);
 }
 
 .mat-col-label--red {
@@ -264,7 +253,7 @@
 }
 
 .mat-col-label--brown {
-    color: #8a6a3a;
+    color: var(--brown);
 }
 
 .mat-scheme-col ul {
@@ -274,7 +263,7 @@
 
 .mat-scheme-col li {
     font-size: 12.5px;
-    color: #5a4030;
+    color: var(--brown);
     line-height: 1.6;
     margin-bottom: 5px;
 }
@@ -282,8 +271,8 @@
 /* SCHEME FOOTER */
 .mat-scheme-footer {
     padding: 12px 20px;
-    background: #fdf8f3;
-    border-top: 0.5px solid #f0e8df;
+    background: var(--cream);
+    border-top: 0.5px solid var(--gray-light);
     display: flex;
     gap: 24px;
     flex-wrap: wrap;
@@ -294,7 +283,7 @@
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    color: #5a4030;
+    color: var(--brown);
 }
 
 .mat-suitable-label {
@@ -303,7 +292,7 @@
 }
 
 .mat-suitable-label.ok {
-    color: #2e7d32;
+    color: var(--green-dark);
 }
 
 .mat-suitable-label.no {
@@ -312,9 +301,9 @@
 
 /* ─── NOTE ────────────────────────────────────────────── */
 .mat-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 0.5px solid #e8ddd0;
+    border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -322,13 +311,13 @@
 .mat-note h2 {
     font-size: 17px;
     font-weight: 500;
-    color: #5c3d1e;
+    color: var(--brown);
     margin-bottom: 10px;
 }
 
 .mat-note p {
     font-size: 14px;
-    color: #5a4030;
+    color: var(--brown);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -341,7 +330,7 @@
 }
 
 .mat-table th {
-    background: #5c3d1e;
+    background: var(--brown);
     color: #f5ede0;
     padding: 10px 14px;
     text-align: left;
@@ -350,13 +339,13 @@
 
 .mat-table td {
     padding: 10px 14px;
-    border-bottom: 0.5px solid #f0e8df;
-    color: #4a3728;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--brown);
     vertical-align: top;
 }
 
 .mat-table tr:nth-child(even) td {
-    background: #fdf8f3;
+    background: var(--cream);
 }
 
 .mat-table tr:hover td {
@@ -372,9 +361,9 @@
 }
 
 .mat-rule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
-    border: 0.5px solid #e8ddd0;
+    border: 0.5px solid var(--gray-light);
     padding: 18px 16px;
     transition: box-shadow 0.15s;
 }
@@ -391,13 +380,13 @@
 .mat-rule-card h3 {
     font-size: 14px;
     font-weight: 600;
-    color: #5c3d1e;
+    color: var(--brown);
     margin: 0 0 6px;
 }
 
 .mat-rule-card p {
     font-size: 13px;
-    color: #6a5040;
+    color: var(--brown);
     line-height: 1.6;
     margin: 0;
 }
@@ -414,9 +403,9 @@
 }
 
 .mat-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 0.5px solid #e8ddd0;
+    border: 0.5px solid var(--gray-light);
     display: flex;
     flex-direction: column;
 }
@@ -426,7 +415,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 0.5px solid #f0e8df;
+    border-bottom: 0.5px solid var(--gray-light);
 }
 
 .mat-icon {
@@ -437,7 +426,7 @@
 .mat-card-header h3 {
     font-size: 14px;
     font-weight: 500;
-    color: #5c3d1e;
+    color: var(--brown);
     margin: 0;
 }
 
@@ -453,7 +442,7 @@
 
 .mat-card-body li {
     font-size: 13px;
-    color: #5a4030;
+    color: var(--brown);
     line-height: 1.6;
     margin-bottom: 5px;
 }
@@ -468,14 +457,14 @@
 }
 
 .mat-chip.ok {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: var(--green-light);
+    color: var(--green-dark);
     border: 1px solid #c8e6c9;
 }
 
 .mat-chip.warn {
-    background: #fff8ee;
-    color: #7a4a00;
+    background: var(--amber-light);
+    color: var(--brown);
     border: 1px solid #ffd9a0;
 }
 
@@ -496,15 +485,15 @@
 .mat-season-card {
     border-radius: 12px;
     padding: 16px;
-    border: 1px solid #e8ddd0;
+    border: 1px solid var(--gray-light);
 }
 
 .mat-season--spring {
-    background: #f0faf0;
+    background: var(--green-light);
 }
 
 .mat-season--summer {
-    background: #fff8ee;
+    background: var(--amber-light);
 }
 
 .mat-season--winter {
@@ -514,7 +503,7 @@
 .mat-season-name {
     font-size: 14px;
     font-weight: 600;
-    color: #3a2410;
+    color: var(--brown);
     margin-bottom: 8px;
 }
 
@@ -535,8 +524,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background: white;
-    border: 0.5px solid #e8ddd0;
+    background: var(--cream);
+    border: 0.5px solid var(--gray-light);
     border-radius: 14px;
     padding: 14px 16px;
     text-decoration: none;
@@ -553,16 +542,9 @@
     flex-shrink: 0;
 }
 
-.mat-link-card div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
 .mat-link-card strong {
     font-size: 13.5px;
-    color: #5c3d1e;
+    color: var(--brown);
 }
 
 .mat-link-card span {
@@ -586,7 +568,7 @@
 }
 
 .mat-back-btn {
-    background: #5c3d1e;
+    background: var(--brown);
     color: #f5ede0;
     padding: 10px 28px;
     border-radius: 999px;
@@ -611,7 +593,7 @@
     }
 
     .mat-scheme-col:nth-child(3) {
-        border-top: 0.5px solid #f0e8df;
+        border-top: 0.5px solid var(--gray-light);
     }
 
     .mat-links-grid {
@@ -634,7 +616,7 @@
 
     .mat-scheme-col {
         border-right: none;
-        border-top: 0.5px solid #f0e8df;
+        border-top: 0.5px solid var(--gray-light);
     }
 
     .mat-scheme-col:first-child {

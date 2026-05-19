@@ -3,7 +3,7 @@
 }
 
 .water-header {
-    background: linear-gradient(135deg, #01579b, #0288d1, #039be5);
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -37,7 +37,7 @@
 
 .water-intro,
 .water-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -54,7 +54,7 @@
 .water-intro p,
 .water-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -68,15 +68,15 @@
 }
 
 .water-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .water-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
+    border-left: 3px solid var(--amber);
 }
 
 /* TABLE */
@@ -91,7 +91,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 500px;
 }
 
@@ -109,13 +109,13 @@
 .water-maintenance-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .water-table tr:nth-child(even) td,
 .water-maintenance-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .water-table tr:last-child td,
@@ -124,7 +124,7 @@
 }
 
 .water-norm {
-    color: #0288d1;
+    color: var(--green-mid);
     font-weight: 500;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .water-quality-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -164,8 +164,8 @@
 
 .water-optimal {
     font-size: 12px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 2px 8px;
     border-radius: 6px;
     display: inline-block;
@@ -173,8 +173,8 @@
 
 .water-warning {
     font-size: 12px;
-    color: #e65100;
-    background: #fff3e0;
+    color: var(--amber);
+    background: var(--amber-light);
     padding: 2px 8px;
     border-radius: 6px;
     display: inline-block;
@@ -182,15 +182,15 @@
 
 .water-quality-effect {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 10px;
 }
 
 .water-quality-check {
     font-size: 12px;
-    color: #555;
-    background: #f9fdf9;
+    color: var(--gray);
+    background: var(--green-light);
     padding: 8px 10px;
     border-radius: 8px;
     line-height: 1.5;
@@ -210,23 +210,23 @@
 }
 
 .water-nitrate-item.safe {
-    background: #e8f5e9;
-    border: 0.5px solid #c8e6c9;
+    background: var(--green-light);
+    border: 0.5px solid var(--green-pale);
 }
 
 .water-nitrate-item.caution {
-    background: #fffde7;
-    border: 0.5px solid #fff9c4;
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
 }
 
 .water-nitrate-item.warning {
-    background: #fff3e0;
-    border: 0.5px solid #ffe0b2;
+    background: var(--amber-light);
+    border: 0.5px solid var(--brown);
 }
 
 .water-nitrate-item.critical {
-    background: #ffebee;
-    border: 0.5px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 0.5px solid var(--brown);
 }
 
 .water-nitrate-header {
@@ -239,7 +239,7 @@
 .water-nitrate-level {
     font-size: 14px;
     font-weight: 500;
-    color: #222;
+    color: var(--green-dark);
     font-family: monospace;
 }
 
@@ -251,28 +251,28 @@
 }
 
 .water-nitrate-badge.safe {
-    background: #1b5e20;
+    background: var(--green-dark);
     color: white;
 }
 
 .water-nitrate-badge.caution {
-    background: #f57f17;
+    background: var(--amber);
     color: white;
 }
 
 .water-nitrate-badge.warning {
-    background: #e65100;
+    background: var(--brown);
     color: white;
 }
 
 .water-nitrate-badge.critical {
-    background: #c62828;
+    background: var(--brown);
     color: white;
 }
 
 .water-nitrate-item p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.5;
     margin: 0;
 }
@@ -287,7 +287,7 @@
 
 .water-source-card,
 .water-drinker-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -320,11 +320,11 @@
 }
 
 .water-source-label.pros {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .water-source-label.cons {
-    color: #444;
+    color: var(--green-dark);
 }
 
 .water-source-card ul,
@@ -336,15 +336,15 @@
 .water-source-card li,
 .water-drinker-card li {
     font-size: 12px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.5;
     margin-bottom: 3px;
 }
 
 .water-source-rec {
     font-size: 12px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 8px 10px;
     border-radius: 8px;
     line-height: 1.5;
@@ -367,11 +367,11 @@
 }
 
 .water-winter-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
-    border-top: 3px solid #0288d1;
+    border-top: 3px solid var(--green-mid);
 }
 
 .water-winter-header {
@@ -400,7 +400,7 @@
 
 .water-winter-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -414,7 +414,7 @@
 }
 
 .water-lifehack-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -439,7 +439,7 @@
 
 .water-lifehack-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }

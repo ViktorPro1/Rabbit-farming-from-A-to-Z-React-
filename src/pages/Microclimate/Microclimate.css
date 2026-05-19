@@ -3,7 +3,7 @@
 }
 
 .microclimate-header {
-    background: linear-gradient(135deg, #01579b, #0277bd, #0288d1);
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -36,7 +36,7 @@
 }
 
 .microclimate-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,13 +52,13 @@
 
 .microclimate-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
 
 .microclimate-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -67,7 +67,7 @@
 
 .microclimate-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -79,7 +79,7 @@
 
 .microclimate-note li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 5px;
 }
@@ -93,15 +93,15 @@
 }
 
 .microclimate-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .microclimate-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* NORMS TABLE */
@@ -115,7 +115,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 600px;
 }
 
@@ -131,13 +131,13 @@
 .microclimate-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
     font-size: 13px;
 }
 
 .microclimate-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .microclimate-table tr:last-child td {
@@ -145,16 +145,16 @@
 }
 
 .mc-optimal {
-    color: #1b5e20;
+    color: var(--green-dark);
     font-weight: 500;
 }
 
 .mc-allowed {
-    color: #e65100;
+    color: var(--amber);
 }
 
 .mc-critical {
-    color: #c62828;
+    color: var(--brown);
     font-weight: 500;
 }
 
@@ -167,7 +167,7 @@
 }
 
 .mc-season-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -181,19 +181,19 @@
 }
 
 .mc-season-card.winter .mc-season-header {
-    background: #e3f2fd;
+    background: var(--green-light);
 }
 
 .mc-season-card.spring .mc-season-header {
-    background: #e8f5e9;
+    background: var(--green-light);
 }
 
 .mc-season-card.summer .mc-season-header {
-    background: #fff8e1;
+    background: var(--amber-light);
 }
 
 .mc-season-card.autumn .mc-season-header {
-    background: #fff3e0;
+    background: var(--amber-light);
 }
 
 .mc-season-icon {
@@ -219,7 +219,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
 }
 
 .mc-season-param span {
@@ -250,11 +250,11 @@
 }
 
 .mc-risks-title {
-    color: #c62828;
+    color: var(--brown);
 }
 
 .mc-actions-title {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .mc-season-risks ul,
@@ -266,7 +266,7 @@
 .mc-season-risks li,
 .mc-season-actions li {
     font-size: 12px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 3px;
 }
@@ -280,7 +280,7 @@
 }
 
 .mc-ventilation-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -308,7 +308,7 @@
 
 .mc-ventilation-desc {
     font-size: 13px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 10px;
     font-style: italic;
@@ -329,11 +329,11 @@
 }
 
 .mc-pros-title {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .mc-cons-title {
-    color: #444;
+    color: var(--gray);
 }
 
 .mc-vent-pros-cons ul {
@@ -343,7 +343,7 @@
 
 .mc-vent-pros-cons li {
     font-size: 11px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.5;
     margin-bottom: 2px;
 }
@@ -362,7 +362,7 @@
 
 .mc-how-list li {
     font-size: 12px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.5;
     margin-bottom: 3px;
 }
@@ -379,7 +379,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 500px;
 }
 
@@ -396,13 +396,13 @@
 .mc-problems-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .mc-lighting-table tr:nth-child(even) td,
 .mc-problems-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .mc-lighting-table tr:last-child td,
@@ -421,7 +421,7 @@
 .mc-ammonia-step {
     display: flex;
     gap: 14px;
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -432,7 +432,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #01579b;
+    background: var(--green-dark);
     color: white;
     display: flex;
     align-items: center;
@@ -456,7 +456,7 @@
 
 .mc-ammonia-content p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -470,7 +470,7 @@
 }
 
 .mc-building-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -494,7 +494,7 @@
 
 .mc-building-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -508,7 +508,7 @@
 }
 
 .mc-equipment-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -519,15 +519,15 @@
 }
 
 .mc-equipment-card.critical {
-    border-top: 3px solid #c62828;
+    border-top: 3px solid var(--brown);
 }
 
 .mc-equipment-card.high {
-    border-top: 3px solid #e65100;
+    border-top: 3px solid var(--amber);
 }
 
 .mc-equipment-card.medium {
-    border-top: 3px solid #f9a825;
+    border-top: 3px solid var(--green-accent);
 }
 
 .mc-eq-icon {
@@ -542,7 +542,7 @@
 
 .mc-equipment-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     flex: 1;
 }

@@ -2,6 +2,7 @@
     min-height: 100vh;
 }
 
+/* HEADER */
 .wean-header {
     background: linear-gradient(90deg, #5d3a1a, #a0522d);
     color: white;
@@ -32,11 +33,11 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .wean-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -45,7 +46,7 @@
 
 .wean-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -57,7 +58,7 @@
 
 .wean-note li {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -95,16 +96,16 @@
 .wean-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .wean-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .wean-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .wean-table tr:last-child td {
@@ -127,12 +128,12 @@
 }
 
 .risk-low {
-    color: #2e7d32;
+    color: var(--green-dark);
 }
 
 /* TYPE CARDS */
 .wean-type-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     border-top-width: 3px;
@@ -177,7 +178,7 @@
 .wean-type-age {
     display: block;
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
     margin-top: 2px;
 }
 
@@ -197,8 +198,8 @@
 }
 
 .wean-pro {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .wean-con {
@@ -208,8 +209,8 @@
 
 .wean-type-when {
     font-size: 12px;
-    color: #555;
-    background: #f5f9f5;
+    color: var(--gray);
+    background: var(--green-light);
     border-left: 2px solid var(--green-light);
     padding: 6px 10px;
     border-radius: 0 6px 6px 0;
@@ -262,7 +263,7 @@
 
 .wean-step-content p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0 0 8px;
 }
@@ -277,9 +278,9 @@
 }
 
 .wean-inline-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .wean-inline-alert.warn {
@@ -299,9 +300,9 @@
 }
 
 .wean-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .wean-alert.warn {
@@ -321,7 +322,7 @@
 
 /* DANGER CARDS */
 .wean-danger-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -345,7 +346,7 @@
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #333;
+    color: var(--green-dark);
     margin-bottom: 4px;
 }
 
@@ -369,17 +370,17 @@
 
 .wean-danger-action {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
     padding: 8px 10px;
-    background: #f5f5f5;
+    background: var(--green-light);
     border-radius: 8px;
 }
 
 /* HIGHLIGHT CARD */
 .wean-highlight-card {
-    background: #fff8e1;
+    background: var(--amber-light);
     border-radius: 16px;
     border: 0.5px solid #ffe082;
     padding: 1.25rem;
@@ -405,14 +406,14 @@
 
 .wean-highlight-card p {
     font-size: 13px;
-    color: #5d4037;
+    color: var(--brown);
     line-height: 1.7;
     margin: 0;
 }
 
 /* ARTIFICIAL FEEDING */
 .wean-art-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -445,7 +446,7 @@
 
 .wean-art-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }

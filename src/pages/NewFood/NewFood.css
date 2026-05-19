@@ -41,13 +41,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #fff8e1;
+    background: var(--amber-light);
     border-left: 4px solid var(--amber);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 0.5rem;
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
 }
 
@@ -74,15 +74,15 @@
 }
 
 .newfood-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
+    border-left: 3px solid var(--amber);
 }
 
 .newfood-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 /* ── CARDS ── */
@@ -95,7 +95,7 @@
 }
 
 .newfood-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -105,18 +105,18 @@
 }
 
 .newfood-card.danger {
-    background: #fff5f5;
-    border-color: #ffd5d5;
+    background: var(--amber-light);
+    border-color: var(--amber);
 }
 
 .newfood-card.warning {
-    background: #fffbea;
-    border-color: #ffe082;
+    background: var(--amber-light);
+    border-color: var(--amber);
 }
 
 .newfood-card.ok {
-    background: #f0f9f0;
-    border-color: #d5ead6;
+    background: var(--green-light);
+    border-color: var(--green-pale);
 }
 
 .newfood-card-header {
@@ -135,7 +135,7 @@
 
 .newfood-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -151,7 +151,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     overflow: hidden;
 }
@@ -167,7 +167,7 @@
 .newfood-table td {
     padding: 10px 14px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: middle;
     line-height: 1.5;
 }
@@ -177,23 +177,23 @@
 }
 
 .newfood-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .newfood-row-done td {
-    background: #f0f9f0;
+    background: var(--green-light);
 }
 
 .newfood-table-sub {
     font-size: 12px;
-    color: #888;
+    color: var(--gray);
     display: block;
 }
 
 /* ── КАЛЬКУЛЯТОР ── */
 
 .newfood-calc {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -202,7 +202,7 @@
 
 .newfood-calc-desc {
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0 0 1.2rem;
 }
@@ -233,8 +233,8 @@
     border: 1px solid var(--gray-light);
     border-radius: 8px;
     font-size: 14px;
-    color: #333;
-    background: white;
+    color: var(--green-dark);
+    background: var(--cream);
     width: 100%;
     max-width: 160px;
 }
@@ -249,9 +249,9 @@
     padding: 8px 18px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     cursor: pointer;
     transition: 0.2s;
 }
@@ -270,7 +270,7 @@
     height: 8px;
     border-radius: 999px;
     overflow: hidden;
-    background: #eee;
+    background: var(--gray-light);
     margin-bottom: 3px;
 }
 
@@ -286,7 +286,7 @@
 
 .newfood-bar-label {
     font-size: 11px;
-    color: #888;
+    color: var(--gray);
 }
 
 /* ── RULES ── */
@@ -299,7 +299,7 @@
 }
 
 .newfood-rule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -324,7 +324,7 @@
 
 .newfood-rule-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }

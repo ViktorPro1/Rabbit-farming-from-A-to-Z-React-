@@ -32,13 +32,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #f0f9f0;
+    background: var(--green-light);
     border-left: 4px solid var(--green-mid);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 1.5rem;
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
 }
 
@@ -64,10 +64,10 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     cursor: pointer;
     transition: 0.2s;
-    color: #444;
+    color: var(--green-dark);
     font-size: 13px;
 }
 
@@ -87,18 +87,18 @@
 }
 
 .mb-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem 1.4rem;
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
 
 .mb-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.4rem;
@@ -106,7 +106,7 @@
 
 .mb-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
@@ -117,7 +117,7 @@
     color: var(--green-dark);
     margin: 0.5rem 0 0;
     padding-bottom: 6px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 /* ── ALERT ── */
@@ -136,9 +136,9 @@
 }
 
 .mb-alert.tip {
-    background: #fffbea;
-    color: #6d4c00;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── STEPS ── */
@@ -152,7 +152,7 @@
 .mb-step {
     display: flex;
     gap: 14px;
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem 1.2rem;
@@ -184,7 +184,7 @@
 
 .mb-step p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -198,7 +198,7 @@
 }
 
 .mb-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -208,12 +208,12 @@
 }
 
 .mb-card.ok {
-    background: #f0f9f0;
-    border-color: #d5ead6;
+    background: var(--green-light);
+    border-color: var(--green-light);
 }
 
 .mb-card.warn {
-    background: #fffde7;
+    background: var(--amber-light);
     border-color: #fff176;
 }
 
@@ -238,7 +238,7 @@
 
 .mb-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -252,7 +252,7 @@
 }
 
 .mb-problem-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -263,7 +263,7 @@
     align-items: center;
     gap: 10px;
     padding: 1rem 1.2rem;
-    background: #fafafa;
+    background: var(--cream);
     border-bottom: 0.5px solid var(--gray-light);
 }
 
@@ -287,19 +287,19 @@
 .mb-problem-cause,
 .mb-problem-fix {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     padding: 8px 12px;
     border-radius: 8px;
 }
 
 .mb-problem-cause {
-    background: #fff8f0;
+    background: var(--amber-light);
     border-left: 3px solid #e65100;
 }
 
 .mb-problem-fix {
-    background: #f0f9f0;
+    background: var(--green-light);
     border-left: 3px solid var(--green-mid);
 }
 
@@ -323,9 +323,9 @@
 }
 
 .mb-problem-alert.tip {
-    background: #fffbea;
-    color: #6d4c00;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── TABLE ── */
@@ -338,7 +338,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     overflow: hidden;
 }
@@ -354,7 +354,7 @@
 .mb-table td {
     padding: 10px 14px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: middle;
     line-height: 1.5;
 }
@@ -364,7 +364,7 @@
 }
 
 .mb-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .mb-badge {
@@ -377,13 +377,13 @@
 }
 
 .mb-badge.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
     border: 1px solid #c8e6c9;
 }
 
 .mb-badge.warn {
-    background: #fffde7;
+    background: var(--amber-light);
     color: #f57f17;
     border: 1px solid #fff176;
 }
@@ -403,7 +403,7 @@
 }
 
 .mb-check-section {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -424,9 +424,9 @@
     align-items: flex-start;
     padding: 6px 0;
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.5;
-    border-bottom: 0.5px solid #f5f5f5;
+    border-bottom: 0.5px solid var(--gray-light);
 }
 
 .mb-check-item:last-child {

@@ -4,7 +4,7 @@
 
 .crops-header {
     background: linear-gradient(135deg, #33691e, #558b2f, #7cb342);
-    color: white;
+    color: #fff;
     padding: 2rem;
     text-align: center;
 }
@@ -36,7 +36,8 @@
 }
 
 .crops-intro {
-    background: white;
+    background: var(--cream);
+    /* Замінено white */
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,7 +53,8 @@
 
 .crops-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
+    /* Замінено #444 на var(--green-dark) для кращої читабельності або var(--gray) */
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -66,9 +68,11 @@
 }
 
 .crops-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    /* Замінено #e8f5e9 */
+    color: var(--green-dark);
+    /* Замінено #1b5e20 */
+    border-left: 3px solid var(--green-dark);
 }
 
 /* CARDS GRID */
@@ -80,7 +84,8 @@
 }
 
 .crops-card {
-    background: white;
+    background: var(--cream);
+    /* Замінено white */
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -90,11 +95,13 @@
 }
 
 .crops-card.excellent {
-    border-top: 3px solid #1b5e20;
+    border-top: 3px solid var(--green-dark);
+    /* Замінено #1b5e20 */
 }
 
 .crops-card.good {
-    border-top: 3px solid #0d47a1;
+    border-top: 3px solid var(--green-mid);
+    /* Замінено #0d47a1 */
 }
 
 .crops-card-header {
@@ -149,7 +156,8 @@
 
 .crops-summary {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
+    /* Замінено #444 */
     line-height: 1.6;
     margin: 0;
     font-style: italic;
@@ -176,7 +184,8 @@
     justify-content: space-between;
     font-size: 12px;
     padding: 4px 8px;
-    background: #f9fdf9;
+    background: var(--green-light);
+    /* Замінено #f9fdf9 */
     border-radius: 6px;
 }
 
@@ -210,8 +219,10 @@
 }
 
 .crops-area {
-    color: #1b5e20 !important;
-    background: #e8f5e9;
+    color: var(--green-dark) !important;
+    /* Замінено #1b5e20 */
+    background: var(--green-light);
+    /* Замінено #e8f5e9 */
     padding: 1px 8px;
     border-radius: 4px;
     font-size: 12px;
@@ -227,20 +238,24 @@
 .crops-care li,
 .crops-feeding li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
+    /* Замінено #444 */
     line-height: 1.6;
     margin-bottom: 3px;
 }
 
 /* CAUTION */
 .crops-caution {
-    background: #fff3e0;
+    background: var(--amber-light);
+    /* Замінено #fff3e0 */
     border-radius: 8px;
     padding: 10px 12px;
     font-size: 12px;
-    color: #e65100;
+    color: var(--amber);
+    /* Замінено #e65100 */
     line-height: 1.5;
-    border-left: 3px solid #e65100;
+    border-left: 3px solid var(--amber);
+    /* Замінено #e65100 */
 }
 
 /* PLANNING TABLE */
@@ -254,7 +269,8 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
+    /* Замінено white */
     min-width: 500px;
 }
 
@@ -270,16 +286,19 @@
 .crops-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
+    /* Замінено #444 */
     vertical-align: top;
 }
 
 .crops-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
+    /* Замінено #f9fdf9 */
 }
 
 .crops-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-pale);
+    /* Замінено #eef7ee на більш видимий у темах pale */
 }
 
 .crops-table tr:last-child td {
@@ -287,7 +306,8 @@
 }
 
 .crops-rabbits {
-    color: #1b5e20;
+    color: var(--green-mid);
+    /* Замінено #1b5e20 */
     font-weight: 500;
 }
 
@@ -300,7 +320,8 @@
 }
 
 .crops-calendar-card {
-    background: white;
+    background: var(--cream);
+    /* Замінено white */
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -321,7 +342,8 @@
 
 .crops-calendar-card li {
     font-size: 12px;
-    color: #444;
+    color: var(--green-dark);
+    /* Замінено #444 */
     line-height: 1.5;
     margin-bottom: 4px;
 }
@@ -335,7 +357,8 @@
 }
 
 .crops-lifehack-card {
-    background: white;
+    background: var(--cream);
+    /* Замінено white */
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -360,7 +383,8 @@
 
 .crops-lifehack-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
+    /* Замінено #444 */
     line-height: 1.6;
     margin: 0;
 }
