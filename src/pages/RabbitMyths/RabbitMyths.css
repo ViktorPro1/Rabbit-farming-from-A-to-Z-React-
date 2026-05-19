@@ -1,12 +1,12 @@
 .myths-page {
     min-height: 100vh;
-    background: #f7f5f0;
+    background: var(--cream);
 }
 
 /* ── HEADER ── */
 
 .myths-header {
-    background: linear-gradient(135deg, #1a3a0a 0%, #2d5a1b 60%, #4a7c32 100%);
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, var(--green-accent) 100%);
     color: white;
     padding: 2.5rem 2rem;
     text-align: center;
@@ -50,13 +50,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     padding: 1.2rem 1.4rem;
     margin-bottom: 1.5rem;
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.7;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
@@ -82,11 +82,11 @@
     gap: 7px;
     padding: 9px 18px;
     border-radius: 999px;
-    border: 1.5px solid #ddd;
-    background: white;
+    border: 1.5px solid var(--gray-light);
+    background: var(--cream);
     cursor: pointer;
     transition: all 0.2s;
-    color: #555;
+    color: var(--gray);
     font-size: 13px;
     font-weight: 500;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -95,7 +95,7 @@
 .myths-cat:hover {
     border-color: var(--green-mid);
     color: var(--green-dark);
-    background: #f0f9f0;
+    background: var(--green-light);
 }
 
 .myths-cat.active {
@@ -109,7 +109,7 @@
 
 .myths-count {
     font-size: 12px;
-    color: #999;
+    color: var(--gray);
     margin-bottom: 1.2rem;
     letter-spacing: 0.2px;
 }
@@ -125,9 +125,9 @@
 /* ── ITEM ── */
 
 .myths-item {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 1.5px solid #ede8df;
+    border: 1.5px solid var(--gray-light);
     overflow: hidden;
     cursor: pointer;
     transition: all 0.2s;
@@ -135,7 +135,7 @@
 }
 
 .myths-item:hover {
-    border-color: #c8d8b8;
+    border-color: var(--green-pale);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
 }
@@ -169,19 +169,19 @@
 .myths-item-myth {
     font-size: 14px;
     font-weight: 600;
-    color: #c62828;
+    color: var(--brown);
     line-height: 1.4;
 }
 
 .myths-item-preview {
     font-size: 12px;
-    color: #888;
+    color: var(--gray);
     line-height: 1.5;
 }
 
 .myths-item-arrow {
     font-size: 11px;
-    color: #bbb;
+    color: var(--gray);
     flex-shrink: 0;
     margin-top: 4px;
 }
@@ -189,12 +189,12 @@
 /* ── BODY ── */
 
 .myths-item-body {
-    border-top: 1.5px solid #f0ebe2;
+    border-top: 1.5px solid var(--gray-light);
     padding: 1.2rem;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: #faf9f6;
+    background: var(--green-light);
 }
 
 .myths-block {
@@ -206,26 +206,26 @@
 }
 
 .myths-block.reality {
-    background: #f0faf0;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    border: 1px solid var(--green-pale);
 }
 
 .myths-block.detail {
-    background: white;
-    border: 1px solid #ede8df;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
 }
 
 .myths-block-label {
     font-size: 11px;
     font-weight: 700;
-    color: #888;
+    color: var(--gray);
     letter-spacing: 0.4px;
     text-transform: uppercase;
 }
 
 .myths-block p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.75;
     margin: 0;
 }
@@ -234,11 +234,11 @@
 
 .myths-source {
     font-size: 12px;
-    color: #999;
+    color: var(--gray);
     padding: 6px 10px;
-    background: #f5f5f5;
+    background: var(--green-light);
     border-radius: 8px;
-    border-left: 3px solid #ddd;
+    border-left: 3px solid var(--gray-light);
 }
 
 /* ── ALERTS ── */
@@ -251,15 +251,15 @@
 }
 
 .myths-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .myths-alert.tip {
-    background: #fffbea;
-    color: #6d4c00;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── BACK ── */

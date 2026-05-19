@@ -17,7 +17,7 @@
 }
 
 .section-card {
-    background: white;
+    background: var(--cream);
     border: 0.5px solid var(--gray-light);
     border-radius: 10px;
     padding: 16px 14px;
@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: white;
+    background: var(--cream);
     border: 1.5px solid var(--gray-light);
     border-radius: 999px;
     padding: 10px 16px;
@@ -79,12 +79,12 @@
     border: none;
     outline: none;
     font-size: 15px;
-    color: #333;
+    color: var(--green-dark);
     background: transparent;
 }
 
 .sc-search-input::placeholder {
-    color: #aaa;
+    color: var(--gray);
 }
 
 .sc-search-clear {
@@ -92,19 +92,19 @@
     border: none;
     cursor: pointer;
     font-size: 16px;
-    color: #aaa;
+    color: var(--gray);
     padding: 0 4px;
     transition: color 0.2s;
 }
 
 .sc-search-clear:hover {
-    color: #666;
+    color: var(--green-dark);
 }
 
 /* РЕЗУЛЬТАТИ */
 .sc-search-results {
     margin-top: 10px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -126,7 +126,7 @@
 
 .sc-search-empty p {
     font-size: 15px;
-    color: #444;
+    color: var(--green-dark);
     margin: 0;
 }
 
@@ -140,7 +140,7 @@
     font-size: 13px;
     color: var(--gray);
     border-bottom: 0.5px solid var(--gray-light);
-    background: #fafafa;
+    background: var(--green-light);
 }
 
 .sc-search-list {
@@ -163,7 +163,7 @@
 }
 
 .sc-search-item:hover {
-    background: #f0f9f0;
+    background: var(--green-light);
 }
 
 .sc-search-item-icon {
@@ -220,7 +220,7 @@
     gap: 0.6rem;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #27500A;
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .section-group-icon {
@@ -231,30 +231,18 @@
 .section-group-title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #27500A;
+    color: var(--green-dark);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
 
-@media (max-width: 420px) {
-    .sc-search-input {
-        font-size: 14px;
-    }
-
-    .sc-search-box {
-        padding: 8px 12px;
-    }
-}
-
-/* Планшет */
 @media (max-width: 768px) {
     .section-cards-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Телефон 420px */
 @media (max-width: 420px) {
     .section-cards {
         padding: 1.5rem 1rem;
@@ -271,5 +259,13 @@
 
     .section-card-icon {
         font-size: 20px;
+    }
+
+    .sc-search-input {
+        font-size: 14px;
+    }
+
+    .sc-search-box {
+        padding: 8px 12px;
     }
 }

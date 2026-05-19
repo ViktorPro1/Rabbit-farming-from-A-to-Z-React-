@@ -7,7 +7,6 @@ const Droppings = () => {
       <div className="droppings__container">
         {/* HERO */}
         <section className="droppings__hero">
-          <div className="droppings__hero-badge">💩 Діагностика по посліду</div>
           <h1 className="droppings__hero-title">
             Послід кроля: норма та відхилення
           </h1>

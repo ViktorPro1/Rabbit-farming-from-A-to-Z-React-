@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import type { Session } from "@supabase/supabase-js";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import "./Header.css";
 
 interface Props {
@@ -56,6 +57,7 @@ const Header = ({ session }: Props) => {
         ) : (
           <NavLink to="/auth">Увійти</NavLink>
         )}
+        <ThemeToggle />
       </nav>
     </header>
   );

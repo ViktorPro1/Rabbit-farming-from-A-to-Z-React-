@@ -12,7 +12,6 @@ export default function PainManagement() {
       {/* HERO */}
       <section className="pain-mgmt__hero">
         <div className="pain-mgmt__hero-inner">
-          <span className="pain-mgmt__badge">Ветеринарна медицина</span>
           <h1 className="pain-mgmt__title">Знеболення та аналгезія у кролів</h1>
           <p className="pain-mgmt__subtitle">
             Кролик — здобич за природою. Він приховує біль інстинктивно, щоб не

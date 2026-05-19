@@ -1,8 +1,8 @@
 .gl-page {
     min-height: 100vh;
-    background: #f5f7f2;
+    background: var(--cream);
     padding: 40px 16px 80px;
-    color: #1f2937;
+    color: var(--green-dark);
 }
 
 .gl-wrap {
@@ -18,12 +18,12 @@
 .gl-header h1 {
     font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 12px;
-    color: #27500a;
+    color: var(--green-dark);
 }
 
 .gl-header p {
     font-size: 1.05rem;
-    color: #4b5563;
+    color: var(--gray);
 }
 
 .gl-controls {
@@ -37,9 +37,9 @@
     position: relative;
     display: flex;
     align-items: center;
-    background: #fff;
+    background: var(--cream);
     border-radius: 18px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--gray-light);
     overflow: hidden;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
@@ -56,7 +56,7 @@
     background: transparent;
     padding: 16px 14px;
     font-size: 1rem;
-    color: #111827;
+    color: var(--green-dark);
 }
 
 .gl-clear {
@@ -65,12 +65,12 @@
     cursor: pointer;
     padding: 0 16px;
     font-size: 1rem;
-    color: #6b7280;
+    color: var(--gray);
     transition: 0.2s;
 }
 
 .gl-clear:hover {
-    color: #dc2626;
+    color: var(--brown);
 }
 
 .gl-cats {
@@ -84,33 +84,33 @@
     cursor: pointer;
     padding: 10px 18px;
     border-radius: 999px;
-    background: #e5e7eb;
-    color: #374151;
+    background: var(--gray-light);
+    color: var(--green-dark);
     font-weight: 600;
     transition: 0.25s;
 }
 
 .gl-cat:hover {
-    background: #d1d5db;
+    background: var(--green-pale);
 }
 
 .gl-cat.active {
-    background: #27500a;
-    color: #fff;
+    background: var(--green-dark);
+    color: white;
 }
 
 .gl-count {
     margin-bottom: 24px;
     font-weight: 600;
-    color: #4b5563;
+    color: var(--gray);
 }
 
 .gl-empty {
     text-align: center;
     padding: 60px 20px;
-    background: #fff;
+    background: var(--cream);
     border-radius: 24px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--gray-light);
 }
 
 .gl-empty span {
@@ -138,7 +138,7 @@
     width: fit-content;
     padding: 8px 18px;
     border-radius: 14px;
-    background: #27500a;
+    background: var(--green-dark);
     color: white;
     font-size: 1.3rem;
     font-weight: 700;
@@ -152,9 +152,9 @@
 }
 
 .gl-item {
-    background: #fff;
+    background: var(--cream);
     border-radius: 24px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--gray-light);
     padding: 20px;
     cursor: pointer;
     transition: 0.25s;
@@ -163,11 +163,11 @@
 
 .gl-item:hover {
     transform: translateY(-2px);
-    border-color: #c8d5bc;
+    border-color: var(--green-pale);
 }
 
 .gl-item.open {
-    border-color: #27500a;
+    border-color: var(--green-dark);
     box-shadow: 0 8px 24px rgba(39, 80, 10, 0.12);
 }
 
@@ -186,11 +186,11 @@
 .gl-item-term {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #111827;
+    color: var(--green-dark);
 }
 
 .gl-item-short {
-    color: #6b7280;
+    color: var(--gray);
     line-height: 1.5;
 }
 
@@ -202,8 +202,8 @@
 }
 
 .gl-item-cat {
-    background: #eef7e8;
-    color: #27500a;
+    background: var(--green-light);
+    color: var(--green-dark);
     padding: 6px 12px;
     border-radius: 999px;
     font-size: 0.85rem;
@@ -212,18 +212,18 @@
 
 .gl-item-arrow {
     font-size: 0.9rem;
-    color: #6b7280;
+    color: var(--gray);
 }
 
 .gl-item-body {
     margin-top: 22px;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--gray-light);
     padding-top: 22px;
 }
 
 .gl-definition {
     line-height: 1.8;
-    color: #374151;
+    color: var(--green-dark);
     font-size: 1rem;
 }
 
@@ -232,15 +232,15 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    background: #f9fafb;
-    border-left: 4px solid #27500a;
+    background: var(--green-light);
+    border-left: 4px solid var(--green-dark);
     padding: 14px 16px;
     border-radius: 14px;
 }
 
 .gl-example span:last-child {
     line-height: 1.6;
-    color: #374151;
+    color: var(--green-dark);
 }
 
 .gl-related {
@@ -251,7 +251,7 @@
     display: block;
     margin-bottom: 12px;
     font-weight: 700;
-    color: #111827;
+    color: var(--green-dark);
 }
 
 .gl-related-tags {
@@ -261,8 +261,8 @@
 }
 
 .gl-tag {
-    background: #eef2ff;
-    color: #3730a3;
+    background: var(--green-light);
+    color: var(--green-dark);
     padding: 8px 14px;
     border-radius: 999px;
     font-size: 0.9rem;
@@ -271,7 +271,7 @@
 }
 
 .gl-tag:hover {
-    background: #dbe4ff;
+    background: var(--green-pale);
 }
 
 .gl-back {
@@ -282,8 +282,8 @@
 
 .gl-back-btn {
     text-decoration: none;
-    background: #27500a;
-    color: white;
+    background: var(--green-dark);
+    color: var(--green-pale);
     padding: 14px 24px;
     border-radius: 16px;
     font-weight: 700;
@@ -293,7 +293,7 @@
 
 .gl-back-btn:hover {
     transform: translateY(-2px);
-    background: #1f4207;
+    background: var(--green-mid);
 }
 
 @media (max-width: 768px) {

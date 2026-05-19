@@ -216,7 +216,6 @@ const BeginnerGuide = () => {
   return (
     <main className="bg-page">
       <div className="bg-header">
-        <div className="bg-header-badge">🐇 Для новачка</div>
         <h1>Купив першого кроля — починай тут</h1>
         <p>Крок за кроком від клітки до першої вакцинації. Простими словами.</p>
       </div>

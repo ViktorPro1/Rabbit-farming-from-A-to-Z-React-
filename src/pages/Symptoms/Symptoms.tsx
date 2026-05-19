@@ -838,7 +838,6 @@ const Symptoms = () => {
   return (
     <main className="sym-page">
       <div className="sym-header">
-        <div className="sym-header-badge">🚨 Екстрений довідник</div>
         <h1>Симптоматичний пошук</h1>
         <p>Оберіть симптом — отримайте можливі причини та дії</p>
       </div>

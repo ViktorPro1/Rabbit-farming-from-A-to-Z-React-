@@ -32,13 +32,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #f0f9f0;
+    background: var(--green-light);
     border-left: 4px solid var(--green-mid);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 1.5rem;
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
 }
 
@@ -64,10 +64,10 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     cursor: pointer;
     transition: 0.2s;
-    color: #444;
+    color: var(--gray);
     font-size: 13px;
 }
 
@@ -82,7 +82,7 @@
 
 .bm-count {
     font-size: 13px;
-    color: #888;
+    color: var(--gray);
     margin-bottom: 1rem;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .bm-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -147,7 +147,7 @@
 
 .bm-card-arrow {
     font-size: 12px;
-    color: #aaa;
+    color: var(--gray);
     flex-shrink: 0;
 }
 
@@ -159,7 +159,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: #fafafa;
+    background: var(--green-light);
 }
 
 .bm-block {
@@ -171,30 +171,30 @@
 }
 
 .bm-block.mistake {
-    background: #fff5f5;
-    border: 0.5px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
 }
 
 .bm-block.why {
-    background: #fff8f0;
-    border: 0.5px solid #ffe0b2;
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber-light);
 }
 
 .bm-block.fix {
-    background: #f0f9f0;
-    border: 0.5px solid #d5ead6;
+    background: var(--green-light);
+    border: 0.5px solid var(--green-pale);
 }
 
 .bm-block-label {
     font-size: 12px;
     font-weight: 600;
-    color: #666;
+    color: var(--gray);
     letter-spacing: 0.2px;
 }
 
 .bm-block p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
@@ -209,15 +209,15 @@
 }
 
 .bm-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .bm-alert.tip {
-    background: #fffbea;
-    color: #6d4c00;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── BACK ── */

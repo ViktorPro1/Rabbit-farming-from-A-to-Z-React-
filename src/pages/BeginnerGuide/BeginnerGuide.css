@@ -3,7 +3,7 @@
 }
 
 .bg-header {
-    background: linear-gradient(135deg, #1b5e20, #388e3c);
+    background: linear-gradient(135deg, var(--green-mid), var(--green-accent));
     color: white;
     padding: 2.5rem 2rem;
     text-align: center;
@@ -44,8 +44,8 @@
 }
 
 .bg-warning-card {
-    background: #fff3e0;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     border-radius: 12px;
     padding: 1rem 1.25rem;
     display: flex;
@@ -60,14 +60,14 @@
 
 .bg-warning-card p {
     font-size: 13px;
-    color: #5d3a1a;
+    color: var(--brown);
     line-height: 1.6;
     margin: 0;
 }
 
 /* STEP BLOCKS */
 .bg-step-block {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     margin-bottom: 1.25rem;
@@ -79,7 +79,7 @@
     align-items: center;
     gap: 14px;
     padding: 1.25rem 1.5rem;
-    background: #f5faf5;
+    background: var(--green-light);
     border-bottom: 0.5px solid var(--gray-light);
 }
 
@@ -130,12 +130,12 @@
 .bg-content-subtitle {
     font-size: 13px;
     font-weight: 600;
-    color: #333;
+    color: var(--green-dark);
 }
 
 .bg-content-block p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin: 0;
 }
@@ -149,15 +149,15 @@
 }
 
 .bg-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .bg-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* SECTION TITLE */
@@ -172,7 +172,7 @@
 
 /* CHECKLIST */
 .bg-checklist-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -181,7 +181,7 @@
 
 .bg-checklist-intro {
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     margin-bottom: 14px;
 }
 
@@ -196,10 +196,10 @@
     align-items: flex-start;
     gap: 10px;
     font-size: 13px;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.6;
     padding: 6px 0;
-    border-bottom: 0.5px solid #f0f0f0;
+    border-bottom: 0.5px solid var(--gray-light);
 }
 
 .bg-checklist-item:last-child {
@@ -208,7 +208,7 @@
 
 .bg-checkbox {
     font-size: 18px;
-    color: #ccc;
+    color: var(--gray-light);
     flex-shrink: 0;
     line-height: 1.3;
 }
@@ -222,7 +222,7 @@
 }
 
 .bg-summary-item {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -238,7 +238,7 @@
 
 .bg-summary-item p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }

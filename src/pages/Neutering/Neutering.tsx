@@ -12,7 +12,6 @@ export default function Neutering() {
       {/* HERO */}
       <section className="neuter__hero">
         <div className="neuter__hero-inner">
-          <span className="neuter__badge">Ветеринарна медицина</span>
           <h1 className="neuter__title">Кастрація та стерилізація кролів</h1>
           <p className="neuter__subtitle">
             Кастрація самця та стерилізація самки — найефективніша профілактика

@@ -37,3 +37,17 @@ button {
   border: none;
   font-family: inherit;
 }
+
+[data-theme="dark"] {
+  --green-dark: #528110;
+  --green-mid: #A8CC78;
+  --green-accent: #639922;
+  --green-light: #1A2E0A;
+  --green-pale: #2A4A10;
+  --amber: #E8A84A;
+  --amber-light: #2A1E08;
+  --brown: #D4855A;
+  --cream: #111A0A;
+  --gray: #AAAAAA;
+  --gray-light: #2A2A22;
+}

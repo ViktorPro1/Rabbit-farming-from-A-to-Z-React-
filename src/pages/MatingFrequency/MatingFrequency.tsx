@@ -237,7 +237,6 @@ const MatingPage = () => {
   return (
     <main className="mat-page">
       <div className="mat-header">
-        <div className="mat-header-eyebrow">🐇 Розведення</div>
         <h1>Як часто можна злучати кролицю</h1>
         <p>
           Три схеми відтворення — інтенсивна, напівінтенсивна, екстенсивна. Від
