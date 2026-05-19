@@ -3,7 +3,7 @@
 }
 
 .selection-header {
-    background: linear-gradient(135deg, #1a237e, #283593, #3949ab);
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -36,7 +36,7 @@
 }
 
 .selection-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,13 +52,13 @@
 
 .selection-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
 
 .selection-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -67,7 +67,7 @@
 
 .selection-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -81,9 +81,9 @@
 }
 
 .selection-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 /* METHODS */
@@ -95,7 +95,7 @@
 }
 
 .selection-method-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -129,23 +129,23 @@
 }
 
 .selection-level-badge.beginner {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .selection-level-badge.intermediate {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .selection-level-badge.advanced {
-    background: #ffebee;
-    color: #c62828;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .selection-method-desc {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 1rem;
 }
@@ -160,14 +160,14 @@
 .selection-pros-title {
     font-size: 12px;
     font-weight: 500;
-    color: #1b5e20;
+    color: var(--green-dark);
     margin-bottom: 6px;
 }
 
 .selection-cons-title {
     font-size: 12px;
     font-weight: 500;
-    color: #444;
+    color: var(--gray);
     margin-bottom: 6px;
 }
 
@@ -178,15 +178,15 @@
 
 .selection-pros-cons li {
     font-size: 12px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.5;
     margin-bottom: 3px;
 }
 
 .selection-method-when {
     font-size: 12px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 8px 10px;
     border-radius: 8px;
     line-height: 1.5;
@@ -213,7 +213,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 500px;
 }
 
@@ -229,16 +229,16 @@
 .selection-traits-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .selection-traits-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .selection-traits-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .selection-traits-table tr:last-child td {
@@ -253,18 +253,18 @@
 }
 
 .selection-importance.critical {
-    background: #ffebee;
-    color: #c62828;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .selection-importance.high {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .selection-importance.medium {
-    background: #fffde7;
-    color: #f57f17;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 /* PLAN */
@@ -278,7 +278,7 @@
 .selection-plan-step {
     display: flex;
     gap: 16px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -313,15 +313,15 @@
 
 .selection-plan-content p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
 
 .selection-plan-example {
     font-size: 13px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 8px 12px;
     border-radius: 8px;
     line-height: 1.5;
@@ -329,7 +329,7 @@
 
 /* INBREEDING */
 .selection-inbreeding-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -337,19 +337,19 @@
 }
 
 .selection-inbreeding-card.forbidden {
-    border-left: 4px solid #c62828;
+    border-left: 4px solid var(--brown);
 }
 
 .selection-inbreeding-card.caution {
-    border-left: 4px solid #e65100;
+    border-left: 4px solid var(--amber);
 }
 
 .selection-inbreeding-card.ok {
-    border-left: 4px solid #f9a825;
+    border-left: 4px solid var(--amber-light);
 }
 
 .selection-inbreeding-card.excellent {
-    border-left: 4px solid #1b5e20;
+    border-left: 4px solid var(--green-dark);
 }
 
 .selection-inbreeding-header {
@@ -361,7 +361,7 @@
 
 .selection-inbreeding-header strong {
     font-size: 15px;
-    color: #222;
+    color: var(--green-dark);
 }
 
 .selection-fi-badge {
@@ -375,13 +375,13 @@
 
 .selection-inbreeding-pairs {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     margin-bottom: 6px;
 }
 
 .selection-inbreeding-effect {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 8px;
 }
@@ -394,23 +394,23 @@
 }
 
 .selection-inbreeding-rec.forbidden {
-    background: #ffebee;
-    color: #c62828;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .selection-inbreeding-rec.caution {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .selection-inbreeding-rec.ok {
-    background: #fffde7;
-    color: #f57f17;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .selection-inbreeding-rec.excellent {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 /* RECORDS */
@@ -422,7 +422,7 @@
 }
 
 .selection-record-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -446,7 +446,7 @@
 
 .selection-record-card p {
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
     line-height: 1.5;
     margin: 0;
 }
@@ -460,7 +460,7 @@
 }
 
 .selection-term-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -476,7 +476,7 @@
 
 .selection-term-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -490,7 +490,7 @@
 }
 
 .selection-mistakes-table th {
-    background: #c62828;
+    background: var(--brown);
     color: white;
     padding: 10px 12px;
     text-align: left;
@@ -501,16 +501,16 @@
 .selection-mistakes-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .selection-mistakes-table tr:nth-child(even) td {
-    background: #fff8f8;
+    background: var(--amber-light);
 }
 
 .selection-mistakes-table tr:hover td {
-    background: #ffebee;
+    background: var(--amber-light);
 }
 
 .selection-mistakes-table tr:last-child td {
@@ -523,7 +523,7 @@
     flex-direction: column;
     gap: 0;
     margin-bottom: 1rem;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -566,19 +566,19 @@
 }
 
 .selection-tl-dot.first {
-    background: #e65100;
+    background: var(--amber);
 }
 
 .selection-tl-dot.second {
-    background: #f9a825;
+    background: var(--amber-light);
 }
 
 .selection-tl-dot.third {
-    background: #7cb342;
+    background: var(--green-accent);
 }
 
 .selection-tl-dot.fourth {
-    background: #1b5e20;
+    background: var(--green-dark);
 }
 
 .selection-tl-content {
@@ -595,7 +595,7 @@
 
 .selection-tl-content p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }

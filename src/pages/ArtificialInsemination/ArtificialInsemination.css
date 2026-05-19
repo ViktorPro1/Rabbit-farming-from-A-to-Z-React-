@@ -3,7 +3,7 @@
 }
 
 .ai-header {
-    background: linear-gradient(90deg, #1a3a5c, #2e6da4);
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -36,7 +36,7 @@
 }
 
 .ai-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -45,7 +45,7 @@
 
 .ai-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -57,7 +57,7 @@
 
 .ai-note li {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -79,7 +79,7 @@
 
 /* FACT CARDS */
 .ai-fact-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -104,16 +104,16 @@
 
 .ai-fact-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
 
 /* HIGHLIGHT CARD */
 .ai-highlight-card {
-    background: #e8f0fb;
+    background: var(--green-light);
     border-radius: 16px;
-    border: 0.5px solid #b5cef0;
+    border: 0.5px solid var(--green-pale);
     padding: 1.25rem;
     display: flex;
     gap: 14px;
@@ -131,20 +131,20 @@
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #1a3a5c;
+    color: var(--green-dark);
     margin-bottom: 8px;
 }
 
 .ai-highlight-card p {
     font-size: 13px;
-    color: #2e4a6a;
+    color: var(--green-mid);
     line-height: 1.7;
     margin: 0;
 }
 
 /* EQUIPMENT CARDS */
 .ai-equip-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -165,7 +165,7 @@
 
 .ai-equip-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -188,16 +188,16 @@
 .ai-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .ai-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .ai-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .ai-table tr:last-child td {
@@ -214,23 +214,23 @@
 }
 
 .badge-green {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .badge-yellow {
-    background: #fff8e1;
-    color: #f57f17;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .badge-red {
-    background: #fce4ec;
-    color: #b71c1c;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 /* FORMULA CARD */
 .ai-formula-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -246,9 +246,9 @@
 
 .ai-formula-text {
     font-size: 14px;
-    color: #1a3a5c;
-    background: #e8f0fb;
-    border-left: 3px solid #2e6da4;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border-left: 3px solid var(--green-mid);
     padding: 10px 14px;
     border-radius: 0 8px 8px 0;
     margin-bottom: 10px;
@@ -257,7 +257,7 @@
 
 .ai-formula-example {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 8px;
     padding-left: 4px;
@@ -265,9 +265,9 @@
 
 .ai-formula-note {
     font-size: 12px;
-    color: #666;
-    background: #f5f9f5;
-    border-left: 2px solid var(--green-light);
+    color: var(--gray);
+    background: var(--green-light);
+    border-left: 2px solid var(--green-pale);
     padding: 8px 12px;
     border-radius: 0 6px 6px 0;
 }
@@ -318,7 +318,7 @@
 
 .ai-step-content p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0 0 8px;
 }
@@ -333,15 +333,15 @@
 }
 
 .ai-inline-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .ai-inline-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ALERT */
@@ -355,20 +355,20 @@
 }
 
 .ai-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .ai-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* MISTAKE CARDS */
 .ai-mistake-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -380,26 +380,26 @@
 .ai-mistake-title {
     font-size: 14px;
     font-weight: 500;
-    color: #c62828;
+    color: var(--brown);
 }
 
 .ai-mistake-result {
     font-size: 13px;
-    color: #666;
+    color: var(--brown);
     line-height: 1.5;
     margin: 0;
     padding: 6px 10px;
-    background: #fce4ec;
+    background: var(--amber-light);
     border-radius: 6px;
 }
 
 .ai-mistake-fix {
     font-size: 13px;
-    color: #1b5e20;
+    color: var(--green-dark);
     line-height: 1.5;
     margin: 0;
     padding: 6px 10px;
-    background: #e8f5e9;
+    background: var(--green-light);
     border-radius: 6px;
 }
 

@@ -50,7 +50,7 @@
 }
 
 .enclosure-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     display: flex;
@@ -84,7 +84,7 @@
 
 .enclosure-card-body p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -100,13 +100,13 @@
     font-size: 11px;
     padding: 3px 10px;
     border-radius: 999px;
-    background: #eef7ee;
+    background: var(--green-light);
     color: var(--green-mid);
-    border: 1px solid #d5ead6;
+    border: 1px solid var(--green-pale);
 }
 
 .enclosure-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -122,7 +122,7 @@
 
 .enclosure-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -134,7 +134,7 @@
 
 .enclosure-note li {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -156,16 +156,16 @@
 .enclosure-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .enclosure-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .enclosure-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .enclosure-alert {
@@ -177,15 +177,15 @@
 }
 
 .enclosure-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .enclosure-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .enclosure-back {

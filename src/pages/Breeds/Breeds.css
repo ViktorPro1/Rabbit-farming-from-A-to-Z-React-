@@ -34,7 +34,7 @@
 }
 
 .breed-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     overflow: hidden;
     display: flex;
@@ -68,22 +68,22 @@
 
 .breed-chip {
     font-size: 12px;
-    background: #eef7ee;
+    background: var(--green-light);
     border-radius: 999px;
     padding: 3px 10px;
     color: var(--green-mid);
-    border: 1px solid #d5ead6;
+    border: 1px solid var(--green-pale);
 }
 
 .breed-body p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     margin-bottom: 6px;
     line-height: 1.5;
 }
 
 .breeds-tip {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -99,7 +99,7 @@
 
 .breeds-tip p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     margin-bottom: 8px;
     line-height: 1.6;
 }

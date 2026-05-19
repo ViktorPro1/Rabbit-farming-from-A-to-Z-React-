@@ -3,7 +3,7 @@
 }
 
 .paddockinfo-header {
-    background: linear-gradient(135deg, #4e342e, #6d4c41, #8d6e63);
+    background: linear-gradient(135deg, var(--brown), var(--green-dark), var(--green-mid));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -36,7 +36,7 @@
 }
 
 .paddockinfo-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,13 +52,13 @@
 
 .paddockinfo-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
 
 .paddockinfo-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -67,7 +67,7 @@
 
 .paddockinfo-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -81,15 +81,15 @@
 }
 
 .paddockinfo-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .paddockinfo-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* PROS CONS */
@@ -101,30 +101,30 @@
 }
 
 .paddockinfo-pros {
-    background: #f0fdf0;
+    background: var(--green-light);
     border-radius: 16px;
-    border: 0.5px solid #c8e6c9;
+    border: 0.5px solid var(--green-pale);
     padding: 1.25rem;
 }
 
 .paddockinfo-cons {
-    background: #fff8f0;
+    background: var(--amber-light);
     border-radius: 16px;
-    border: 0.5px solid #ffe0b2;
+    border: 0.5px solid var(--amber);
     padding: 1.25rem;
 }
 
 .paddockinfo-pros h3 {
     font-size: 15px;
     font-weight: 500;
-    color: #1b5e20;
+    color: var(--green-dark);
     margin-bottom: 12px;
 }
 
 .paddockinfo-cons h3 {
     font-size: 15px;
     font-weight: 500;
-    color: #e65100;
+    color: var(--amber);
     margin-bottom: 12px;
 }
 
@@ -146,14 +146,14 @@
     display: block;
     font-size: 13px;
     font-weight: 500;
-    color: #222;
+    color: var(--green-dark);
     margin-bottom: 2px;
 }
 
 .paddockinfo-pro-item p,
 .paddockinfo-con-item p {
     font-size: 12px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.5;
     margin: 0;
 }
@@ -167,7 +167,7 @@
 }
 
 .paddockinfo-step {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -210,7 +210,7 @@
 
 .paddockinfo-step-desc {
     font-size: 13px;
-    color: #666;
+    color: var(--gray);
     margin: 0;
     font-style: italic;
 }
@@ -222,7 +222,7 @@
 
 .paddockinfo-step-details li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -236,7 +236,7 @@
 }
 
 .paddockinfo-management-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -269,7 +269,7 @@
 
 .paddockinfo-management-card li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -285,7 +285,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 400px;
 }
 
@@ -300,12 +300,12 @@
 .paddockinfo-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .paddockinfo-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .paddockinfo-table tr:last-child td {
@@ -321,7 +321,7 @@
 }
 
 .paddockinfo-lifehack-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -346,7 +346,7 @@
 
 .paddockinfo-lifehack-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -360,7 +360,7 @@
 }
 
 .paddockinfo-mistakes-table th {
-    background: #c62828;
+    background: var(--brown);
     color: white;
     padding: 10px 12px;
     text-align: left;
@@ -371,16 +371,16 @@
 .paddockinfo-mistakes-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .paddockinfo-mistakes-table tr:nth-child(even) td {
-    background: #fff8f8;
+    background: var(--amber-light);
 }
 
 .paddockinfo-mistakes-table tr:hover td {
-    background: #ffebee;
+    background: var(--amber-light);
 }
 
 .paddockinfo-mistakes-table tr:last-child td {
@@ -401,13 +401,13 @@
 }
 
 .paddockinfo-who-card.yes {
-    background: #e8f5e9;
-    border: 0.5px solid #c8e6c9;
+    background: var(--green-light);
+    border: 0.5px solid var(--green-pale);
 }
 
 .paddockinfo-who-card.no {
-    background: #ffebee;
-    border: 0.5px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
 }
 
 .paddockinfo-who-card h3 {
@@ -417,11 +417,11 @@
 }
 
 .paddockinfo-who-card.yes h3 {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .paddockinfo-who-card.no h3 {
-    color: #c62828;
+    color: var(--brown);
 }
 
 .paddockinfo-who-card ul {
@@ -431,7 +431,7 @@
 
 .paddockinfo-who-card li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
