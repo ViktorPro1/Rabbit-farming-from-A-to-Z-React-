@@ -27,12 +27,12 @@
 }
 
 .necropsy-alert {
-    background: #fff3e0;
-    border-left: 3px solid #ef6c00;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     border-radius: 10px;
     padding: 12px 14px;
     font-size: 13px;
-    color: #7c3b00;
+    color: var(--brown);
     line-height: 1.6;
     margin-bottom: 1.5rem;
 }
@@ -53,10 +53,10 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     cursor: pointer;
     transition: 0.2s;
-    color: #444;
+    color: var(--green-dark);
     font-size: 13px;
 }
 
@@ -73,7 +73,7 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: white;
+    background: var(--cream);
     border: 0.5px solid var(--gray-light);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
@@ -94,7 +94,7 @@
 
 .necropsy-section-header p {
     margin: 0;
-    color: #666;
+    color: var(--gray);
     font-size: 13px;
 }
 
@@ -107,7 +107,7 @@
 }
 
 .necropsy-step {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -166,25 +166,25 @@
     margin: 0;
     font-size: 13px;
     line-height: 1.7;
-    color: #444;
+    color: var(--green-dark);
 }
 
 .necropsy-warning {
-    background: #fff3e0;
-    border-left: 3px solid #ef6c00;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 13px;
-    color: #7c3b00;
+    color: var(--brown);
 }
 
 .necropsy-tip {
-    background: #fffbea;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 13px;
-    color: #6d4c00;
+    color: var(--brown);
 }
 
 /* ─── Кнопка назад ─── */

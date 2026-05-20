@@ -32,13 +32,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #fff8e1;
+    background: var(--amber-light);
     border-left: 4px solid var(--amber);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 1.5rem;
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .dc-banner strong {
-    color: #c62828;
+    color: var(--brown);
 }
 
 /* ── TABS ── */
@@ -68,10 +68,10 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     cursor: pointer;
     transition: 0.2s;
-    color: #444;
+    color: var(--gray);
     font-size: 13px;
 }
 
@@ -91,12 +91,12 @@
 }
 
 .dc-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem 1.4rem;
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin: 0;
 }
@@ -120,9 +120,9 @@
 }
 
 .dc-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── DANGER CARDS ── */
@@ -142,18 +142,18 @@
 }
 
 .dc-danger-card.critical {
-    background: #fff5f5;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
 }
 
 .dc-danger-card.high {
-    background: #fff8f0;
-    border: 1px solid #ffe0b2;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
 }
 
 .dc-danger-card.medium {
-    background: #fffde7;
-    border: 1px solid #fff176;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
 }
 
 .dc-danger-head {
@@ -173,44 +173,45 @@
 }
 
 .dc-danger-badge.critical {
-    background: #c62828;
+    background: var(--brown);
     color: white;
 }
 
 .dc-danger-badge.high {
-    background: #e65100;
+    background: var(--amber);
     color: white;
 }
 
 .dc-danger-badge.medium {
-    background: #f9a825;
-    color: #333;
+    background: var(--amber-light);
+    color: var(--brown);
+    border: 1px solid var(--amber);
 }
 
 .dc-danger-name {
     font-size: 15px;
     font-weight: 500;
-    color: #222;
+    color: var(--green-dark);
 }
 
 .dc-danger-brands {
     font-size: 12px;
-    color: #888;
+    color: var(--gray);
     margin: 0;
     font-style: italic;
 }
 
 .dc-danger-desc {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
 
 .dc-danger-action {
     font-size: 12px;
-    color: #c62828;
-    background: #ffebee;
+    color: var(--brown);
+    background: var(--amber-light);
     border-radius: 6px;
     padding: 6px 10px;
     line-height: 1.5;
@@ -226,7 +227,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     overflow: hidden;
 }
@@ -242,7 +243,7 @@
 .dc-table td {
     padding: 10px 14px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: middle;
     line-height: 1.5;
 }
@@ -252,7 +253,7 @@
 }
 
 .dc-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .dc-badge {
@@ -265,27 +266,27 @@
 }
 
 .dc-badge.red {
-    background: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    color: var(--brown);
+    border: 1px solid var(--amber);
 }
 
 .dc-badge.orange {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .dc-badge.yellow {
-    background: #fffde7;
-    color: #f57f17;
-    border: 1px solid #fff176;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .dc-badge.green {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 /* ── COMBO CARDS ── */
@@ -305,18 +306,18 @@
 }
 
 .dc-combo-card.ok {
-    background: #f0f9f0;
-    border: 1px solid #d5ead6;
+    background: var(--green-light);
+    border: 1px solid var(--green-pale);
 }
 
 .dc-combo-card.danger {
-    background: #fff5f5;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
 }
 
 .dc-combo-card.warn {
-    background: #fffde7;
-    border: 1px solid #fff176;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
 }
 
 .dc-combo-pair {
@@ -327,7 +328,7 @@
 }
 
 .dc-combo-drug {
-    background: white;
+    background: var(--cream);
     border-radius: 8px;
     padding: 4px 10px;
     font-size: 13px;
@@ -339,16 +340,16 @@
 .dc-combo-plus {
     font-size: 18px;
     font-weight: 700;
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .dc-combo-plus.danger-plus {
-    color: #c62828;
+    color: var(--brown);
 }
 
 .dc-combo-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -362,7 +363,7 @@
 }
 
 .dc-rule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -372,8 +373,8 @@
 }
 
 .dc-rule-card.highlight {
-    background: #f0f9f0;
-    border-color: #d5ead6;
+    background: var(--green-light);
+    border-color: var(--green-pale);
 }
 
 .dc-rule-icon {
@@ -392,7 +393,7 @@
 
 .dc-rule-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }

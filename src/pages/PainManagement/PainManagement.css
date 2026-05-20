@@ -5,7 +5,7 @@
 
 /* ── HERO ── */
 .pain-mgmt__hero {
-    background: linear-gradient(135deg, var(--green-dark) 0%, #1a3a06 100%);
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
     padding: 3rem 1.25rem 2.5rem;
     position: relative;
     overflow: hidden;
@@ -109,7 +109,7 @@
 }
 
 .pain-mgmt__section-intro {
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin: 0;
     font-size: 0.97rem;
@@ -124,7 +124,7 @@
     gap: 0.6rem;
     font-size: 0.95rem;
     line-height: 1.65;
-    color: #333;
+    color: var(--green-dark);
 }
 
 .pain-mgmt__card p {
@@ -132,17 +132,17 @@
 }
 
 .pain-mgmt__card--accent {
-    background: #f0f7e8;
+    background: var(--green-light);
     border-left: 4px solid var(--green-mid);
 }
 
 .pain-mgmt__card--warning {
-    background: #fff8e6;
+    background: var(--amber-light);
     border-left: 4px solid var(--amber);
 }
 
 .pain-mgmt__card--warning strong {
-    color: #7a5500;
+    color: var(--brown);
     display: block;
     margin-bottom: 0.35rem;
     font-size: 0.97rem;
@@ -156,8 +156,8 @@
 }
 
 .pain-mgmt__why-item {
-    background: #fff;
-    border: 1px solid #e0e8d6;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
     border-radius: 10px;
     padding: 1rem 1.1rem;
     display: flex;
@@ -175,7 +175,7 @@
 }
 
 .pain-mgmt__why-item span {
-    color: #555;
+    color: var(--gray);
     font-size: 0.87rem;
     line-height: 1.5;
 }
@@ -188,8 +188,8 @@
 }
 
 .pain-mgmt__rgs-card {
-    background: #fff;
-    border: 1px solid #dde8cc;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
     border-radius: 12px;
     padding: 1.1rem 1.2rem;
     display: flex;
@@ -229,18 +229,18 @@
 }
 
 .pain-mgmt__rgs-score--0 {
-    background: #edf7e5;
-    color: #2d5a16;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .pain-mgmt__rgs-score--1 {
-    background: #fff8e0;
-    color: #7a5500;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .pain-mgmt__rgs-score--2 {
-    background: #fde8e8;
-    color: #8b1a1a;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .pain-mgmt__rgs-result {
@@ -266,27 +266,27 @@
 }
 
 .pain-mgmt__rgs-result-item--ok {
-    background: #eaf7e0;
-    border: 1.5px solid #8bc34a;
-    color: #2d5a16;
+    background: var(--green-light);
+    border: 1.5px solid var(--green-pale);
+    color: var(--green-dark);
 }
 
 .pain-mgmt__rgs-result-item--mid {
-    background: #fff8e0;
+    background: var(--amber-light);
     border: 1.5px solid var(--amber);
-    color: #7a5500;
+    color: var(--brown);
 }
 
 .pain-mgmt__rgs-result-item--bad {
-    background: #fde8e8;
-    border: 1.5px solid #d32f2f;
-    color: #8b1a1a;
+    background: var(--amber-light);
+    border: 1.5px solid var(--brown);
+    color: var(--brown);
 }
 
 .pain-mgmt__note {
     font-size: 0.85rem;
-    color: #666;
-    background: #f7f7f7;
+    color: var(--gray);
+    background: var(--green-light);
     border-radius: 8px;
     padding: 0.75rem 1rem;
     line-height: 1.55;
@@ -301,8 +301,8 @@
 }
 
 .pain-mgmt__signs-block {
-    background: #fff;
-    border: 1px solid #e0e8d6;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
     border-radius: 12px;
     padding: 1.1rem 1.25rem;
 }
@@ -320,7 +320,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    color: #444;
+    color: var(--gray);
     font-size: 0.88rem;
     line-height: 1.5;
 }
@@ -333,8 +333,8 @@
 }
 
 .pain-mgmt__cause {
-    background: #fff;
-    border: 1px solid #e0e8d6;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
     border-radius: 12px;
     padding: 1rem 1.25rem;
     display: flex;
@@ -357,14 +357,14 @@
 
 .pain-mgmt__cause p {
     margin: 0;
-    color: #555;
+    color: var(--gray);
     font-size: 0.88rem;
     line-height: 1.55;
 }
 
 /* ── DRUGS ── */
 .pain-mgmt__drug-warning {
-    background: #fff8e0;
+    background: var(--amber-light);
     border: 1.5px solid var(--amber);
     border-radius: 10px;
     padding: 0.9rem 1.1rem;
@@ -373,7 +373,7 @@
     align-items: flex-start;
     font-size: 0.88rem;
     line-height: 1.55;
-    color: #5a3e00;
+    color: var(--brown);
 }
 
 .pain-mgmt__drug-group {
@@ -392,14 +392,14 @@
 
 .pain-mgmt__drug-group-desc {
     margin: 0;
-    color: #555;
+    color: var(--gray);
     font-size: 0.9rem;
     line-height: 1.55;
 }
 
 .pain-mgmt__drug-card {
-    background: #fff;
-    border: 1px solid #dde8cc;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -432,18 +432,18 @@
 }
 
 .pain-mgmt__drug-tag--nsaid {
-    background: #d4edda;
-    color: #1a5c2e;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .pain-mgmt__drug-tag--opioid {
-    background: #fde8e8;
-    color: #8b1a1a;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .pain-mgmt__drug-tag--local {
-    background: #e8f0fd;
-    color: #1a3c8b;
+    background: var(--green-light);
+    color: var(--green-mid);
 }
 
 .pain-mgmt__drug-body {
@@ -465,17 +465,17 @@
     flex-direction: column;
     font-size: 0.85rem;
     padding: 0.35rem 0.6rem;
-    background: #f5f8f0;
+    background: var(--green-light);
     border-radius: 6px;
 }
 
 .pain-mgmt__drug-row span {
-    color: #777;
+    color: var(--gray);
     font-size: 0.78rem;
 }
 
 .pain-mgmt__drug-row strong {
-    color: #222;
+    color: var(--green-dark);
 }
 
 .pain-mgmt__drug-notes {
@@ -489,14 +489,14 @@
     margin: 0;
     font-size: 0.87rem;
     line-height: 1.6;
-    color: #444;
+    color: var(--gray);
 }
 
 .pain-mgmt__drug-caution {
-    background: #fff8e0;
+    background: var(--amber-light);
     border-radius: 6px;
     padding: 0.4rem 0.6rem;
-    color: #7a5500 !important;
+    color: var(--brown) !important;
     font-size: 0.84rem !important;
 }
 
@@ -508,8 +508,8 @@
 }
 
 .pain-mgmt__forbidden-card {
-    background: #fff;
-    border: 1.5px solid #f5c6c6;
+    background: var(--cream);
+    border: 1.5px solid var(--amber);
     border-radius: 10px;
     padding: 1rem 1.1rem;
     display: flex;
@@ -519,12 +519,12 @@
 
 .pain-mgmt__forbidden-name {
     font-weight: 700;
-    color: #c0392b;
+    color: var(--brown);
     font-size: 0.97rem;
 }
 
 .pain-mgmt__forbidden-reason {
-    color: #555;
+    color: var(--gray);
     font-size: 0.85rem;
     line-height: 1.5;
 }
@@ -572,8 +572,8 @@
 }
 
 .pain-mgmt__algo-content {
-    background: #fff;
-    border: 1px solid #dde8cc;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
     border-radius: 10px;
     padding: 0.9rem 1.1rem;
     flex: 1;
@@ -588,7 +588,7 @@
 
 .pain-mgmt__algo-content p {
     margin: 0;
-    color: #555;
+    color: var(--gray);
     font-size: 0.88rem;
     line-height: 1.55;
 }
@@ -610,11 +610,11 @@
 .pain-mgmt__refs li {
     font-size: 0.84rem;
     line-height: 1.55;
-    color: #555;
+    color: var(--gray);
 }
 
 .pain-mgmt__refs em {
-    color: #333;
+    color: var(--green-dark);
 }
 
 /* ── NAV ── */

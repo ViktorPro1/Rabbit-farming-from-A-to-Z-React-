@@ -32,11 +32,11 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .lab-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -52,7 +52,7 @@
 
 .lab-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -66,13 +66,13 @@
 }
 
 .lab-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .lab-alert.warn {
-    background: #fff3e0;
+    background: var(--amber-light);
     color: #e65100;
     border-left: 3px solid #e65100;
 }
@@ -86,7 +86,7 @@
 }
 
 .lab-test-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -162,7 +162,7 @@
 
 .lab-test-desc {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 1rem;
     font-style: italic;
@@ -190,7 +190,7 @@
 
 .lab-test-two-col li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -204,7 +204,7 @@
 }
 
 .lab-rule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -229,7 +229,7 @@
 
 .lab-rule-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -245,7 +245,7 @@
 .lab-find-step {
     display: flex;
     gap: 14px;
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -276,7 +276,7 @@
 
 .lab-find-step p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -286,13 +286,13 @@
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    background: #fff8e1;
+    background: var(--amber-light);
     border-radius: 10px;
     border: 0.5px solid #ffe082;
     padding: 10px 14px;
     margin-bottom: 1rem;
     font-size: 13px;
-    color: #555;
+    color: var(--brown);
     line-height: 1.5;
 }
 
@@ -320,7 +320,7 @@
     align-items: center;
     gap: 10px;
     padding: 14px 16px;
-    background: white;
+    background: var(--cream);
     cursor: pointer;
     border: none;
     width: 100%;
@@ -332,7 +332,7 @@
 }
 
 .lab-region-header:hover {
-    background: #f0f9f0;
+    background: var(--green-light);
 }
 
 .lab-region-header.active {
@@ -358,14 +358,14 @@
 
 .lab-region-labs {
     padding: 12px;
-    background: #fafafa;
+    background: var(--cream);
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
 .lab-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -390,7 +390,7 @@
     display: flex;
     gap: 8px;
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     align-items: flex-start;
 }
 
@@ -400,8 +400,8 @@
 
 .lab-card-note {
     font-size: 12px;
-    color: #1b5e20;
-    background: #e8f5e9;
+    color: var(--green-dark);
+    background: var(--green-light);
     padding: 5px 8px;
     border-radius: 6px;
     margin-top: 4px;
@@ -409,7 +409,7 @@
 
 /* EMERGENCY */
 .lab-emergency {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 2px solid #c62828;
     padding: 1.5rem;
@@ -462,7 +462,7 @@
 
 .lab-emergency-step p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }

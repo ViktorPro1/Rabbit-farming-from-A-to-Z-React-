@@ -27,7 +27,7 @@
 }
 
 .diseases-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -47,7 +47,7 @@
 
 .diseases-note li {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -73,16 +73,16 @@
 .diseases-table td {
     padding: 9px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .diseases-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .diseases-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .diseases-section-title {
@@ -102,7 +102,7 @@
 }
 
 .disease-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -137,7 +137,7 @@
 
 .disease-card-body p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 6px;
 }
@@ -149,7 +149,7 @@
 
 .disease-card-body li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -169,21 +169,21 @@
 }
 
 .disease-chip.danger {
-    background: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    color: var(--brown);
+    border: 1px solid var(--amber);
 }
 
 .disease-chip.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .disease-chip.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 .disease-alert {
@@ -195,15 +195,15 @@
 }
 
 .disease-alert.danger {
-    background: #ffebee;
-    color: #c62828;
-    border-left: 3px solid #c62828;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--brown);
 }
 
 .disease-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .diseases-back {

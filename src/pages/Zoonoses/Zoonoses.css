@@ -61,11 +61,11 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 .zoonoses-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -81,7 +81,7 @@
 
 .zoonoses-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -118,9 +118,9 @@
 }
 
 .zoonoses-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .zoonoses-alert.critical {
@@ -132,7 +132,7 @@
 
 /* DISEASE CARDS */
 .zoonoses-disease-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     margin-bottom: 1.5rem;
@@ -219,12 +219,12 @@
 }
 
 .zoonoses-rabbit-side {
-    background: #f0fdf0;
+    background: var(--green-light);
     border: 0.5px solid #c8e6c9;
 }
 
 .zoonoses-human-side {
-    background: #fff3e0;
+    background: var(--amber-light);
     border: 0.5px solid #ffe0b2;
 }
 
@@ -237,7 +237,7 @@
 }
 
 .zoonoses-side-title.rabbit {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .zoonoses-side-title.human {
@@ -253,7 +253,7 @@
 .zoonoses-rabbit-side li,
 .zoonoses-human-side li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -278,20 +278,20 @@
 
 .zoonoses-risk-block p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 8px;
 }
 
 .zoonoses-risk-who {
     font-size: 12px;
-    color: #555;
+    color: var(--gray);
     font-style: italic;
 }
 
 /* TIPS BLOCK — ВИДІЛЕНИЙ ДЛЯ ГОСПОДАРЯ */
 .zoonoses-tips-block {
-    background: #e8f5e9;
+    background: var(--green-light);
     border-radius: 12px;
     padding: 1rem 1.25rem;
     margin-bottom: 1rem;
@@ -304,7 +304,7 @@
     gap: 8px;
     font-size: 13px;
     font-weight: 500;
-    color: #1b5e20;
+    color: var(--green-dark);
     margin-bottom: 10px;
 }
 
@@ -327,7 +327,7 @@
 
 .zoonoses-tips-block li {
     font-size: 13px;
-    color: #1b5e20;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 5px;
     font-weight: 500;
@@ -335,7 +335,7 @@
 
 /* PREVENTION BLOCK */
 .zoonoses-prevention-block {
-    background: #f9fdf9;
+    background: var(--green-light);
     border-radius: 10px;
     padding: 10px 12px;
     border: 0.5px solid var(--gray-light);
@@ -355,7 +355,7 @@
 
 .zoonoses-prevention-block li {
     font-size: 12px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 3px;
 }
@@ -369,7 +369,7 @@
 }
 
 .zoonoses-rule-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -394,7 +394,7 @@
 
 .zoonoses-rule-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -410,7 +410,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 500px;
 }
 
@@ -425,7 +425,7 @@
 .zoonoses-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
@@ -462,7 +462,7 @@
 
 /* EMERGENCY */
 .zoonoses-emergency {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 2px solid #c62828;
     padding: 1.5rem;
@@ -499,7 +499,7 @@
 
 .zoonoses-emergency-item p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.5;
     margin: 0;
 }

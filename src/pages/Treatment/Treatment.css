@@ -3,7 +3,7 @@
 }
 
 .treatment-header {
-    background: linear-gradient(90deg, #1a237e, #283593);
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -27,7 +27,7 @@
 }
 
 .treatment-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -36,7 +36,7 @@
 
 .treatment-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 12px;
 }
@@ -55,15 +55,15 @@
 }
 
 .treatment-legend-item.home {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 .treatment-legend-item.vet {
-    background: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    color: var(--brown);
+    border: 1px solid var(--amber);
 }
 
 /* CATEGORIES */
@@ -78,9 +78,9 @@
     padding: 7px 14px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -98,7 +98,7 @@
 
 /* CARDS */
 .treatment-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     margin-bottom: 12px;
@@ -106,15 +106,15 @@
 }
 
 .treatment-card.critical {
-    border-left: 4px solid #c62828;
+    border-left: 4px solid var(--brown);
 }
 
 .treatment-card.high {
-    border-left: 4px solid #e65100;
+    border-left: 4px solid var(--amber);
 }
 
 .treatment-card.medium {
-    border-left: 4px solid #f9a825;
+    border-left: 4px solid var(--amber-light);
 }
 
 .treatment-card-header {
@@ -127,7 +127,7 @@
 }
 
 .treatment-card-header:hover {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .treatment-card-title {
@@ -171,18 +171,18 @@
 }
 
 .treatment-urgency-tag.critical {
-    background: #ffebee;
-    color: #c62828;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .treatment-urgency-tag.high {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .treatment-urgency-tag.medium {
-    background: #fffde7;
-    color: #f9a825;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .treatment-toggle {
@@ -218,7 +218,7 @@
 
 .treatment-symptoms li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -226,11 +226,11 @@
 .treatment-home-note {
     margin-top: 1rem;
     padding: 10px 14px;
-    background: #e3f2fd;
+    background: var(--green-light);
     border-radius: 8px;
     font-size: 13px;
-    color: #0d47a1;
-    border-left: 3px solid #0d47a1;
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-mid);
     line-height: 1.5;
 }
 
@@ -250,13 +250,13 @@
 }
 
 .treatment-step.home {
-    background: #e8f5e9;
-    border: 0.5px solid #c8e6c9;
+    background: var(--green-light);
+    border: 0.5px solid var(--green-pale);
 }
 
 .treatment-step.vet {
-    background: #ffebee;
-    border: 0.5px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
 }
 
 .treatment-step-num {
@@ -273,11 +273,11 @@
 }
 
 .treatment-step.home .treatment-step-num {
-    background: #1b5e20;
+    background: var(--green-dark);
 }
 
 .treatment-step.vet .treatment-step-num {
-    background: #c62828;
+    background: var(--brown);
 }
 
 .treatment-step-content {
@@ -287,20 +287,20 @@
 .treatment-step-action {
     font-size: 14px;
     font-weight: 500;
-    color: #222;
+    color: var(--green-dark);
     margin-bottom: 4px;
 }
 
 .treatment-step-detail {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0 0 4px;
 }
 
 .treatment-step-tip {
     font-size: 12px;
-    color: #1b5e20;
+    color: var(--green-mid);
     font-style: italic;
     margin-top: 4px;
 }
@@ -308,21 +308,21 @@
 .treatment-vet-alert {
     margin-top: 1rem;
     padding: 12px 14px;
-    background: #ffebee;
+    background: var(--amber-light);
     border-radius: 10px;
-    border-left: 3px solid #c62828;
+    border-left: 3px solid var(--brown);
 }
 
 .treatment-vet-alert strong {
     display: block;
     font-size: 13px;
-    color: #c62828;
+    color: var(--brown);
     margin-bottom: 4px;
 }
 
 .treatment-vet-alert p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -334,7 +334,7 @@
 
 .treatment-prevention li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }

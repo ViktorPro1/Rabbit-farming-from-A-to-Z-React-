@@ -84,7 +84,7 @@
 .neuter__section-intro {
     font-size: 14px;
     line-height: 1.8;
-    color: #555;
+    color: var(--gray);
     margin-bottom: 1rem;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .neuter__term {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem;
@@ -107,7 +107,7 @@
     margin-top: 10px;
     font-size: 13px;
     line-height: 1.7;
-    color: #444;
+    color: var(--green-dark);
 }
 
 .neuter__term-label {
@@ -149,7 +149,7 @@
 .neuter__aftercare-step,
 .neuter__age-card,
 .neuter__stat-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     padding: 1.2rem;
@@ -187,7 +187,7 @@
 .neuter__procedure-steps li {
     font-size: 13px;
     line-height: 1.7;
-    color: #444;
+    color: var(--green-dark);
 }
 
 /* ─── NOTES ─── */
@@ -204,9 +204,9 @@
 
 .neuter__farm-note,
 .neuter__card--warning {
-    background: #fff3e0;
+    background: var(--amber-light);
     border-left: 3px solid #ef6c00;
-    color: #7c3b00;
+    color: var(--brown);
 }
 
 .neuter__note {
@@ -217,9 +217,9 @@
 
 .neuter__card--accent,
 .neuter__procedure-note {
-    background: #eefaf2;
-    border-left: 3px solid #2e7d32;
-    color: #1f5130;
+    background: var(--green-light);
+    border-left: 3px solid var(--green-dark);
+    color: var(--green-dark);
 }
 
 /* ─── STATS ─── */
@@ -240,7 +240,7 @@
 .neuter__stat-note {
     font-size: 13px;
     line-height: 1.7;
-    color: #555;
+    color: var(--gray);
 }
 
 .neuter__stat-card--mid {
@@ -260,13 +260,13 @@
 }
 
 .neuter__sign {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
     font-size: 13px;
     line-height: 1.7;
-    color: #444;
+    color: var(--green-dark);
 }
 
 /* ─── AGE ─── */
@@ -297,7 +297,7 @@
 }
 
 .neuter__age-row span {
-    color: #666;
+    color: var(--gray);
 }
 
 .neuter__age-row strong {
@@ -340,7 +340,7 @@
 .neuter__risk p {
     font-size: 13px;
     line-height: 1.7;
-    color: #444;
+    color: var(--green-dark);
 }
 
 /* ─── RISKS ─── */
@@ -393,8 +393,8 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
-    color: #444;
+    background: var(--cream);
+    color: var(--green-dark);
     text-decoration: none;
     font-size: 13px;
     transition: 0.2s;
