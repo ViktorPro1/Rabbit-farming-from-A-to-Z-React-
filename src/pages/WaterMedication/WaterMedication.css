@@ -1,12 +1,12 @@
 .wm-page {
     min-height: 100vh;
-    background: #f7f5f0;
+    background: var(--cream);
 }
 
 /* ── HEADER ── */
 
 .wm-header {
-    background: linear-gradient(135deg, #1a3a0a 0%, #2d5a1b 60%, #4a7c32 100%);
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, var(--green-accent) 100%);
     color: white;
     padding: 2.5rem 2rem;
     text-align: center;
@@ -50,13 +50,13 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #fff8e1;
+    background: var(--amber-light);
     border-left: 4px solid var(--amber);
     border-radius: 14px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 1.5rem;
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.7;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
@@ -68,7 +68,7 @@
 }
 
 .wm-banner strong {
-    color: #c62828;
+    color: var(--brown);
 }
 
 /* ── TABS ── */
@@ -86,11 +86,11 @@
     gap: 6px;
     padding: 8px 16px;
     border-radius: 999px;
-    border: 1.5px solid #ddd;
-    background: white;
+    border: 1.5px solid var(--gray-light);
+    background: var(--cream);
     cursor: pointer;
     transition: all 0.2s;
-    color: #555;
+    color: var(--gray);
     font-size: 13px;
     font-weight: 500;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -99,7 +99,7 @@
 .wm-tab:hover {
     border-color: var(--green-mid);
     color: var(--green-dark);
-    background: #f0f9f0;
+    background: var(--green-light);
 }
 
 .wm-tab.active {
@@ -118,26 +118,26 @@
 }
 
 .wm-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     padding: 1.2rem 1.4rem;
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin: 0;
 }
 
 .wm-note {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     padding: 1.4rem;
 }
 
 .wm-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin: 0;
 }
@@ -161,15 +161,15 @@
 }
 
 .wm-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .wm-alert.tip {
-    background: #fffbea;
-    color: #6d4c00;
-    border-left: 3px solid #f6c90e;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 /* ── RULES ── */
@@ -183,9 +183,9 @@
 .wm-rule {
     display: flex;
     gap: 14px;
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     padding: 1rem 1.2rem;
     align-items: flex-start;
 }
@@ -214,7 +214,7 @@
 
 .wm-rule p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -229,7 +229,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     overflow: hidden;
 }
@@ -244,8 +244,8 @@
 
 .wm-table td {
     padding: 10px 14px;
-    border-bottom: 0.5px solid #f0ebe2;
-    color: #444;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
     vertical-align: middle;
     line-height: 1.5;
 }
@@ -255,21 +255,21 @@
 }
 
 .wm-table tr:hover td {
-    background: #f7f5f0;
+    background: var(--green-light);
 }
 
 /* ── DRUG CARDS ── */
 
 .wm-drug-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .wm-drug-card.main-drug {
-    border-color: #c8e6c9;
+    border-color: var(--green-pale);
     border-width: 1.5px;
 }
 
@@ -278,8 +278,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.25rem;
-    background: #fafaf8;
-    border-bottom: 1px solid #f0ebe2;
+    background: var(--green-light);
+    border-bottom: 1px solid var(--gray-light);
     gap: 12px;
     flex-wrap: wrap;
 }
@@ -294,7 +294,7 @@
 
 .wm-drug-type {
     font-size: 12px;
-    color: #888;
+    color: var(--gray);
 }
 
 .wm-drug-badge {
@@ -307,15 +307,15 @@
 }
 
 .wm-drug-badge.green {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 .wm-drug-badge.yellow {
-    background: #fffde7;
-    color: #f57f17;
-    border: 1px solid #fff176;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .wm-drug-body {
@@ -334,19 +334,19 @@
 }
 
 .wm-dose-item {
-    background: #f7f5f0;
+    background: var(--green-light);
     border-radius: 10px;
     padding: 10px 12px;
     display: flex;
     flex-direction: column;
     gap: 3px;
-    border: 1px solid #ede8df;
+    border: 1px solid var(--green-pale);
 }
 
 .wm-dose-label {
     font-size: 11px;
     font-weight: 600;
-    color: #888;
+    color: var(--gray);
     text-transform: uppercase;
     letter-spacing: 0.3px;
 }
@@ -360,22 +360,22 @@
 
 .wm-dose-sub {
     font-size: 11px;
-    color: #777;
+    color: var(--gray);
     line-height: 1.4;
 }
 
 .wm-drug-source {
     font-size: 12px;
-    color: #999;
+    color: var(--gray);
     padding: 6px 10px;
-    background: #f5f5f5;
+    background: var(--green-light);
     border-radius: 8px;
-    border-left: 3px solid #ddd;
+    border-left: 3px solid var(--gray-light);
 }
 
 .wm-drug-note {
     font-size: 13px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
     font-style: italic;
@@ -399,8 +399,8 @@
 .wm-forbidden-item {
     display: flex;
     gap: 12px;
-    background: #fff5f5;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
     border-radius: 14px;
     padding: 1rem 1.2rem;
     align-items: flex-start;
@@ -415,13 +415,13 @@
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #c62828;
+    color: var(--brown);
     margin-bottom: 4px;
 }
 
 .wm-forbidden-item p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -435,9 +435,9 @@
 }
 
 .wm-card {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     padding: 1.1rem;
     display: flex;
     gap: 10px;
@@ -455,7 +455,7 @@
 
 .wm-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.5;
     margin: 0;
 }
@@ -469,9 +469,9 @@
 }
 
 .wm-schedule-item {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 1px solid #e8e0d0;
+    border: 1px solid var(--gray-light);
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
@@ -513,8 +513,8 @@
     align-items: center;
     padding: 7px 10px;
     border-radius: 8px;
-    background: #f7f5f0;
-    border: 1px solid #ede8df;
+    background: var(--green-light);
+    border: 1px solid var(--green-pale);
 }
 
 .wm-schedule-drug {
@@ -526,20 +526,20 @@
 .wm-schedule-dose {
     font-size: 13px;
     font-weight: 700;
-    color: #1b5e20;
+    color: var(--green-mid);
     white-space: nowrap;
 }
 
 .wm-schedule-days {
     font-size: 12px;
-    color: #888;
+    color: var(--gray);
     text-align: right;
     white-space: nowrap;
 }
 
 .wm-schedule-note {
     font-size: 12px;
-    color: #888;
+    color: var(--gray);
     font-style: italic;
     margin: 4px 0 0;
 }
@@ -548,11 +548,11 @@
 
 .wm-source {
     font-size: 12px;
-    color: #999;
+    color: var(--gray);
     padding: 8px 12px;
-    background: #f5f5f5;
+    background: var(--green-light);
     border-radius: 8px;
-    border-left: 3px solid #ddd;
+    border-left: 3px solid var(--gray-light);
     margin-top: 0.5rem;
 }
 

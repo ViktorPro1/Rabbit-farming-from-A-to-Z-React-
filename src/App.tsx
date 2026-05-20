@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer";
 import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
 import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import AppRoutes from "./routes/AppRoutes";
+import AssistantPromo from "./components/AssistantPromo/AssistantPromo";
 
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
@@ -264,6 +265,7 @@ function App() {
       <BrowserRouter>
         <WelcomePopup />
         <Assistant />
+        <AssistantPromo />
         <Header session={session} />
         <div className="breadcrumbs-wrap">
           <Breadcrumbs />

@@ -27,7 +27,7 @@
 }
 
 .vacc-section {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -43,7 +43,7 @@
 
 .vacc-section p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -55,7 +55,7 @@
 
 .vacc-section li {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -70,7 +70,7 @@
 .vacc-card {
     background: var(--green-light);
     border-radius: 12px;
-    border: 0.5px solid #d5ead6;
+    border: 0.5px solid var(--green-pale);
     padding: 1rem;
 }
 
@@ -99,7 +99,7 @@
 
 .vacc-card li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -123,6 +123,8 @@
     border-radius: 8px;
     font-size: 14px;
     max-width: 240px;
+    background: var(--cream);
+    color: var(--green-dark);
 }
 
 .vacc-btn {
@@ -143,7 +145,7 @@
 }
 
 .vacc-error {
-    color: #c62828;
+    color: var(--brown);
     font-size: 13px;
 }
 
@@ -158,7 +160,7 @@
     background: var(--green-light);
     border-radius: 12px;
     padding: 1rem;
-    border: 0.5px solid #d5ead6;
+    border: 0.5px solid var(--green-pale);
 }
 
 .vacc-result-title {
@@ -172,9 +174,9 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     padding: 4px 0;
-    border-bottom: 0.5px solid #d5ead6;
+    border-bottom: 0.5px solid var(--green-pale);
 }
 
 .vacc-row:last-child {
@@ -193,9 +195,9 @@
 }
 
 .vacc-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .vacc-back {

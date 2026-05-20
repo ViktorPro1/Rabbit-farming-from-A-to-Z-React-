@@ -4,7 +4,7 @@
 
 /* HEADER */
 .sym-header {
-    background: linear-gradient(90deg, #b71c1c, #c62828);
+    background: linear-gradient(90deg, var(--brown), var(--green-dark));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -46,8 +46,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: white;
-    border: 1.5px solid #e0e0e0;
+    background: var(--cream);
+    border: 1.5px solid var(--gray-light);
     border-radius: 12px;
     padding: 10px 14px;
     margin-bottom: 1rem;
@@ -64,7 +64,7 @@
     border: none;
     outline: none;
     font-size: 15px;
-    color: #222;
+    color: var(--green-dark);
     background: transparent;
 }
 
@@ -73,12 +73,12 @@
     border: none;
     cursor: pointer;
     font-size: 14px;
-    color: #999;
+    color: var(--gray);
     padding: 0 4px;
 }
 
 .sym-search-clear:hover {
-    color: #333;
+    color: var(--green-dark);
 }
 
 /* ALERT BANNER */
@@ -86,13 +86,13 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    background: #fff8e1;
-    border: 1px solid #ffe082;
-    border-left: 4px solid #f9a825;
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
+    border-left: 4px solid var(--amber);
     border-radius: 10px;
     padding: 12px 16px;
     font-size: 13.5px;
-    color: #5d4037;
+    color: var(--brown);
     margin-bottom: 1.5rem;
     line-height: 1.5;
 }
@@ -114,8 +114,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background: white;
-    border: 0.5px solid var(--gray-light, #e0e0e0);
+    background: var(--cream);
+    border: 0.5px solid var(--gray-light);
     border-radius: 14px;
     padding: 14px 16px;
     cursor: pointer;
@@ -124,8 +124,8 @@
 }
 
 .sym-card:hover {
-    border-color: #c62828;
-    box-shadow: 0 2px 12px rgba(198, 40, 40, 0.1);
+    border-color: var(--brown);
+    box-shadow: 0 2px 12px rgba(99, 56, 6, 0.1);
     transform: translateY(-1px);
 }
 
@@ -141,14 +141,14 @@
 .sym-card-label {
     flex: 1;
     font-size: 14px;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.4;
     font-weight: 500;
 }
 
 .sym-card-arrow {
     font-size: 16px;
-    color: #c62828;
+    color: var(--brown);
     flex-shrink: 0;
     opacity: 0.6;
 }
@@ -157,7 +157,7 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: 3rem;
-    color: #999;
+    color: var(--gray);
     font-size: 15px;
 }
 
@@ -189,19 +189,19 @@
     align-items: center;
     gap: 6px;
     background: none;
-    border: 1.5px solid #ddd;
+    border: 1.5px solid var(--gray-light);
     border-radius: 999px;
     padding: 8px 18px;
     font-size: 13px;
-    color: #555;
+    color: var(--gray);
     cursor: pointer;
     margin-bottom: 1.5rem;
     transition: border-color 0.15s, color 0.15s;
 }
 
 .sym-back-btn:hover {
-    border-color: #c62828;
-    color: #c62828;
+    border-color: var(--brown);
+    color: var(--brown);
 }
 
 .sym-back-btn--bottom {
@@ -210,8 +210,8 @@
 }
 
 .sym-result-header {
-    background: white;
-    border: 0.5px solid var(--gray-light, #e0e0e0);
+    background: var(--cream);
+    border: 0.5px solid var(--gray-light);
     border-radius: 16px;
     padding: 1.5rem;
     margin-bottom: 1.25rem;
@@ -220,13 +220,13 @@
 .sym-result-header h2 {
     font-size: 20px;
     font-weight: 500;
-    color: #b71c1c;
+    color: var(--brown);
     margin-bottom: 10px;
 }
 
 .sym-result-intro {
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.7;
     margin: 0;
 }
@@ -239,27 +239,27 @@
 }
 
 .sym-cause {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
-    border: 0.5px solid var(--gray-light, #e0e0e0);
+    border: 0.5px solid var(--gray-light);
     overflow: hidden;
 }
 
 .sym-cause--danger {
-    border-left: 4px solid #c62828;
+    border-left: 4px solid var(--brown);
 }
 
 .sym-cause--warn {
-    border-left: 4px solid #e65100;
+    border-left: 4px solid var(--amber);
 }
 
 .sym-cause--ok {
-    border-left: 4px solid #388e3c;
+    border-left: 4px solid var(--green-mid);
 }
 
 .sym-cause-header {
     padding: 14px 16px 10px;
-    border-bottom: 0.5px solid var(--gray-light, #e0e0e0);
+    border-bottom: 0.5px solid var(--gray-light);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -276,34 +276,34 @@
 }
 
 .sym-severity--danger {
-    background: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
+    background: var(--amber-light);
+    color: var(--brown);
+    border: 1px solid var(--amber);
 }
 
 .sym-severity--warn {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
+    background: var(--amber-light);
+    color: var(--amber);
+    border: 1px solid var(--amber);
 }
 
 .sym-severity--ok {
-    background: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #c8e6c9;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
 }
 
 .sym-cause-header h3 {
     font-size: 15px;
     font-weight: 500;
-    color: #222;
+    color: var(--green-dark);
     margin: 0;
 }
 
 .sym-cause-desc {
     padding: 12px 16px 0;
     font-size: 13.5px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -317,7 +317,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #999;
+    color: var(--gray);
     margin-bottom: 6px;
 }
 
@@ -328,7 +328,7 @@
 
 .sym-cause-actions li {
     font-size: 13.5px;
-    color: #333;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -337,7 +337,7 @@
     display: inline-block;
     margin: 0 16px 14px;
     font-size: 13px;
-    color: var(--green-dark, #2e7d32);
+    color: var(--green-dark);
     font-weight: 500;
     border-bottom: 1px dashed currentColor;
     text-decoration: none;
@@ -353,8 +353,8 @@
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    background: #f3e5f5;
-    border: 1px solid #e1bee7;
+    background: var(--green-light);
+    border: 1px solid var(--green-pale);
     border-radius: 14px;
     padding: 16px 18px;
     margin-top: 1.5rem;
@@ -367,14 +367,14 @@
 
 .sym-vet-reminder strong {
     font-size: 15px;
-    color: #4a148c;
+    color: var(--green-dark);
     display: block;
     margin-bottom: 4px;
 }
 
 .sym-vet-reminder p {
     font-size: 13.5px;
-    color: #6a1b9a;
+    color: var(--green-mid);
     line-height: 1.6;
     margin: 0;
 }
