@@ -36,7 +36,7 @@
 }
 
 .tips-item {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem 1.5rem;
@@ -71,7 +71,7 @@
 
 .tips-content p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin: 0;
 }
