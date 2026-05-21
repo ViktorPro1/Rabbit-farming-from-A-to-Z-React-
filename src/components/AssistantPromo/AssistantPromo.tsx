@@ -12,8 +12,8 @@ export default function AssistantPromo() {
 
   useEffect(() => {
     // Встановлюємо таймери для етапів
-    const t1 = setTimeout(() => setStage("typing1"), 8000); // 8 сек: початок друку (TG)
-    const t2 = setTimeout(() => setStage("telegram"), 11500); // 11.5 сек: показати TG
+    const t1 = setTimeout(() => setStage("typing1"), 38000); // 38 сек: початок друку (TG)
+    const t2 = setTimeout(() => setStage("telegram"), 41500); // 41.5 сек: показати TG
     const t3 = setTimeout(() => setStage("typing2"), 180000); // 180 сек (3 хв): початок друку (FB)
     const t4 = setTimeout(() => setStage("facebook"), 183500); // 183.5 сек: показати FB
 

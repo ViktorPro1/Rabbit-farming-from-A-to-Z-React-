@@ -3,7 +3,7 @@
 }
 
 .slaughter-header {
-    background: linear-gradient(90deg, #4a1942, #7b2d5e);
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -36,7 +36,7 @@
 }
 
 .slaughter-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -45,7 +45,7 @@
 
 .slaughter-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -57,7 +57,7 @@
 
 .slaughter-note li {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 6px;
 }
@@ -77,7 +77,7 @@
 }
 
 .slaughter-fact-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -102,13 +102,13 @@
 
 .slaughter-fact-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
 
 .slaughter-prep-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -141,7 +141,7 @@
 
 .slaughter-prep-card li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -191,7 +191,7 @@
 
 .slaughter-step-content p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0 0 8px;
 }
@@ -205,19 +205,19 @@
 }
 
 .slaughter-inline-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .slaughter-inline-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .slaughter-byproduct-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -238,7 +238,7 @@
 
 .slaughter-byproduct-card p {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -260,16 +260,16 @@
 .slaughter-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .slaughter-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .slaughter-table tr:hover td {
-    background: #eef7ee;
+    background: var(--green-light);
 }
 
 .slaughter-table tr:last-child td {
@@ -285,15 +285,15 @@
 }
 
 .slaughter-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 .slaughter-alert.warn {
-    background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
 }
 
 .slaughter-back {

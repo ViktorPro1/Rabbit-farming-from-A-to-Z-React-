@@ -3,7 +3,7 @@
 }
 
 .recipes-header {
-    background: linear-gradient(135deg, #4a1942, #7b2d5e, #a0522d);
+    background: linear-gradient(135deg, var(--brown), var(--green-dark), var(--green-mid));
     color: white;
     padding: 2rem;
     text-align: center;
@@ -27,7 +27,7 @@
 }
 
 .recipes-intro {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -36,7 +36,7 @@
 
 .recipes-intro p {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin-bottom: 10px;
 }
@@ -45,9 +45,9 @@
     padding: 10px 14px;
     border-radius: 8px;
     font-size: 13px;
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
     line-height: 1.5;
 }
 
@@ -63,9 +63,9 @@
     padding: 7px 14px;
     border-radius: 999px;
     border: 1px solid var(--gray-light);
-    background: white;
+    background: var(--cream);
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -91,7 +91,7 @@
 
 /* CARD */
 .recipes-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
@@ -107,7 +107,7 @@
 }
 
 .recipes-card-header:hover {
-    background: #faf9f7;
+    background: var(--green-light);
 }
 
 .recipes-card-left {
@@ -152,18 +152,18 @@
 }
 
 .recipes-difficulty.easy {
-    background: #e8f5e9;
-    color: #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
 }
 
 .recipes-difficulty.medium {
-    background: #fffde7;
-    color: #f57f17;
+    background: var(--amber-light);
+    color: var(--amber);
 }
 
 .recipes-difficulty.hard {
-    background: #ffebee;
-    color: #c62828;
+    background: var(--amber-light);
+    color: var(--brown);
 }
 
 .recipes-time,
@@ -187,7 +187,7 @@
 
 .recipes-description {
     font-size: 14px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.7;
     margin: 1rem 0;
     font-style: italic;
@@ -204,11 +204,11 @@
 
 /* TIPS */
 .recipes-tips {
-    background: #fffde7;
+    background: var(--amber-light);
     border-radius: 10px;
     padding: 12px 14px;
     margin-bottom: 1rem;
-    border-left: 3px solid #f9a825;
+    border-left: 3px solid var(--amber);
 }
 
 .recipes-tips ul {
@@ -218,7 +218,7 @@
 
 .recipes-tips li {
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -243,7 +243,7 @@
     gap: 8px;
     font-size: 13px;
     padding: 6px 0;
-    border-bottom: 0.5px solid #f0f0f0;
+    border-bottom: 0.5px solid var(--gray-light);
     align-items: flex-start;
 }
 
@@ -260,7 +260,7 @@
 }
 
 .recipes-ing-name {
-    color: #444;
+    color: var(--gray);
 }
 
 /* STEPS */
@@ -277,7 +277,7 @@
     display: flex;
     gap: 10px;
     font-size: 13px;
-    color: #444;
+    color: var(--gray);
     line-height: 1.6;
     align-items: flex-start;
 }
@@ -299,13 +299,13 @@
 
 /* NOTE */
 .recipes-note {
-    background: #e8f5e9;
+    background: var(--green-light);
     border-radius: 8px;
     padding: 10px 14px;
     font-size: 13px;
-    color: #1b5e20;
+    color: var(--green-dark);
     line-height: 1.5;
-    border-left: 3px solid #1b5e20;
+    border-left: 3px solid var(--green-dark);
 }
 
 /* BACK */
