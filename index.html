@@ -86,7 +86,7 @@
     gtag('config', 'G-RL8GL7SHMR');
   </script>
 
-  <!-- ✅ ВИПРАВЛЕНО: fallback на системну тему якщо немає збереженої -->
+  <!-- fallback на системну тему якщо немає збереженої -->
   <script>
     const t = localStorage.getItem('theme');
     if (t) {
@@ -94,6 +94,15 @@
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
+  </script>
+
+  <!-- код Clarity -->
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "wuk1kay52o");
   </script>
 </head>
 
