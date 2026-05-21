@@ -1,6 +1,6 @@
 :root {
     --stat-bg: var(--cream);
-    --stat-card-bg: #ffffff;
+    --stat-card-bg: var(--cream);
     --stat-border: var(--gray-light);
     --stat-text: var(--green-dark);
     --stat-text-muted: var(--gray);
@@ -60,7 +60,7 @@
 }
 
 .summary-card {
-    background: white;
+    background: var(--cream);
     border: 1px solid var(--gray-light);
     border-radius: 12px;
     padding: 1rem 0.75rem;
@@ -106,7 +106,7 @@
     padding: 0.65rem 0.75rem;
     border: 1px solid var(--gray-light);
     border-radius: 8px;
-    background: white;
+    background: var(--cream);
     font-size: 0.9rem;
     color: var(--gray);
     cursor: pointer;
@@ -125,7 +125,7 @@
 }
 
 .stats-chart-block {
-    background: white;
+    background: var(--cream);
     border: 1px solid var(--gray-light);
     border-radius: 12px;
     padding: 1.2rem 1rem 0.75rem;
@@ -160,7 +160,7 @@
 }
 
 .stat-card {
-    background: white;
+    background: var(--cream);
     border: 1px solid var(--gray-light);
     border-radius: 12px;
     padding: 1.2rem;

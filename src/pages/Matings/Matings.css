@@ -53,7 +53,7 @@
 }
 
 .matings-form {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -85,7 +85,7 @@
     font-size: 0.95rem;
     outline: none;
     width: 100%;
-    background: white;
+    background: var(--cream);
     color: var(--green-dark);
 }
 
@@ -137,7 +137,7 @@
 }
 
 .mating-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
@@ -372,13 +372,13 @@
 
 .matings-sort-label {
     font-size: 0.9em;
-    color: var(--text-muted, #888);
+    color: var(--gray);
 }
 
 .matings-sort-btn {
     padding: 5px 12px;
     border-radius: 20px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid var(--gray-light);
     background: transparent;
     cursor: pointer;
     font-size: 0.85em;
@@ -386,11 +386,10 @@
 }
 
 .matings-sort-btn.active {
-    background: var(--accent, #6a994e);
+    background: var(--green-accent);
     color: #fff;
-    border-color: var(--accent, #6a994e);
+    border-color: var(--green-accent);
 }
-
 
 @media (max-width: 640px) {
     .matings-form-grid {

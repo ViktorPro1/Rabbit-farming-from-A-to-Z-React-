@@ -32,7 +32,7 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 /* DISCLAIMER */
@@ -40,7 +40,7 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: #fff8e1;
+    background: var(--amber-light);
     border-radius: 14px;
     border: 1px solid #ffe082;
     padding: 1.25rem;
@@ -62,7 +62,7 @@
 
 .legal-disclaimer p {
     font-size: 13px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin: 0;
 }
@@ -75,7 +75,7 @@
 /* INTRO */
 .legal-intro,
 .legal-note {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -92,7 +92,7 @@
 .legal-intro p,
 .legal-note p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -106,9 +106,9 @@
 }
 
 .legal-alert.ok {
-    background: #e8f5e9;
-    color: #1b5e20;
-    border-left: 3px solid #1b5e20;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
 
 /* TABLE */
@@ -122,7 +122,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    background: white;
+    background: var(--cream);
     min-width: 500px;
 }
 
@@ -137,12 +137,12 @@
 .legal-table td {
     padding: 10px 12px;
     border-bottom: 0.5px solid var(--gray-light);
-    color: #444;
+    color: var(--green-dark);
     vertical-align: top;
 }
 
 .legal-table tr:nth-child(even) td {
-    background: #f9fdf9;
+    background: var(--green-light);
 }
 
 .legal-table tr:last-child td {
@@ -150,7 +150,7 @@
 }
 
 .legal-osg {
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .legal-fop {
@@ -159,7 +159,7 @@
 
 /* TAX SECTIONS */
 .legal-tax-section {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -167,7 +167,7 @@
 }
 
 .legal-tax-section.ok {
-    border-left: 4px solid #1b5e20;
+    border-left: 4px solid var(--green-dark);
 }
 
 .legal-tax-section.warn {
@@ -188,7 +188,7 @@
 }
 
 .legal-tax-rule {
-    background: #f9fdf9;
+    background: var(--green-light);
     border-radius: 10px;
     padding: 10px 14px;
 }
@@ -202,7 +202,7 @@
 
 .legal-tax-rule p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -218,7 +218,7 @@
 .legal-step {
     display: flex;
     gap: 16px;
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -273,7 +273,7 @@
 
 .legal-step-desc {
     font-size: 13px;
-    color: #555;
+    color: var(--gray);
     font-style: italic;
     margin-bottom: 8px;
     line-height: 1.5;
@@ -286,7 +286,7 @@
 
 .legal-step-content li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -305,12 +305,12 @@
 }
 
 .legal-sale-card.allowed {
-    background: #e8f5e9;
+    background: var(--green-light);
     border: 0.5px solid #c8e6c9;
 }
 
 .legal-sale-card.caution {
-    background: #fff8e1;
+    background: var(--amber-light);
     border: 0.5px solid #ffe082;
 }
 
@@ -333,7 +333,7 @@
 .legal-sale-header h3 {
     font-size: 14px;
     font-weight: 500;
-    color: #222;
+    color: var(--green-dark);
     margin: 0;
 }
 
@@ -344,7 +344,7 @@
 
 .legal-sale-card li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -358,7 +358,7 @@
 }
 
 .legal-fop-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -394,7 +394,7 @@
 }
 
 .legal-fop-param strong {
-    color: #333;
+    color: var(--green-dark);
     text-align: right;
 }
 
@@ -408,13 +408,13 @@
 
 .legal-fop-pro {
     font-size: 12px;
-    color: #1b5e20;
+    color: var(--green-dark);
     line-height: 1.5;
 }
 
 .legal-fop-con {
     font-size: 12px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.5;
 }
 
@@ -427,14 +427,14 @@
 }
 
 .legal-qa-item {
-    background: white;
+    background: var(--cream);
     border-radius: 14px;
     border: 0.5px solid var(--gray-light);
     overflow: hidden;
 }
 
 .legal-qa-item.ok {
-    border-left: 4px solid #1b5e20;
+    border-left: 4px solid var(--green-dark);
 }
 
 .legal-qa-item.warn {
@@ -450,12 +450,12 @@
 }
 
 .legal-qa-q {
-    background: #f9fdf9;
+    background: var(--green-light);
     border-bottom: 0.5px solid var(--gray-light);
 }
 
 .legal-qa-a {
-    background: white;
+    background: var(--cream);
 }
 
 .legal-qa-icon {
@@ -466,14 +466,14 @@
 .legal-qa-q p,
 .legal-qa-a p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
 
 .legal-qa-q p {
     font-weight: 500;
-    color: #333;
+    color: var(--green-dark);
 }
 
 /* LINKS */
@@ -485,7 +485,7 @@
 }
 
 .legal-link-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     padding: 1rem;
@@ -498,7 +498,7 @@
 
 .legal-link-card:hover {
     border-color: var(--green-accent);
-    background: #f0f9f0;
+    background: var(--green-light);
 }
 
 .legal-link-name {
@@ -510,7 +510,7 @@
 
 .legal-link-desc {
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
     line-height: 1.4;
 }
 
@@ -548,7 +548,7 @@
 
 .legal-final-disclaimer p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 6px;
 }

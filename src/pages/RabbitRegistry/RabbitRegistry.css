@@ -39,7 +39,7 @@
 }
 
 .registry-form {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -67,7 +67,7 @@
     font-size: 0.95rem;
     outline: none;
     width: 100%;
-    background: white;
+    background: var(--cream);
     color: var(--green-dark);
 }
 
@@ -79,7 +79,7 @@
 .registry-error {
     color: #c0392b;
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .registry-save-btn {
@@ -117,7 +117,7 @@
 }
 
 .rabbit-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
@@ -233,7 +233,7 @@
 }
 
 .registry-stat-card {
-    background: white;
+    background: var(--cream);
     border-radius: 10px;
     padding: 1rem 1.5rem;
     display: flex;
@@ -320,7 +320,7 @@
 }
 
 .help-modal {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     max-width: 560px;
     width: 100%;
@@ -337,7 +337,7 @@
     border-bottom: 1px solid var(--gray-light);
     position: sticky;
     top: 0;
-    background: white;
+    background: var(--cream);
 }
 
 .help-modal-header h2 {
@@ -505,7 +505,7 @@
 
 .registry-info {
     margin-top: 3rem;
-    background: white;
+    background: var(--cream);
     border-radius: 18px;
     padding: 1.5rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -588,16 +588,16 @@
 }
 
 .registry-info-warning {
-    background: #fff8e8;
+    background: var(--amber-light);
     border: 1px solid #f3d38a;
-    color: #7a5a00;
+    color: var(--brown);
     margin-bottom: 1rem;
 }
 
 .registry-info-success {
-    background: #e8f5e9;
+    background: var(--green-light);
     border: 1px solid #a5d6a7;
-    color: #1b5e20;
+    color: var(--green-dark);
 }
 
 .registry-info-warning strong,

@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding: 1.5rem 1rem 3rem;
     font-family: inherit;
-    color: #2c2c1e;
+    color: var(--green-dark);
 }
 
 .sales-header {
@@ -32,7 +32,7 @@
 }
 
 .sales-intro {
-    background: #f7f5ef;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.5rem;
     border-left: 4px solid #5a8a3a;
@@ -41,27 +41,29 @@
 .sales-intro h2 {
     margin: 0 0 0.8rem;
     font-size: 1.2rem;
-    color: #3a5f2a;
+    color: var(--green-dark);
 }
 
 .sales-intro p {
     margin: 0 0 1rem;
     line-height: 1.6;
+    color: var(--green-dark);
 }
 
 .sales-alert {
-    background: #eef6e8;
+    background: var(--green-light);
     border: 1px solid #a8d48a;
     border-radius: 8px;
     padding: 0.8rem 1rem;
     font-size: 0.9rem;
     line-height: 1.5;
+    color: var(--green-dark);
 }
 
 .sales-section-title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #3a5f2a;
+    color: var(--green-dark);
     border-bottom: 2px solid #c8e0b0;
     padding-bottom: 0.4rem;
     margin-bottom: 0.2rem;
@@ -69,7 +71,7 @@
 
 .sales-note {
     font-size: 0.88rem;
-    color: #666;
+    color: var(--gray);
     margin-bottom: 0.8rem;
     line-height: 1.5;
 }
@@ -94,7 +96,7 @@
 
 .sales-channel-header {
     width: 100%;
-    background: #f0f7e8;
+    background: var(--green-light);
     border: none;
     padding: 1rem 1.2rem;
     cursor: pointer;
@@ -169,11 +171,11 @@
     gap: 0.8rem;
     flex-wrap: wrap;
     font-size: 0.78rem;
-    color: #555;
+    color: var(--gray);
 }
 
 .sales-ch-margin {
-    color: #3a5f2a;
+    color: var(--green-dark);
     font-weight: 600;
 }
 
@@ -187,13 +189,13 @@
 .sales-channel-body {
     padding: 1.2rem 1.4rem;
     border-top: 1px solid #d8e8c8;
-    background: #fff;
+    background: var(--cream);
 }
 
 .sales-ch-desc {
     margin: 0 0 1rem;
     line-height: 1.6;
-    color: #444;
+    color: var(--green-dark);
 }
 
 .sales-ch-grid {
@@ -213,7 +215,7 @@
     font-weight: 700;
     font-size: 0.85rem;
     margin-bottom: 0.4rem;
-    color: #3a5f2a;
+    color: var(--green-dark);
 }
 
 .sales-ch-list {
@@ -236,15 +238,15 @@
     padding-left: 1.4rem;
     font-size: 0.88rem;
     line-height: 1.8;
-    color: #333;
+    color: var(--green-dark);
 }
 
 .sales-ch-price-box {
-    background: #eef6e8;
+    background: var(--green-light);
     border-radius: 8px;
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
-    color: #3a5f2a;
+    color: var(--green-dark);
 }
 
 .sales-ch-price-box strong {
@@ -274,15 +276,16 @@
     padding: 0.65rem 0.9rem;
     border-bottom: 1px solid #e8f0e0;
     vertical-align: top;
+    color: var(--green-dark);
 }
 
 .sales-table tr:hover td {
-    background: #f4faf0;
+    background: var(--green-light);
 }
 
 .sales-price-avg {
     font-weight: 700;
-    color: #3a5f2a;
+    color: var(--green-dark);
 }
 
 /* SEASONALITY */
@@ -309,7 +312,7 @@
 .sales-season-month {
     font-size: 0.65rem;
     font-weight: 700;
-    color: #555;
+    color: var(--gray);
     text-align: center;
 }
 
@@ -334,13 +337,13 @@
 
 .sales-season-pct {
     font-size: 0.65rem;
-    color: #3a5f2a;
+    color: var(--green-dark);
     font-weight: 700;
 }
 
 .sales-season-note {
     font-size: 0.6rem;
-    color: #888;
+    color: var(--gray);
     text-align: center;
     line-height: 1.3;
     display: none;
@@ -364,7 +367,7 @@
 }
 
 .sales-doc-card {
-    background: #f7f5ef;
+    background: var(--cream);
     border: 1px solid #d8e8c8;
     border-radius: 10px;
     padding: 1rem;
@@ -376,7 +379,7 @@
 .sales-doc-name {
     font-weight: 700;
     font-size: 0.92rem;
-    color: #3a5f2a;
+    color: var(--green-dark);
     margin-bottom: 0.3rem;
 }
 
@@ -388,7 +391,7 @@
 }
 
 .sales-doc-label {
-    color: #888;
+    color: var(--gray);
     flex-shrink: 0;
 }
 
@@ -399,8 +402,8 @@
 
 .sales-doc-note {
     font-size: 0.8rem;
-    color: #666;
-    background: #eef6e8;
+    color: var(--gray);
+    background: var(--green-light);
     border-radius: 6px;
     padding: 0.4rem 0.6rem;
     margin-top: 0.3rem;
@@ -437,18 +440,18 @@
 }
 
 .sales-mistake-fix {
-    background: #f0f9ec;
+    background: var(--green-light);
     padding: 0.7rem 1rem;
     display: flex;
     gap: 0.5rem;
     font-size: 0.88rem;
-    color: #2d6a4f;
+    color: var(--green-dark);
     line-height: 1.5;
 }
 
 /* STRATEGY */
 .sales-strategy {
-    background: #f0f7e8;
+    background: var(--green-light);
     border-radius: 14px;
     padding: 1.5rem;
     border: 1px solid #c8e0b0;
@@ -457,7 +460,7 @@
 .sales-strategy h2 {
     margin: 0 0 1rem;
     font-size: 1.1rem;
-    color: #3a5f2a;
+    color: var(--green-dark);
 }
 
 .sales-strategy-steps {
@@ -470,7 +473,7 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
-    background: #fff;
+    background: var(--cream);
     border-radius: 10px;
     padding: 0.9rem 1rem;
 }
@@ -498,7 +501,7 @@
 .sales-strategy-step p {
     margin: 0;
     font-size: 0.86rem;
-    color: #555;
+    color: var(--gray);
     line-height: 1.5;
 }
 

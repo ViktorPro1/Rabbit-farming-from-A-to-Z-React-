@@ -78,7 +78,7 @@
     border: 1px solid var(--green-light);
     border-radius: 8px;
     font-size: 0.95rem;
-    background: #fff;
+    background: var(--cream);
     color: var(--green-dark);
     width: 100%;
     box-sizing: border-box;
@@ -132,7 +132,7 @@
 
 /* ── CARD ── */
 .myvac-card {
-    background: #fff;
+    background: var(--cream);
     border: 1px solid var(--green-light);
     border-radius: 12px;
     padding: 1rem 1.1rem;
@@ -148,7 +148,7 @@
 
 .myvac-card.soon {
     border-color: var(--amber);
-    background: #fffbf0;
+    background: var(--amber-light);
 }
 
 .myvac-card-top {
@@ -213,9 +213,7 @@
     background: #fff0f0;
 }
 
-/* ══════════════════════════════
-   АДАПТИВ 760px
-══════════════════════════════ */
+
 @media (max-width: 760px) {
     .myvac-header h1 {
         font-size: 1.35rem;
@@ -230,9 +228,7 @@
     }
 }
 
-/* ══════════════════════════════
-   АДАПТИВ 420px
-══════════════════════════════ */
+
 @media (max-width: 420px) {
     .myvac-page {
         padding: 1rem 0.75rem 2.5rem;

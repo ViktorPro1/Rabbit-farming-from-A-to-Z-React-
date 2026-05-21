@@ -43,7 +43,7 @@
 }
 
 .fattening-stat {
-    background: white;
+    background: var(--cream);
     border-radius: 10px;
     padding: 1rem 1.5rem;
     display: flex;
@@ -96,7 +96,7 @@
 }
 
 .fattening-form {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -122,7 +122,7 @@
     font-size: 0.95rem;
     outline: none;
     width: 100%;
-    background: white;
+    background: var(--cream);
     color: var(--green-dark);
 }
 
@@ -160,27 +160,6 @@
     cursor: not-allowed;
 }
 
-.fattening-edit-actions {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.fattening-cancel-btn {
-    padding: 0.65rem 1.2rem;
-    background: none;
-    border: 1px solid var(--gray-light);
-    border-radius: 8px;
-    color: var(--gray);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.fattening-cancel-btn:hover {
-    border-color: var(--gray);
-    color: var(--green-dark);
-}
-
 .fattening-loading,
 .fattening-empty {
     text-align: center;
@@ -195,7 +174,7 @@
 }
 
 .fattening-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
@@ -301,7 +280,7 @@
 /* ЗНОСКА */
 .fattening-note {
     margin: 24px 16px 32px;
-    background: #fff;
+    background: var(--cream);
     border-radius: 16px;
     padding: 18px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
@@ -311,13 +290,13 @@
 .fattening-note h3 {
     font-size: 16px;
     font-weight: 900;
-    color: #1a2e1b;
+    color: var(--green-dark);
     margin-bottom: 8px;
 }
 
 .fattening-note>p {
     font-size: 13.5px;
-    color: #4a5c4b;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 14px;
 }
@@ -333,10 +312,10 @@
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    background: #fafaf5;
+    background: var(--cream);
     border-radius: 10px;
     padding: 10px;
-    border: 1px solid #eee;
+    border: 1px solid var(--gray-light);
 }
 
 .fattening-note-icon {
@@ -352,12 +331,12 @@
 
 .fattening-note-item strong {
     font-size: 13px;
-    color: #1a2e1b;
+    color: var(--green-dark);
 }
 
 .fattening-note-item span {
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
 }
 
 .fattening-note-days {
@@ -367,12 +346,12 @@
 }
 
 .fattening-note-warn {
-    background: #fff8e1;
+    background: var(--amber-light);
     border-left: 4px solid #f9a825;
     border-radius: 0 10px 10px 0;
     padding: 10px 14px;
     font-size: 13px;
-    color: #5d4037;
+    color: var(--brown);
     line-height: 1.6;
     margin-top: 10px;
 }

@@ -32,12 +32,12 @@
     color: var(--green-dark);
     margin: 2rem 0 1rem;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--green-light);
+    border-bottom: 2px solid var(--green-dark);
 }
 
 /* HERO */
 .sub-hero {
-    background: white;
+    background: var(--cream);
     border-radius: 20px;
     border: 0.5px solid var(--gray-light);
     padding: 2rem;
@@ -57,7 +57,7 @@
 
 .sub-hero-text p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.7;
     margin-bottom: 8px;
 }
@@ -113,7 +113,7 @@
 
 .sub-stat-label {
     font-size: 12px;
-    color: #666;
+    color: var(--gray);
 }
 
 /* FEATURES */
@@ -125,7 +125,7 @@
 }
 
 .sub-feature-card {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.5rem;
@@ -156,7 +156,7 @@
 
 .sub-feature-desc {
     font-size: 13px;
-    color: #555;
+    color: var(--gray);
     line-height: 1.6;
     margin-bottom: 12px;
     font-style: italic;
@@ -170,7 +170,7 @@
 
 .sub-feature-details li {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 4px;
 }
@@ -184,7 +184,7 @@
 }
 
 .sub-step {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -221,7 +221,7 @@
 
 .sub-step-content p {
     font-size: 14px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin-bottom: 10px;
 }
@@ -276,7 +276,7 @@
 }
 
 .sub-faq-item {
-    background: white;
+    background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     padding: 1.25rem;
@@ -292,7 +292,7 @@
 
 .sub-faq-item p {
     font-size: 13px;
-    color: #444;
+    color: var(--green-dark);
     line-height: 1.6;
     margin: 0;
 }
@@ -351,7 +351,7 @@
     text-align: center;
     padding: 32px;
     margin: 24px 0;
-    background: #f8fdf4;
+    background: var(--green-light);
     border: 2px solid #4a7c3f;
     border-radius: 16px;
 }
@@ -371,12 +371,12 @@
 
 .sub-price-period {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--gray);
 }
 
 .sub-price-desc {
     margin-top: 8px;
-    color: #555;
+    color: var(--gray);
     font-size: 0.95rem;
 }
 

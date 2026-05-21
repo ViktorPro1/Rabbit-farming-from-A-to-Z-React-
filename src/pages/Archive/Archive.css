@@ -48,7 +48,7 @@
 }
 
 .archive-card {
-    background: white;
+    background: var(--cream);
     border-radius: 12px;
     padding: 1.2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
