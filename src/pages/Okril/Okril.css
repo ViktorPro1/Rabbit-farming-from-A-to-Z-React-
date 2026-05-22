@@ -241,6 +241,69 @@
     background: var(--green-mid);
 }
 
+/* --- Секція інфографіки вагітності --- */
+.okril-infographic-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 24px;
+}
+
+.okril-infographic-text h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+.okril-infographic-text p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.okril-stages-list {
+    padding-left: 1.2rem;
+    margin-bottom: 16px;
+}
+
+.okril-stages-list li {
+    font-size: 13.5px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.okril-infographic-img-wrap {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.02);
+}
+
+.okril-infographic-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    object-fit: contain;
+}
+
+@media (max-width: 640px) {
+    .okril-infographic-section {
+        padding: 1rem;
+        gap: 14px;
+    }
+}
+
 @media (max-width: 960px) {
     .okril-grid {
         grid-template-columns: repeat(2, 1fr);

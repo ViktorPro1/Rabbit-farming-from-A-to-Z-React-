@@ -139,6 +139,19 @@ const Okril = () => {
 
         {/* ВАГІТНІСТЬ */}
         <div className="okril-section-title">🤰 Вагітність та підготовка</div>
+        <section className="okril-infographic-section">
+          <div className="okril-infographic-img-wrap">
+            <div className="okril-infographic-text">
+              <h2>Календар вагітності кролиці</h2>
+            </div>
+            <img
+              src="/images/Anatomy_of_a_pregnant_rabbit.webp"
+              alt="Анатомія вагітної кролиці"
+              className="okril-infographic-img"
+              loading="lazy"
+            />
+          </div>
+        </section>
         <div className="okril-grid">
           <article className="okril-card">
             <div className="okril-card-header">
