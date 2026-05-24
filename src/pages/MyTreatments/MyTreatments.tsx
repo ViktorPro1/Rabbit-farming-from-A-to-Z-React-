@@ -757,7 +757,7 @@ export default function MyTreatments({ session }: Props) {
                       className="mytreat-edit-btn"
                       onClick={() => openEdit(r)}
                     >
-                      &#9998; Редагувати
+                      Редагувати
                     </button>
                     <button
                       className="mytreat-delete-btn"
