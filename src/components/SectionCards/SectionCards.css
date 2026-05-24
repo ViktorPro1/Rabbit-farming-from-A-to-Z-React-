@@ -237,6 +237,30 @@
     letter-spacing: 0.04em;
 }
 
+/* Акордеон — заголовок групи як кнопка */
+.section-group-header--btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 2px solid var(--green-dark);
+    padding: 0.5rem 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.section-group-header--btn:hover {
+    opacity: 0.8;
+}
+
+.section-group-chevron {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--green-dark);
+}
+
 @media (max-width: 768px) {
     .section-cards-grid {
         grid-template-columns: repeat(2, 1fr);

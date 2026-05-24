@@ -1990,6 +1990,10 @@ const SectionCards = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searched, setSearched] = useState(false);
+  // Всі групи закриті за замовчуванням
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(groups.map((g) => [g.groupTitle, false])),
+  );
   const navigate = useNavigate();
 
   const handleSearch = (value: string) => {
@@ -2007,6 +2011,10 @@ const SectionCards = () => {
     setQuery("");
     setResults([]);
     setSearched(false);
+  };
+
+  const toggleGroup = (title: string) => {
+    setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
   };
 
   return (
@@ -2089,24 +2097,37 @@ const SectionCards = () => {
 
       <h2 className="section-cards-title">Розділи довідника</h2>
 
-      {/* ГРУПИ З ЗАГОЛОВКАМИ */}
-      {groups.map((group) => (
-        <div key={group.groupTitle} className="section-group">
-          <div className="section-group-header">
-            <span className="section-group-icon">{group.groupIcon}</span>
-            <h3 className="section-group-title">{group.groupTitle}</h3>
+      {/* ГРУПИ З АКОРДЕОНОМ */}
+      {groups.map((group) => {
+        const isOpen = openGroups[group.groupTitle];
+        return (
+          <div key={group.groupTitle} className="section-group">
+            <button
+              className={`section-group-header section-group-header--btn${isOpen ? " section-group-header--open" : ""}`}
+              onClick={() => toggleGroup(group.groupTitle)}
+              aria-expanded={isOpen}
+            >
+              <span className="section-group-icon">{group.groupIcon}</span>
+              <h3 className="section-group-title">{group.groupTitle}</h3>
+              <span className="section-group-chevron">
+                {isOpen ? "▲" : "▼"}
+              </span>
+            </button>
+
+            {isOpen && (
+              <div className="section-cards-grid">
+                {group.cards.map((card) => (
+                  <Link to={card.path} key={card.path} className="section-card">
+                    <span className="section-card-icon">{card.icon}</span>
+                    <span className="section-card-title">{card.title}</span>
+                    <span className="section-card-desc">{card.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
-          <div className="section-cards-grid">
-            {group.cards.map((card) => (
-              <Link to={card.path} key={card.path} className="section-card">
-                <span className="section-card-icon">{card.icon}</span>
-                <span className="section-card-title">{card.title}</span>
-                <span className="section-card-desc">{card.desc}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </section>
   );
 };
