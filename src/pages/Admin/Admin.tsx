@@ -34,6 +34,77 @@ interface DeactivatedUser {
   email: string;
 }
 
+interface TableStat {
+  name: string;
+  label: string;
+  count: number;
+}
+
+interface BackendStats {
+  dbSizeBytes: number | null;
+  tableCounts: TableStat[];
+  totalUsers: number;
+  totalCodes: number;
+  usedCodes: number;
+  freeCodes: number;
+}
+
+const DB_LIMIT_BYTES = 500 * 1024 * 1024;
+const MAU_LIMIT = 50000;
+
+const TABLE_LIST: { name: string; label: string }[] = [
+  { name: "rabbits", label: "Кролики" },
+  { name: "matings", label: "Парування" },
+  { name: "litters", label: "Окроли" },
+  { name: "fattening", label: "Відгодівля" },
+  { name: "quarantine", label: "Карантин" },
+  { name: "paddocks", label: "Вольєри" },
+  { name: "paddock_matings", label: "Вольєр. паруванні" },
+  { name: "paddock_litters", label: "Вольєр. окроли" },
+  { name: "weight_log", label: "Вага" },
+  { name: "health_log", label: "Здоров'я" },
+  { name: "treatments", label: "Лікування" },
+  { name: "vaccinations", label: "Вакцинації" },
+  { name: "profiles", label: "Профілі" },
+  { name: "invite_codes", label: "Інвайт коди" },
+];
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} Б`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} КБ`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} МБ`;
+}
+
+function UsageBar({
+  used,
+  total,
+  label,
+  color = "#4caf50",
+}: {
+  used: number;
+  total: number;
+  label: string;
+  color?: string;
+}) {
+  const pct = Math.min((used / total) * 100, 100);
+  const isWarn = pct >= 70;
+  const isDanger = pct >= 90;
+  const barColor = isDanger ? "#e53935" : isWarn ? "#ff9800" : color;
+
+  return (
+    <div className="stats-bar-row">
+      <div className="stats-bar-label">{label}</div>
+      <div className="stats-bar-track">
+        <div
+          className="stats-bar-fill"
+          style={{ width: `${pct}%`, background: barColor }}
+        />
+      </div>
+      <div className="stats-bar-pct">{pct.toFixed(1)}%</div>
+    </div>
+  );
+}
+
 export default function Admin({ session }: Props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [codes, setCodes] = useState<InviteCode[]>([]);
@@ -42,6 +113,8 @@ export default function Admin({ session }: Props) {
   const [newCode, setNewCode] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [stats, setStats] = useState<BackendStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
 
   async function fetchCodes() {
     const { data } = await supabase
@@ -76,9 +149,44 @@ export default function Admin({ session }: Props) {
   }
 
   async function fetchDeactivated() {
-    // Користувачі які є в auth але не в profiles
     const { data } = await supabase.rpc("get_deactivated_users");
     setDeactivated(data || []);
+  }
+
+  async function fetchStats(allCodes: InviteCode[], userCount: number) {
+    setStatsLoading(true);
+
+    let dbSizeBytes: number | null = null;
+    const { data: sizeData } = await supabase.rpc("get_db_size");
+    if (typeof sizeData === "number") dbSizeBytes = sizeData;
+
+    const tableCounts: TableStat[] = [];
+    const { data: countsData } = await supabase.rpc("get_table_counts");
+    if (countsData) {
+      for (const t of TABLE_LIST) {
+        tableCounts.push({
+          name: t.name,
+          label: t.label,
+          count: Number(countsData[t.name] ?? 0),
+        });
+      }
+    } else {
+      for (const t of TABLE_LIST) {
+        tableCounts.push({ name: t.name, label: t.label, count: 0 });
+      }
+    }
+
+    const usedCodes = allCodes.filter((c) => c.is_used).length;
+
+    setStats({
+      dbSizeBytes,
+      tableCounts,
+      totalUsers: userCount,
+      totalCodes: allCodes.length,
+      usedCodes,
+      freeCodes: allCodes.length - usedCodes,
+    });
+    setStatsLoading(false);
   }
 
   useEffect(() => {
@@ -93,6 +201,10 @@ export default function Admin({ session }: Props) {
           const allCodes = await fetchCodes();
           await fetchUsers(allCodes);
           await fetchDeactivated();
+          const { count: profileCount } = await supabase
+            .from("profiles")
+            .select("*", { count: "exact", head: true });
+          await fetchStats(allCodes, profileCount ?? 0);
         }
         setLoading(false);
       });
@@ -166,6 +278,94 @@ export default function Admin({ session }: Props) {
     <div className="admin-page">
       <div className="admin-header">
         <h1>⚙️ Адмін панель</h1>
+      </div>
+
+      {/* Статистика бекенду */}
+      <div className="admin-section">
+        <h2>📊 Статистика бекенду (Supabase Free)</h2>
+
+        {statsLoading ? (
+          <p style={{ opacity: 0.6 }}>Завантаження статистики...</p>
+        ) : stats ? (
+          <>
+            <div className="stats-limits">
+              <div className="stats-limit-card">
+                <div className="stats-limit-title">База даних</div>
+                <div className="stats-limit-value">
+                  {stats.dbSizeBytes !== null
+                    ? formatBytes(stats.dbSizeBytes)
+                    : "—"}
+                </div>
+                <div className="stats-limit-max">ліміт 500 МБ</div>
+                {stats.dbSizeBytes !== null && (
+                  <UsageBar
+                    used={stats.dbSizeBytes}
+                    total={DB_LIMIT_BYTES}
+                    label=""
+                  />
+                )}
+              </div>
+
+              <div className="stats-limit-card">
+                <div className="stats-limit-title">Користувачі</div>
+                <div className="stats-limit-value">{stats.totalUsers}</div>
+                <div className="stats-limit-max">
+                  ліміт {MAU_LIMIT.toLocaleString()} MAU
+                </div>
+                <UsageBar
+                  used={stats.totalUsers}
+                  total={MAU_LIMIT}
+                  label=""
+                  color="#2196f3"
+                />
+              </div>
+
+              <div className="stats-limit-card">
+                <div className="stats-limit-title">Файлове сховище</div>
+                <div className="stats-limit-value">1 ГБ</div>
+                <div className="stats-limit-max">ліміт 1 ГБ</div>
+                <div className="stats-limit-note">
+                  Моніторинг — у Supabase Dashboard
+                </div>
+              </div>
+
+              <div className="stats-limit-card">
+                <div className="stats-limit-title">Bandwidth</div>
+                <div className="stats-limit-value">10 ГБ</div>
+                <div className="stats-limit-max">ліміт / місяць</div>
+                <div className="stats-limit-note">
+                  Моніторинг — у Supabase Dashboard
+                </div>
+              </div>
+            </div>
+
+            <div className="stats-codes-row">
+              <div className="stats-code-badge total">
+                Всього кодів: <strong>{stats.totalCodes}</strong>
+              </div>
+              <div className="stats-code-badge used">
+                Використано: <strong>{stats.usedCodes}</strong>
+              </div>
+              <div className="stats-code-badge free">
+                Вільних: <strong>{stats.freeCodes}</strong>
+              </div>
+            </div>
+
+            <div className="stats-tables">
+              <div className="stats-tables-title">Записи у таблицях</div>
+              <div className="stats-tables-grid">
+                {stats.tableCounts.map((t) => (
+                  <div key={t.name} className="stats-table-card">
+                    <div className="stats-table-label">{t.label}</div>
+                    <div className="stats-table-count">{t.count}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          <p style={{ opacity: 0.6 }}>Статистика недоступна</p>
+        )}
       </div>
 
       {/* Активні користувачі */}
