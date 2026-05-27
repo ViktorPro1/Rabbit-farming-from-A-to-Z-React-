@@ -40,7 +40,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/feeders": "Годівниці та сінники",
   "/new-food": "Введення нового корму",
   "/compound-feed": "Комбікорм",
-  "/special-feeds": "Топінамбур та буряк",
+  "/special-feeds": "Соковиті корми",
 
   // ДОГЛЯД
   "/care": "Догляд",
