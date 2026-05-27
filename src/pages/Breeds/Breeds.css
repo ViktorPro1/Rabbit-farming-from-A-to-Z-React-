@@ -125,6 +125,22 @@
     background: var(--green-mid);
 }
 
+.breed-article-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 14px;
+    background-color: var(--green-dark);
+    color: var(--cream);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.breed-article-link:hover {
+    background-color: var(--green-mid);
+}
+
 @media (max-width: 960px) {
     .breeds-grid {
         grid-template-columns: repeat(2, 1fr);

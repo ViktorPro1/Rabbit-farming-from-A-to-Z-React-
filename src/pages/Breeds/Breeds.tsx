@@ -33,6 +33,16 @@ const Breeds = () => {
                 <p>
                   <strong>Мінуси:</strong> {breed.cons}
                 </p>
+                {breed.articleUrl && (
+                  <a
+                    href={breed.articleUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="breed-article-link"
+                  >
+                    Читати статтю
+                  </a>
+                )}
               </div>
             </article>
           ))}
@@ -58,6 +68,7 @@ const Breeds = () => {
           </p>
         </div>
       </div>
+
       <div className="breeds-back">
         <Link to="/" className="breeds-back-btn">
           ⬅ На головну
