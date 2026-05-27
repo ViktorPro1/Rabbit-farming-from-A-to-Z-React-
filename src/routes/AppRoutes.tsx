@@ -54,6 +54,7 @@ const Water = lazy(() => import("../pages/Water/Water"));
 const Feeders = lazy(() => import("../pages/Feeders/Feeders"));
 const NewFood = lazy(() => import("../pages/NewFood/NewFood"));
 const CompoundFeed = lazy(() => import("../pages/CompoundFeed/CompoundFeed"));
+const SpecialFeeds = lazy(() => import("../pages/SpecialFeeds/SpecialFeeds"));
 
 // ДОГЛЯД
 const Care = lazy(() => import("../pages/Care/Care"));
@@ -209,6 +210,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/feeders" element={<Feeders />} />
         <Route path="/new-food" element={<NewFood />} />
         <Route path="/compound-feed" element={<CompoundFeed />} />
+        <Route path="/special-feeds" element={<SpecialFeeds />} />
         {/* 4. ДОГЛЯД */}
         <Route path="/care" element={<Care />} />
         <Route path="/disinfection" element={<Disinfection />} />
