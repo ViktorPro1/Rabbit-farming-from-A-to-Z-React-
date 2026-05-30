@@ -391,6 +391,57 @@
     border-color: var(--green-accent);
 }
 
+/* Базовий стиль для статусу роділки */
+.nestbox-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 2px 0;
+}
+
+/* За 5, 4, 3 дні — зелений */
+.nestbox-green {
+    background-color: #e6f4ea;
+    color: #137333;
+    border: 1px solid #137333;
+}
+
+/* За 2 дні — жовтий */
+.nestbox-yellow {
+    background-color: #fef7e0;
+    color: #b06000;
+    border: 1px solid #b06000;
+}
+
+/* За 1 день — червоний */
+.nestbox-red {
+    background-color: #fce8e6;
+    color: #c5221f;
+    border: 1px solid #c5221f;
+}
+
+/* День в день або прострочено — блимаючий або яскравий червоний */
+.nestbox-red-alert {
+    background-color: #c5221f;
+    color: #ffffff;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 @media (max-width: 640px) {
     .matings-form-grid {
         grid-template-columns: 1fr;

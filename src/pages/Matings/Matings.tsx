@@ -472,6 +472,43 @@ export default function Matings({ session }: Props) {
     return { daysLeft, weaningDate };
   }
 
+  /* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ */
+  function getNestboxStatus(matingDateStr: string) {
+    const matingDate = new Date(matingDateStr);
+    const targetDate = new Date(matingDate);
+    targetDate.setDate(targetDate.getDate() + 26); // 26-й день (за 5 днів до окролу на 31 день)
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    targetDate.setHours(0, 0, 0, 0);
+
+    const diffDays = Math.ceil(
+      (targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
+
+    let text = `📥 Маточник: ${targetDate.toLocaleDateString("uk-UA")}`;
+    let className = "nestbox-normal";
+
+    if (diffDays === 5 || diffDays === 4 || diffDays === 3) {
+      text = `🟢 Поставити маточник (через ${diffDays} дн.)`;
+      className = "nestbox-green";
+    } else if (diffDays === 2) {
+      text = `🟡 Маточник через 2 дні!`;
+      className = "nestbox-yellow";
+    } else if (diffDays === 1) {
+      text = `🔴 Маточник завтра!`;
+      className = "nestbox-red";
+    } else if (diffDays === 0) {
+      text = `🚨 СЬОГОДНІ ставити маточник!`;
+      className = "nestbox-red-alert";
+    } else if (diffDays < 0 && diffDays >= -5) {
+      text = `⚠️ Маточник запізнюється на ${Math.abs(diffDays)} дн.!`;
+      className = "nestbox-red-alert";
+    }
+
+    return { text, className };
+  }
+
   function renderParentSelects(
     maleValue: string,
     femaleValue: string,
@@ -953,6 +990,20 @@ export default function Matings({ session }: Props) {
                               </strong>
                             </span>
                           )}
+
+                          {/* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ */}
+                          {l.litter_mating_date &&
+                            (() => {
+                              const { text, className } = getNestboxStatus(
+                                l.litter_mating_date,
+                              );
+                              return (
+                                <span className={`nestbox-status ${className}`}>
+                                  {text}
+                                </span>
+                              );
+                            })()}
+
                           {l.litter_expected_birth && (
                             <span>
                               🗓 Очік. окріл:{" "}
