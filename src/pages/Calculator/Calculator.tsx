@@ -38,6 +38,14 @@ const breedingGrains: Grain[] = [
     defaultOn: true,
   },
   {
+    id: "bran",
+    icon: "🟫",
+    name: "Висівка/Ґрис",
+    note: "Замінює ~33% пшениці, клітковина",
+    pct: 0,
+    defaultOn: false,
+  },
+  {
     id: "corn",
     icon: "🌽",
     name: "Кукурудза",
@@ -105,6 +113,14 @@ const fatteningGrains: Grain[] = [
     defaultOn: true,
   },
   {
+    id: "bran",
+    icon: "🟫",
+    name: "Висівка/Ґрис",
+    note: "Замінює ~33% пшениці, клітковина",
+    pct: 0,
+    defaultOn: false,
+  },
+  {
     id: "corn",
     icon: "🌽",
     name: "Кукурудза",
@@ -164,6 +180,8 @@ const fatteningGrains: Grain[] = [
 
 // Ідентифікатори макух — рахуються окремо від зернових
 const MAKUHA_IDS = ["soy", "sunflower"];
+const BRAN_ID = "bran";
+const BRAN_WHEAT_RATIO = 1 / 3; // висівка замінює 1/3 від кг пшениці
 
 const grainTable = [
   {
@@ -183,6 +201,12 @@ const grainTable = [
     breeding: "~33%",
     fattening: "20%",
     note: "Для племінного більше — формує м'язово-кісткову основу. При надлишку — здуття",
+  },
+  {
+    name: "🟫 Висівка/Ґрис",
+    breeding: "до 10%",
+    fattening: "до 10%",
+    note: "Замінює ~33% пшениці. Клітковина, покращує травлення та зв'язку при гранулюванні",
   },
   {
     name: "🌽 Кукурудза",
@@ -257,8 +281,13 @@ function calcGrains(
 
   const roundHalf = (n: number) => Math.round(n * 2) / 2;
 
-  // Розділяємо на зернові і макухи
-  const grainItems = checked.filter((g) => !MAKUHA_IDS.includes(g.id));
+  const hasBran = selected.includes(BRAN_ID);
+  const hasWheat = selected.includes("wheat");
+
+  // Розділяємо на зернові і макухи (без висівки — вона окрема логіка)
+  const grainItems = checked.filter(
+    (g) => !MAKUHA_IDS.includes(g.id) && g.id !== BRAN_ID,
+  );
   const mealItems = checked.filter((g) => MAKUHA_IDS.includes(g.id));
 
   // Макухи — фіксована сумарна частка 10% від totalKg, рівномірно між вибраними
@@ -283,12 +312,12 @@ function calcGrains(
   const grainKg = totalKg - mealKg;
   const grainSum = grainItems.reduce((a, g) => a + g.pct, 0);
 
-  const grainResults: GrainResult[] = grainItems.map((g) => ({
-    icon: g.icon,
-    name: g.name,
-    pct: grainSum > 0 ? (g.pct / grainSum) * (grainKg / totalKg) * 100 : 0,
-    kg: grainSum > 0 ? roundHalf((grainKg * g.pct) / grainSum) : 0,
-  }));
+  const grainResults: GrainResult[] = grainItems.map((g) => {
+    const kg = grainSum > 0 ? roundHalf((grainKg * g.pct) / grainSum) : 0;
+    const pct =
+      grainSum > 0 ? (g.pct / grainSum) * (grainKg / totalKg) * 100 : 0;
+    return { icon: g.icon, name: g.name, pct, kg };
+  });
 
   // Коригуємо залишок через округлення — до найбільшого зернового
   const sumGrainKg = grainResults.reduce((a, r) => a + r.kg, 0);
@@ -301,7 +330,30 @@ function calcGrains(
     grainResults[maxIdx].kg = roundHalf(grainResults[maxIdx].kg + diff);
   }
 
-  return [...grainResults, ...mealResults];
+  // Висівка: забирає 1/3 від кг пшениці і додається окремим рядком
+  let branResult: GrainResult | null = null;
+  if (hasBran && hasWheat) {
+    const wheatIdx = grainResults.findIndex((r) => r.name === "Пшениця");
+    if (wheatIdx !== -1) {
+      const branKg = roundHalf(grainResults[wheatIdx].kg * BRAN_WHEAT_RATIO);
+      grainResults[wheatIdx].kg = roundHalf(grainResults[wheatIdx].kg - branKg);
+      grainResults[wheatIdx].pct = (grainResults[wheatIdx].kg / totalKg) * 100;
+      branResult = {
+        icon: "🟫",
+        name: "Висівка/Ґрис",
+        pct: (branKg / totalKg) * 100,
+        kg: branKg,
+      };
+    }
+  } else if (hasBran && !hasWheat) {
+    // Пшениця не вибрана — висівка не має від чого відняти, ігноруємо
+    branResult = null;
+  }
+
+  const allResults = [...grainResults, ...mealResults];
+  if (branResult) allResults.push(branResult);
+
+  return allResults;
 }
 
 const fmt = (d: Date) => d.toLocaleDateString("uk-UA");
@@ -352,6 +404,14 @@ export default function Calculator() {
     if (!currentSel.length) {
       setGrainError("Оберіть хоча б одне зерно!");
       setGrainResults([]);
+      return;
+    }
+    // Попередження якщо висівка вибрана без пшениці
+    if (currentSel.includes(BRAN_ID) && !currentSel.includes("wheat")) {
+      setGrainError(
+        "Висівка вибрана, але пшениця не вибрана — висівку не додано. Виберіть пшеницю разом з висівкою.",
+      );
+      setGrainResults(calcGrains(currentGrains, currentSel, grainWeight));
       return;
     }
     const selectedMakuha = currentSel.filter((id) => MAKUHA_IDS.includes(id));
@@ -608,8 +668,8 @@ export default function Calculator() {
                           style={{ marginTop: "8px" }}
                         >
                           💡 При гранулюванні частину пшениці можна замінити
-                          грисом (висівкою) — він краще зв'язує масу перед
-                          пресуванням і додає клітковину. Грис — це тверда
+                          ґрисом (висівкою) — він краще зв'язує масу перед
+                          пресуванням і додає клітковину. Ґрис — це тверда
                           оболонка зерна що залишається після помелу борошна,
                           продається на ринку або в магазині для тварин.
                         </div>
@@ -796,7 +856,7 @@ export default function Calculator() {
 
         <div className="calc-back">
           <Link to="/" className="calc-back-btn">
-            ⬅ На головну
+            На головну
           </Link>
         </div>
       </div>
