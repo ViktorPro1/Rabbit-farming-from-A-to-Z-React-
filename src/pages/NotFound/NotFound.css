@@ -1,0 +1,107 @@
+.nf-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    font-family: monospace;
+    /* Моноширинний шрифт ідеальний для ефекту друку */
+    overflow: hidden;
+}
+
+/* Анімація кролика, який вискакує */
+.nf-rabbit {
+    font-size: 5rem;
+    animation: jumpIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform: translateY(100px) scale(0);
+}
+
+/* Ефект друку для тексту */
+.nf-text {
+    font-size: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #007bff;
+    /* Курсор друку */
+    width: 0;
+    margin: 20px 0;
+    /* Анімація друку триває 2 секунди, починається після того, як вискочить кролик (delay 0.8s) */
+    animation:
+        typing 2s steps(30, end) 0.8s forwards,
+        blink 0.75s step-end infinite;
+}
+
+.nf-title {
+    font-size: 4rem;
+    margin: 10px 0 0 0;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.6s forwards;
+}
+
+.nf-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 2.8s forwards;
+    /* З'являється в самому кінці */
+}
+
+.nf-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Ключові кадри для анімацій --- */
+
+/* Вискакування кролика */
+@keyframes jumpIn {
+    0% {
+        transform: translateY(150px) scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Друкування тексту (розширення контейнера) */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    /* Підганяй max-width під довжину тексту */
+}
+
+/* Блимання курсору */
+@keyframes blink {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: #007bff;
+    }
+}
+
+/* Плавна поява для лінка та 404 */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}

@@ -149,6 +149,9 @@ const Legal = lazy(() => import("../pages/Legal/Legal"));
 const Sales = lazy(() => import("../pages/Sales/Sales"));
 const ProfitCalc = lazy(() => import("../pages/ProfitCalc/ProfitCalc"));
 
+// 404 СТОРІНКА
+const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
+
 // ─────────────────────────────────────────────
 const PageLoader = () => (
   <div style={{ padding: "2rem", textAlign: "center" }}>Завантаження...</div>
@@ -305,6 +308,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/profit-calculator" element={<ProfitCalc />} />
         {/* — ЗОНИ — */}
         <Route path="/zoonoses" element={<Zoonoses />} />
+        {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   );
