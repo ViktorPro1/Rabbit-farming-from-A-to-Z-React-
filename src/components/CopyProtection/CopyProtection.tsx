@@ -38,7 +38,7 @@ const CopyProtection = () => {
 
   const handleAllowCopy = () => {
     // ТУТ ЗМІНИ: Додаємо посилання до тексту
-    const sourceLink = "https://rabbit-farming-from-a-to-z-react.vercel.app/";
+    const sourceLink = window.location.href;
     const finalContent = `${copiedText}\n\nДжерело: ${sourceLink}`;
 
     navigator.clipboard.writeText(finalContent).then(() => {
