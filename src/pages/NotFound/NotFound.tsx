@@ -4,10 +4,15 @@ import "./NotFound.css";
 const NotFound = () => {
   return (
     <div className="nf-container">
-      {/* Кролик, який вискакує */}
-      <div className="nf-rabbit">🐰</div>
+      <div className="nf-scene">
+        <span className="nf-rabbit">🐰</span>
+        <div className="nf-paws">
+          <span className="nf-paw-left">🐾</span>
+          <span className="nf-paw-right">🐾</span>
+        </div>
+        <span className="nf-keyboard">⌨️</span>
+      </div>
 
-      {/* Текст з ефектом друку */}
       <h1 className="nf-title">404</h1>
       <p className="nf-text">Ой! Сторінку не знайдено...</p>
 

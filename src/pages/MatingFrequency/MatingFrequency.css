@@ -191,6 +191,13 @@
     flex-wrap: wrap;
 }
 
+/* ← БУЛО ВІДСУТНЄ */
+.mat-timing-item {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
 .mat-timing-label {
     font-size: 10px;
     font-weight: 600;
@@ -557,6 +564,7 @@
     color: #c8956c;
     opacity: 0.7;
     flex-shrink: 0;
+    margin-left: auto;
 }
 
 /* BACK */
