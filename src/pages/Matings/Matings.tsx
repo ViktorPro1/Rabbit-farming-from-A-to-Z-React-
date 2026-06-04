@@ -34,6 +34,7 @@ interface Litter {
   litter_expected_birth: string;
   actual_male_id: string | null;
   actual_female_id: string | null;
+  nestbox_date: string | null;
 }
 
 interface Mating {
@@ -79,6 +80,7 @@ const emptyLitterForm = {
   litter_expected_birth: "",
   actual_male_id: "",
   actual_female_id: "",
+  nestbox_date: "",
 };
 
 function calcSlaughterDate(birthDate: string): string {
@@ -358,6 +360,7 @@ export default function Matings({ session }: Props) {
         litter_expected_birth: editingLitterData.litter_expected_birth || null,
         actual_male_id: editingLitterData.actual_male_id || null,
         actual_female_id: editingLitterData.actual_female_id || null,
+        nestbox_date: editingLitterData.nestbox_date || null,
       })
       .eq("id", editingLitterData.id);
 
@@ -408,6 +411,7 @@ export default function Matings({ session }: Props) {
       litter_expected_birth: form.litter_expected_birth || null,
       actual_male_id: form.actual_male_id || null,
       actual_female_id: form.actual_female_id || null,
+      nestbox_date: form.nestbox_date || null,
     });
     if (error) {
       setError("Помилка збереження");
@@ -473,7 +477,17 @@ export default function Matings({ session }: Props) {
   }
 
   /* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ */
-  function getNestboxStatus(matingDateStr: string) {
+  function getNestboxStatus(
+    matingDateStr: string,
+    nestboxDate?: string | null,
+  ) {
+    if (nestboxDate) {
+      return {
+        text: `✅ Маточник встановлено: ${new Date(nestboxDate).toLocaleDateString("uk-UA")}`,
+        className: "nestbox-done",
+      };
+    }
+
     const matingDate = new Date(matingDateStr);
     const targetDate = new Date(matingDate);
     targetDate.setDate(targetDate.getDate() + 26); // 26-й день (за 5 днів до окролу на 31 день)
@@ -996,6 +1010,7 @@ export default function Matings({ session }: Props) {
                             (() => {
                               const { text, className } = getNestboxStatus(
                                 l.litter_mating_date,
+                                l.nestbox_date,
                               );
                               return (
                                 <span className={`nestbox-status ${className}`}>
@@ -1003,6 +1018,25 @@ export default function Matings({ session }: Props) {
                                 </span>
                               );
                             })()}
+
+                          {/* Кнопка "Поставив маточник" */}
+                          {l.litter_mating_date && !l.nestbox_date && (
+                            <button
+                              className="nestbox-done-btn"
+                              onClick={async () => {
+                                const today = new Date()
+                                  .toISOString()
+                                  .split("T")[0];
+                                await supabase
+                                  .from("litters")
+                                  .update({ nestbox_date: today })
+                                  .eq("id", l.id);
+                                fetchMatings();
+                              }}
+                            >
+                              ✅ Поставив маточник
+                            </button>
+                          )}
 
                           {l.litter_expected_birth && (
                             <span>
@@ -1139,6 +1173,19 @@ export default function Matings({ session }: Props) {
                                 setEditingLitterData({
                                   ...editingLitterData,
                                   litter_expected_birth: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <div className="matings-form-field">
+                            <label>Маточник встановлено</label>
+                            <input
+                              type="date"
+                              value={editingLitterData.nestbox_date || ""}
+                              onChange={(e) =>
+                                setEditingLitterData({
+                                  ...editingLitterData,
+                                  nestbox_date: e.target.value,
                                 })
                               }
                             />
@@ -1356,6 +1403,22 @@ export default function Matings({ session }: Props) {
                             [m.id]: {
                               ...(litterForms[m.id] || emptyLitterForm),
                               litter_expected_birth: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="matings-form-field">
+                      <label>Маточник встановлено</label>
+                      <input
+                        type="date"
+                        value={litterForms[m.id]?.nestbox_date || ""}
+                        onChange={(e) =>
+                          setLitterForms({
+                            ...litterForms,
+                            [m.id]: {
+                              ...(litterForms[m.id] || emptyLitterForm),
+                              nestbox_date: e.target.value,
                             },
                           })
                         }

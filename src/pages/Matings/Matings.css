@@ -428,6 +428,27 @@
     animation: pulse 2s infinite;
 }
 
+.nestbox-done {
+    color: var(--green-dark);
+    font-weight: 600;
+}
+
+.nestbox-done-btn {
+    margin-top: 4px;
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.nestbox-done-btn:hover {
+    background: var(--green-mid);
+    color: #fff;
+}
+
 @keyframes pulse {
     0% {
         opacity: 1;
