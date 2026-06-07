@@ -2015,7 +2015,6 @@ const SectionCards = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searched, setSearched] = useState(false);
-  // Всі групи закриті за замовчуванням
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(groups.map((g) => [g.groupTitle, false])),
   );
@@ -2133,7 +2132,14 @@ const SectionCards = () => {
               aria-expanded={isOpen}
             >
               <span className="section-group-icon">{group.groupIcon}</span>
-              <h3 className="section-group-title">{group.groupTitle}</h3>
+              <div className="section-group-title-wrap">
+                <h3 className="section-group-title">{group.groupTitle}</h3>
+                {!isOpen && (
+                  <span className="section-group-preview">
+                    {group.cards.map((c) => c.title).join(" · ")}
+                  </span>
+                )}
+              </div>
               <span className="section-group-chevron">
                 {isOpen ? "▲" : "▼"}
               </span>
