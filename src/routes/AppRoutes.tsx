@@ -78,6 +78,7 @@ const MatingPage = lazy(
 const MatingBehavior = lazy(
   () => import("../pages/MatingBehavior/MatingBehavior"),
 );
+const OkrilControl = lazy(() => import("../pages/OkrilControl/OkrilControl"));
 
 // ЗДОРОВ'Я
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -227,6 +228,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/artificial-feeding" element={<ArtificialFeeding />} />
         <Route path="/mating-frequency" element={<MatingPage />} />
         <Route path="/mating-behavior" element={<MatingBehavior />} />
+        <Route path="/okril-control" element={<OkrilControl />} />
         {/* 6. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />

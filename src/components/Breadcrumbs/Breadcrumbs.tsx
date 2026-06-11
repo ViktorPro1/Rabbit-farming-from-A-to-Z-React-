@@ -56,6 +56,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/artificial-feeding": "Штучне вигодовування",
   "/mating-frequency": "Частота злучування",
   "/mating-behavior": "Поведінка при злучці",
+  "/okril-control": "Контроль дат",
 
   // ЗДОРОВ'Я
   "/vaccinations": "Вакцинація",
