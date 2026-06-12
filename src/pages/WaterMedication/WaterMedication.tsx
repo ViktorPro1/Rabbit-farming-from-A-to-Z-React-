@@ -9,6 +9,7 @@ type TabId =
   | "vitamins"
   | "iodine"
   | "lactic"
+  | "sequence"
   | "schedule";
 
 const tabs: { id: TabId; icon: string; label: string }[] = [
@@ -18,6 +19,7 @@ const tabs: { id: TabId; icon: string; label: string }[] = [
   { id: "vitamins", icon: "🌿", label: "Вітаміни" },
   { id: "iodine", icon: "🟤", label: "Йод" },
   { id: "lactic", icon: "🥛", label: "Молочна кислота" },
+  { id: "sequence", icon: "🔢", label: "Послідовність" },
   { id: "schedule", icon: "📅", label: "Схема по місяцях" },
 ];
 
@@ -262,7 +264,7 @@ const WaterMedication = () => {
                 <div className="wm-dose-grid">
                   <div className="wm-dose-item">
                     <span className="wm-dose-label">Доза у воду</span>
-                    <span className="wm-dose-value">1 мл на 1 л води</span>
+                    <span className="wm-dose-value">2 мл на 1 л води</span>
                     <span className="wm-dose-sub">ідентично Байкоксу 2.5%</span>
                   </div>
                   <div className="wm-dose-item">
@@ -940,6 +942,292 @@ const WaterMedication = () => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── ПОСЛІДОВНІСТЬ ── */}
+        {activeTab === "sequence" && (
+          <div className="wm-content">
+            <div className="wm-note">
+              <p>
+                Послідовність пропойок — це не жорсткий протокол, а логіка:
+                спочатку усуваємо найбільшу загрозу, потім підтримуємо організм.
+                Між різними препаратами — обов'язкові паузи, щоб не
+                перевантажити печінку і не знизити ефект кожного засобу.
+              </p>
+            </div>
+
+            {/* БЛОК: МОЛОДНЯК ПІСЛЯ ВІДЛУЧЕННЯ */}
+            <h3 className="wm-sub-title">🐣 Молодняк після відлучення</h3>
+            <p className="wm-intro">
+              Найкритичніший період — перші 2–3 тижні після відлучення (28–50
+              день). Саме тут найбільші втрати від кокцидіозу і дисбактеріозу.
+            </p>
+
+            <div className="wm-sequence">
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">1</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">
+                      Байкокс 2.5% або Солікокс
+                    </span>
+                    <span className="wm-seq-days">День 1–2</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Відразу після відлучення — антикокцидійна профілактика.
+                    Кокцидіоз розвивається саме в цей період через стрес і
+                    зниження імунітету. 1 мл/л, 2 дні підряд.
+                  </p>
+                  <span className="wm-seq-pause">
+                    ⏸ Пауза 3 дні — чиста вода
+                  </span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">2</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">Молочна кислота 40%</span>
+                    <span className="wm-seq-days">День 6–12</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Підтримка мікрофлори кишечника при переході на твердий корм.
+                    1 мл/л, 7 днів. Можна давати паралельно з йодом (різні
+                    механізми дії, не конфліктують).
+                  </p>
+                  <span className="wm-seq-pause">⏸ Пауза 2–3 дні</span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">3</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">
+                      Чіктонік або інший вітамінний комплекс
+                    </span>
+                    <span className="wm-seq-days">День 15–21</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Вітамінна підтримка після стресу відлучення. 1 мл/л, 7 днів.
+                    Якщо молодняк на ПК-комбікормі — не обов'язково, вітаміни
+                    вже є в раціоні.
+                  </p>
+                  <span className="wm-seq-pause">
+                    ⏸ Далі — стандартний моніторинг
+                  </span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step optional">
+                <div className="wm-seq-num">+</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">
+                      Байкокс 2.5% — повтор (за потребою)
+                    </span>
+                    <span className="wm-seq-days">День 35–40</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Якщо є ознаки кокцидіозу (рідкий послід, відставання в
+                    рості) — повторний курс через 30 днів після першого.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* БЛОК: ПІСЛЯ АНТИБІОТИКІВ */}
+            <h3 className="wm-sub-title" style={{ marginTop: "2rem" }}>
+              💊 Після курсу антибіотиків
+            </h3>
+            <p className="wm-intro">
+              Антибіотики знищують не тільки патогени, а й корисну мікрофлору.
+              Відновлення — обов'язковий етап.
+            </p>
+
+            <div className="wm-sequence">
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">1</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">
+                      Антибіотик (Байтрил, Дітрим тощо)
+                    </span>
+                    <span className="wm-seq-days">Повний курс 5–14 днів</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Не переривати достроково. Пробіотики під час курсу давати
+                    через 1–2 години після антибіотика, не одночасно.
+                  </p>
+                  <span className="wm-seq-pause">
+                    ⏸ Останній день антибіотика
+                  </span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">2</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">
+                      Пробіотики + Молочна кислота
+                    </span>
+                    <span className="wm-seq-days">14 днів після курсу</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Пробіотики (Лактобіфадол, Ветом або аналог) — за
+                    інструкцією. Молочна кислота 40% — 2 мл/л. Можна давати
+                    одночасно: молочна кислота створює середовище, пробіотики
+                    заселяють корисну мікрофлору.
+                  </p>
+                  <span className="wm-seq-pause">⏸ Пауза 3 дні</span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">3</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">Чіктонік</span>
+                    <span className="wm-seq-days">7–10 днів</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Відновлення вітамінного балансу після хвороби і лікування.
+                    1–2 мл/л. Не поєднувати з антибіотиком в одній воді.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* БЛОК: ПІДГОТОВКА САМКИ ДО ЗЛУЧКИ */}
+            <h3 className="wm-sub-title" style={{ marginTop: "2rem" }}>
+              ♀ Підготовка самки до злучки
+            </h3>
+
+            <div className="wm-sequence">
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">1</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">Чіктонік</span>
+                    <span className="wm-seq-days">
+                      За 10–14 днів до злучки, 7 днів
+                    </span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Підвищення вітамінного статусу і вгодованості перед
+                    вагітністю. 1–2 мл/л.
+                  </p>
+                  <span className="wm-seq-pause">⏸ Пауза 3 дні</span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">2</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">Йод 10%</span>
+                    <span className="wm-seq-days">За 3–5 днів до злучки</span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    Стимуляція імунітету і репродуктивної функції. 0.01 мл/л (1
+                    крапля 10% на 500 мл), 3–5 днів.
+                  </p>
+                  <span className="wm-seq-pause">⏸ Злучка</span>
+                </div>
+              </div>
+
+              <div className="wm-seq-step">
+                <div className="wm-seq-num">3</div>
+                <div className="wm-seq-body">
+                  <div className="wm-seq-head">
+                    <span className="wm-seq-drug">
+                      Йод 10% — під час вагітності
+                    </span>
+                    <span className="wm-seq-days">
+                      Перші 5 днів після злучки
+                    </span>
+                  </div>
+                  <p className="wm-seq-desc">
+                    0.01 мл/л, 5 днів. Потім пауза до останнього тижня
+                    вагітності. Мінімум втручань — стрес шкідливий.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ПРАВИЛО ПАУЗ */}
+            <h3 className="wm-sub-title" style={{ marginTop: "2rem" }}>
+              ⏱ Загальні правила пауз між препаратами
+            </h3>
+            <div className="wm-table-wrap">
+              <table className="wm-table">
+                <thead>
+                  <tr>
+                    <th>Після препарату</th>
+                    <th>Перед наступним</th>
+                    <th>Мінімальна пауза</th>
+                    <th>Причина</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Байкокс / Солікокс</td>
+                    <td>Будь-який інший</td>
+                    <td>3 дні</td>
+                    <td>
+                      Виведення з організму, зняття навантаження на печінку
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Антибіотик</td>
+                    <td>Пробіотики</td>
+                    <td>1–2 год (не дні)</td>
+                    <td>Пробіотики давати через короткий час, не одночасно</td>
+                  </tr>
+                  <tr>
+                    <td>Антибіотик (курс)</td>
+                    <td>Чіктонік / вітаміни</td>
+                    <td>3 дні після останньої дози</td>
+                    <td>Дати організму вийти з медикаментозного стресу</td>
+                  </tr>
+                  <tr>
+                    <td>Йод</td>
+                    <td>Будь-який інший</td>
+                    <td>3 дні</td>
+                    <td>
+                      Йод окиснює і може знижувати активність інших засобів
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Чіктонік / вітаміни</td>
+                    <td>Антибіотик</td>
+                    <td>Не поєднувати в одній воді</td>
+                    <td>
+                      Кальцій і магній у вітамінах знижують всмоктування
+                      фторхінолонів
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Молочна кислота</td>
+                    <td>Пробіотики</td>
+                    <td>Можна паралельно</td>
+                    <td>
+                      Синергія: кислота готує середовище, пробіотики заселяють
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="wm-alert tip" style={{ marginTop: "1.5rem" }}>
+              💡 Що не можна суміщати в одній поїлці одночасно: Байтрил +
+              кальцієвмісні добавки, Байтрил + Чіктонік, будь-який антибіотик +
+              пробіотик. Решту комбінацій — перевіряйте окремо або запитуйте у
+              ветлікаря.
             </div>
           </div>
         )}
