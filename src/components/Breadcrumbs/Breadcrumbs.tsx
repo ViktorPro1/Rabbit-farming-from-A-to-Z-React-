@@ -25,6 +25,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/selection": "Селекція",
   "/genetics": "Генетика забарвлення",
   "/rabbits-and-guinea-pigs": "Кролі та морські свинки",
+  "/rabbit-sounds": "Звуки кролів",
 
   // ЖИТЛО
   "/enclosure": "Клітки",
@@ -61,6 +62,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/mating-behavior": "Поведінка при злучці",
   "/okril-control": "Контроль дат",
   "/sexing": "Визначення статі",
+  "/doe-preparation": "Підготовка самки до злучки",
+  "/buck-management": "Утримання плідника",
 
   // ЗДОРОВ'Я
   "/vaccinations": "Вакцинація",
@@ -78,6 +81,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/water-medication": "Пропойка",
   "/droppings": "Послід",
   "/zoonoses": "Зонози",
+  "/rabbit-body-condition": "Кондиція тіла (BCS)",
 
   // ПЛАНУВАННЯ
   "/calendar": "Сезонний календар",

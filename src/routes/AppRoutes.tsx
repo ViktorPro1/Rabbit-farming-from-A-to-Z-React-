@@ -39,6 +39,7 @@ const RabbitMyths = lazy(() => import("../pages/RabbitMyths/RabbitMyths"));
 const RabbitsAndGuineaPigs = lazy(
   () => import("../pages/RabbitsAndGuineaPigs/RabbitsAndGuineaPigs"),
 );
+const RabbitSounds = lazy(() => import("../pages/RabbitSounds/RabbitSounds"));
 
 // ЖИТЛО
 const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
@@ -89,6 +90,12 @@ const MatingBehavior = lazy(
 );
 const OkrilControl = lazy(() => import("../pages/OkrilControl/OkrilControl"));
 const Sexing = lazy(() => import("../pages/Sexing/Sexing"));
+const DoePreparation = lazy(
+  () => import("../pages/DoePreparation/DoePreparation"),
+);
+const BuckManagement = lazy(
+  () => import("../pages/BuckManagement/BuckManagement"),
+);
 
 // ЗДОРОВ'Я
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -113,6 +120,9 @@ const WaterMedication = lazy(
   () => import("../pages/WaterMedication/WaterMedication"),
 );
 const Droppings = lazy(() => import("../pages/Droppings/Droppings"));
+const RabbitBodyCondition = lazy(
+  () => import("../pages/RabbitBodyCondition/RabbitBodyCondition"),
+);
 
 // ПЛАНУВАННЯ
 const Calendar = lazy(() => import("../pages/Calendar/Calendar"));
@@ -215,6 +225,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/rabbits-and-guinea-pigs"
           element={<RabbitsAndGuineaPigs />}
         />
+        <Route path="/rabbit-sounds" element={<RabbitSounds />} />
         {/* 2. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
@@ -250,6 +261,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/mating-behavior" element={<MatingBehavior />} />
         <Route path="/okril-control" element={<OkrilControl />} />
         <Route path="/sexing" element={<Sexing />} />
+        <Route path="/doe-preparation" element={<DoePreparation />} />
+        <Route path="/buck-management" element={<BuckManagement />} />
         {/* 6. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
@@ -265,6 +278,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/neutering" element={<Neutering />} />
         <Route path="/water-medication" element={<WaterMedication />} />
         <Route path="/droppings" element={<Droppings />} />
+        <Route
+          path="/rabbit-body-condition"
+          element={<RabbitBodyCondition />}
+        />
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />
