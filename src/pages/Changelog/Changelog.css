@@ -12,7 +12,7 @@
 
 .changelog-page-sub {
     font-size: 14px;
-    color: #888;
+    color: var(--gray);
     margin: 0 0 2.5rem;
 }
 
@@ -28,8 +28,8 @@
     top: 6px;
     bottom: 6px;
     width: 2px;
-    background: var(--green-dark, #3B6D11);
-    opacity: 0.25;
+    background: var(--green-mid);
+    opacity: 0.35;
     border-radius: 2px;
 }
 
@@ -45,41 +45,41 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: var(--green-dark, #3B6D11);
-    border: 3px solid #EAF3DE;
+    background: var(--green-mid);
+    border: 3px solid var(--green-light);
     box-sizing: border-box;
 }
 
 .changelog-dot.latest {
-    border-color: #C0DD97;
-    box-shadow: 0 0 0 3px rgba(59, 109, 17, 0.15);
+    border-color: var(--green-pale);
+    box-shadow: 0 0 0 3px rgba(99, 153, 34, 0.2);
 }
 
 .changelog-entry-date {
     font-size: 11px;
     font-weight: 600;
-    color: var(--green-dark, #3B6D11);
+    color: var(--green-mid);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-bottom: 4px;
 }
 
 .changelog-card {
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--gray-light);
+    border: 1px solid var(--green-light);
     border-radius: 12px;
     padding: 1rem 1.25rem;
 }
 
 .changelog-card.latest {
-    border-left: 3px solid var(--green-dark, #3B6D11);
+    border-left: 3px solid var(--green-mid);
     border-radius: 0 12px 12px 0;
 }
 
 .changelog-card-badge {
     display: inline-block;
-    background: #EAF3DE;
-    color: #27500A;
+    background: var(--green-light);
+    color: var(--green-dark);
     font-size: 10px;
     font-weight: 600;
     padding: 2px 8px;
@@ -92,12 +92,12 @@
     font-size: 15px;
     font-weight: 600;
     margin: 0 0 6px;
-    color: var(--green-dark, #3B6D11);
+    color: var(--green-dark);
 }
 
 .changelog-card p {
     font-size: 14px;
-    color: #555;
+    color: var(--gray);
     margin: 0;
     line-height: 1.6;
 }
