@@ -293,3 +293,64 @@
         padding: 8px 12px;
     }
 }
+
+/*СТАТИСТИКА*/
+.sc-stats {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1.25rem;
+}
+
+.sc-stats-pill {
+    display: inline-flex;
+    align-items: center;
+    border: 0.5px solid var(--gray-light);
+    border-radius: 999px;
+    overflow: hidden;
+    background: #fff;
+}
+
+[data-theme="dark"] .sc-stats-pill {
+    background: var(--green-dark);
+    border-color: var(--green-mid);
+}
+
+.sc-stat-seg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+}
+
+.sc-stat-seg+.sc-stat-seg {
+    border-left: 0.5px solid var(--gray-light);
+}
+
+[data-theme="dark"] .sc-stat-seg+.sc-stat-seg {
+    border-left-color: var(--green-mid);
+}
+
+.sc-stat-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.sc-stat-num {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--green-dark);
+    line-height: 1;
+}
+
+.sc-stat-lbl {
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}

@@ -2259,6 +2259,33 @@ const SectionCards = () => {
 
   return (
     <section className="section-cards">
+      {/* СТАТИСТИКА */}
+      <div className="sc-stats">
+        <div className="sc-stats-pill">
+          <div className="sc-stat-seg">
+            <div
+              className="sc-stat-icon"
+              style={{ background: "var(--green-pale)" }}
+            >
+              📂
+            </div>
+            <div>
+              <div className="sc-stat-num">{groups.length}</div>
+              <div className="sc-stat-lbl">розділів</div>
+            </div>
+          </div>
+          <div className="sc-stat-seg">
+            <div className="sc-stat-icon" style={{ background: "#e1f5ee" }}>
+              📄
+            </div>
+            <div>
+              <div className="sc-stat-num">{allCards.length}</div>
+              <div className="sc-stat-lbl">тем</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ПОШУК */}
       <div className="sc-search-wrap">
         <div className="sc-search-box">
