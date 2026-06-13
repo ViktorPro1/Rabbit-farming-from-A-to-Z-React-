@@ -58,6 +58,113 @@
     text-decoration: underline;
 }
 
+.changelog-menu {
+    position: relative;
+}
+
+.changelog-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--green-pale);
+    opacity: 0.85;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+
+.changelog-trigger:hover {
+    opacity: 1;
+}
+
+.changelog-badge {
+    background: #e53935;
+    color: #fff;
+    border-radius: 99px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    line-height: 1.4;
+    opacity: 1;
+}
+
+.changelog-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 280px;
+    background: var(--surface, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 200;
+    overflow: hidden;
+}
+
+.changelog-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.changelog-item-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.changelog-item-desc {
+    font-size: 12px;
+    color: #666;
+}
+
+.changelog-item-date {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 2px;
+}
+
+.changelog-all {
+    display: block;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #14410d !important;
+    text-decoration: none;
+}
+
+.changelog-all:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* Планшет */
+@media (max-width: 768px) {
+    .changelog-dropdown {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 260px;
+    }
+}
+
+/* Телефон */
+@media (max-width: 420px) {
+    .changelog-dropdown {
+        position: fixed;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: unset;
+        width: 85vw;
+    }
+}
+
 /* Планшет */
 @media (max-width: 768px) {
     .header {

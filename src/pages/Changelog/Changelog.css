@@ -1,0 +1,115 @@
+.changelog-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.changelog-page h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.changelog-page-sub {
+    font-size: 14px;
+    color: #888;
+    margin: 0 0 2.5rem;
+}
+
+.changelog-timeline {
+    position: relative;
+    padding-left: 32px;
+}
+
+.changelog-timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--green-dark, #3B6D11);
+    opacity: 0.25;
+    border-radius: 2px;
+}
+
+.changelog-entry {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.changelog-dot {
+    position: absolute;
+    left: -32px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--green-dark, #3B6D11);
+    border: 3px solid #EAF3DE;
+    box-sizing: border-box;
+}
+
+.changelog-dot.latest {
+    border-color: #C0DD97;
+    box-shadow: 0 0 0 3px rgba(59, 109, 17, 0.15);
+}
+
+.changelog-entry-date {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-dark, #3B6D11);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+}
+
+.changelog-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+}
+
+.changelog-card.latest {
+    border-left: 3px solid var(--green-dark, #3B6D11);
+    border-radius: 0 12px 12px 0;
+}
+
+.changelog-card-badge {
+    display: inline-block;
+    background: #EAF3DE;
+    color: #27500A;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+}
+
+.changelog-card h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: var(--green-dark, #3B6D11);
+}
+
+.changelog-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+    .changelog-timeline {
+        padding-left: 24px;
+    }
+
+    .changelog-dot {
+        left: -24px;
+        width: 12px;
+        height: 12px;
+    }
+}

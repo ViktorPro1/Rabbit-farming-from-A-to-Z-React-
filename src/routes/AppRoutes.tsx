@@ -164,6 +164,9 @@ const Composting = lazy(() => import("../pages/Composting/Composting"));
 // 404 СТОРІНКА
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 
+// ОНОВЛЕННЯ
+const Changelog = lazy(() => import("../pages/Changelog/Changelog"));
+
 // ─────────────────────────────────────────────
 const PageLoader = () => (
   <div style={{ padding: "2rem", textAlign: "center" }}>Завантаження...</div>
@@ -329,6 +332,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/composting" element={<Composting />} />
         {/* — ЗОНИ — */}
         <Route path="/zoonoses" element={<Zoonoses />} />
+        {/* — ОНОВЛЕННЯ — */}
+        <Route path="/changelog" element={<Changelog />} />
         {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
         <Route path="*" element={<NotFound />} />
       </Routes>

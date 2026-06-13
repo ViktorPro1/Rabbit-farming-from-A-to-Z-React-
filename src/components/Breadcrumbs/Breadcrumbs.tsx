@@ -117,6 +117,9 @@ const ROUTE_LABELS: Record<string, string> = {
 
   // АДМІН
   "/admin": "Адмін",
+
+  // ОНОВЛЕННЯ
+  "/changelog": "Оновлення",
 };
 
 // ── Separator ────────────────────────────────────────────────────
