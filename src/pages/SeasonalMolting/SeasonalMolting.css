@@ -1,0 +1,456 @@
+.molt-page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+/* HERO */
+.molt-hero {
+    background: linear-gradient(135deg, var(--green-dark, #2d5a27), var(--green-mid, #4a7c42));
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.molt-hero__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    line-height: 1.25;
+}
+
+.molt-hero__sub {
+    font-size: 0.95rem;
+    opacity: 0.88;
+    margin: 0;
+}
+
+/* NOTE */
+.molt-note {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--amber-light, #fff8e1);
+    border-left: 4px solid var(--amber, #f5a623);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.molt-note__icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+}
+
+/* SECTION */
+.molt-section {
+    margin-bottom: 2.5rem;
+}
+
+.molt-section__header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.molt-section__icon {
+    font-size: 1.5rem;
+}
+
+.molt-section__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--green-dark, #2d5a27);
+}
+
+/* COMPARE GRID */
+.molt-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.molt-compare-card {
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    border: 2px solid transparent;
+}
+
+.molt-compare-card--normal {
+    background: #f0faf0;
+    border-color: #81c784;
+}
+
+.molt-compare-card--patho {
+    background: #fff5f5;
+    border-color: #ef9a9a;
+}
+
+[data-theme="dark"] .molt-compare-card--normal {
+    background: rgba(74, 124, 66, 0.12);
+    border-color: rgba(74, 124, 66, 0.35);
+}
+
+[data-theme="dark"] .molt-compare-card--patho {
+    background: rgba(192, 57, 43, 0.08);
+    border-color: rgba(192, 57, 43, 0.3);
+}
+
+.molt-compare-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.6rem;
+}
+
+.molt-compare-card--normal .molt-compare-card__title {
+    color: #2e7d32;
+}
+
+.molt-compare-card--patho .molt-compare-card__title {
+    color: #c62828;
+}
+
+[data-theme="dark"] .molt-compare-card--normal .molt-compare-card__title {
+    color: #81c784;
+}
+
+[data-theme="dark"] .molt-compare-card--patho .molt-compare-card__title {
+    color: #ef9a9a;
+}
+
+.molt-compare-card__list {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.molt-compare-card__list li {
+    margin-bottom: 0.3rem;
+}
+
+/* SEASON CARDS */
+.molt-seasons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.molt-season {
+    background: var(--green-pale, #f1f8ee);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+}
+
+[data-theme="dark"] .molt-season {
+    background: rgba(74, 124, 66, 0.12);
+}
+
+.molt-season__label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--green-dark, #2d5a27);
+    margin-bottom: 0.35rem;
+}
+
+[data-theme="dark"] .molt-season__label {
+    color: var(--green-light, #a8d5a0);
+}
+
+.molt-season__badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+    margin-bottom: 0.4rem;
+}
+
+.molt-season__badge--heavy {
+    background: #ffcc80;
+    color: #7f3b00;
+}
+
+.molt-season__badge--light {
+    background: #b2dfdb;
+    color: #00574b;
+}
+
+.molt-season__text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* PATHOLOGY CARDS */
+.molt-patho-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.molt-patho-card {
+    border: 1px solid var(--gray-light, #e0e0e0);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.molt-patho-card__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    background: var(--green-pale, #f1f8ee);
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green-dark, #2d5a27);
+}
+
+.molt-patho-card__head:hover {
+    background: var(--green-light, #d4edcc);
+}
+
+[data-theme="dark"] .molt-patho-card__head {
+    background: rgba(74, 124, 66, 0.18);
+    color: var(--green-light, #a8d5a0);
+}
+
+[data-theme="dark"] .molt-patho-card__head:hover {
+    background: rgba(74, 124, 66, 0.28);
+}
+
+.molt-patho-card__chevron {
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.molt-patho-card__chevron--open {
+    transform: rotate(180deg);
+}
+
+.molt-patho-card__body {
+    padding: 1rem;
+    background: var(--bg-card, #fff);
+}
+
+[data-theme="dark"] .molt-patho-card__body {
+    background: var(--bg-card, #1e1e1e);
+}
+
+.molt-row {
+    margin-bottom: 0.85rem;
+}
+
+.molt-row:last-child {
+    margin-bottom: 0;
+}
+
+.molt-row__label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+}
+
+.molt-row__label--sym {
+    color: #c0392b;
+}
+
+.molt-row__label--treat {
+    color: var(--green-dark, #2d5a27);
+}
+
+.molt-row__label--note {
+    color: var(--amber, #e67e22);
+}
+
+.molt-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.molt-list li {
+    margin-bottom: 0.25rem;
+}
+
+/* ZOONOSIS TAG */
+.molt-zoo-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #fce4ec;
+    color: #880e4f;
+    border-radius: 6px;
+    padding: 0.15rem 0.5rem;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+}
+
+[data-theme="dark"] .molt-zoo-tag {
+    background: rgba(136, 14, 79, 0.2);
+    color: #f48fb1;
+}
+
+/* DANGER */
+.molt-danger {
+    display: flex;
+    gap: 0.6rem;
+    background: #fff0f0;
+    border: 1px solid #f5c6c6;
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-top: 0.8rem;
+}
+
+[data-theme="dark"] .molt-danger {
+    background: rgba(192, 57, 43, 0.1);
+    border-color: rgba(192, 57, 43, 0.3);
+}
+
+.molt-danger__icon {
+    flex-shrink: 0;
+}
+
+/* CARE TIPS */
+.molt-tips {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.molt-tip {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--green-pale, #f1f8ee);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+[data-theme="dark"] .molt-tip {
+    background: rgba(74, 124, 66, 0.12);
+}
+
+.molt-tip__icon {
+    flex-shrink: 0;
+    font-size: 1.1rem;
+}
+
+/* TABLE */
+.molt-table-wrap {
+    overflow-x: auto;
+}
+
+.molt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.molt-table th {
+    background: var(--green-pale, #f1f8ee);
+    color: var(--green-dark, #2d5a27);
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--green-light, #c8e6c0);
+}
+
+[data-theme="dark"] .molt-table th {
+    background: rgba(74, 124, 66, 0.18);
+    color: var(--green-light, #a8d5a0);
+}
+
+.molt-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--gray-light, #eee);
+    vertical-align: top;
+    line-height: 1.45;
+}
+
+.molt-table tr:last-child td {
+    border-bottom: none;
+}
+
+.molt-table tr:nth-child(even) td {
+    background: var(--green-pale, #f9fdf8);
+}
+
+[data-theme="dark"] .molt-table tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* BACK */
+.molt-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--green-dark, #2d5a27);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+}
+
+.molt-back:hover {
+    text-decoration: underline;
+}
+
+.molt-section-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.molt-section-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.molt-section-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 640px) {
+    .molt-hero__title {
+        font-size: 1.35rem;
+    }
+
+    .molt-compare {
+        grid-template-columns: 1fr;
+    }
+
+    .molt-seasons {
+        grid-template-columns: 1fr;
+    }
+
+    .molt-section__title {
+        font-size: 1.05rem;
+    }
+}

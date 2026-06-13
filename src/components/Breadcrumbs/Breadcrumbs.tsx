@@ -31,6 +31,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/floor-care": "Підлогове утримання",
   "/pit-keeping": "Ямове утримання",
   "/microclimate": "Мікроклімат",
+  "/rabbit-housing-diy": "Клітки своїми руками",
 
   // ХАРЧУВАННЯ
   "/feeding": "Годування",
@@ -47,6 +48,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/disinfection": "Дезінфекція",
   "/biosecurity": "Біобезпека",
   "/grooming": "Кігті та зуби",
+  "/seasonal-molting": "Линька: норма та патологія",
+  "/rabbit-behavior-problems": "Проблемна поведінка",
 
   // РОЗВЕДЕННЯ
   "/okril": "Окріл",
@@ -57,6 +60,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/mating-frequency": "Частота злучування",
   "/mating-behavior": "Поведінка при злучці",
   "/okril-control": "Контроль дат",
+  "/sexing": "Визначення статі",
 
   // ЗДОРОВ'Я
   "/vaccinations": "Вакцинація",
@@ -97,6 +101,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/legal": "Юридичний куточок",
   "/sales": "Збут",
   "/profit-calculator": "Калькулятор рентабельності",
+  "/composting": "Переробка гною",
 
   // ОСОБИСТИЙ КАБІНЕТ
   "/registry": "Реєстр",

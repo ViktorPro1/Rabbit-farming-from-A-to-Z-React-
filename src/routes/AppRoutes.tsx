@@ -45,6 +45,9 @@ const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
 const FloorCare = lazy(() => import("../pages/FloorCare/FloorCare"));
 const PaddockInfo = lazy(() => import("../pages/Paddocks/PaddockInfo"));
 const Microclimate = lazy(() => import("../pages/Microclimate/Microclimate"));
+const RabbitHousingDIY = lazy(
+  () => import("../pages/RabbitHousingDIY/RabbitHousingDIY"),
+);
 
 // ХАРЧУВАННЯ
 const Feeding = lazy(() => import("../pages/Feeding/Feeding"));
@@ -61,6 +64,12 @@ const Care = lazy(() => import("../pages/Care/Care"));
 const Disinfection = lazy(() => import("../pages/Disinfection/Disinfection"));
 const Biosecurity = lazy(() => import("../pages/Biosecurity/Biosecurity"));
 const Grooming = lazy(() => import("../pages/Grooming/Grooming"));
+const RabbitBehaviorProblems = lazy(
+  () => import("../pages/RabbitBehaviorProblems/RabbitBehaviorProblems"),
+);
+const SeasonalMolting = lazy(
+  () => import("../pages/SeasonalMolting/SeasonalMolting"),
+);
 
 // РОЗВЕДЕННЯ
 const Okril = lazy(() => import("../pages/Okril/Okril"));
@@ -79,6 +88,7 @@ const MatingBehavior = lazy(
   () => import("../pages/MatingBehavior/MatingBehavior"),
 );
 const OkrilControl = lazy(() => import("../pages/OkrilControl/OkrilControl"));
+const Sexing = lazy(() => import("../pages/Sexing/Sexing"));
 
 // ЗДОРОВ'Я
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -149,6 +159,7 @@ const Economics = lazy(() => import("../pages/Economics/Economics"));
 const Legal = lazy(() => import("../pages/Legal/Legal"));
 const Sales = lazy(() => import("../pages/Sales/Sales"));
 const ProfitCalc = lazy(() => import("../pages/ProfitCalc/ProfitCalc"));
+const Composting = lazy(() => import("../pages/Composting/Composting"));
 
 // 404 СТОРІНКА
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
@@ -206,6 +217,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/floor-care" element={<FloorCare />} />
         <Route path="/pit-keeping" element={<PaddockInfo />} />
         <Route path="/microclimate" element={<Microclimate />} />
+        <Route path="/rabbit-housing-diy" element={<RabbitHousingDIY />} />
         {/* 3. ХАРЧУВАННЯ */}
         <Route path="/feeding" element={<Feeding />} />
         <Route path="/leaves" element={<Leaves />} />
@@ -220,6 +232,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/disinfection" element={<Disinfection />} />
         <Route path="/biosecurity" element={<Biosecurity />} />
         <Route path="/grooming" element={<Grooming />} />
+        <Route
+          path="/rabbit-behavior-problems"
+          element={<RabbitBehaviorProblems />}
+        />
+        <Route path="/seasonal-molting" element={<SeasonalMolting />} />
         {/* 5. РОЗВЕДЕННЯ */}
         <Route path="/okril" element={<Okril />} />
         <Route path="/winter-litter" element={<WinterLitter />} />
@@ -229,6 +246,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/mating-frequency" element={<MatingPage />} />
         <Route path="/mating-behavior" element={<MatingBehavior />} />
         <Route path="/okril-control" element={<OkrilControl />} />
+        <Route path="/sexing" element={<Sexing />} />
         {/* 6. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
@@ -308,6 +326,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/legal" element={<Legal />} />
         <Route path="/sales" element={<Sales />} />
         <Route path="/profit-calculator" element={<ProfitCalc />} />
+        <Route path="/composting" element={<Composting />} />
         {/* — ЗОНИ — */}
         <Route path="/zoonoses" element={<Zoonoses />} />
         {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
