@@ -68,6 +68,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/sexing": "Визначення статі",
   "/doe-preparation": "Підготовка самки до злучки",
   "/buck-management": "Утримання плідника",
+  "/false-pregnancy": "Хибна вагітність",
 
   // ЗДОРОВ'Я
   "/vaccinations": "Вакцинація",
@@ -86,6 +87,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/droppings": "Послід",
   "/zoonoses": "Зонози",
   "/rabbit-body-condition": "Кондиція тіла (BCS)",
+  "/dosage-calculator": "Калькулятор дозування",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",

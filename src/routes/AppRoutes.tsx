@@ -100,6 +100,9 @@ const DoePreparation = lazy(
 const BuckManagement = lazy(
   () => import("../pages/BuckManagement/BuckManagement"),
 );
+const FalsePregnancy = lazy(
+  () => import("../pages/FalsePregnancy/FalsePregnancy"),
+);
 
 // ЗДОРОВ'Я
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -126,6 +129,9 @@ const WaterMedication = lazy(
 const Droppings = lazy(() => import("../pages/Droppings/Droppings"));
 const RabbitBodyCondition = lazy(
   () => import("../pages/RabbitBodyCondition/RabbitBodyCondition"),
+);
+const DosageCalculator = lazy(
+  () => import("../pages/DosageCalculator/DosageCalculator"),
 );
 
 // СЕЗОННІ ЗАГРОЗИ
@@ -292,6 +298,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/sexing" element={<Sexing />} />
         <Route path="/doe-preparation" element={<DoePreparation />} />
         <Route path="/buck-management" element={<BuckManagement />} />
+        <Route path="/false-pregnancy" element={<FalsePregnancy />} />
         {/* 6. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
@@ -311,6 +318,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/rabbit-body-condition"
           element={<RabbitBodyCondition />}
         />
+        <Route path="/dosage-calculator" element={<DosageCalculator />} />
         {/* СЕЗОННІ ЗАГРОЗИ */}
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />
