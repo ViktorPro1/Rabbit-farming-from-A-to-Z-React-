@@ -38,6 +38,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/rabbit-behavior-problems": "Проблемна поведінка",
   "/rabbit-body-language": "Мова тіла кроля",
   "/rabbit-stress": "Стрес та переляк",
+  "/group-housing": "Групове утримання та ієрархія",
 
   // ХАРЧУВАННЯ
   "/feeding": "Годування",

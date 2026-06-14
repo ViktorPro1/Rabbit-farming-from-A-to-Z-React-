@@ -1,0 +1,507 @@
+.GH-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+/* HEADER */
+.GH-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.GH-header-icon {
+    font-size: 2.2rem;
+    flex-shrink: 0;
+}
+
+.GH-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0 0 0.2rem;
+    line-height: 1.2;
+}
+
+.GH-subtitle {
+    color: var(--gray);
+    font-size: 0.92rem;
+    margin: 0;
+}
+
+/* INTRO */
+.GH-intro {
+    background: var(--green-pale);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1.75rem;
+}
+
+.GH-intro p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--green-dark);
+}
+
+[data-theme="dark"] .GH-intro {
+    background: #1a2a1a;
+}
+
+/* SECTIONS */
+.GH-section {
+    margin-bottom: 2rem;
+}
+
+.GH-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0 0 0.85rem;
+}
+
+.GH-section-icon {
+    font-size: 1.1rem;
+}
+
+.GH-text {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--gray, #444);
+    margin: 0 0 1rem;
+}
+
+[data-theme="dark"] .GH-text {
+    color: #b0b0b0;
+}
+
+/* FACT BOX */
+.GH-fact-box {
+    display: flex;
+    gap: 0.75rem;
+    background: #e8f5e9;
+    border-left: 3px solid var(--green-dark);
+    border-radius: 0 10px 10px 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #2e5a2e;
+    margin-top: 0.75rem;
+}
+
+.GH-fact-icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+[data-theme="dark"] .GH-fact-box {
+    background: #1a2e1a;
+    color: #80c880;
+    border-color: var(--green-mid);
+}
+
+/* WARNING BOX */
+.GH-warning-box {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    background: #fff3e0;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #7a4000;
+    margin-top: 0.85rem;
+}
+
+[data-theme="dark"] .GH-warning-box {
+    background: #2a1a00;
+    color: #d4a050;
+}
+
+/* NOTE */
+.GH-note {
+    font-size: 0.83rem;
+    color: var(--gray);
+    font-style: italic;
+    margin-top: 0.65rem;
+    line-height: 1.5;
+}
+
+/* CARDS GRID */
+.GH-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+}
+
+.GH-card {
+    background: #fff;
+    border: 2px solid var(--green-light);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+}
+
+.GH-card--warn {
+    border-color: #ffcdd2;
+    background: #fff8f8;
+}
+
+[data-theme="dark"] .GH-card {
+    background: #1a261a;
+    border-color: #2e4a2e;
+}
+
+[data-theme="dark"] .GH-card--warn {
+    background: #2a1a1a;
+    border-color: #5a2a2a;
+}
+
+.GH-card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+}
+
+.GH-card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 0.4rem;
+}
+
+.GH-card--warn .GH-card-title {
+    color: #c62828;
+}
+
+[data-theme="dark"] .GH-card-title {
+    color: #a8d5a8;
+}
+
+[data-theme="dark"] .GH-card--warn .GH-card-title {
+    color: #ef9a9a;
+}
+
+.GH-card-desc {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+/* LIST */
+.GH-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--gray);
+}
+
+[data-theme="dark"] .GH-list {
+    color: #a0a0a0;
+}
+
+/* HIERARCHY VISUAL */
+.GH-hierarchy-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 0.85rem 0;
+}
+
+.GH-hier-item {
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.GH-hier-top {
+    background: var(--green-dark);
+    color: #fff;
+}
+
+.GH-hier-mid {
+    background: var(--green-mid);
+    color: #fff;
+    margin-left: 1.5rem;
+}
+
+.GH-hier-bot {
+    background: var(--green-light);
+    color: var(--green-dark);
+    margin-left: 3rem;
+}
+
+.GH-hier-arrow {
+    color: var(--green-mid);
+    font-size: 1rem;
+    margin-left: 1rem;
+    line-height: 1;
+    padding: 0.1rem 0;
+}
+
+/* SIGNS LIST */
+.GH-signs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.GH-sign-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1.5px solid var(--green-light);
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+}
+
+[data-theme="dark"] .GH-sign-item {
+    background: #1a261a;
+    border-color: #2e4a2e;
+}
+
+.GH-sign-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--green-dark);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.GH-sign-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 0.15rem;
+}
+
+[data-theme="dark"] .GH-sign-name {
+    color: #a8d5a8;
+}
+
+.GH-sign-detail {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+/* TABLE */
+.GH-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1.5px solid var(--green-light);
+    margin-top: 0.85rem;
+}
+
+.GH-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.GH-table th {
+    background: var(--green-pale);
+    color: var(--green-dark);
+    font-weight: 700;
+    text-align: left;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1.5px solid var(--green-light);
+}
+
+.GH-table td {
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid var(--green-light);
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+.GH-table tr:last-child td {
+    border-bottom: none;
+}
+
+[data-theme="dark"] .GH-table th {
+    background: #1a2e1a;
+    color: #a8d5a8;
+    border-color: #2e4a2e;
+}
+
+[data-theme="dark"] .GH-table td {
+    color: #a0a0a0;
+    border-color: #2a3a2a;
+}
+
+.GH-low {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.GH-mid {
+    color: #f57c00;
+    font-weight: 600;
+}
+
+.GH-high {
+    color: #c62828;
+    font-weight: 600;
+}
+
+/* STEPS */
+.GH-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+}
+
+.GH-step {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+}
+
+.GH-step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: var(--green-dark);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.GH-step-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 0.15rem;
+}
+
+[data-theme="dark"] .GH-step-title {
+    color: #a8d5a8;
+}
+
+.GH-step-desc {
+    font-size: 0.83rem;
+    color: var(--gray);
+    line-height: 1.45;
+}
+
+/* TIPS GRID */
+.GH-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.7rem;
+    margin-top: 0.85rem;
+}
+
+.GH-tip-card {
+    background: #fff;
+    border: 1.5px solid var(--green-light);
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
+}
+
+[data-theme="dark"] .GH-tip-card {
+    background: #1a261a;
+    border-color: #2e4a2e;
+}
+
+.GH-tip-icon {
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.GH-tip-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 0.2rem;
+}
+
+[data-theme="dark"] .GH-tip-title {
+    color: #a8d5a8;
+}
+
+.GH-tip-desc {
+    font-size: 0.8rem;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+/* SUMMARY */
+.GH-summary {
+    background: var(--green-pale);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    margin-top: 0.5rem;
+}
+
+[data-theme="dark"] .GH-summary {
+    background: #1a2a1a;
+}
+
+.GH-summary-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0 0 0.65rem;
+}
+
+[data-theme="dark"] .GH-summary-title {
+    color: #a8d5a8;
+}
+
+.GH-summary-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--green-dark);
+}
+
+[data-theme="dark"] .GH-summary-list {
+    color: #80c880;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+    .GH-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .GH-tips-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .GH-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .GH-tips-grid {
+        grid-template-columns: 1fr;
+    }
+}

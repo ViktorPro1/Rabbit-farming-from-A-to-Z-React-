@@ -75,6 +75,7 @@ const RabbitBehaviorProblems = lazy(
 const SeasonalMolting = lazy(
   () => import("../pages/SeasonalMolting/SeasonalMolting"),
 );
+const GroupHousing = lazy(() => import("../pages/GroupHousing/GroupHousing"));
 
 // РОЗВЕДЕННЯ
 const Okril = lazy(() => import("../pages/Okril/Okril"));
@@ -286,6 +287,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           element={<RabbitBehaviorProblems />}
         />
         <Route path="/seasonal-molting" element={<SeasonalMolting />} />
+        <Route path="/group-housing" element={<GroupHousing />} />
         {/* 5. РОЗВЕДЕННЯ */}
         <Route path="/okril" element={<Okril />} />
         <Route path="/winter-litter" element={<WinterLitter />} />
