@@ -25,7 +25,6 @@ const ROUTE_LABELS: Record<string, string> = {
   "/selection": "Селекція",
   "/genetics": "Генетика забарвлення",
   "/rabbits-and-guinea-pigs": "Кролі та морські свинки",
-  "/rabbit-sounds": "Звуки кролів",
 
   // ЖИТЛО
   "/enclosure": "Клітки",
@@ -33,6 +32,12 @@ const ROUTE_LABELS: Record<string, string> = {
   "/pit-keeping": "Ямове утримання",
   "/microclimate": "Мікроклімат",
   "/rabbit-housing-diy": "Клітки своїми руками",
+
+  // ПОВЕДІНКА ТА ПСИХОЛОГІЯ
+  "/rabbit-sounds": "Звуки кролів",
+  "/rabbit-behavior-problems": "Проблемна поведінка",
+  "/rabbit-body-language": "Мова тіла кроля",
+  "/rabbit-stress": "Стрес та переляк",
 
   // ХАРЧУВАННЯ
   "/feeding": "Годування",
@@ -50,7 +55,6 @@ const ROUTE_LABELS: Record<string, string> = {
   "/biosecurity": "Біобезпека",
   "/grooming": "Кігті та зуби",
   "/seasonal-molting": "Линька: норма та патологія",
-  "/rabbit-behavior-problems": "Проблемна поведінка",
 
   // РОЗВЕДЕННЯ
   "/okril": "Окріл",
@@ -82,6 +86,17 @@ const ROUTE_LABELS: Record<string, string> = {
   "/droppings": "Послід",
   "/zoonoses": "Зонози",
   "/rabbit-body-condition": "Кондиція тіла (BCS)",
+
+  // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
+  "/vet-injections": "Ін'єкції",
+  "/vet-oral-meds": "Таблетки та суспензії",
+  "/vet-temperature": "Вимірювання температури",
+  "/vet-fecal-sample": "Збір калу на аналіз",
+
+  // СЕЗОННІ ЗАГРОЗИ
+  "/seasonal-spring": "Весна: кокцидіоз",
+  "/seasonal-summer": "Літо: міаз",
+  "/seasonal-autumn": "Осінь: підготовка до зими",
 
   // ПЛАНУВАННЯ
   "/calendar": "Сезонний календар",

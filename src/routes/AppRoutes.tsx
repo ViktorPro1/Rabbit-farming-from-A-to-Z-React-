@@ -40,6 +40,10 @@ const RabbitsAndGuineaPigs = lazy(
   () => import("../pages/RabbitsAndGuineaPigs/RabbitsAndGuineaPigs"),
 );
 const RabbitSounds = lazy(() => import("../pages/RabbitSounds/RabbitSounds"));
+const RabbitBodyLanguage = lazy(
+  () => import("../pages/RabbitBodyLanguage/RabbitBodyLanguage"),
+);
+const RabbitStress = lazy(() => import("../pages/RabbitStress/RabbitStress"));
 
 // ЖИТЛО
 const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
@@ -122,6 +126,29 @@ const WaterMedication = lazy(
 const Droppings = lazy(() => import("../pages/Droppings/Droppings"));
 const RabbitBodyCondition = lazy(
   () => import("../pages/RabbitBodyCondition/RabbitBodyCondition"),
+);
+
+// СЕЗОННІ ЗАГРОЗИ
+const SeasonalSummer = lazy(
+  () => import("../pages/SeasonalSummer/SeasonalSummer"),
+);
+const SeasonalSpring = lazy(
+  () => import("../pages/SeasonalSpring/SeasonalSpring"),
+);
+const SeasonalAutumn = lazy(
+  () => import("../pages/SeasonalAutumn/SeasonalAutumn"),
+);
+
+// ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ
+const VetInjections = lazy(
+  () => import("../pages/VetInjections/VetInjections"),
+);
+const VetOralMeds = lazy(() => import("../pages/VetOralMeds/VetOralMeds"));
+const VetTemperature = lazy(
+  () => import("../pages/VetTemperature/VetTemperature"),
+);
+const VetFecalSample = lazy(
+  () => import("../pages/VetFecalSample/VetFecalSample"),
 );
 
 // ПЛАНУВАННЯ
@@ -226,6 +253,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           element={<RabbitsAndGuineaPigs />}
         />
         <Route path="/rabbit-sounds" element={<RabbitSounds />} />
+        <Route path="/rabbit-body-language" element={<RabbitBodyLanguage />} />
+        <Route path="/rabbit-stress" element={<RabbitStress />} />
         {/* 2. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
@@ -282,6 +311,15 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/rabbit-body-condition"
           element={<RabbitBodyCondition />}
         />
+        {/* СЕЗОННІ ЗАГРОЗИ */}
+        <Route path="/seasonal-summer" element={<SeasonalSummer />} />
+        <Route path="/seasonal-spring" element={<SeasonalSpring />} />
+        <Route path="/seasonal-autumn" element={<SeasonalAutumn />} />
+        {/* ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ */}
+        <Route path="/vet-injections" element={<VetInjections />} />
+        <Route path="/vet-oral-meds" element={<VetOralMeds />} />
+        <Route path="/vet-temperature" element={<VetTemperature />} />
+        <Route path="/vet-fecal-sample" element={<VetFecalSample />} />
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />

@@ -1,0 +1,820 @@
+.st-page {
+    min-height: 100vh;
+    background-color: #fcfbfa;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.st-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ── HERO BANNER ── */
+.st-hero-section {
+    background-color: var(--green-dark);
+    width: 100%;
+    padding: 3.5rem 1.25rem 4.5rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.st-hero-banner {
+    max-width: 850px;
+    margin: 0 auto;
+    color: #ffffff;
+}
+
+.st-hero__eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.75;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.st-hero__title {
+    font-size: clamp(22px, 4vw, 42px);
+    font-weight: 500;
+    margin: 0 0 1.25rem;
+    color: #ffffff;
+    line-height: 1.3;
+}
+
+.st-hero__sub {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.85;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ── SECTIONS ── */
+.st-section {
+    padding: 3rem 0 1rem;
+}
+
+.st-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--green-light);
+}
+
+.st-section-sub {
+    font-size: 14px;
+    color: var(--gray);
+    margin: 0 0 2rem 0;
+    line-height: 1.5;
+}
+
+/* ── PHYSIOLOGY FLOW ── */
+.st-physio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 1.5rem;
+}
+
+.st-physio-card {
+    background: var(--cream);
+    border-radius: 12px;
+    border: 1px solid var(--gray-light);
+    border-left: 4px solid var(--green-mid);
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+}
+
+.st-physio-card--trigger {
+    border-left-color: var(--amber);
+}
+
+.st-physio-card--danger {
+    border-left-color: var(--brown);
+    background: #fff9f5;
+}
+
+.st-physio-icon {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.st-physio-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 8px 0;
+}
+
+.st-physio-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.st-physio-card p strong {
+    color: var(--green-dark);
+}
+
+.st-physio-card:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-light);
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* ── SEVERITY FILTERS ── */
+.st-severity-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+}
+
+.st-sev-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.st-sev-btn:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.st-sev-btn--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── CAUSES GRID ── */
+.st-causes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.st-cause-card {
+    background: var(--cream);
+    border-radius: 12px;
+    border: 1px solid var(--gray-light);
+    border-left: 4px solid var(--cause-color);
+    padding: 18px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.st-cause-card:hover,
+.st-cause-card--open {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.st-cause-card:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 2px;
+}
+
+.st-cause-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.st-cause-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.st-cause-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+.st-cause-category {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 2px;
+}
+
+.st-cause-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.st-cause-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.st-cause-chevron {
+    font-size: 10px;
+    color: var(--gray);
+}
+
+.st-sev-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.st-cause-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.st-cause-details {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.st-cause-block-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.st-cause-block p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.st-cause-block--farm {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid var(--green-accent);
+}
+
+.st-cause-block--farm .st-cause-block-label {
+    color: var(--green-dark);
+}
+
+.st-cause-block--farm p {
+    color: var(--green-dark);
+}
+
+.st-cause-block--prevent {
+    background: var(--amber-light);
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid var(--amber);
+}
+
+.st-cause-block--prevent .st-cause-block-label {
+    color: var(--brown);
+}
+
+.st-cause-block--prevent p {
+    color: var(--brown);
+}
+
+/* ── SIGNS FILTERS ── */
+.st-sign-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    align-items: center;
+}
+
+.st-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.st-filter-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray);
+}
+
+.st-filter-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.st-filter-btn:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.st-filter-btn--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── SIGNS TABLE ── */
+.st-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+}
+
+.st-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--cream);
+}
+
+.st-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.st-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.st-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.st-table tr:hover td {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.st-table tr:last-child td {
+    border-bottom: none;
+}
+
+.st-phase-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin: 2px;
+    white-space: nowrap;
+}
+
+.st-phase-badge--acute {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+.st-phase-badge--chronic {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.st-td-system {
+    color: var(--green-mid);
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.st-td-note {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+/* ── RECOVERY ── */
+.st-recovery-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.st-recovery-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--cream);
+    border-radius: 12px;
+    border: 1px solid var(--gray-light);
+    padding: 16px;
+}
+
+.st-recovery-step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--green-dark);
+    color: var(--green-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.st-recovery-step-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.st-recovery-step-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.st-recovery-icon {
+    font-size: 1.1rem;
+}
+
+.st-recovery-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.st-recovery-time {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-mid);
+    background: var(--green-light);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.st-recovery-action {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── CHECKLIST ── */
+.st-checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.st-checklist-card {
+    background: var(--cream);
+    border-radius: 12px;
+    border: 1px solid var(--gray-light);
+    padding: 1.5rem;
+}
+
+.st-checklist-card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 1rem 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-accent);
+}
+
+.st-checklist-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.st-checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.4;
+}
+
+.st-checklist-check {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    background: var(--green-light);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-top: 1px;
+}
+
+/* ── EMERGENCY BOX ── */
+.st-emergency-box {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--amber-light);
+    border: 1px solid var(--brown);
+    border-left: 4px solid var(--brown);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.st-emergency-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.st-emergency-box h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--brown);
+    margin: 0 0 10px 0;
+}
+
+.st-emergency-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.st-emergency-box li {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.4;
+    padding-left: 14px;
+    position: relative;
+}
+
+.st-emergency-box li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--brown);
+    font-weight: bold;
+}
+
+/* ── FOOTER ── */
+.st-footer {
+    padding: 2rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid var(--gray-light);
+}
+
+.st-footer p {
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+    .st-physio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .st-physio-card:not(:last-child)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .st-checklist-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 640px) {
+    .st-causes-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .st-physio-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .st-recovery-time {
+        margin-left: 0;
+        margin-top: 2px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    /* Hero */
+    .st-hero-section {
+        padding: 1.75rem 1rem 2rem;
+    }
+
+    .st-hero__title {
+        font-size: 18px;
+        margin-bottom: 0.75rem;
+    }
+
+    .st-hero__sub {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    /* Container */
+    .st-container {
+        padding: 0 1rem;
+    }
+
+    /* Sections */
+    .st-section {
+        padding: 1.5rem 0 0.5rem;
+    }
+
+    .st-section-title {
+        font-size: 15px;
+    }
+
+    .st-section-sub {
+        font-size: 12px;
+        margin-bottom: 1rem;
+    }
+
+    /* Filters */
+    .st-sev-btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .st-filter-btn {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+
+    /* Cause cards */
+    .st-cause-card {
+        padding: 12px;
+    }
+
+    .st-cause-title {
+        font-size: 13px;
+    }
+
+    .st-cause-desc {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .st-cause-right {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .st-sev-badge {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+
+    /* Physio cards */
+    .st-physio-card {
+        padding: 12px;
+    }
+
+    .st-physio-card h3 {
+        font-size: 13px;
+    }
+
+    .st-physio-card p {
+        font-size: 12px;
+    }
+
+    /* Table */
+    .st-table th,
+    .st-table td {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .st-phase-badge {
+        font-size: 10px;
+        padding: 1px 5px;
+    }
+
+    /* Recovery */
+    .st-recovery-step {
+        padding: 11px;
+        gap: 10px;
+    }
+
+    .st-recovery-step-num {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+
+    .st-recovery-title {
+        font-size: 13px;
+    }
+
+    .st-recovery-action {
+        font-size: 12px;
+    }
+
+    /* Checklist */
+    .st-checklist-card {
+        padding: 1rem;
+    }
+
+    .st-checklist-card-title {
+        font-size: 14px;
+    }
+
+    .st-checklist-item {
+        font-size: 12px;
+    }
+
+    /* Emergency */
+    .st-emergency-box {
+        padding: 1rem;
+        gap: 10px;
+        flex-direction: row;
+    }
+
+    .st-emergency-icon {
+        font-size: 1.3rem;
+    }
+
+    .st-emergency-box h3 {
+        font-size: 13px;
+    }
+
+    .st-emergency-box li {
+        font-size: 12px;
+    }
+}

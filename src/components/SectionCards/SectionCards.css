@@ -354,3 +354,11 @@
     text-transform: uppercase;
     letter-spacing: .06em;
 }
+
+[data-theme="dark"] .sc-stat-num {
+    color: var(--green-pale);
+}
+
+[data-theme="dark"] .sc-stat-lbl {
+    color: var(--green-light);
+}

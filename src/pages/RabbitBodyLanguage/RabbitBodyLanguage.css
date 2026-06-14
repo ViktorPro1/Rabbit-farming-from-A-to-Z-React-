@@ -1,0 +1,480 @@
+.bl-section,
+.bl-table-section,
+.bl-quick-section,
+.bl-footer {
+    margin-bottom: 2rem;
+}
+
+
+.bl-page {
+    min-height: 100vh;
+}
+
+/* ── HEADER ─────────────────────────────── */
+.bl-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.bl-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.bl-header p {
+    opacity: 0.9;
+    font-size: 15px;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ── WRAP ────────────────────────────────── */
+.bl-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── SECTION TITLE ───────────────────────── */
+.bl-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 0.5rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.bl-section-sub {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* ── TABS ────────────────────────────────── */
+.bl-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.bl-tab {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+
+.bl-tab:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.bl-tab--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── SIGNALS GRID ────────────────────────── */
+.bl-signals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.bl-signal-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    border-left: 3px solid var(--green-accent);
+    padding: 14px 16px;
+    transition: border-color 0.18s;
+}
+
+.bl-signal-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.bl-signal-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    flex: 1;
+    line-height: 1.4;
+}
+
+.bl-signal-mood {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.bl-signal-meaning {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* mood colors for signal card border + badge */
+.bl-signal-card.mood-happy {
+    border-left-color: var(--green-accent);
+}
+
+.bl-signal-card.mood-relaxed {
+    border-left-color: var(--green-mid);
+}
+
+.bl-signal-card.mood-curious {
+    border-left-color: var(--amber);
+}
+
+.bl-signal-card.mood-alert {
+    border-left-color: var(--amber);
+}
+
+.bl-signal-card.mood-stressed {
+    border-left-color: var(--brown);
+}
+
+.bl-signal-card.mood-scared {
+    border-left-color: #8B1A1A;
+}
+
+.bl-signal-card.mood-aggressive {
+    border-left-color: #C0392B;
+}
+
+/* ── MOOD FILTERS ────────────────────────── */
+.bl-mood-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.bl-mood-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: 999px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+
+.bl-mood-btn:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.bl-mood-btn--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── POSES GRID ──────────────────────────── */
+.bl-poses-section {
+    background: var(--amber-light);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.bl-poses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.bl-pose-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.bl-pose-card:hover {
+    border-color: var(--green-accent);
+    box-shadow: 0 2px 10px rgba(39, 80, 10, 0.09);
+}
+
+.bl-pose-card:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 2px;
+}
+
+.bl-pose-card--open {
+    border-color: var(--green-mid);
+    box-shadow: 0 2px 10px rgba(39, 80, 10, 0.09);
+}
+
+.bl-pose-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.bl-pose-emoji {
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.bl-pose-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+.bl-pose-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.bl-pose-mood-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.bl-pose-chevron {
+    font-size: 11px;
+    color: var(--gray);
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.bl-pose-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.bl-pose-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bl-pose-block-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 4px;
+}
+
+.bl-pose-block p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.bl-pose-block--farm {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--green-accent);
+}
+
+.bl-pose-block--farm .bl-pose-block-label {
+    color: var(--green-dark);
+}
+
+/* ── FARM TABLE ──────────────────────────── */
+.bl-table-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.bl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.bl-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.bl-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.bl-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.bl-table tr:hover td {
+    background: var(--green-light);
+}
+
+.bl-table tr:last-child td {
+    border-bottom: none;
+}
+
+.bl-td-action {
+    color: var(--green-mid);
+    font-weight: 500;
+}
+
+/* ── QUICK REFERENCE ─────────────────────── */
+.bl-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.bl-quick-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 14px 16px;
+}
+
+.bl-quick-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.bl-quick-text {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── NOTE / ALERT ────────────────────────── */
+.bl-note {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.bl-note p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── BACK BUTTON ─────────────────────────── */
+.bl-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.bl-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.bl-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 1024px) {
+    .bl-signals-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bl-quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .bl-poses-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .bl-signals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bl-quick-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .bl-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .bl-table th,
+    .bl-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .bl-pose-card {
+        padding: 12px;
+    }
+}

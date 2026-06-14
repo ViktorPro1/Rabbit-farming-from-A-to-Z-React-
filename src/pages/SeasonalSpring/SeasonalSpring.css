@@ -1,0 +1,390 @@
+.sp-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 16px 64px;
+}
+
+.sp-back {
+    margin-bottom: 12px;
+}
+
+.sp-back-link {
+    font-size: 0.9rem;
+    color: var(--green-mid, #388e3c);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.sp-back-link:hover {
+    text-decoration: underline;
+}
+
+.sp-hero {
+    text-align: center;
+    padding: 28px 0 20px;
+}
+
+.sp-hero span {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sp-hero h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--green-dark, #1b5e20);
+    margin: 0 0 8px;
+}
+
+.sp-hero p {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+}
+
+.sp-section {
+    margin-bottom: 28px;
+}
+
+.sp-section h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--green-dark, #1b5e20);
+    margin: 0 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-pale, #c8e6c9);
+}
+
+.sp-lead {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0 0 12px;
+    line-height: 1.55;
+}
+
+/* WHY GRID */
+.sp-why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.sp-why-card {
+    background: #f1f8e9;
+    border: 1.5px solid #c5e1a5;
+    border-radius: 12px;
+    padding: 14px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sp-why-icon {
+    font-size: 1.6rem;
+}
+
+.sp-why-card strong {
+    font-size: 0.93rem;
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+.sp-why-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #444;
+    line-height: 1.5;
+}
+
+/* SYMPTOMS */
+.sp-symptoms {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 10px;
+}
+
+.sp-symptom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+}
+
+.sp-symptom--mild {
+    background: #f9fbe7;
+    border: 1px solid #dce775;
+    color: #444;
+}
+
+.sp-symptom--severe {
+    background: #ffebee;
+    border: 1px solid #ef9a9a;
+    color: #333;
+}
+
+.sp-sev-badge {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: #e53935;
+    color: #fff;
+    border-radius: 12px;
+    padding: 2px 8px;
+    white-space: nowrap;
+}
+
+.sp-merck-note {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+    margin: 8px 0 0;
+    line-height: 1.5;
+}
+
+/* AT RISK */
+.sp-at-risk {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.sp-risk-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.45;
+}
+
+.sp-risk-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f9a825;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+
+/* PREVENTION */
+.sp-prevention {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.sp-prev-card {
+    background: #fff;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.sp-prev-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 7px;
+}
+
+.sp-prev-header strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #222;
+}
+
+.sp-tag {
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    margin-left: auto;
+}
+
+.sp-tag--green {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.sp-tag--amber {
+    background: #fff8e1;
+    color: #e65100;
+}
+
+.sp-tag--blue {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.sp-prev-card p {
+    margin: 0;
+    font-size: 0.87rem;
+    color: #444;
+    line-height: 1.55;
+}
+
+/* LINKS */
+.sp-links {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: #f5f5f5;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 0.88rem;
+    color: #444;
+}
+
+.sp-links>span:first-child {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.sp-links a {
+    color: var(--green-mid, #388e3c);
+    font-weight: 600;
+}
+
+/* DARK */
+[data-theme="dark"] .sp-hero h1 {
+    color: #a5d6a7;
+}
+
+[data-theme="dark"] .sp-hero p {
+    color: #aaa;
+}
+
+[data-theme="dark"] .sp-section h2 {
+    color: #a5d6a7;
+    border-color: #2d4a2d;
+}
+
+[data-theme="dark"] .sp-why-card {
+    background: #1c2d10;
+    border-color: #558b2f;
+}
+
+[data-theme="dark"] .sp-why-card strong {
+    color: #a5d6a7;
+}
+
+[data-theme="dark"] .sp-why-card p {
+    color: #bbb;
+}
+
+[data-theme="dark"] .sp-symptom--mild {
+    background: #1e2a00;
+    border-color: #8bc34a;
+    color: #ccc;
+}
+
+[data-theme="dark"] .sp-symptom--severe {
+    background: #2a1010;
+    border-color: #c62828;
+    color: #ddd;
+}
+
+[data-theme="dark"] .sp-risk-row {
+    background: #2a2000;
+    border-color: #5a4500;
+    color: #ccc;
+}
+
+[data-theme="dark"] .sp-prev-card {
+    background: #1a2a1a;
+    border-color: #2d4a2d;
+}
+
+[data-theme="dark"] .sp-prev-header strong {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .sp-prev-card p {
+    color: #bbb;
+}
+
+[data-theme="dark"] .sp-links {
+    background: #1a2a1a;
+    color: #bbb;
+}
+
+[data-theme="dark"] .sp-lead {
+    color: #aaa;
+}
+
+[data-theme="dark"] .sp-merck-note {
+    color: #666;
+}
+
+@media (max-width: 640px) {
+    .sp-why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sp-hero h1 {
+        font-size: 1.4rem;
+    }
+
+    .sp-tag {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .sp-hero h1 {
+        font-size: 1.2rem;
+    }
+
+    .sp-hero p {
+        font-size: 0.88rem;
+    }
+
+    .sp-why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sp-why-card {
+        padding: 11px 12px;
+    }
+
+    .sp-section h2 {
+        font-size: 1rem;
+    }
+
+    .sp-prev-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sp-tag {
+        margin-left: 0;
+    }
+
+    .sp-symptom {
+        font-size: 0.82rem;
+        padding: 8px 10px;
+    }
+
+    .sp-risk-row {
+        font-size: 0.82rem;
+        padding: 8px 10px;
+    }
+
+    .sp-prev-card {
+        padding: 11px 12px;
+    }
+
+    .sp-links {
+        font-size: 0.82rem;
+        padding: 10px 12px;
+    }
+}
