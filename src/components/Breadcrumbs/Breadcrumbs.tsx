@@ -118,6 +118,11 @@ const ROUTE_LABELS: Record<string, string> = {
   "/transport": "Транспортування",
   "/recipes": "Рецепти",
 
+  // ПЛЕМІННА СПАВА ТА ВИСТАВКА
+  "/breed-standards": "Стандарти порід",
+  "/show-preparation": "Підготовка до виставки",
+  "/show-judging": "Суддівство на виставці",
+
   // УПРАВЛІННЯ
   "/economics": "Економіка",
   "/legal": "Юридичний куточок",

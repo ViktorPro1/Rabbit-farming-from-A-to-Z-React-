@@ -198,6 +198,15 @@ const MyVaccinations = lazy(
 );
 const MyTreatments = lazy(() => import("../pages/MyTreatments/MyTreatments"));
 
+// ПЛЕМІННА СПРАВА ТА ВИСТАВКИ
+const BreedStandards = lazy(
+  () => import("../pages/BreedStandards/BreedStandards"),
+);
+const ShowJudging = lazy(() => import("../pages/ShowJudging/ShowJudging"));
+const ShowPreparation = lazy(
+  () => import("../pages/ShowPreparation/ShowPreparation"),
+);
+
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
 const Legal = lazy(() => import("../pages/Legal/Legal"));
@@ -389,6 +398,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/my-treatments"
           element={session ? <MyTreatments session={session} /> : <Auth />}
         />
+        {/* — Племінна справа та виставки — */}
+        <Route path="/breed-standards" element={<BreedStandards />} />
+        <Route path="/show-judging" element={<ShowJudging />} />
+        <Route path="/show-preparation" element={<ShowPreparation />} />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />
