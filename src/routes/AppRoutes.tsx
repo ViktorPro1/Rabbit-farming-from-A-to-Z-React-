@@ -208,6 +208,12 @@ const ShowJudging = lazy(() => import("../pages/ShowJudging/ShowJudging"));
 const ShowPreparation = lazy(
   () => import("../pages/ShowPreparation/ShowPreparation"),
 );
+const BreedingEvaluation = lazy(
+  () => import("../pages/BreedingEvaluation/BreedingEvaluation"),
+);
+const CoatColorsEvaluation = lazy(
+  () => import("../pages/CoatColorsEvaluation/CoatColorsEvaluation"),
+);
 
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
@@ -406,6 +412,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/breed-standards" element={<BreedStandards />} />
         <Route path="/show-judging" element={<ShowJudging />} />
         <Route path="/show-preparation" element={<ShowPreparation />} />
+        <Route path="/breeding-evaluation" element={<BreedingEvaluation />} />
+        <Route
+          path="/coat-colors-evaluation"
+          element={<CoatColorsEvaluation />}
+        />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />

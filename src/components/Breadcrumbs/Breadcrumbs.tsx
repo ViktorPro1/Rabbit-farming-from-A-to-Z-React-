@@ -124,6 +124,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/breed-standards": "Стандарти порід",
   "/show-preparation": "Підготовка до виставки",
   "/show-judging": "Суддівство на виставці",
+  "/breeding-evaluation": "Племінна оцінка",
+  "/coat-colors-evaluation": "Оцінка забарвлення",
 
   // УПРАВЛІННЯ
   "/economics": "Економіка",
