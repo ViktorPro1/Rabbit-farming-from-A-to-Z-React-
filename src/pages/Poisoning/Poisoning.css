@@ -1,0 +1,505 @@
+/* =========================================
+   Poisoning.css
+   Breakpoints: 420 / 640 / 768 / 1024
+   ========================================= */
+
+.pz-page {
+    min-height: 100vh;
+}
+
+.pz-header {
+    background: linear-gradient(90deg, #2C0A0A, #633806);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.pz-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.pz-header p {
+    opacity: .9;
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.pz-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.pz-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 0.5rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.pz-intro {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+/* ── EMERGENCY BANNER ── */
+.pz-emergency-banner {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--amber-light);
+    border: 1.5px solid var(--brown);
+    border-left: 4px solid var(--brown);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 1.5rem 0;
+    font-size: 14px;
+    color: var(--brown);
+    line-height: 1.5;
+}
+
+.pz-emergency-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+/* ── STEPS ── */
+.pz-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pz-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 13px 15px;
+}
+
+.pz-step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--green-dark);
+    color: var(--green-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.pz-step-content h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.pz-step-content p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── TABLE ── */
+.pz-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.pz-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 500px;
+}
+
+.pz-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.pz-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.pz-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.pz-table tr:hover td {
+    background: var(--green-light);
+}
+
+.pz-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pz-td-action {
+    color: var(--brown);
+}
+
+.pz-td-sm {
+    font-size: 12px;
+}
+
+.pz-td-note {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.pz-latin {
+    font-size: 11px;
+    color: var(--gray);
+    font-style: italic;
+}
+
+/* ── BADGES ── */
+.pz-risk-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.pz-badge--extreme {
+    background: #FFE0DE;
+    color: #8B0000;
+}
+
+.pz-badge--high {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+.pz-badge--medium {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.pz-urg-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.pz-urg--critical {
+    background: #FFE0DE;
+    color: #8B0000;
+}
+
+.pz-urg--urgent {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+.pz-urg--watch {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+/* ── SYMPTOMS ── */
+.pz-symptoms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pz-symptom-card {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 13px 15px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color .18s;
+}
+
+.pz-symptom-card:hover {
+    border-color: var(--green-accent);
+}
+
+.pz-symptom-card--open {
+    border-color: var(--green-mid);
+}
+
+.pz-symptom-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pz-symptom-system {
+    font-size: 14px;
+    color: var(--green-dark);
+    flex: 1;
+}
+
+.pz-chevron {
+    font-size: 11px;
+    color: var(--gray);
+    flex-shrink: 0;
+}
+
+.pz-symptom-list {
+    margin: 10px 0 0 0;
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.pz-symptom-list li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.55;
+}
+
+/* ── SOURCES ── */
+.pz-sources-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pz-source-card {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 13px 15px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+}
+
+.pz-source-card:hover {
+    border-color: var(--amber);
+    box-shadow: 0 2px 8px rgba(186, 117, 23, .1);
+}
+
+.pz-source-card--open {
+    border-color: var(--amber);
+}
+
+.pz-source-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.pz-source-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.pz-source-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    flex: 1;
+    margin: 0;
+}
+
+.pz-source-examples {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.pz-source-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pz-detail-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pz-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gray);
+}
+
+.pz-detail-block p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.pz-detail-block--aid {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--green-accent);
+}
+
+.pz-detail-block--aid .pz-detail-label {
+    color: var(--green-dark);
+}
+
+/* ── PLANT TABS ── */
+.pz-plant-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pz-tab {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all .18s;
+}
+
+.pz-tab:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.pz-tab--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── SAFE PLANTS ── */
+.pz-safe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pz-safe-item {
+    background: var(--green-light);
+    border-radius: 8px;
+    border: 0.5px solid var(--green-pale);
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--green-dark);
+}
+
+/* ── ALERTS ── */
+.pz-alert {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.pz-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.pz-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.pz-alert.danger {
+    background: #FFE0DE;
+    color: #8B0000;
+    border-left: 3px solid var(--brown);
+}
+
+/* ── NOTE ── */
+.pz-note {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+}
+
+.pz-note p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .pz-safe-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .pz-safe-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pz-table {
+        min-width: 420px;
+    }
+}
+
+@media (max-width: 420px) {
+    .pz-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .pz-table th,
+    .pz-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .pz-step {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+}

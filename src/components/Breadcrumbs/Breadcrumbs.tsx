@@ -56,6 +56,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/biosecurity": "Біобезпека",
   "/grooming": "Кігті та зуби",
   "/seasonal-molting": "Линька: норма та патологія",
+  "/predators": "Хижаки та шкідники",
 
   // РОЗВЕДЕННЯ
   "/okril": "Окріл",
@@ -89,6 +90,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/zoonoses": "Зонози",
   "/rabbit-body-condition": "Кондиція тіла (BCS)",
   "/dosage-calculator": "Калькулятор дозування",
+  "/poisoning": "Отруєння кролів",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",
