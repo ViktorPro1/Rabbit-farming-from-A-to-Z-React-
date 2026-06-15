@@ -51,6 +51,7 @@ export default function Fattening({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [showNote, setShowNote] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -563,67 +564,78 @@ export default function Fattening({ session }: Props) {
 
       {/* ── Зноска ── */}
       <div className="fattening-note">
-        <h3>📋 Рекомендовані терміни забою</h3>
-        <p>
-          Оптимальний вік забою кроликів залежить від породи та мети розведення.
-          Загальне правило — <strong>не раніше 3 місяців (90 днів)</strong> від
-          народження.
-        </p>
-        <div className="fattening-note-grid">
-          <div className="fattening-note-item">
-            <span className="fattening-note-icon">🥩</span>
-            <div>
-              <strong>М'ясні породи</strong>
-              <span>Каліфорнійський, Новозеландський, HYLA</span>
-              <span className="fattening-note-days">70–90 днів</span>
-            </div>
-          </div>
-          <div className="fattening-note-item">
-            <span className="fattening-note-icon">🐇</span>
-            <div>
-              <strong>Універсальні породи</strong>
-              <span>Бургундський, Віденський, Термонський</span>
-              <span className="fattening-note-days">90–120 днів</span>
-            </div>
-          </div>
-          <div className="fattening-note-item">
-            <span className="fattening-note-icon">🦁</span>
-            <div>
-              <strong>Великі породи</strong>
-              <span>Фландр, Сірий велетень, Білий велетень</span>
-              <span className="fattening-note-days">120–150 днів</span>
-            </div>
-          </div>
-          <div className="fattening-note-item">
-            <span className="fattening-note-icon">✂️</span>
-            <div>
-              <strong>Хутрові породи</strong>
-              <span>Рекс, Шиншила, Віденський блакитний</span>
-              <span className="fattening-note-days">
-                після линьки (4–7 міс)
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="fattening-note-warn">
-          ⚠️ <strong>Важливо:</strong> Не забивайте під час линьки — шкурка
-          втратить товарний вигляд. У молодняку перша линька закінчується до
-          4–4.5 місяців, друга — до 7–7.5 місяців.
-        </div>
-        <div
-          className="fattening-note-warn"
-          style={{
-            background: "#e8f5e9",
-            borderColor: "#a5d6a7",
-            color: "#1b5e20",
-          }}
+        <button
+          className="fattening-note-toggle"
+          onClick={() => setShowNote(!showNote)}
         >
-          ✅ <strong>Оптимальний вік для домашнього господарства:</strong> Для
-          звичайних порід в домашніх умовах найкращий результат за якістю м'яса
-          і рентабельністю — <strong>100–120 днів</strong>. Система автоматично
-          пропонує <strong>110 днів</strong> як середнє значення, але ви завжди
-          можете скоригувати дату вручну.
-        </div>
+          <span>📋 Рекомендовані терміни забою</span>
+          <span>{showNote ? "▲" : "▼"}</span>
+        </button>
+
+        {showNote && (
+          <>
+            <p>
+              Оптимальний вік забою кроликів залежить від породи та мети
+              розведення. Загальне правило —{" "}
+              <strong>не раніше 3 місяців (90 днів)</strong> від народження.
+            </p>
+            <div className="fattening-note-grid">
+              <div className="fattening-note-item">
+                <span className="fattening-note-icon">🥩</span>
+                <div>
+                  <strong>М'ясні породи</strong>
+                  <span>Каліфорнійський, Новозеландський, HYLA</span>
+                  <span className="fattening-note-days">70–90 днів</span>
+                </div>
+              </div>
+              <div className="fattening-note-item">
+                <span className="fattening-note-icon">🐇</span>
+                <div>
+                  <strong>Універсальні породи</strong>
+                  <span>Бургундський, Віденський, Термонський</span>
+                  <span className="fattening-note-days">90–120 днів</span>
+                </div>
+              </div>
+              <div className="fattening-note-item">
+                <span className="fattening-note-icon">🦁</span>
+                <div>
+                  <strong>Великі породи</strong>
+                  <span>Фландр, Сірий велетень, Білий велетень</span>
+                  <span className="fattening-note-days">120–150 днів</span>
+                </div>
+              </div>
+              <div className="fattening-note-item">
+                <span className="fattening-note-icon">✂️</span>
+                <div>
+                  <strong>Хутрові породи</strong>
+                  <span>Рекс, Шиншила, Віденський блакитний</span>
+                  <span className="fattening-note-days">
+                    після линьки (4–7 міс)
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="fattening-note-warn">
+              ⚠️ <strong>Важливо:</strong> Не забивайте під час линьки — шкурка
+              втратить товарний вигляд. У молодняку перша линька закінчується до
+              4–4.5 місяців, друга — до 7–7.5 місяців.
+            </div>
+            <div
+              className="fattening-note-warn"
+              style={{
+                background: "#e8f5e9",
+                borderColor: "#a5d6a7",
+                color: "#1b5e20",
+              }}
+            >
+              ✅ <strong>Оптимальний вік для домашнього господарства:</strong>{" "}
+              Для звичайних порід в домашніх умовах найкращий результат за
+              якістю м'яса і рентабельністю — <strong>100–120 днів</strong>.
+              Система автоматично пропонує <strong>110 днів</strong> як середнє
+              значення, але ви завжди можете скоригувати дату вручну.
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

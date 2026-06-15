@@ -126,6 +126,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/show-judging": "Суддівство на виставці",
   "/breeding-evaluation": "Племінна оцінка",
   "/coat-colors-evaluation": "Оцінка забарвлення",
+  "/rabbit-conformation": "Екстер'єр кроля",
 
   // УПРАВЛІННЯ
   "/economics": "Економіка",

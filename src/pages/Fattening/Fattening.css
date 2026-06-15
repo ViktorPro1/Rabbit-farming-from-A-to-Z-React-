@@ -405,3 +405,28 @@
         grid-template-columns: 1fr;
     }
 }
+
+.fattening-note-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+
+    padding: 16px;
+    margin-bottom: 12px;
+
+    color: var(--green-dark);
+
+    font-size: 18px;
+    font-weight: 700;
+
+    transition: all .2s ease;
+}
+
+.fattening-note-toggle:hover {
+    background: var(--green-pale);
+}

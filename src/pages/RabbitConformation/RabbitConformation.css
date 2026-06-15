@@ -1,0 +1,605 @@
+.rc-page {
+    min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.rc-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.rc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.rc-header p {
+    opacity: .9;
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ── WRAP ── */
+.rc-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.rc-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 0.5rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.rc-intro {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+/* ── NOTE ── */
+.rc-note {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rc-note p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── TABLE ── */
+.rc-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.rc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 500px;
+}
+
+.rc-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.rc-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.rc-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.rc-table tr:hover td {
+    background: var(--green-light);
+}
+
+.rc-table tr:last-child td {
+    border-bottom: none;
+}
+
+.rc-total-row td {
+    background: var(--green-light) !important;
+    font-weight: 600;
+}
+
+.rc-td-center {
+    text-align: center;
+}
+
+.rc-td-sm {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.rc-td-part {
+    font-size: 12px;
+    color: var(--green-mid);
+    font-weight: 500;
+}
+
+.rc-td-note {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+/* ── POINTS BADGE ── */
+.rc-points-badge {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green-dark);
+    background: var(--green-light);
+    padding: 2px 10px;
+    border-radius: 999px;
+}
+
+.rc-points-badge--total {
+    background: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── GRADES ── */
+.rc-grades-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.rc-grade-card {
+    flex: 1;
+    min-width: 120px;
+    border-radius: 12px;
+    border: 1px solid;
+    padding: 10px 14px;
+    text-align: center;
+}
+
+.rc-grade-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.rc-grade-range {
+    display: block;
+    font-size: 12px;
+    color: var(--gray);
+}
+
+/* ── PART TABS ── */
+.rc-part-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.rc-tab {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all .18s;
+    white-space: nowrap;
+}
+
+.rc-tab:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.rc-tab--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── PART CONTENT ── */
+.rc-part-content {
+    animation: fadeIn .2s ease;
+    margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rc-part-ideal {
+    background: var(--green-light);
+    border-radius: 12px;
+    border-left: 4px solid var(--green-accent);
+    padding: 14px 16px;
+    margin-bottom: 1rem;
+}
+
+.rc-part-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.rc-part-ideal p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.65;
+    margin: 0;
+}
+
+.rc-part-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.rc-eval-block,
+.rc-defects-block {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1rem 1.2rem;
+}
+
+.rc-eval-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.rc-eval-list {
+    padding-left: 1.2rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rc-eval-list li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.55;
+}
+
+/* ── DEFECTS ── */
+.rc-defects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rc-defect-item {
+    border-bottom: 0.5px solid var(--gray-light);
+    padding-bottom: 8px;
+}
+
+.rc-defect-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.rc-defect-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.rc-defect-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    flex: 1;
+}
+
+.rc-defect-note {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.rc-sev-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── BREED CARDS ── */
+.rc-breeds-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.rc-breed-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+}
+
+.rc-breed-card:hover {
+    border-color: var(--green-accent);
+    box-shadow: 0 2px 8px rgba(39, 80, 10, .09);
+}
+
+.rc-breed-card:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 2px;
+}
+
+.rc-breed-card--open {
+    border-color: var(--green-mid);
+}
+
+.rc-breed-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.rc-breed-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+.rc-breed-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 3px;
+}
+
+.rc-breed-examples {
+    font-size: 12px;
+    color: var(--gray);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.rc-breed-weight {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-mid);
+    background: var(--green-light);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.rc-chevron {
+    font-size: 11px;
+    color: var(--gray);
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.rc-breed-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--gray-light);
+}
+
+.rc-breed-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.rc-breed-param {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rc-breed-param-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gray);
+}
+
+.rc-breed-param p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.rc-breed-note {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--green-accent);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rc-breed-note p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── DEFECT FILTERS ── */
+.rc-defect-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.rc-filter-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: 999px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all .18s;
+}
+
+.rc-filter-btn:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.rc-filter-btn--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── TIPS GRID ── */
+.rc-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.rc-tip-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rc-tip-icon {
+    font-size: 1.4rem;
+}
+
+.rc-tip-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.rc-tip-text {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── ALERTS ── */
+.rc-alert {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.rc-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.rc-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.rc-alert.danger {
+    background: #FFE0DE;
+    color: #8B0000;
+    border-left: 3px solid #8B0000;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+    .rc-tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .rc-part-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rc-breed-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rc-grades-grid .rc-grade-card {
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 640px) {
+    .rc-tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rc-table {
+        min-width: 420px;
+    }
+}
+
+@media (max-width: 420px) {
+    .rc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .rc-table th,
+    .rc-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .rc-breed-card {
+        padding: 12px;
+    }
+}

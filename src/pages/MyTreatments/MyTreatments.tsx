@@ -333,6 +333,7 @@ export default function MyTreatments({ session }: Props) {
   const [editRecord, setEditRecord] = useState<TreatmentRecord | null>(null);
   const [editSaving, setEditSaving] = useState(false);
   const [editError, setEditError] = useState("");
+  const [showSeasonInfo, setShowSeasonInfo] = useState(false);
   const navigate = useNavigate();
 
   function openEdit(r: TreatmentRecord) {
@@ -774,27 +775,39 @@ export default function MyTreatments({ session }: Props) {
       )}
 
       {/* ── СЕЗОННІ РЕКОМЕНДАЦІЇ ── */}
+      {/* ── СЕЗОННІ РЕКОМЕНДАЦІЇ ── */}
       {seasonalRecs.length > 0 && (
         <div className="mytreat-season-block">
-          <h2 className="mytreat-season-title">
-            &#127793; Сезонні рекомендації
-          </h2>
-          <div className="mytreat-season-grid">
-            {seasonalRecs.map(({ drug_key, reason }) => {
-              const drug = DRUG_CATALOG[drug_key];
-              if (!drug) return null;
-              return (
-                <div key={drug_key} className="mytreat-season-card">
-                  <p className="mytreat-season-drug">{drug.label}</p>
-                  <p className="mytreat-season-reason">{reason}</p>
-                </div>
-              );
-            })}
-          </div>
-          <p className="mytreat-season-disclaimer">
-            &#9888;&#65039; Рекомендації загальні. Конкретну схему узгоджуйте з
-            ветлікарем.
-          </p>
+          <button
+            className="mytreat-season-toggle"
+            onClick={() => setShowSeasonInfo(!showSeasonInfo)}
+          >
+            <span>🌱 Сезонні рекомендації</span>
+            <span>{showSeasonInfo ? "▲" : "▼"}</span>
+          </button>
+
+          {showSeasonInfo && (
+            <>
+              <div className="mytreat-season-grid">
+                {seasonalRecs.map(({ drug_key, reason }) => {
+                  const drug = DRUG_CATALOG[drug_key];
+                  if (!drug) return null;
+
+                  return (
+                    <div key={drug_key} className="mytreat-season-card">
+                      <p className="mytreat-season-drug">{drug.label}</p>
+                      <p className="mytreat-season-reason">{reason}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className="mytreat-season-disclaimer">
+                ⚠️ Рекомендації загальні. Конкретну схему узгоджуйте з
+                ветлікарем.
+              </p>
+            </>
+          )}
         </div>
       )}
 

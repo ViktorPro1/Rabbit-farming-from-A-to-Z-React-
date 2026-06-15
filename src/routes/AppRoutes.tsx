@@ -214,6 +214,9 @@ const BreedingEvaluation = lazy(
 const CoatColorsEvaluation = lazy(
   () => import("../pages/CoatColorsEvaluation/CoatColorsEvaluation"),
 );
+const RabbitConformation = lazy(
+  () => import("../pages/RabbitConformation/RabbitConformation"),
+);
 
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
@@ -417,6 +420,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/coat-colors-evaluation"
           element={<CoatColorsEvaluation />}
         />
+        <Route path="/rabbit-conformation" element={<RabbitConformation />} />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />
