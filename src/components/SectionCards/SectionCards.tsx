@@ -8,6 +8,7 @@ interface Card {
   desc: string;
   path: string;
   keywords: string[];
+  external?: boolean;
 }
 
 interface Group {
@@ -2760,6 +2761,43 @@ const groups: Group[] = [
       },
     ],
   },
+  // Група для статей-лендінгів
+  {
+    groupTitle: "Статті",
+    groupIcon: "📰",
+    cards: [
+      {
+        icon: "🆕",
+        title: "Від новачка до фермера",
+        desc: "Шлях розвитку — від першого кролика до власного господарства",
+        path: "https://from-newbie-to-farmer.netlify.app",
+        external: true,
+        keywords: ["новачок", "фермер", "стаття"],
+      },
+      {
+        icon: "🧪",
+        title: "Йод у кролівництві",
+        desc: "Роль йоду, дозування та застосування",
+        path: "https://iodine-in-kingdom-from-a-to-i.netlify.app/",
+        external: true,
+        keywords: ["йод", "дозування йоду", "стаття"],
+      },
+      {
+        icon: "🌿",
+        title: "Полин для кролів",
+        desc: "Користь, дозування, профілактика паразитів та правила годування полином",
+        path: "https://polyn-dlya-krolykiv.netlify.app/",
+        external: true,
+        keywords: [
+          "полин",
+          "трави для кролів",
+          "кормові трави",
+          "паразити",
+          "стаття",
+        ],
+      },
+    ],
+  },
 ];
 
 // Flatten all cards for search
@@ -2967,13 +3005,31 @@ const SectionCards = () => {
 
             {isOpen && (
               <div className="section-cards-grid">
-                {group.cards.map((card) => (
-                  <Link to={card.path} key={card.path} className="section-card">
-                    <span className="section-card-icon">{card.icon}</span>
-                    <span className="section-card-title">{card.title}</span>
-                    <span className="section-card-desc">{card.desc}</span>
-                  </Link>
-                ))}
+                {group.cards.map((card) =>
+                  card.external ? (
+                    <a
+                      href={card.path}
+                      key={card.path}
+                      className="section-card"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="section-card-icon">{card.icon}</span>
+                      <span className="section-card-title">{card.title}</span>
+                      <span className="section-card-desc">{card.desc}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      to={card.path}
+                      key={card.path}
+                      className="section-card"
+                    >
+                      <span className="section-card-icon">{card.icon}</span>
+                      <span className="section-card-title">{card.title}</span>
+                      <span className="section-card-desc">{card.desc}</span>
+                    </Link>
+                  ),
+                )}
               </div>
             )}
           </div>
