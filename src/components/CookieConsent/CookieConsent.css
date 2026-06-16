@@ -1,0 +1,39 @@
+#cc-main {
+    --cc-font-family: inherit;
+    --cc-btn-primary-bg: var(--green-mid);
+    --cc-btn-primary-border-color: var(--green-mid);
+    --cc-btn-primary-hover-bg: var(--green-dark);
+    --cc-btn-primary-hover-border-color: var(--green-dark);
+    --cc-btn-primary-color: #fff;
+
+    --cc-btn-secondary-bg: var(--green-pale);
+    --cc-btn-secondary-border-color: var(--green-light);
+    --cc-btn-secondary-hover-bg: var(--green-light);
+    --cc-btn-secondary-color: var(--green-dark);
+
+    --cc-bg: var(--cream, #fff);
+    --cc-text: var(--green-dark);
+    --cc-toggle-on-bg: var(--green-mid);
+    --cc-toggle-off-bg: var(--gray-light, #ccc);
+    --cc-toggle-on-knob-bg: #fff;
+    --cc-toggle-off-knob-bg: #fff;
+
+    --cc-modal-border-radius: 14px;
+    --cc-btn-border-radius: 10px;
+}
+
+#cc-main .cm__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#cc-main .cm__title::before {
+    content: '🐰';
+    font-size: 20px;
+}
+
+#cc-main .cm {
+    border: 2px solid var(--green-light);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}

@@ -231,6 +231,7 @@ const DisqualifyingFaults = lazy(
 const PedigreeRecords = lazy(
   () => import("../pages/PedigreeRecords/PedigreeRecords"),
 );
+const ShowScoring = lazy(() => import("../pages/ShowScoring/ShowScoring"));
 
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
@@ -452,6 +453,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/select-doe" element={<SelectDoe />} />
         <Route path="/disqualifying-faults" element={<DisqualifyingFaults />} />
         <Route path="/pedigree-records" element={<PedigreeRecords />} />
+        <Route path="/show-scoring" element={<ShowScoring />} />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />

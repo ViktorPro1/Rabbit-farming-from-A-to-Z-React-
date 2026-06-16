@@ -133,6 +133,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/select-doe": "Вибір племінної самки",
   "/disqualifying-faults": "Дискваліфікаційні вади",
   "/pedigree-records": "Родоводи та племінний облік",
+  "/show-scoring": "Система оцінювання",
 
   // УПРАВЛІННЯ
   "/economics": "Економіка",

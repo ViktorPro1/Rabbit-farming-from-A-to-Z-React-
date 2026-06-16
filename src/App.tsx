@@ -11,6 +11,7 @@ import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
 import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import AppRoutes from "./routes/AppRoutes";
 import AssistantPromo from "./components/AssistantPromo/AssistantPromo";
+import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
 
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
@@ -262,6 +263,7 @@ function App() {
   return (
     <>
       <CopyProtection />
+      <CookieConsentBanner />
       <BrowserRouter>
         <WelcomePopup />
         <Assistant />
