@@ -49,6 +49,18 @@ export default defineConfig({
               },
             },
           },
+          {
+            urlPattern: /^https:\/\/(www\.)?googletagmanager\.com\/.*/i,
+            handler: 'NetworkOnly',
+          },
+          {
+            urlPattern: /^https:\/\/(www\.|region\d\.)?google-analytics\.com\/.*/i,
+            handler: 'NetworkOnly',
+          },
+          {
+            urlPattern: /^https:\/\/analytics\.google\.com\/.*/i,
+            handler: 'NetworkOnly',
+          },
         ],
       },
     }),
