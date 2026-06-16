@@ -1,6 +1,31 @@
 .footer {
     background: var(--green-dark);
-    padding: 12px 2rem;
+    padding: 16px 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--green-pale);
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+.footer-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -17,12 +42,20 @@
     font-size: 18px;
 }
 
-/* Телефон 420px */
+/* Телефон */
 @media (max-width: 420px) {
     .footer {
+        padding: 12px 1rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer-bottom {
         flex-direction: column;
         gap: 6px;
-        padding: 12px 1rem;
         text-align: center;
     }
 }

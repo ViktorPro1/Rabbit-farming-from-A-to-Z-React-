@@ -245,6 +245,17 @@ const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 // ОНОВЛЕННЯ
 const Changelog = lazy(() => import("../pages/Changelog/Changelog"));
 
+// ІНФО
+const AboutProject = lazy(
+  () => import("../pages/Info/AboutProject/AboutProject"),
+);
+
+const PrivacyPolicy = lazy(
+  () => import("../pages/Info/PrivacyPolicy/PrivacyPolicy"),
+);
+
+const TermsOfUse = lazy(() => import("../pages/Info/TermsOfUse/TermsOfUse"));
+
 // ─────────────────────────────────────────────
 const PageLoader = () => (
   <div style={{ padding: "2rem", textAlign: "center" }}>Завантаження...</div>
@@ -453,6 +464,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/changelog" element={<Changelog />} />
         {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
         <Route path="*" element={<NotFound />} />
+        {/* — ІНФО — */}
+        <Route path="/about" element={<AboutProject />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-use" element={<TermsOfUse />} />
       </Routes>
     </Suspense>
   );

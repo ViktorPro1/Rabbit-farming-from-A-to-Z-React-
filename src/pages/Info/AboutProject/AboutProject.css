@@ -1,0 +1,47 @@
+.about-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 24px;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+}
+
+.about-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.about-container h2 {
+    font-size: 20px;
+    margin-top: 24px;
+    margin-bottom: 10px;
+}
+
+.about-container p {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.about-container ul {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.about-container li {
+    margin-bottom: 6px;
+}
+
+.about-container section {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.about-container footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
