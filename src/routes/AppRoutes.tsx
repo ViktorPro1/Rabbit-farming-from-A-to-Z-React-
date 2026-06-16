@@ -217,6 +217,20 @@ const CoatColorsEvaluation = lazy(
 const RabbitConformation = lazy(
   () => import("../pages/RabbitConformation/RabbitConformation"),
 );
+const FurEvaluation = lazy(
+  () => import("../pages/FurEvaluation/FurEvaluation"),
+);
+const ReplacementStock = lazy(
+  () => import("../pages/ReplacementStock/ReplacementStock"),
+);
+const SelectBuck = lazy(() => import("../pages/SelectBuck/SelectBuck"));
+const SelectDoe = lazy(() => import("../pages/SelectDoe/SelectDoe"));
+const DisqualifyingFaults = lazy(
+  () => import("../pages/DisqualifyingFaults/DisqualifyingFaults"),
+);
+const PedigreeRecords = lazy(
+  () => import("../pages/PedigreeRecords/PedigreeRecords"),
+);
 
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
@@ -421,6 +435,12 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           element={<CoatColorsEvaluation />}
         />
         <Route path="/rabbit-conformation" element={<RabbitConformation />} />
+        <Route path="/fur-evaluation" element={<FurEvaluation />} />
+        <Route path="/replacement-stock" element={<ReplacementStock />} />
+        <Route path="/select-buck" element={<SelectBuck />} />
+        <Route path="/select-doe" element={<SelectDoe />} />
+        <Route path="/disqualifying-faults" element={<DisqualifyingFaults />} />
+        <Route path="/pedigree-records" element={<PedigreeRecords />} />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />

@@ -127,6 +127,12 @@ const ROUTE_LABELS: Record<string, string> = {
   "/breeding-evaluation": "Племінна оцінка",
   "/coat-colors-evaluation": "Оцінка забарвлення",
   "/rabbit-conformation": "Екстер'єр кроля",
+  "/fur-evaluation": "Оцінка хутра",
+  "/replacement-stock": "Відбір ремонтного молодняку",
+  "/select-buck": "Вибір племінного самця",
+  "/select-doe": "Вибір племінної самки",
+  "/disqualifying-faults": "Дискваліфікаційні вади",
+  "/pedigree-records": "Родоводи та племінний облік",
 
   // УПРАВЛІННЯ
   "/economics": "Економіка",

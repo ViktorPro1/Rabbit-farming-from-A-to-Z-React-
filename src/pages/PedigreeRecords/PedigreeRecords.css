@@ -1,0 +1,626 @@
+/* =========================================
+   PedigreeRecords.css
+   Breakpoints: 420 / 640 / 768 / 1024
+   ========================================= */
+
+.pr2-page {
+    min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.pr2-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.pr2-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.pr2-header p {
+    opacity: .9;
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ── WRAP ── */
+.pr2-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.pr2-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 0.5rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.pr2-intro {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+/* ── WHY GRID ── */
+.pr2-why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.pr2-why-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pr2-why-icon {
+    font-size: 1.5rem;
+}
+
+.pr2-why-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.pr2-why-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── TABLE ── */
+.pr2-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.pr2-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 500px;
+}
+
+.pr2-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.pr2-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.pr2-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.pr2-table tr:hover td {
+    background: var(--green-light);
+}
+
+.pr2-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pr2-td-sm {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.pr2-td-center {
+    text-align: center;
+}
+
+.pr2-td-example {
+    font-size: 12px;
+    color: var(--green-mid);
+    font-style: italic;
+}
+
+.pr2-yes {
+    color: var(--green-mid);
+    font-weight: 700;
+}
+
+.pr2-no {
+    color: var(--gray);
+    font-size: 12px;
+}
+
+.pr2-req {
+    color: var(--green-dark);
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.pr2-opt {
+    color: var(--gray);
+    font-size: 11px;
+}
+
+/* ── NOTE ── */
+.pr2-note {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.pr2-note p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── TABS ── */
+.pr2-tab-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pr2-tab {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all .18s;
+    white-space: nowrap;
+}
+
+.pr2-tab:hover {
+    border-color: var(--green-accent);
+    color: var(--green-dark);
+}
+
+.pr2-tab--active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: var(--green-pale);
+}
+
+/* ── DOCUMENT CARDS ── */
+.pr2-docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pr2-doc-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+}
+
+.pr2-doc-card:hover {
+    border-color: var(--green-accent);
+    box-shadow: 0 2px 8px rgba(39, 80, 10, .09);
+}
+
+.pr2-doc-card:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 2px;
+}
+
+.pr2-doc-card--open {
+    border-color: var(--green-mid);
+}
+
+.pr2-doc-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.pr2-doc-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.pr2-doc-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+.pr2-doc-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 3px;
+}
+
+.pr2-doc-purpose {
+    font-size: 12px;
+    color: var(--gray);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.pr2-chevron {
+    font-size: 11px;
+    color: var(--gray);
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.pr2-doc-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pr2-doc-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pr2-doc-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gray);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.pr2-doc-block p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.pr2-doc-list {
+    padding-left: 1.2rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pr2-doc-list li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.55;
+}
+
+.pr2-doc-block--note {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--green-accent);
+}
+
+.pr2-doc-block--note .pr2-doc-label {
+    color: var(--green-dark);
+}
+
+.pr2-doc-block--note p {
+    color: var(--green-dark);
+}
+
+/* ── INBREEDING ── */
+.pr2-inbreeding-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pr2-inbreeding-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    border-radius: 12px;
+    border: 1.5px solid;
+    padding: 12px 16px;
+}
+
+.pr2-inbreeding-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 90px;
+    text-align: center;
+    gap: 4px;
+}
+
+.pr2-inbreeding-coef {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.pr2-inbreeding-label {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pr2-inbreeding-right {
+    flex: 1;
+    min-width: 0;
+}
+
+.pr2-inbreeding-meaning {
+    font-size: 13px;
+    color: var(--green-dark);
+    margin: 0 0 6px;
+    font-weight: 500;
+}
+
+.pr2-inbreeding-rec {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* ── TERMS ── */
+.pr2-terms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.pr2-term-card {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 13px 15px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: border-color .18s;
+}
+
+.pr2-term-card:hover {
+    border-color: var(--green-accent);
+}
+
+.pr2-term-card:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 2px;
+}
+
+.pr2-term-card--open {
+    border-color: var(--green-mid);
+}
+
+.pr2-term-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.pr2-term-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    flex-shrink: 0;
+    min-width: 160px;
+}
+
+.pr2-term-def {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    flex: 1;
+    margin: 0;
+}
+
+.pr2-term-details {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 0.5px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pr2-term-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pr2-term-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gray);
+    display: block;
+}
+
+.pr2-term-block p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.pr2-term-block--example {
+    background: var(--amber-light);
+    border-radius: 8px;
+    padding: 8px 12px;
+    border-left: 3px solid var(--amber);
+}
+
+.pr2-term-block--example .pr2-term-label {
+    color: var(--brown);
+}
+
+.pr2-term-block--example p {
+    color: var(--brown);
+}
+
+/* ── TIPS GRID ── */
+.pr2-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.pr2-tip-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pr2-tip-icon {
+    font-size: 1.4rem;
+}
+
+.pr2-tip-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.pr2-tip-text {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── ALERTS ── */
+.pr2-alert {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.pr2-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.pr2-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.pr2-alert.danger {
+    background: #FFE0DE;
+    color: #8B0000;
+    border-left: 3px solid #8B0000;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+    .pr2-why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pr2-tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .pr2-inbreeding-card {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .pr2-inbreeding-left {
+        flex-direction: row;
+        min-width: unset;
+        gap: 10px;
+    }
+
+    .pr2-term-header {
+        flex-wrap: wrap;
+    }
+
+    .pr2-term-name {
+        min-width: unset;
+    }
+}
+
+@media (max-width: 640px) {
+    .pr2-why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pr2-tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pr2-table {
+        min-width: 420px;
+    }
+}
+
+@media (max-width: 420px) {
+    .pr2-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .pr2-table th,
+    .pr2-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .pr2-doc-card {
+        padding: 12px;
+    }
+}
