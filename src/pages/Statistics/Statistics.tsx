@@ -51,6 +51,29 @@ interface CageStat {
   rabbits: string[];
 }
 
+interface AccuracyEntry {
+  litterId: string;
+  femaleId: string;
+  femaleName: string;
+  femaleBreed: string;
+  femaleCage: string;
+  expectedDate: string;
+  actualDate: string;
+  diffDays: number; // позитивне = перетягнула, негативне = раніше, 0 = вчасно
+}
+
+interface FemaleAccuracyStat {
+  femaleId: string;
+  femaleName: string;
+  femaleBreed: string;
+  femaleCage: string;
+  entries: AccuracyEntry[];
+  avgDiff: number;
+  onTimeCount: number;
+  lateCount: number;
+  earlyCount: number;
+}
+
 function MiniBar({
   value,
   max,
@@ -316,14 +339,95 @@ function CageCard({
   );
 }
 
+function AccuracyCard({
+  stat,
+  rank,
+}: {
+  stat: FemaleAccuracyStat;
+  rank: number;
+}) {
+  const medal =
+    rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
+
+  function diffLabel(diff: number) {
+    if (diff === 0) return { text: "✅ Вчасно", className: "diff-ontime" };
+    if (diff > 0)
+      return {
+        text: `🔴 Перетягнула на ${diff} дн.`,
+        className: "diff-late",
+      };
+    return {
+      text: `🟡 Народила на ${Math.abs(diff)} дн. раніше`,
+      className: "diff-early",
+    };
+  }
+
+  const avgLabel = diffLabel(Math.round(stat.avgDiff));
+
+  return (
+    <div className="stat-card">
+      <div className="stat-card-header">
+        <span className="stat-rank">{medal}</span>
+        <div className="stat-card-title">
+          <span className="stat-name">
+            ♀ {stat.femaleName}
+            {stat.femaleCage ? ` (кл.${stat.femaleCage})` : ""}
+          </span>
+          {stat.femaleBreed && (
+            <span className="stat-breed">{stat.femaleBreed}</span>
+          )}
+        </div>
+      </div>
+      <div className="stat-metrics">
+        <div className="stat-metric">
+          <span className="stat-metric-label">Окролів з даними</span>
+          <span className="stat-metric-val">{stat.entries.length}</span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Вчасно</span>
+          <span className="stat-metric-val">{stat.onTimeCount}</span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Перетягнула</span>
+          <span className="stat-metric-val">{stat.lateCount}</span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Раніше</span>
+          <span className="stat-metric-val">{stat.earlyCount}</span>
+        </div>
+      </div>
+      <div className={`accuracy-avg ${avgLabel.className}`}>
+        Середнє відхилення: <strong>{avgLabel.text}</strong>
+      </div>
+      <div className="accuracy-entries">
+        {stat.entries.map((e) => {
+          const label = diffLabel(e.diffDays);
+          return (
+            <div key={e.litterId} className="accuracy-entry-row">
+              <span className="accuracy-entry-dates">
+                🗓 {new Date(e.expectedDate).toLocaleDateString("uk-UA")} {"→"}{" "}
+                📦 {new Date(e.actualDate).toLocaleDateString("uk-UA")}
+              </span>
+              <span className={`accuracy-entry-diff ${label.className}`}>
+                {label.text}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function Statistics({ session }: Props) {
   const [femaleStats, setFemaleStats] = useState<RabbitStat[]>([]);
   const [maleStats, setMaleStats] = useState<RabbitStat[]>([]);
   const [pairStats, setPairStats] = useState<PairStat[]>([]);
   const [cageStats, setCageStats] = useState<CageStat[]>([]);
+  const [accuracyStats, setAccuracyStats] = useState<FemaleAccuracyStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
-    "females" | "males" | "pairs" | "cages"
+    "females" | "males" | "pairs" | "cages" | "accuracy"
   >("females");
   const navigate = useNavigate();
   const location = useLocation();
@@ -334,7 +438,7 @@ export default function Statistics({ session }: Props) {
       const { data: matings } = await supabase
         .from("matings")
         .select(
-          "*, female:female_id(id, name, breed), male:male_id(id, name, breed)",
+          "*, female:female_id(id, name, breed, cage_number), male:male_id(id, name, breed)",
         )
         .eq("user_id", session.user.id);
 
@@ -575,6 +679,75 @@ export default function Statistics({ session }: Props) {
           .sort((a, b) => b.totalAlive - a.totalAlive),
       );
 
+      // Accuracy stats — порівняння очікуваної та фактичної дати окролу
+      const accuracyMap: Record<string, FemaleAccuracyStat> = {};
+      matings.forEach((m) => {
+        if (!m.female) return;
+        const mLittersRaw = (litters || []).filter((l) => l.mating_id === m.id);
+        // Клітка крольчихи: пріоритет — реєстр кролика (cage_number),
+        // бо female_cage у злучці часто не заповнюють
+        const resolvedFemaleCage = m.female?.cage_number || m.female_cage || "";
+        mLittersRaw.forEach((l) => {
+          if (!l.birth_date || !l.litter_expected_birth) return;
+          const expected = new Date(l.litter_expected_birth);
+          const actual = new Date(l.birth_date);
+          const diffDays = Math.round(
+            (actual.getTime() - expected.getTime()) / (1000 * 60 * 60 * 24),
+          );
+          const fid = m.female_id;
+          if (!accuracyMap[fid]) {
+            accuracyMap[fid] = {
+              femaleId: fid,
+              femaleName: m.female.name,
+              femaleBreed: m.female.breed || "",
+              femaleCage: resolvedFemaleCage,
+              entries: [],
+              avgDiff: 0,
+              onTimeCount: 0,
+              lateCount: 0,
+              earlyCount: 0,
+            };
+          }
+          // якщо клітка ще не зафіксована для цієї крольчихи — додамо її,
+          // щойно знайдемо непорожнє значення
+          if (!accuracyMap[fid].femaleCage && resolvedFemaleCage) {
+            accuracyMap[fid].femaleCage = resolvedFemaleCage;
+          }
+
+          accuracyMap[fid].entries.push({
+            litterId: l.id,
+            femaleId: fid,
+            femaleName: m.female.name,
+            femaleBreed: m.female.breed || "",
+            femaleCage: resolvedFemaleCage,
+            expectedDate: l.litter_expected_birth,
+            actualDate: l.birth_date,
+            diffDays,
+          });
+        });
+      });
+      setAccuracyStats(
+        Object.values(accuracyMap)
+          .map((s) => {
+            const onTimeCount = s.entries.filter(
+              (e) => e.diffDays === 0,
+            ).length;
+            const lateCount = s.entries.filter((e) => e.diffDays > 0).length;
+            const earlyCount = s.entries.filter((e) => e.diffDays < 0).length;
+            const avgDiff =
+              s.entries.length > 0
+                ? Math.round(
+                    (s.entries.reduce((sum, e) => sum + e.diffDays, 0) /
+                      s.entries.length) *
+                      10,
+                  ) / 10
+                : 0;
+            return { ...s, onTimeCount, lateCount, earlyCount, avgDiff };
+          })
+          .filter((s) => s.entries.length > 0)
+          .sort((a, b) => b.entries.length - a.entries.length),
+      );
+
       setLoading(false);
     }
     loadStats();
@@ -673,10 +846,17 @@ export default function Statistics({ session }: Props) {
             >
               🏠 Клітки
             </button>
+            <button
+              className={`stats-tab ${activeTab === "accuracy" ? "active" : ""}`}
+              onClick={() => setActiveTab("accuracy")}
+            >
+              🗓 Точність окролу
+            </button>
           </div>
 
           {activeTab !== "pairs" &&
             activeTab !== "cages" &&
+            activeTab !== "accuracy" &&
             currentStats.length > 0 && (
               <div className="stats-chart-block">
                 <h3 className="chart-title">
@@ -780,6 +960,17 @@ export default function Statistics({ session }: Props) {
                     rank={i + 1}
                     maxAlive={maxAlive}
                   />
+                ))
+              ))}
+            {activeTab === "accuracy" &&
+              (accuracyStats.length === 0 ? (
+                <p className="stats-empty">
+                  Даних ще немає. Точність окролу рахується лише для окролів, де
+                  заповнені і "Очікуваний окріл", і "Дата окролу".
+                </p>
+              ) : (
+                accuracyStats.map((s, i) => (
+                  <AccuracyCard key={s.femaleId} stat={s} rank={i + 1} />
                 ))
               ))}
           </div>

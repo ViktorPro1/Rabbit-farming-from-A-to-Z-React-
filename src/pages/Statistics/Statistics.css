@@ -368,3 +368,82 @@
         flex: 1 1 40%;
     }
 }
+
+/* ===== Точність окролу ===== */
+
+.accuracy-avg {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    background: var(--gray-light);
+    color: var(--stat-text);
+}
+
+.accuracy-avg.diff-ontime {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.accuracy-avg.diff-late {
+    background: rgba(192, 57, 43, 0.12);
+    color: #a33b2e;
+}
+
+.accuracy-avg.diff-early {
+    background: rgba(196, 148, 32, 0.16);
+    color: var(--amber);
+}
+
+.accuracy-entries {
+    margin-top: 0.75rem;
+    border-top: 1px solid var(--gray-light);
+    padding-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.accuracy-entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px dashed var(--gray-light);
+    font-size: 0.82rem;
+}
+
+.accuracy-entry-row:last-child {
+    border-bottom: none;
+}
+
+.accuracy-entry-dates {
+    color: var(--stat-text-muted);
+}
+
+.accuracy-entry-diff {
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.accuracy-entry-diff.diff-ontime {
+    color: var(--green-dark);
+}
+
+.accuracy-entry-diff.diff-late {
+    color: #a33b2e;
+}
+
+.accuracy-entry-diff.diff-early {
+    color: var(--amber);
+}
+
+@media (max-width: 640px) {
+    .accuracy-entry-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+}

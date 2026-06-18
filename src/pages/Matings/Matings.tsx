@@ -979,48 +979,50 @@ export default function Matings({ session }: Props) {
                       </div>
                     )}
 
-                    {!hasBirth &&
-                      (l.litter_mating_date ||
-                        l.litter_control_date ||
-                        l.litter_expected_birth) && (
-                        <div className="litter-mating-info">
-                          {l.litter_mating_date && (
-                            <span>
-                              📅 Злучка:{" "}
-                              <strong>
-                                {new Date(
-                                  l.litter_mating_date,
-                                ).toLocaleDateString("uk-UA")}
-                              </strong>
-                            </span>
-                          )}
-                          {l.litter_control_date && (
-                            <span>
-                              🔍 Контрольна:{" "}
-                              <strong>
-                                {new Date(
-                                  l.litter_control_date,
-                                ).toLocaleDateString("uk-UA")}
-                              </strong>
-                            </span>
-                          )}
-
-                          {/* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ */}
-                          {l.litter_mating_date &&
-                            (() => {
-                              const { text, className } = getNestboxStatus(
+                    {(l.litter_mating_date ||
+                      l.litter_control_date ||
+                      l.litter_expected_birth) && (
+                      <div className="litter-mating-info">
+                        {l.litter_mating_date && (
+                          <span>
+                            📅 Злучка:{" "}
+                            <strong>
+                              {new Date(
                                 l.litter_mating_date,
-                                l.nestbox_date,
-                              );
-                              return (
-                                <span className={`nestbox-status ${className}`}>
-                                  {text}
-                                </span>
-                              );
-                            })()}
+                              ).toLocaleDateString("uk-UA")}
+                            </strong>
+                          </span>
+                        )}
+                        {l.litter_control_date && (
+                          <span>
+                            🔍 Контрольна:{" "}
+                            <strong>
+                              {new Date(
+                                l.litter_control_date,
+                              ).toLocaleDateString("uk-UA")}
+                            </strong>
+                          </span>
+                        )}
 
-                          {/* Кнопка "Поставив маточник" */}
-                          {l.litter_mating_date && !l.nestbox_date && (
+                        {/* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ — лише поки немає окролу */}
+                        {!hasBirth &&
+                          l.litter_mating_date &&
+                          (() => {
+                            const { text, className } = getNestboxStatus(
+                              l.litter_mating_date,
+                              l.nestbox_date,
+                            );
+                            return (
+                              <span className={`nestbox-status ${className}`}>
+                                {text}
+                              </span>
+                            );
+                          })()}
+
+                        {/* Кнопка "Поставив маточник" — лише поки немає окролу */}
+                        {!hasBirth &&
+                          l.litter_mating_date &&
+                          !l.nestbox_date && (
                             <button
                               className="nestbox-done-btn"
                               onClick={async () => {
@@ -1038,18 +1040,30 @@ export default function Matings({ session }: Props) {
                             </button>
                           )}
 
-                          {l.litter_expected_birth && (
-                            <span>
-                              🗓 Очік. окріл:{" "}
-                              <strong>
-                                {new Date(
-                                  l.litter_expected_birth,
-                                ).toLocaleDateString("uk-UA")}
-                              </strong>
-                            </span>
-                          )}
-                        </div>
-                      )}
+                        {/* Якщо маточник вже стоїть (навіть після окролу) — просто показати дату */}
+                        {hasBirth && l.nestbox_date && (
+                          <span>
+                            ✅ Маточник:{" "}
+                            <strong>
+                              {new Date(l.nestbox_date).toLocaleDateString(
+                                "uk-UA",
+                              )}
+                            </strong>
+                          </span>
+                        )}
+
+                        {l.litter_expected_birth && (
+                          <span>
+                            🗓 Очік. окріл:{" "}
+                            <strong>
+                              {new Date(
+                                l.litter_expected_birth,
+                              ).toLocaleDateString("uk-UA")}
+                            </strong>
+                          </span>
+                        )}
+                      </div>
+                    )}
 
                     {hasBirth && (
                       <div className="litter-stats">
