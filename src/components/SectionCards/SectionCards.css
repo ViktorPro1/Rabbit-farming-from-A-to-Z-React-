@@ -308,6 +308,7 @@
     border-radius: 999px;
     overflow: hidden;
     background: #fff;
+    max-width: 100%;
 }
 
 [data-theme="dark"] .sc-stats-pill {
@@ -320,6 +321,7 @@
     align-items: center;
     gap: 10px;
     padding: 10px 24px;
+    min-width: 0;
 }
 
 .sc-stat-seg+.sc-stat-seg {
@@ -346,6 +348,7 @@
     font-weight: 600;
     color: var(--green-dark);
     line-height: 1;
+    white-space: nowrap;
 }
 
 .sc-stat-lbl {
@@ -353,6 +356,7 @@
     color: var(--gray);
     text-transform: uppercase;
     letter-spacing: .06em;
+    white-space: nowrap;
 }
 
 [data-theme="dark"] .sc-stat-num {
@@ -361,6 +365,50 @@
 
 [data-theme="dark"] .sc-stat-lbl {
     color: var(--green-light);
+}
+
+/* Адаптив: 3 сегменти на вузьких екранах */
+@media (max-width: 480px) {
+    .sc-stat-seg {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+
+    .sc-stat-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+    }
+
+    .sc-stat-num {
+        font-size: 16px;
+    }
+
+    .sc-stat-lbl {
+        font-size: 9px;
+        letter-spacing: .03em;
+    }
+}
+
+@media (max-width: 360px) {
+    .sc-stat-seg {
+        padding: 6px 8px;
+        gap: 4px;
+    }
+
+    .sc-stat-icon {
+        width: 22px;
+        height: 22px;
+        font-size: 11px;
+    }
+
+    .sc-stat-num {
+        font-size: 14px;
+    }
+
+    .sc-stat-lbl {
+        font-size: 8px;
+    }
 }
 
 .section-group-preview {

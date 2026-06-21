@@ -4,6 +4,15 @@ import "./SectionCards.css";
 import { groups } from "../../data/sectionCards";
 
 // Flatten all cards for search
+// Внутрішні картки (справжні розділи довідника) — це "теми"
+const topicCards = groups
+  .filter((g) => g.groupTitle !== "Статті")
+  .flatMap((g) => g.cards);
+
+// Зовнішні статті-лендінги
+const articleCards = groups.find((g) => g.groupTitle === "Статті")?.cards ?? [];
+
+// Для пошуку лишаємо все разом, як і було
 const allCards = groups.flatMap((g) => g.cards);
 
 interface SearchResult {
@@ -97,8 +106,17 @@ const SectionCards = () => {
               📄
             </div>
             <div>
-              <div className="sc-stat-num">{allCards.length}</div>
+              <div className="sc-stat-num">{topicCards.length}</div>
               <div className="sc-stat-lbl">тем</div>
+            </div>
+          </div>
+          <div className="sc-stat-seg">
+            <div className="sc-stat-icon" style={{ background: "#fdebd3" }}>
+              📰
+            </div>
+            <div>
+              <div className="sc-stat-num">{articleCards.length}</div>
+              <div className="sc-stat-lbl">статей</div>
             </div>
           </div>
         </div>
