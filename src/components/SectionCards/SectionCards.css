@@ -362,3 +362,15 @@
 [data-theme="dark"] .sc-stat-lbl {
     color: var(--green-light);
 }
+
+.section-group-preview {
+    display: block;
+    font-size: 11px;
+    color: var(--gray);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 600px;
+    margin-top: 2px;
+    opacity: 0.8;
+}
