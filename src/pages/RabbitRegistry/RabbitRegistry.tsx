@@ -303,6 +303,39 @@ export default function RabbitRegistry({ session }: Props) {
     setDisplayNameSaving(false);
   }
 
+  function exportCSV() {
+    const headers = [
+      "Кличка",
+      "Стать",
+      "Порода",
+      "Дата нар.",
+      "Клітка",
+      "Нотатки",
+    ];
+    const rows = rabbits.map((r) => [
+      r.name,
+      r.gender === "female" ? "Самиця" : "Самець",
+      r.breed || "",
+      r.birth_date || "",
+      r.cage_number || "",
+      r.notes || "",
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${cell}"`).join(","))
+      .join("\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `кролики-${new Date().toLocaleDateString("uk-UA")}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="registry-page">
       {/* HELP MODAL */}
@@ -447,6 +480,9 @@ export default function RabbitRegistry({ session }: Props) {
           onClick={() => setShowQrModal(true)}
         >
           📷 QR-коди
+        </button>
+        <button className="registry-archive-link" onClick={exportCSV}>
+          📥 Експорт CSV
         </button>
         <button className="registry-help-btn" onClick={() => setShowHelp(true)}>
           ? Довідка

@@ -109,4 +109,10 @@ export const CHANGELOG: ChangelogEntry[] = [
         description: "Бургер-меню з drawer на мобільному, оновлений футер зі слоганом, налаштування відображуваного імені в реєстрі, виправлення пошуку зовнішніх посилань, schema SearchAction на головній.",
         created_at: "2026-06-22",
     },
+    {
+        id: 18,
+        title: "UX покращення реєстру",
+        description: "Skeleton loader, toast повідомлення, підтвердження архівування, порожній стан з анімацією, swipe to close drawer, splash screen, експорт кролів у CSV.",
+        created_at: "2026-06-22",
+    },
 ];
