@@ -647,3 +647,82 @@
 .registry-info-toggle:hover {
     background: var(--green-pale);
 }
+
+/* ===== SETTINGS MODAL ===== */
+.settings-modal {
+    max-width: 440px;
+}
+
+.settings-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.settings-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.settings-hint {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.settings-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--green-dark);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+    margin-top: 4px;
+}
+
+.settings-input:focus {
+    border-color: var(--green-accent, #639922);
+}
+
+.settings-error {
+    font-size: 13px;
+    color: #dc2626;
+    margin: 0;
+}
+
+.settings-success {
+    font-size: 13px;
+    color: var(--green-mid);
+    font-weight: 600;
+    margin: 0;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 4px;
+}
+
+/* email як кнопка */
+button.registry-email {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    text-decoration: underline dotted;
+}
+
+button.registry-email:hover {
+    background: rgba(0, 0, 0, 0.06);
+}

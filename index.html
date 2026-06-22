@@ -61,14 +61,22 @@
 
   <!-- Schema.org -->
   <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Кролівництво від А до Я",
-      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/",
-      "description": "Платформа для кролівництва, обліку, лікування, годівлі та ведення господарства.",
-      "inLanguage": "uk-UA"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Кролівництво від А до Я",
+  "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/",
+  "description": "Платформа для кролівництва...",
+  "inLanguage": "uk-UA",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://rabbit-farming-from-a-to-z-react.vercel.app/?search={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
   </script>
 
   <!-- fallback на системну тему якщо немає збереженої -->

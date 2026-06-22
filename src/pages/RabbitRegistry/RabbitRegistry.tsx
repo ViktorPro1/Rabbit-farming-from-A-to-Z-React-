@@ -95,6 +95,8 @@ export default function RabbitRegistry({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [showInfo, setShowInfo] = useState(false);
+  const currentLabel =
+    session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
     total: 0,
     males: 0,
@@ -112,6 +114,13 @@ export default function RabbitRegistry({ session }: Props) {
     quarantineUnknown: 0,
     quarantineTotal: 0,
   });
+  const [showSettings, setShowSettings] = useState(false);
+  const [displayName, setDisplayName] = useState(
+    session.user.user_metadata?.display_name || "",
+  );
+  const [displayNameSaving, setDisplayNameSaving] = useState(false);
+  const [displayNameSaved, setDisplayNameSaved] = useState(false);
+  const [displayNameError, setDisplayNameError] = useState("");
   const navigate = useNavigate();
 
   const loadStats = useCallback(
@@ -271,6 +280,22 @@ export default function RabbitRegistry({ session }: Props) {
 
   const baseUrl = window.location.origin;
 
+  async function handleSaveDisplayName() {
+    setDisplayNameSaving(true);
+    setDisplayNameError("");
+    setDisplayNameSaved(false);
+    const { error } = await supabase.auth.updateUser({
+      data: { display_name: displayName.trim() },
+    });
+    if (error) {
+      setDisplayNameError("Помилка збереження. Спробуй ще раз.");
+    } else {
+      setDisplayNameSaved(true);
+      setTimeout(() => setDisplayNameSaved(false), 3000);
+    }
+    setDisplayNameSaving(false);
+  }
+
   return (
     <div className="registry-page">
       {/* HELP MODAL */}
@@ -355,7 +380,13 @@ export default function RabbitRegistry({ session }: Props) {
 
       <div className="registry-header">
         <h1>🐇 Мої кролики</h1>
-        <p className="registry-email">{session.user.email}</p>
+        <button
+          className="registry-email"
+          onClick={() => setShowSettings(true)}
+          title="Налаштування"
+        >
+          {currentLabel}
+        </button>
         <button
           className="registry-archive-link"
           onClick={() => navigate("/archive")}
@@ -719,6 +750,62 @@ export default function RabbitRegistry({ session }: Props) {
           </>
         )}
       </div>
+      {showSettings && (
+        <div className="help-overlay" onClick={() => setShowSettings(false)}>
+          <div
+            className="help-modal settings-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="help-modal-header">
+              <h2>⚙️ Налаштування</h2>
+              <button
+                className="help-close"
+                onClick={() => setShowSettings(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="settings-body">
+              <label className="settings-label">
+                Відображуване ім'я або назва господарства
+              </label>
+              <p className="settings-hint">
+                Замінить електронну пошту у заголовку. Наприклад: «Вухані у
+                Петровича» або «ФГ Прозоро».
+              </p>
+              <input
+                className="settings-input"
+                type="text"
+                placeholder="Введіть нік або назву..."
+                value={displayName}
+                maxLength={60}
+                onChange={(e) => setDisplayName(e.target.value)}
+              />
+              {displayNameError && (
+                <p className="settings-error">{displayNameError}</p>
+              )}
+              {displayNameSaved && (
+                <p className="settings-success">✓ Збережено</p>
+              )}
+              <div className="settings-actions">
+                <button
+                  className="registry-save-btn"
+                  onClick={handleSaveDisplayName}
+                  disabled={displayNameSaving}
+                >
+                  {displayNameSaving ? "Збереження..." : "Зберегти"}
+                </button>
+                <button
+                  className="registry-archive-link"
+                  onClick={() => setShowSettings(false)}
+                >
+                  Закрити
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

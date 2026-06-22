@@ -13,6 +13,7 @@ interface Props {
 const Header = ({ session }: Props) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(() => {
     const lastSeen = localStorage.getItem("changelog_last_seen");
     if (!lastSeen) return CHANGELOG.length;
@@ -50,6 +51,14 @@ const Header = ({ session }: Props) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Блокування скролу коли меню відкрите
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   function toggleDropdown() {
     if (!showDropdown) {
       localStorage.setItem("changelog_last_seen", new Date().toISOString());
@@ -67,70 +76,157 @@ const Header = ({ session }: Props) => {
 
   async function handleLogout() {
     await supabase.auth.signOut();
+    setMenuOpen(false);
   }
+
+  const closeMenu = () => setMenuOpen(false);
 
   // Показуємо 3 останніх в дропдауні (найновіші спочатку)
   const recent = [...CHANGELOG].reverse().slice(0, 3);
 
   return (
-    <header className="header">
-      <NavLink to="/" className="header-logo">
-        <span>🇺🇦</span>
-        <span>Кролівництво від А до Я</span>
-      </NavLink>
-      <nav className="header-nav">
-        <NavLink to="/calculator">Калькулятор</NavLink>
-        <NavLink to="/community">Спільноти</NavLink>
+    <>
+      <header className="header">
+        <NavLink to="/" className="header-logo" onClick={closeMenu}>
+          <span>🇺🇦</span>
+          <span>Кролівництво від А до Я</span>
+        </NavLink>
 
-        <div className="changelog-menu" ref={dropdownRef}>
-          <button className="changelog-trigger" onClick={toggleDropdown}>
+        {/* ДЕСКТОП nav */}
+        <nav className="header-nav header-nav--desktop">
+          <NavLink to="/calculator">Калькулятор</NavLink>
+          <NavLink to="/community">Спільноти</NavLink>
+
+          <div className="changelog-menu" ref={dropdownRef}>
+            <button className="changelog-trigger" onClick={toggleDropdown}>
+              Оновлення
+              {unreadCount > 0 && (
+                <span className="changelog-badge">{unreadCount}</span>
+              )}
+            </button>
+
+            {showDropdown && (
+              <div className="changelog-dropdown">
+                {recent.map((entry) => (
+                  <div key={entry.id} className="changelog-item">
+                    <span className="changelog-item-title">{entry.title}</span>
+                    {entry.description && (
+                      <span className="changelog-item-desc">
+                        {entry.description}
+                      </span>
+                    )}
+                    <span className="changelog-item-date">
+                      {formatDate(entry.created_at)}
+                    </span>
+                  </div>
+                ))}
+                <NavLink
+                  to="/changelog"
+                  className="changelog-all"
+                  onClick={() => setShowDropdown(false)}
+                >
+                  Всі оновлення →
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          <NavLink to="/subscription">Підписка</NavLink>
+          {session ? (
+            <>
+              <NavLink to="/registry">Мої кролики</NavLink>
+              {isAdmin && <NavLink to="/admin">Адмін</NavLink>}
+              <button className="header-logout" onClick={handleLogout}>
+                Вийти
+              </button>
+            </>
+          ) : (
+            <NavLink to="/auth">Увійти</NavLink>
+          )}
+          <ThemeToggle />
+        </nav>
+
+        {/* МОБІЛЬНИЙ рядок праворуч */}
+        <div className="header-mobile-right">
+          <ThemeToggle />
+          <button
+            className="burger-btn"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Меню"
+            aria-expanded={menuOpen}
+          >
+            <span
+              className={`burger-icon ${menuOpen ? "burger-icon--open" : ""}`}
+            >
+              <span />
+              <span />
+              <span />
+            </span>
+          </button>
+        </div>
+      </header>
+
+      {/* OVERLAY */}
+      <div
+        className={`drawer-overlay ${menuOpen ? "drawer-overlay--visible" : ""}`}
+        onClick={closeMenu}
+        aria-hidden="true"
+      />
+
+      {/* DRAWER */}
+      <nav
+        className={`drawer ${menuOpen ? "drawer--open" : ""}`}
+        aria-label="Мобільне меню"
+      >
+        <div className="drawer-header">
+          <span className="drawer-logo">🐇 Меню</span>
+          <button
+            className="drawer-close"
+            onClick={closeMenu}
+            aria-label="Закрити меню"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="drawer-links">
+          <NavLink to="/calculator" onClick={closeMenu}>
+            Калькулятор
+          </NavLink>
+          <NavLink to="/community" onClick={closeMenu}>
+            Спільноти
+          </NavLink>
+          <NavLink to="/changelog" onClick={closeMenu}>
             Оновлення
             {unreadCount > 0 && (
               <span className="changelog-badge">{unreadCount}</span>
             )}
-          </button>
-
-          {showDropdown && (
-            <div className="changelog-dropdown">
-              {recent.map((entry) => (
-                <div key={entry.id} className="changelog-item">
-                  <span className="changelog-item-title">{entry.title}</span>
-                  {entry.description && (
-                    <span className="changelog-item-desc">
-                      {entry.description}
-                    </span>
-                  )}
-                  <span className="changelog-item-date">
-                    {formatDate(entry.created_at)}
-                  </span>
-                </div>
-              ))}
-              <NavLink
-                to="/changelog"
-                className="changelog-all"
-                onClick={() => setShowDropdown(false)}
-              >
-                Всі оновлення →
+          </NavLink>
+          <NavLink to="/subscription" onClick={closeMenu}>
+            Підписка
+          </NavLink>
+          {session ? (
+            <>
+              <NavLink to="/registry" onClick={closeMenu}>
+                Мої кролики
               </NavLink>
-            </div>
+              {isAdmin && (
+                <NavLink to="/admin" onClick={closeMenu}>
+                  Адмін
+                </NavLink>
+              )}
+              <button className="drawer-logout" onClick={handleLogout}>
+                Вийти
+              </button>
+            </>
+          ) : (
+            <NavLink to="/auth" onClick={closeMenu}>
+              Увійти
+            </NavLink>
           )}
         </div>
-
-        <NavLink to="/subscription">Підписка</NavLink>
-        {session ? (
-          <>
-            <NavLink to="/registry">Мої кролики</NavLink>
-            {isAdmin && <NavLink to="/admin">Адмін</NavLink>}
-            <button className="header-logout" onClick={handleLogout}>
-              Вийти
-            </button>
-          </>
-        ) : (
-          <NavLink to="/auth">Увійти</NavLink>
-        )}
-        <ThemeToggle />
       </nav>
-    </header>
+    </>
   );
 };
 
