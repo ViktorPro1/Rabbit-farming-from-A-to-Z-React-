@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import Toast from "../../components/Toast/Toast";
+import { useToast } from "../../hooks/useToast";
 import "./RabbitEdit.css";
 
 interface Props {
@@ -23,7 +25,7 @@ export default function RabbitEdit({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+  const { message, type, visible, showToast } = useToast();
 
   useEffect(() => {
     if (!id) return;
@@ -51,16 +53,16 @@ export default function RabbitEdit({ session }: Props) {
   async function handleSave() {
     if (!form.name.trim()) return;
     setSaving(true);
-    setError("");
     const { error } = await supabase
       .from("rabbits")
       .update(form)
       .eq("id", id)
       .eq("user_id", session.user.id);
     if (error) {
-      setError("Помилка збереження");
+      showToast("Помилка збереження", "error");
     } else {
-      navigate("/registry");
+      showToast("Збережено", "success");
+      setTimeout(() => navigate("/registry"), 1000);
     }
     setSaving(false);
   }
@@ -69,6 +71,8 @@ export default function RabbitEdit({ session }: Props) {
 
   return (
     <div className="edit-page">
+      <Toast message={message} type={type} visible={visible} />
+
       <div className="edit-header">
         <h1>✏️ Редагування кролика</h1>
       </div>
@@ -110,8 +114,6 @@ export default function RabbitEdit({ session }: Props) {
             onChange={(e) => setForm({ ...form, notes: e.target.value })}
           />
         </div>
-
-        {error && <p className="edit-error">{error}</p>}
 
         <div className="edit-actions">
           <button className="edit-cancel" onClick={() => navigate("/registry")}>

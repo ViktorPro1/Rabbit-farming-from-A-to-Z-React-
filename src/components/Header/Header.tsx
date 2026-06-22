@@ -20,6 +20,7 @@ const Header = ({ session }: Props) => {
     return CHANGELOG.filter((e) => e.created_at > lastSeen).length;
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const swipeStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (!session) return;
@@ -177,6 +178,15 @@ const Header = ({ session }: Props) => {
       <nav
         className={`drawer ${menuOpen ? "drawer--open" : ""}`}
         aria-label="Мобільне меню"
+        onTouchStart={(e) => {
+          swipeStartX.current = e.touches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          if (swipeStartX.current === null) return;
+          const diff = swipeStartX.current - e.changedTouches[0].clientX;
+          if (diff > 60) closeMenu();
+          swipeStartX.current = null;
+        }}
       >
         <div className="drawer-header">
           <span className="drawer-logo">🐇 Меню</span>

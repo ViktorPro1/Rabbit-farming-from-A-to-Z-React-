@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { QRCodeCanvas } from "qrcode.react";
 import { supabase } from "../../lib/supabase";
+import SkeletonCard from "./SkeletonCard";
 import "./RabbitRegistry.css";
 
 interface Props {
@@ -95,6 +96,7 @@ export default function RabbitRegistry({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [showInfo, setShowInfo] = useState(false);
+  const [confirmArchiveId, setConfirmArchiveId] = useState<string | null>(null);
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -259,8 +261,13 @@ export default function RabbitRegistry({ session }: Props) {
     setSaving(false);
   }
 
-  async function handleArchive(id: string) {
-    await supabase.from("rabbits").update({ is_active: false }).eq("id", id);
+  async function confirmArchive() {
+    if (!confirmArchiveId) return;
+    await supabase
+      .from("rabbits")
+      .update({ is_active: false })
+      .eq("id", confirmArchiveId);
+    setConfirmArchiveId(null);
     loadData();
   }
 
@@ -470,7 +477,7 @@ export default function RabbitRegistry({ session }: Props) {
           <span className="registry-stat-label">Молодняк</span>
           {stats.youngFromCages > 0 && (
             <span className="registry-stat-sub">
-              З кліток: {stats.youngFromCages}
+              в маточ.: {stats.youngFromCages}
             </span>
           )}
           {stats.youngFromPaddocks > 0 && (
@@ -568,9 +575,26 @@ export default function RabbitRegistry({ session }: Props) {
       )}
 
       {loading ? (
-        <p className="registry-loading">Завантаження...</p>
+        <div className="registry-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
       ) : rabbits.length === 0 ? (
-        <p className="registry-empty">Кроликів ще немає. Додайте першого!</p>
+        <div className="registry-empty-state">
+          <div className="registry-empty-illustration">🐇</div>
+          <h3 className="registry-empty-title">Поки що кроликів немає</h3>
+          <p className="registry-empty-desc">
+            Додайте першого кролика — вкажіть кличку, породу, клітку і дату
+            народження.
+          </p>
+          <button
+            className="registry-add-btn"
+            onClick={() => setShowForm(true)}
+          >
+            + Додати кролика
+          </button>
+        </div>
       ) : (
         <div className="registry-grid">
           {rabbits.map((rabbit) => (
@@ -639,7 +663,7 @@ export default function RabbitRegistry({ session }: Props) {
                 </button>
                 <button
                   className="rabbit-archive-btn"
-                  onClick={() => handleArchive(rabbit.id)}
+                  onClick={() => setConfirmArchiveId(rabbit.id)}
                 >
                   Архівувати
                 </button>
@@ -802,6 +826,24 @@ export default function RabbitRegistry({ session }: Props) {
                   Закрити
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {confirmArchiveId && (
+        <div className="help-overlay" onClick={() => setConfirmArchiveId(null)}>
+          <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+            <p className="confirm-text">Архівувати цього кролика?</p>
+            <div className="confirm-actions">
+              <button
+                className="confirm-cancel"
+                onClick={() => setConfirmArchiveId(null)}
+              >
+                Скасувати
+              </button>
+              <button className="confirm-ok" onClick={confirmArchive}>
+                Архівувати
+              </button>
             </div>
           </div>
         </div>
