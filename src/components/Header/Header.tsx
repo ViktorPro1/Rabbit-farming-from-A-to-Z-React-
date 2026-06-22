@@ -184,7 +184,7 @@ const Header = ({ session }: Props) => {
         onTouchEnd={(e) => {
           if (swipeStartX.current === null) return;
           const diff = swipeStartX.current - e.changedTouches[0].clientX;
-          if (diff > 60) closeMenu();
+          if (diff < -60) closeMenu();
           swipeStartX.current = null;
         }}
       >
