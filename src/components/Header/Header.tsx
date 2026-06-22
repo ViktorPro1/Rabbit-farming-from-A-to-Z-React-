@@ -196,7 +196,17 @@ const Header = ({ session }: Props) => {
           <NavLink to="/community" onClick={closeMenu}>
             Спільноти
           </NavLink>
-          <NavLink to="/changelog" onClick={closeMenu}>
+          <NavLink
+            to="/changelog"
+            onClick={() => {
+              localStorage.setItem(
+                "changelog_last_seen",
+                new Date().toISOString(),
+              );
+              setUnreadCount(0);
+              closeMenu();
+            }}
+          >
             Оновлення
             {unreadCount > 0 && (
               <span className="changelog-badge">{unreadCount}</span>
