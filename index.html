@@ -32,28 +32,20 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Кролівництво від А до Я" />
-
   <meta property="og:description"
     content="Повний посібник з кролівництва, обліку, лікування та ведення господарства." />
-
   <meta property="og:image" content="https://rabbit-farming-from-a-to-z-react.vercel.app/og-image.webp" />
-
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-
   <meta property="og:url" content="https://rabbit-farming-from-a-to-z-react.vercel.app" />
-
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="uk_UA" />
   <meta property="og:site_name" content="Кролівництво від А до Я" />
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
-
   <meta name="twitter:title" content="Кролівництво від А до Я" />
-
   <meta name="twitter:description" content="Повний посібник з кролівництва, лікування та ведення господарства." />
-
   <meta name="twitter:image" content="https://rabbit-farming-from-a-to-z-react.vercel.app/og-image.webp" />
 
   <!-- Robots -->
@@ -79,6 +71,88 @@
 }
   </script>
 
+  <!-- Splash screen стилі -->
+  <style>
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #1a3d0f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 9999;
+      transition: opacity 0.4s ease;
+    }
+
+    #splash.splash--hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-icon {
+      font-size: 64px;
+      animation: splash-bounce 1.2s ease-in-out infinite;
+    }
+
+    .splash-title {
+      color: #f0f7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .splash-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .splash-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #639922;
+      animation: splash-dot 1.2s ease-in-out infinite;
+    }
+
+    .splash-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .splash-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes splash-bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes splash-dot {
+
+      0%,
+      80%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+
+      40% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+  </style>
+
   <!-- fallback на системну тему якщо немає збереженої -->
   <script>
     const t = localStorage.getItem('theme');
@@ -91,9 +165,35 @@
 </head>
 
 <body>
+  <!-- SPLASH SCREEN — зникає після завантаження React -->
+  <div id="splash">
+    <div class="splash-icon">🐇</div>
+    <div class="splash-title">Кролівництво від А до Я</div>
+    <div class="splash-dots">
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+    </div>
+  </div>
+
   <div id="root"></div>
 
   <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Прибираємо splash після завантаження -->
+  <script>
+    window.addEventListener('load', function () {
+      var splash = document.getElementById('splash');
+      if (splash) {
+        setTimeout(function () {
+          splash.classList.add('splash--hidden');
+          setTimeout(function () {
+            splash.remove();
+          }, 400);
+        }, 300);
+      }
+    });
+  </script>
 </body>
 
 </html>
