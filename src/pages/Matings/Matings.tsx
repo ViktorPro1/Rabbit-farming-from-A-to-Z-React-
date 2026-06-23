@@ -113,6 +113,7 @@ export default function Matings({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showInfo, setShowInfo] = useState(false);
   const navigate = useNavigate();
 
   function fetchMatings() {
@@ -476,21 +477,20 @@ export default function Matings({ session }: Props) {
     return { daysLeft, weaningDate };
   }
 
-  /* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ */
   function getNestboxStatus(
     matingDateStr: string,
     nestboxDate?: string | null,
   ) {
     if (nestboxDate) {
       return {
-        text: `✅ Маточник встановлено: ${new Date(nestboxDate).toLocaleDateString("uk-UA")}`,
+        text: `✅ Маточник підготовлено: ${new Date(nestboxDate).toLocaleDateString("uk-UA")}`,
         className: "nestbox-done",
       };
     }
 
     const matingDate = new Date(matingDateStr);
     const targetDate = new Date(matingDate);
-    targetDate.setDate(targetDate.getDate() + 26); // 26-й день (за 5 днів до окролу на 31 день)
+    targetDate.setDate(targetDate.getDate() + 26); // 26-й день — за 5 днів до окролу (Merck VM: окріл 28–35 дн., найчастіше 31)
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -500,23 +500,23 @@ export default function Matings({ session }: Props) {
       (targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
 
-    let text = `📥 Маточник: ${targetDate.toLocaleDateString("uk-UA")}`;
+    let text = `📥 Підготувати маточник: ${targetDate.toLocaleDateString("uk-UA")}`;
     let className = "nestbox-normal";
 
-    if (diffDays === 5 || diffDays === 4 || diffDays === 3) {
-      text = `🟢 Поставити маточник (через ${diffDays} дн.)`;
+    if (diffDays >= 3 && diffDays <= 5) {
+      text = `🟢 Підготувати маточник (через ${diffDays} дн.)`;
       className = "nestbox-green";
     } else if (diffDays === 2) {
-      text = `🟡 Маточник через 2 дні!`;
+      text = `🟡 Підготувати маточник через 2 дні!`;
       className = "nestbox-yellow";
     } else if (diffDays === 1) {
-      text = `🔴 Маточник завтра!`;
+      text = `🔴 Підготувати маточник завтра!`;
       className = "nestbox-red";
     } else if (diffDays === 0) {
-      text = `🚨 СЬОГОДНІ ставити маточник!`;
+      text = `🚨 СЬОГОДНІ підготувати маточник!`;
       className = "nestbox-red-alert";
     } else if (diffDays < 0 && diffDays >= -5) {
-      text = `⚠️ Маточник запізнюється на ${Math.abs(diffDays)} дн.!`;
+      text = `⚠️ Підготовка маточника запізнилась на ${Math.abs(diffDays)} дн.!`;
       className = "nestbox-red-alert";
     }
 
@@ -721,7 +721,14 @@ export default function Matings({ session }: Props) {
 
       <div className="matings-list">
         {sortedMatings.length === 0 ? (
-          <p className="matings-empty">Злучок ще немає.</p>
+          <div className="matings-empty-state">
+            <div className="matings-empty-illustration">🐇</div>
+            <h3 className="matings-empty-title">Злучок ще немає</h3>
+            <p className="matings-empty-desc">
+              Додайте першу злучку — вкажіть коєця, крольчиху і дату. Система
+              автоматично розрахує контрольну дату і нагадає про маточник.
+            </p>
+          </div>
         ) : (
           sortedMatings.map((m) => (
             <div key={m.id} className="mating-card">
@@ -1036,7 +1043,7 @@ export default function Matings({ session }: Props) {
                                 fetchMatings();
                               }}
                             >
-                              ✅ Поставив маточник
+                              ✅ Маточник підготовлено
                             </button>
                           )}
 
@@ -1595,6 +1602,94 @@ export default function Matings({ session }: Props) {
               )}
             </div>
           ))
+        )}
+      </div>
+      {/* ── ЗНОСКА: терміни розведення ── */}
+      <div className="matings-info">
+        <button
+          className="matings-info-toggle"
+          onClick={() => setShowInfo(!showInfo)}
+        >
+          <span>📋 Ключові терміни розведення</span>
+          <span>{showInfo ? "▲" : "▼"}</span>
+        </button>
+
+        {showInfo && (
+          <>
+            <div className="matings-info-grid">
+              <div className="matings-info-item">
+                <span className="matings-info-icon">📅</span>
+                <div>
+                  <strong>Тривалість вагітності</strong>
+                  <span>28–35 днів, найчастіше 31 день</span>
+                  <span>
+                    Окріл до 28 дня — передчасний, після 35 — патологія
+                  </span>
+                </div>
+              </div>
+              <div className="matings-info-item">
+                <span className="matings-info-icon">🔍</span>
+                <div>
+                  <strong>Контрольна злучка / пальпація</strong>
+                  <span>10–14 день після злучки</span>
+                  <span>
+                    Пальпація живота — досвідчений кролівник відчує плоди
+                    розміром з горошину
+                  </span>
+                </div>
+              </div>
+              <div className="matings-info-item">
+                <span className="matings-info-icon">🏠</span>
+                <div>
+                  <strong>Підготовка маточника</strong>
+                  <span>26–28 день після злучки</span>
+                  <span>
+                    Самка починає будувати гніздо і вищипує пух — маточник має
+                    бути готовий заздалегідь
+                  </span>
+                </div>
+              </div>
+              <div className="matings-info-item">
+                <span className="matings-info-icon">✂️</span>
+                <div>
+                  <strong>Відлучення крільченят</strong>
+                  <span>Не раніше 28 днів, оптимально 35–42 дні</span>
+                  <span>
+                    Раннє відлучення до 28 днів — високий ризик ентериту та
+                    загибелі молодняку
+                  </span>
+                </div>
+              </div>
+              <div className="matings-info-item">
+                <span className="matings-info-icon">🔁</span>
+                <div>
+                  <strong>Наступна злучка</strong>
+                  <span>
+                    Напівінтенсивна схема: через 10–14 днів після окролу
+                  </span>
+                  <span>Екстенсивна схема: після відлучення (35–42 дні)</span>
+                </div>
+              </div>
+              <div className="matings-info-item">
+                <span className="matings-info-icon">⚠️</span>
+                <div>
+                  <strong>Псевдовагітність</strong>
+                  <span>Триває 16–18 днів після хибної овуляції</span>
+                  <span>
+                    Самка будує гніздо але окролу немає — повторна злучка після
+                    18–20 дня
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="matings-info-warning">
+              ⚠️ <strong>Важливо:</strong> Не допускайте злучки самки раніше ніж
+              через 10 днів після окролу — матка потребує відновлення. При
+              інтенсивній схемі (злучка на 1–2 день після окролу) різко зростає
+              ризик виснаження самки і загибелі послідуючих пометів.
+            </div>
+          </>
         )}
       </div>
     </div>

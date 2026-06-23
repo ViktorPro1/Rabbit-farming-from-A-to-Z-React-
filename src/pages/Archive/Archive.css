@@ -164,3 +164,100 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== ІНФОРМАЦІЙНИЙ АКОРДЕОН ===== */
+.archive-info {
+    margin-top: 2rem;
+    background: var(--cream);
+    border-radius: 12px;
+    border-top: 3px solid var(--green-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    overflow: hidden;
+}
+
+.archive-info-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--green-light);
+    border: none;
+    padding: 14px 16px;
+    color: var(--green-dark);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.archive-info-toggle:hover {
+    background: var(--green-pale);
+}
+
+.archive-info-body {
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.archive-info-body p {
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.archive-info-body ul {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.archive-info-body li {
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.5;
+}
+
+.archive-info-tip {
+    background: var(--amber-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.88rem !important;
+    color: var(--green-dark) !important;
+}
+
+/* ===== ПОРОЖНІЙ СТАН ===== */
+.archive-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.archive-empty-illustration {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.archive-empty-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.archive-empty-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    max-width: 300px;
+    line-height: 1.6;
+    margin: 0;
+}

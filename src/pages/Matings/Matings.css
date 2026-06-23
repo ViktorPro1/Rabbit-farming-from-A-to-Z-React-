@@ -463,6 +463,139 @@
     }
 }
 
+/* ===== ПОРОЖНІЙ СТАН ===== */
+.matings-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.matings-empty-illustration {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    animation: bounce 2s infinite;
+}
+
+.matings-empty-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.matings-empty-desc {
+    font-size: 0.95rem;
+    color: var(--gray);
+    max-width: 340px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ===== ЗНОСКА АКОРДЕОН ===== */
+.matings-info {
+    margin-top: 2rem;
+    background: var(--cream);
+    border-radius: 12px;
+    border-top: 3px solid var(--green-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    overflow: hidden;
+}
+
+.matings-info-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--green-light);
+    border: none;
+    padding: 14px 16px;
+    color: var(--green-dark);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.matings-info-toggle:hover {
+    background: var(--green-pale);
+}
+
+.matings-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    padding: 1.25rem 1.25rem 0;
+}
+
+.matings-info-item {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    background: var(--cream);
+    border: 1px solid var(--green-pale);
+    border-radius: 12px;
+    padding: 0.9rem;
+}
+
+.matings-info-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 0.1rem;
+}
+
+.matings-info-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.matings-info-item strong {
+    color: var(--green-dark);
+    font-size: 0.92rem;
+}
+
+.matings-info-item span {
+    color: var(--gray);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.matings-info-badge {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: 0.2rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--green-light);
+    color: var(--green-dark) !important;
+    border-radius: 999px;
+    font-size: 0.72rem !important;
+    font-weight: 600;
+}
+
+.matings-info-warning {
+    margin: 1rem 1.25rem 1.25rem;
+    background: var(--amber-light);
+    border: 1px solid #f3d38a;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    font-size: 0.88rem;
+    color: var(--brown);
+    line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+    .matings-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 640px) {
     .matings-form-grid {
         grid-template-columns: 1fr;

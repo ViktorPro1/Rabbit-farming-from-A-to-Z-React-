@@ -568,7 +568,20 @@ export default function Paddocks({ session }: Props) {
 
       <div className="paddocks-list">
         {paddocks.length === 0 ? (
-          <p className="paddocks-empty">Загонів ще немає.</p>
+          <div className="paddocks-empty-state">
+            <div className="paddocks-empty-illustration">🏠</div>
+            <h3 className="paddocks-empty-title">Загонів ще немає</h3>
+            <p className="paddocks-empty-desc">
+              Додайте перший загін — вкажіть назву, коєця та самок для групового
+              розведення.
+            </p>
+            <button
+              className="paddocks-add-btn"
+              onClick={() => setShowPaddockForm(true)}
+            >
+              + Додати загін
+            </button>
+          </div>
         ) : (
           paddocks.map((p) => (
             <div key={p.id} className="paddock-card">

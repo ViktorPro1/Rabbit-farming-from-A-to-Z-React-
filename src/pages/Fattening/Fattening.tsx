@@ -534,7 +534,16 @@ export default function Fattening({ session }: Props) {
                 )}
                 {ageInDays !== null && (
                   <p className="fattening-year">
-                    Вік: <strong>{ageInDays} дн.</strong>
+                    Вік:{" "}
+                    <strong>
+                      {ageInDays} дн.
+                      {ageInDays >= 30 &&
+                        (() => {
+                          const months = Math.floor(ageInDays / 30);
+                          const days = ageInDays % 30;
+                          return ` (${months} міс.${days > 0 ? ` ${days} дн.` : ""})`;
+                        })()}
+                    </strong>
                   </p>
                 )}
                 {slaughter && daysLeft !== null && (

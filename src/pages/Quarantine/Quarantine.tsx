@@ -394,7 +394,21 @@ export default function Quarantine({ session }: Props) {
       {loading ? (
         <p className="quarantine-loading">Завантаження...</p>
       ) : animals.length === 0 ? (
-        <p className="quarantine-empty">В карантині нікого немає.</p>
+        <div className="quarantine-empty-state">
+          <div className="quarantine-empty-illustration">🔒</div>
+          <h3 className="quarantine-empty-title">В карантині нікого немає</h3>
+          <p className="quarantine-empty-desc">
+            Карантин порожній — добрий знак. Продовжуйте щоденно оглядати
+            поголів'я: апетит, послід, поведінка та стан шерсті скажуть більше
+            за будь-який аналіз.
+          </p>
+          <button
+            className="quarantine-add-btn"
+            onClick={() => setShowForm(true)}
+          >
+            + Додати в карантин
+          </button>
+        </div>
       ) : (
         <div className="quarantine-list">
           {animals.map((a) => (
@@ -473,7 +487,14 @@ export default function Quarantine({ session }: Props) {
         <div className="quarantine-archive-section">
           <h2>📦 Архів</h2>
           {archived.length === 0 ? (
-            <p className="quarantine-empty">Архів порожній.</p>
+            <div className="quarantine-empty-state">
+              <div className="quarantine-empty-illustration">📦</div>
+              <h3 className="quarantine-empty-title">Архів порожній</h3>
+              <p className="quarantine-empty-desc">
+                Завершені записи карантину з'являться тут після вибору
+                результату.
+              </p>
+            </div>
           ) : (
             <div className="quarantine-list">
               {archived.map((a) => (

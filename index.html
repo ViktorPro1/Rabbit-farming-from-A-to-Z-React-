@@ -182,7 +182,7 @@
 
   <!-- Прибираємо splash після завантаження -->
   <script>
-    window.addEventListener('load', function () {
+    document.addEventListener('DOMContentLoaded', function () {
       var splash = document.getElementById('splash');
       if (splash) {
         setTimeout(function () {

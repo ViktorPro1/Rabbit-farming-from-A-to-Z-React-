@@ -21,6 +21,7 @@ interface Rabbit {
 export default function Archive({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showInfo, setShowInfo] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,7 +80,14 @@ export default function Archive({ session }: Props) {
       </div>
 
       {rabbits.length === 0 ? (
-        <p className="archive-empty">Архів порожній.</p>
+        <div className="archive-empty-state">
+          <div className="archive-empty-illustration">📦</div>
+          <h3 className="archive-empty-title">Архів порожній</h3>
+          <p className="archive-empty-desc">
+            Тут з'являться кролики яких ти перемістив з активного реєстру.
+            Архівовані тварини не враховуються в статистиці.
+          </p>
+        </div>
       ) : (
         <div className="archive-grid">
           {rabbits.map((rabbit) => (
@@ -129,6 +137,46 @@ export default function Archive({ session }: Props) {
           ))}
         </div>
       )}
+      <div className="archive-info">
+        <button
+          className="archive-info-toggle"
+          onClick={() => setShowInfo(!showInfo)}
+        >
+          <span>📋 Чому не можна видалити деяких кроликів?</span>
+          <span>{showInfo ? "▲" : "▼"}</span>
+        </button>
+
+        {showInfo && (
+          <div className="archive-info-body">
+            <p>
+              Якщо при видаленні з'являється повідомлення{" "}
+              <strong>"кролик задіяний у записах розведення"</strong> — це
+              означає що цей кролик фігурує в одному або кількох записах злучок
+              чи окролів.
+            </p>
+            <p>
+              Видалення заблоковане автоматично щоб не зламати історію
+              розведення. Що можна зробити:
+            </p>
+            <ul>
+              <li>
+                Залишити в архіві — займає мінімум місця і зберігає повну
+                історію
+              </li>
+              <li>
+                Спочатку видалити пов'язані злучки в розділі{" "}
+                <strong>Розведення</strong> або{" "}
+                <strong>Підлогове утримання</strong>, потім повернутись і
+                видалити кролика
+              </li>
+            </ul>
+            <p className="archive-info-tip">
+              💡 Рекомендуємо просто залишати таких тварин в архіві — це не
+              впливає на роботу реєстру і статистики.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
