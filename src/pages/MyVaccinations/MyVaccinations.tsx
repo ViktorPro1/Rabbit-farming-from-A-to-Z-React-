@@ -34,6 +34,7 @@ export default function MyVaccinations({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [showVacInfo, setShowVacInfo] = useState(false);
   const navigate = useNavigate();
 
   const loadData = useCallback(() => {
@@ -100,7 +101,7 @@ export default function MyVaccinations({ session }: Props) {
           className="myvac-back-btn"
           onClick={() => navigate("/registry")}
         >
-          ← Реєстр
+          ← Мої кролики
         </button>
         <h1>💉 Вакцинація</h1>
         <button
@@ -180,7 +181,14 @@ export default function MyVaccinations({ session }: Props) {
       {loading ? (
         <p className="myvac-loading">Завантаження...</p>
       ) : records.length === 0 ? (
-        <p className="myvac-empty">Записів ще немає.</p>
+        <div className="myvac-empty-state">
+          <div className="myvac-empty-illustration">💉</div>
+          <h3 className="myvac-empty-title">Записів вакцинації ще немає</h3>
+          <p className="myvac-empty-desc">
+            Додайте перший запис — вкажіть клітку, тип вакцини і дату. Система
+            нагадає коли настане час ревакцинації.
+          </p>
+        </div>
       ) : (
         <div className="myvac-grid">
           {records.map((r) => (
@@ -218,6 +226,69 @@ export default function MyVaccinations({ session }: Props) {
           ))}
         </div>
       )}
+
+      {/* ── ЗНОСКА: схема вакцинації ── */}
+      <div className="myvac-info">
+        <button
+          className="myvac-info-toggle"
+          onClick={() => setShowVacInfo(!showVacInfo)}
+        >
+          <span>📋 Схема вакцинації кролів</span>
+          <span>{showVacInfo ? "▲" : "▼"}</span>
+        </button>
+
+        {showVacInfo && (
+          <>
+            <div className="myvac-info-grid">
+              <div className="myvac-info-item">
+                <span className="myvac-info-icon">💉</span>
+                <div>
+                  <strong>ВГХК (вірусна геморагічна хвороба)</strong>
+                  <span>Перша вакцинація: з 45 днів</span>
+                  <span>Ревакцинація: кожні 6 місяців</span>
+                  <span>Препарати: Раббівак-V, Пестовак, Лапімун Гем</span>
+                </div>
+              </div>
+              <div className="myvac-info-item">
+                <span className="myvac-info-icon">💉</span>
+                <div>
+                  <strong>Міксоматоз</strong>
+                  <span>Перша вакцинація: з 45 днів</span>
+                  <span>
+                    Ревакцинація: кожні 6–9 місяців, перед сезоном комах
+                  </span>
+                  <span>Препарати: Раббівак-В, Лапімун Мікс</span>
+                </div>
+              </div>
+              <div className="myvac-info-item">
+                <span className="myvac-info-icon">💊</span>
+                <div>
+                  <strong>Асоційована вакцина (ВГХК + Міксоматоз)</strong>
+                  <span>Перша: з 45 днів</span>
+                  <span>Ревакцинація: кожні 6 місяців</span>
+                  <span>Препарати: Нобіліс Міксо-РHД, Пестовак-Міксо</span>
+                </div>
+              </div>
+              <div className="myvac-info-item">
+                <span className="myvac-info-icon">📌</span>
+                <div>
+                  <strong>Важливі правила</strong>
+                  <span>Вакцинувати лише здорових тварин</span>
+                  <span>Карантин після вакцинації: 14 днів</span>
+                  <span>Не вакцинувати за 2 тижні до і після злучки</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="myvac-info-warning">
+              ⚠️ <strong>ВГХК-2 (новий штам):</strong> З 2010-х в Європі
+              поширився штам RHDV2 який вражає кролів від 4 тижнів і частково
+              обходить імунітет від класичних вакцин. Перевіряйте чи ваша
+              вакцина покриває обидва штами — RHDV1 і RHDV2.
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

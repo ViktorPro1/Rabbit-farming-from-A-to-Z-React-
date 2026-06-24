@@ -912,7 +912,16 @@ export default function Statistics({ session }: Props) {
           <div className="stats-cards">
             {activeTab === "females" &&
               (femaleStats.length === 0 ? (
-                <p className="stats-empty">Даних ще немає.</p>
+                <div className="stats-empty-state">
+                  <div className="stats-empty-illustration">♀</div>
+                  <h3 className="stats-empty-title">
+                    Даних по крольчихах ще немає
+                  </h3>
+                  <p className="stats-empty-desc">
+                    Додайте злучки в розділі Розведення — статистика з'явиться
+                    автоматично після першого окролу.
+                  </p>
+                </div>
               ) : (
                 femaleStats.map((s, i) => (
                   <RabbitCard
@@ -925,7 +934,16 @@ export default function Statistics({ session }: Props) {
               ))}
             {activeTab === "males" &&
               (maleStats.length === 0 ? (
-                <p className="stats-empty">Даних ще немає.</p>
+                <div className="stats-empty-state">
+                  <div className="stats-empty-illustration">♂</div>
+                  <h3 className="stats-empty-title">
+                    Даних по кільцях ще немає
+                  </h3>
+                  <p className="stats-empty-desc">
+                    Статистика по самцях з'явиться після внесення злучок і
+                    окролів.
+                  </p>
+                </div>
               ) : (
                 maleStats.map((s, i) => (
                   <RabbitCard
@@ -938,7 +956,14 @@ export default function Statistics({ session }: Props) {
               ))}
             {activeTab === "pairs" &&
               (pairStats.length === 0 ? (
-                <p className="stats-empty">Даних ще немає.</p>
+                <div className="stats-empty-state">
+                  <div className="stats-empty-illustration">❤️</div>
+                  <h3 className="stats-empty-title">Даних по парах ще немає</h3>
+                  <p className="stats-empty-desc">
+                    Тут буде порівняння продуктивності кожної пари коєць ×
+                    крольчиха.
+                  </p>
+                </div>
               ) : (
                 pairStats.map((s, i) => (
                   <PairCard
@@ -951,7 +976,16 @@ export default function Statistics({ session }: Props) {
               ))}
             {activeTab === "cages" &&
               (cageStats.length === 0 ? (
-                <p className="stats-empty">Даних ще немає.</p>
+                <div className="stats-empty-state">
+                  <div className="stats-empty-illustration">🏠</div>
+                  <h3 className="stats-empty-title">
+                    Даних по клітках ще немає
+                  </h3>
+                  <p className="stats-empty-desc">
+                    Вкажіть номери кліток при додаванні злучок — тоді тут
+                    з'явиться статистика по кожній клітці.
+                  </p>
+                </div>
               ) : (
                 cageStats.map((s, i) => (
                   <CageCard
@@ -964,10 +998,17 @@ export default function Statistics({ session }: Props) {
               ))}
             {activeTab === "accuracy" &&
               (accuracyStats.length === 0 ? (
-                <p className="stats-empty">
-                  Даних ще немає. Точність окролу рахується лише для окролів, де
-                  заповнені і "Очікуваний окріл", і "Дата окролу".
-                </p>
+                <div className="stats-empty-state">
+                  <div className="stats-empty-illustration">🗓</div>
+                  <h3 className="stats-empty-title">
+                    Даних точності окролу ще немає
+                  </h3>
+                  <p className="stats-empty-desc">
+                    Точність рахується лише для окролів де заповнені обидва поля
+                    — «Очікуваний окріл» і «Дата окролу». Заповнюй їх в розділі
+                    Розведення.
+                  </p>
+                </div>
               ) : (
                 accuracyStats.map((s, i) => (
                   <AccuracyCard key={s.femaleId} stat={s} rank={i + 1} />

@@ -14,6 +14,17 @@ const features = [
     ],
   },
   {
+    icon: "📄",
+    title: "Експорт CSV",
+    desc: "Експорт реєстру кроликів у CSV-файл для Excel, Google Таблиць та інших програм.",
+    details: [
+      "Вивантаження всього реєстру одним кліком",
+      "Підтримка Excel та Google Таблиць",
+      "Експорт клички, статі, породи та клітки",
+      "Збереження нотаток і дат народження",
+    ],
+  },
+  {
     icon: "📦",
     title: "Архів",
     desc: "Архівовані кролики. Тварини яких прибрав з активного реєстру. Можна відновити або видалити назавжди.",
@@ -158,7 +169,7 @@ const Subscription = () => {
           </div>
           <div className="sub-hero-stats">
             <div className="sub-stat">
-              <span className="sub-stat-num">11</span>
+              <span className="sub-stat-num">12</span>
               <span className="sub-stat-label">розділів обліку</span>
             </div>
             <div className="sub-stat">

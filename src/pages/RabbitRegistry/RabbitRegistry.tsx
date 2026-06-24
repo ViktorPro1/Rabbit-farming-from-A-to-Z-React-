@@ -84,6 +84,11 @@ const helpItems = [
     title: "Лічильник",
     desc: "Блок з цифрами вгорі автоматично рахує всіх тварин з усіх розділів: реєстр + молодняк з окролів + підлогове + відгодівля + карантин.",
   },
+  {
+    icon: "📄",
+    title: "Експорт CSV",
+    desc: "Можна експортувати реєстр кроликів у файл CSV для відкриття в Excel, Google Таблицях або інших програмах. Експортуються кличка, стать, порода, дата народження, номер клітки та нотатки.",
+  },
 ];
 
 export default function RabbitRegistry({ session }: Props) {
@@ -624,12 +629,6 @@ export default function RabbitRegistry({ session }: Props) {
             Додайте першого кролика — вкажіть кличку, породу, клітку і дату
             народження.
           </p>
-          <button
-            className="registry-add-btn"
-            onClick={() => setShowForm(true)}
-          >
-            + Додати кролика
-          </button>
         </div>
       ) : (
         <div className="registry-grid">

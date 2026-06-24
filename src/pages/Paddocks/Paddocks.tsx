@@ -575,12 +575,6 @@ export default function Paddocks({ session }: Props) {
               Додайте перший загін — вкажіть назву, коєця та самок для групового
               розведення.
             </p>
-            <button
-              className="paddocks-add-btn"
-              onClick={() => setShowPaddockForm(true)}
-            >
-              + Додати загін
-            </button>
           </div>
         ) : (
           paddocks.map((p) => (

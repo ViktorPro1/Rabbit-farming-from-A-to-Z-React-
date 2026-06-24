@@ -458,7 +458,15 @@ export default function Fattening({ session }: Props) {
       {loading ? (
         <p className="fattening-loading">Завантаження...</p>
       ) : cages.length === 0 ? (
-        <p className="fattening-empty">Кліток ще немає.</p>
+        <div className="fattening-empty-state">
+          <div className="fattening-empty-illustration">🥩</div>
+          <h3 className="fattening-empty-title">Кліток відгодівлі ще немає</h3>
+          <p className="fattening-empty-desc">
+            Додайте першу клітку відгодівлі, вкажіть кількість кролів, дату
+            народження та система автоматично розрахує рекомендований термін
+            забою.
+          </p>
+        </div>
       ) : (
         <div className="fattening-grid">
           {cages.map((cage) => {

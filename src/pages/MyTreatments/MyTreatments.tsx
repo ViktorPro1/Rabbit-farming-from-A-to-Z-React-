@@ -480,7 +480,7 @@ export default function MyTreatments({ session }: Props) {
           className="mytreat-back-btn"
           onClick={() => navigate("/registry")}
         >
-          &#8592; Реєстр
+          &#8592; Мої кролики
         </button>
         <h1>&#128138; Пропойка</h1>
         <button
@@ -696,7 +696,14 @@ export default function MyTreatments({ session }: Props) {
       {loading ? (
         <p className="mytreat-loading">Завантаження...</p>
       ) : records.length === 0 ? (
-        <p className="mytreat-empty">Записів ще немає.</p>
+        <div className="mytreat-empty-state">
+          <div className="mytreat-empty-illustration">💊</div>
+          <h3 className="mytreat-empty-title">Записів пропойки ще немає</h3>
+          <p className="mytreat-empty-desc">
+            Додайте перший запис — оберіть препарат зі списку, вкажіть клітку і
+            дату. Система автоматично розрахує дату наступного прийому.
+          </p>
+        </div>
       ) : (
         <>
           <h2 className="mytreat-all-title">Усі записи</h2>

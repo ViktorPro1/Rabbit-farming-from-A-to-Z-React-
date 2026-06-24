@@ -402,12 +402,6 @@ export default function Quarantine({ session }: Props) {
             поголів'я: апетит, послід, поведінка та стан шерсті скажуть більше
             за будь-який аналіз.
           </p>
-          <button
-            className="quarantine-add-btn"
-            onClick={() => setShowForm(true)}
-          >
-            + Додати в карантин
-          </button>
         </div>
       ) : (
         <div className="quarantine-list">
