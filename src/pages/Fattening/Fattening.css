@@ -186,7 +186,7 @@
 
 .fattening-card-top {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -200,18 +200,25 @@
 
 .fattening-card-btns {
     display: flex;
-    gap: 0.4rem;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.fattening-edit-btn,
+.fattening-slaughter-btn,
+.fattening-delete-btn {
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .fattening-edit-btn {
-    padding: 0.3rem 0.6rem;
     background: none;
     border: 1px solid var(--green-accent);
     color: var(--green-accent);
-    border-radius: 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
 .fattening-edit-btn:hover {
@@ -219,15 +226,20 @@
     color: white;
 }
 
+.fattening-slaughter-btn {
+    background: #b71c1c;
+    color: #fff;
+    border: none;
+}
+
+.fattening-slaughter-btn:hover {
+    background: #d32f2f;
+}
+
 .fattening-delete-btn {
-    padding: 0.3rem 0.6rem;
     background: none;
     border: 1px solid #c0392b;
     color: #c0392b;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
 .fattening-delete-btn:hover {
@@ -381,7 +393,6 @@
 }
 
 /* ===== ПОРОЖНІЙ СТАН ===== */
-
 .fattening-empty-state {
     display: flex;
     flex-direction: column;
@@ -413,6 +424,97 @@
     margin: 0;
 }
 
+.fattening-edit-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.fattening-cancel-btn {
+    padding: 0.65rem 1.2rem;
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    color: var(--gray);
+    transition: all 0.2s;
+}
+
+.fattening-cancel-btn:hover {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+.fattening-note-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    color: var(--green-dark);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fattening-note-toggle:hover {
+    background: var(--green-pale);
+}
+
+/* ── Модалка забою ── */
+.help-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.help-modal {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.help-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.help-modal-header h2 {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.help-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--gray);
+    line-height: 1;
+    padding: 0;
+}
+
+.help-close:hover {
+    color: var(--green-dark);
+}
+
 @media (max-width: 480px) {
     .fattening-note-grid {
         grid-template-columns: 1fr;
@@ -437,29 +539,4 @@
     .fattening-grid {
         grid-template-columns: 1fr;
     }
-}
-
-.fattening-note-toggle {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    background: var(--green-light);
-    border: 1px solid var(--gray-light);
-    border-radius: 12px;
-
-    padding: 16px;
-    margin-bottom: 12px;
-
-    color: var(--green-dark);
-
-    font-size: 18px;
-    font-weight: 700;
-
-    transition: all .2s ease;
-}
-
-.fattening-note-toggle:hover {
-    background: var(--green-pale);
 }

@@ -34,12 +34,15 @@ const emptyForm = {
   notes: "",
 };
 
-// 110 днів — оптимум для домашнього господарства (звичайні породи)
 function calcSlaughterDate(birthDate: string): string {
   if (!birthDate) return "";
   const d = new Date(birthDate);
   d.setDate(d.getDate() + 110);
   return d.toISOString().split("T")[0];
+}
+
+function todayIso(): string {
+  return new Date().toISOString().split("T")[0];
 }
 
 export default function Fattening({ session }: Props) {
@@ -52,6 +55,14 @@ export default function Fattening({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [showNote, setShowNote] = useState(false);
+
+  // Модалка забою
+  const [slaughterCage, setSlaughterCage] = useState<FatteningCage | null>(
+    null,
+  );
+  const [slaughterDate, setSlaughterDate] = useState(todayIso());
+  const [slaughterSaving, setSlaughterSaving] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -135,6 +146,23 @@ export default function Fattening({ session }: Props) {
     fetchCages();
   }
 
+  function openSlaughterModal(cage: FatteningCage) {
+    setSlaughterCage(cage);
+    setSlaughterDate(todayIso());
+  }
+
+  async function handleSlaughter() {
+    if (!slaughterCage) return;
+    setSlaughterSaving(true);
+    await supabase
+      .from("fattening")
+      .update({ is_active: false, slaughtered_at: slaughterDate })
+      .eq("id", slaughterCage.id);
+    setSlaughterCage(null);
+    setSlaughterSaving(false);
+    fetchCages();
+  }
+
   function downloadQr(cage: FatteningCage) {
     const canvas = document.getElementById(
       `qr-fat-${cage.id}`,
@@ -163,6 +191,54 @@ export default function Fattening({ session }: Props) {
           ⬅ Мої кролики
         </button>
       </div>
+
+      {/* МОДАЛКА ЗАБОЮ */}
+      {slaughterCage && (
+        <div className="help-overlay" onClick={() => setSlaughterCage(null)}>
+          <div
+            className="help-modal"
+            style={{ maxWidth: 380 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="help-modal-header">
+              <h2>Підтвердити забій</h2>
+              <button
+                className="help-close"
+                onClick={() => setSlaughterCage(null)}
+              >
+                ✕
+              </button>
+            </div>
+            <p style={{ margin: "12px 0 8px" }}>
+              Клітка <strong>№ {slaughterCage.cage_number}</strong>
+              {slaughterCage.breed ? ` · ${slaughterCage.breed}` : ""}
+            </p>
+            <div className="fattening-form-field" style={{ marginBottom: 16 }}>
+              <label>Дата забою</label>
+              <input
+                type="date"
+                value={slaughterDate}
+                onChange={(e) => setSlaughterDate(e.target.value)}
+              />
+            </div>
+            <div className="fattening-edit-actions">
+              <button
+                className="fattening-cancel-btn"
+                onClick={() => setSlaughterCage(null)}
+              >
+                Скасувати
+              </button>
+              <button
+                className="fattening-save-btn"
+                onClick={handleSlaughter}
+                disabled={slaughterSaving}
+              >
+                {slaughterSaving ? "Збереження..." : "✅ Підтвердити"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* QR MODAL */}
       {showQrModal && (
@@ -513,6 +589,12 @@ export default function Fattening({ session }: Props) {
                       onClick={() => setEditingCage(cage)}
                     >
                       Редагувати
+                    </button>
+                    <button
+                      className="fattening-slaughter-btn"
+                      onClick={() => openSlaughterModal(cage)}
+                    >
+                      Забій
                     </button>
                     <button
                       className="fattening-delete-btn"

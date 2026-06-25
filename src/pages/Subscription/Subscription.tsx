@@ -226,7 +226,7 @@ const Subscription = () => {
               </p>
               <div className="sub-step-contacts">
                 <a
-                  href="https://t.me/Viktor_freelancer_recruiting_pit"
+                  href="https://t.me/Dima_freelancer_recruiting_pit"
                   target="_blank"
                   rel="noreferrer"
                   className="sub-contact-btn telegram"
