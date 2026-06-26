@@ -171,7 +171,7 @@ const RabbitWhiskers = () => {
       {/* ЗОБРАЖЕННЯ */}
       <div className="RW-image-wrap">
         <img
-          src="/images/rabbit-whiskers-anatomy.jpg"
+          src="/images/rabbit-whiskers-anatomy.png"
           alt="Анатомія вусів кроля — розміщення груп вусів на голові"
           className="RW-image"
         />
