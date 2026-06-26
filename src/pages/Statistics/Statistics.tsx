@@ -918,7 +918,7 @@ export default function Statistics({ session }: Props) {
                   ]).size
                 }
               </span>
-              <span className="summary-label">Кроликів</span>
+              <span className="summary-label">Плем. стадо</span>
             </div>
             <div className="summary-card">
               <span className="summary-icon">❤️</span>
@@ -939,7 +939,7 @@ export default function Statistics({ session }: Props) {
               <span className="summary-num">
                 {pairStats.reduce((s, p) => s + p.totalAlive, 0)}
               </span>
-              <span className="summary-label">Живих</span>
+              <span className="summary-label">Народилось живими</span>
             </div>
             <div className="summary-card highlight-red">
               <span className="summary-icon">🔪</span>

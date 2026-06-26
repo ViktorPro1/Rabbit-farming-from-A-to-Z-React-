@@ -615,4 +615,14 @@
     .matings-page {
         padding: 1rem;
     }
+
+    .matings-edit-actions {
+        flex-direction: column;
+    }
+
+    .matings-edit-actions .matings-save-btn,
+    .matings-edit-actions .matings-cancel-btn {
+        width: 100%;
+        min-width: unset;
+    }
 }

@@ -424,80 +424,89 @@ export default function RabbitRegistry({ session }: Props) {
       )}
 
       <div className="registry-header">
-        <h1>🐇 Мої кролики</h1>
-        <button
-          className="registry-email"
-          onClick={() => setShowSettings(true)}
-          title="Налаштування"
-        >
-          {currentLabel}
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/archive")}
-        >
-          📦 Архів
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/matings")}
-        >
-          🐇 Розведення
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/paddocks")}
-        >
-          🏠 Підлогове
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/fattening")}
-        >
-          🥩 Відгодівля
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/quarantine")}
-        >
-          🔒 Карантин
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/statistics")}
-        >
-          📊 Статистика
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/my-vaccinations")}
-        >
-          💉 Вакцинація
-        </button>
-        <button
-          className="registry-archive-link"
-          onClick={() => navigate("/my-treatments")}
-        >
-          💊 Пропойка
-        </button>
-        <button
-          className="registry-archive-link qr-nav-btn"
-          onClick={() => setShowQrModal(true)}
-        >
-          📷 QR-коди
-        </button>
-        <button className="registry-archive-link" onClick={exportCSV}>
-          📥 Експорт CSV
-        </button>
-        <button className="registry-help-btn" onClick={() => setShowHelp(true)}>
-          ? Довідка
-        </button>
-        <button
-          className="registry-add-btn"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? "✕ Скасувати" : "+ Додати кролика"}
-        </button>
+        <div className="registry-header-top">
+          <h1>🐇 Мої кролики</h1>
+          <button
+            className="registry-email"
+            onClick={() => setShowSettings(true)}
+            title="Налаштування"
+          >
+            {currentLabel}
+          </button>
+        </div>
+        <div className="registry-header-nav">
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/archive")}
+          >
+            📦 Архів
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/matings")}
+          >
+            🐇 Розведення
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/paddocks")}
+          >
+            🏠 Підлогове
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/fattening")}
+          >
+            🥩 Відгодівля
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/quarantine")}
+          >
+            🔒 Карантин
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/statistics")}
+          >
+            📊 Статистика
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/my-vaccinations")}
+          >
+            💉 Вакцинація
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/my-treatments")}
+          >
+            💊 Пропойка
+          </button>
+          <button
+            className="registry-archive-link qr-nav-btn"
+            onClick={() => setShowQrModal(true)}
+          >
+            📷 QR-коди
+          </button>
+          <button className="registry-archive-link" onClick={exportCSV}>
+            📥 Експорт CSV
+          </button>
+          <button
+            className="registry-help-btn"
+            onClick={() => setShowHelp(true)}
+          >
+            ? Довідка
+          </button>
+        </div>
+        <div className="registry-header-action">
+          <button
+            className="registry-add-btn"
+            onClick={() => setShowForm(!showForm)}
+          >
+            {showForm ? "✕ Скасувати" : "+ Додати кролика"}
+          </button>
+        </div>
       </div>
 
       <div className="registry-stats">

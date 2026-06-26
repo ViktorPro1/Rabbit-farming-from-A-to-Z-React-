@@ -6,16 +6,32 @@
 
 .registry-header {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-bottom: 2rem;
-    flex-wrap: wrap;
 }
 
-.registry-header h1 {
+.registry-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.registry-header-top h1 {
     color: var(--green-dark);
     font-size: 1.8rem;
-    flex: 1;
+    margin: 0;
+}
+
+.registry-header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.registry-header-action {
+    display: flex;
 }
 
 .registry-email {
@@ -482,10 +498,6 @@
         grid-template-columns: 1fr;
     }
 
-    .registry-header h1 {
-        font-size: 1.4rem;
-    }
-
     .registry-grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -498,6 +510,14 @@
 
     .registry-grid {
         grid-template-columns: 1fr;
+    }
+
+    .registry-header-top h1 {
+        font-size: 1.4rem;
+    }
+
+    .registry-header-action .registry-add-btn {
+        width: 100%;
     }
 }
 
