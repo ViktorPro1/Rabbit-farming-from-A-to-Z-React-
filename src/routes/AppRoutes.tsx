@@ -44,6 +44,9 @@ const RabbitBodyLanguage = lazy(
   () => import("../pages/RabbitBodyLanguage/RabbitBodyLanguage"),
 );
 const RabbitStress = lazy(() => import("../pages/RabbitStress/RabbitStress"));
+const RabbitWhiskers = lazy(
+  () => import("../pages/RabbitWhiskers/RabbitWhiskers"),
+);
 
 // ЖИТЛО
 const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
@@ -308,6 +311,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/rabbit-sounds" element={<RabbitSounds />} />
         <Route path="/rabbit-body-language" element={<RabbitBodyLanguage />} />
         <Route path="/rabbit-stress" element={<RabbitStress />} />
+        <Route path="/rabbit-whiskers" element={<RabbitWhiskers />} />
         {/* 2. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />

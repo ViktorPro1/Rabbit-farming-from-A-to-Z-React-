@@ -24,6 +24,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/artificial-insemination": "Штучне осіменіння",
   "/selection": "Селекція",
   "/genetics": "Генетика забарвлення",
+  "/rabbit-whiskers": "Вуса (вібриси)",
   "/rabbits-and-guinea-pigs": "Кролі та морські свинки",
 
   // ЖИТЛО
