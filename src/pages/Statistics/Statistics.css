@@ -308,6 +308,124 @@
     font-size: 0.78rem;
 }
 
+/* ── Вкладка Забої ── */
+.slaughter-tab {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.slaughter-summary {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.slaughter-summary-item {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid #b71c1c;
+    min-width: 120px;
+}
+
+.slaughter-summary-val {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #b71c1c;
+}
+
+.slaughter-summary-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.slaughter-month {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.slaughter-month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.slaughter-month-total {
+    font-size: 0.9rem;
+    color: #b71c1c;
+    font-weight: 700;
+}
+
+.slaughter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.slaughter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-card);
+    border-radius: 8px;
+    border-left: 3px solid #b71c1c;
+}
+
+.slaughter-row-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.slaughter-cage {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--green-dark);
+}
+
+.slaughter-breed {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.slaughter-row-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+}
+
+.slaughter-count {
+    font-weight: 700;
+    color: #b71c1c;
+    font-size: 0.95rem;
+}
+
+.slaughter-date {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.summary-card.highlight-red {
+    border-top-color: #b71c1c;
+}
+
+.summary-card.highlight-red .summary-num {
+    color: #b71c1c;
+}
+
 @media (max-width: 960px) {
     .stats-page {
         max-width: 100%;

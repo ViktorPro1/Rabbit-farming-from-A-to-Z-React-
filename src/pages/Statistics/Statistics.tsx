@@ -59,7 +59,7 @@ interface AccuracyEntry {
   femaleCage: string;
   expectedDate: string;
   actualDate: string;
-  diffDays: number; // позитивне = перетягнула, негативне = раніше, 0 = вчасно
+  diffDays: number;
 }
 
 interface FemaleAccuracyStat {
@@ -72,6 +72,18 @@ interface FemaleAccuracyStat {
   onTimeCount: number;
   lateCount: number;
   earlyCount: number;
+}
+
+interface SlaughteredCage {
+  id: string;
+  cage_number: string;
+  breed: string;
+  males: number;
+  females: number;
+  unknown: number;
+  birth_date: string;
+  slaughtered_at: string;
+  notes: string;
 }
 
 function MiniBar({
@@ -352,10 +364,7 @@ function AccuracyCard({
   function diffLabel(diff: number) {
     if (diff === 0) return { text: "✅ Вчасно", className: "diff-ontime" };
     if (diff > 0)
-      return {
-        text: `🔴 Перетягнула на ${diff} дн.`,
-        className: "diff-late",
-      };
+      return { text: `🔴 Перетягнула на ${diff} дн.`, className: "diff-late" };
     return {
       text: `🟡 Народила на ${Math.abs(diff)} дн. раніше`,
       className: "diff-early",
@@ -419,15 +428,122 @@ function AccuracyCard({
   );
 }
 
+function SlaughterTab({ cages }: { cages: SlaughteredCage[] }) {
+  const total = cages.reduce(
+    (s, c) => s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
+    0,
+  );
+
+  // Групуємо по місяцях
+  const byMonth: Record<string, SlaughteredCage[]> = {};
+  cages.forEach((c) => {
+    if (!c.slaughtered_at) return;
+    const key = c.slaughtered_at.slice(0, 7); // "2026-06"
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(c);
+  });
+  const months = Object.keys(byMonth).sort((a, b) => b.localeCompare(a));
+
+  function monthLabel(key: string) {
+    const [y, m] = key.split("-");
+    const names = [
+      "Січень",
+      "Лютий",
+      "Березень",
+      "Квітень",
+      "Травень",
+      "Червень",
+      "Липень",
+      "Серпень",
+      "Вересень",
+      "Жовтень",
+      "Листопад",
+      "Грудень",
+    ];
+    return `${names[parseInt(m) - 1]} ${y}`;
+  }
+
+  if (cages.length === 0) {
+    return (
+      <div className="stats-empty-state">
+        <div className="stats-empty-illustration">🔪</div>
+        <h3 className="stats-empty-title">Забоїв ще не було</h3>
+        <p className="stats-empty-desc">
+          Після першого підтвердженого забою у розділі Відгодівля — дані
+          з'являться тут автоматично.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="slaughter-tab">
+      <div className="slaughter-summary">
+        <div className="slaughter-summary-item">
+          <span className="slaughter-summary-val">{cages.length}</span>
+          <span className="slaughter-summary-label">Кліток забито</span>
+        </div>
+        <div className="slaughter-summary-item">
+          <span className="slaughter-summary-val">{total}</span>
+          <span className="slaughter-summary-label">Голів всього</span>
+        </div>
+      </div>
+
+      {months.map((month) => {
+        const group = byMonth[month];
+        const groupTotal = group.reduce(
+          (s, c) => s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
+          0,
+        );
+        return (
+          <div key={month} className="slaughter-month">
+            <div className="slaughter-month-header">
+              <span className="slaughter-month-title">{monthLabel(month)}</span>
+              <span className="slaughter-month-total">{groupTotal} гол.</span>
+            </div>
+            <div className="slaughter-list">
+              {group.map((c) => {
+                const count =
+                  (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+                return (
+                  <div key={c.id} className="slaughter-row">
+                    <div className="slaughter-row-left">
+                      <span className="slaughter-cage">
+                        Клітка {c.cage_number}
+                      </span>
+                      {c.breed && (
+                        <span className="slaughter-breed">{c.breed}</span>
+                      )}
+                    </div>
+                    <div className="slaughter-row-right">
+                      <span className="slaughter-count">{count} гол.</span>
+                      <span className="slaughter-date">
+                        {new Date(c.slaughtered_at).toLocaleDateString("uk-UA")}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Statistics({ session }: Props) {
   const [femaleStats, setFemaleStats] = useState<RabbitStat[]>([]);
   const [maleStats, setMaleStats] = useState<RabbitStat[]>([]);
   const [pairStats, setPairStats] = useState<PairStat[]>([]);
   const [cageStats, setCageStats] = useState<CageStat[]>([]);
   const [accuracyStats, setAccuracyStats] = useState<FemaleAccuracyStat[]>([]);
+  const [slaughteredCages, setSlaughteredCages] = useState<SlaughteredCage[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
-    "females" | "males" | "pairs" | "cages" | "accuracy"
+    "females" | "males" | "pairs" | "cages" | "accuracy" | "slaughter"
   >("females");
   const navigate = useNavigate();
   const location = useLocation();
@@ -435,6 +551,19 @@ export default function Statistics({ session }: Props) {
   useEffect(() => {
     async function loadStats() {
       setLoading(true);
+
+      // Забої
+      const { data: slaughtered } = await supabase
+        .from("fattening")
+        .select(
+          "id, cage_number, breed, males, females, unknown, birth_date, slaughtered_at, notes",
+        )
+        .eq("user_id", session.user.id)
+        .eq("is_active", false)
+        .not("slaughtered_at", "is", null)
+        .order("slaughtered_at", { ascending: false });
+      setSlaughteredCages(slaughtered || []);
+
       const { data: matings } = await supabase
         .from("matings")
         .select(
@@ -453,7 +582,6 @@ export default function Statistics({ session }: Props) {
         .select("*")
         .in("mating_id", matingIds);
 
-      // Реальні окроли (з датою народження)
       const littersMap: Record<
         string,
         { total_born: number; alive: number }[]
@@ -467,7 +595,6 @@ export default function Statistics({ session }: Props) {
         });
       });
 
-      // Додаткові злучки записані всередині окролів (litter_mating_date)
       const litterMatingCounts: Record<string, number> = {};
       (litters || []).forEach((l) => {
         if (!l.litter_mating_date) return;
@@ -679,13 +806,11 @@ export default function Statistics({ session }: Props) {
           .sort((a, b) => b.totalAlive - a.totalAlive),
       );
 
-      // Accuracy stats — порівняння очікуваної та фактичної дати окролу
+      // Accuracy stats
       const accuracyMap: Record<string, FemaleAccuracyStat> = {};
       matings.forEach((m) => {
         if (!m.female) return;
         const mLittersRaw = (litters || []).filter((l) => l.mating_id === m.id);
-        // Клітка крольчихи: пріоритет — реєстр кролика (cage_number),
-        // бо female_cage у злучці часто не заповнюють
         const resolvedFemaleCage = m.female?.cage_number || m.female_cage || "";
         mLittersRaw.forEach((l) => {
           if (!l.birth_date || !l.litter_expected_birth) return;
@@ -708,12 +833,9 @@ export default function Statistics({ session }: Props) {
               earlyCount: 0,
             };
           }
-          // якщо клітка ще не зафіксована для цієї крольчихи — додамо її,
-          // щойно знайдемо непорожнє значення
           if (!accuracyMap[fid].femaleCage && resolvedFemaleCage) {
             accuracyMap[fid].femaleCage = resolvedFemaleCage;
           }
-
           accuracyMap[fid].entries.push({
             litterId: l.id,
             femaleId: fid,
@@ -819,6 +941,17 @@ export default function Statistics({ session }: Props) {
               </span>
               <span className="summary-label">Живих</span>
             </div>
+            <div className="summary-card highlight-red">
+              <span className="summary-icon">🔪</span>
+              <span className="summary-num">
+                {slaughteredCages.reduce(
+                  (s, c) =>
+                    s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
+                  0,
+                )}
+              </span>
+              <span className="summary-label">Забито</span>
+            </div>
           </div>
 
           <div className="stats-tabs">
@@ -852,11 +985,18 @@ export default function Statistics({ session }: Props) {
             >
               🗓 Точність окролу
             </button>
+            <button
+              className={`stats-tab ${activeTab === "slaughter" ? "active" : ""}`}
+              onClick={() => setActiveTab("slaughter")}
+            >
+              🔪 Забої
+            </button>
           </div>
 
           {activeTab !== "pairs" &&
             activeTab !== "cages" &&
             activeTab !== "accuracy" &&
+            activeTab !== "slaughter" &&
             currentStats.length > 0 && (
               <div className="stats-chart-block">
                 <h3 className="chart-title">
@@ -932,6 +1072,7 @@ export default function Statistics({ session }: Props) {
                   />
                 ))
               ))}
+
             {activeTab === "males" &&
               (maleStats.length === 0 ? (
                 <div className="stats-empty-state">
@@ -954,6 +1095,7 @@ export default function Statistics({ session }: Props) {
                   />
                 ))
               ))}
+
             {activeTab === "pairs" &&
               (pairStats.length === 0 ? (
                 <div className="stats-empty-state">
@@ -974,6 +1116,7 @@ export default function Statistics({ session }: Props) {
                   />
                 ))
               ))}
+
             {activeTab === "cages" &&
               (cageStats.length === 0 ? (
                 <div className="stats-empty-state">
@@ -996,6 +1139,7 @@ export default function Statistics({ session }: Props) {
                   />
                 ))
               ))}
+
             {activeTab === "accuracy" &&
               (accuracyStats.length === 0 ? (
                 <div className="stats-empty-state">
@@ -1014,6 +1158,10 @@ export default function Statistics({ session }: Props) {
                   <AccuracyCard key={s.femaleId} stat={s} rank={i + 1} />
                 ))
               ))}
+
+            {activeTab === "slaughter" && (
+              <SlaughterTab cages={slaughteredCages} />
+            )}
           </div>
         </>
       )}
