@@ -36,9 +36,6 @@ const ArtificialInsemination = lazy(
 const Selection = lazy(() => import("../pages/Selection/Selection"));
 const Genetics = lazy(() => import("../pages/Genetics/Genetics"));
 const RabbitMyths = lazy(() => import("../pages/RabbitMyths/RabbitMyths"));
-const RabbitsAndGuineaPigs = lazy(
-  () => import("../pages/RabbitsAndGuineaPigs/RabbitsAndGuineaPigs"),
-);
 const RabbitSounds = lazy(() => import("../pages/RabbitSounds/RabbitSounds"));
 const RabbitBodyLanguage = lazy(
   () => import("../pages/RabbitBodyLanguage/RabbitBodyLanguage"),
@@ -46,6 +43,12 @@ const RabbitBodyLanguage = lazy(
 const RabbitStress = lazy(() => import("../pages/RabbitStress/RabbitStress"));
 const RabbitWhiskers = lazy(
   () => import("../pages/RabbitWhiskers/RabbitWhiskers"),
+);
+
+// ПОРІВНЯННЯ ТА СПІВЖИТТЯ
+const RabbitVsHare = lazy(() => import("../pages/RabbitVsHare/RabbitVsHare"));
+const RabbitsAndGuineaPigs = lazy(
+  () => import("../pages/RabbitsAndGuineaPigs/RabbitsAndGuineaPigs"),
 );
 
 // ЖИТЛО
@@ -304,21 +307,23 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route path="/selection" element={<Selection />} />
         <Route path="/genetics" element={<Genetics />} />
-        <Route
-          path="/rabbits-and-guinea-pigs"
-          element={<RabbitsAndGuineaPigs />}
-        />
         <Route path="/rabbit-sounds" element={<RabbitSounds />} />
         <Route path="/rabbit-body-language" element={<RabbitBodyLanguage />} />
         <Route path="/rabbit-stress" element={<RabbitStress />} />
         <Route path="/rabbit-whiskers" element={<RabbitWhiskers />} />
-        {/* 2. ЖИТЛО */}
+        {/* 2. ПОРІВНЯННЯ ТА СПІВЖИТТЯ */}
+        <Route path="/rabbit-vs-hare" element={<RabbitVsHare />} />
+        <Route
+          path="/rabbits-and-guinea-pigs"
+          element={<RabbitsAndGuineaPigs />}
+        />
+        {/* 3. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
         <Route path="/pit-keeping" element={<PaddockInfo />} />
         <Route path="/microclimate" element={<Microclimate />} />
         <Route path="/rabbit-housing-diy" element={<RabbitHousingDIY />} />
-        {/* 3. ХАРЧУВАННЯ */}
+        {/* 4. ХАРЧУВАННЯ */}
         <Route path="/feeding" element={<Feeding />} />
         <Route path="/leaves" element={<Leaves />} />
         <Route path="/crops" element={<Crops />} />
@@ -327,7 +332,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/new-food" element={<NewFood />} />
         <Route path="/compound-feed" element={<CompoundFeed />} />
         <Route path="/special-feeds" element={<SpecialFeeds />} />
-        {/* 4. ДОГЛЯД */}
+        {/* 5. ДОГЛЯД */}
         <Route path="/care" element={<Care />} />
         <Route path="/disinfection" element={<Disinfection />} />
         <Route path="/biosecurity" element={<Biosecurity />} />
@@ -339,7 +344,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/seasonal-molting" element={<SeasonalMolting />} />
         <Route path="/group-housing" element={<GroupHousing />} />
         <Route path="/predators" element={<Predators />} />
-        {/* 5. РОЗВЕДЕННЯ */}
+        {/* 6. РОЗВЕДЕННЯ */}
         <Route path="/okril" element={<Okril />} />
         <Route path="/winter-litter" element={<WinterLitter />} />
         <Route path="/weaning" element={<Weaning />} />
@@ -353,7 +358,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/buck-management" element={<BuckManagement />} />
         <Route path="/false-pregnancy" element={<FalsePregnancy />} />
         <Route path="/poisoning" element={<Poisoning />} />
-        {/* 6. ЗДОРОВ'Я */}
+        {/* 7. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
         <Route path="/diseases" element={<Diseases />} />

@@ -707,4 +707,15 @@ export const pageMeta: Record<string, PageMeta> = {
             ],
         },
     },
+    "/rabbit-vs-hare": {
+        title: `Кролик vs Заєць — ${SITE_NAME}`,
+        description: "Головні відмінності між кроликом і зайцем: анатомія, поведінка, розмноження та можливість утримання в домашніх умовах.",
+        schema: {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Кролик vs Заєць",
+            description: "Порівняння кролика і зайця: біологія, спосіб життя, чи можна тримати зайця вдома.",
+            url: `${BASE_URL}/rabbit-vs-hare`,
+        },
+    },
 };
