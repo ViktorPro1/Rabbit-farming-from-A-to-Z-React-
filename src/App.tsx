@@ -12,6 +12,7 @@ import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import AppRoutes from "./routes/AppRoutes";
 import AssistantPromo from "./components/AssistantPromo/AssistantPromo";
 import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
@@ -273,6 +274,7 @@ function App() {
           <Breadcrumbs />
         </div>
         <AppRoutes session={session} />
+        <ScrollToTop />
         <Footer />
         <UpdatePrompt />
       </BrowserRouter>

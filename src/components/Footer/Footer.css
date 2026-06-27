@@ -18,6 +18,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-left: 60px;
 }
 
 .footer-brand-icon {
@@ -97,6 +98,12 @@
         justify-content: center;
         padding-right: 0;
     }
+
+
+    .footer-brand {
+        margin-left: 0;
+    }
+
 }
 
 @media (max-width: 420px) {
