@@ -108,3 +108,22 @@
         font-size: 14px;
     }
 }
+
+.footer-feedback-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--green-pale);
+    font-size: 13px;
+    opacity: 0.75;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s, border-color 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.footer-feedback-btn:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.6);
+}
