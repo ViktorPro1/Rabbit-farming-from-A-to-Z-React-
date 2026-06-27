@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./FAQ.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const faqGroups = [
   {
@@ -199,6 +200,7 @@ const FAQ = () => {
           <Link to="/" className="faq-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

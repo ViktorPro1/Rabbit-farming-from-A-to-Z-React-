@@ -16,6 +16,7 @@
     "react-dom": "^19.2.4",
     "react-helmet-async": "^3.0.0",
     "react-router-dom": "^7.14.0",
+    "react-share": "^5.3.0",
     "vanilla-cookieconsent": "^3.1.0"
   },
   "devDependencies": {

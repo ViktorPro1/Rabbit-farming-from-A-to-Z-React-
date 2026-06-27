@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./RabbitMyths.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type CategoryId = "feeding" | "breeding" | "health" | "behavior";
 
@@ -352,6 +353,7 @@ const RabbitMyths = () => {
           <Link to="/" className="myths-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

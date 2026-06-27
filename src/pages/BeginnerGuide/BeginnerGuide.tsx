@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./BeginnerGuide.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const warningCards = [
   {
@@ -320,6 +321,7 @@ const BeginnerGuide = () => {
           <Link to="/" className="bg-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Купив першого кроля — починай тут" />
         </div>
       </div>
     </main>

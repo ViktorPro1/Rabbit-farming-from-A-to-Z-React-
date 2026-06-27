@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./BeginnerMistakes.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type TabId = "feeding" | "housing" | "breeding" | "health" | "management";
 
@@ -359,6 +360,7 @@ const BeginnerMistakes = () => {
           <Link to="/" className="bm-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>
