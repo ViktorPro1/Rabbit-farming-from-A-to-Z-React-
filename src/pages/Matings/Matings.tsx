@@ -715,7 +715,7 @@ export default function Matings({ session }: Props) {
           className={`matings-sort-btn${sortType === "male" ? " active" : ""}`}
           onClick={() => setSortType("male")}
         >
-          🏠 За кліткою коєця
+          🏠 За кліткою
         </button>
       </div>
 
@@ -734,10 +734,10 @@ export default function Matings({ session }: Props) {
             <div key={m.id} className="mating-card">
               <div className="mating-card-top">
                 <span className="mating-pair">
-                  ♂ {m.male?.name}
-                  {m.male?.breed ? ` (${m.male.breed})` : ""} {"×"} ♀{" "}
-                  {m.female?.name}
-                  {m.female?.breed ? ` (${m.female.breed})` : ""}
+                  ♀ {m.female?.name}
+                  {m.female?.breed ? ` (${m.female.breed})` : ""} {"×"} ♂{" "}
+                  {m.male?.name}
+                  {m.male?.breed ? ` (${m.male.breed})` : ""}
                 </span>
                 <div className="mating-card-btns">
                   <button
