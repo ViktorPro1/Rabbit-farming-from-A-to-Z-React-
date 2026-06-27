@@ -1122,12 +1122,12 @@ export default function Matings({ session }: Props) {
                         </span>
                         {l.weaned_males > 0 && (
                           <span>
-                            ♂ {l.weaned_males} гол. {"→"} {l.weaned_males_cage}
+                            ♂ {l.weaned_males} гол. → кл. {l.weaned_males_cage}
                           </span>
                         )}
                         {l.weaned_females > 0 && (
                           <span>
-                            ♀ {l.weaned_females} гол. {"→"}{" "}
+                            ♀ {l.weaned_females} гол. → кл.{" "}
                             {l.weaned_females_cage}
                           </span>
                         )}
