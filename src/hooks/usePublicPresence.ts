@@ -1,22 +1,18 @@
 import { useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-// Окремий анонімний клієнт для публічного сайту
-const supabasePublic = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import { supabase } from "../lib/supabase";
 
 const CHANNEL_NAME = "public-site-presence";
 
 export function usePublicPresence() {
     useEffect(() => {
+        if (window.location.pathname.startsWith("/admin")) return;
+
         const sessionId =
             sessionStorage.getItem("presence_id") ||
             Math.random().toString(36).slice(2);
         sessionStorage.setItem("presence_id", sessionId);
 
-        const channel = supabasePublic.channel(CHANNEL_NAME, {
+        const channel = supabase.channel(CHANNEL_NAME, {
             config: { presence: { key: sessionId } },
         });
 
@@ -33,7 +29,7 @@ export function usePublicPresence() {
             });
 
         return () => {
-            supabasePublic.removeChannel(channel);
+            supabase.removeChannel(channel);
         };
     }, []);
 }
