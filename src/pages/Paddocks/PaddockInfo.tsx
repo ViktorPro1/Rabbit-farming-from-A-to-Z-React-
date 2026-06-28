@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./PaddockInfo.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const advantages = [
   {
@@ -555,6 +556,7 @@ const PaddockInfo = () => {
           <Link to="/" className="paddockinfo-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

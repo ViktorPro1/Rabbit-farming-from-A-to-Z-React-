@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./RabbitBodyLanguage.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 type Mood =
@@ -619,6 +621,12 @@ export default function RabbitBodyLanguage() {
           </p>
         </div>
       </footer>
+      <div className="bl-back">
+        <Link to="/" className="bl-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </div>
   );
 }

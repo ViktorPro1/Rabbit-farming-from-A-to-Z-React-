@@ -718,4 +718,26 @@ export const pageMeta: Record<string, PageMeta> = {
             url: `${BASE_URL}/rabbit-vs-hare`,
         },
     },
+    "/rabbits-and-predators": {
+        title: `Кролі, коти та собаки — ${SITE_NAME}`,
+        description: "Стрес, Pasteurella multocida, бліхи: ветеринарний аналіз ризиків сумісного утримання кролів з котами та собаками.",
+        schema: {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Кролі, коти та собаки",
+            description: "Ризики сумісного утримання: хижацький інстинкт, хронічний стрес, Pasteurella від укусу, бліхи та стригучий лишай.",
+            url: `${BASE_URL}/rabbits-and-predators`,
+        },
+    },
+    "/rabbits-and-chickens": {
+        title: `Кролі та кури — ${SITE_NAME}`,
+        description: "Salmonella, Pasteurella multocida, міаз, аміак: ветеринарний аналіз ризиків спільного утримання кролів і курей.",
+        schema: {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Кролі та кури",
+            description: "Що насправді загрожує кролям при спільному утриманні з курми: Salmonella (летальність >90%), Pasteurella, міаз. Міф про міжвидовий кокцидіоз розвінчано.",
+            url: `${BASE_URL}/rabbits-and-chickens`,
+        },
+    },
 };

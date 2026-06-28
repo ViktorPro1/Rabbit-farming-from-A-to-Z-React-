@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import ShareButton from "../../components/ShareButton/ShareButton";
 import "./GroupHousing.css";
 
 const GroupHousing = () => {
@@ -432,6 +434,12 @@ const GroupHousing = () => {
             постійного нагляду
           </li>
         </ul>
+      </div>
+      <div className="GH-back">
+        <Link to="/" className="GH-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

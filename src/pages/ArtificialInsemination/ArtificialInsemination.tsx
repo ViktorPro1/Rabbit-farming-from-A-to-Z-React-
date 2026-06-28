@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./ArtificialInsemination.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 // ---- ДАНІ ----
 
@@ -434,6 +435,7 @@ const ArtificialInsemination = () => {
           <Link to="/" className="ai-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

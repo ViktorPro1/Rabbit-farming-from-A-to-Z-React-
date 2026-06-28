@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Selection.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const selectionMethods = [
   {
@@ -680,6 +681,7 @@ const Selection = () => {
           <Link to="/" className="selection-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

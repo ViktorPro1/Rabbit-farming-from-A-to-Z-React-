@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./RabbitVsHare.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 type CompareCategory =
@@ -526,7 +528,6 @@ export default function RabbitVsHare() {
             </div>
           </div>
         </div>
-
         {/* ГОЛОВНА РІЗНИЦЯ */}
         <h2 className="rvh-section-title">Головне що треба знати</h2>
         <div className="rvh-key-facts">
@@ -572,7 +573,6 @@ export default function RabbitVsHare() {
             </div>
           </div>
         </div>
-
         {/* ПОРІВНЯЛЬНА ТАБЛИЦЯ */}
         <h2 className="rvh-section-title">Детальне порівняння</h2>
         <div className="rvh-compare-tabs">
@@ -614,7 +614,6 @@ export default function RabbitVsHare() {
             </tbody>
           </table>
         </div>
-
         {/* ЧОМУ НЕ МОЖНА ТРИМАТИ ЗАЙЦЯ */}
         <h2 className="rvh-section-title">Чи можна тримати зайця вдома?</h2>
         <p className="rvh-intro">
@@ -654,7 +653,6 @@ export default function RabbitVsHare() {
             );
           })}
         </div>
-
         {/* РОЗМНОЖЕННЯ ЗАЙЦЯ */}
         <h2 className="rvh-section-title">Окроли зайця — як це відбувається</h2>
         <p className="rvh-intro">
@@ -674,7 +672,6 @@ export default function RabbitVsHare() {
             </div>
           ))}
         </div>
-
         {/* ВИДИ ЗАЙЦІВ */}
         <h2 className="rvh-section-title">Основні види зайців світу</h2>
         <p className="rvh-intro">Натисніть — ареал, вага та особливості</p>
@@ -723,7 +720,6 @@ export default function RabbitVsHare() {
             );
           })}
         </div>
-
         {/* ІСТОРІЯ */}
         <h2 className="rvh-section-title">Трохи історії зайця</h2>
         <div className="rvh-history-list">
@@ -737,9 +733,8 @@ export default function RabbitVsHare() {
             </div>
           ))}
         </div>
-
         {/* АЛЕРТИ */}
-        <h2 className="rvh-section-title">Підсумки та важливі висновки</h2>
+        <h2 className="rvh-section-title">Підсумки та важливі висновки</h2>{" "}
         <div className="rvh-alert danger">
           🚨 Якщо ви знайшли зайченя — НЕ беріть додому. Залиште на місці. Мати
           повернеться вночі. Ваш запах — це запах хижака для неї
@@ -762,7 +757,6 @@ export default function RabbitVsHare() {
           довгими вухами: фламандський велетень, баран французький. Вони
           доглянуті, приручені і не страждають у неволі
         </div>
-
         <div className="rvh-note">
           <p>
             <strong>Джерела:</strong> Flux J.E.C. & Angermann R. — The Hares and
@@ -772,6 +766,12 @@ export default function RabbitVsHare() {
             J.C. — The Domestic Rabbit (5th ed., Blackwell).
           </p>
         </div>
+      </div>
+      <div className="rvh-back">
+        <Link to="/" className="rvh-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

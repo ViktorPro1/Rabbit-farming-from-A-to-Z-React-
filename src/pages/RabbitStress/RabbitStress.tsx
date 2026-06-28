@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./RabbitStress.css";
+import { Link } from "react-router-dom";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 // ─── Types ───────────────────────────────────────────────────────
 type Severity = "low" | "medium" | "high" | "critical";
@@ -690,6 +692,12 @@ export default function RabbitStress() {
           </p>
         </div>
       </footer>
+      <div className="st-back">
+        <Link to="/" className="st-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </div>
   );
 }

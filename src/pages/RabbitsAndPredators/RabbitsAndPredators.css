@@ -1,0 +1,659 @@
+.rap-page {
+    min-height: 100vh;
+    background: var(--cream);
+}
+
+/* ── HEADER ── */
+
+.rap-header {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, var(--green-accent) 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.rap-header::before {
+    content: "🐇🐈🐕";
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.06;
+    top: -10px;
+    right: 30px;
+    pointer-events: none;
+}
+
+.rap-header h1 {
+    font-size: clamp(20px, 3.4vw, 34px);
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.rap-header p {
+    opacity: 0.85;
+    font-size: 15px;
+}
+
+/* ── WRAP ── */
+
+.rap-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.rap-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.rap-banner>span {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.rap-banner strong {
+    color: var(--brown);
+}
+
+/* ── TABS ── */
+
+.rap-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.rap-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--gray-light);
+    background: var(--cream);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.rap-tab:hover {
+    border-color: var(--green-mid);
+    color: var(--green-dark);
+    background: var(--green-light);
+}
+
+.rap-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.25);
+}
+
+/* ── CONTENT ── */
+
+.rap-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.rap-intro {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.2rem 1.4rem;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.rap-note {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.4rem;
+}
+
+.rap-note p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.rap-sub-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0.5rem 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── SOURCE ── */
+
+.rap-source {
+    font-size: 12px;
+    color: var(--gray);
+    padding: 8px 12px;
+    background: var(--green-light);
+    border-radius: 8px;
+    border-left: 3px solid var(--gray-light);
+}
+
+/* ── ALERTS ── */
+
+.rap-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.rap-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.rap-alert.tip {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+/* ── VERDICT GRID ── */
+
+.rap-verdict-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.rap-verdict-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.rap-verdict-card.no {
+    background: var(--amber-light);
+    border: 1.5px solid var(--amber);
+}
+
+.rap-verdict-card.caution {
+    background: var(--amber-light);
+    border: 1.5px solid var(--amber);
+}
+
+.rap-verdict-card.ok {
+    background: var(--green-light);
+    border: 1.5px solid var(--green-pale);
+}
+
+.rap-verdict-icon {
+    font-size: 28px;
+}
+
+.rap-verdict-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.rap-verdict-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── THREE GRID ── */
+
+.rap-three-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.rap-three-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 1px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.rap-three-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.rap-three-icon {
+    font-size: 26px;
+}
+
+.rap-three-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.rap-three-card p {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── DISEASE CARDS ── */
+
+.rap-disease-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.rap-disease-card.main {
+    border: 1.5px solid var(--amber);
+}
+
+.rap-disease-head {
+    background: var(--amber-light);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.rap-disease-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+}
+
+.rap-disease-badge.danger {
+    background: var(--brown);
+    color: white;
+}
+
+.rap-disease-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--brown);
+    font-style: italic;
+}
+
+.rap-disease-body {
+    background: var(--cream);
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rap-disease-row {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+}
+
+.rap-disease-row.danger-row {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.rap-disease-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.rap-disease-row p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── CARDS GRID ── */
+
+.rap-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.rap-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 1px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.rap-card.danger {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.rap-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.rap-card-header span:first-child {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.rap-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── COMPARE ── */
+
+.rap-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.rap-compare-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rap-compare-card.rabbit {
+    background: var(--green-light);
+    border: 1px solid var(--green-pale);
+}
+
+.rap-compare-card.guinea {
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
+}
+
+.rap-compare-header {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.rap-compare-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+    font-size: 13px;
+    color: var(--green-dark);
+}
+
+.rap-compare-item:last-child {
+    border-bottom: none;
+}
+
+/* ── STEPS ── */
+
+.rap-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rap-step {
+    display: flex;
+    gap: 14px;
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1rem 1.2rem;
+    align-items: flex-start;
+}
+
+.rap-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.rap-step-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.rap-step p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── RULES ── */
+
+.rap-rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rap-rule {
+    display: flex;
+    gap: 14px;
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.1rem 1.2rem;
+    align-items: flex-start;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.rap-rule-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.rap-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.rap-rule p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── BACK ── */
+
+.rap-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.rap-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.rap-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── DARK MODE ── */
+
+[data-theme="dark"] .rap-page {
+    background: var(--cream);
+}
+
+[data-theme="dark"] .rap-banner {
+    background: rgba(232, 160, 32, 0.1);
+}
+
+[data-theme="dark"] .rap-intro,
+[data-theme="dark"] .rap-note,
+[data-theme="dark"] .rap-step,
+[data-theme="dark"] .rap-rule,
+[data-theme="dark"] .rap-three-card,
+[data-theme="dark"] .rap-card {
+    background: var(--bg-card);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .rap-card.danger,
+[data-theme="dark"] .rap-verdict-card.no,
+[data-theme="dark"] .rap-verdict-card.caution {
+    background: rgba(232, 160, 32, 0.1);
+    border-color: var(--amber);
+}
+
+[data-theme="dark"] .rap-verdict-card.ok {
+    background: rgba(74, 128, 64, 0.15);
+}
+
+[data-theme="dark"] .rap-disease-body {
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .rap-disease-row {
+    background: rgba(74, 128, 64, 0.1);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .rap-disease-row.danger-row {
+    background: rgba(232, 160, 32, 0.1);
+    border-color: var(--amber);
+}
+
+[data-theme="dark"] .rap-compare-card.rabbit {
+    background: rgba(74, 128, 64, 0.1);
+}
+
+[data-theme="dark"] .rap-compare-card.guinea {
+    background: rgba(232, 160, 32, 0.1);
+}
+
+[data-theme="dark"] .rap-tab {
+    background: var(--bg-card);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--gray);
+}
+
+[data-theme="dark"] .rap-tab:hover {
+    background: rgba(74, 128, 64, 0.15);
+    border-color: var(--green-mid);
+}
+
+[data-theme="dark"] .rap-alert.warn,
+[data-theme="dark"] .rap-alert.tip {
+    background: rgba(232, 160, 32, 0.1);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .rap-verdict-grid,
+    .rap-cards-grid,
+    .rap-compare-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rap-three-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .rap-header {
+        padding: 2rem 1rem;
+    }
+
+    .rap-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+}

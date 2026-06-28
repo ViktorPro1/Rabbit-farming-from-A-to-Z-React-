@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./FloorCare.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const zones = [
   {
@@ -381,6 +382,7 @@ const FloorCare = () => {
           <Link to="/" className="floorcare-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

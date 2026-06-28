@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { breedingBreeds, type BreedingBreed } from "../../data/breedingBreeds";
 import "./Breeding.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const crossTable = [
   {
@@ -727,6 +728,7 @@ const Breeding = () => {
           <Link to="/" className="breeding-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

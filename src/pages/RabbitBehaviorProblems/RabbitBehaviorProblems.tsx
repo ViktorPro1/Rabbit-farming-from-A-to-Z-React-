@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./RabbitBehaviorProblems.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface BehaviorItem {
   id: string;
@@ -406,6 +407,7 @@ const RabbitBehaviorProblems = () => {
         <Link to="/" className="rbp-section-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

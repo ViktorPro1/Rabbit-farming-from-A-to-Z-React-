@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Enclosure.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const types = [
   {
@@ -368,6 +369,7 @@ const Enclosure = () => {
           <Link to="/" className="enclosure-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

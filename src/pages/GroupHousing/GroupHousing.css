@@ -485,6 +485,29 @@
     color: #80c880;
 }
 
+/* ── BACK ── */
+
+.GH-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.GH-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.GH-back-btn:hover {
+    background: var(--green-mid);
+}
+
 /* RESPONSIVE */
 @media (max-width: 640px) {
     .GH-cards-grid {

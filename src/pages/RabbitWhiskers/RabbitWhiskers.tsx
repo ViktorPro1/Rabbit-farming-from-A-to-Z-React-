@@ -1,4 +1,6 @@
 import "./RabbitWhiskers.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const WHISKER_GROUPS = [
   {
@@ -418,6 +420,12 @@ const RabbitWhiskers = () => {
           </li>
           <li>Масове випадіння вусів (не в рекса) — сигнал до ветеринара</li>
         </ul>
+      </div>
+      <div className="RW-summary-back">
+        <Link to="/" className="RW-summary-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

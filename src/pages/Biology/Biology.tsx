@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Biology.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const bodyParts = [
   {
@@ -650,6 +651,7 @@ const Biology = () => {
           <Link to="/" className="biology-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

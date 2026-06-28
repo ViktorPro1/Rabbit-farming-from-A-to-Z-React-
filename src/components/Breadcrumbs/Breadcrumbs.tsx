@@ -29,6 +29,8 @@ const ROUTE_LABELS: Record<string, string> = {
   // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
   "/rabbit-vs-hare": "Кролик vs Заєць",
   "/rabbits-and-guinea-pigs": "Кролі та морські свинки",
+  "/rabbits-and-predators": "Кролі, коти та собаки",
+  "/rabbits-and-chickens": "Кролі та кури",
 
   // ЖИТЛО
   "/enclosure": "Клітки",

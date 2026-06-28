@@ -6,6 +6,7 @@ import imgNestbox from "../../assets/nestbox.webp";
 import imgShed from "../../assets/shed-row.webp";
 import imgFeeder from "../../assets/hay-feeder.webp";
 import "./RabbitHousingDIY.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 /* ─── ТИПИ ─────────────────────────────────────────── */
 interface Dim {
@@ -746,6 +747,7 @@ const RabbitHousingDIY = () => {
         <Link to="/" className="diy-section-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

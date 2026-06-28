@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./RabbitSounds.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 interface Sound {
   id: string;
@@ -160,7 +162,6 @@ export default function RabbitSounds() {
       <header className="rs-header">
         <div className="rs-header__inner">
           <div className="rs-hero">
-            <span className="rs-hero__eyebrow">Довідник власника кролика</span>
             <h1 className="rs-hero__title">Мова звуків кролика</h1>
             <p className="rs-hero__sub">
               Кролики — тихі тварини, але кожен звук несе точне повідомлення.
@@ -370,14 +371,12 @@ export default function RabbitSounds() {
         </div>
       </section>
 
-      <footer className="rs-footer">
-        <div className="rs-container">
-          <p>
-            Матеріал базується на даних House Rabbit Society, RWAF та клінічних
-            джерелах з кролячої медицини.
-          </p>
-        </div>
-      </footer>
+      <div className="rs-back">
+        <Link to="/" className="rs-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </div>
   );
 }

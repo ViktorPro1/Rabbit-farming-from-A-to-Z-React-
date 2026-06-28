@@ -1,6 +1,7 @@
 import { breeds } from "../../data/breeds";
 import { Link } from "react-router-dom";
 import "./Breeds.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const Breeds = () => {
   return (
@@ -73,6 +74,7 @@ const Breeds = () => {
         <Link to="/" className="breeds-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

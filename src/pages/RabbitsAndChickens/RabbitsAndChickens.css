@@ -1,0 +1,625 @@
+.rac-page {
+    min-height: 100vh;
+    background: var(--cream);
+}
+
+/* ── HEADER ── */
+
+.rac-header {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, var(--green-accent) 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.rac-header::before {
+    content: "🐇🐓";
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.06;
+    top: -10px;
+    right: 30px;
+    pointer-events: none;
+}
+
+.rac-header h1 {
+    font-size: clamp(20px, 3.4vw, 34px);
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.rac-header p {
+    opacity: 0.85;
+    font-size: 15px;
+}
+
+/* ── WRAP ── */
+
+.rac-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ── BANNER ── */
+
+.rac-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.rac-banner>span {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.rac-banner strong {
+    color: var(--brown);
+}
+
+/* ── TABS ── */
+
+.rac-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.rac-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--gray-light);
+    background: var(--cream);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.rac-tab:hover {
+    border-color: var(--green-mid);
+    color: var(--green-dark);
+    background: var(--green-light);
+}
+
+.rac-tab.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.25);
+}
+
+/* ── CONTENT ── */
+
+.rac-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.rac-intro {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.2rem 1.4rem;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.rac-note {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.4rem;
+}
+
+.rac-note p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.rac-sub-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0.5rem 0 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* ── SOURCE ── */
+
+.rac-source {
+    font-size: 12px;
+    color: var(--gray);
+    padding: 8px 12px;
+    background: var(--green-light);
+    border-radius: 8px;
+    border-left: 3px solid var(--gray-light);
+}
+
+/* ── ALERTS ── */
+
+.rac-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.rac-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.rac-alert.tip {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+/* ── VERDICT GRID ── */
+
+.rac-verdict-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.rac-verdict-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.rac-verdict-card.no {
+    background: var(--amber-light);
+    border: 1.5px solid var(--amber);
+}
+
+.rac-verdict-card.caution {
+    background: var(--amber-light);
+    border: 1.5px solid var(--amber);
+}
+
+.rac-verdict-card.ok {
+    background: var(--green-light);
+    border: 1.5px solid var(--green-pale);
+}
+
+.rac-verdict-icon {
+    font-size: 28px;
+}
+
+.rac-verdict-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.rac-verdict-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── THREE GRID ── */
+
+.rac-three-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.rac-three-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 1px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.rac-three-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.rac-three-icon {
+    font-size: 26px;
+}
+
+.rac-three-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.rac-three-card p {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── DISEASE CARDS ── */
+
+.rac-disease-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.rac-disease-card.main {
+    border: 1.5px solid var(--amber);
+}
+
+.rac-disease-head {
+    background: var(--amber-light);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.rac-disease-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+}
+
+.rac-disease-badge.danger {
+    background: var(--brown);
+    color: white;
+}
+
+.rac-disease-badge.caution {
+    background: var(--amber);
+    color: white;
+}
+
+.rac-disease-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--brown);
+    font-style: italic;
+}
+
+.rac-disease-body {
+    background: var(--cream);
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rac-disease-row {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+}
+
+.rac-disease-row.danger-row {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.rac-disease-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.rac-disease-row p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── CARDS GRID ── */
+
+.rac-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.rac-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 1px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.rac-card.danger {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.rac-card.ok {
+    background: var(--green-light);
+    border-color: var(--green-pale);
+}
+
+.rac-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.rac-card-header span:first-child {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.rac-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── COMPARE ── */
+
+.rac-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.rac-compare-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rac-compare-card.rabbit {
+    background: var(--green-light);
+    border: 1px solid var(--green-pale);
+}
+
+.rac-compare-card.guinea {
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
+}
+
+.rac-compare-header {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.rac-compare-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+    font-size: 13px;
+    color: var(--green-dark);
+}
+
+.rac-compare-item:last-child {
+    border-bottom: none;
+}
+
+/* ── RULES ── */
+
+.rac-rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rac-rule {
+    display: flex;
+    gap: 14px;
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.1rem 1.2rem;
+    align-items: flex-start;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.rac-rule-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.rac-rule-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.rac-rule p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── BACK ── */
+
+.rac-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.rac-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.rac-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── DARK MODE ── */
+
+[data-theme="dark"] .rac-page {
+    background: var(--cream);
+}
+
+[data-theme="dark"] .rac-banner {
+    background: rgba(232, 160, 32, 0.1);
+}
+
+[data-theme="dark"] .rac-intro,
+[data-theme="dark"] .rac-note,
+[data-theme="dark"] .rac-rule,
+[data-theme="dark"] .rac-three-card,
+[data-theme="dark"] .rac-card {
+    background: var(--bg-card);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .rac-card.danger,
+[data-theme="dark"] .rac-verdict-card.no,
+[data-theme="dark"] .rac-verdict-card.caution {
+    background: rgba(232, 160, 32, 0.1);
+    border-color: var(--amber);
+}
+
+[data-theme="dark"] .rac-card.ok,
+[data-theme="dark"] .rac-verdict-card.ok {
+    background: rgba(74, 128, 64, 0.15);
+    border-color: var(--green-mid);
+}
+
+[data-theme="dark"] .rac-disease-body {
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .rac-disease-row {
+    background: rgba(74, 128, 64, 0.1);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .rac-disease-row.danger-row {
+    background: rgba(232, 160, 32, 0.1);
+    border-color: var(--amber);
+}
+
+[data-theme="dark"] .rac-compare-card.rabbit {
+    background: rgba(74, 128, 64, 0.1);
+    border-color: var(--green-mid);
+}
+
+[data-theme="dark"] .rac-compare-card.guinea {
+    background: rgba(232, 160, 32, 0.1);
+    border-color: var(--amber);
+}
+
+[data-theme="dark"] .rac-tab {
+    background: var(--bg-card);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--gray);
+}
+
+[data-theme="dark"] .rac-tab:hover {
+    background: rgba(74, 128, 64, 0.15);
+    border-color: var(--green-mid);
+}
+
+[data-theme="dark"] .rac-alert.warn,
+[data-theme="dark"] .rac-alert.tip {
+    background: rgba(232, 160, 32, 0.1);
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    .rac-verdict-grid,
+    .rac-cards-grid,
+    .rac-compare-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rac-three-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .rac-header {
+        padding: 2rem 1rem;
+    }
+
+    .rac-tab {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+}

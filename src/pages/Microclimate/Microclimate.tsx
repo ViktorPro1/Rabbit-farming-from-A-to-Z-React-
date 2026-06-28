@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Microclimate.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const normsTable = [
   {
@@ -717,6 +718,7 @@ const Microclimate = () => {
           <Link to="/" className="microclimate-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

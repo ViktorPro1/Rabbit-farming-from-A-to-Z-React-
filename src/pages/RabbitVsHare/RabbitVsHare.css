@@ -612,7 +612,30 @@
     margin: 0;
 }
 
-/* ── RESPONSIVE ── */
+/* ── BACK ── */
+
+.rvh-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.rvh-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.rvh-back-btn:hover {
+    background: var(--green-mid);
+}
+
 @media (max-width: 768px) {
     .rvh-photo-compare {
         grid-template-columns: 1fr;
@@ -631,6 +654,15 @@
     .rvh-key-facts {
         grid-template-columns: 1fr;
     }
+
+    .rvh-back {
+        margin-bottom: 2.5rem;
+    }
+
+    .rvh-back-btn {
+        padding: 10px 24px;
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 640px) {
@@ -644,6 +676,15 @@
 
     .rvh-history-left {
         min-width: 70px;
+    }
+
+    .rvh-back {
+        margin-bottom: 2.5rem;
+    }
+
+    .rvh-back-btn {
+        padding: 10px 22px;
+        font-size: 13px;
     }
 }
 
@@ -662,5 +703,14 @@
     .rvh-history-card {
         padding: 10px 12px;
         gap: 10px;
+    }
+
+    .rvh-back {
+        margin-bottom: 2rem;
+    }
+
+    .rvh-back-btn {
+        padding: 9px 18px;
+        font-size: 12px;
     }
 }

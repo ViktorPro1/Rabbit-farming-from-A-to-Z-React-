@@ -50,6 +50,12 @@ const RabbitVsHare = lazy(() => import("../pages/RabbitVsHare/RabbitVsHare"));
 const RabbitsAndGuineaPigs = lazy(
   () => import("../pages/RabbitsAndGuineaPigs/RabbitsAndGuineaPigs"),
 );
+const RabbitsAndPredators = lazy(
+  () => import("../pages/RabbitsAndPredators/RabbitsAndPredators"),
+);
+const RabbitsAndChickens = lazy(
+  () => import("../pages/RabbitsAndChickens/RabbitsAndChickens"),
+);
 
 // ЖИТЛО
 const Enclosure = lazy(() => import("../pages/Enclosure/Enclosure"));
@@ -317,6 +323,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/rabbits-and-guinea-pigs"
           element={<RabbitsAndGuineaPigs />}
         />
+        <Route
+          path="/rabbits-and-predators"
+          element={<RabbitsAndPredators />}
+        />
+        <Route path="/rabbits-and-chickens" element={<RabbitsAndChickens />} />
         {/* 3. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
