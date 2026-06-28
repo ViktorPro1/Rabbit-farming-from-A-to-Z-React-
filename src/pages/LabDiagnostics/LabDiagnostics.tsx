@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./LabDiagnostics.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const testTypes = [
   {
@@ -863,6 +864,7 @@ const LabDiagnostics = () => {
           <Link to="/" className="lab-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

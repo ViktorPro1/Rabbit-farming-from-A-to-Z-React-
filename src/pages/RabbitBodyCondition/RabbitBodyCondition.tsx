@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./RabbitBodyCondition.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 interface BCSLevel {
   score: number;
@@ -415,6 +417,12 @@ export default function RabbitBodyCondition() {
               </p>
             </div>
           </div>
+        </div>
+        <div className="bcs-back">
+          <Link to="/" className="bcs-back-btn">
+            ⬅ На головну
+          </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </section>
 

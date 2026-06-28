@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./WaterMedication.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type TabId =
   | "basics"
@@ -1452,6 +1453,7 @@ const WaterMedication = () => {
           <Link to="/" className="wm-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Feeding.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const allowedFoods = [
   {
@@ -537,6 +538,7 @@ const Feeding = () => {
           <Link to="/" className="feeding-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

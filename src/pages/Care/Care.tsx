@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Care.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface Section {
   id: string;
@@ -108,6 +109,7 @@ const Care = () => {
           <Link to="/" className="care-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

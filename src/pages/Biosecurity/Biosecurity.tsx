@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Biosecurity.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type SectionId =
   | "quarantine"
@@ -309,6 +310,7 @@ const Biosecurity = () => {
           <Link to="/" className="bio-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

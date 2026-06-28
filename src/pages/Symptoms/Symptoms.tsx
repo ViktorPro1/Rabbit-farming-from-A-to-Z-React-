@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Symptoms.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface Symptom {
   id: string;
@@ -892,6 +893,12 @@ const Symptoms = () => {
                 </div>
               )}
             </div>
+            <div className="sym-footer-link">
+              <Link to="/" className="okril-back-btn">
+                ⬅ На головну
+              </Link>
+              <ShareButton title="Симптоматичний пошук" />
+            </div>
           </>
         ) : (
           <div className="sym-result">
@@ -958,6 +965,7 @@ const Symptoms = () => {
               <Link to="/" className="okril-back-btn">
                 ⬅ На головну
               </Link>
+              <ShareButton title="Назва цієї сторінки" />
             </div>
           </div>
         )}

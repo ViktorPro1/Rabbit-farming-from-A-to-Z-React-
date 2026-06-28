@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Parasites.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const scheduleTable = [
   {
@@ -512,6 +513,7 @@ const Parasites = () => {
           <Link to="/" className="parasites-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

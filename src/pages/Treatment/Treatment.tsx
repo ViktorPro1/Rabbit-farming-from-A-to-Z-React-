@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Treatment.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface TreatmentStep {
   step: number;
@@ -925,6 +926,7 @@ const Treatment = () => {
           <Link to="/" className="treatment-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

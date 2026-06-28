@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./Poisoning.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 type PlantCategory = "wildToxic" | "garden" | "decorative" | "safe";
@@ -757,6 +759,12 @@ export default function Poisoning() {
             (ветеринар-рабітолог).
           </p>
         </div>
+      </div>
+      <div className="pz-back">
+        <Link to="/" className="pz-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

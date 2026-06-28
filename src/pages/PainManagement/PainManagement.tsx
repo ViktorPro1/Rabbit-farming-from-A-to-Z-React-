@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./PainManagement.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 export default function PainManagement() {
   useEffect(() => {
@@ -747,6 +748,13 @@ export default function PainManagement() {
           <Link to="/diseases" className="pain-mgmt__nav-link">
             🩺 Хвороби
           </Link>
+          <br />
+        </div>
+        <div className="pain-back">
+          <Link to="/" className="pain-back-btn">
+            ⬅ На головну
+          </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

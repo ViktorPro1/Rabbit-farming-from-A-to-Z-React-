@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./MatingFrequency.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const schemesData = [
   {
@@ -703,6 +704,7 @@ const MatingPage = () => {
           <Link to="/" className="mat-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

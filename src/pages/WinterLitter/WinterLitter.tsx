@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./WinterLitter.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 // ─── ДАНІ ───────────────────────────────────────────────
 
@@ -453,6 +454,7 @@ const WinterLitter = () => {
           <Link to="/calendar" className="wl-back-btn secondary">
             📅 Сезонний календар
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

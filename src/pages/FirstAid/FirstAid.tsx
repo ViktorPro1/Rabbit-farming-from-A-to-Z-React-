@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./FirstAid.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const poisonPlants = [
   {
@@ -386,6 +387,7 @@ const FirstAid = () => {
           <Link to="/" className="firstaid-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,5 +1,6 @@
 import "./SpecialFeeds.css";
 import { Link } from "react-router-dom";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface FeedItem {
   id: string;
@@ -475,6 +476,7 @@ export default function SpecialFeeds() {
         <Link to="/" className="sf-back-btn">
           На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

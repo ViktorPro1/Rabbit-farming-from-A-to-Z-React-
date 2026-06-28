@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./Predators.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 interface Predator {
@@ -744,6 +746,12 @@ export default function Predators() {
             кролівників та польові спостереження.
           </p>
         </div>
+      </div>
+      <div className="pr-back">
+        <Link to="/" className="pr-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

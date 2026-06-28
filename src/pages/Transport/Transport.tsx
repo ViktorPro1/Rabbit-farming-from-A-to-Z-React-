@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Transport.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
-// ---- ЧОМУ КРОЛІ ОСОБЛИВІ ----
 const whyDangerous = [
   {
     icon: "💔",
@@ -667,6 +667,7 @@ const Transport = () => {
           <Link to="/" className="tr-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

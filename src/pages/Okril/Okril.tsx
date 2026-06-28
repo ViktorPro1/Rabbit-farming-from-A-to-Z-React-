@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Okril.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const developmentTable = [
   {
@@ -509,6 +510,7 @@ const Okril = () => {
           <Link to="/" className="okril-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

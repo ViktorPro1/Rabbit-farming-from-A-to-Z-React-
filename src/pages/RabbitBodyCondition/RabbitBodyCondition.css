@@ -1,7 +1,3 @@
-/* =========================================
-   RabbitBodyCondition.css
-   ========================================= */
-
 .bcs-root {
     min-height: 100vh;
     background: var(--color-bg, #faf7f2);
@@ -31,9 +27,7 @@
     }
 }
 
-/* =========================================
-   HEADER
-   ========================================= */
+/* HEADER */
 .bcs-header {
     background: linear-gradient(135deg, #1e3a2a 0%, #2d5a3d 50%, #1a3322 100%);
     position: relative;
@@ -138,9 +132,7 @@
     line-height: 1.65;
 }
 
-/* =========================================
-   SECTION SHARED
-   ========================================= */
+/* SECTION SHARED */
 .bcs-section-title {
     font-size: clamp(1.3rem, 3vw, 1.8rem);
     font-weight: 700;
@@ -163,9 +155,7 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* =========================================
-   BCS SCALE SECTION
-   ========================================= */
+/* BCS SCALE SECTION */
 .bcs-scale-section {
     padding: 3rem 0 5rem;
     background: var(--color-bg, #faf7f2);
@@ -512,9 +502,7 @@
     color: rgba(255, 255, 255, 0.75);
 }
 
-/* =========================================
-   HOW TO SECTION
-   ========================================= */
+/* HOW TO SECTION */
 .bcs-howto-section {
     background: var(--green-pale, #f1f8ee);
     padding: 3rem 0;
@@ -595,9 +583,7 @@
     color: rgba(255, 255, 255, 0.85);
 }
 
-/* =========================================
-   HEALTH IMPACT TABLE
-   ========================================= */
+/* HEALTH IMPACT TABLE */
 .bcs-impact-section {
     padding: 3rem 0;
     background: var(--color-bg, #faf7f2);
@@ -688,9 +674,7 @@
     color: rgba(255, 255, 255, 0.3);
 }
 
-/* =========================================
-   DIET SECTION
-   ========================================= */
+/* DIET SECTION */
 .bcs-diet-section {
     background: var(--green-dark, #2d5a27);
     padding: 3rem 0 5rem;
@@ -763,9 +747,7 @@
     line-height: 1.65;
 }
 
-/* =========================================
-   FOOTER
-   ========================================= */
+/* FOOTER */
 .bcs-footer {
     background: var(--green-dark, #2d5a27);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -781,9 +763,7 @@
     margin: 0 auto;
 }
 
-/* =========================================
-   RESPONSIVE
-   ========================================= */
+/* RESPONSIVE */
 @media (max-width: 374px) {
     .bcs-score-btn {
         padding: 8px 4px;
@@ -829,4 +809,27 @@
     .bcs-diet-card {
         transition: none;
     }
+}
+
+/* ── BACK ── */
+
+.bcs-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.bcs-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.bcs-back-btn:hover {
+    background: var(--green-mid);
 }

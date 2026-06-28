@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./DrugCompatibility.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type TabId =
   | "dangerous"
@@ -793,6 +794,7 @@ const DrugCompatibility = () => {
           <Link to="/" className="dc-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

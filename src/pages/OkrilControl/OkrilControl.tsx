@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./OkrilControl.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 // Контрольна злучка — повторне підсаджування самки до самця через 5–7 днів
 // після основної злучки, щоб перевірити чи вона завагітніла
@@ -386,6 +387,7 @@ const OkrilControl = () => {
           <Link to="/" className="OkrilControl-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

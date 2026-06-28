@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SeasonalMolting.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface PathoCard {
   id: string;
@@ -478,6 +479,7 @@ const SeasonalMolting = () => {
         <Link to="/" className="molt-section-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

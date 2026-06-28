@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Water.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const waterNorms = [
   {
@@ -602,6 +603,7 @@ const Water = () => {
           <Link to="/" className="water-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

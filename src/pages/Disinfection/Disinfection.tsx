@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Disinfection.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const disinfectants = [
   {
@@ -697,6 +698,7 @@ const Disinfection = () => {
           <Link to="/" className="disinfection-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./FalsePregnancy.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 type Cause = {
@@ -701,6 +703,12 @@ export default function FalsePregnancy() {
             and Health Series); Hafez E.S.E. — Reproduction in Farm Animals.
           </p>
         </div>
+      </div>
+      <div className="fp-back">
+        <Link to="/" className="fp-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

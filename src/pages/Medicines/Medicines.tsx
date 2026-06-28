@@ -4,6 +4,7 @@ import "./Medicines.css";
 import { medicines } from "./medicines.data";
 import type { Category } from "./medicines.types";
 import DoseCalculator from "./DoseCalculator";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const categories: { value: Category; label: string }[] = [
   { value: "all", label: "Всі" },
@@ -196,6 +197,7 @@ const Medicines = () => {
           <Link to="/" className="med-back-btn">
             &#11013; На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

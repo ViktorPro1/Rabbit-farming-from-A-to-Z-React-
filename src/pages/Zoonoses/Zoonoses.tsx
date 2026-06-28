@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Zoonoses.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const diseases = [
   {
@@ -556,6 +557,7 @@ const Zoonoses = () => {
           <Link to="/" className="zoonoses-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

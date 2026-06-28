@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Leaves.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface LeafItem {
   id: number;
@@ -691,6 +692,7 @@ const Leaves: React.FC = () => {
         <button className="lv-footer-btn" onClick={() => navigate("/")}>
           ← На головну
         </button>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

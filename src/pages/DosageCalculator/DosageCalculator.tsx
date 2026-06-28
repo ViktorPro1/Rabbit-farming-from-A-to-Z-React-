@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import "./DosageCalculator.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 interface Drug {
   id: string;
@@ -531,6 +533,13 @@ const DosageCalculator = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="DC-back">
+        <Link to="/" className="DC-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

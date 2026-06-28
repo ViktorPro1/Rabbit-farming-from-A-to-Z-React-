@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./MatingBehavior.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type TabId = "basics" | "doe" | "buck" | "fight" | "pseudo" | "checklist";
 
@@ -872,6 +873,7 @@ const MatingBehavior = () => {
           <Link to="/" className="mb-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

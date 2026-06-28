@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Vaccinations.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const fmt = (d: Date) => d.toLocaleDateString("uk-UA");
 const addDays = (d: Date, n: number) => {
@@ -279,6 +280,7 @@ const Vaccinations = () => {
           <Link to="/" className="vacc-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

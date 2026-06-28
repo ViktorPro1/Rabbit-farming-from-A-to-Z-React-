@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Crops.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const crops = [
   {
@@ -816,6 +817,7 @@ const Crops = () => {
           <Link to="/" className="crops-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

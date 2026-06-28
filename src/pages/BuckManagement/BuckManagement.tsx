@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./BuckManagement.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const weekDays = [
   { label: "Пн", val: "Злучка", work: true },
@@ -528,6 +529,7 @@ const BuckManagement = () => {
       <Link to="/" className="buck-back">
         ← Головна
       </Link>
+      <ShareButton title="Назва цієї сторінки" />
     </main>
   );
 };

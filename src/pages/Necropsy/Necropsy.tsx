@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Necropsy.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type SectionId =
   | "safety"
@@ -328,6 +329,7 @@ const Necropsy = () => {
           <Link to="/" className="necropsy-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

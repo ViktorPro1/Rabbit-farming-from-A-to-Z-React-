@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Diseases.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface Disease {
   id: string;
@@ -865,6 +866,7 @@ const Diseases = () => {
           <Link to="/" className="diseases-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

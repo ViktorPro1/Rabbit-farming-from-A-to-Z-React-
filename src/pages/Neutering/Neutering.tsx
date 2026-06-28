@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Neutering.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 export default function Neutering() {
   useEffect(() => {
@@ -548,6 +549,7 @@ export default function Neutering() {
           <Link to="/" className="neuter-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

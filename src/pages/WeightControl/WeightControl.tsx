@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./WeightControl.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const growthTable = [
   {
@@ -608,6 +609,7 @@ const WeightControl = () => {
           <Link to="/" className="weight-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

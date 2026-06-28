@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./NewFood.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface TransitionDay {
   day: number;
@@ -445,6 +446,7 @@ const NewFood = () => {
           <Link to="/" className="newfood-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

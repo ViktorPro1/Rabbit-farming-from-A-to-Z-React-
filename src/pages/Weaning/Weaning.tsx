@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Weaning.css";
-
-// ---- ДАНІ ----
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const developmentStages = [
   {
@@ -614,6 +613,7 @@ const Weaning = () => {
           <Link to="/" className="wean-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

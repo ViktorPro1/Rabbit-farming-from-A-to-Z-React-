@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./DoePreparation.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const DoePreparation = () => {
   return (
@@ -448,6 +449,7 @@ const DoePreparation = () => {
       <Link to="/" className="doe-back">
         ← Головна
       </Link>
+      <ShareButton title="Назва цієї сторінки" />
     </main>
   );
 };

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Feeders.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 // ---- ДАНІ ----
 
@@ -716,6 +717,7 @@ const Feeders = () => {
           <Link to="/" className="feeders-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Grooming.css";
-
-// ---- КІГТІ ----
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const clawSigns = [
   {
@@ -634,6 +633,7 @@ const Grooming = () => {
           <Link to="/" className="gr-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

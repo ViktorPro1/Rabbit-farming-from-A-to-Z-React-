@@ -1,5 +1,6 @@
 import "./Droppings.css";
 import { Link } from "react-router-dom";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const Droppings = () => {
   return (
@@ -602,6 +603,7 @@ const Droppings = () => {
         <Link to="/" className="droppings-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );
