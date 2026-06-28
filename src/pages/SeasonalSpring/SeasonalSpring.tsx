@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./SeasonalSpring.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const whySpring = [
   {
@@ -74,12 +75,6 @@ const symptoms = [
 const SeasonalSpring = () => {
   return (
     <main className="sp-page">
-      <div className="sp-back">
-        <Link to="/" className="sp-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="sp-hero">
         <span>🌱</span>
         <h1>Весна: сплеск кокцидіозу</h1>
@@ -160,6 +155,12 @@ const SeasonalSpring = () => {
           <Link to="/water-medication">Пропойка: схеми та дозування</Link> ·{" "}
           <Link to="/disinfection">Дезінфекція</Link>
         </span>
+      </div>
+      <div className="sp-back">
+        <Link to="/" className="sp-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

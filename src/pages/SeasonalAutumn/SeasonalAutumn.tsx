@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SeasonalAutumn.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type CheckKey = string;
 
@@ -157,12 +158,6 @@ const SeasonalAutumn = () => {
 
   return (
     <main className="sa-page">
-      <div className="sa-back">
-        <Link to="/" className="sa-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="sa-hero">
         <span>🍂</span>
         <h1>Осінь: підготовка до холодів</h1>
@@ -232,6 +227,12 @@ const SeasonalAutumn = () => {
           <Link to="/vaccinations">Вакцинація</Link> ·{" "}
           <Link to="/winter-litter">Зимовий окріл</Link>
         </span>
+      </div>
+      <div className="sa-back">
+        <Link to="/" className="sa-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

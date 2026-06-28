@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SeasonalSummer.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const riskFactors = [
   {
@@ -80,12 +81,6 @@ const SeasonalSummer = () => {
 
   return (
     <main className="ss-page">
-      <div className="ss-back">
-        <Link to="/" className="ss-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="ss-hero">
         <span className="ss-hero-icon">☀️</span>
         <h1>Літо: Міаз (личинки мух)</h1>
@@ -198,6 +193,12 @@ const SeasonalSummer = () => {
           Міаз — 100% попереджувана хвороба. Щоденний 30-секундний огляд хвоста
           і чиста підстилка рятують життя.
         </p>
+      </div>
+      <div className="ss-back">
+        <Link to="/" className="ss-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

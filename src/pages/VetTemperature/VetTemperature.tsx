@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./VetTemperature.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const ranges = [
   {
@@ -51,12 +52,6 @@ const steps = [
 const VetTemperature = () => {
   return (
     <main className="vt-page">
-      <div className="vt-back">
-        <Link to="/" className="vt-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="vt-hero">
         <span>🌡️</span>
         <h1>Вимірювання температури</h1>
@@ -169,6 +164,12 @@ const VetTemperature = () => {
           </div>
         </div>
       </section>
+      <div className="vt-back">
+        <Link to="/" className="vt-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </main>
   );
 };

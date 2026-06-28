@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import femaleImg from "../../assets/female.webp";
 import maleImg from "../../assets/male.webp";
 import "./Sexing.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const Sexing = () => {
   return (
@@ -351,6 +352,7 @@ const Sexing = () => {
         <Link to="/" className="sexing-section-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

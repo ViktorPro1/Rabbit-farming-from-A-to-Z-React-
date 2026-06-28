@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./VetFecalSample.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const analysisTypes = [
   {
@@ -51,12 +52,6 @@ const steps = [
 const VetFecalSample = () => {
   return (
     <main className="vfs-page">
-      <div className="vfs-back">
-        <Link to="/" className="vfs-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="vfs-hero">
         <span>🧫</span>
         <h1>Збір калу на аналіз</h1>
@@ -146,6 +141,12 @@ const VetFecalSample = () => {
           </div>
         </div>
       </section>
+      <div className="vfs-back">
+        <Link to="/" className="vfs-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </main>
   );
 };

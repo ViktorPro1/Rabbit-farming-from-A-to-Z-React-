@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./VetInjections.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const steps_sc = [
   {
@@ -63,12 +64,6 @@ const VetInjections = () => {
 
   return (
     <main className="vi-page">
-      <div className="vi-back">
-        <Link to="/" className="vi-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="vi-hero">
         <span className="vi-hero-icon">💉</span>
         <h1>Ін'єкції кролям</h1>
@@ -261,6 +256,12 @@ const VetInjections = () => {
           </div>
         </div>
       </section>
+      <div className="vi-back">
+        <Link to="/" className="vi-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </main>
   );
 };

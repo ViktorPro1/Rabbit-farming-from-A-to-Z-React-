@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./VetOralMeds.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const methods = [
   {
@@ -47,12 +48,6 @@ const methods = [
 const VetOralMeds = () => {
   return (
     <main className="vom-page">
-      <div className="vom-back">
-        <Link to="/" className="vom-back-link">
-          ← Головна
-        </Link>
-      </div>
-
       <div className="vom-hero">
         <span>💊</span>
         <h1>Таблетки та суспензії</h1>
@@ -142,6 +137,12 @@ const VetOralMeds = () => {
           — переходь на шприцеве введення.
         </p>
       </section>
+      <div className="vom-back">
+        <Link to="/" className="vom-back-link">
+          ← Головна
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
+      </div>
     </main>
   );
 };
