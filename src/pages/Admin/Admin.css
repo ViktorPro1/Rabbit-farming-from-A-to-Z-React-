@@ -303,6 +303,24 @@
     color: var(--green-dark);
 }
 
+/* ── Online Visitors ───────────────────────────────────────────────────────── */
+.online-empty {
+    font-size: 0.9rem;
+    color: var(--gray);
+    font-style: italic;
+}
+
+.online-page {
+    font-family: monospace;
+    font-size: 0.88rem;
+    color: var(--green-dark);
+    word-break: break-all;
+}
+
+.admin-section+.admin-section {
+    margin-top: 1.5rem;
+}
+
 @media (max-width: 640px) {
     .admin-add {
         flex-direction: column;

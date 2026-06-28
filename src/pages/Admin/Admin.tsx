@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import "./Admin.css";
@@ -49,8 +49,15 @@ interface BackendStats {
   freeCodes: number;
 }
 
+interface OnlineVisitor {
+  session_id: string;
+  page: string;
+  joined_at: string;
+}
+
 const DB_LIMIT_BYTES = 500 * 1024 * 1024;
 const MAU_LIMIT = 50000;
+const PRESENCE_CHANNEL = "public-site-presence";
 
 const TABLE_LIST: { name: string; label: string }[] = [
   { name: "rabbits", label: "Кролики" },
@@ -115,6 +122,10 @@ export default function Admin({ session }: Props) {
   const [error, setError] = useState("");
   const [stats, setStats] = useState<BackendStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
+  const [onlineVisitors, setOnlineVisitors] = useState<OnlineVisitor[]>([]);
+  const presenceChannelRef = useRef<ReturnType<typeof supabase.channel> | null>(
+    null,
+  );
 
   async function fetchCodes() {
     const { data } = await supabase
@@ -210,6 +221,26 @@ export default function Admin({ session }: Props) {
       });
   }, [session.user.id]);
 
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const channel = supabase.channel(PRESENCE_CHANNEL);
+
+    channel
+      .on("presence", { event: "sync" }, () => {
+        const state = channel.presenceState<OnlineVisitor>();
+        const visitors = Object.values(state).flat();
+        setOnlineVisitors(visitors);
+      })
+      .subscribe();
+
+    presenceChannelRef.current = channel;
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [isAdmin]);
+
   async function handleAdd() {
     if (!newCode.trim()) return;
     setError("");
@@ -278,6 +309,44 @@ export default function Admin({ session }: Props) {
     <div className="admin-page">
       <div className="admin-header">
         <h1>⚙️ Адмін панель</h1>
+      </div>
+
+      {/* Онлайн відвідувачі довідника */}
+      <div className="admin-section">
+        <h2>
+          🟢 Зараз онлайн у довіднику{" "}
+          <span className="admin-count">{onlineVisitors.length}</span>
+        </h2>
+
+        {onlineVisitors.length === 0 ? (
+          <p className="online-empty">Немає активних відвідувачів</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Сторінка</th>
+                  <th>Зайшов</th>
+                </tr>
+              </thead>
+              <tbody>
+                {onlineVisitors.map((v, i) => (
+                  <tr key={v.session_id}>
+                    <td>{i + 1}</td>
+                    <td className="online-page">{v.page || "/"}</td>
+                    <td>
+                      {new Date(v.joined_at).toLocaleTimeString("uk-UA", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Статистика бекенду */}

@@ -13,6 +13,7 @@ import AppRoutes from "./routes/AppRoutes";
 import AssistantPromo from "./components/AssistantPromo/AssistantPromo";
 import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import { usePublicPresence } from "./hooks/usePublicPresence";
 
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
@@ -111,6 +112,8 @@ function App() {
     setHasProfile(!!data);
     setLoading(false);
   }, []);
+
+  usePublicPresence();
 
   useEffect(() => {
     const updateStatus = () => setIsOffline(!navigator.onLine);
