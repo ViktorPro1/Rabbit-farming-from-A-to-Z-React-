@@ -1,4 +1,6 @@
 import "./ReplacementStock.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const SELECTION_STAGES = [
   {
@@ -416,6 +418,12 @@ const ReplacementStock = () => {
           </li>
           <li>Новий плідник не повинен бути родичем маточного поголів'я</li>
         </ul>
+      </div>
+      <div className="RS-back">
+        <Link to="/" className="RS-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

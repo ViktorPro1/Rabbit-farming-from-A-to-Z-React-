@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Calendar.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const months = [
   {
@@ -541,6 +542,7 @@ const Calendar = () => {
           <Link to="/" className="calendar-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

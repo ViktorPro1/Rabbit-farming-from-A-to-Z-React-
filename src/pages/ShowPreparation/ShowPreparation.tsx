@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./ShowPreparation.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const TIMELINE = [
   {
@@ -349,6 +351,12 @@ const ShowPreparation = () => {
             Нотатник для коментарів судді — це безцінна інформація для селекції
           </li>
         </ul>
+      </div>
+      <div className="SP-back">
+        <Link to="/" className="SP-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

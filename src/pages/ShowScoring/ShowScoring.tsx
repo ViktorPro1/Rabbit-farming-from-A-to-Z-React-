@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./ShowScoring.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
-// ─── Types ───────────────────────────────────────────────────────
 type ScoringSystem = "arba" | "brc" | "zdrk";
 type ExhibitionClass = "junior" | "intermediate" | "senior" | "any";
 
@@ -766,6 +767,12 @@ export default function ShowScoring() {
             Guide to Raising Rabbits (4th ed.).
           </p>
         </div>
+      </div>
+      <div className="ss-back">
+        <Link to="/" className="ss-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

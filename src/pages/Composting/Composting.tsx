@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Composting.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface Method {
   id: string;
@@ -466,6 +467,7 @@ const Composting = () => {
         <Link to="/" className="comp-section-back-btn">
           ⬅ На головну
         </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </main>
   );

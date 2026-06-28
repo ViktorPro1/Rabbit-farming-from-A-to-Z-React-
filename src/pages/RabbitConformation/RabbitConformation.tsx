@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./RabbitConformation.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 type BodyPart = "head" | "ears" | "body" | "legs" | "fur" | "tail";
@@ -812,6 +814,12 @@ export default function RabbitConformation() {
             für die Bewertung von Rassekaninchen.
           </p>
         </div>
+      </div>
+      <div className="rc-back">
+        <Link to="/" className="rc-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

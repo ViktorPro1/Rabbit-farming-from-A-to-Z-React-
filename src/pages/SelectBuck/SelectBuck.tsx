@@ -1,4 +1,6 @@
 import "./SelectBuck.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const BUCK_CRITERIA = [
   {
@@ -370,6 +372,12 @@ const SelectBuck = () => {
           <li>Новий плідник — 2–4 тижні карантину перед введенням у стадо</li>
           <li>Заміна плідника кожні 1,5–2 роки для уникнення інбридингу</li>
         </ul>
+      </div>
+      <div className="SB-back">
+        <Link to="/" className="SB-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

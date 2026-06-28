@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Tools.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type Priority = "critical" | "high" | "medium";
 
@@ -499,6 +500,7 @@ const Tools = () => {
           <Link to="/" className="tools-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

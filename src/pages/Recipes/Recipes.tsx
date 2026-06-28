@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Recipes.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 interface Ingredient {
   amount: string;
@@ -529,6 +530,7 @@ const Recipes = () => {
           <Link to="/" className="recipes-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

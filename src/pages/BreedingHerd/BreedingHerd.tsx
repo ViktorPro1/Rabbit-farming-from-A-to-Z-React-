@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./BreedingHerd.css";
-
-// ─── ДАНІ ───────────────────────────────────────────────
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const concepts = [
   {
@@ -592,6 +591,7 @@ const BreedingHerd = () => {
           <Link to="/profit-calculator" className="bh-back-btn secondary">
             🧮 Рентабельність
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

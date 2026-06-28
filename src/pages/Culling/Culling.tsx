@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Culling.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const Culling = () => {
   return (
@@ -394,6 +395,7 @@ const Culling = () => {
           <Link to="/" className="culling-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./PedigreeRecords.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
-// ─── Types ───────────────────────────────────────────────────────
 interface RecordField {
   field: string;
   description: string;
@@ -787,6 +788,12 @@ export default function PedigreeRecords() {
             FAO 1997.
           </p>
         </div>
+      </div>
+      <div className="pr2-back">
+        <Link to="/" className="pr2-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

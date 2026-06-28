@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./BreedStandards.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const SCORING_ARBA = [
   {
@@ -230,7 +232,6 @@ const BreedStandards = () => {
           </p>
         </div>
       </div>
-
       {/* ЩО ТАКЕ СТАНДАРТ */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -274,7 +275,6 @@ const BreedStandards = () => {
           ))}
         </div>
       </section>
-
       {/* МІЖНАРОДНІ ОРГАНІЗАЦІЇ */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -314,7 +314,6 @@ const BreedStandards = () => {
           </ul>
         </div>
       </section>
-
       {/* СИСТЕМА БАЛІВ */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -361,7 +360,6 @@ const BreedStandards = () => {
           Зеландської.
         </div>
       </section>
-
       {/* ТИПИ ХУТРА */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -386,7 +384,6 @@ const BreedStandards = () => {
           ))}
         </div>
       </section>
-
       {/* ТИПИ ТІЛА */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -404,7 +401,6 @@ const BreedStandards = () => {
           ))}
         </div>
       </section>
-
       {/* ДИСКВАЛІФІКАЦІЯ */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -444,7 +440,6 @@ const BreedStandards = () => {
           </div>
         </div>
       </section>
-
       {/* УКРАЇНА */}
       <section className="BS-section">
         <h2 className="BS-section-title">
@@ -459,7 +454,6 @@ const BreedStandards = () => {
           ))}
         </div>
       </section>
-
       {/* ПІДСУМОК */}
       <div className="BS-summary">
         <h3 className="BS-summary-title">Коротко для практика</h3>
@@ -478,6 +472,12 @@ const BreedStandards = () => {
             виставкові бали
           </li>
         </ul>
+      </div>
+      <div className="BS-back">
+        <Link to="/" className="BS-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

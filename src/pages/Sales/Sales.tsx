@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Sales.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const channels = [
   {
@@ -543,6 +544,7 @@ const Sales = () => {
           <Link to="/economics" className="sales-back-btn secondary">
             💰 Економіка
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

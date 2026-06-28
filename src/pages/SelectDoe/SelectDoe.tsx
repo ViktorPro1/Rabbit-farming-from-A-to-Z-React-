@@ -1,4 +1,6 @@
 import "./SelectDoe.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const DOE_CRITERIA = [
   {
@@ -385,6 +387,12 @@ const SelectDoe = () => {
           <li>BCS 2,5–3,5 при злучці. Нижче або вище — скоригуй раціон</li>
           <li>Нова самка — 2–4 тижні карантину перед введенням у стадо</li>
         </ul>
+      </div>
+      <div className="SD-back">
+        <Link to="/" className="SD-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

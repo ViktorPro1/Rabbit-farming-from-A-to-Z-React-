@@ -566,10 +566,13 @@
 
     .pc-back-links {
         flex-direction: column;
+        align-items: center;
     }
 
     .pc-back-btn {
         text-align: center;
+        width: 100%;
+        max-width: 280px;
     }
 
     .pc-details-row {

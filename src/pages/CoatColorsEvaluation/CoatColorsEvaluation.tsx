@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./CoatColorsEvaluation.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const LOCI = [
   {
@@ -450,6 +452,12 @@ const CoatColorsEvaluation = () => {
             знижують оцінку
           </li>
         </ul>
+      </div>
+      <div className="CC-back">
+        <Link to="/" className="CC-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

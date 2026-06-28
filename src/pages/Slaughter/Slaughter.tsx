@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Slaughter.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const readinessTable = [
   {
@@ -437,6 +438,7 @@ const Slaughter = () => {
           <Link to="/" className="slaughter-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

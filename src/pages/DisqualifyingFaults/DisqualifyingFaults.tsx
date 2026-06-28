@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./DisqualifyingFaults.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────
 type FaultCategory = "genetic" | "structural" | "health" | "color" | "behavior";
@@ -717,6 +719,12 @@ export default function DisqualifyingFaults() {
             Guidelines; ZDRK — Bewertungsrichtlinien für Rassekaninchen.
           </p>
         </div>
+      </div>
+      <div className="df-back">
+        <Link to="/" className="df-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

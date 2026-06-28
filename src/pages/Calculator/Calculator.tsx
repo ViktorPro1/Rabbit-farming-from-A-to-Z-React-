@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Calculator.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 // ===== ЗЕРНОВА СУМІШ =====
 interface Grain {
@@ -858,6 +859,7 @@ export default function Calculator() {
           <Link to="/" className="calc-back-btn">
             На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,4 +1,6 @@
 import "./BreedingEvaluation.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const EVAL_CRITERIA = [
   {
@@ -388,6 +390,12 @@ const BreedingEvaluation = () => {
           <li>Без записів оцінка неможлива — зважуй і фіксуй кожну тварину</li>
           <li>Один поганий плідник псує 50% показників стада</li>
         </ul>
+      </div>
+      <div className="BE-back">
+        <Link to="/" className="BE-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

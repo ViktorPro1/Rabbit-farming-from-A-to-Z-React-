@@ -431,6 +431,29 @@
     color: #80c880;
 }
 
+/* ── BACK ── */
+
+.SB-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.SB-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(39, 80, 10, 0.2);
+}
+
+.SB-back-btn:hover {
+    background: var(--green-mid);
+}
+
 @media (max-width: 640px) {
     .SB-load-grid {
         grid-template-columns: repeat(3, 1fr);

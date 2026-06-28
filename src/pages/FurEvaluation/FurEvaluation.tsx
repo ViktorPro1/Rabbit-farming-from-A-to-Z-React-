@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./FurEvaluation.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const FUR_TYPES = [
   {
@@ -408,6 +410,12 @@ const FurEvaluation = () => {
           <li>Тьмяне хутро = дефіцит жирних кислот або вітаміну A/E</li>
           <li>Лупа + свербіж = кліщ Cheyletiella → до ветеринара</li>
         </ul>
+      </div>
+      <div className="FE-back">
+        <Link to="/" className="FE-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

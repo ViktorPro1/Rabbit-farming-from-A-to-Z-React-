@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Economics.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const startupCosts = [
   {
@@ -798,6 +799,7 @@ const Economics = () => {
           <Link to="/" className="economics-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

@@ -1,4 +1,6 @@
 import "./ShowJudging.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
+import { Link } from "react-router-dom";
 
 const JUDGING_STEPS = [
   {
@@ -332,6 +334,12 @@ const ShowJudging = () => {
           <li>Картка оцінки — твоя власність, забирай і зберігай</li>
           <li>Різні судді = різні результати — це нормально, не особисто</li>
         </ul>
+      </div>
+      <div className="SJ-back">
+        <Link to="/" className="SJ-back-btn">
+          ⬅ На головну
+        </Link>
+        <ShareButton title="Назва цієї сторінки" />
       </div>
     </div>
   );

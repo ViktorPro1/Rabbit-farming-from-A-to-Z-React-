@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Equipment.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const granulatorSpecs = [
   {
@@ -900,6 +901,7 @@ const Equipment = () => {
           <Link to="/" className="equipment-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>

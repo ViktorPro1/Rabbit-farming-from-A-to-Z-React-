@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./ProfitCalc.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 type SaleType = "carcass" | "live" | "breeding";
 type FeedType = "own" | "partial" | "bought";
@@ -513,6 +514,7 @@ const ProfitCalc = () => {
             <Link to="/" className="pc-back-btn secondary">
               ⬅ Головна
             </Link>
+            <ShareButton title="Назва цієї сторінки" />
           </div>
         </div>
       </div>

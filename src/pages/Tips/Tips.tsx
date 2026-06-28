@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Tips.css";
+import ShareButton from "../../components/ShareButton/ShareButton";
 
 const tips = [
   {
@@ -99,6 +100,7 @@ const Tips = () => {
           <Link to="/" className="tips-back-btn">
             ⬅ На головну
           </Link>
+          <ShareButton title="Назва цієї сторінки" />
         </div>
       </div>
     </main>
