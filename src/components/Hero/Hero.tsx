@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Hero.css";
 import rabbitPhoto from "../../assets/my-breed.webp";
+import TempWarningPopup from "../TempWarningPopup/TempWarningPopup";
 
 const WMO_ICON: Record<number, string> = {
   0: "☀️",
@@ -29,6 +30,7 @@ const WMO_ICON: Record<number, string> = {
 const Hero = () => {
   const [temp, setTemp] = useState<number | null>(null);
   const [icon, setIcon] = useState<string>("");
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -51,10 +53,20 @@ const Hero = () => {
   return (
     <section className="hero">
       {temp !== null && (
-        <div className="hero-weather">
+        <button
+          className={`hero-weather ${temp >= 25 ? "hero-weather--warn" : ""} ${temp >= 32 ? "hero-weather--critical" : ""}`}
+          onClick={() => setShowPopup(true)}
+          title="Натисніть для рекомендацій щодо кроликів"
+        >
           {icon} {temp}°C
-        </div>
+          {temp >= 25 && <span className="hero-weather-dot" />}
+        </button>
       )}
+
+      {showPopup && temp !== null && (
+        <TempWarningPopup temp={temp} onClose={() => setShowPopup(false)} />
+      )}
+
       <div className="hero-text">
         <span className="hero-badge">🌿 Господарський довідник</span>
         <h1>Все про кроликів — від народження до догляду</h1>

@@ -113,3 +113,45 @@
         font-size: 13px;
     }
 }
+
+/* Кнопка погоди */
+button.hero-weather {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+button.hero-weather:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+}
+
+.hero-weather-dot {
+    width: 8px;
+    height: 8px;
+    background: #ff3b30;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 4px;
+    animation: pulse-dot 1.2s infinite;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+    }
+}
+
+.hero-weather--critical .hero-weather-dot {
+    background: #ff3b30;
+    animation: pulse-dot 0.6s infinite;
+}
