@@ -19,6 +19,168 @@ This is a well-organized, accessible platform designed to provide structured, pr
 - Content verified against: Merck Veterinary Manual, RWAF, House Rabbit Society, PubMed/PMC, ProAgri
 - 100+ topic pages covering breeds, feeding, breeding, health, housing, behaviour, economics, seasonal calendar, glossary (150+ terms), FAQ
 
+## Site Structure & Navigation Links
+
+Below is the complete site structure mapping for automated AI agents and crawlers to index the full reference guide.
+
+### З чого почати
+* [Головна сторінка / Homepage](https://rabbit-farming-from-a-to-z-react.vercel.app/)
+* [Маршрут новачка](https://rabbit-farming-from-a-to-z-react.vercel.app/beginner-guide)
+* [Купівля кроля](https://rabbit-farming-from-a-to-z-react.vercel.app/buying-rabbit)
+* [Часті запитання (FAQ)](https://rabbit-farming-from-a-to-z-react.vercel.app/faq)
+* [Типові помилки](https://rabbit-farming-from-a-to-z-react.vercel.app/beginner-mistakes)
+* [Міфи про кролів](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-myths)
+* [Словник терминів](https://rabbit-farming-from-a-to-z-react.vercel.app/glossary)
+
+### Загальне та авторизація
+* [Підписка](https://rabbit-farming-from-a-to-z-react.vercel.app/subscription)
+* [Спільнота](https://rabbit-farming-from-a-to-z-react.vercel.app/community)
+* [Вхід / Авторизація](https://rabbit-farming-from-a-to-z-react.vercel.app/auth)
+
+### Початок — знайомство з твариною
+* [Біологія та анатомія](https://rabbit-farming-from-a-to-z-react.vercel.app/biology)
+* [Породи](https://rabbit-farming-from-a-to-z-react.vercel.app/breeds)
+* [Схрещування](https://rabbit-farming-from-a-to-z-react.vercel.app/breeding)
+* [Штучне осіменіння](https://rabbit-farming-from-a-to-z-react.vercel.app/artificial-insemination)
+* [Селекція](https://rabbit-farming-from-a-to-z-react.vercel.app/selection)
+* [Генетика забарвлення](https://rabbit-farming-from-a-to-z-react.vercel.app/genetics)
+* [Вуса (вібриси)](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-whiskers)
+
+### Порівняння та співжиття
+* [Кролик vs Заєць](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-vs-hare)
+* [Кролі та морські свинки](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbits-and-guinea-pigs)
+* [Кролі, коти та собаки](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbits-and-predators)
+* [Кролі та кури](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbits-and-chickens)
+
+### Житло та мікроклімат
+* [Клітки](https://rabbit-farming-from-a-to-z-react.vercel.app/enclosure)
+* [Підлогове утримання](https://rabbit-farming-from-a-to-z-react.vercel.app/floor-care)
+* [Ямове утримання](https://rabbit-farming-from-a-to-z-react.vercel.app/pit-keeping)
+* [Мікроклімат](https://rabbit-farming-from-a-to-z-react.vercel.app/microclimate)
+* [Клітки своїми руками (DIY)](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-housing-diy)
+
+### Поведінка та психологія
+* [Звуки кролів](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-sounds)
+* [Проблемна поведінка](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-behavior-problems)
+* [Мова тіла кроля](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-body-language)
+* [Стрес та переляк](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-stress)
+* [Групове утримання та ієрархія](https://rabbit-farming-from-a-to-z-react.vercel.app/group-housing)
+
+### Харчування та корми
+* [Годування](https://rabbit-farming-from-a-to-z-react.vercel.app/feeding)
+* [Листья та гілки](https://rabbit-farming-from-a-to-z-react.vercel.app/leaves)
+* [Кормові культури](https://rabbit-farming-from-a-to-z-react.vercel.app/crops)
+* [Водопостачання](https://rabbit-farming-from-a-to-z-react.vercel.app/water)
+* [Годівниці та сінники](https://rabbit-farming-from-a-to-z-react.vercel.app/feeders)
+* [Введення нового корму](https://rabbit-farming-from-a-to-z-react.vercel.app/new-food)
+* [Комбікорм](https://rabbit-farming-from-a-to-z-react.vercel.app/compound-feed)
+* [Соковиті корми](https://rabbit-farming-from-a-to-z-react.vercel.app/special-feeds)
+
+### Догляд та біобезпека
+* [Догляд](https://rabbit-farming-from-a-to-z-react.vercel.app/care)
+* [Дезінфекція](https://rabbit-farming-from-a-to-z-react.vercel.app/disinfection)
+* [Біобезпека](https://rabbit-farming-from-a-to-z-react.vercel.app/biosecurity)
+* [Грумінг (кігті та зуби)](https://rabbit-farming-from-a-to-z-react.vercel.app/grooming)
+* [Линька: норма та патологія](https://rabbit-farming-from-a-to-z-react.vercel.app/seasonal-molting)
+* [Хижаки та шкідники](https://rabbit-farming-from-a-to-z-react.vercel.app/predators)
+
+### Розведення та молодняк
+* [Окріл](https://rabbit-farming-from-a-to-z-react.vercel.app/okril)
+* [Зимовий окріл](https://rabbit-farming-from-a-to-z-react.vercel.app/winter-litter)
+* [Відлучення та дорощування](https://rabbit-farming-from-a-to-z-react.vercel.app/weaning)
+* [Контроль ваги](https://rabbit-farming-from-a-to-z-react.vercel.app/weight-control)
+* [Штучне вигодовування](https://rabbit-farming-from-a-to-z-react.vercel.app/artificial-feeding)
+* [Частота злучування](https://rabbit-farming-from-a-to-z-react.vercel.app/mating-frequency)
+* [Поведінка при злучці](https://rabbit-farming-from-a-to-z-react.vercel.app/mating-behavior)
+* [Контроль дат](https://rabbit-farming-from-a-to-z-react.vercel.app/okril-control)
+* [Визначення статі](https://rabbit-farming-from-a-to-z-react.vercel.app/sexing)
+* [Підготовка самки до злучки](https://rabbit-farming-from-a-to-z-react.vercel.app/doe-preparation)
+* [Утримання плідника](https://rabbit-farming-from-a-to-z-react.vercel.app/buck-management)
+* [Хибна вагітність](https://rabbit-farming-from-a-to-z-react.vercel.app/false-pregnancy)
+
+### Здоров'я та ветеринарія
+* [Вакцинація](https://rabbit-farming-from-a-to-z-react.vercel.app/vaccinations)
+* [Паразити](https://rabbit-farming-from-a-to-z-react.vercel.app/parasites)
+* [Хвороби](https://rabbit-farming-from-a-to-z-react.vercel.app/diseases)
+* [Препарати](https://rabbit-farming-from-a-to-z-react.vercel.app/medicines)
+* [Схеми лікування](https://rabbit-farming-from-a-to-z-react.vercel.app/treatment)
+* [Перша допомога](https://rabbit-farming-from-a-to-z-react.vercel.app/first-aid)
+* [Лабораторна діагностика](https://rabbit-farming-from-a-to-z-react.vercel.app/lab-diagnostics)
+* [Симптоматичний пошук](https://rabbit-farming-from-a-to-z-react.vercel.app/symptoms)
+* [Некропсія](https://rabbit-farming-from-a-to-z-react.vercel.app/necropsy)
+* [Сумісність препаратів](https://rabbit-farming-from-a-to-z-react.vercel.app/drug-compatibility)
+* [Знеболення](https://rabbit-farming-from-a-to-z-react.vercel.app/pain-management)
+* [Кастрація та стерилізація](https://rabbit-farming-from-a-to-z-react.vercel.app/neutering)
+* [Пропойка (вода з медикаментами)](https://rabbit-farming-from-a-to-z-react.vercel.app/water-medication)
+* [Послід як індикатор здоров'я](https://rabbit-farming-from-a-to-z-react.vercel.app/droppings)
+* [Зонози (спільні хвороби)](https://rabbit-farming-from-a-to-z-react.vercel.app/zoonoses)
+* [Кондиція тіла (BCS)](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-body-condition)
+* [Калькулятор дозування](https://rabbit-farming-from-a-to-z-react.vercel.app/dosage-calculator)
+* [Отруєння кролів](https://rabbit-farming-from-a-to-z-react.vercel.app/poisoning)
+
+### Ветеринарні маніпуляції
+* [Ін'єкції / Уколи](https://rabbit-farming-from-a-to-z-react.vercel.app/vet-injections)
+* [Таблетки та суспензії](https://rabbit-farming-from-a-to-z-react.vercel.app/vet-oral-meds)
+* [Вимірювання температури](https://rabbit-farming-from-a-to-z-react.vercel.app/vet-temperature)
+* [Збір калу на аналіз](https://rabbit-farming-from-a-to-z-react.vercel.app/vet-fecal-sample)
+
+### Сезонні загрози та планування
+* [Весна: кокцидіоз](https://rabbit-farming-from-a-to-z-react.vercel.app/seasonal-spring)
+* [Літо: міаз](https://rabbit-farming-from-a-to-z-react.vercel.app/seasonal-summer)
+* [Осінь: підготовка до зими](https://rabbit-farming-from-a-to-z-react.vercel.app/seasonal-autumn)
+* [Сезонний календар робіт](https://rabbit-farming-from-a-to-z-react.vercel.app/calendar)
+* [Поради](https://rabbit-farming-from-a-to-z-react.vercel.app/tips)
+* [Маточне поголів'я](https://rabbit-farming-from-a-to-z-react.vercel.app/breeding-herd)
+
+### Інструменти та фінал
+* [Калькулятор](https://rabbit-farming-from-a-to-z-react.vercel.app/calculator)
+* [Обладнання ферми](https://rabbit-farming-from-a-to-z-react.vercel.app/equipment)
+* [Інструменти](https://rabbit-farming-from-a-to-z-react.vercel.app/tools)
+* [Забій та переробка](https://rabbit-farming-from-a-to-z-react.vercel.app/slaughter)
+* [Шкура та пух](https://rabbit-farming-from-a-to-z-react.vercel.app/fur-processing)
+* [Вибраковка](https://rabbit-farming-from-a-to-z-react.vercel.app/culling)
+* [Транспортування](https://rabbit-farming-from-a-to-z-react.vercel.app/transport)
+* [Рецепти страв](https://rabbit-farming-from-a-to-z-react.vercel.app/recipes)
+
+### Племінна справа та виставки
+* [Стандарти порід](https://rabbit-farming-from-a-to-z-react.vercel.app/breed-standards)
+* [Підготовка до виставки](https://rabbit-farming-from-a-to-z-react.vercel.app/show-preparation)
+* [Суддівство на виставці](https://rabbit-farming-from-a-to-z-react.vercel.app/show-judging)
+* [Племінна оцінка](https://rabbit-farming-from-a-to-z-react.vercel.app/breeding-evaluation)
+* [Оцінка забарвлення](https://rabbit-farming-from-a-to-z-react.vercel.app/coat-colors-evaluation)
+* [Екстер'єр кроля](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-conformation)
+* [Оцінка хутра](https://rabbit-farming-from-a-to-z-react.vercel.app/fur-evaluation)
+* [Відбір ремонтного молодняку](https://rabbit-farming-from-a-to-z-react.vercel.app/replacement-stock)
+* [Вибір племінного самця](https://rabbit-farming-from-a-to-z-react.vercel.app/select-buck)
+* [Вибір племінної самки](https://rabbit-farming-from-a-to-z-react.vercel.app/select-doe)
+* [Дискваліфікаційні вади](https://rabbit-farming-from-a-to-z-react.vercel.app/disqualifying-faults)
+* [Родоводи та племінний облік](https://rabbit-farming-from-a-to-z-react.vercel.app/pedigree-records)
+* [Система оцінювання](https://rabbit-farming-from-a-to-z-react.vercel.app/show-scoring)
+
+### Управління та економіка
+* [Економіка ферми](https://rabbit-farming-from-a-to-z-react.vercel.app/economics)
+* [Юридичний куточок](https://rabbit-farming-from-a-to-z-react.vercel.app/legal)
+* [Збут продукції](https://rabbit-farming-from-a-to-z-react.vercel.app/sales)
+* [Калькулятор рентабельності](https://rabbit-farming-from-a-to-z-react.vercel.app/profit-calculator)
+* [Переробка гною (компостування)](https://rabbit-farming-from-a-to-z-react.vercel.app/composting)
+
+### Особистий кабінет (User Panel)
+* [Реєстр тварин](https://rabbit-farming-from-a-to-z-react.vercel.app/registry)
+* [Архів](https://rabbit-farming-from-a-to-z-react.vercel.app/archive)
+* [Парування](https://rabbit-farming-from-a-to-z-react.vercel.app/matings)
+* [Загони](https://rabbit-farming-from-a-to-z-react.vercel.app/paddocks)
+* [Відгодівля](https://rabbit-farming-from-a-to-z-react.vercel.app/fattening)
+* [Карантин](https://rabbit-farming-from-a-to-z-react.vercel.app/quarantine)
+* [Статистика](https://rabbit-farming-from-a-to-z-react.vercel.app/statistics)
+* [Мої щеплення](https://rabbit-farming-from-a-to-z-react.vercel.app/my-vaccinations)
+* [Мої лікування](https://rabbit-farming-from-a-to-z-react.vercel.app/my-treatments)
+
+### Системні сторінки
+* [Панель адміністратора](https://rabbit-farming-from-a-to-z-react.vercel.app/admin)
+* [Історія оновлень (Changelog)](https://rabbit-farming-from-a-to-z-react.vercel.app/changelog)
+* [Про проєкт](https://rabbit-farming-from-a-to-z-react.vercel.app/about)
+* [Політика конфіденційності](https://rabbit-farming-from-a-to-z-react.vercel.app/privacy-policy)
+* [Умови використання](https://rabbit-farming-from-a-to-z-react.vercel.app/terms-of-use)
 
 ---
 
