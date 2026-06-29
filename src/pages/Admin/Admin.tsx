@@ -1,7 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 import "./Admin.css";
+
+const adminSupabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      storageKey: "admin-presence-client",
+      persistSession: false,
+    },
+  },
+);
 
 interface Props {
   session: Session;
@@ -123,9 +135,9 @@ export default function Admin({ session }: Props) {
   const [stats, setStats] = useState<BackendStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
   const [onlineVisitors, setOnlineVisitors] = useState<OnlineVisitor[]>([]);
-  const presenceChannelRef = useRef<ReturnType<typeof supabase.channel> | null>(
-    null,
-  );
+  const presenceChannelRef = useRef<ReturnType<
+    typeof adminSupabase.channel
+  > | null>(null);
 
   async function fetchCodes() {
     const { data } = await supabase
@@ -224,7 +236,7 @@ export default function Admin({ session }: Props) {
   useEffect(() => {
     if (!isAdmin) return;
 
-    const channel = supabase.channel(PRESENCE_CHANNEL);
+    const channel = adminSupabase.channel(PRESENCE_CHANNEL);
 
     channel
       .on("presence", { event: "sync" }, () => {
@@ -237,7 +249,7 @@ export default function Admin({ session }: Props) {
     presenceChannelRef.current = channel;
 
     return () => {
-      supabase.removeChannel(channel);
+      adminSupabase.removeChannel(channel);
     };
   }, [isAdmin]);
 
