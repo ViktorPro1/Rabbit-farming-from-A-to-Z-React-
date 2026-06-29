@@ -7,6 +7,7 @@ const ROUTE_LABELS: Record<string, string> = {
 
   // З ЧОГО ПОЧАТИ
   "/beginner-guide": "Маршрут новачка",
+  "/buying-rabbit": "Купівля кроля",
   "/faq": "Часті запитання",
   "/beginner-mistakes": "Типові помилки",
   "/rabbit-myths": "Міфи про кролів",

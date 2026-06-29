@@ -11,6 +11,7 @@ const Admin = lazy(() => import("../pages/Admin/Admin"));
 const BeginnerGuide = lazy(
   () => import("../pages/BeginnerGuide/BeginnerGuide"),
 );
+const BuyingRabbit = lazy(() => import("../pages/BuyingRabbit/BuyingRabbit"));
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const BeginnerMistakes = lazy(
   () => import("../pages/BeginnerMistakes/BeginnerMistakes"),
@@ -292,6 +293,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         {/* — З ЧОГО ПОЧАТИ — */}
         <Route path="/beginner-guide" element={<BeginnerGuide />} />
+        <Route path="/buying-rabbit" element={<BuyingRabbit />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/beginner-mistakes" element={<BeginnerMistakes />} />
         <Route path="/rabbit-myths" element={<RabbitMyths />} />

@@ -1,0 +1,1040 @@
+.buy-page {
+    min-height: 100vh;
+    background: var(--cream);
+}
+
+/* HEADER */
+
+.buy-header {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.8rem 2rem;
+    color: #fff;
+    background: linear-gradient(135deg,
+            var(--green-dark) 0%,
+            var(--green-mid) 60%,
+            var(--green-accent) 100%);
+}
+
+.buy-header::before {
+    content: "🐇";
+    position: absolute;
+    right: 25px;
+    top: -5px;
+    font-size: 110px;
+    opacity: .06;
+    pointer-events: none;
+}
+
+.buy-header h1 {
+    margin: 0 0 10px;
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 600;
+    letter-spacing: -.4px;
+}
+
+.buy-header p {
+    margin: 0;
+    opacity: .88;
+    font-size: 15px;
+}
+
+/* WRAPPER */
+
+.buy-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* BANNER */
+
+.buy-banner {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1.6rem;
+
+    border-left: 4px solid var(--amber);
+    border-radius: 14px;
+
+    background: var(--amber-light);
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+.buy-banner>span {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.buy-banner div {
+    line-height: 1.7;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.buy-banner strong {
+    color: var(--brown);
+}
+
+/* TABS */
+
+.buy-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 1.6rem;
+}
+
+.buy-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    border-radius: 999px;
+    border: 1.5px solid var(--gray-light);
+
+    background: var(--cream);
+
+    color: var(--gray);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
+}
+
+.buy-tab:hover {
+    background: var(--green-light);
+    border-color: var(--green-mid);
+    color: var(--green-dark);
+}
+
+.buy-tab.active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: #fff;
+
+    box-shadow: 0 3px 10px rgba(39, 80, 10, .25);
+}
+
+.buy-tab span:first-child {
+    font-size: 18px;
+}
+
+/*  CONTENT */
+
+.buy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.buy-intro {
+    margin: 0;
+
+    padding: 1.3rem 1.4rem;
+
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+
+    background: var(--cream);
+
+    line-height: 1.8;
+    font-size: 14px;
+    color: var(--gray);
+}
+
+.buy-note {
+    padding: 1.4rem;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 14px;
+}
+
+.buy-note p {
+    margin: 0;
+    line-height: 1.8;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.buy-sub-title {
+    margin: .5rem 0 0;
+
+    padding-bottom: 7px;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    color: var(--green-dark);
+
+    border-bottom: 2px solid var(--green-light);
+}
+
+/* SOURCE */
+
+.buy-source {
+    padding: 10px 12px;
+
+    background: var(--green-light);
+
+    border-left: 3px solid var(--green-mid);
+    border-radius: 8px;
+
+    font-size: 12px;
+    color: var(--gray);
+}
+
+/* ALERTS */
+
+.buy-alert {
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.buy-alert.warn {
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    color: var(--brown);
+}
+
+.buy-alert.tip {
+    background: var(--green-light);
+    border-left: 4px solid var(--green-mid);
+    color: var(--green-dark);
+}
+
+/* SOURCE CARDS */
+
+.buy-source-card {
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    border: 1px solid var(--gray-light);
+
+    background: var(--cream);
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+}
+
+.buy-source-card.best {
+    border-color: var(--green-mid);
+}
+
+.buy-source-card.ok {
+    border-color: var(--amber);
+}
+
+.buy-source-card.bad {
+    border-color: #d26b5d;
+}
+
+.buy-source-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    padding: 1rem 1.2rem;
+}
+
+.buy-source-card.best .buy-source-head {
+    background: var(--green-light);
+}
+
+.buy-source-card.ok .buy-source-head {
+    background: #fff7de;
+}
+
+.buy-source-card.bad .buy-source-head {
+    background: #fff2ef;
+}
+
+.buy-source-badge {
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: .4px;
+}
+
+.best-badge {
+    background: var(--green-dark);
+    color: #fff;
+}
+
+.ok-badge {
+    background: var(--amber);
+    color: #fff;
+}
+
+.bad-badge {
+    background: #c0392b;
+    color: #fff;
+}
+
+.buy-source-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.buy-source-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 1rem 1.2rem;
+}
+
+.buy-source-row {
+    padding: .9rem 1rem;
+
+    border-radius: 10px;
+
+    border: 1px solid var(--gray-light);
+
+    background: #fafafa;
+}
+
+.buy-source-row.green-row {
+    background: var(--green-light);
+    border-color: var(--green-pale);
+}
+
+.buy-source-row.danger-row {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.buy-source-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    color: var(--gray);
+
+    letter-spacing: .4px;
+
+    text-transform: uppercase;
+}
+
+.buy-source-row p {
+    margin: 0;
+
+    line-height: 1.7;
+
+    font-size: 13px;
+
+    color: var(--green-dark);
+}
+
+/* DISEASE CARD */
+
+.buy-disease-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--gray-light);
+    background: var(--cream);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+}
+
+.buy-disease-card.main {
+    border: 1.5px solid var(--amber);
+}
+
+.buy-disease-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding: 1rem 1.25rem;
+
+    background: var(--amber-light);
+}
+
+.buy-disease-badge {
+    display: inline-block;
+
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .4px;
+}
+
+.buy-disease-badge.danger {
+    background: var(--brown);
+    color: #fff;
+}
+
+.buy-disease-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--brown);
+}
+
+.buy-disease-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 1rem 1.25rem;
+}
+
+.buy-disease-row {
+    padding: .9rem 1rem;
+
+    border-radius: 10px;
+
+    background: var(--green-light);
+
+    border: 1px solid var(--gray-light);
+}
+
+.buy-disease-row.green-row {
+    background: var(--green-light);
+    border-color: var(--green-pale);
+}
+
+.buy-disease-row.danger-row {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.buy-disease-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .4px;
+
+    color: var(--gray);
+}
+
+.buy-disease-row p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    color: var(--green-dark);
+}
+
+/* GRID */
+
+.buy-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.buy-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 1.25rem;
+
+    background: var(--cream);
+
+    border: 1px solid var(--gray-light);
+    border-radius: 16px;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+
+    transition: .25s;
+}
+
+.buy-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+}
+
+.buy-card.danger {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.buy-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: var(--green-dark);
+}
+
+.buy-card-header span:first-child {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.buy-card p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    color: var(--gray);
+}
+
+/* HEALTH CHECK */
+
+.buy-check-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.buy-check-item {
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    border: 1px solid var(--gray-light);
+
+    background: var(--cream);
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+}
+
+.buy-check-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 1rem 1.25rem;
+
+    background: var(--green-light);
+
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.buy-check-icon {
+    font-size: 24px;
+}
+
+.buy-check-title {
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--green-dark);
+}
+
+.buy-check-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 1rem 1.25rem;
+}
+
+.buy-check-good,
+.buy-check-bad {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+
+    padding: .9rem 1rem;
+
+    border-radius: 10px;
+
+    border: 1px solid;
+}
+
+.buy-check-good {
+    background: var(--green-light);
+    border-color: var(--green-pale);
+}
+
+.buy-check-bad {
+    background: var(--amber-light);
+    border-color: var(--amber);
+}
+
+.buy-check-good span:first-child,
+.buy-check-bad span:first-child {
+    width: 24px;
+    flex-shrink: 0;
+
+    text-align: center;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.buy-check-good span:last-child,
+.buy-check-bad span:last-child {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--green-dark);
+}
+
+/* RED FLAGS */
+
+.buy-flags-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.buy-flag {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+
+    padding: 1.1rem 1.2rem;
+
+    border-radius: 14px;
+
+    border: 1px solid var(--gray-light);
+
+    background: var(--cream);
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+
+    transition: .25s;
+}
+
+.buy-flag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .07);
+}
+
+.buy-flag.red {
+    border-left: 5px solid #d23f31;
+}
+
+.buy-flag.orange {
+    border-left: 5px solid var(--amber);
+}
+
+.buy-flag-icon {
+    flex-shrink: 0;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.buy-flag-title {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--green-dark);
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.buy-flag p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    color: var(--gray);
+}
+
+/* QUESTIONS / ANSWERS */
+
+.buy-qa-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.buy-qa-item {
+    padding: 1.2rem;
+
+    background: var(--cream);
+
+    border: 1px solid var(--gray-light);
+
+    border-radius: 16px;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+}
+
+.buy-qa-question {
+    margin-bottom: 14px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: var(--green-dark);
+}
+
+.buy-qa-answer {
+    margin-top: 10px;
+
+    padding: .9rem 1rem;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.buy-qa-answer.good {
+    background: var(--green-light);
+    border-left: 4px solid var(--green-mid);
+    color: var(--green-dark);
+}
+
+.buy-qa-answer.bad {
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    color: var(--brown);
+}
+
+.buy-qa-answer span {
+    font-weight: 700;
+}
+
+/* STEPS */
+
+.buy-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.buy-step {
+    display: flex;
+    gap: 16px;
+
+    padding: 1.2rem;
+
+    background: var(--cream);
+
+    border: 1px solid var(--gray-light);
+
+    border-radius: 16px;
+
+    align-items: flex-start;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+}
+
+.buy-step-num {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--green-dark);
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    flex-shrink: 0;
+}
+
+.buy-step-title {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: var(--green-dark);
+}
+
+.buy-step p {
+    margin: 0;
+
+    color: var(--gray);
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* BACK */
+
+.buy-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+    margin-top: 2.5rem;
+}
+
+.buy-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 28px;
+
+    border-radius: 999px;
+
+    background: var(--green-dark);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: .25s;
+
+    box-shadow: 0 3px 10px rgba(39, 80, 10, .20);
+}
+
+.buy-back-btn:hover {
+    background: var(--green-mid);
+    transform: translateY(-2px);
+}
+
+/* SMALL HELPERS */
+
+.buy-source-row:last-child,
+.buy-disease-row:last-child,
+.buy-check-item:last-child,
+.buy-qa-item:last-child,
+.buy-step:last-child,
+.buy-flag:last-child {
+    margin-bottom: 0;
+}
+
+.buy-source-row p strong,
+.buy-disease-row p strong,
+.buy-card p strong,
+.buy-step p strong,
+.buy-flag p strong,
+.buy-qa-answer strong {
+    color: var(--green-dark);
+    font-weight: 600;
+}
+
+.buy-source-row p em,
+.buy-disease-row p em,
+.buy-card p em,
+.buy-step p em {
+    font-style: italic;
+}
+
+.buy-card ul,
+.buy-step ul,
+.buy-source-row ul,
+.buy-disease-row ul {
+    margin: .7rem 0 0;
+    padding-left: 18px;
+}
+
+.buy-card li,
+.buy-step li,
+.buy-source-row li,
+.buy-disease-row li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+    color: var(--gray);
+}
+
+.buy-card li:last-child,
+.buy-step li:last-child,
+.buy-source-row li:last-child,
+.buy-disease-row li:last-child {
+    margin-bottom: 0;
+}
+
+/* LINKS */
+
+.buy-content a {
+    color: var(--green-dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: .2s;
+}
+
+.buy-content a:hover {
+    color: var(--green-mid);
+    text-decoration: underline;
+}
+
+/* SCROLLBAR (тільки для таблиць/overflow) */
+
+.buy-content ::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.buy-content ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.buy-content ::-webkit-scrollbar-thumb {
+    background: var(--gray-light);
+    border-radius: 999px;
+}
+
+.buy-content ::-webkit-scrollbar-thumb:hover {
+    background: var(--green-mid);
+}
+
+/* SELECTION */
+
+.buy-content ::selection {
+    background: var(--green-mid);
+    color: white;
+}
+
+/* FOCUS */
+
+.buy-tab:focus-visible,
+.buy-back-btn:focus-visible {
+    outline: 3px solid var(--green-accent);
+    outline-offset: 3px;
+}
+
+/* SMOOTH */
+
+.buy-page * {
+    box-sizing: border-box;
+}
+
+.buy-page img {
+    display: block;
+    max-width: 100%;
+}
+
+.buy-page button {
+    font-family: inherit;
+}
+
+.buy-page p {
+    word-break: break-word;
+}
+
+/* RESPONSIVE */
+
+@media (max-width:900px) {
+
+    .buy-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width:768px) {
+
+    .buy-header {
+        padding: 2rem 1rem;
+    }
+
+    .buy-header h1 {
+        font-size: 28px;
+    }
+
+    .buy-banner,
+    .buy-step,
+    .buy-flag {
+        padding: 1rem;
+    }
+
+    .buy-tabs {
+        gap: 8px;
+    }
+
+    .buy-tab {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+    }
+
+    .buy-source-head,
+    .buy-check-head {
+        padding: .9rem 1rem;
+    }
+
+    .buy-source-body,
+    .buy-check-body,
+    .buy-disease-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width:520px) {
+    .buy-tab {
+        flex: 0 0 auto;
+        width: auto;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .buy-tabs {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .buy-back-btn {
+        flex: 0 0 auto;
+        width: auto;
+        max-width: 220px;
+        margin: 0 auto;
+    }
+
+    .buy-back {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buy-banner {
+        flex-direction: column;
+    }
+
+    .buy-step {
+        flex-direction: column;
+    }
+
+    .buy-step-num {
+        margin-bottom: 4px;
+    }
+
+    .buy-check-good,
+    .buy-check-bad {
+        gap: 10px;
+    }
+}

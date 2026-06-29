@@ -740,4 +740,17 @@ export const pageMeta: Record<string, PageMeta> = {
             url: `${BASE_URL}/rabbits-and-chickens`,
         },
     },
+    "/buying-rabbit": {
+        title: `Купівля кроля — ${SITE_NAME}`,
+        description: "Як вибрати здорового кроля та не помилитися при покупці.",
+        schema: {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Купівля кроля",
+            description: "Поради для вибору здорового кроля при покупці",
+            url: `${BASE_URL}/buying-rabbit`,
+            inLanguage: "uk-UA",
+        },
+    },
+
 };
