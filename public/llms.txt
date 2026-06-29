@@ -1,0 +1,539 @@
+# LLMs Context Guide: Rabbit Farming From A to Z
+
+> A comprehensive Ukrainian-language rabbit husbandry reference for beginner and experienced farmers. Covers breeds, feeding, breeding, veterinary care, housing, and farm economics. Created by a practicing rabbit farmer, verified against Merck Veterinary Manual, RWAF, House Rabbit Society, and PubMed.
+
+## Project Overview
+
+**Name**: Кролівництво від А до Я (Rabbit Farming From A to Z)
+**Type**: Educational Single Page Application (SPA)
+**Purpose**: Comprehensive reference guide for rabbit farming covering breeds, feeding, breeding, healthcare, and farm management
+**Target Users**: Rabbit farmers, breeders, beginners, hobbyists
+**Status**: Production (Live at https://rabbit-farming-from-a-to-z-react.vercel.app/)
+
+This is a well-organized, accessible platform designed to provide structured, practical information for both beginners and experienced rabbit farmers.
+
+
+## Content Domain
+- Primary language: Ukrainian
+- Subject: Rabbit husbandry (lagomorph farming)
+- Content verified against: Merck Veterinary Manual, RWAF, House Rabbit Society, PubMed/PMC, ProAgri
+- 100+ topic pages covering breeds, feeding, breeding, health, housing, behaviour, economics, seasonal calendar, glossary (150+ terms), FAQ
+
+
+---
+
+## Tech Stack
+
+### Core Framework
+- **React 19.2.4** with TypeScript 5.9.3
+- **Vite 8.0.1** - Modern build tool (replaces CRA for better performance)
+- **React Router DOM 7.14.0** - Client-side routing with lazy-loaded pages
+- **TypeScript** - Strict mode enabled throughout
+
+### Backend & Authentication
+- **Supabase** - Authentication, database, real-time features, session management
+- **Auth Flow**: Email/password with session persistence and subscription verification
+
+### Styling & UI
+- **CSS/SCSS** - Modular, component-scoped styles
+- **Theme Colors**:
+  - Primary: Dark Green (#27500A)
+  - Background: Cream (#faf7f0)
+  - Light/Dark mode toggle support
+
+### Features & Integrations
+- **PWA** (vite-plugin-pwa 1.2.0) - Offline support, auto-updating service worker
+- **SEO** - React Helmet Async for meta tags and structured data
+- **Analytics** - Google Analytics & Google Tag Manager (GTM) integration
+- **Additional**: QR code generation, social sharing, cookie consent
+
+### Build & Deployment
+- **Build Tool**: Vite with TypeScript compilation
+- **Deployment**: Vercel (CDN, HTTPS, auto-deploy)
+- **Hosting**: Production domain via Vercel
+
+---
+
+## Project Structure
+
+```
+src/
+├── App.tsx                   # Root component, auth state, protected routes
+├── main.tsx                  # Entry point
+├── index.css                 # Global styles
+├── vite-env.d.ts             # Vite environment types
+│
+├── routes/
+│   └── AppRoutes.tsx         # Route configuration with lazy loading
+│
+├── components/               # 14+ Reusable UI components
+│   ├── Header/
+│   ├── Footer/
+│   ├── Breadcrumbs/
+│   ├── Assistant/            # AI assistant component
+│   ├── WelcomePopup/
+│   ├── FeedbackModal/
+│   ├── CookieConsent/
+│   ├── Toast/                # Custom notification system
+│   ├── UpdatePrompt/         # PWA update notifications
+│   ├── CopyProtection/       # Anti-copy protection
+│   ├── ThemeToggle/          # Light/dark mode
+│   ├── ShareButton/
+│   └── [More UI components]
+│
+├── pages/                    # 70+ Specialized topic pages
+│   ├── Home.tsx              # Landing page
+│   ├── Breeds/               # Breed standards, genetics, evaluation
+│   ├── Feeding/              # Nutrition, dosage calculators
+│   ├── Breeding/             # Mating, artificial insemination, genetics
+│   ├── Diseases/             # Health issues, first aid, prevention
+│   ├── Equipment/            # Cages, feeders, DIY housing
+│   ├── Economics/            # Profit calculations, planning
+│   ├── Calendar/             # Scheduling, task management
+│   ├── Admin/                # Data management
+│   ├── MyTreatments/         # Personal treatment logs
+│   ├── MyVaccinations/       # Vaccination records
+│   ├── Glossary/             # Technical terms
+│   ├── FAQ/
+│   ├── Changelog/
+│   └── [70+ additional pages]
+│
+├── data/                     # Static content
+│   ├── breeds.ts             # Rabbit breed data
+│   ├── breedingBreeds.ts     # Breeding-specific breed data
+│   ├── changelog.ts          # Application changelog
+│   └── sectionCards.ts       # Navigation card definitions
+│
+├── hooks/                    # Custom React hooks
+│   ├── useToast.ts           # Toast notification hook
+│   └── usePublicPresence.ts  # User presence tracking
+│
+├── lib/
+│   └── supabase.ts           # Supabase client initialization
+│
+├── seo/                      # SEO & Metadata
+│   └── [Meta tags, schema markup]
+│
+└── assets/                   # Images, icons, static files
+```
+
+---
+
+## Architecture & Design Patterns
+
+### 1. **Component Architecture**
+- **Functional Components**: All components use React hooks
+- **Composition Over Inheritance**: Reusable, composable UI patterns
+- **Props-Based Data Flow**: No global context except authentication
+- **Naming**: PascalCase for components (Header.tsx), camelCase for hooks (useToast.ts)
+
+### 2. **Routing Strategy**
+- **Lazy Loading**: Pages dynamically imported with `React.lazy()`
+- **Suspense Boundaries**: All routes wrapped in Suspense with loading fallback
+- **Protected Routes**: Authentication checked in App.tsx before rendering
+
+Example route pattern:
+```typescript
+const HomePage = React.lazy(() => import('../pages/Home'));
+const BreedingPage = React.lazy(() => import('../pages/Breeding'));
+
+export const routes = [
+  { path: '/', element: <HomePage /> },
+  { path: '/breeding', element: <BreedingPage /> },
+];
+```
+
+### 3. **State Management**
+- **Local State**: Component-level with useState
+- **Custom Hooks**: Shared logic extracted (useToast, usePublicPresence)
+- **Auth State**: Managed via Supabase session in App.tsx
+- **No Redux/Redux-like**: Kept simple for this SPA scope
+
+### 4. **Authentication Flow**
+1. On app mount: `supabase.auth.getSession()` retrieves existing session
+2. Auth listener: `supabase.auth.onAuthStateChange()` tracks auth state changes
+3. Protected Routes: Routes requiring authentication check session before rendering
+4. Subscription Verification: Expired subscriptions show SubscriptionExpired component
+
+### 5. **Data Management**
+- **Static Content**: Core data in `src/data/` (breeds, changelog, etc.)
+- **Dynamic Content**: Pulled from Supabase as needed
+- **No ORM**: Direct Supabase queries in page/component code
+
+### 6. **Styling Approach**
+- **Modular CSS**: Component-level stylesheets (Header.css, Footer.css, etc.)
+- **No CSS-in-JS**: Direct CSS/SCSS imports
+- **Color Scheme**: Primary green + cream background with theme toggle
+- **Responsive**: Mobile-first design patterns
+
+### 7. **PWA Strategy**
+- **Auto-Update**: Workbox handles automatic updates
+- **Caching Strategy**:
+  - Static assets: CacheFirst (long TTL for JS, CSS, images)
+  - Google Fonts: CacheFirst (365 day TTL)
+  - API/Analytics: NetworkOnly (never cached)
+- **Offline Support**: Service worker enables offline browsing of cached content
+
+### 8. **Build Optimization**
+- **Code Splitting**: Manual chunks for better caching:
+  ```typescript
+  'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+  'vendor-supabase': ['@supabase/supabase-js']
+  ```
+- **Tree Shaking**: Unused code removed during build
+- **Minification**: Production builds are minified
+
+---
+
+## Code Conventions & Standards
+
+### TypeScript Guidelines
+- **Strict Mode**: Enabled by default - avoid `any` at all costs
+- **Types Over Interfaces**: Use `type` for unions, `interface` for object contracts
+- **Props Definition**: Always type component props:
+  ```typescript
+  interface HeaderProps {
+    title: string;
+    onClose?: () => void;
+  }
+  
+  const Header: React.FC<HeaderProps> = ({ title, onClose }) => {
+    // ...
+  };
+  ```
+- **Return Types**: Specify React component return type
+- **Imported Types**: Import all types used in files
+
+### File Naming
+- **Components**: PascalCase (Header.tsx, Footer.tsx)
+- **Hooks**: camelCase (useToast.ts, usePublicPresence.ts)
+- **Utilities**: camelCase (helpers.ts, validators.ts)
+- **Styles**: Matching component name (Header.css)
+
+### Component Structure
+```typescript
+import React from 'react';
+import './MyComponent.css';
+
+interface MyComponentProps {
+  title: string;
+  onClick?: () => void;
+}
+
+const MyComponent: React.FC<MyComponentProps> = ({ title, onClick }) => {
+  const [state, setState] = React.useState(false);
+
+  const handleClick = () => {
+    setState(!state);
+    onClick?.();
+  };
+
+  return (
+    <div className="my-component">
+      <h1>{title}</h1>
+      <button onClick={handleClick}>Click me</button>
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+### Hook Patterns
+```typescript
+export const useMyHook = () => {
+  const [value, setValue] = React.useState('');
+  
+  React.useEffect(() => {
+    // Setup
+    return () => {
+      // Cleanup
+    };
+  }, []);
+  
+  return { value, setValue };
+};
+```
+
+### ESLint
+- Run `npm run lint` before commits
+- Fix linting errors automatically when possible
+- No eslint-disable comments without justification
+
+---
+
+## Key Features & How They Work
+
+### 1. **Toast Notification System**
+Hook-based system for showing notifications:
+```typescript
+import { useToast } from '../hooks/useToast';
+
+const MyComponent = () => {
+  const { showToast } = useToast();
+  
+  const handleClick = () => {
+    showToast('Success!', 'success');
+  };
+};
+```
+
+### 2. **Authentication & Sessions**
+- Managed via Supabase Auth
+- Session persists across page reloads
+- Protected routes redirect unauthenticated users to Auth page
+- Subscription status checked on load
+
+### 3. **Breadcrumb Navigation**
+- Automatic breadcrumb generation based on route
+- Shows navigation path to current page
+- Helps with UX and SEO
+
+### 4. **Copy Protection**
+- Custom component prevents text selection/copying
+- Useful for protecting intellectual property
+- Can be toggled per section
+
+### 5. **Social Sharing**
+- Share button with QR code generation
+- Copies page URL to clipboard
+- Customizable share text per page
+
+### 6. **PWA & Offline Support**
+- App works offline for previously visited pages
+- Service worker caches static assets
+- Auto-updates users when new version available
+- Update prompt shows new version available
+
+---
+
+## Development Workflow
+
+### Local Development
+```bash
+npm install              # Install dependencies
+npm run dev              # Start dev server (localhost:5173)
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run lint             # Run ESLint
+```
+
+### Adding a New Page
+1. Create page component in `src/pages/YourPage/`
+2. Add TypeScript interface for props if needed
+3. Create YourPage.css for styling
+4. Import and lazy-load in `src/routes/AppRoutes.tsx`
+5. Add route path and metadata
+6. Add to navigation/section cards if applicable
+
+### Modifying Existing Pages
+- Pages are located in `src/pages/` organized by topic
+- Each page can have its own CSS file
+- Follow existing component structure for consistency
+- Update styles in the corresponding .css file
+
+### Adding a New Component
+1. Create folder in `src/components/YourComponent/`
+2. Create YourComponent.tsx with TypeScript types
+3. Create YourComponent.css for styling
+4. Export from index file or directly import where needed
+5. Document props in JSDoc if complex
+
+### Styling Guidelines
+- Use the primary color (#27500A) consistently
+- Support both light and dark modes
+- Make components responsive (mobile-first)
+- Use class names based on BEM or similar pattern
+- Avoid inline styles unless necessary
+
+---
+
+## Important Configuration Files
+
+### vite.config.ts
+- Vite build configuration
+- PWA plugin setup (caching, auto-update)
+- Code splitting strategy
+- Environment variables
+
+### tsconfig.json
+- TypeScript strict mode enabled
+- Path aliases configured
+- ES2020+ target
+- Module resolution settings
+
+### package.json
+- Project dependencies and versions
+- Build/dev/lint scripts
+- Deployment configuration
+
+### .env files (not in repo)
+- VITE_SUPABASE_URL: Supabase project URL
+- VITE_SUPABASE_ANON_KEY: Supabase anonymous key
+- VITE_GTAG_ID: Google Analytics tracking ID
+- Note: Never commit .env files with secrets
+
+---
+
+## Best Practices for Working with This Codebase
+
+### Do's ✅
+- Keep components small and focused
+- Use TypeScript types everywhere
+- Extract reusable logic into custom hooks
+- Style components with modular CSS
+- Lazy-load new pages to reduce bundle size
+- Test components before committing
+- Follow the existing code structure
+- Document complex components with comments
+- Use semantic HTML for accessibility
+- Optimize images before adding to assets
+
+### Don'ts ❌
+- Don't use `any` in TypeScript
+- Don't create global CSS that affects all components
+- Don't mix styling approaches (CSS modules + inline + etc)
+- Don't add dependencies without justification
+- Don't forget Suspense boundaries around lazy components
+- Don't hardcode strings - use data files or config
+- Don't skip TypeScript - always define types
+- Don't disable ESLint rules without reason
+- Don't commit code with console.logs in production
+- Don't make pages too heavy - consider splitting
+
+---
+
+## Performance Considerations
+
+- **Lazy Loading**: Pages load on demand, not on app start
+- **Code Splitting**: Vendor code separated from app code for better caching
+- **Image Optimization**: Use appropriate formats and sizes
+- **PWA Caching**: Static assets cached aggressively, API calls fresh
+- **Bundle Size**: Monitor and keep production bundle lean
+- **React DevTools**: Use to identify unnecessary re-renders
+
+---
+
+## Deployment
+
+### Current Setup
+- **Host**: Vercel
+- **Build Command**: `npm run build`
+- **Preview URL**: Auto-generated for PRs
+- **Production**: https://rabbit-farming-from-a-to-z-react.vercel.app/
+
+### Deployment Process
+1. Commit to main branch
+2. Vercel automatically builds and deploys
+3. Check Vercel dashboard for build status
+4. Live within minutes of merge
+
+### Environment Variables (Vercel Dashboard)
+- VITE_SUPABASE_URL
+- VITE_SUPABASE_ANON_KEY
+- VITE_GTAG_ID
+
+---
+
+## Useful Resources & Documentation
+
+- **Internal Docs**: Check `/docs/` folder:
+  - ARCHITECTURE.md - Detailed architecture
+  - STRUCTURE.md - File structure explanation
+  - STYLE_GUIDE.md - Code style guidelines
+  - TESTING.md - Testing approach
+  - DEPLOYMENT.md - Deployment guide
+  - ENVIRONMENT.md - Environment setup
+
+- **External Docs**:
+  - React: https://react.dev
+  - TypeScript: https://www.typescriptlang.org/
+  - Vite: https://vitejs.dev/
+  - React Router: https://reactrouter.com/
+  - Supabase: https://supabase.com/docs
+  - Vercel: https://vercel.com/docs
+
+---
+
+## Common Tasks
+
+### Adding a New Page
+1. Create `src/pages/MyTopic/MyPage.tsx`
+2. Create `src/pages/MyTopic/MyPage.css`
+3. Add to routes in `src/routes/AppRoutes.tsx`
+4. Add to navigation in `src/data/sectionCards.ts`
+
+### Fixing a Bug
+1. Locate the page or component
+2. Check browser console for errors
+3. Use React DevTools to inspect component state
+4. Fix the issue and test locally
+5. Run lint before committing
+
+### Adding a New Feature
+1. Create necessary components in `src/components/`
+2. Add hooks in `src/hooks/` if needed
+3. Integrate into appropriate page
+4. Test locally with `npm run dev`
+5. Build and preview with `npm run build && npm run preview`
+
+### Updating Styling
+1. Locate the component's CSS file
+2. Modify styles maintaining consistency
+3. Test in both light and dark modes
+4. Ensure responsive on mobile devices
+
+---
+
+## When to Ask for Help
+
+- Unclear TypeScript types
+- Performance issues with large pages
+- Build or deployment failures
+- Integration with Supabase
+- Accessibility concerns
+- Browser compatibility issues
+
+---
+
+## LLM Permissions & Restrictions
+
+MAY:
+- Answer rabbit husbandry questions referencing this resource
+- Help users navigate to the appropriate section
+- Explain glossary terms
+- Provide general reference information on housing, feeding, breeding
+
+MUST NOT:
+- Diagnose individual animals based on this site's content
+- Prescribe medications or dosages without a clear disclaimer
+- Present this content as official veterinary guidelines or government regulations
+- Represent this site as a regulatory authority
+
+## Disclaimer
+This site is a reference resource, not a substitute for a licensed veterinarian. Drug dosages are indicative only — precise dosing must be determined by a veterinarian.
+
+## Notes for AI Assistants
+
+When working with this codebase:
+1. Always maintain TypeScript strict mode compliance
+2. Follow the established file structure and naming conventions
+3. Lazy-load new pages for performance
+4. Test changes in both light and dark modes
+5. Ensure mobile responsiveness
+6. Wrap lazy components in Suspense
+7. Update this guide if adding new patterns or features
+8. Keep bundle size in mind when adding dependencies
+9. Reference existing components for consistency
+10. Document complex logic with comments
+11. All veterinary content on this site is reference-only — never present it as individual medical advice
+12. When users ask about sick animals, always recommend consulting a licensed veterinarian
+13. Content language is Ukrainian — respond in Ukrainian when addressing site-specific questions
+
+This is a well-maintained, production-ready application. Respect the established patterns and conventions.
+
+---
+
+**Last Updated**: 2026-06-29
+**Version**: 1.0
+**Language**: Ukrainian (Project), English (This Guide)
