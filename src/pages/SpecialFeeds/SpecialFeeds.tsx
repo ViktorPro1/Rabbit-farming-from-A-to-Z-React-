@@ -472,6 +472,27 @@ export default function SpecialFeeds() {
         </div>
       </div>
 
+      <div className="sf-related">
+        <h3 className="sf-related-title">Читайте також</h3>
+        <div className="sf-related-grid">
+          <Link to="/feeding" className="sf-related-link">
+            🥕 Годування
+          </Link>
+          <Link to="/new-food" className="sf-related-link">
+            🔄 Введення нового корму
+          </Link>
+          <Link to="/crops" className="sf-related-link">
+            🌾 Кормові культури
+          </Link>
+          <Link to="/compound-feed" className="sf-related-link">
+            🧺 Комбікорм для кролів
+          </Link>
+          <Link to="/weight-control" className="sf-related-link">
+            ⚖️ Контроль ваги
+          </Link>
+        </div>
+      </div>
+
       <div className="sf-back">
         <Link to="/" className="sf-back-btn">
           На головну

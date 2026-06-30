@@ -259,8 +259,12 @@ const Vaccinations = () => {
             та ревакцинацій.
           </p>
           <div className="vacc-calculator">
-            <label className="vacc-label">Дата народження кролика:</label>
+            <label htmlFor="birth-date" className="vacc-label">
+              Дата народження кролика:
+            </label>
             <input
+              id="birth-date"
+              name="birth-date"
               type="date"
               className="vacc-date"
               value={birthDate}

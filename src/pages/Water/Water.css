@@ -466,6 +466,62 @@
     background: var(--green-mid);
 }
 
+.water-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.water-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .water-related-title {
+    color: var(--green-light);
+}
+
+.water-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.water-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.water-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .water-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .water-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .water-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
 @media (max-width: 768px) {
     .water-quality-grid {
         grid-template-columns: 1fr;

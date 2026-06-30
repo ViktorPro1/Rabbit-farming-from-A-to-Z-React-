@@ -599,6 +599,27 @@ const Water = () => {
           ))}
         </div>
 
+        <div className="water-related">
+          <h3 className="water-related-title">Читайте також</h3>
+          <div className="water-related-grid">
+            <Link to="/feeding" className="water-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/winter-litter" className="water-related-link">
+              ❄️ Зимовий окріл
+            </Link>
+            <Link to="/seasonal-autumn" className="water-related-link">
+              🍂 Осінь: підготовка до зими
+            </Link>
+            <Link to="/microclimate" className="water-related-link">
+              🌡️ Мікроклімат
+            </Link>
+            <Link to="/disinfection" className="water-related-link">
+              🧴 Дезінфекція
+            </Link>
+          </div>
+        </div>
+
         <div className="water-back">
           <Link to="/" className="water-back-btn">
             ⬅ На головну

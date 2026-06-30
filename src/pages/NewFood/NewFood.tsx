@@ -222,10 +222,12 @@ const NewFood = () => {
 
           <div className="newfood-calc-inputs">
             <div className="newfood-input-wrap">
-              <label className="newfood-input-label">
+              <label htmlFor="dailyGrams" className="newfood-input-label">
                 Добова норма корму (г)
               </label>
               <input
+                id="dailyGrams"
+                name="dailyGrams"
                 className="newfood-input"
                 type="number"
                 min={10}
@@ -238,9 +240,9 @@ const NewFood = () => {
             </div>
 
             <div className="newfood-input-wrap">
-              <label className="newfood-input-label">
+              <div className="newfood-input-label">
                 Тривалість переходу (днів)
-              </label>
+              </div>
               <div className="newfood-days-btns">
                 {[7, 10, 14].map((d) => (
                   <button
@@ -440,6 +442,27 @@ const NewFood = () => {
             необмеженій кількості. Один новий продукт за раз. Слідкуйте за
             послідом — він покаже все раніше, ніж з'являться інші симптоми.
           </p>
+        </div>
+
+        <div className="newfood-related">
+          <h3 className="newfood-related-title">Читайте також</h3>
+          <div className="newfood-related-grid">
+            <Link to="/feeding" className="newfood-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/compound-feed" className="newfood-related-link">
+              🧺 Комбікорм для кролів
+            </Link>
+            <Link to="/weaning" className="newfood-related-link">
+              🥣 Відлучення та дорощування
+            </Link>
+            <Link to="/droppings" className="newfood-related-link">
+              💩 Послід: норма та відхилення
+            </Link>
+            <Link to="/special-feeds" className="newfood-related-link">
+              🥦 Соковиті корми
+            </Link>
+          </div>
         </div>
 
         <div className="newfood-back">

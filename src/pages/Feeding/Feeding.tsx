@@ -534,6 +534,27 @@ const Feeding = () => {
           </div>
         </div>
 
+        <div className="feeding-related">
+          <h3 className="feeding-related-title">Читайте також</h3>
+          <div className="feeding-related-grid">
+            <Link to="/compound-feed" className="feeding-related-link">
+              🧺 Комбікорм для кролів
+            </Link>
+            <Link to="/new-food" className="feeding-related-link">
+              🔄 Введення нового корму
+            </Link>
+            <Link to="/leaves" className="feeding-related-link">
+              🌿 Листя та гілки
+            </Link>
+            <Link to="/special-feeds" className="feeding-related-link">
+              🥦 Соковиті корми
+            </Link>
+            <Link to="/water" className="feeding-related-link">
+              💧 Водопостачання
+            </Link>
+          </div>
+        </div>
+
         <div className="feeding-back">
           <Link to="/" className="feeding-back-btn">
             ⬅ На головну

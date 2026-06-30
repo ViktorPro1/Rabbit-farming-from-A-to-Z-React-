@@ -1024,6 +1024,27 @@ const CompoundFeed = () => {
           </div>
         )}
 
+        <div className="cf-related">
+          <h3 className="cf-related-title">Читайте також</h3>
+          <div className="cf-related-grid">
+            <Link to="/feeding" className="cf-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/new-food" className="cf-related-link">
+              🔄 Введення нового корму
+            </Link>
+            <Link to="/equipment" className="cf-related-link">
+              ⚙️ Обладнання
+            </Link>
+            <Link to="/weight-control" className="cf-related-link">
+              ⚖️ Контроль ваги
+            </Link>
+            <Link to="/weaning" className="cf-related-link">
+              🥣 Відлучення та дорощування
+            </Link>
+          </div>
+        </div>
+
         <div className="cf-back">
           <Link to="/" className="cf-back-btn">
             ⬅ На головну

@@ -491,8 +491,12 @@ const Breeding = () => {
         <div className="breeding-matcher">
           <div className="breeding-matcher-selects">
             <div className="breeding-select-wrap">
-              <label className="breeding-select-label">♀ Самка</label>
+              <label htmlFor="female" className="breeding-select-label">
+                ♀ Самка
+              </label>
               <select
+                id="female"
+                name="female"
                 className="breeding-select"
                 value={female}
                 onChange={(e) => {
@@ -512,8 +516,12 @@ const Breeding = () => {
             <div className="breeding-matcher-arrow">×</div>
 
             <div className="breeding-select-wrap">
-              <label className="breeding-select-label">♂ Самець</label>
+              <label htmlFor="male" className="breeding-select-label">
+                ♂ Самець
+              </label>
               <select
+                id="male"
+                name="male"
                 className="breeding-select"
                 value={male}
                 onChange={(e) => {

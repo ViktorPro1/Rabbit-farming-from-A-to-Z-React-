@@ -849,6 +849,8 @@ const Symptoms = () => {
             <div className="sym-search-row">
               <span className="sym-search-icon">🔍</span>
               <input
+                id="symptom-search"
+                name="symptom-search"
                 className="sym-search-input"
                 type="text"
                 placeholder="Введіть симптом..."

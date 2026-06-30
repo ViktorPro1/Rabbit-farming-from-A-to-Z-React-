@@ -207,22 +207,31 @@ const managementTips = [
 
 const feedingInYam = [
   {
+    id: "morning",
     time: "Вранці 7–8:00",
     food: "Зернова суміш — ячмінь + овес",
     amount: "30–50 г на голову",
   },
   {
+    id: "midday",
     time: "Вдень 12–13:00",
     food: "Свіжа зелень або коренеплоди",
     amount: "150–300 г на голову",
   },
   {
+    id: "evening",
     time: "Ввечері 17–18:00",
     food: "Сіно — поповнити сінник",
     amount: "Без обмежень",
   },
-  { time: "Постійно", food: "Вода свіжа", amount: "Без обмежень" },
   {
+    id: "water",
+    time: "Постійно",
+    food: "Вода свіжа",
+    amount: "Без обмежень",
+  },
+  {
+    id: "salt",
     time: "Постійно",
     food: "Сіль-лизунець",
     amount: "1 блок на 10–15 кроликів",
@@ -455,7 +464,7 @@ const PaddockInfo = () => {
             </thead>
             <tbody>
               {feedingInYam.map((row) => (
-                <tr key={row.time}>
+                <tr key={row.id}>
                   <td>
                     <strong>{row.time}</strong>
                   </td>

@@ -377,6 +377,8 @@ const Glossary = () => {
           <div className="gl-search-box">
             <span>🔍</span>
             <input
+              id="glossary-search"
+              name="glossary-search"
               className="gl-search"
               type="text"
               placeholder="Пошук терміну..."

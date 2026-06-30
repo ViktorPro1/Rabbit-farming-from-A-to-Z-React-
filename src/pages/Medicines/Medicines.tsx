@@ -43,6 +43,8 @@ const Medicines = () => {
 
         <div className="med-search-row">
           <input
+            id="med-search"
+            name="med-search"
             className="med-search"
             type="text"
             placeholder="&#128269; Пошук препарату..."
