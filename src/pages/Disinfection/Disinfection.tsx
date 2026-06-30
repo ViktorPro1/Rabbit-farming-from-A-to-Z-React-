@@ -694,6 +694,27 @@ const Disinfection = () => {
           </div>
         </div>
 
+        <div className="disinfection-related">
+          <h3 className="disinfection-related-title">Читайте також</h3>
+          <div className="disinfection-related-grid">
+            <Link to="/biosecurity" className="disinfection-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/parasites" className="disinfection-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/diseases" className="disinfection-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/enclosure" className="disinfection-related-link">
+              🏠 Клітки
+            </Link>
+            <Link to="/vaccinations" className="disinfection-related-link">
+              💉 Вакцинація
+            </Link>
+          </div>
+        </div>
+
         <div className="disinfection-back">
           <Link to="/" className="disinfection-back-btn">
             ⬅ На головну

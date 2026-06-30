@@ -105,6 +105,27 @@ const Care = () => {
           </ul>
         </div>
 
+        <div className="care-related">
+          <h3 className="care-related-title">Читайте також</h3>
+          <div className="care-related-grid">
+            <Link to="/grooming" className="care-related-link">
+              ✂️ Кігті та зуби
+            </Link>
+            <Link to="/seasonal-molting" className="care-related-link">
+              🪮 Линька: норма та патологія
+            </Link>
+            <Link to="/symptoms" className="care-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/vaccinations" className="care-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/beginner-guide" className="care-related-link">
+              🚀 Маршрут новачка
+            </Link>
+          </div>
+        </div>
+
         <div className="care-back">
           <Link to="/" className="care-back-btn">
             ⬅ На головну

@@ -629,6 +629,27 @@ const Grooming = () => {
           </div>
         </div>
 
+        <div className="gr-related">
+          <h3 className="gr-related-title">Читайте також</h3>
+          <div className="gr-related-grid">
+            <Link to="/care" className="gr-related-link">
+              🧹 Догляд
+            </Link>
+            <Link to="/diseases" className="gr-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/symptoms" className="gr-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/biology" className="gr-related-link">
+              🐾 Біологія та анатомія
+            </Link>
+            <Link to="/selection" className="gr-related-link">
+              🔬 Селекція
+            </Link>
+          </div>
+        </div>
+
         <div className="gr-back">
           <Link to="/" className="gr-back-btn">
             ⬅ На головну

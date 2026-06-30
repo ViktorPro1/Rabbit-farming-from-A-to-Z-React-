@@ -506,6 +506,29 @@ const Okril = () => {
           </div>
         </div>
 
+        <section className="okril-related-section">
+          <div className="okril-container">
+            <h3 className="okril-related-title">Читайте також</h3>
+            <div className="okril-related-grid">
+              <Link to="/mating-behavior" className="okril-related-link">
+                🐇 Поведінка при злучці
+              </Link>
+              <Link to="/false-pregnancy" className="okril-related-link">
+                🥚 Хибна вагітність
+              </Link>
+              <Link to="/doe-preparation" className="okril-related-link">
+                ♀️ Підготовка самки
+              </Link>
+              <Link to="/weaning" className="okril-related-link">
+                🔀 Відлучення молодняку
+              </Link>
+              <Link to="/artificial-feeding" className="okril-related-link">
+                🍼 Штучне вигодовування
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <div className="okril-back">
           <Link to="/" className="okril-back-btn">
             ⬅ На головну

@@ -126,7 +126,6 @@ const Diseases = lazy(() => import("../pages/Diseases/Diseases"));
 const Medicines = lazy(() => import("../pages/Medicines/Medicines"));
 const Treatment = lazy(() => import("../pages/Treatment/Treatment"));
 const FirstAid = lazy(() => import("../pages/FirstAid/FirstAid"));
-const HeatStroke = lazy(() => import("../pages/HeatStroke/HeatStroke"));
 const LabDiagnostics = lazy(
   () => import("../pages/LabDiagnostics/LabDiagnostics"),
 );
@@ -161,6 +160,7 @@ const SeasonalSpring = lazy(
 const SeasonalAutumn = lazy(
   () => import("../pages/SeasonalAutumn/SeasonalAutumn"),
 );
+const HeatStroke = lazy(() => import("../pages/HeatStroke/HeatStroke"));
 
 // ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ
 const VetInjections = lazy(
@@ -379,7 +379,6 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/medicines" element={<Medicines />} />
         <Route path="/treatment" element={<Treatment />} />
         <Route path="/first-aid" element={<FirstAid />} />
-        <Route path="/heat-stroke" element={<HeatStroke />} />
         <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/necropsy" element={<Necropsy />} />
@@ -397,6 +396,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />
         <Route path="/seasonal-autumn" element={<SeasonalAutumn />} />
+        <Route path="/heat-stroke" element={<HeatStroke />} />
         {/* ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ */}
         <Route path="/vet-injections" element={<VetInjections />} />
         <Route path="/vet-oral-meds" element={<VetOralMeds />} />

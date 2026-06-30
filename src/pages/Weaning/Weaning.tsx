@@ -609,6 +609,27 @@ const Weaning = () => {
           </ul>
         </div>
 
+        <div className="wean-related">
+          <h3 className="wean-related-title">Читайте також</h3>
+          <div className="wean-related-grid">
+            <Link to="/artificial-feeding" className="wean-related-link">
+              🥛 Штучне вигодовування
+            </Link>
+            <Link to="/okril" className="wean-related-link">
+              🍼 Окріл
+            </Link>
+            <Link to="/parasites" className="wean-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/weight-control" className="wean-related-link">
+              ⚖️ Контроль ваги
+            </Link>
+            <Link to="/symptoms" className="wean-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+          </div>
+        </div>
+
         <div className="wean-back">
           <Link to="/" className="wean-back-btn">
             ⬅ На головну

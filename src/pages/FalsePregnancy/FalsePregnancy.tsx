@@ -704,6 +704,28 @@ export default function FalsePregnancy() {
           </p>
         </div>
       </div>
+
+      <div className="fp-related">
+        <h3 className="fp-related-title">Читайте також</h3>
+        <div className="fp-related-grid">
+          <Link to="/okril-control" className="fp-related-link">
+            🔍 Контроль дат
+          </Link>
+          <Link to="/mating-behavior" className="fp-related-link">
+            🐇 Поведінка при злучці
+          </Link>
+          <Link to="/doe-preparation" className="fp-related-link">
+            ♀️ Підготовка самки до злучки
+          </Link>
+          <Link to="/okril" className="fp-related-link">
+            🍼 Окріл
+          </Link>
+          <Link to="/mating-frequency" className="fp-related-link">
+            🔁 Частота злучування
+          </Link>
+        </div>
+      </div>
+
       <div className="fp-back">
         <Link to="/" className="fp-back-btn">
           ⬅ На головну

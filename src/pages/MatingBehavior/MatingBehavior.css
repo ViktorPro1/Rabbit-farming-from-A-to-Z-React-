@@ -462,6 +462,65 @@
     background: var(--green-mid);
 }
 
+/* === Читайте також === */
+.mb-related-section {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.mb-related-title {
+    font-size: 1.15rem;
+    color: var(--green-dark);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+[data-theme="dark"] .mb-related-title {
+    color: var(--green-light);
+}
+
+.mb-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mb-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 9999px;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.mb-related-link:hover {
+    background: var(--green-light);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .mb-related-link {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .mb-related-link:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 640px) {
+    .mb-related-link {
+        font-size: 0.88rem;
+        padding: 8px 13px;
+    }
+}
+
 /* ── RESPONSIVE ── */
 
 @media (max-width: 768px) {

@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import "./OkrilControl.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
-// Контрольна злучка — повторне підсаджування самки до самця через 5–7 днів
-// після основної злучки, щоб перевірити чи вона завагітніла
-
 const controlMatingReactions = [
   {
     reaction: "Тікає, лягає на живіт, агресивно відганяє",
@@ -381,6 +378,27 @@ const OkrilControl = () => {
               <div className="OkrilControl-gestation-action">→ {g.action}</div>
             </div>
           ))}
+        </div>
+
+        <div className="OkrilControl-related">
+          <h3 className="OkrilControl-related-title">Читайте також</h3>
+          <div className="OkrilControl-related-grid">
+            <Link to="/false-pregnancy" className="OkrilControl-related-link">
+              🐣 Хибна вагітність
+            </Link>
+            <Link to="/okril" className="OkrilControl-related-link">
+              🍼 Окріл
+            </Link>
+            <Link to="/mating-behavior" className="OkrilControl-related-link">
+              🐇 Поведінка при злучці
+            </Link>
+            <Link to="/mating-frequency" className="OkrilControl-related-link">
+              🔁 Частота злучування
+            </Link>
+            <Link to="/doe-preparation" className="OkrilControl-related-link">
+              ♀️ Підготовка самки до злучки
+            </Link>
+          </div>
         </div>
 
         <div className="OkrilControl-back">

@@ -600,6 +600,8 @@ export default function Calculator() {
                 <input
                   type="number"
                   className="weight-input"
+                  name="grainWeight"
+                  id="grainWeight"
                   value={grainWeight}
                   min={1}
                   onChange={(e) => setGrainWeight(Number(e.target.value))}

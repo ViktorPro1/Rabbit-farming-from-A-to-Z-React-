@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import "./Feeders.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
-// ---- ДАНІ ----
-
 const feederTypes = [
   {
     icon: "📦",
@@ -711,6 +709,27 @@ const Feeders = () => {
               годівниці призводять до ентериту.
             </li>
           </ul>
+        </div>
+
+        <div className="feeders-related">
+          <h3 className="feeders-related-title">Читайте також</h3>
+          <div className="feeders-related-grid">
+            <Link to="/enclosure" className="feeders-related-link">
+              🏠 Клітки
+            </Link>
+            <Link to="/rabbit-housing-diy" className="feeders-related-link">
+              📐 Клітки своїми руками
+            </Link>
+            <Link to="/tools" className="feeders-related-link">
+              🧰 Інструменти
+            </Link>
+            <Link to="/feeding" className="feeders-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/equipment" className="feeders-related-link">
+              ⚙️ Обладнання
+            </Link>
+          </div>
         </div>
 
         <div className="feeders-back">

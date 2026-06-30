@@ -73,8 +73,8 @@
 
 .disinfection-alert.warn {
     background: #fff3e0;
-    color: #e65100;
-    border-left: 3px solid #e65100;
+    color: #8a3a00;
+    border-left: 3px solid #8a3a00;
 }
 
 /* DRUG CARD */
@@ -219,7 +219,7 @@
     border-radius: 8px;
     padding: 10px 12px;
     font-size: 13px;
-    color: #e65100;
+    color: #8a3a00;
     line-height: 1.5;
 }
 
@@ -465,6 +465,62 @@
 
 .disinfection-back-btn:hover {
     background: var(--green-mid);
+}
+
+.disinfection-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.disinfection-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .disinfection-related-title {
+    color: var(--green-light);
+}
+
+.disinfection-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.disinfection-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.disinfection-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .disinfection-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .disinfection-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .disinfection-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
 }
 
 @media (max-width: 960px) {

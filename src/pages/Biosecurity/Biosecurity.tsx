@@ -306,6 +306,27 @@ const Biosecurity = () => {
           </div>
         </div>
 
+        <div className="bio-related">
+          <h3 className="bio-related-title">Читайте також</h3>
+          <div className="bio-related-grid">
+            <Link to="/disinfection" className="bio-related-link">
+              🧴 Дезінфекція
+            </Link>
+            <Link to="/vaccinations" className="bio-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/buying-rabbit" className="bio-related-link">
+              🐇 Купівля кроля
+            </Link>
+            <Link to="/parasites" className="bio-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/show-preparation" className="bio-related-link">
+              🏆 Підготовка до виставки
+            </Link>
+          </div>
+        </div>
+
         <div className="bio-back">
           <Link to="/" className="bio-back-btn">
             ⬅ На головну

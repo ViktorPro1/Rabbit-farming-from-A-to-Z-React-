@@ -813,6 +813,27 @@ const Crops = () => {
           ))}
         </div>
 
+        <div className="crops-related">
+          <h3 className="crops-related-title">Читайте також</h3>
+          <div className="crops-related-grid">
+            <Link to="/feeding" className="crops-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/special-feeds" className="crops-related-link">
+              🥦 Соковиті корми
+            </Link>
+            <Link to="/calendar" className="crops-related-link">
+              📅 Сезонний календар
+            </Link>
+            <Link to="/composting" className="crops-related-link">
+              ♻️ Переробка гною
+            </Link>
+            <Link to="/economics" className="crops-related-link">
+              📊 Економіка господарства
+            </Link>
+          </div>
+        </div>
+
         <div className="crops-back">
           <Link to="/" className="crops-back-btn">
             ⬅ На головну

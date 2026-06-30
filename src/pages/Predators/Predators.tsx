@@ -3,7 +3,6 @@ import "./Predators.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 import { Link } from "react-router-dom";
 
-// ─── Types ───────────────────────────────────────────────────────
 interface Predator {
   id: string;
   icon: string;
@@ -34,7 +33,6 @@ interface TraceSign {
   predator: string;
 }
 
-// ─── Data ────────────────────────────────────────────────────────
 const predators: Predator[] = [
   {
     id: "weasel",
@@ -747,6 +745,30 @@ export default function Predators() {
           </p>
         </div>
       </div>
+
+      <div className="pr-related">
+        <div className="pr-wrap">
+          <h3 className="pr-related-title">Читайте також</h3>
+          <div className="pr-related-grid">
+            <Link to="/enclosure" className="pr-related-link">
+              🏠 Клітки
+            </Link>
+            <Link to="/pit-keeping" className="pr-related-link">
+              🕳️ Ямове утримання
+            </Link>
+            <Link to="/zoonoses" className="pr-related-link">
+              🦠 Зоонози
+            </Link>
+            <Link to="/first-aid" className="pr-related-link">
+              🚑 Перша допомога
+            </Link>
+            <Link to="/biosecurity" className="pr-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="pr-back">
         <Link to="/" className="pr-back-btn">
           ⬅ На головну

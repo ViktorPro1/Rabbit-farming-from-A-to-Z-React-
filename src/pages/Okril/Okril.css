@@ -297,6 +297,67 @@
     object-fit: contain;
 }
 
+/* === Читайте також === */
+.okril-related-section {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.okril-related-title {
+    font-size: 1.15rem;
+    color: var(--green-dark);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+[data-theme="dark"] .okril-related-title {
+    color: #a8e6a8;
+}
+
+.okril-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.okril-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 9999px;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.okril-related-link:hover {
+    background: var(--green-light);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .okril-related-link {
+    background: #2a3a2a;
+    color: #c5ffc5;
+    border: 1px solid #3a4f3a;
+}
+
+[data-theme="dark"] .okril-related-link:hover {
+    background: #355835;
+    color: #ffffff;
+}
+
+@media (max-width: 640px) {
+    .okril-related-link {
+        font-size: 0.88rem;
+        padding: 8px 13px;
+    }
+}
+
 @media (max-width: 640px) {
     .okril-infographic-section {
         padding: 1rem;

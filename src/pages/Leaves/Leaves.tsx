@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Leaves.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
@@ -685,6 +685,27 @@ const Leaves: React.FC = () => {
             <p>{tip.text}</p>
           </div>
         ))}
+      </div>
+
+      <div className="lv-related">
+        <h3 className="lv-related-title">Читайте також</h3>
+        <div className="lv-related-grid">
+          <Link to="/feeding" className="lv-related-link">
+            🥕 Годування
+          </Link>
+          <Link to="/crops" className="lv-related-link">
+            🌾 Кормові культури
+          </Link>
+          <Link to="/special-feeds" className="lv-related-link">
+            🥦 Соковиті корми
+          </Link>
+          <Link to="/grooming" className="lv-related-link">
+            ✂️ Кігті та зуби
+          </Link>
+          <Link to="/calendar" className="lv-related-link">
+            📅 Сезонний календар
+          </Link>
+        </div>
       </div>
 
       {/* КНОПКА ВНИЗ */}

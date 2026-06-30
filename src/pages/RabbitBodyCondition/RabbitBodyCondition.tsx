@@ -203,7 +203,7 @@ const checkupItems = [
 
 const healthImpact = [
   { issue: "ГКТ-стаз (застій кишечника)", obesity: true, underweight: true },
-  { issue: "Пododерматит (виразки лап)", obesity: true, underweight: false },
+  { issue: "Пододерматит (виразки лап)", obesity: true, underweight: false },
   { issue: "Проблеми з хребтом", obesity: true, underweight: false },
   { issue: "Ослаблений імунітет", obesity: false, underweight: true },
   { issue: "Серцево-судинні захворювання", obesity: true, underweight: false },
@@ -418,6 +418,30 @@ export default function RabbitBodyCondition() {
             </div>
           </div>
         </div>
+
+        <section className="bcs-related-section">
+          <div className="bcs-container">
+            <h3 className="bcs-related-title">Читайте також</h3>
+            <div className="bcs-related-grid">
+              <Link to="/weight-control" className="bcs-related-link">
+                ⚖️ Контроль ваги
+              </Link>
+              <Link to="/doe-preparation" className="bcs-related-link">
+                ♀️ Підготовка самки до злучки
+              </Link>
+              <Link to="/feeding" className="bcs-related-link">
+                🥕 Годування
+              </Link>
+              <Link to="/diseases" className="bcs-related-link">
+                🩺 Хвороби
+              </Link>
+              <Link to="/culling" className="bcs-related-link">
+                🗑️ Вибраковка
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <div className="bcs-back">
           <Link to="/" className="bcs-back-btn">
             ⬅ На головну

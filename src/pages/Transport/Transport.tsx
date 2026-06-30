@@ -663,6 +663,27 @@ const Transport = () => {
           </ul>
         </div>
 
+        <div className="tr-related">
+          <h3 className="tr-related-title">Читайте також</h3>
+          <div className="tr-related-grid">
+            <Link to="/rabbit-stress" className="tr-related-link">
+              ⚡ Стрес та переляк
+            </Link>
+            <Link to="/biosecurity" className="tr-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/buying-rabbit" className="tr-related-link">
+              🐇 Купівля кроля
+            </Link>
+            <Link to="/first-aid" className="tr-related-link">
+              🚑 Перша допомога
+            </Link>
+            <Link to="/vet-temperature" className="tr-related-link">
+              🌡️ Вимірювання температури
+            </Link>
+          </div>
+        </div>
+
         <div className="tr-back">
           <Link to="/" className="tr-back-btn">
             ⬅ На головну

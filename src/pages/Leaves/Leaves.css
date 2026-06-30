@@ -1,9 +1,7 @@
 .leaves-page {
     font-family: 'Nunito', sans-serif;
     background: var(--cream);
-    /* Замінено #fafaf5 на var(--cream) */
     color: var(--green-dark);
-    /* Замінено #1a2e1b на var(--green-dark) */
     line-height: 1.7;
     min-height: 100vh;
 }
@@ -66,9 +64,9 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #3d7a40;
     color: #fff;
-    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border: 1.5px solid #5a9b5e;
     border-radius: 20px;
     padding: 7px 16px;
     font-size: 13px;
@@ -77,7 +75,6 @@
     cursor: pointer;
     margin-bottom: 16px;
     transition: background 0.2s, border-color 0.2s;
-    backdrop-filter: blur(4px);
 }
 
 .lv-back-btn:hover {
@@ -168,17 +165,14 @@
 
 .icon-green {
     background: var(--green-light);
-    /* Замінено #e8f5e9 на var(--green-light) */
 }
 
 .icon-yellow {
     background: var(--amber-light);
-    /* Замінено #fff8e1 на var(--amber-light) */
 }
 
 .icon-orange {
     background: var(--amber-light);
-    /* Замінено #fff3e0 на var(--amber-light) */
 }
 
 .icon-red {
@@ -197,14 +191,12 @@
     font-size: 16px;
     font-weight: 800;
     color: var(--green-dark);
-    /* Замінено #1a2e1b на var(--green-dark) */
     line-height: 1.2;
 }
 
 .lv-card-subtitle {
     font-size: 12px;
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     margin-top: 2px;
 }
 
@@ -219,16 +211,12 @@
 
 .badge-ok {
     background: var(--green-light);
-    /* Замінено #e8f5e9 на var(--green-light) */
     color: var(--green-dark);
-    /* Замінено #2e7d32 на var(--green-dark) */
 }
 
 .badge-limit {
     background: var(--amber-light);
-    /* Замінено #fff3e0 на var(--amber-light) */
     color: var(--amber);
-    /* Замінено #e65100 на var(--amber) */
 }
 
 .badge-no {
@@ -239,7 +227,6 @@
 .lv-chevron {
     font-size: 11px;
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     transition: transform 0.3s;
     flex-shrink: 0;
 }
@@ -252,13 +239,11 @@
 .lv-card-body {
     padding: 12px 16px 16px;
     border-top: 1px solid var(--gray-light);
-    /* Замінено #f0f4f0 на var(--gray-light) */
 }
 
 .lv-card-body p {
     font-size: 13.5px;
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
     margin-bottom: 10px;
 }
@@ -284,26 +269,22 @@
 
 .lv-info-text {
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.5;
 }
 
 .lv-info-text strong {
     color: var(--green-dark);
-    /* Замінено #1a2e1b на var(--green-dark) */
     font-weight: 700;
 }
 
 /* TIP BOX */
 .lv-tip-box {
     background: var(--green-light);
-    /* Замінено #e8f5e9 на var(--green-light) */
     border-radius: 12px;
     padding: 12px 14px;
     margin-top: 10px;
     font-size: 13px;
     color: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
     line-height: 1.6;
 }
 
@@ -316,15 +297,12 @@
 /* WARN / DANGER */
 .lv-warn-box {
     background: var(--amber-light);
-    /* Замінено #fff3cd на var(--amber-light) */
     border-left: 4px solid var(--amber);
-    /* Замінено #f9a825 на var(--amber) */
     border-radius: 0 12px 12px 0;
     padding: 12px 14px;
     margin-top: 10px;
     font-size: 13px;
     color: var(--brown);
-    /* Замінено #5d4037 на var(--brown) */
     line-height: 1.6;
 }
 
@@ -342,19 +320,16 @@
 /* BUD SECTION */
 .lv-bud-section {
     background: linear-gradient(135deg, var(--green-light), var(--green-pale));
-    /* Замінено #e8f5e9 та #f1f8e9 на змінні */
     border-radius: 16px;
     margin: 0 16px 24px;
     padding: 18px;
     border: 2px solid var(--green-accent);
-    /* Замінено #66bb6a на var(--green-accent) */
 }
 
 .lv-bud-section h2 {
     font-size: 18px;
     font-weight: 900;
     color: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -364,7 +339,6 @@
 .lv-bud-section p {
     font-size: 13.5px;
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
     margin-bottom: 10px;
 }
@@ -372,7 +346,6 @@
 /* FORBIDDEN */
 .lv-forbidden {
     background: var(--cream);
-    /* Замінено white на var(--cream) */
     margin: 0 16px 24px;
     border-radius: 16px;
     overflow: hidden;
@@ -421,7 +394,6 @@
 
 .lv-forbidden-why {
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     font-size: 13px;
     line-height: 1.5;
 }
@@ -436,7 +408,6 @@
 
 .lv-season-card {
     background: var(--cream);
-    /* Замінено white на var(--cream) */
     border-radius: 14px;
     padding: 14px;
     box-shadow: 0 2px 8px rgba(30, 77, 32, 0.12);
@@ -452,7 +423,6 @@
     list-style: none;
     font-size: 12.5px;
     color: var(--gray);
-    /* Замінено #4a5c4b на var(--gray) */
     line-height: 1.7;
     padding: 0;
     margin: 0;
@@ -461,14 +431,12 @@
 .lv-season-card ul li::before {
     content: '• ';
     color: var(--green-accent);
-    /* Замінено #4a9b50 на var(--green-accent) */
     font-weight: 700;
 }
 
 /* QUICK TIPS */
 .lv-quick-tips {
     background: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
     color: #fff;
     margin: 0 16px 24px;
     border-radius: 16px;
@@ -499,9 +467,7 @@
 
 .lv-tip-num {
     background: var(--green-accent);
-    /* Замінено #66bb6a на var(--green-accent) */
     color: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
     font-weight: 900;
     font-size: 12px;
     width: 22px;
@@ -531,11 +497,8 @@
     align-items: center;
     gap: 8px;
     background: var(--cream);
-    /* Замінено white на var(--cream) */
     color: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
     border: 2px solid var(--green-mid);
-    /* Замінено #4a9b50 на var(--green-mid) */
     border-radius: 24px;
     padding: 12px 28px;
     font-size: 15px;
@@ -548,18 +511,76 @@
 
 .lv-footer-btn:hover {
     background: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
     color: #fff;
     border-color: var(--green-dark);
-    /* Замінено #1e4d20 на var(--green-dark) */
 }
 
 .lv-footer-btn:active {
     transform: scale(0.96);
 }
 
+.lv-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding: 24px 34px 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.lv-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .lv-related-title {
+    color: var(--green-light);
+}
+
+.lv-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.lv-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.lv-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .lv-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .lv-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .lv-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
 
 @media (min-width: 481px) {
+    .lv-related {
+        padding: 24px 24px 0;
+    }
+
     .lv-hero h1 {
         font-size: 30px;
     }
@@ -634,6 +655,10 @@
 
 /* ── Desktop (769px+) ── */
 @media (min-width: 769px) {
+    .lv-related {
+        padding: 24px 32px 0;
+    }
+
     .lv-hero {
         padding: 52px 40px 40px;
         border-radius: 0;

@@ -385,6 +385,7 @@ const DosageCalculator = () => {
           <input
             id="rabbit-weight"
             className="DC-weight-input"
+            name="rabbitWeight"
             type="number"
             min="0.1"
             max="15"

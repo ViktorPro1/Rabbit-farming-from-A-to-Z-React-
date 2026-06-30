@@ -869,6 +869,29 @@ const MatingBehavior = () => {
           </div>
         )}
 
+        <section className="mb-related-section">
+          <div className="mb-container">
+            <h3 className="mb-related-title">Читайте також</h3>
+            <div className="mb-related-grid">
+              <Link to="/doe-preparation" className="mb-related-link">
+                ♀️ Підготовка самки до злучки
+              </Link>
+              <Link to="/false-pregnancy" className="mb-related-link">
+                🥚 Хибна вагітність
+              </Link>
+              <Link to="/okril-control" className="mb-related-link">
+                📅 Контроль дат окролу
+              </Link>
+              <Link to="/rabbit-body-condition" className="mb-related-link">
+                ⚖️ Кондиція тіла (BCS)
+              </Link>
+              <Link to="/mating-frequency" className="mb-related-link">
+                🔁 Частота злучування
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <div className="mb-back">
           <Link to="/" className="mb-back-btn">
             ⬅ На головну
