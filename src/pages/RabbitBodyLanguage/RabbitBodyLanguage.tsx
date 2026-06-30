@@ -3,7 +3,6 @@ import "./RabbitBodyLanguage.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 import { Link } from "react-router-dom";
 
-// ─── Types ───────────────────────────────────────────────────────
 type Mood =
   | "happy"
   | "relaxed"
@@ -621,6 +620,30 @@ export default function RabbitBodyLanguage() {
           </p>
         </div>
       </footer>
+
+      <div className="bl-related">
+        <div className="bl-wrap">
+          <h3 className="bl-related-title">Читайте також</h3>
+          <div className="bl-related-grid">
+            <Link to="/rabbit-sounds" className="bl-related-link">
+              🔊 Звуки кролів
+            </Link>
+            <Link to="/rabbit-behavior-problems" className="bl-related-link">
+              😤 Проблемна поведінка
+            </Link>
+            <Link to="/rabbit-stress" className="bl-related-link">
+              ⚡ Стрес та переляк
+            </Link>
+            <Link to="/group-housing" className="bl-related-link">
+              👑 Групове утримання та ієрархія
+            </Link>
+            <Link to="/biology" className="bl-related-link">
+              🐾 Біологія та анатомія
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="bl-back">
         <Link to="/" className="bl-back-btn">
           ⬅ На головну

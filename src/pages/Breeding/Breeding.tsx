@@ -724,6 +724,28 @@ const Breeding = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="breeding-related">
+          <h3 className="breeding-related-title">Читайте також</h3>
+          <div className="breeding-related-grid">
+            <Link to="/breeds" className="breeding-related-link">
+              🐇 Породи
+            </Link>
+            <Link to="/selection" className="breeding-related-link">
+              🔬 Селекція
+            </Link>
+            <Link to="/genetics" className="breeding-related-link">
+              🎨 Генетика забарвлення
+            </Link>
+            <Link to="/okril" className="breeding-related-link">
+              🍼 Окріл
+            </Link>
+            <Link to="/replacement-stock" className="breeding-related-link">
+              🧬 Відбір ремонтного молодняку
+            </Link>
+          </div>
+        </div>
+
         <div className="breeding-back">
           <Link to="/" className="breeding-back-btn">
             ⬅ На головну

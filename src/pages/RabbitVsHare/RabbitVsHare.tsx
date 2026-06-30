@@ -767,6 +767,29 @@ export default function RabbitVsHare() {
           </p>
         </div>
       </div>
+
+      {/* ЧИТАЙТЕ ТАКОЖ */}
+      <div className="rvh-related">
+        <h3 className="rvh-related-title">Читайте також</h3>
+        <div className="rvh-related-grid">
+          <Link to="/biology" className="rvh-related-link">
+            🐾 Біологія та анатомія
+          </Link>
+          <Link to="/breeds" className="rvh-related-link">
+            🐇 Породи
+          </Link>
+          <Link to="/predators" className="rvh-related-link">
+            🦊 Хижаки та шкідники
+          </Link>
+          <Link to="/rabbits-and-predators" className="rvh-related-link">
+            🐈🐕 Кролі, коти та собаки
+          </Link>
+          <Link to="/okril" className="rvh-related-link">
+            🍼 Окріл
+          </Link>
+        </div>
+      </div>
+
       <div className="rvh-back">
         <Link to="/" className="rvh-back-btn">
           ⬅ На головну

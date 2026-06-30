@@ -349,6 +349,28 @@ const RabbitMyths = () => {
           })}
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="myths-related">
+          <h3 className="myths-related-title">Читайте також</h3>
+          <div className="myths-related-grid">
+            <Link to="/beginner-mistakes" className="myths-related-link">
+              ⚠️ Типові помилки новачків
+            </Link>
+            <Link to="/feeding" className="myths-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/glossary" className="myths-related-link">
+              📖 Словник кролівника
+            </Link>
+            <Link to="/diseases" className="myths-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/rabbit-body-language" className="myths-related-link">
+              🧠 Мова тіла кроля
+            </Link>
+          </div>
+        </div>
+
         <div className="myths-back">
           <Link to="/" className="myths-back-btn">
             ⬅ На головну

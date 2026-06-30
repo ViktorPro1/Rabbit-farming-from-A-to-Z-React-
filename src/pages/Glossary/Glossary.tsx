@@ -489,6 +489,28 @@ const Glossary = () => {
           </div>
         )}
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="gl-related-pages">
+          <h3 className="gl-related-pages-title">Читайте також</h3>
+          <div className="gl-related-pages-grid">
+            <Link to="/beginner-guide" className="gl-related-pages-link">
+              🚀 Маршрут новачка
+            </Link>
+            <Link to="/diseases" className="gl-related-pages-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/okril" className="gl-related-pages-link">
+              🍼 Окріл
+            </Link>
+            <Link to="/breeding" className="gl-related-pages-link">
+              🧬 Схрещування
+            </Link>
+            <Link to="/economics" className="gl-related-pages-link">
+              📊 Економіка господарства
+            </Link>
+          </div>
+        </div>
+
         <div className="gl-back">
           <Link to="/" className="gl-back-btn">
             ⬅ На головну

@@ -1004,6 +1004,28 @@ const RabbitsAndGuineaPigs = () => {
           </div>
         )}
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="ragp-related">
+          <h3 className="ragp-related-title">Читайте також</h3>
+          <div className="ragp-related-grid">
+            <Link to="/rabbits-and-predators" className="ragp-related-link">
+              🐈🐕 Кролі, коти та собаки
+            </Link>
+            <Link to="/rabbits-and-chickens" className="ragp-related-link">
+              🐓 Кролі та кури
+            </Link>
+            <Link to="/zoonoses" className="ragp-related-link">
+              🦠 Зоонози
+            </Link>
+            <Link to="/biosecurity" className="ragp-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/diseases" className="ragp-related-link">
+              🩺 Хвороби
+            </Link>
+          </div>
+        </div>
+
         <div className="ragp-back">
           <Link to="/" className="ragp-back-btn">
             ⬅ На головну

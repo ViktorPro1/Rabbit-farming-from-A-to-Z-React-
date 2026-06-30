@@ -378,6 +378,28 @@ const FloorCare = () => {
           </ul>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="floorcare-related">
+          <h3 className="floorcare-related-title">Читайте також</h3>
+          <div className="floorcare-related-grid">
+            <Link to="/enclosure" className="floorcare-related-link">
+              🏠 Клітки
+            </Link>
+            <Link to="/group-housing" className="floorcare-related-link">
+              👑 Групове утримання та ієрархія
+            </Link>
+            <Link to="/microclimate" className="floorcare-related-link">
+              🌡️ Мікроклімат
+            </Link>
+            <Link to="/biosecurity" className="floorcare-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/okril" className="floorcare-related-link">
+              🍼 Окріл
+            </Link>
+          </div>
+        </div>
+
         <div className="floorcare-back">
           <Link to="/" className="floorcare-back-btn">
             ⬅ На головну

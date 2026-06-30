@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import "./ArtificialInsemination.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
-// ---- ДАНІ ----
-
 const advantages = [
   {
     icon: "📈",
@@ -429,6 +427,28 @@ const ArtificialInsemination = () => {
               або наступного циклу.
             </li>
           </ul>
+        </div>
+
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="ai-related">
+          <h3 className="ai-related-title">Читайте також</h3>
+          <div className="ai-related-grid">
+            <Link to="/selection" className="ai-related-link">
+              🔬 Селекція
+            </Link>
+            <Link to="/mating-behavior" className="ai-related-link">
+              🐇 Поведінка при злучці
+            </Link>
+            <Link to="/buck-management" className="ai-related-link">
+              ♂️ Утримання плідника
+            </Link>
+            <Link to="/okril-control" className="ai-related-link">
+              🔍 Контроль дат
+            </Link>
+            <Link to="/pedigree-records" className="ai-related-link">
+              📖 Родоводи та племінний облік
+            </Link>
+          </div>
         </div>
 
         <div className="ai-back">

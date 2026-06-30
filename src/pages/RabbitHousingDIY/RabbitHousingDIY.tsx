@@ -8,7 +8,6 @@ import imgFeeder from "../../assets/hay-feeder.webp";
 import "./RabbitHousingDIY.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
-/* ─── ТИПИ ─────────────────────────────────────────── */
 interface Dim {
   val: string;
   name: string;
@@ -25,14 +24,13 @@ interface DrawingCard {
   title: string;
   sub: string;
   dims: Dim[];
-  imageSrc: string; // Шлях до імпортованого зображення
+  imageSrc: string;
   cutlist: CutRow[];
   steps: string[];
   tip?: string;
   warn?: string;
 }
 
-/* ─── ДАНІ ──────────────────────────────────────────── */
 const drawings: DrawingCard[] = [
   {
     id: "single-wire",
@@ -721,7 +719,7 @@ const RabbitHousingDIY = () => {
             { to: "/feeders", label: "Годівниці та сінники" },
             { to: "/tools", label: "Інструменти" },
             { to: "/okril", label: "Окріл та маточник" },
-            { to: "/pododermatitis", label: "Пододерматит" },
+            { to: "/diseases", label: "Хвороби" },
           ].map((link) => (
             <Link
               key={link.to}

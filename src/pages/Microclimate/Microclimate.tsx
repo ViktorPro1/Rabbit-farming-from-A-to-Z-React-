@@ -714,6 +714,28 @@ const Microclimate = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="microclimate-related">
+          <h3 className="microclimate-related-title">Читайте також</h3>
+          <div className="microclimate-related-grid">
+            <Link to="/enclosure" className="microclimate-related-link">
+              🏠 Клітки
+            </Link>
+            <Link to="/calendar" className="microclimate-related-link">
+              📅 Сезонний календар
+            </Link>
+            <Link to="/winter-litter" className="microclimate-related-link">
+              ❄️ Зимовий окріл
+            </Link>
+            <Link to="/disinfection" className="microclimate-related-link">
+              🧴 Дезінфекція
+            </Link>
+            <Link to="/diseases" className="microclimate-related-link">
+              🩺 Хвороби
+            </Link>
+          </div>
+        </div>
+
         <div className="microclimate-back">
           <Link to="/" className="microclimate-back-btn">
             ⬅ На головну

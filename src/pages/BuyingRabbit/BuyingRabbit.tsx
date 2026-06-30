@@ -986,6 +986,27 @@ const BuyingRabbit = () => {
           </div>
         )}
 
+        <div className="buy-related">
+          <h3 className="buy-related-title">Читайте також</h3>
+          <div className="buy-related-grid">
+            <Link to="/beginner-guide" className="buy-related-link">
+              🚀 Маршрут новачка
+            </Link>
+            <Link to="/biosecurity" className="buy-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/symptoms" className="buy-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/sexing" className="buy-related-link">
+              🔎 Визначення статі
+            </Link>
+            <Link to="/beginner-mistakes" className="buy-related-link">
+              ⚠️ Типові помилки новачків
+            </Link>
+          </div>
+        </div>
+
         <div className="buy-back">
           <Link to="/" className="buy-back-btn">
             ⬅ На головну

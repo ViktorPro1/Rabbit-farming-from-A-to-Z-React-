@@ -356,6 +356,28 @@ const BeginnerMistakes = () => {
           })}
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="bm-related">
+          <h3 className="bm-related-title">Читайте також</h3>
+          <div className="bm-related-grid">
+            <Link to="/rabbit-myths" className="bm-related-link">
+              🚫 Міфи про кролів
+            </Link>
+            <Link to="/feeding" className="bm-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/biosecurity" className="bm-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/diseases" className="bm-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/breeding-herd" className="bm-related-link">
+              🐇 Маточне поголів'я
+            </Link>
+          </div>
+        </div>
+
         <div className="bm-back">
           <Link to="/" className="bm-back-btn">
             ⬅ На головну

@@ -677,6 +677,28 @@ const Selection = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="selection-related">
+          <h3 className="selection-related-title">Читайте також</h3>
+          <div className="selection-related-grid">
+            <Link to="/breeding" className="selection-related-link">
+              🧬 Схрещування
+            </Link>
+            <Link to="/pedigree-records" className="selection-related-link">
+              📖 Родоводи та племінний облік
+            </Link>
+            <Link to="/replacement-stock" className="selection-related-link">
+              🧬 Відбір ремонтного молодняку
+            </Link>
+            <Link to="/culling" className="selection-related-link">
+              🗑️ Вибраковка
+            </Link>
+            <Link to="/breeding-evaluation" className="selection-related-link">
+              ⚖️ Племінна оцінка
+            </Link>
+          </div>
+        </div>
+
         <div className="selection-back">
           <Link to="/" className="selection-back-btn">
             ⬅ На головну

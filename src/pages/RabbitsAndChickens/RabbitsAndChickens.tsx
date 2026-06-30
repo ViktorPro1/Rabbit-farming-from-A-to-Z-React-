@@ -651,6 +651,28 @@ const RabbitsAndChickens = () => {
           </div>
         )}
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="rac-related">
+          <h3 className="rac-related-title">Читайте також</h3>
+          <div className="rac-related-grid">
+            <Link to="/rabbits-and-predators" className="rac-related-link">
+              🐈🐕 Кролі, коти та собаки
+            </Link>
+            <Link to="/rabbits-and-guinea-pigs" className="rac-related-link">
+              🐹 Кролі та морські свинки
+            </Link>
+            <Link to="/parasites" className="rac-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/seasonal-summer" className="rac-related-link">
+              ☀️ Літо: міаз (личинки мух)
+            </Link>
+            <Link to="/biosecurity" className="rac-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+          </div>
+        </div>
+
         <div className="rac-back">
           <Link to="/" className="rac-back-btn">
             ⬅ На головну

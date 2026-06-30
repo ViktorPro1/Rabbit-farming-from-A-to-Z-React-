@@ -70,6 +70,28 @@ const Breeds = () => {
         </div>
       </div>
 
+      {/* ЧИТАЙТЕ ТАКОЖ */}
+      <div className="breeds-related">
+        <h3 className="breeds-related-title">Читайте також</h3>
+        <div className="breeds-related-grid">
+          <Link to="/breeding" className="breeds-related-link">
+            🧬 Схрещування
+          </Link>
+          <Link to="/breed-standards" className="breeds-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/genetics" className="breeds-related-link">
+            🎨 Генетика забарвлення
+          </Link>
+          <Link to="/select-buck" className="breeds-related-link">
+            ♂️ Вибір племінного самця
+          </Link>
+          <Link to="/select-doe" className="breeds-related-link">
+            ♀️ Вибір племінної самки
+          </Link>
+        </div>
+      </div>
+
       <div className="breeds-back">
         <Link to="/" className="breeds-back-btn">
           ⬅ На головну

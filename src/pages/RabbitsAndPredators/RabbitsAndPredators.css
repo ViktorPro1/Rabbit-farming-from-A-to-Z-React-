@@ -632,6 +632,74 @@
     background: rgba(232, 160, 32, 0.1);
 }
 
+.rap-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding: 24px 32px 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.rap-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .rap-related-title {
+    color: var(--green-light);
+}
+
+.rap-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.rap-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.rap-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .rap-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .rap-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 768px) {
+    .rap-related {
+        padding: 24px 20px 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .rap-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .rap-related {
+        padding: 20px 16px 0;
+    }
+}
+
 /* ── RESPONSIVE ── */
 
 @media (max-width: 768px) {

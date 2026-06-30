@@ -365,6 +365,28 @@ const Enclosure = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="enclosure-related">
+          <h3 className="enclosure-related-title">Читайте також</h3>
+          <div className="enclosure-related-grid">
+            <Link to="/rabbit-housing-diy" className="enclosure-related-link">
+              📐 Клітки своїми руками
+            </Link>
+            <Link to="/microclimate" className="enclosure-related-link">
+              🌡️ Мікроклімат
+            </Link>
+            <Link to="/floor-care" className="enclosure-related-link">
+              🏡 Підлогове утримання
+            </Link>
+            <Link to="/disinfection" className="enclosure-related-link">
+              🧴 Дезінфекція
+            </Link>
+            <Link to="/feeders" className="enclosure-related-link">
+              🍜 Годівниці та сінники
+            </Link>
+          </div>
+        </div>
+
         <div className="enclosure-back">
           <Link to="/" className="enclosure-back-btn">
             ⬅ На головну

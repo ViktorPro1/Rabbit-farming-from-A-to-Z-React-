@@ -371,6 +371,27 @@ export default function RabbitSounds() {
         </div>
       </section>
 
+      <div className="rs-related">
+        <h3 className="rs-related-title">Читайте також</h3>
+        <div className="rs-related-grid">
+          <Link to="/rabbit-body-language" className="rs-related-link">
+            🧠 Мова тіла кроля
+          </Link>
+          <Link to="/rabbit-behavior-problems" className="rs-related-link">
+            😤 Проблемна поведінка
+          </Link>
+          <Link to="/rabbit-stress" className="rs-related-link">
+            ⚡ Стрес та переляк
+          </Link>
+          <Link to="/symptoms" className="rs-related-link">
+            🌡️ Симптоматичний пошук
+          </Link>
+          <Link to="/biology" className="rs-related-link">
+            🐾 Біологія та анатомія
+          </Link>
+        </div>
+      </div>
+
       <div className="rs-back">
         <Link to="/" className="rs-back-btn">
           ⬅ На головну

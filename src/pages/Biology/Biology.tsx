@@ -647,6 +647,28 @@ const Biology = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="biology-related">
+          <h3 className="biology-related-title">Читайте також</h3>
+          <div className="biology-related-grid">
+            <Link to="/rabbit-body-language" className="biology-related-link">
+              🧠 Мова тіла кроля
+            </Link>
+            <Link to="/okril" className="biology-related-link">
+              🍼 Окріл
+            </Link>
+            <Link to="/vet-temperature" className="biology-related-link">
+              🌡️ Вимірювання температури
+            </Link>
+            <Link to="/weaning" className="biology-related-link">
+              🥣 Відлучення та дорощування
+            </Link>
+            <Link to="/symptoms" className="biology-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+          </div>
+        </div>
+
         <div className="biology-back">
           <Link to="/" className="biology-back-btn">
             ⬅ На головну

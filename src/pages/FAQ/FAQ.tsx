@@ -196,6 +196,28 @@ const FAQ = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="faq-related">
+          <h3 className="faq-related-title">Читайте також</h3>
+          <div className="faq-related-grid">
+            <Link to="/symptoms" className="faq-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/feeding" className="faq-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/rabbit-behavior-problems" className="faq-related-link">
+              😤 Проблемна поведінка
+            </Link>
+            <Link to="/care" className="faq-related-link">
+              🧹 Догляд
+            </Link>
+            <Link to="/glossary" className="faq-related-link">
+              📖 Словник кролівника
+            </Link>
+          </div>
+        </div>
+
         <div className="faq-back">
           <Link to="/" className="faq-back-btn">
             ⬅ На головну

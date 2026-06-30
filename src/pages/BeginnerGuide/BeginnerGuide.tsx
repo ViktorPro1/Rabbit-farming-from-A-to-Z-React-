@@ -317,6 +317,28 @@ const BeginnerGuide = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="bg-related">
+          <h3 className="bg-related-title">Читайте також</h3>
+          <div className="bg-related-grid">
+            <Link to="/buying-rabbit" className="bg-related-link">
+              🐇 Купівля кроля
+            </Link>
+            <Link to="/feeding" className="bg-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/vaccinations" className="bg-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/enclosure" className="bg-related-link">
+              🏠 Клітки
+            </Link>
+            <Link to="/beginner-mistakes" className="bg-related-link">
+              ⚠️ Типові помилки новачків
+            </Link>
+          </div>
+        </div>
+
         <div className="bg-back">
           <Link to="/" className="bg-back-btn">
             ⬅ На головну

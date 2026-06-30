@@ -435,6 +435,28 @@ const GroupHousing = () => {
           </li>
         </ul>
       </div>
+
+      <div className="GH-related">
+        <h3 className="GH-related-title">Читайте також</h3>
+        <div className="GH-related-grid">
+          <Link to="/rabbit-body-language" className="GH-related-link">
+            🧠 Мова тіла кроля
+          </Link>
+          <Link to="/seasonal-molting" className="GH-related-link">
+            🪮 Линька: норма та патологія
+          </Link>
+          <Link to="/rabbit-stress" className="GH-related-link">
+            ⚡ Стрес та переляк
+          </Link>
+          <Link to="/floor-care" className="GH-related-link">
+            🏡 Підлогове утримання
+          </Link>
+          <Link to="/biosecurity" className="GH-related-link">
+            🛡️ Біобезпека та карантин
+          </Link>
+        </div>
+      </div>
+
       <div className="GH-back">
         <Link to="/" className="GH-back-btn">
           ⬅ На головну

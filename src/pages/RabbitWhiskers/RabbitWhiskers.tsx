@@ -421,6 +421,29 @@ const RabbitWhiskers = () => {
           <li>Масове випадіння вусів (не в рекса) — сигнал до ветеринара</li>
         </ul>
       </div>
+
+      {/* ЧИТАЙТЕ ТАКОЖ */}
+      <div className="RW-related">
+        <h3 className="RW-related-title">Читайте також</h3>
+        <div className="RW-related-grid">
+          <Link to="/biology" className="RW-related-link">
+            🐾 Біологія та анатомія
+          </Link>
+          <Link to="/rabbit-body-language" className="RW-related-link">
+            🧠 Мова тіла кроля
+          </Link>
+          <Link to="/seasonal-molting" className="RW-related-link">
+            🪮 Линька: норма та патологія
+          </Link>
+          <Link to="/grooming" className="RW-related-link">
+            ✂️ Кігті та зуби
+          </Link>
+          <Link to="/group-housing" className="RW-related-link">
+            👑 Групове утримання та ієрархія
+          </Link>
+        </div>
+      </div>
+
       <div className="RW-summary-back">
         <Link to="/" className="RW-summary-back-btn">
           ⬅ На головну

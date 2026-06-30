@@ -552,6 +552,28 @@ const PaddockInfo = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="paddockinfo-related">
+          <h3 className="paddockinfo-related-title">Читайте також</h3>
+          <div className="paddockinfo-related-grid">
+            <Link to="/floor-care" className="paddockinfo-related-link">
+              🏡 Підлогове утримання
+            </Link>
+            <Link to="/predators" className="paddockinfo-related-link">
+              🦊 Хижаки та шкідники
+            </Link>
+            <Link to="/biosecurity" className="paddockinfo-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/group-housing" className="paddockinfo-related-link">
+              👑 Групове утримання та ієрархія
+            </Link>
+            <Link to="/breeding-herd" className="paddockinfo-related-link">
+              🐇 Маточне поголів'я
+            </Link>
+          </div>
+        </div>
+
         <div className="paddockinfo-back">
           <Link to="/" className="paddockinfo-back-btn">
             ⬅ На головну

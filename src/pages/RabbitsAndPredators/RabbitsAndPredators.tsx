@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import "./RabbitsAndPredators.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
-// Changelog:
-// id:1 — Створено сторінку "Кролі, коти та собаки: ризики сумісного утримання"
-
 type TabId = "verdict" | "cats" | "dogs" | "stress" | "diseases" | "rules";
 
 const tabs: { id: TabId; icon: string; label: string }[] = [
@@ -773,6 +770,28 @@ const RabbitsAndPredators = () => {
             </div>
           </div>
         )}
+
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="rap-related">
+          <h3 className="rap-related-title">Читайте також</h3>
+          <div className="rap-related-grid">
+            <Link to="/rabbits-and-guinea-pigs" className="rap-related-link">
+              🐹 Кролі та морські свинки
+            </Link>
+            <Link to="/predators" className="rap-related-link">
+              🦊 Хижаки та шкідники
+            </Link>
+            <Link to="/rabbit-stress" className="rap-related-link">
+              ⚡ Стрес та переляк
+            </Link>
+            <Link to="/zoonoses" className="rap-related-link">
+              🦠 Зоонози
+            </Link>
+            <Link to="/first-aid" className="rap-related-link">
+              🚑 Перша допомога
+            </Link>
+          </div>
+        </div>
 
         <div className="rap-back">
           <Link to="/" className="rap-back-btn">

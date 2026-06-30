@@ -3,7 +3,6 @@ import "./RabbitStress.css";
 import { Link } from "react-router-dom";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
-// ─── Types ───────────────────────────────────────────────────────
 type Severity = "low" | "medium" | "high" | "critical";
 type Phase = "acute" | "chronic";
 
@@ -692,6 +691,30 @@ export default function RabbitStress() {
           </p>
         </div>
       </footer>
+
+      <div className="st-related">
+        <div className="st-container">
+          <h3 className="st-related-title">Читайте також</h3>
+          <div className="st-related-grid">
+            <Link to="/rabbit-body-language" className="st-related-link">
+              🧠 Мова тіла кроля
+            </Link>
+            <Link to="/rabbits-and-predators" className="st-related-link">
+              🐈🐕 Кролі, коти та собаки
+            </Link>
+            <Link to="/transport" className="st-related-link">
+              🚗 Транспортування
+            </Link>
+            <Link to="/first-aid" className="st-related-link">
+              🚑 Перша допомога
+            </Link>
+            <Link to="/symptoms" className="st-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="st-back">
         <Link to="/" className="st-back-btn">
           ⬅ На головну

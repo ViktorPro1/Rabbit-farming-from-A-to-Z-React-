@@ -707,6 +707,31 @@ const Genetics = () => {
           </div>
         </div>
 
+        {/* ЧИТАЙТЕ ТАКОЖ */}
+        <div className="genetics-related">
+          <h3 className="genetics-related-title">Читайте також</h3>
+          <div className="genetics-related-grid">
+            <Link to="/breeds" className="genetics-related-link">
+              🐇 Породи
+            </Link>
+            <Link to="/breeding" className="genetics-related-link">
+              🧬 Схрещування
+            </Link>
+            <Link to="/selection" className="genetics-related-link">
+              🔬 Селекція
+            </Link>
+            <Link
+              to="/coat-colors-evaluation"
+              className="genetics-related-link"
+            >
+              🎨 Оцінка забарвлення
+            </Link>
+            <Link to="/breed-standards" className="genetics-related-link">
+              📜 Стандарти порід
+            </Link>
+          </div>
+        </div>
+
         <div className="genetics-back">
           <Link to="/" className="genetics-back-btn">
             ⬅ На головну
