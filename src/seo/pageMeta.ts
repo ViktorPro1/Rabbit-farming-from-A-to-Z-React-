@@ -752,5 +752,10 @@ export const pageMeta: Record<string, PageMeta> = {
             inLanguage: "uk-UA",
         },
     },
+    "/heat-stress": {
+        title: `Спека і тепловий удар у кролів — ${SITE_NAME}`,
+        description:
+            "Тепловий стрес і тепловий удар у кролів: симптоми, небезпечні температури, перша допомога та профілактика перегріву влітку.",
+    },
 
 };

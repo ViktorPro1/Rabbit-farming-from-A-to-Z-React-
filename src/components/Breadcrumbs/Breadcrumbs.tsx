@@ -86,6 +86,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/medicines": "Препарати",
   "/treatment": "Схеми лікування",
   "/first-aid": "Перша допомога",
+  "/heat-stroke": "Спека",
   "/lab-diagnostics": "Лаб. діагностика",
   "/symptoms": "Симптоматичний пошук",
   "/necropsy": "Некропсія",

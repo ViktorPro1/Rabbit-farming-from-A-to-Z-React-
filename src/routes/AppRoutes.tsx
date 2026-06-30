@@ -126,6 +126,7 @@ const Diseases = lazy(() => import("../pages/Diseases/Diseases"));
 const Medicines = lazy(() => import("../pages/Medicines/Medicines"));
 const Treatment = lazy(() => import("../pages/Treatment/Treatment"));
 const FirstAid = lazy(() => import("../pages/FirstAid/FirstAid"));
+const HeatStroke = lazy(() => import("../pages/HeatStroke/HeatStroke"));
 const LabDiagnostics = lazy(
   () => import("../pages/LabDiagnostics/LabDiagnostics"),
 );
@@ -378,6 +379,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/medicines" element={<Medicines />} />
         <Route path="/treatment" element={<Treatment />} />
         <Route path="/first-aid" element={<FirstAid />} />
+        <Route path="/heat-stroke" element={<HeatStroke />} />
         <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/necropsy" element={<Necropsy />} />
