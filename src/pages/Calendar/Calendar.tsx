@@ -538,6 +538,27 @@ const Calendar = () => {
           ))}
         </div>
 
+        <div className="calendar-related">
+          <h3 className="calendar-related-title">Читайте також</h3>
+          <div className="calendar-related-grid">
+            <Link to="/seasonal-spring" className="calendar-related-link">
+              🌱 Весна: кокцидіоз
+            </Link>
+            <Link to="/seasonal-summer" className="calendar-related-link">
+              🪰 Літо: міаз
+            </Link>
+            <Link to="/heat-stroke" className="calendar-related-link">
+              ☀️ Спека
+            </Link>
+            <Link to="/seasonal-autumn" className="calendar-related-link">
+              🍂 Осінь: підготовка до зими
+            </Link>
+            <Link to="/winter-litter" className="calendar-related-link">
+              ❄️ Зимовий окріл
+            </Link>
+          </div>
+        </div>
+
         <div className="calendar-back">
           <Link to="/" className="calendar-back-btn">
             ⬅ На головну

@@ -434,6 +434,27 @@ const Slaughter = () => {
           </div>
         </div>
 
+        <div className="slaughter-related">
+          <h3 className="slaughter-related-title">Читайте також</h3>
+          <div className="slaughter-related-grid">
+            <Link to="/fur-processing" className="slaughter-related-link">
+              🐰 Шкура та пух
+            </Link>
+            <Link to="/recipes" className="slaughter-related-link">
+              🍽️ Рецепти
+            </Link>
+            <Link to="/weight-control" className="slaughter-related-link">
+              ⚖️ Контроль ваги
+            </Link>
+            <Link to="/culling" className="slaughter-related-link">
+              🗑️ Вибраковка
+            </Link>
+            <Link to="/economics" className="slaughter-related-link">
+              📊 Економіка господарства
+            </Link>
+          </div>
+        </div>
+
         <div className="slaughter-back">
           <Link to="/" className="slaughter-back-btn">
             ⬅ На головну

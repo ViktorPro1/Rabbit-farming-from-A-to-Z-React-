@@ -116,7 +116,7 @@ const toolCategories: ToolCategory[] = [
           "Ножиці з тупими кінцями — безпечніші для тварини",
           "Нержавіюча сталь — легко стерилізується",
         ],
-        tips: "Кліща видаляй обертальними рухами проти годинникової стрілки — не тягни прямо. Після видалення обробити місце хлоргексидином.",
+        tips: "Кліща видаляй рівномірним вертикальним тяжінням вгору — без обертання та різких рухів. Захоплювати якомога ближче до шкіри. Після видалення обробити місце хлоргексидином. Якщо голівка залишилась у шкірі — до ветеринара.",
       },
       {
         name: "Кусачки для кігтів",
@@ -493,6 +493,27 @@ const Tools = () => {
           <div className="tools-alert ok">
             ✅ Цей мінімальний набір коштує 1500–3000 грн і дозволяє вести
             повноцінне господарство до 30–50 голів.
+          </div>
+        </div>
+
+        <div className="tools-related">
+          <h3 className="tools-related-title">Читайте також</h3>
+          <div className="tools-related-grid">
+            <Link to="/disinfection" className="tools-related-link">
+              🧴 Дезінфекція
+            </Link>
+            <Link to="/feeders" className="tools-related-link">
+              🍽️ Годівниці та сінники
+            </Link>
+            <Link to="/rabbit-housing-diy" className="tools-related-link">
+              📐 Клітки своїми руками
+            </Link>
+            <Link to="/weight-control" className="tools-related-link">
+              ⚖️ Контроль ваги
+            </Link>
+            <Link to="/biosecurity" className="tools-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
           </div>
         </div>
 

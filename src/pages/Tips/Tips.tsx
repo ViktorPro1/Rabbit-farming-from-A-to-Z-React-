@@ -96,6 +96,27 @@ const Tips = () => {
           ))}
         </ul>
 
+        <div className="tips-related">
+          <h3 className="tips-related-title">Читайте також</h3>
+          <div className="tips-related-grid">
+            <Link to="/feeding" className="tips-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/water" className="tips-related-link">
+              💧 Водопостачання
+            </Link>
+            <Link to="/care" className="tips-related-link">
+              🧹 Догляд
+            </Link>
+            <Link to="/calendar" className="tips-related-link">
+              📅 Сезонний календар
+            </Link>
+            <Link to="/beginner-mistakes" className="tips-related-link">
+              ⚠️ Типові помилки новачків
+            </Link>
+          </div>
+        </div>
+
         <div className="tips-back">
           <Link to="/" className="tips-back-btn">
             ⬅ На головну

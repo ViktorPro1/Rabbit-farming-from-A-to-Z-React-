@@ -897,6 +897,27 @@ const Equipment = () => {
           </div>
         </div>
 
+        <div className="equipment-related">
+          <h3 className="equipment-related-title">Читайте також</h3>
+          <div className="equipment-related-grid">
+            <Link to="/compound-feed" className="equipment-related-link">
+              🧺 Комбікорм
+            </Link>
+            <Link to="/feeding" className="equipment-related-link">
+              🥕 Годування
+            </Link>
+            <Link to="/feeders" className="equipment-related-link">
+              🍜 Годівниці та сінники
+            </Link>
+            <Link to="/tools" className="equipment-related-link">
+              🧰 Інструменти
+            </Link>
+            <Link to="/crops" className="equipment-related-link">
+              🌾 Кормові культури
+            </Link>
+          </div>
+        </div>
+
         <div className="equipment-back">
           <Link to="/" className="equipment-back-btn">
             ⬅ На головну

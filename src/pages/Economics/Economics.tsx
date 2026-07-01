@@ -795,6 +795,27 @@ const Economics = () => {
           </div>
         </div>
 
+        <div className="economics-related">
+          <h3 className="economics-related-title">Читайте також</h3>
+          <div className="economics-related-grid">
+            <Link to="/profit-calculator" className="economics-related-link">
+              💰 Калькулятор рентабельності
+            </Link>
+            <Link to="/sales" className="economics-related-link">
+              📦 Збут кролятини
+            </Link>
+            <Link to="/legal" className="economics-related-link">
+              ⚖️ Юридичний куточок
+            </Link>
+            <Link to="/breeding-herd" className="economics-related-link">
+              🐇 Маточне поголів'я
+            </Link>
+            <Link to="/slaughter" className="economics-related-link">
+              🔪 Забій та переробка
+            </Link>
+          </div>
+        </div>
+
         <div className="economics-back">
           <Link to="/" className="economics-back-btn">
             ⬅ На головну

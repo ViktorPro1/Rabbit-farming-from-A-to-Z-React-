@@ -141,6 +141,28 @@ const VetFecalSample = () => {
           </div>
         </div>
       </section>
+
+      <div className="vfs-related">
+        <h3 className="vfs-related-title">Читайте також</h3>
+        <div className="vfs-related-grid">
+          <Link to="/lab-diagnostics" className="vfs-related-link">
+            🧪 Лабораторна діагностика
+          </Link>
+          <Link to="/parasites" className="vfs-related-link">
+            🦟 Паразити
+          </Link>
+          <Link to="/water-medication" className="vfs-related-link">
+            💧 Пропойка
+          </Link>
+          <Link to="/droppings" className="vfs-related-link">
+            💩 Послід: норма та відхилення
+          </Link>
+          <Link to="/diseases" className="vfs-related-link">
+            🩺 Хвороби
+          </Link>
+        </div>
+      </div>
+
       <div className="vfs-back">
         <Link to="/" className="vfs-back-link">
           ← Головна

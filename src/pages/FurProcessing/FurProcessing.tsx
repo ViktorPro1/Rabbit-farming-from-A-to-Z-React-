@@ -548,6 +548,27 @@ const FurProcessing = () => {
           </div>
         </div>
 
+        <div className="fur-related">
+          <h3 className="fur-related-title">Читайте також</h3>
+          <div className="fur-related-grid">
+            <Link to="/slaughter" className="fur-related-link">
+              🔪 Забій та переробка
+            </Link>
+            <Link to="/breeds" className="fur-related-link">
+              🐇 Породи
+            </Link>
+            <Link to="/seasonal-molting" className="fur-related-link">
+              🪮 Линька
+            </Link>
+            <Link to="/sales" className="fur-related-link">
+              📦 Збут кролятини
+            </Link>
+            <Link to="/economics" className="fur-related-link">
+              📊 Економіка господарства
+            </Link>
+          </div>
+        </div>
+
         <div className="fur-back">
           <Link to="/" className="fur-back-btn">
             ⬅ На головну

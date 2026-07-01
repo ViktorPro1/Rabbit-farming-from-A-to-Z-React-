@@ -137,6 +137,28 @@ const VetOralMeds = () => {
           — переходь на шприцеве введення.
         </p>
       </section>
+
+      <div className="vom-related">
+        <h3 className="vom-related-title">Читайте також</h3>
+        <div className="vom-related-grid">
+          <Link to="/medicines" className="vom-related-link">
+            💊 Препарати
+          </Link>
+          <Link to="/dosage-calculator" className="vom-related-link">
+            🧮 Калькулятор дозування
+          </Link>
+          <Link to="/vet-injections" className="vom-related-link">
+            💉 Ін'єкції
+          </Link>
+          <Link to="/drug-compatibility" className="vom-related-link">
+            ⚗️ Сумісність препаратів
+          </Link>
+          <Link to="/water-medication" className="vom-related-link">
+            💧 Пропойка
+          </Link>
+        </div>
+      </div>
+
       <div className="vom-back">
         <Link to="/" className="vom-back-link">
           ← Головна

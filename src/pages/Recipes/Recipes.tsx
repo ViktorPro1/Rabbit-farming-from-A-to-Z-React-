@@ -526,6 +526,27 @@ const Recipes = () => {
           ))}
         </div>
 
+        <div className="recipes-related">
+          <h3 className="recipes-related-title">Читайте також</h3>
+          <div className="recipes-related-grid">
+            <Link to="/slaughter" className="recipes-related-link">
+              🔪 Забій та переробка
+            </Link>
+            <Link to="/fur-processing" className="recipes-related-link">
+              🐰 Шкура та пух
+            </Link>
+            <Link to="/sales" className="recipes-related-link">
+              📦 Збут кролятини
+            </Link>
+            <Link to="/weight-control" className="recipes-related-link">
+              ⚖️ Контроль ваги
+            </Link>
+            <Link to="/economics" className="recipes-related-link">
+              📊 Економіка господарства
+            </Link>
+          </div>
+        </div>
+
         <div className="recipes-back">
           <Link to="/" className="recipes-back-btn">
             ⬅ На головну

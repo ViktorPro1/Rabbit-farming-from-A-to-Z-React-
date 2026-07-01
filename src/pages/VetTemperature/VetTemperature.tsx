@@ -164,6 +164,28 @@ const VetTemperature = () => {
           </div>
         </div>
       </section>
+
+      <div className="vt-related">
+        <h3 className="vt-related-title">Читайте також</h3>
+        <div className="vt-related-grid">
+          <Link to="/symptoms" className="vt-related-link">
+            🌡️ Симптоматичний пошук
+          </Link>
+          <Link to="/first-aid" className="vt-related-link">
+            🚑 Перша допомога
+          </Link>
+          <Link to="/heat-stroke" className="vt-related-link">
+            ☀️ Тепловий удар
+          </Link>
+          <Link to="/vet-injections" className="vt-related-link">
+            💉 Ін'єкції
+          </Link>
+          <Link to="/treatment" className="vt-related-link">
+            🏥 Схеми лікування
+          </Link>
+        </div>
+      </div>
+
       <div className="vt-back">
         <Link to="/" className="vt-back-link">
           ← Головна

@@ -568,6 +568,67 @@
     background: var(--green-mid);
 }
 
+.economics-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    padding-left: 16px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.economics-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .economics-related-title {
+    color: var(--green-light);
+}
+
+.economics-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.economics-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.economics-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .economics-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .economics-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .economics-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+
+    .economics-related {
+        padding-left: 0;
+    }
+}
+
 @media (max-width: 768px) {
     .economics-model-grid {
         grid-template-columns: 1fr;

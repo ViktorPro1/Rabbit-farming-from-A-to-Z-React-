@@ -256,6 +256,28 @@ const VetInjections = () => {
           </div>
         </div>
       </section>
+
+      <div className="vi-related">
+        <h3 className="vi-related-title">Читайте також</h3>
+        <div className="vi-related-grid">
+          <Link to="/medicines" className="vi-related-link">
+            💊 Препарати
+          </Link>
+          <Link to="/dosage-calculator" className="vi-related-link">
+            🧮 Калькулятор дозування
+          </Link>
+          <Link to="/drug-compatibility" className="vi-related-link">
+            ⚗️ Сумісність препаратів
+          </Link>
+          <Link to="/vet-oral-meds" className="vi-related-link">
+            💊 Таблетки та суспензії
+          </Link>
+          <Link to="/pain-management" className="vi-related-link">
+            🩹 Знеболення
+          </Link>
+        </div>
+      </div>
+
       <div className="vi-back">
         <Link to="/" className="vi-back-link">
           ← Головна
