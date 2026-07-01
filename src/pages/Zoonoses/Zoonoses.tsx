@@ -553,6 +553,27 @@ const Zoonoses = () => {
           </div>
         </div>
 
+        <div className="zoonoses-related">
+          <h3 className="zoonoses-related-title">Читайте також</h3>
+          <div className="zoonoses-related-grid">
+            <Link to="/biosecurity" className="zoonoses-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/parasites" className="zoonoses-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/diseases" className="zoonoses-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/disinfection" className="zoonoses-related-link">
+              🧴 Дезінфекція
+            </Link>
+            <Link to="/first-aid" className="zoonoses-related-link">
+              🚑 Перша допомога
+            </Link>
+          </div>
+        </div>
+
         <div className="zoonoses-back">
           <Link to="/" className="zoonoses-back-btn">
             ⬅ На головну

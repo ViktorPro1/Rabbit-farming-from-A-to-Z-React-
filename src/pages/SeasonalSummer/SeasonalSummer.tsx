@@ -194,6 +194,28 @@ const SeasonalSummer = () => {
           і чиста підстилка рятують життя.
         </p>
       </div>
+
+      <div className="ss-related">
+        <h3 className="ss-related-title">Читайте також</h3>
+        <div className="ss-related-grid">
+          <Link to="/heat-stroke" className="ss-related-link">
+            ☀️ Спека та тепловий удар
+          </Link>
+          <Link to="/care" className="ss-related-link">
+            🧹 Догляд
+          </Link>
+          <Link to="/microclimate" className="ss-related-link">
+            🌡️ Мікроклімат
+          </Link>
+          <Link to="/first-aid" className="ss-related-link">
+            🚑 Перша допомога
+          </Link>
+          <Link to="/calendar" className="ss-related-link">
+            📅 Сезонний календар
+          </Link>
+        </div>
+      </div>
+
       <div className="ss-back">
         <Link to="/" className="ss-back-link">
           ← Головна

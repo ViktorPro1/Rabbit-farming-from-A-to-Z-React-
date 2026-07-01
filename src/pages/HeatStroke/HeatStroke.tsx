@@ -706,6 +706,28 @@ export default function HeatStroke() {
           </p>
         </div>
       </div>
+
+      <div className="hs-related">
+        <h3 className="hs-related-title">Читайте також</h3>
+        <div className="hs-related-grid">
+          <Link to="/first-aid" className="hs-related-link">
+            🚑 Перша допомога
+          </Link>
+          <Link to="/microclimate" className="hs-related-link">
+            🌡️ Мікроклімат
+          </Link>
+          <Link to="/seasonal-summer" className="hs-related-link">
+            🪰 Літо: міаз
+          </Link>
+          <Link to="/symptoms" className="hs-related-link">
+            🌡️ Симптоматичний пошук
+          </Link>
+          <Link to="/transport" className="hs-related-link">
+            🚗 Транспортування
+          </Link>
+        </div>
+      </div>
+
       <div className="hs-back">
         <Link to="/" className="hs-back-btn">
           ⬅ На головну

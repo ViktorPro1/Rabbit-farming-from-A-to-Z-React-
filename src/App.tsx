@@ -16,6 +16,23 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { usePublicPresence } from "./hooks/usePublicPresence";
 
 // ─────────────────────────────────────────────
+// Фікс бага: Facebook іноді додає невидимий юнікод-символ
+// (напр. U+2061 "FUNCTION APPLICATION") перед посиланням у дописі,
+// щоб уникнути повторної генерації link preview. Через це браузер
+// переходить не на "/", а на "/⁡", і React Router не знаходить
+// такий маршрут -> показує 404. Ця функція очищує pathname
+// від подібних невидимих символів ще до рендеру роутів.
+function cleanInvisibleUnicodeFromPath() {
+  const invisibleCharsRegex = /[\u200B-\u200D\uFEFF\u2060-\u2064\u00AD]/g;
+  const { pathname, search, hash } = window.location;
+  const cleanPath = pathname.replace(invisibleCharsRegex, "");
+
+  if (cleanPath !== pathname) {
+    window.history.replaceState({}, "", (cleanPath || "/") + search + hash);
+  }
+}
+
+// ─────────────────────────────────────────────
 function SubscriptionExpired() {
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -114,6 +131,12 @@ function App() {
   }, []);
 
   usePublicPresence();
+
+  // Фікс 404 з невидимим символом Facebook — виконується один раз
+  // на старті, до того як React Router почне обробляти шлях.
+  useEffect(() => {
+    cleanInvisibleUnicodeFromPath();
+  }, []);
 
   useEffect(() => {
     const updateStatus = () => setIsOffline(!navigator.onLine);

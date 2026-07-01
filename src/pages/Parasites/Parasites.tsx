@@ -327,7 +327,6 @@ const Parasites = () => {
             </div>
           </article>
         </div>
-
         {/* ВНУТРІШНІ */}
         <div className="parasites-section-title">🧫 Внутрішні паразити</div>
         <div className="parasites-grid">
@@ -445,7 +444,6 @@ const Parasites = () => {
             </div>
           </article>
         </div>
-
         {/* ГРАФІК */}
         <div className="parasites-section-title">
           📅 Рекомендований графік обробок від паразитів
@@ -479,7 +477,6 @@ const Parasites = () => {
             </table>
           </div>
         </div>
-
         {/* ЗАБОРОНЕНІ */}
         <div className="parasites-note" style={{ marginTop: "1.5rem" }}>
           <h2 style={{ color: "#c62828" }}>
@@ -506,6 +503,27 @@ const Parasites = () => {
           <div className="parasites-alert danger">
             При сумніві щодо препарату — спочатку консультація з ветеринаром,
             потім застосування.
+          </div>
+        </div>
+
+        <div className="parasites-related">
+          <h3 className="parasites-related-title">Читайте також</h3>
+          <div className="parasites-related-grid">
+            <Link to="/diseases" className="parasites-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/water-medication" className="parasites-related-link">
+              💧 Пропойка
+            </Link>
+            <Link to="/zoonoses" className="parasites-related-link">
+              🦠 Зоонози
+            </Link>
+            <Link to="/biosecurity" className="parasites-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/dosage-calculator" className="parasites-related-link">
+              🧮 Калькулятор дозування
+            </Link>
           </div>
         </div>
 

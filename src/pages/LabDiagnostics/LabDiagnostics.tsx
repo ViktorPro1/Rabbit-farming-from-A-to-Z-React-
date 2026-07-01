@@ -860,6 +860,27 @@ const LabDiagnostics = () => {
           </div>
         </div>
 
+        <div className="lab-related">
+          <h3 className="lab-related-title">Читайте також</h3>
+          <div className="lab-related-grid">
+            <Link to="/necropsy" className="lab-related-link">
+              ☠️ Некропсія / розтин
+            </Link>
+            <Link to="/diseases" className="lab-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/biosecurity" className="lab-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/vaccinations" className="lab-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/disinfection" className="lab-related-link">
+              🧴 Дезінфекція
+            </Link>
+          </div>
+        </div>
+
         <div className="lab-back">
           <Link to="/" className="lab-back-btn">
             ⬅ На головну

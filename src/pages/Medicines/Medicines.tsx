@@ -195,6 +195,27 @@ const Medicines = () => {
 
         <DoseCalculator />
 
+        <div className="med-related">
+          <h3 className="med-related-title">Читайте також</h3>
+          <div className="med-related-grid">
+            <Link to="/vaccinations" className="med-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/diseases" className="med-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/first-aid" className="med-related-link">
+              🚑 Перша допомога
+            </Link>
+            <Link to="/symptoms" className="med-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/biosecurity" className="med-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+          </div>
+        </div>
+
         <div className="med-back">
           <Link to="/" className="med-back-btn">
             &#11013; На головну

@@ -484,6 +484,62 @@
     background: var(--green-mid);
 }
 
+.droppings-related {
+    max-width: 960px;
+    margin: 32px auto 24px;
+    padding: 24px 1rem 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.droppings-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .droppings-related-title {
+    color: var(--green-light);
+}
+
+.droppings-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.droppings-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.droppings-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .droppings-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .droppings-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .droppings-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
 /* RESPONSIVE */
 @media (max-width: 640px) {
 

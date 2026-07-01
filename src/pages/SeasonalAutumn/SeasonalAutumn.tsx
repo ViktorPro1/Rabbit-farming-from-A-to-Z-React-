@@ -219,15 +219,27 @@ const SeasonalAutumn = () => {
         })}
       </div>
 
-      <div className="sa-links">
-        <span>📎</span>
-        <span>
-          Пов'язані розділи: <Link to="/microclimate">Мікроклімат</Link> ·{" "}
-          <Link to="/water">Водопостачання</Link> ·{" "}
-          <Link to="/vaccinations">Вакцинація</Link> ·{" "}
-          <Link to="/winter-litter">Зимовий окріл</Link>
-        </span>
+      <div className="sa-related">
+        <h3 className="sa-related-title">Читайте також</h3>
+        <div className="sa-related-grid">
+          <Link to="/winter-litter" className="sa-related-link">
+            ❄️ Зимовий окріл
+          </Link>
+          <Link to="/microclimate" className="sa-related-link">
+            🌡️ Мікроклімат
+          </Link>
+          <Link to="/vaccinations" className="sa-related-link">
+            💉 Вакцинація
+          </Link>
+          <Link to="/water" className="sa-related-link">
+            💧 Водопостачання
+          </Link>
+          <Link to="/calendar" className="sa-related-link">
+            📅 Сезонний календар
+          </Link>
+        </div>
       </div>
+
       <div className="sa-back">
         <Link to="/" className="sa-back-link">
           ← Головна

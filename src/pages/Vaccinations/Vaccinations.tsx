@@ -280,6 +280,27 @@ const Vaccinations = () => {
           </div>
         </div>
 
+        <div className="vacc-related">
+          <h3 className="vacc-related-title">Читайте також</h3>
+          <div className="vacc-related-grid">
+            <Link to="/biosecurity" className="vacc-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/parasites" className="vacc-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/diseases" className="vacc-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/disinfection" className="vacc-related-link">
+              🧴 Дезінфекція
+            </Link>
+            <Link to="/calendar" className="vacc-related-link">
+              📅 Сезонний календар
+            </Link>
+          </div>
+        </div>
+
         <div className="vacc-back">
           <Link to="/" className="vacc-back-btn">
             ⬅ На головну

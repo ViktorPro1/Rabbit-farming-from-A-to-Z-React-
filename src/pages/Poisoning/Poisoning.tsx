@@ -760,6 +760,28 @@ export default function Poisoning() {
           </p>
         </div>
       </div>
+
+      <div className="pz-related">
+        <h3 className="pz-related-title">Читайте також</h3>
+        <div className="pz-related-grid">
+          <Link to="/first-aid" className="pz-related-link">
+            🚑 Перша допомога
+          </Link>
+          <Link to="/symptoms" className="pz-related-link">
+            🌡️ Симптоматичний пошук
+          </Link>
+          <Link to="/feeding" className="pz-related-link">
+            🥕 Годування
+          </Link>
+          <Link to="/leaves" className="pz-related-link">
+            🌿 Листя та гілки
+          </Link>
+          <Link to="/treatment" className="pz-related-link">
+            🏥 Схеми лікування
+          </Link>
+        </div>
+      </div>
+
       <div className="pz-back">
         <Link to="/" className="pz-back-btn">
           ⬅ На головну

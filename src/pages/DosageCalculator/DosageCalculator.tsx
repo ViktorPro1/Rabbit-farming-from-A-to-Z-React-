@@ -537,6 +537,27 @@ const DosageCalculator = () => {
         </div>
       </div>
 
+      <div className="DC-related">
+        <h3 className="DC-related-title">Читайте також</h3>
+        <div className="DC-related-grid">
+          <Link to="/medicines" className="DC-related-link">
+            💊 Препарати
+          </Link>
+          <Link to="/drug-compatibility" className="DC-related-link">
+            ⚗️ Сумісність препаратів
+          </Link>
+          <Link to="/water-medication" className="DC-related-link">
+            💧 Пропойка
+          </Link>
+          <Link to="/treatment" className="DC-related-link">
+            🏥 Схеми лікування
+          </Link>
+          <Link to="/parasites" className="DC-related-link">
+            🦟 Паразити
+          </Link>
+        </div>
+      </div>
+
       <div className="DC-back">
         <Link to="/" className="DC-back-btn">
           ⬅ На головну

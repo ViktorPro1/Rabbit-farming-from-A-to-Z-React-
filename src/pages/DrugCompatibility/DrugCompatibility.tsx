@@ -790,6 +790,27 @@ const DrugCompatibility = () => {
           </div>
         )}
 
+        <div className="dc-related">
+          <h3 className="dc-related-title">Читайте також</h3>
+          <div className="dc-related-grid">
+            <Link to="/medicines" className="dc-related-link">
+              💊 Препарати
+            </Link>
+            <Link to="/water-medication" className="dc-related-link">
+              💧 Пропойка
+            </Link>
+            <Link to="/dosage-calculator" className="dc-related-link">
+              🧮 Калькулятор дозування
+            </Link>
+            <Link to="/parasites" className="dc-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/treatment" className="dc-related-link">
+              🏥 Схеми лікування
+            </Link>
+          </div>
+        </div>
+
         <div className="dc-back">
           <Link to="/" className="dc-back-btn">
             ⬅ На головну

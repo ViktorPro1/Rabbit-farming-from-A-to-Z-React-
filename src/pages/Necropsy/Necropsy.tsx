@@ -325,6 +325,27 @@ const Necropsy = () => {
           })}
         </div>
 
+        <div className="necropsy-related">
+          <h3 className="necropsy-related-title">Читайте також</h3>
+          <div className="necropsy-related-grid">
+            <Link to="/lab-diagnostics" className="necropsy-related-link">
+              🧪 Лабораторна діагностика
+            </Link>
+            <Link to="/diseases" className="necropsy-related-link">
+              🩺 Хвороби
+            </Link>
+            <Link to="/vaccinations" className="necropsy-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/biosecurity" className="necropsy-related-link">
+              🛡️ Біобезпека та карантин
+            </Link>
+            <Link to="/disinfection" className="necropsy-related-link">
+              🧴 Дезінфекція
+            </Link>
+          </div>
+        </div>
+
         <div className="necropsy-back">
           <Link to="/" className="necropsy-back-btn">
             ⬅ На головну

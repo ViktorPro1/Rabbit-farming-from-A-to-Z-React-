@@ -862,6 +862,27 @@ const Diseases = () => {
           </ul>
         </div>
 
+        <div className="diseases-related">
+          <h3 className="diseases-related-title">Читайте також</h3>
+          <div className="diseases-related-grid">
+            <Link to="/symptoms" className="diseases-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/treatment" className="diseases-related-link">
+              🏥 Схеми лікування
+            </Link>
+            <Link to="/medicines" className="diseases-related-link">
+              💊 Препарати
+            </Link>
+            <Link to="/vaccinations" className="diseases-related-link">
+              💉 Вакцинація
+            </Link>
+            <Link to="/first-aid" className="diseases-related-link">
+              🚑 Перша допомога
+            </Link>
+          </div>
+        </div>
+
         <div className="diseases-back">
           <Link to="/" className="diseases-back-btn">
             ⬅ На головну

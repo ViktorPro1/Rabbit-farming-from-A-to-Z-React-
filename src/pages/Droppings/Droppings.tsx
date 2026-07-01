@@ -599,6 +599,28 @@ const Droppings = () => {
           </div>
         </section>
       </div>
+
+      <div className="droppings-related">
+        <h3 className="droppings-related-title">Читайте також</h3>
+        <div className="droppings-related-grid">
+          <Link to="/symptoms" className="droppings-related-link">
+            🌡️ Симптоматичний пошук
+          </Link>
+          <Link to="/gi-stasis" className="droppings-related-link">
+            🫁 ШКТ-стаз
+          </Link>
+          <Link to="/feeding" className="droppings-related-link">
+            🥕 Годування
+          </Link>
+          <Link to="/new-food" className="droppings-related-link">
+            🔄 Введення нового корму
+          </Link>
+          <Link to="/first-aid" className="droppings-related-link">
+            🚑 Перша допомога
+          </Link>
+        </div>
+      </div>
+
       <div className="droppings-back">
         <Link to="/" className="droppings-back-btn">
           ⬅ На головну

@@ -605,6 +605,27 @@ const WeightControl = () => {
           </div>
         </div>
 
+        <div className="weight-related">
+          <h3 className="weight-related-title">Читайте також</h3>
+          <div className="weight-related-grid">
+            <Link to="/rabbit-body-condition" className="weight-related-link">
+              ⚖️ Кондиція тіла (BCS)
+            </Link>
+            <Link to="/droppings" className="weight-related-link">
+              💩 Послід: норма та відхилення
+            </Link>
+            <Link to="/compound-feed" className="weight-related-link">
+              🌾 Комбікорм для кролів
+            </Link>
+            <Link to="/weaning" className="weight-related-link">
+              🥣 Відлучення та дорощування
+            </Link>
+            <Link to="/economics" className="weight-related-link">
+              📊 Економіка господарства
+            </Link>
+          </div>
+        </div>
+
         <div className="weight-back">
           <Link to="/" className="weight-back-btn">
             ⬅ На головну

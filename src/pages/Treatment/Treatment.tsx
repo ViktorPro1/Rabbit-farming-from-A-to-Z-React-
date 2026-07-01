@@ -922,6 +922,27 @@ const Treatment = () => {
           </div>
         ))}
 
+        <div className="treatment-related">
+          <h3 className="treatment-related-title">Читайте також</h3>
+          <div className="treatment-related-grid">
+            <Link to="/symptoms" className="treatment-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/first-aid" className="treatment-related-link">
+              🚑 Перша допомога
+            </Link>
+            <Link to="/dosage-calculator" className="treatment-related-link">
+              🧮 Калькулятор дозування
+            </Link>
+            <Link to="/medicines" className="treatment-related-link">
+              💊 Препарати
+            </Link>
+            <Link to="/diseases" className="treatment-related-link">
+              🩺 Хвороби
+            </Link>
+          </div>
+        </div>
+
         <div className="treatment-back">
           <Link to="/" className="treatment-back-btn">
             ⬅ На головну

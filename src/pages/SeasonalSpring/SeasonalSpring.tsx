@@ -148,14 +148,27 @@ const SeasonalSpring = () => {
         </div>
       </section>
 
-      <div className="sp-links">
-        <span>📎</span>
-        <span>
-          Докладніше: <Link to="/parasites">Паразити</Link> ·{" "}
-          <Link to="/water-medication">Пропойка: схеми та дозування</Link> ·{" "}
-          <Link to="/disinfection">Дезінфекція</Link>
-        </span>
+      <div className="sp-related">
+        <h3 className="sp-related-title">Читайте також</h3>
+        <div className="sp-related-grid">
+          <Link to="/parasites" className="sp-related-link">
+            🦟 Паразити
+          </Link>
+          <Link to="/water-medication" className="sp-related-link">
+            💧 Пропойка
+          </Link>
+          <Link to="/disinfection" className="sp-related-link">
+            🧴 Дезінфекція
+          </Link>
+          <Link to="/weaning" className="sp-related-link">
+            🥣 Відлучення та дорощування
+          </Link>
+          <Link to="/calendar" className="sp-related-link">
+            📅 Сезонний календар
+          </Link>
+        </div>
       </div>
+
       <div className="sp-back">
         <Link to="/" className="sp-back-link">
           ← Головна

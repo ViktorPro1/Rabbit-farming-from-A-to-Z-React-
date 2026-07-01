@@ -383,6 +383,27 @@ const FirstAid = () => {
           </ul>
         </div>
 
+        <div className="firstaid-related">
+          <h3 className="firstaid-related-title">Читайте також</h3>
+          <div className="firstaid-related-grid">
+            <Link to="/treatment" className="firstaid-related-link">
+              🏥 Схеми лікування
+            </Link>
+            <Link to="/symptoms" className="firstaid-related-link">
+              🌡️ Симптоматичний пошук
+            </Link>
+            <Link to="/medicines" className="firstaid-related-link">
+              💊 Препарати
+            </Link>
+            <Link to="/poisoning" className="firstaid-related-link">
+              🫧 Отруєння кролів
+            </Link>
+            <Link to="/artificial-feeding" className="firstaid-related-link">
+              🥛 Штучне вигодовування
+            </Link>
+          </div>
+        </div>
+
         <div className="firstaid-back">
           <Link to="/" className="firstaid-back-btn">
             ⬅ На головну

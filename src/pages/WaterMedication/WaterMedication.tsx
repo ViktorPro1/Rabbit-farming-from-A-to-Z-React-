@@ -1449,6 +1449,27 @@ const WaterMedication = () => {
           Enrocare, PMC NIH Rabbits (2009)
         </div>
 
+        <div className="wm-related">
+          <h3 className="wm-related-title"> Читайте також </h3>
+          <div className="wm-related-grid">
+            <Link to="/drug-compatibility" className="wm-related-link">
+              ⚗️ Сумісність препаратів
+            </Link>
+            <Link to="/dosage-calculator" className="wm-related-link">
+              🧮 Калькулятор дозування
+            </Link>
+            <Link to="/parasites" className="wm-related-link">
+              🦟 Паразити
+            </Link>
+            <Link to="/medicines" className="wm-related-link">
+              💊 Препарати
+            </Link>
+            <Link to="/weaning" className="wm-related-link">
+              🥣 Відлучення та дорощування
+            </Link>
+          </div>
+        </div>
+
         <div className="wm-back">
           <Link to="/" className="wm-back-btn">
             ⬅ На головну
