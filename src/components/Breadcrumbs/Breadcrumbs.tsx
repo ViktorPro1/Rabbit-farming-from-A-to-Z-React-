@@ -99,6 +99,9 @@ const ROUTE_LABELS: Record<string, string> = {
   "/rabbit-body-condition": "Кондиція тіла (BCS)",
   "/dosage-calculator": "Калькулятор дозування",
   "/poisoning": "Отруєння кролів",
+  "/diet-therapy": "Дієтична терапія",
+  "/anesthesia-care": "Анестезія та догляд",
+  "/treatment-log": "Журнал лікувань",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",

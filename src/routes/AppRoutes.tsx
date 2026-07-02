@@ -149,6 +149,11 @@ const DosageCalculator = lazy(
   () => import("../pages/DosageCalculator/DosageCalculator"),
 );
 const Poisoning = lazy(() => import("../pages/Poisoning/Poisoning"));
+const DietTherapy = lazy(() => import("../pages/DietTherapy/DietTherapy"));
+const AnesthesiaCare = lazy(
+  () => import("../pages/AnesthesiaCare/AnesthesiaCare"),
+);
+const TreatmentLog = lazy(() => import("../pages/TreatmentLog/TreatmentLog"));
 
 // СЕЗОННІ ЗАГРОЗИ
 const SeasonalSummer = lazy(
@@ -392,6 +397,9 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           element={<RabbitBodyCondition />}
         />
         <Route path="/dosage-calculator" element={<DosageCalculator />} />
+        <Route path="/diet-therapy" element={<DietTherapy />} />
+        <Route path="/anesthesia-care" element={<AnesthesiaCare />} />
+        <Route path="/treatment-log" element={<TreatmentLog />} />
         {/* СЕЗОННІ ЗАГРОЗИ */}
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />

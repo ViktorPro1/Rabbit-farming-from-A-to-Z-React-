@@ -4,19 +4,27 @@ import "./NotFound.css";
 const NotFound = () => {
   return (
     <div className="nf-container">
-      <div className="nf-scene">
-        <span className="nf-rabbit">🐰</span>
-        <div className="nf-paws">
-          <span className="nf-paw-left">🐾</span>
-          <span className="nf-paw-right">🐾</span>
+      <div className="nf-illustration" aria-hidden="true">
+        <div className="nf-trail">
+          <span className="nf-paw nf-paw-1">🐾</span>
+          <span className="nf-paw nf-paw-2">🐾</span>
+          <span className="nf-paw nf-paw-3">🐾</span>
+          <span className="nf-paw nf-paw-4">🐾</span>
         </div>
-        <span className="nf-keyboard">⌨️</span>
+        <div className="nf-mound" />
+        <span className="nf-rabbit">🐰</span>
+        <div className="nf-hole" />
       </div>
 
-      <h1 className="nf-title">404</h1>
-      <p className="nf-text">Ой! Сторінку не знайдено...</p>
+      <p className="nf-eyebrow">Помилка 404</p>
+      <h1 className="nf-title">Сторінку не знайдено</h1>
+      <p className="nf-text">
+        Здається, кролик прорив нору не туди. Такої сторінки не існує або її
+        було переміщено.
+      </p>
 
-      <Link to="/" className="nf-link">
+      <Link to="/" className="nf-button">
+        <span className="nf-button-icon">🏡</span>
         Повернутися на головну
       </Link>
     </div>
