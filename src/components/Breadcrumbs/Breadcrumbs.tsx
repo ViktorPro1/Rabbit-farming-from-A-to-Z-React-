@@ -1,5 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 import "./Breadcrumbs.css";
+import { groups } from "../../data/sectionCards";
+
+// ── Path -> назва розділу (для середньої хлібної крихти) ────────
+const PATH_TO_SECTION: Record<string, string> = {};
+groups.forEach((g) => {
+  g.cards.forEach((c) => {
+    if (!c.external) {
+      PATH_TO_SECTION[c.path] = g.groupTitle;
+    }
+  });
+});
 
 // ── Route label map ──────────────────────────────────────────────
 const ROUTE_LABELS: Record<string, string> = {
@@ -195,9 +206,18 @@ export default function Breadcrumbs() {
 
   const parts = pathname.split("/").filter(Boolean);
 
-  const crumbs: { label: string; path: string }[] = [
+  const crumbs: { label: string; path: string | null }[] = [
     { label: "Головна", path: "/" },
   ];
+
+  // Вставляємо назву розділу — клікабельна, веде на головну і розгортає групу
+  const sectionTitle = PATH_TO_SECTION[pathname];
+  if (sectionTitle && parts.length === 1) {
+    crumbs.push({
+      label: sectionTitle,
+      path: `/#section-${encodeURIComponent(sectionTitle)}`,
+    });
+  }
 
   parts.forEach((segment, idx) => {
     // Пропускаємо числові id та UUID (динамічні сегменти /rabbit/:id тощо)
@@ -213,16 +233,18 @@ export default function Breadcrumbs() {
       {crumbs.map((crumb, idx) => {
         const isLast = idx === crumbs.length - 1;
         return (
-          <span key={crumb.path} className="breadcrumbs__item">
+          <span key={crumb.label + idx} className="breadcrumbs__item">
             {idx > 0 && <Sep />}
             {isLast ? (
               <span className="breadcrumbs__current" aria-current="page">
                 {crumb.label}
               </span>
-            ) : (
+            ) : crumb.path ? (
               <Link to={crumb.path} className="breadcrumbs__link">
                 {crumb.label}
               </Link>
+            ) : (
+              <span className="breadcrumbs__section">{crumb.label}</span>
             )}
           </span>
         );

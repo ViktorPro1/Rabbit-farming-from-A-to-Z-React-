@@ -91,6 +91,16 @@
     flex-shrink: 0;
 }
 
+/* ── Section crumb (non-clickable, sits on dark green wrapper) ── */
+.breadcrumbs__section {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 3px 8px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
     .breadcrumbs {

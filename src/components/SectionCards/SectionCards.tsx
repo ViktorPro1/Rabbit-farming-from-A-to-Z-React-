@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SectionCards.css";
 import { groups } from "../../data/sectionCards";
@@ -54,14 +54,51 @@ function searchCards(query: string): SearchResult[] {
   return results;
 }
 
+// Стабільний id для якоря групи — має збігатись з хешем із Breadcrumbs
+function groupAnchorId(groupTitle: string): string {
+  return `section-${encodeURIComponent(groupTitle)}`;
+}
+
+// Читає хеш виду #section-<назва> і повертає назву групи, якщо збігається
+function getGroupTitleFromHash(): string | null {
+  const hash = window.location.hash;
+  if (!hash.startsWith("#section-")) return null;
+
+  const encodedTitle = hash.slice("#section-".length);
+  try {
+    const title = decodeURIComponent(encodedTitle);
+    return groups.some((g) => g.groupTitle === title) ? title : null;
+  } catch {
+    return null;
+  }
+}
+
 const SectionCards = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searched, setSearched] = useState(false);
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(groups.map((g, i) => [g.groupTitle, i === 0])),
-  );
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const base = Object.fromEntries(
+      groups.map((g, i) => [g.groupTitle, i === 0]),
+    );
+    const hashTitle = getGroupTitleFromHash();
+    if (hashTitle) base[hashTitle] = true;
+    return base;
+  });
   const navigate = useNavigate();
+
+  // Якщо прийшли з якоря #section-<назва> (клік по хлібній крихті) —
+  // групу вже розгорнуто через lazy-ініціалізацію стейту вище,
+  // тут лишається тільки прокрутити до неї
+  useEffect(() => {
+    const hashTitle = getGroupTitleFromHash();
+    if (!hashTitle) return;
+
+    requestAnimationFrame(() => {
+      const el = document.getElementById(groupAnchorId(hashTitle));
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, []);
 
   const handleSearch = (value: string) => {
     setQuery(value);
@@ -208,7 +245,11 @@ const SectionCards = () => {
       {groups.map((group) => {
         const isOpen = openGroups[group.groupTitle];
         return (
-          <div key={group.groupTitle} className="section-group">
+          <div
+            key={group.groupTitle}
+            id={groupAnchorId(group.groupTitle)}
+            className="section-group"
+          >
             <button
               className={`section-group-header section-group-header--btn${isOpen ? " section-group-header--open" : ""}`}
               onClick={() => toggleGroup(group.groupTitle)}
