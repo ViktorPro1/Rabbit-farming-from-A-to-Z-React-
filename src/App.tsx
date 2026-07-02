@@ -14,6 +14,7 @@ import AssistantPromo from "./components/AssistantPromo/AssistantPromo";
 import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { usePublicPresence } from "./hooks/usePublicPresence";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -289,21 +290,23 @@ function App() {
 
   return (
     <>
-      <CopyProtection />
-      <CookieConsentBanner />
-      <BrowserRouter>
-        <WelcomePopup />
-        <Assistant />
-        <AssistantPromo />
-        <Header session={session} />
-        <div className="breadcrumbs-wrap">
-          <Breadcrumbs />
-        </div>
-        <AppRoutes session={session} />
-        <ScrollToTop />
-        <Footer />
-        <UpdatePrompt />
-      </BrowserRouter>
+      <ErrorBoundary>
+        <CopyProtection />
+        <CookieConsentBanner />
+        <BrowserRouter>
+          <WelcomePopup />
+          <Assistant />
+          <AssistantPromo />
+          <Header session={session} />
+          <div className="breadcrumbs-wrap">
+            <Breadcrumbs />
+          </div>
+          <AppRoutes session={session} />
+          <ScrollToTop />
+          <Footer />
+          <UpdatePrompt />
+        </BrowserRouter>
+      </ErrorBoundary>
     </>
   );
 }
