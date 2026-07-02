@@ -335,6 +335,28 @@ const ShowJudging = () => {
           <li>Різні судді = різні результати — це нормально, не особисто</li>
         </ul>
       </div>
+
+      <div className="SJ-related">
+        <h3 className="SJ-related-title">Читайте також</h3>
+        <div className="SJ-related-grid">
+          <Link to="/show-scoring" className="SJ-related-link">
+            🥇 Система оцінювання
+          </Link>
+          <Link to="/breed-standards" className="SJ-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/disqualifying-faults" className="SJ-related-link">
+            ❌ Дискваліфікаційні вади
+          </Link>
+          <Link to="/show-preparation" className="SJ-related-link">
+            🏆 Підготовка до виставки
+          </Link>
+          <Link to="/rabbit-conformation" className="SJ-related-link">
+            🐇 Екстер'єр кроля
+          </Link>
+        </div>
+      </div>
+
       <div className="SJ-back">
         <Link to="/" className="SJ-back-btn">
           ⬅ На головну

@@ -720,6 +720,28 @@ export default function DisqualifyingFaults() {
           </p>
         </div>
       </div>
+
+      <div className="df-related">
+        <h3 className="df-related-title">Читайте також</h3>
+        <div className="df-related-grid">
+          <Link to="/breed-standards" className="df-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/rabbit-conformation" className="df-related-link">
+            🐇 Екстер'єр кроля
+          </Link>
+          <Link to="/culling" className="df-related-link">
+            🗑️ Вибраковка
+          </Link>
+          <Link to="/genetics" className="df-related-link">
+            🎨 Генетика забарвлення
+          </Link>
+          <Link to="/show-judging" className="df-related-link">
+            👨‍⚖️ Суддівство на виставках
+          </Link>
+        </div>
+      </div>
+
       <div className="df-back">
         <Link to="/" className="df-back-btn">
           ⬅ На головну

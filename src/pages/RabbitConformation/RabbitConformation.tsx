@@ -815,6 +815,28 @@ export default function RabbitConformation() {
           </p>
         </div>
       </div>
+
+      <div className="rc-related">
+        <h3 className="rc-related-title">Читайте також</h3>
+        <div className="rc-related-grid">
+          <Link to="/breed-standards" className="rc-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/disqualifying-faults" className="rc-related-link">
+            ❌ Дискваліфікаційні вади
+          </Link>
+          <Link to="/show-judging" className="rc-related-link">
+            👨‍⚖️ Суддівство на виставках
+          </Link>
+          <Link to="/select-buck" className="rc-related-link">
+            ♂️ Вибір племінного самця
+          </Link>
+          <Link to="/select-doe" className="rc-related-link">
+            ♀️ Вибір племінної самки
+          </Link>
+        </div>
+      </div>
+
       <div className="rc-back">
         <Link to="/" className="rc-back-btn">
           ⬅ На головну

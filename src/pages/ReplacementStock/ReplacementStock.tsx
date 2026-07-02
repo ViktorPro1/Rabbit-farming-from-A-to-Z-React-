@@ -419,6 +419,28 @@ const ReplacementStock = () => {
           <li>Новий плідник не повинен бути родичем маточного поголів'я</li>
         </ul>
       </div>
+
+      <div className="RS-related">
+        <h3 className="RS-related-title">Читайте також</h3>
+        <div className="RS-related-grid">
+          <Link to="/breeding-evaluation" className="RS-related-link">
+            ⚖️ Племінна оцінка
+          </Link>
+          <Link to="/weaning" className="RS-related-link">
+            🥣 Відлучення та дорощування
+          </Link>
+          <Link to="/weight-control" className="RS-related-link">
+            ⚖️ Контроль ваги
+          </Link>
+          <Link to="/culling" className="RS-related-link">
+            🗑️ Вибраковка
+          </Link>
+          <Link to="/pedigree-records" className="RS-related-link">
+            📖 Родоводи та племінний облік
+          </Link>
+        </div>
+      </div>
+
       <div className="RS-back">
         <Link to="/" className="RS-back-btn">
           ⬅ На головну

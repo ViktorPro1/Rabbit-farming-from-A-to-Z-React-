@@ -789,6 +789,28 @@ export default function PedigreeRecords() {
           </p>
         </div>
       </div>
+
+      <div className="pr2-related">
+        <h3 className="pr2-related-title">Читайте також</h3>
+        <div className="pr2-related-grid">
+          <Link to="/selection" className="pr2-related-link">
+            🔬 Селекція
+          </Link>
+          <Link to="/breeding-evaluation" className="pr2-related-link">
+            ⚖️ Племінна оцінка
+          </Link>
+          <Link to="/replacement-stock" className="pr2-related-link">
+            🧬 Відбір ремонтного молодняку
+          </Link>
+          <Link to="/select-buck" className="pr2-related-link">
+            ♂️ Вибір племінного самця
+          </Link>
+          <Link to="/select-doe" className="pr2-related-link">
+            ♀️ Вибір племінної самки
+          </Link>
+        </div>
+      </div>
+
       <div className="pr2-back">
         <Link to="/" className="pr2-back-btn">
           ⬅ На головну

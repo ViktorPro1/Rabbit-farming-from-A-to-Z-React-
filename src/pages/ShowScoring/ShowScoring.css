@@ -680,6 +680,67 @@
     background: var(--green-mid);
 }
 
+.ss-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    padding-left: 140px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.ss-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .ss-related-title {
+    color: var(--green-light);
+}
+
+.ss-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ss-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.ss-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .ss-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .ss-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .ss-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+
+    .ss-related {
+        padding-left: 12px;
+    }
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
     .ss-checklist-grid {

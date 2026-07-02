@@ -537,12 +537,30 @@ const Sales = () => {
           </div>
         </div>
 
+        <div className="sales-related">
+          <h3 className="sales-related-title">Читайте також</h3>
+          <div className="sales-related-grid">
+            <Link to="/economics" className="sales-related-link">
+              📊 Економіка господарства
+            </Link>
+            <Link to="/legal" className="sales-related-link">
+              ⚖️ Юридичний куточок
+            </Link>
+            <Link to="/profit-calculator" className="sales-related-link">
+              💰 Калькулятор рентабельності
+            </Link>
+            <Link to="/slaughter" className="sales-related-link">
+              🔪 Забій та переробка
+            </Link>
+            <Link to="/recipes" className="sales-related-link">
+              🍽️ Рецепти
+            </Link>
+          </div>
+        </div>
+
         <div className="sales-back">
           <Link to="/" className="sales-back-btn">
             ⬅ На головну
-          </Link>
-          <Link to="/economics" className="sales-back-btn secondary">
-            💰 Економіка
           </Link>
           <ShareButton title="Назва цієї сторінки" />
         </div>

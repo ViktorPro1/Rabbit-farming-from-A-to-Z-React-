@@ -335,6 +335,67 @@
     background: var(--green-mid);
 }
 
+.culling-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    padding-left: 16px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.culling-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .culling-related-title {
+    color: var(--green-light);
+}
+
+.culling-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.culling-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.culling-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .culling-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .culling-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .culling-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+
+    .culling-related {
+        padding-left: 0;
+    }
+}
+
 /* ── RESPONSIVE ── */
 
 @media (max-width: 768px) {

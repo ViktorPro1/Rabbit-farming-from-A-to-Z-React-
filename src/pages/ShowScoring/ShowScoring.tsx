@@ -768,6 +768,28 @@ export default function ShowScoring() {
           </p>
         </div>
       </div>
+
+      <div className="ss-related">
+        <h3 className="ss-related-title">Читайте також</h3>
+        <div className="ss-related-grid">
+          <Link to="/show-judging" className="ss-related-link">
+            👨‍⚖️ Суддівство на виставках
+          </Link>
+          <Link to="/breed-standards" className="ss-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/disqualifying-faults" className="ss-related-link">
+            ❌ Дискваліфікаційні вади
+          </Link>
+          <Link to="/rabbit-conformation" className="ss-related-link">
+            🐇 Екстер'єр кроля
+          </Link>
+          <Link to="/show-preparation" className="ss-related-link">
+            🏆 Підготовка до виставки
+          </Link>
+        </div>
+      </div>
+
       <div className="ss-back">
         <Link to="/" className="ss-back-btn">
           ⬅ На головну

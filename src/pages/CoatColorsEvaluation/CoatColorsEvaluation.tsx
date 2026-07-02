@@ -453,6 +453,28 @@ const CoatColorsEvaluation = () => {
           </li>
         </ul>
       </div>
+
+      <div className="CC-related">
+        <h3 className="CC-related-title">Читайте також</h3>
+        <div className="CC-related-grid">
+          <Link to="/genetics" className="CC-related-link">
+            🎨 Генетика забарвлення
+          </Link>
+          <Link to="/breed-standards" className="CC-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/disqualifying-faults" className="CC-related-link">
+            ❌ Дискваліфікаційні вади
+          </Link>
+          <Link to="/fur-evaluation" className="CC-related-link">
+            🧥 Оцінка хутра
+          </Link>
+          <Link to="/breeds" className="CC-related-link">
+            🐇 Породи
+          </Link>
+        </div>
+      </div>
+
       <div className="CC-back">
         <Link to="/" className="CC-back-btn">
           ⬅ На головну

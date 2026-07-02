@@ -352,6 +352,28 @@ const ShowPreparation = () => {
           </li>
         </ul>
       </div>
+
+      <div className="SP-related">
+        <h3 className="SP-related-title">Читайте також</h3>
+        <div className="SP-related-grid">
+          <Link to="/transport" className="SP-related-link">
+            🚗 Транспортування
+          </Link>
+          <Link to="/grooming" className="SP-related-link">
+            ✂️ Кігті та зуби
+          </Link>
+          <Link to="/show-judging" className="SP-related-link">
+            👨‍⚖️ Суддівство на виставках
+          </Link>
+          <Link to="/show-scoring" className="SP-related-link">
+            🥇 Система оцінювання
+          </Link>
+          <Link to="/breed-standards" className="SP-related-link">
+            📜 Стандарти порід
+          </Link>
+        </div>
+      </div>
+
       <div className="SP-back">
         <Link to="/" className="SP-back-btn">
           ⬅ На головну

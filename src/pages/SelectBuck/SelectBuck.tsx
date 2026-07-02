@@ -373,6 +373,28 @@ const SelectBuck = () => {
           <li>Заміна плідника кожні 1,5–2 роки для уникнення інбридингу</li>
         </ul>
       </div>
+
+      <div className="SB-related">
+        <h3 className="SB-related-title">Читайте також</h3>
+        <div className="SB-related-grid">
+          <Link to="/buck-management" className="SB-related-link">
+            ♂️ Утримання плідника
+          </Link>
+          <Link to="/pedigree-records" className="SB-related-link">
+            📖 Родоводи та племінний облік
+          </Link>
+          <Link to="/breeding-evaluation" className="SB-related-link">
+            ⚖️ Племінна оцінка
+          </Link>
+          <Link to="/genetics" className="SB-related-link">
+            🎨 Генетика забарвлення
+          </Link>
+          <Link to="/mating-frequency" className="SB-related-link">
+            🔁 Частота злучування
+          </Link>
+        </div>
+      </div>
+
       <div className="SB-back">
         <Link to="/" className="SB-back-btn">
           ⬅ На головну

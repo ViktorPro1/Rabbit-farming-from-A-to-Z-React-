@@ -388,6 +388,28 @@ const SelectDoe = () => {
           <li>Нова самка — 2–4 тижні карантину перед введенням у стадо</li>
         </ul>
       </div>
+
+      <div className="SD-related">
+        <h3 className="SD-related-title">Читайте також</h3>
+        <div className="SD-related-grid">
+          <Link to="/doe-preparation" className="SD-related-link">
+            ♀️ Підготовка самки до злучки
+          </Link>
+          <Link to="/pedigree-records" className="SD-related-link">
+            📖 Родоводи та племінний облік
+          </Link>
+          <Link to="/breeding-evaluation" className="SD-related-link">
+            ⚖️ Племінна оцінка
+          </Link>
+          <Link to="/rabbit-body-condition" className="SD-related-link">
+            📏 Кондиція тіла (BCS)
+          </Link>
+          <Link to="/okril" className="SD-related-link">
+            🍼 Окріл
+          </Link>
+        </div>
+      </div>
+
       <div className="SD-back">
         <Link to="/" className="SD-back-btn">
           ⬅ На головну

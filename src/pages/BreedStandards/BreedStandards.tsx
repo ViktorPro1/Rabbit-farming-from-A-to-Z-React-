@@ -473,6 +473,28 @@ const BreedStandards = () => {
           </li>
         </ul>
       </div>
+
+      <div className="BS-related">
+        <h3 className="BS-related-title">Читайте також</h3>
+        <div className="BS-related-grid">
+          <Link to="/breeds" className="BS-related-link">
+            🐇 Породи
+          </Link>
+          <Link to="/rabbit-conformation" className="BS-related-link">
+            🐇 Екстер'єр кроля
+          </Link>
+          <Link to="/coat-colors-evaluation" className="BS-related-link">
+            🎨 Оцінка забарвлення
+          </Link>
+          <Link to="/genetics" className="BS-related-link">
+            🎨 Генетика забарвлення
+          </Link>
+          <Link to="/disqualifying-faults" className="BS-related-link">
+            ❌ Дискваліфікаційні вади
+          </Link>
+        </div>
+      </div>
+
       <div className="BS-back">
         <Link to="/" className="BS-back-btn">
           ⬅ На головну

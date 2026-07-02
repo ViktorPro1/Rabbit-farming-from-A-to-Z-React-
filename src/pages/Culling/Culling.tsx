@@ -391,6 +391,27 @@ const Culling = () => {
           </div>
         </div>
 
+        <div className="culling-related">
+          <h3 className="culling-related-title">Читайте також</h3>
+          <div className="culling-related-grid">
+            <Link to="/breeding-evaluation" className="culling-related-link">
+              ⚖️ Племінна оцінка
+            </Link>
+            <Link to="/replacement-stock" className="culling-related-link">
+              🧬 Відбір ремонтного молодняку
+            </Link>
+            <Link to="/disqualifying-faults" className="culling-related-link">
+              ❌ Дискваліфікаційні вади
+            </Link>
+            <Link to="/weight-control" className="culling-related-link">
+              ⚖️ Контроль ваги
+            </Link>
+            <Link to="/diseases" className="culling-related-link">
+              🩺 Хвороби
+            </Link>
+          </div>
+        </div>
+
         <div className="culling-back">
           <Link to="/" className="culling-back-btn">
             ⬅ На головну

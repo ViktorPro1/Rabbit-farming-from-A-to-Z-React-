@@ -411,6 +411,28 @@ const FurEvaluation = () => {
           <li>Лупа + свербіж = кліщ Cheyletiella → до ветеринара</li>
         </ul>
       </div>
+
+      <div className="FE-related">
+        <h3 className="FE-related-title">Читайте також</h3>
+        <div className="FE-related-grid">
+          <Link to="/coat-colors-evaluation" className="FE-related-link">
+            🎨 Оцінка забарвлення
+          </Link>
+          <Link to="/fur-processing" className="FE-related-link">
+            🐰 Шкура та пух
+          </Link>
+          <Link to="/breed-standards" className="FE-related-link">
+            📜 Стандарти порід
+          </Link>
+          <Link to="/seasonal-molting" className="FE-related-link">
+            🪮 Линька: норма та патологія
+          </Link>
+          <Link to="/breeds" className="FE-related-link">
+            🐇 Породи
+          </Link>
+        </div>
+      </div>
+
       <div className="FE-back">
         <Link to="/" className="FE-back-btn">
           ⬅ На головну

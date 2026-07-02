@@ -603,6 +603,27 @@ const Legal = () => {
           </div>
         </div>
 
+        <div className="legal-related">
+          <h3 className="legal-related-title">Читайте також</h3>
+          <div className="legal-related-grid">
+            <Link to="/economics" className="legal-related-link">
+              📊 Економіка господарства
+            </Link>
+            <Link to="/sales" className="legal-related-link">
+              📦 Збут кролятини
+            </Link>
+            <Link to="/profit-calculator" className="legal-related-link">
+              💰 Калькулятор рентабельності
+            </Link>
+            <Link to="/slaughter" className="legal-related-link">
+              🔪 Забій та переробка
+            </Link>
+            <Link to="/vaccinations" className="legal-related-link">
+              💉 Вакцинація
+            </Link>
+          </div>
+        </div>
+
         <div className="legal-back">
           <Link to="/" className="legal-back-btn">
             ⬅ На головну

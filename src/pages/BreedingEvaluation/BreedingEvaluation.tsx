@@ -391,6 +391,28 @@ const BreedingEvaluation = () => {
           <li>Один поганий плідник псує 50% показників стада</li>
         </ul>
       </div>
+
+      <div className="BE-related">
+        <h3 className="BE-related-title">Читайте також</h3>
+        <div className="BE-related-grid">
+          <Link to="/selection" className="BE-related-link">
+            🔬 Селекція
+          </Link>
+          <Link to="/replacement-stock" className="BE-related-link">
+            🧬 Відбір ремонтного молодняку
+          </Link>
+          <Link to="/weight-control" className="BE-related-link">
+            ⚖️ Контроль ваги
+          </Link>
+          <Link to="/pedigree-records" className="BE-related-link">
+            📖 Родоводи та племінний облік
+          </Link>
+          <Link to="/culling" className="BE-related-link">
+            🗑️ Вибраковка
+          </Link>
+        </div>
+      </div>
+
       <div className="BE-back">
         <Link to="/" className="BE-back-btn">
           ⬅ На головну
