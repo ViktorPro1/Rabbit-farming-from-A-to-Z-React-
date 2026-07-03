@@ -150,6 +150,21 @@ export default function Matings({ session }: Props) {
           if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
           littersMap[l.mating_id].push(l);
         });
+        Object.keys(littersMap).forEach((matingId) => {
+          littersMap[matingId].sort((a, b) => {
+            const dateA =
+              a.birth_date ||
+              a.litter_expected_birth ||
+              a.litter_mating_date ||
+              "";
+            const dateB =
+              b.birth_date ||
+              b.litter_expected_birth ||
+              b.litter_mating_date ||
+              "";
+            return dateA.localeCompare(dateB); // старіші зверху, новіші знизу
+          });
+        });
         setMatings(
           data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })),
         );
