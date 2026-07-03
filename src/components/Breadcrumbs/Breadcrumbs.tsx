@@ -113,6 +113,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/diet-therapy": "Дієтична терапія",
   "/anesthesia-care": "Анестезія та догляд",
   "/treatment-log": "Журнал лікувань",
+  "/antibiotic-therapy": "Антибіотикотерапія",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",

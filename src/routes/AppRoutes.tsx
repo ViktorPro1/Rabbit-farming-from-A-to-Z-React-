@@ -154,6 +154,9 @@ const AnesthesiaCare = lazy(
   () => import("../pages/AnesthesiaCare/AnesthesiaCare"),
 );
 const TreatmentLog = lazy(() => import("../pages/TreatmentLog/TreatmentLog"));
+const AntibioticTherapy = lazy(
+  () => import("../pages/AntibioticTherapy/AntibioticTherapy"),
+);
 
 // СЕЗОННІ ЗАГРОЗИ
 const SeasonalSummer = lazy(
@@ -400,6 +403,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/diet-therapy" element={<DietTherapy />} />
         <Route path="/anesthesia-care" element={<AnesthesiaCare />} />
         <Route path="/treatment-log" element={<TreatmentLog />} />
+        <Route path="/antibiotic-therapy" element={<AntibioticTherapy />} />
         {/* СЕЗОННІ ЗАГРОЗИ */}
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />
