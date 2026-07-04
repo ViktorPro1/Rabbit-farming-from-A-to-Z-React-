@@ -26,6 +26,40 @@
     padding: 1.5rem 1rem 3rem;
 }
 
+.breeds-count {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    background: var(--green-pale);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 12px 20px;
+    margin-top: 1rem;
+    width: fit-content;
+}
+
+.breeds-count-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1;
+}
+
+.breeds-count-label {
+    font-size: 14px;
+    color: var(--gray);
+}
+
+[data-theme="dark"] .breeds-count {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .breeds-count-number,
+[data-theme="dark"] .breeds-count-label {
+    color: var(--green-light);
+}
+
 .breeds-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -104,6 +138,34 @@
     line-height: 1.6;
 }
 
+.breeds-missing {
+    margin-top: 1.5rem;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: var(--cream);
+    border: 1px dashed var(--green-light);
+    border-radius: 16px;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+.breeds-missing-link {
+    color: var(--green-dark);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+[data-theme="dark"] .breeds-missing {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--green-mid);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .breeds-missing-link {
+    color: var(--green-light);
+}
+
 .breeds-back {
     display: flex;
     justify-content: center;
@@ -145,7 +207,7 @@
     margin-top: 32px;
     margin-bottom: 24px;
     padding-top: 24px;
-    padding-left: 20px;
+    padding-left: 120px;
     padding-right: 20px;
     border-top: 1px solid var(--gray-light);
 }
@@ -196,6 +258,10 @@
     .breeds-related-link {
         font-size: 0.85rem;
         padding: 7px 12px;
+    }
+
+    .breeds-related {
+        padding-left: 24px;
     }
 }
 

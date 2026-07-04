@@ -4,6 +4,8 @@ import "./Breeds.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 
 const Breeds = () => {
+  const totalBreeds = breeds.length;
+
   return (
     <main className="breeds-page">
       <div className="breeds-header">
@@ -14,6 +16,17 @@ const Breeds = () => {
       </div>
 
       <div className="breeds-wrap">
+        <div className="breeds-count">
+          <span className="breeds-count-number">{totalBreeds}</span>
+          <span className="breeds-count-label">
+            {totalBreeds === 1
+              ? "порода в довіднику"
+              : totalBreeds >= 2 && totalBreeds <= 4
+                ? "породи в довіднику"
+                : "порід у довіднику"}
+          </span>
+        </div>
+
         <div className="breeds-grid">
           {breeds.map((breed) => (
             <article key={breed.id} className="breed-card">
@@ -66,6 +79,21 @@ const Breeds = () => {
           <p>
             <strong>Менеджмент:</strong> веди облік злучок, окролів, приростів;
             фіксуй раціони й вакцинації.
+          </p>
+        </div>
+
+        <div className="breeds-missing">
+          <p>
+            Не знайшли тієї породи, що шукали? Напишіть нам у{" "}
+            <a
+              href="https://t.me/rabbit_farming_from_a_to_z"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="breeds-missing-link"
+            >
+              Telegram-спільноту
+            </a>{" "}
+            — і ми обов'язково її додамо.
           </p>
         </div>
       </div>
