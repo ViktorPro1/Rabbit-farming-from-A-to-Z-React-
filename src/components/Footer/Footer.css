@@ -22,8 +22,11 @@
 }
 
 .footer-brand-icon {
-    font-size: 28px;
-    line-height: 1;
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .footer-brand-name {

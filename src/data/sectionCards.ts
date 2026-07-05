@@ -3689,7 +3689,22 @@ export const groups: Group[] = [
                 path: "https://pododermatitis-in-a-rabbit.vercel.app/",
                 external: true,
                 keywords: ["пододерматит", "хвороби кролів", "лапи кролів", "лікування", "профілактика"],
-            }
+            },
+            {
+                icon: "🏠",
+                title: "Маточник у клітці: коли ставити, коли забирати",
+                desc: "Практичний гід із використання маточника для кролів: встановлення, догляд та терміни прибирання",
+                path: "https://nest-box-in-the-rabbit-hutch.vercel.app/",
+                external: true,
+                keywords: [
+                    "маточник",
+                    "гніздовий ящик",
+                    "окрол",
+                    "кролиця",
+                    "клітка",
+                    "стаття",
+                ],
+            },
         ],
     },
 ];

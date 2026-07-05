@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
+import logo from "../../assets/logo.webp";
 import "./Footer.css";
 
 const Footer = () => {
@@ -11,7 +12,11 @@ const Footer = () => {
       <footer className="footer">
         <div className="footer-top">
           <div className="footer-brand">
-            <span className="footer-brand-icon">🐇</span>
+            <img
+              src={logo}
+              alt="Кролівництво від А до Я"
+              className="footer-brand-icon"
+            />
             <div>
               <div className="footer-brand-name">Кролівництво від А до Я</div>
               <div className="footer-brand-sub">
