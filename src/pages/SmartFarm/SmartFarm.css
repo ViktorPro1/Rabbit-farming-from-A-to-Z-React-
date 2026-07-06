@@ -1,0 +1,334 @@
+.sf-page {
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.6;
+    padding: 0 0 5rem;
+    overflow-x: hidden;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sf-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Hero ---------- */
+
+.sf-hero {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3rem;
+    text-align: center;
+}
+
+.sf-eyebrow {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green-accent);
+    border: 1px solid var(--gray-light);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.sf-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    line-height: 1.16;
+    margin: 0 0 1.25rem;
+    color: var(--green-dark);
+}
+
+.sf-title-accent {
+    display: block;
+    color: var(--amber);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.48em;
+    margin-top: 0.4rem;
+}
+
+.sf-lede {
+    color: var(--gray);
+    font-size: 1.05rem;
+    max-width: 36rem;
+    margin: 0 auto;
+}
+
+/* ---------- Shared heading ---------- */
+
+.sf-section-heading {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem;
+    text-align: center;
+    color: var(--green-dark);
+}
+
+/* ---------- Cycle grid ---------- */
+
+.sf-cycle {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 0;
+}
+
+.sf-cycle-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.sf-cycle-card {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 1rem;
+    padding: 1.4rem;
+    position: relative;
+}
+
+.sf-cycle-step {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--amber);
+    margin-bottom: 0.6rem;
+}
+
+.sf-cycle-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin: 0 0 0.5rem;
+    color: var(--green-dark);
+}
+
+.sf-cycle-text {
+    color: var(--gray);
+    font-size: 0.87rem;
+    margin: 0;
+}
+
+/* ---------- Sides ---------- */
+
+.sf-sides {
+    max-width: 62rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.sf-side-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.sf-side-card {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.sf-side-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 1rem;
+    color: var(--green-dark);
+}
+
+.sf-side-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--gray);
+    font-size: 0.92rem;
+}
+
+.sf-side-list li {
+    margin-bottom: 0.6rem;
+}
+
+.sf-side-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Note ---------- */
+
+.sf-note {
+    max-width: 40rem;
+    margin: 2.5rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.sf-note p {
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
+    border-radius: 0.9rem;
+    padding: 1.1rem 1.3rem;
+    color: var(--brown);
+    font-size: 0.94rem;
+    margin: 0;
+}
+
+/* ---------- Myths accordion ---------- */
+
+.sf-myths {
+    max-width: 40rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.sf-myth-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.sf-myth {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 0.9rem;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.sf-myth--open {
+    border-color: var(--amber);
+}
+
+.sf-myth-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: none;
+    border: none;
+    color: var(--green-dark);
+    font-family: inherit;
+    font-size: 0.97rem;
+    font-weight: 500;
+    text-align: left;
+    padding: 1rem 1.15rem;
+    cursor: pointer;
+}
+
+.sf-myth-icon {
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--amber);
+    font-size: 1.1rem;
+}
+
+.sf-myth-truth {
+    margin: 0;
+    padding: 0 1.15rem 1.1rem;
+    color: var(--gray);
+    font-size: 0.94rem;
+}
+
+/* ---------- Related ---------- */
+
+.sf-related {
+    max-width: 46rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.sf-related-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 0 0 1.25rem;
+    color: var(--green-dark);
+}
+
+.sf-related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.sf-related-link {
+    display: block;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.sf-related-link:hover {
+    border-color: var(--amber);
+    transform: translateY(-1px);
+}
+
+/* ---------- Footer ---------- */
+
+.sf-footer {
+    max-width: 38rem;
+    margin: 3rem auto 0;
+    padding: 1.5rem 1.5rem 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.sf-footer p {
+    color: var(--gray);
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 1.25rem 0 0;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .sf-cycle-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sf-side-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .sf-hero {
+        padding: 3.25rem 1.25rem 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sf-title {
+        font-size: 1.65rem;
+    }
+
+    .sf-lede {
+        font-size: 0.98rem;
+    }
+
+    .sf-cycle-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sf-related-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sf-page * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

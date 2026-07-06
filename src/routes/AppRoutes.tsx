@@ -262,6 +262,21 @@ const Sales = lazy(() => import("../pages/Sales/Sales"));
 const ProfitCalc = lazy(() => import("../pages/ProfitCalc/ProfitCalc"));
 const Composting = lazy(() => import("../pages/Composting/Composting"));
 
+// ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
+const FeedingAutomation = lazy(
+  () => import("../pages/FeedingAutomation/FeedingAutomation"),
+);
+const ClimateAutomation = lazy(
+  () => import("../pages/ClimateAutomation/ClimateAutomation"),
+);
+const FarmManagementSoftware = lazy(
+  () => import("../pages/FarmManagementSoftware/FarmManagementSoftware"),
+);
+const FarmMonitoring = lazy(
+  () => import("../pages/FarmMonitoring/FarmMonitoring"),
+);
+const SmartFarm = lazy(() => import("../pages/SmartFarm/SmartFarm"));
+
 // КРОЛИК ЯК ДОМАШНІЙ УЛЮБЛЕНЕЦЬ
 const ApartmentProofing = lazy(
   () => import("../pages/ApartmentProofing/ApartmentProofing"),
@@ -510,6 +525,15 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/sales" element={<Sales />} />
         <Route path="/profit-calculator" element={<ProfitCalc />} />
         <Route path="/composting" element={<Composting />} />
+        {/* — ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ — */}
+        <Route path="/feeding-automation" element={<FeedingAutomation />} />
+        <Route path="/climate-automation" element={<ClimateAutomation />} />
+        <Route
+          path="/farm-management-software"
+          element={<FarmManagementSoftware />}
+        />
+        <Route path="/farm-monitoring" element={<FarmMonitoring />} />
+        <Route path="/smart-farm" element={<SmartFarm />} />
         {/* — ЗОНИ — */}
         <Route path="/zoonoses" element={<Zoonoses />} />
         {/* — КРОЛИК ЯК ДОМАШНІЙ УЛЮБЛЕНЕЦЬ — */}

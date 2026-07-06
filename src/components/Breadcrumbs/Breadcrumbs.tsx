@@ -165,6 +165,13 @@ const ROUTE_LABELS: Record<string, string> = {
   "/profit-calculator": "Калькулятор рентабельності",
   "/composting": "Переробка гною",
 
+  // ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
+  "/feeding-automation": "Автоматизація годівлі та напування",
+  "/climate-automation": "Автоматичний контроль мікроклімату",
+  "/farm-management-software": "Програми обліку господарства",
+  "/farm-monitoring": "Відеоспостереження та моніторинг",
+  "/smart-farm": "Смарт-ферма: інтеграція систем",
+
   // КРОЛИК ЯК ДОМАШНІЙ УЛЮБЛЕНЕЦЬ
   "/apartment-proofing": "Кролик-пруфінг квартири",
   "/litter-training": "Привчання до лотка",
