@@ -165,6 +165,14 @@ const ROUTE_LABELS: Record<string, string> = {
   "/profit-calculator": "Калькулятор рентабельності",
   "/composting": "Переробка гною",
 
+  // КРОЛИК ЯК ДОМАШНІЙ УЛЮБЛЕНЕЦЬ
+  "/apartment-proofing": "Кролик-пруфінг квартири",
+  "/litter-training": "Привчання до лотка",
+  "/enrichment": "Збагачення середовища",
+  "/companion-bonding": "Один чи два кролики",
+  "/pet-travel": "Кролик у подорожі",
+  "/senior-rabbit": "Кролик похилого віку",
+
   // ОСОБИСТИЙ КАБІНЕТ
   "/registry": "Реєстр",
   "/registry/edit": "Редагування",

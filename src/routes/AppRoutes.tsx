@@ -262,6 +262,20 @@ const Sales = lazy(() => import("../pages/Sales/Sales"));
 const ProfitCalc = lazy(() => import("../pages/ProfitCalc/ProfitCalc"));
 const Composting = lazy(() => import("../pages/Composting/Composting"));
 
+// КРОЛИК ЯК ДОМАШНІЙ УЛЮБЛЕНЕЦЬ
+const ApartmentProofing = lazy(
+  () => import("../pages/ApartmentProofing/ApartmentProofing"),
+);
+const LitterTraining = lazy(
+  () => import("../pages/LitterTraining/LitterTraining"),
+);
+const Enrichment = lazy(() => import("../pages/Enrichment/Enrichment"));
+const CompanionBonding = lazy(
+  () => import("../pages/CompanionBonding/CompanionBonding"),
+);
+const PetTravel = lazy(() => import("../pages/PetTravel/PetTravel"));
+const SeniorRabbit = lazy(() => import("../pages/SeniorRabbit/SeniorRabbit"));
+
 // 404 СТОРІНКА
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 
@@ -498,6 +512,13 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/composting" element={<Composting />} />
         {/* — ЗОНИ — */}
         <Route path="/zoonoses" element={<Zoonoses />} />
+        {/* — КРОЛИК ЯК ДОМАШНІЙ УЛЮБЛЕНЕЦЬ — */}
+        <Route path="/apartment-proofing" element={<ApartmentProofing />} />
+        <Route path="/litter-training" element={<LitterTraining />} />
+        <Route path="/enrichment" element={<Enrichment />} />
+        <Route path="/companion-bonding" element={<CompanionBonding />} />
+        <Route path="/pet-travel" element={<PetTravel />} />
+        <Route path="/senior-rabbit" element={<SeniorRabbit />} />
         {/* — ОНОВЛЕННЯ — */}
         <Route path="/changelog" element={<Changelog />} />
         {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}

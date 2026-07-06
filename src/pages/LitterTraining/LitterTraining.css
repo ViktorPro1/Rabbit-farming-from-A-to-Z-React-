@@ -1,0 +1,316 @@
+.lt-page {
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.6;
+    padding: 0 0 5rem;
+    overflow-x: hidden;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.lt-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Hero ---------- */
+
+.lt-hero {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3rem;
+    text-align: center;
+}
+
+.lt-eyebrow {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green-accent);
+    border: 1px solid var(--gray-light);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.lt-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5vw, 3.4rem);
+    line-height: 1.12;
+    margin: 0 0 1.25rem;
+    color: var(--green-dark);
+}
+
+.lt-title-accent {
+    display: block;
+    color: var(--amber);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.6em;
+    margin-top: 0.35rem;
+}
+
+.lt-lede {
+    color: var(--gray);
+    font-size: 1.05rem;
+    max-width: 34rem;
+    margin: 0 auto;
+}
+
+/* ---------- Warren / tunnel sequence ---------- */
+
+.lt-warren {
+    position: relative;
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 0;
+}
+
+.lt-tunnel {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 2.5rem;
+    left: calc(1.5rem + 1.35rem);
+    width: 2px;
+    background: linear-gradient(to bottom,
+            transparent,
+            var(--gray-light) 4%,
+            var(--gray-light) 96%,
+            transparent);
+}
+
+.lt-chamber {
+    position: relative;
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.6rem 0;
+}
+
+.lt-chamber-marker {
+    position: relative;
+    flex: none;
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 50%;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.lt-chamber-step {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.82rem;
+    color: var(--amber);
+}
+
+.lt-chamber-body {
+    padding-top: 0.15rem;
+}
+
+.lt-chamber-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem;
+    color: var(--green-dark);
+}
+
+.lt-chamber-text {
+    color: var(--gray);
+    margin: 0;
+    font-size: 0.98rem;
+}
+
+/* ---------- Mistakes accordion ---------- */
+
+.lt-mistakes {
+    max-width: 40rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.lt-section-heading {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 1.25rem;
+    text-align: center;
+    color: var(--green-dark);
+}
+
+.lt-mistake-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.lt-mistake {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 0.9rem;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.lt-mistake--open {
+    border-color: var(--amber);
+}
+
+.lt-mistake-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: none;
+    border: none;
+    color: var(--green-dark);
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 500;
+    text-align: left;
+    padding: 1rem 1.15rem;
+    cursor: pointer;
+}
+
+.lt-mistake-icon {
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--amber);
+    font-size: 1.1rem;
+}
+
+.lt-mistake-truth {
+    margin: 0;
+    padding: 0 1.15rem 1.1rem;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+/* ---------- Note ---------- */
+
+.lt-note {
+    max-width: 38rem;
+    margin: 2.5rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.lt-note p {
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
+    border-radius: 0.9rem;
+    padding: 1rem 1.25rem;
+    color: var(--brown);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ---------- Footer ---------- */
+
+.lt-footer {
+    max-width: 38rem;
+    margin: 2.5rem auto 0;
+    padding: 1.5rem 1.5rem 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.lt-footer p {
+    color: var(--gray);
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 1.25rem 0 0;
+}
+
+/* ---------- Читайте також ---------- */
+
+.lt-related {
+    max-width: 46rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.lt-related-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 0 0 1.25rem;
+    color: var(--green-dark);
+}
+
+.lt-related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.lt-related-link {
+    display: block;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.lt-related-link:hover {
+    border-color: var(--amber);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .lt-related-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+    .lt-hero {
+        padding: 3.25rem 1.25rem 2.5rem;
+    }
+
+    .lt-chamber {
+        gap: 1.1rem;
+    }
+
+    .lt-tunnel {
+        left: calc(1.25rem + 1.2rem);
+    }
+
+    .lt-chamber-marker {
+        width: 2.4rem;
+        height: 2.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lt-title {
+        font-size: 1.85rem;
+    }
+
+    .lt-lede {
+        font-size: 0.98rem;
+    }
+
+    .lt-chamber-title {
+        font-size: 1.15rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lt-page * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

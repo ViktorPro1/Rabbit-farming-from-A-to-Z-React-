@@ -1,0 +1,287 @@
+.apf-page {
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.6;
+    padding: 0 0 5rem;
+    overflow-x: hidden;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.apf-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Hero ---------- */
+
+.apf-hero {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3rem;
+    text-align: center;
+}
+
+.apf-eyebrow {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green-accent);
+    border: 1px solid var(--gray-light);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.apf-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.14;
+    margin: 0 0 1.25rem;
+    color: var(--green-dark);
+}
+
+.apf-title-accent {
+    display: block;
+    color: var(--amber);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.55em;
+    margin-top: 0.35rem;
+}
+
+.apf-lede {
+    color: var(--gray);
+    font-size: 1.05rem;
+    max-width: 34rem;
+    margin: 0 auto;
+}
+
+/* ---------- Hazards grid ---------- */
+
+.apf-hazards {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 0;
+}
+
+.apf-section-heading {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 1.5rem;
+    text-align: center;
+    color: var(--green-dark);
+}
+
+.apf-hazard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.apf-hazard-card {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.apf-hazard-icon {
+    font-size: 1.6rem;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.apf-hazard-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: var(--green-dark);
+}
+
+.apf-hazard-text {
+    color: var(--gray);
+    font-size: 0.92rem;
+    margin: 0;
+}
+
+/* ---------- Zones accordion ---------- */
+
+.apf-zones {
+    max-width: 40rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.apf-zone-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.apf-zone {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 0.9rem;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.apf-zone--open {
+    border-color: var(--amber);
+}
+
+.apf-zone-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: none;
+    border: none;
+    color: var(--green-dark);
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 500;
+    text-align: left;
+    padding: 1rem 1.15rem;
+    cursor: pointer;
+}
+
+.apf-zone-icon {
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--amber);
+    font-size: 1.1rem;
+}
+
+.apf-zone-items {
+    margin: 0;
+    padding: 0 1.4rem 1.1rem 2rem;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.apf-zone-items li {
+    margin-bottom: 0.4rem;
+}
+
+/* ---------- Note ---------- */
+
+.apf-note {
+    max-width: 38rem;
+    margin: 2.5rem auto 0;
+    padding: 1.25rem 1.5rem;
+}
+
+.apf-note p {
+    background: var(--amber-light);
+    border: 1px solid var(--amber);
+    border-radius: 0.9rem;
+    padding: 1rem 1.25rem;
+    color: var(--brown);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ---------- Footer ---------- */
+
+.apf-footer {
+    max-width: 38rem;
+    margin: 2.5rem auto 0;
+    padding: 1.5rem 1.5rem 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.apf-footer p {
+    color: var(--gray);
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 1.25rem 0 0;
+}
+
+/* ---------- Читайте також ---------- */
+
+.apf-related {
+    max-width: 46rem;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.apf-related-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 0 0 1.25rem;
+    color: var(--green-dark);
+}
+
+.apf-related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.apf-related-link {
+    display: block;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.apf-related-link:hover {
+    border-color: var(--amber);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .apf-related-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .apf-hazard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .apf-hero {
+        padding: 3.25rem 1.25rem 2.5rem;
+    }
+
+    .apf-hazard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .apf-title {
+        font-size: 1.8rem;
+    }
+
+    .apf-lede {
+        font-size: 0.98rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .apf-page * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
