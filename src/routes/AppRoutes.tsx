@@ -17,6 +17,9 @@ const BeginnerMistakes = lazy(
   () => import("../pages/BeginnerMistakes/BeginnerMistakes"),
 );
 const Glossary = lazy(() => import("../pages/Glossary/Glossary"));
+const RabbitAllergy = lazy(
+  () => import("../pages/RabbitAllergy/RabbitAllergy"),
+);
 
 // ГОЛОВНА
 const Home = lazy(() => import("../pages/Home"));
@@ -56,6 +59,9 @@ const RabbitsAndPredators = lazy(
 );
 const RabbitsAndChickens = lazy(
   () => import("../pages/RabbitsAndChickens/RabbitsAndChickens"),
+);
+const RabbitsAndChildren = lazy(
+  () => import("../pages/RabbitsAndChildren/RabbitsAndChildren"),
 );
 
 // ЖИТЛО
@@ -261,6 +267,9 @@ const Legal = lazy(() => import("../pages/Legal/Legal"));
 const Sales = lazy(() => import("../pages/Sales/Sales"));
 const ProfitCalc = lazy(() => import("../pages/ProfitCalc/ProfitCalc"));
 const Composting = lazy(() => import("../pages/Composting/Composting"));
+const InsuranceGrants = lazy(
+  () => import("../pages/InsuranceGrants/InsuranceGrants"),
+);
 
 // ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
 const FeedingAutomation = lazy(
@@ -336,6 +345,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/beginner-mistakes" element={<BeginnerMistakes />} />
         <Route path="/rabbit-myths" element={<RabbitMyths />} />
         <Route path="/glossary" element={<Glossary />} />
+        <Route path="/rabbit-allergy" element={<RabbitAllergy />} />
         {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
@@ -368,6 +378,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           element={<RabbitsAndPredators />}
         />
         <Route path="/rabbits-and-chickens" element={<RabbitsAndChickens />} />
+        <Route path="/rabbits-and-children" element={<RabbitsAndChildren />} />
         {/* 3. ЖИТЛО */}
         <Route path="/enclosure" element={<Enclosure />} />
         <Route path="/floor-care" element={<FloorCare />} />
@@ -525,6 +536,8 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/sales" element={<Sales />} />
         <Route path="/profit-calculator" element={<ProfitCalc />} />
         <Route path="/composting" element={<Composting />} />
+        <Route path="/insurance-grants" element={<InsuranceGrants />} />
+
         {/* — ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ — */}
         <Route path="/feeding-automation" element={<FeedingAutomation />} />
         <Route path="/climate-automation" element={<ClimateAutomation />} />

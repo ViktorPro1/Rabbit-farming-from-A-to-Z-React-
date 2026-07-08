@@ -23,6 +23,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/beginner-mistakes": "Типові помилки",
   "/rabbit-myths": "Міфи про кролів",
   "/glossary": "Словник",
+  "/rabbit-allergy": "Алергія на кролів у людей",
 
   // ЗАГАЛЬНЕ
   "/subscription": "Підписка",
@@ -43,6 +44,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/rabbits-and-guinea-pigs": "Кролі та морські свинки",
   "/rabbits-and-predators": "Кролі, коти та собаки",
   "/rabbits-and-chickens": "Кролі та кури",
+  "/rabbits-and-children": "Кролі та діти",
 
   // ЖИТЛО
   "/enclosure": "Клітки",
@@ -164,6 +166,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/sales": "Збут",
   "/profit-calculator": "Калькулятор рентабельності",
   "/composting": "Переробка гною",
+  "/insurance-grants": "Страхування та грантова підтримка ОСГ",
 
   // ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
   "/feeding-automation": "Автоматизація годівлі та напування",
