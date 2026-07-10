@@ -646,7 +646,7 @@ export default function Fattening({ session }: Props) {
                       ? ` (через ${daysLeft} дн.)`
                       : daysLeft === 0
                         ? " (сьогодні!)"
-                        : " (прострочено)"}
+                        : ` (прострочено на ${Math.abs(daysLeft)} дн.)`}
                   </p>
                 )}
                 <div className="fattening-card-stats">

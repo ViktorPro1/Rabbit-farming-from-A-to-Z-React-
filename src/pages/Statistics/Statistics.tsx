@@ -86,6 +86,13 @@ interface SlaughteredCage {
   notes: string;
 }
 
+interface MonthlyStat {
+  month: string; // "2026-06"
+  totalBorn: number;
+  totalAlive: number;
+  totalSlaughtered: number;
+}
+
 function MiniBar({
   value,
   max,
@@ -120,13 +127,18 @@ function BarChart({
   const barW = Math.max(28, Math.floor(320 / data.length) - 8);
   const chartW = data.length * (barW + 8) + 16;
   const chartH = 140;
+  const topPadding = 20;
   return (
     <div className="chart-scroll">
-      <svg width={chartW} height={chartH + 36} style={{ overflow: "visible" }}>
+      <svg
+        width={chartW}
+        height={chartH + 36 + topPadding}
+        style={{ overflow: "visible" }}
+      >
         {data.map((d, i) => {
           const barH = Math.round((d.value / max) * chartH);
           const x = 8 + i * (barW + 8);
-          const y = chartH - barH;
+          const y = topPadding + (chartH - barH);
           return (
             <g key={i}>
               <rect
@@ -149,7 +161,7 @@ function BarChart({
               </text>
               <text
                 x={x + barW / 2}
-                y={chartH + 16}
+                y={topPadding + chartH + 16}
                 textAnchor="middle"
                 fontSize={10}
                 fill="var(--stat-text-muted)"
@@ -532,6 +544,181 @@ function SlaughterTab({ cages }: { cages: SlaughteredCage[] }) {
   );
 }
 
+function OverviewChart({ data }: { data: MonthlyStat[] }) {
+  const max = Math.max(
+    ...data.map((d) => Math.max(d.totalAlive, d.totalSlaughtered)),
+    1,
+  );
+  const groupW = 64;
+  const barW = 22;
+  const gap = 6;
+  const chartW = data.length * groupW + 16;
+  const chartH = 160;
+  const topPadding = 20;
+
+  function monthLabel(key: string) {
+    const [y, m] = key.split("-");
+    const names = [
+      "Січ",
+      "Лют",
+      "Бер",
+      "Кві",
+      "Тра",
+      "Чер",
+      "Лип",
+      "Сер",
+      "Вер",
+      "Жов",
+      "Лис",
+      "Гру",
+    ];
+    return `${names[parseInt(m) - 1]} ${y.slice(2)}`;
+  }
+
+  return (
+    <div className="chart-scroll">
+      <svg
+        width={chartW}
+        height={chartH + 36 + topPadding}
+        style={{ overflow: "visible" }}
+      >
+        {data.map((d, i) => {
+          const bornH = Math.round((d.totalAlive / max) * chartH);
+          const slaughterH = Math.round((d.totalSlaughtered / max) * chartH);
+          const groupX = 8 + i * groupW;
+          const bornX = groupX;
+          const slaughterX = groupX + barW + gap;
+          const bornY = topPadding + (chartH - bornH);
+          const slaughterY = topPadding + (chartH - slaughterH);
+          return (
+            <g key={d.month}>
+              <rect
+                x={bornX}
+                y={bornY}
+                width={barW}
+                height={bornH}
+                rx={4}
+                fill="#4caf50"
+                opacity={0.85}
+              />
+              {d.totalAlive > 0 && (
+                <text
+                  x={bornX + barW / 2}
+                  y={bornY - 4}
+                  textAnchor="middle"
+                  fontSize={11}
+                  fill="var(--stat-text-muted)"
+                >
+                  {d.totalAlive}
+                </text>
+              )}
+              <rect
+                x={slaughterX}
+                y={slaughterY}
+                width={barW}
+                height={slaughterH}
+                rx={4}
+                fill="#b71c1c"
+                opacity={0.85}
+              />
+              {d.totalSlaughtered > 0 && (
+                <text
+                  x={slaughterX + barW / 2}
+                  y={slaughterY - 4}
+                  textAnchor="middle"
+                  fontSize={11}
+                  fill="var(--stat-text-muted)"
+                >
+                  {d.totalSlaughtered}
+                </text>
+              )}
+              <text
+                x={groupX + (barW * 2 + gap) / 2}
+                y={topPadding + chartH + 16}
+                textAnchor="middle"
+                fontSize={10}
+                fill="var(--stat-text-muted)"
+              >
+                {monthLabel(d.month)}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function OverviewTab({ data }: { data: MonthlyStat[] }) {
+  if (data.length === 0) {
+    return (
+      <div className="stats-empty-state">
+        <div className="stats-empty-illustration">📈</div>
+        <h3 className="stats-empty-title">Даних для огляду ще немає</h3>
+        <p className="stats-empty-desc">
+          Тут з'явиться порівняння народжень і забоїв по місяцях, коли буде хоча
+          б один окріл або забій.
+        </p>
+      </div>
+    );
+  }
+
+  const totalBornAll = data.reduce((s, d) => s + d.totalAlive, 0);
+  const totalSlaughteredAll = data.reduce((s, d) => s + d.totalSlaughtered, 0);
+  const balance = totalBornAll - totalSlaughteredAll;
+
+  return (
+    <div className="overview-tab">
+      <div className="overview-legend">
+        <span className="overview-legend-item">
+          <span
+            className="overview-legend-dot"
+            style={{ background: "#4caf50" }}
+          />
+          Народилось живими
+        </span>
+        <span className="overview-legend-item">
+          <span
+            className="overview-legend-dot"
+            style={{ background: "#b71c1c" }}
+          />
+          Забито
+        </span>
+      </div>
+
+      <div className="stats-chart-block">
+        <h3 className="chart-title">Народжено vs Забито (по місяцях)</h3>
+        <OverviewChart data={data} />
+      </div>
+
+      <div className="overview-summary">
+        <div className="overview-summary-item">
+          <span className="overview-summary-val" style={{ color: "#4caf50" }}>
+            {totalBornAll}
+          </span>
+          <span className="overview-summary-label">Народилось живими</span>
+        </div>
+        <div className="overview-summary-item">
+          <span className="overview-summary-val" style={{ color: "#b71c1c" }}>
+            {totalSlaughteredAll}
+          </span>
+          <span className="overview-summary-label">Забито всього</span>
+        </div>
+        <div className="overview-summary-item">
+          <span
+            className="overview-summary-val"
+            style={{ color: balance >= 0 ? "#4caf50" : "#b71c1c" }}
+          >
+            {balance >= 0 ? "+" : ""}
+            {balance}
+          </span>
+          <span className="overview-summary-label">Баланс поголів'я</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Statistics({ session }: Props) {
   const [femaleStats, setFemaleStats] = useState<RabbitStat[]>([]);
   const [maleStats, setMaleStats] = useState<RabbitStat[]>([]);
@@ -543,10 +730,17 @@ export default function Statistics({ session }: Props) {
   );
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
-    "females" | "males" | "pairs" | "cages" | "accuracy" | "slaughter"
+    | "females"
+    | "males"
+    | "pairs"
+    | "cages"
+    | "accuracy"
+    | "slaughter"
+    | "overview"
   >("females");
   const navigate = useNavigate();
   const location = useLocation();
+  const [monthlyStats, setMonthlyStats] = useState<MonthlyStat[]>([]);
 
   useEffect(() => {
     async function loadStats() {
@@ -601,6 +795,42 @@ export default function Statistics({ session }: Props) {
         litterMatingCounts[l.mating_id] =
           (litterMatingCounts[l.mating_id] || 0) + 1;
       });
+
+      // Огляд: народжено vs забито по місяцях
+      const monthlyMap: Record<string, MonthlyStat> = {};
+      (litters || []).forEach((l) => {
+        if (!l.birth_date) return;
+        const key = l.birth_date.slice(0, 7);
+        if (!monthlyMap[key]) {
+          monthlyMap[key] = {
+            month: key,
+            totalBorn: 0,
+            totalAlive: 0,
+            totalSlaughtered: 0,
+          };
+        }
+        monthlyMap[key].totalBorn += l.total_born || 0;
+        monthlyMap[key].totalAlive += l.alive || 0;
+      });
+      (slaughtered || []).forEach((c) => {
+        if (!c.slaughtered_at) return;
+        const key = c.slaughtered_at.slice(0, 7);
+        if (!monthlyMap[key]) {
+          monthlyMap[key] = {
+            month: key,
+            totalBorn: 0,
+            totalAlive: 0,
+            totalSlaughtered: 0,
+          };
+        }
+        monthlyMap[key].totalSlaughtered +=
+          (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+      });
+      setMonthlyStats(
+        Object.values(monthlyMap).sort((a, b) =>
+          a.month.localeCompare(b.month),
+        ),
+      );
 
       // Female stats
       const femaleMap: Record<string, RabbitStat> = {};
@@ -991,6 +1221,12 @@ export default function Statistics({ session }: Props) {
             >
               🔪 Забої
             </button>
+            <button
+              className={`stats-tab ${activeTab === "overview" ? "active" : ""}`}
+              onClick={() => setActiveTab("overview")}
+            >
+              📈 Огляд
+            </button>
           </div>
 
           {activeTab !== "pairs" &&
@@ -1162,6 +1398,8 @@ export default function Statistics({ session }: Props) {
             {activeTab === "slaughter" && (
               <SlaughterTab cages={slaughteredCages} />
             )}
+
+            {activeTab === "overview" && <OverviewTab data={monthlyStats} />}
           </div>
         </>
       )}

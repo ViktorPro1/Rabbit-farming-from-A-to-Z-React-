@@ -144,7 +144,7 @@ export default function FatteningPublic() {
                       ? ` (через ${daysLeft} дн.)`
                       : daysLeft === 0
                         ? " (сьогодні!)"
-                        : " (прострочено)"}
+                        : ` (прострочено на ${Math.abs(daysLeft)} дн.)`}
                   </span>
                 )}
               </span>

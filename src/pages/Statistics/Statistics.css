@@ -598,3 +598,59 @@
         gap: 0.2rem;
     }
 }
+
+/* ===== ОГЛЯД ===== */
+.overview-tab {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.overview-legend {
+    display: flex;
+    gap: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.overview-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.overview-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.overview-summary {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.overview-summary-item {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    min-width: 140px;
+}
+
+.overview-summary-val {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.overview-summary-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    text-align: center;
+}
