@@ -63,6 +63,14 @@ export default function Fattening({ session }: Props) {
   const [slaughterDate, setSlaughterDate] = useState(todayIso());
   const [slaughterSaving, setSlaughterSaving] = useState(false);
 
+  // Модалка продажу
+  const [sellCage, setSellCage] = useState<FatteningCage | null>(null);
+  const [sellMales, setSellMales] = useState("");
+  const [sellFemales, setSellFemales] = useState("");
+  const [sellUnknown, setSellUnknown] = useState("");
+  const [sellSaving, setSellSaving] = useState(false);
+  const [sellError, setSellError] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -149,6 +157,76 @@ export default function Fattening({ session }: Props) {
   function openSlaughterModal(cage: FatteningCage) {
     setSlaughterCage(cage);
     setSlaughterDate(todayIso());
+  }
+
+  function openSellModal(cage: FatteningCage) {
+    setSellCage(cage);
+    setSellMales("");
+    setSellFemales("");
+    setSellUnknown("");
+    setSellError("");
+  }
+
+  async function handleSell() {
+    if (!sellCage) return;
+    const m = Number(sellMales) || 0;
+    const f = Number(sellFemales) || 0;
+    const u = Number(sellUnknown) || 0;
+
+    if (m === 0 && f === 0 && u === 0) {
+      setSellError("Вкажіть кількість проданих");
+      return;
+    }
+    if (m > sellCage.males || f > sellCage.females || u > sellCage.unknown) {
+      setSellError("Продано більше, ніж є в клітці");
+      return;
+    }
+
+    setSellSaving(true);
+
+    // 1. Записуємо факт продажу в окрему таблицю
+    const { error: saleError } = await supabase.from("sales").insert({
+      user_id: session.user.id,
+      fattening_id: sellCage.id,
+      cage_number: sellCage.cage_number,
+      breed: sellCage.breed || null,
+      males: m,
+      females: f,
+      unknown: u,
+      sold_at: todayIso(),
+    });
+
+    if (saleError) {
+      setSellError("Помилка збереження продажу");
+      setSellSaving(false);
+      return;
+    }
+
+    // 2. Оновлюємо залишок у клітці
+    const newMales = sellCage.males - m;
+    const newFemales = sellCage.females - f;
+    const newUnknown = sellCage.unknown - u;
+    const allSold = newMales === 0 && newFemales === 0 && newUnknown === 0;
+
+    if (allSold) {
+      await supabase
+        .from("fattening")
+        .update({ is_active: false })
+        .eq("id", sellCage.id);
+    } else {
+      await supabase
+        .from("fattening")
+        .update({
+          males: newMales,
+          females: newFemales,
+          unknown: newUnknown,
+        })
+        .eq("id", sellCage.id);
+    }
+
+    setSellCage(null);
+    setSellSaving(false);
+    fetchCages();
   }
 
   async function handleSlaughter() {
@@ -291,6 +369,91 @@ export default function Fattening({ session }: Props) {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* МОДАЛКА ПРОДАЖУ */}
+      {sellCage && (
+        <div className="help-overlay" onClick={() => setSellCage(null)}>
+          <div
+            className="help-modal"
+            style={{ maxWidth: 380 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="help-modal-header">
+              <h2>Продано з клітки</h2>
+              <button className="help-close" onClick={() => setSellCage(null)}>
+                ✕
+              </button>
+            </div>
+            <p style={{ margin: "12px 0 8px" }}>
+              Клітка <strong>№ {sellCage.cage_number}</strong>
+              {sellCage.breed ? ` · ${sellCage.breed}` : ""}
+            </p>
+            <p
+              style={{
+                fontSize: "0.85rem",
+                color: "var(--gray)",
+                margin: "0 0 12px",
+              }}
+            >
+              В наявності: ♂ {sellCage.males} · ♀ {sellCage.females}
+              {sellCage.unknown > 0 ? ` · ? ${sellCage.unknown}` : ""}
+            </p>
+            <div
+              className="fattening-form-grid"
+              style={{ gridTemplateColumns: "1fr 1fr" }}
+            >
+              <div className="fattening-form-field">
+                <label>Продано самців</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={sellCage.males}
+                  value={sellMales}
+                  onChange={(e) => setSellMales(e.target.value)}
+                />
+              </div>
+              <div className="fattening-form-field">
+                <label>Продано самиць</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={sellCage.females}
+                  value={sellFemales}
+                  onChange={(e) => setSellFemales(e.target.value)}
+                />
+              </div>
+              {sellCage.unknown > 0 && (
+                <div className="fattening-form-field">
+                  <label>Продано (стать невід.)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={sellCage.unknown}
+                    value={sellUnknown}
+                    onChange={(e) => setSellUnknown(e.target.value)}
+                  />
+                </div>
+              )}
+            </div>
+            {sellError && <p className="fattening-error">{sellError}</p>}
+            <div className="fattening-edit-actions">
+              <button
+                className="fattening-cancel-btn"
+                onClick={() => setSellCage(null)}
+              >
+                Скасувати
+              </button>
+              <button
+                className="fattening-save-btn"
+                onClick={handleSell}
+                disabled={sellSaving}
+              >
+                {sellSaving ? "Збереження..." : "💰 Підтвердити"}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -589,6 +752,12 @@ export default function Fattening({ session }: Props) {
                       onClick={() => setEditingCage(cage)}
                     >
                       Редагувати
+                    </button>
+                    <button
+                      className="fattening-sell-btn"
+                      onClick={() => openSellModal(cage)}
+                    >
+                      Продано
                     </button>
                     <button
                       className="fattening-slaughter-btn"

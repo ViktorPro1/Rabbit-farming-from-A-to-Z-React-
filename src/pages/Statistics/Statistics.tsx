@@ -86,11 +86,20 @@ interface SlaughteredCage {
   notes: string;
 }
 
+interface SaleRecord {
+  id: string;
+  males: number;
+  females: number;
+  unknown: number;
+  sold_at: string;
+}
+
 interface MonthlyStat {
   month: string; // "2026-06"
   totalBorn: number;
   totalAlive: number;
   totalSlaughtered: number;
+  totalSold: number;
 }
 
 function MiniBar({
@@ -544,35 +553,194 @@ function SlaughterTab({ cages }: { cages: SlaughteredCage[] }) {
   );
 }
 
+function SalesTab({ sales }: { sales: SaleRecord[] }) {
+  const total = sales.reduce(
+    (s, c) => s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
+    0,
+  );
+
+  const byMonth: Record<string, SaleRecord[]> = {};
+  sales.forEach((s) => {
+    if (!s.sold_at) return;
+    const key = s.sold_at.slice(0, 7);
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(s);
+  });
+  const months = Object.keys(byMonth).sort((a, b) => b.localeCompare(a));
+
+  function monthLabelFull(key: string) {
+    const [y, m] = key.split("-");
+    const names = [
+      "Січень",
+      "Лютий",
+      "Березень",
+      "Квітень",
+      "Травень",
+      "Червень",
+      "Липень",
+      "Серпень",
+      "Вересень",
+      "Жовтень",
+      "Листопад",
+      "Грудень",
+    ];
+    return `${names[parseInt(m) - 1]} ${y}`;
+  }
+
+  if (sales.length === 0) {
+    return (
+      <div className="stats-empty-state">
+        <div className="stats-empty-illustration">💰</div>
+        <h3 className="stats-empty-title">Продажів ще не було</h3>
+        <p className="stats-empty-desc">
+          Після першого продажу у розділі Відгодівля (кнопка «Продано») — дані
+          з'являться тут автоматично.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="slaughter-tab">
+      <div className="slaughter-summary">
+        <div
+          className="slaughter-summary-item"
+          style={{ borderTopColor: "#c9a227" }}
+        >
+          <span className="slaughter-summary-val" style={{ color: "#c9a227" }}>
+            {sales.length}
+          </span>
+          <span className="slaughter-summary-label">Продажів</span>
+        </div>
+        <div
+          className="slaughter-summary-item"
+          style={{ borderTopColor: "#c9a227" }}
+        >
+          <span className="slaughter-summary-val" style={{ color: "#c9a227" }}>
+            {total}
+          </span>
+          <span className="slaughter-summary-label">Голів продано</span>
+        </div>
+      </div>
+
+      {months.map((month) => {
+        const group = byMonth[month];
+        const groupTotal = group.reduce(
+          (s, c) => s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
+          0,
+        );
+        return (
+          <div key={month} className="slaughter-month">
+            <div className="slaughter-month-header">
+              <span className="slaughter-month-title">
+                {monthLabelFull(month)}
+              </span>
+              <span
+                className="slaughter-month-total"
+                style={{ color: "#c9a227" }}
+              >
+                {groupTotal} гол.
+              </span>
+            </div>
+            <div className="slaughter-list">
+              {group.map((s) => {
+                const count =
+                  (s.males || 0) + (s.females || 0) + (s.unknown || 0);
+                const parts: string[] = [];
+                if (s.males) parts.push(`♂ ${s.males}`);
+                if (s.females) parts.push(`♀ ${s.females}`);
+                if (s.unknown) parts.push(`? ${s.unknown}`);
+                return (
+                  <div
+                    key={s.id}
+                    className="slaughter-row"
+                    style={{ borderLeftColor: "#c9a227" }}
+                  >
+                    <div className="slaughter-row-left">
+                      <span className="slaughter-cage">
+                        {parts.join(" · ")}
+                      </span>
+                    </div>
+                    <div className="slaughter-row-right">
+                      <span
+                        className="slaughter-count"
+                        style={{ color: "#c9a227" }}
+                      >
+                        {count} гол.
+                      </span>
+                      <span className="slaughter-date">
+                        {new Date(s.sold_at).toLocaleDateString("uk-UA")}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function monthLabelShort(key: string) {
+  const [y, m] = key.split("-");
+  const names = [
+    "Січ",
+    "Лют",
+    "Бер",
+    "Кві",
+    "Тра",
+    "Чер",
+    "Лип",
+    "Сер",
+    "Вер",
+    "Жов",
+    "Лис",
+    "Гру",
+  ];
+  return `${names[parseInt(m) - 1]} ${y.slice(2)}`;
+}
+
 function OverviewChart({ data }: { data: MonthlyStat[] }) {
   const max = Math.max(
-    ...data.map((d) => Math.max(d.totalAlive, d.totalSlaughtered)),
+    ...data.map((d) => Math.max(d.totalAlive, d.totalSlaughtered, d.totalSold)),
     1,
   );
-  const groupW = 64;
-  const barW = 22;
-  const gap = 6;
+  const groupW = 84;
+  const barW = 20;
+  const gap = 4;
   const chartW = data.length * groupW + 16;
   const chartH = 160;
   const topPadding = 20;
 
-  function monthLabel(key: string) {
-    const [y, m] = key.split("-");
-    const names = [
-      "Січ",
-      "Лют",
-      "Бер",
-      "Кві",
-      "Тра",
-      "Чер",
-      "Лип",
-      "Сер",
-      "Вер",
-      "Жов",
-      "Лис",
-      "Гру",
-    ];
-    return `${names[parseInt(m) - 1]} ${y.slice(2)}`;
+  function bar(x: number, value: number, color: string, key: string) {
+    const h = Math.round((value / max) * chartH);
+    const y = topPadding + (chartH - h);
+    return (
+      <g key={key}>
+        <rect
+          x={x}
+          y={y}
+          width={barW}
+          height={h}
+          rx={4}
+          fill={color}
+          opacity={0.85}
+        />
+        {value > 0 && (
+          <text
+            x={x + barW / 2}
+            y={y - 4}
+            textAnchor="middle"
+            fontSize={10}
+            fill="var(--stat-text-muted)"
+          >
+            {value}
+          </text>
+        )}
+      </g>
+    );
   }
 
   return (
@@ -583,63 +751,28 @@ function OverviewChart({ data }: { data: MonthlyStat[] }) {
         style={{ overflow: "visible" }}
       >
         {data.map((d, i) => {
-          const bornH = Math.round((d.totalAlive / max) * chartH);
-          const slaughterH = Math.round((d.totalSlaughtered / max) * chartH);
           const groupX = 8 + i * groupW;
           const bornX = groupX;
           const slaughterX = groupX + barW + gap;
-          const bornY = topPadding + (chartH - bornH);
-          const slaughterY = topPadding + (chartH - slaughterH);
+          const soldX = groupX + (barW + gap) * 2;
           return (
             <g key={d.month}>
-              <rect
-                x={bornX}
-                y={bornY}
-                width={barW}
-                height={bornH}
-                rx={4}
-                fill="#4caf50"
-                opacity={0.85}
-              />
-              {d.totalAlive > 0 && (
-                <text
-                  x={bornX + barW / 2}
-                  y={bornY - 4}
-                  textAnchor="middle"
-                  fontSize={11}
-                  fill="var(--stat-text-muted)"
-                >
-                  {d.totalAlive}
-                </text>
+              {bar(bornX, d.totalAlive, "#4caf50", `${d.month}-born`)}
+              {bar(
+                slaughterX,
+                d.totalSlaughtered,
+                "#b71c1c",
+                `${d.month}-slaughter`,
               )}
-              <rect
-                x={slaughterX}
-                y={slaughterY}
-                width={barW}
-                height={slaughterH}
-                rx={4}
-                fill="#b71c1c"
-                opacity={0.85}
-              />
-              {d.totalSlaughtered > 0 && (
-                <text
-                  x={slaughterX + barW / 2}
-                  y={slaughterY - 4}
-                  textAnchor="middle"
-                  fontSize={11}
-                  fill="var(--stat-text-muted)"
-                >
-                  {d.totalSlaughtered}
-                </text>
-              )}
+              {bar(soldX, d.totalSold, "#c9a227", `${d.month}-sold`)}
               <text
-                x={groupX + (barW * 2 + gap) / 2}
+                x={groupX + (barW * 3 + gap * 2) / 2}
                 y={topPadding + chartH + 16}
                 textAnchor="middle"
                 fontSize={10}
                 fill="var(--stat-text-muted)"
               >
-                {monthLabel(d.month)}
+                {monthLabelShort(d.month)}
               </text>
             </g>
           );
@@ -656,8 +789,8 @@ function OverviewTab({ data }: { data: MonthlyStat[] }) {
         <div className="stats-empty-illustration">📈</div>
         <h3 className="stats-empty-title">Даних для огляду ще немає</h3>
         <p className="stats-empty-desc">
-          Тут з'явиться порівняння народжень і забоїв по місяцях, коли буде хоча
-          б один окріл або забій.
+          Тут з'явиться порівняння народжень, забоїв і продажів по місяцях, коли
+          буде хоча б один окріл, забій або продаж.
         </p>
       </div>
     );
@@ -665,7 +798,8 @@ function OverviewTab({ data }: { data: MonthlyStat[] }) {
 
   const totalBornAll = data.reduce((s, d) => s + d.totalAlive, 0);
   const totalSlaughteredAll = data.reduce((s, d) => s + d.totalSlaughtered, 0);
-  const balance = totalBornAll - totalSlaughteredAll;
+  const totalSoldAll = data.reduce((s, d) => s + d.totalSold, 0);
+  const balance = totalBornAll - totalSlaughteredAll - totalSoldAll;
 
   return (
     <div className="overview-tab">
@@ -684,10 +818,19 @@ function OverviewTab({ data }: { data: MonthlyStat[] }) {
           />
           Забито
         </span>
+        <span className="overview-legend-item">
+          <span
+            className="overview-legend-dot"
+            style={{ background: "#c9a227" }}
+          />
+          Продано
+        </span>
       </div>
 
       <div className="stats-chart-block">
-        <h3 className="chart-title">Народжено vs Забито (по місяцях)</h3>
+        <h3 className="chart-title">
+          Народжено / Забито / Продано (по місяцях)
+        </h3>
         <OverviewChart data={data} />
       </div>
 
@@ -703,6 +846,12 @@ function OverviewTab({ data }: { data: MonthlyStat[] }) {
             {totalSlaughteredAll}
           </span>
           <span className="overview-summary-label">Забито всього</span>
+        </div>
+        <div className="overview-summary-item">
+          <span className="overview-summary-val" style={{ color: "#c9a227" }}>
+            {totalSoldAll}
+          </span>
+          <span className="overview-summary-label">Продано всього</span>
         </div>
         <div className="overview-summary-item">
           <span
@@ -728,6 +877,7 @@ export default function Statistics({ session }: Props) {
   const [slaughteredCages, setSlaughteredCages] = useState<SlaughteredCage[]>(
     [],
   );
+  const [salesData, setSalesData] = useState<SaleRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
     | "females"
@@ -736,6 +886,7 @@ export default function Statistics({ session }: Props) {
     | "cages"
     | "accuracy"
     | "slaughter"
+    | "sales"
     | "overview"
   >("females");
   const navigate = useNavigate();
@@ -758,6 +909,44 @@ export default function Statistics({ session }: Props) {
         .order("slaughtered_at", { ascending: false });
       setSlaughteredCages(slaughtered || []);
 
+      // Продажі
+      const { data: sales } = await supabase
+        .from("sales")
+        .select("id, males, females, unknown, sold_at")
+        .eq("user_id", session.user.id)
+        .order("sold_at", { ascending: false });
+      setSalesData(sales || []);
+
+      // Огляд: народжено / забито / продано по місяцях
+      const monthlyMap: Record<string, MonthlyStat> = {};
+
+      function ensureMonth(key: string) {
+        if (!monthlyMap[key]) {
+          monthlyMap[key] = {
+            month: key,
+            totalBorn: 0,
+            totalAlive: 0,
+            totalSlaughtered: 0,
+            totalSold: 0,
+          };
+        }
+        return monthlyMap[key];
+      }
+
+      (slaughtered || []).forEach((c) => {
+        if (!c.slaughtered_at) return;
+        const key = c.slaughtered_at.slice(0, 7);
+        ensureMonth(key).totalSlaughtered +=
+          (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+      });
+
+      (sales || []).forEach((s) => {
+        if (!s.sold_at) return;
+        const key = s.sold_at.slice(0, 7);
+        ensureMonth(key).totalSold +=
+          (s.males || 0) + (s.females || 0) + (s.unknown || 0);
+      });
+
       const { data: matings } = await supabase
         .from("matings")
         .select(
@@ -766,6 +955,11 @@ export default function Statistics({ session }: Props) {
         .eq("user_id", session.user.id);
 
       if (!matings || matings.length === 0) {
+        setMonthlyStats(
+          Object.values(monthlyMap).sort((a, b) =>
+            a.month.localeCompare(b.month),
+          ),
+        );
         setLoading(false);
         return;
       }
@@ -796,35 +990,13 @@ export default function Statistics({ session }: Props) {
           (litterMatingCounts[l.mating_id] || 0) + 1;
       });
 
-      // Огляд: народжено vs забито по місяцях
-      const monthlyMap: Record<string, MonthlyStat> = {};
+      // Огляд: додаємо народжено по місяцях
       (litters || []).forEach((l) => {
         if (!l.birth_date) return;
         const key = l.birth_date.slice(0, 7);
-        if (!monthlyMap[key]) {
-          monthlyMap[key] = {
-            month: key,
-            totalBorn: 0,
-            totalAlive: 0,
-            totalSlaughtered: 0,
-          };
-        }
-        monthlyMap[key].totalBorn += l.total_born || 0;
-        monthlyMap[key].totalAlive += l.alive || 0;
-      });
-      (slaughtered || []).forEach((c) => {
-        if (!c.slaughtered_at) return;
-        const key = c.slaughtered_at.slice(0, 7);
-        if (!monthlyMap[key]) {
-          monthlyMap[key] = {
-            month: key,
-            totalBorn: 0,
-            totalAlive: 0,
-            totalSlaughtered: 0,
-          };
-        }
-        monthlyMap[key].totalSlaughtered +=
-          (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+        const stat = ensureMonth(key);
+        stat.totalBorn += l.total_born || 0;
+        stat.totalAlive += l.alive || 0;
       });
       setMonthlyStats(
         Object.values(monthlyMap).sort((a, b) =>
@@ -1222,6 +1394,12 @@ export default function Statistics({ session }: Props) {
               🔪 Забої
             </button>
             <button
+              className={`stats-tab ${activeTab === "sales" ? "active" : ""}`}
+              onClick={() => setActiveTab("sales")}
+            >
+              💰 Продажі
+            </button>
+            <button
               className={`stats-tab ${activeTab === "overview" ? "active" : ""}`}
               onClick={() => setActiveTab("overview")}
             >
@@ -1233,6 +1411,8 @@ export default function Statistics({ session }: Props) {
             activeTab !== "cages" &&
             activeTab !== "accuracy" &&
             activeTab !== "slaughter" &&
+            activeTab !== "sales" &&
+            activeTab !== "overview" &&
             currentStats.length > 0 && (
               <div className="stats-chart-block">
                 <h3 className="chart-title">
@@ -1398,6 +1578,8 @@ export default function Statistics({ session }: Props) {
             {activeTab === "slaughter" && (
               <SlaughterTab cages={slaughteredCages} />
             )}
+
+            {activeTab === "sales" && <SalesTab sales={salesData} />}
 
             {activeTab === "overview" && <OverviewTab data={monthlyStats} />}
           </div>

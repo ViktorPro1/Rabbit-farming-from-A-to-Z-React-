@@ -515,6 +515,22 @@
     color: var(--green-dark);
 }
 
+.fattening-sell-btn {
+    background: none;
+    border: 1px solid #c9a227;
+    color: #c9a227;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.fattening-sell-btn:hover {
+    background: #c9a227;
+    color: white;
+}
+
 @media (max-width: 480px) {
     .fattening-note-grid {
         grid-template-columns: 1fr;
