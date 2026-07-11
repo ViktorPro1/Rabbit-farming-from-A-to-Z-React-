@@ -1,0 +1,563 @@
+.disinfection-log-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.disinfection-log-content {
+    flex: 1;
+}
+
+.disinfection-log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.disinfection-log-header h1 {
+    font-size: 1.8rem;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.disinfection-log-back-btn {
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.disinfection-log-back-btn:hover {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+.disinfection-log-loading {
+    text-align: center;
+    color: var(--gray);
+    padding: 4rem 0;
+    font-size: 1rem;
+}
+
+/* ── Статистика ── */
+.disinfection-log-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.disinfection-log-stat {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid var(--green-dark);
+}
+
+.disinfection-log-stat.overdue {
+    border-top-color: #b71c1c;
+}
+
+.disinfection-log-stat.overdue .disinfection-log-stat-value {
+    color: #b71c1c;
+}
+
+.disinfection-log-stat.soon {
+    border-top-color: var(--amber);
+}
+
+.disinfection-log-stat.soon .disinfection-log-stat-value {
+    color: var(--amber);
+}
+
+.disinfection-log-stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1.1;
+}
+
+.disinfection-log-stat-label {
+    font-size: 0.78rem;
+    color: var(--gray);
+    text-align: center;
+}
+
+/* ── Кнопка додавання ── */
+.disinfection-log-add-btn {
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-bottom: 1.25rem;
+}
+
+.disinfection-log-add-btn:hover {
+    opacity: 0.9;
+}
+
+/* ── Форма ── */
+.disinfection-log-form {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.disinfection-log-edit-form h3 {
+    color: var(--green-dark);
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+}
+
+.disinfection-log-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.disinfection-log-form-grid input {
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    background: white;
+    color: var(--green-dark);
+}
+
+.disinfection-log-form-grid input:focus {
+    outline: none;
+    border-color: var(--green-dark);
+}
+
+.disinfection-log-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.disinfection-log-form-field label {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.disinfection-log-form-full {
+    grid-column: 1 / -1;
+}
+
+.disinfection-log-error {
+    color: #b71c1c;
+    font-size: 0.85rem;
+    margin: 0 0 0.75rem;
+}
+
+.disinfection-log-save-btn {
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.disinfection-log-save-btn:hover {
+    opacity: 0.9;
+}
+
+.disinfection-log-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.disinfection-log-cancel-btn {
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.9rem;
+    color: var(--gray);
+    cursor: pointer;
+}
+
+.disinfection-log-cancel-btn:hover {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+}
+
+.disinfection-log-edit-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+/* ── Порожній стан ── */
+.disinfection-log-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.disinfection-log-empty-illustration {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.disinfection-log-empty-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.disinfection-log-empty-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    max-width: 380px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Список карток ── */
+.disinfection-log-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.disinfection-log-card {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.disinfection-log-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.disinfection-log-cage-num {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.disinfection-log-card-btns {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.disinfection-log-edit-btn,
+.disinfection-log-done-btn,
+.disinfection-log-delete-btn {
+    background: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.disinfection-log-edit-btn {
+    border: 1px solid var(--green-light);
+    color: var(--green-dark);
+}
+
+.disinfection-log-edit-btn:hover {
+    background: var(--green-light);
+}
+
+.disinfection-log-done-btn {
+    border: 1px solid var(--green-dark);
+    color: var(--green-dark);
+}
+
+.disinfection-log-done-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.disinfection-log-delete-btn {
+    border: 1px solid #e0a0a0;
+    color: #b71c1c;
+}
+
+.disinfection-log-delete-btn:hover {
+    background: #b71c1c;
+    color: white;
+}
+
+.disinfection-log-product,
+.disinfection-log-date {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin: 0.3rem 0;
+}
+
+.disinfection-log-product strong,
+.disinfection-log-date strong {
+    color: var(--green-dark);
+}
+
+.disinfection-log-next {
+    font-size: 0.9rem;
+    color: var(--green-dark);
+    margin: 0.4rem 0;
+    font-weight: 600;
+}
+
+.disinfection-log-next.soon {
+    color: var(--amber);
+}
+
+.disinfection-log-next.overdue {
+    color: #b71c1c;
+}
+
+.disinfection-log-notes {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--gray-light);
+}
+
+@media (max-width: 640px) {
+    .disinfection-log-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .disinfection-log-stat-value {
+        font-size: 1.3rem;
+    }
+
+    .disinfection-log-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .disinfection-log-header h1 {
+        font-size: 1.4rem;
+    }
+}
+
+/* ── Зноска-акордеон ── */
+.disinfection-log-note {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.disinfection-log-note-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    cursor: pointer;
+    padding: 0.25rem 0;
+}
+
+.disinfection-log-note-text {
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 1rem 0 0.75rem;
+}
+
+.disinfection-log-note-example {
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: var(--green-dark);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.disinfection-log-note-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.disinfection-log-note-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    background: white;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+}
+
+.disinfection-log-note-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.disinfection-log-note-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.disinfection-log-note-item strong {
+    font-size: 0.85rem;
+    color: var(--green-dark);
+}
+
+.disinfection-log-note-item span {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.disinfection-log-note-dose {
+    font-weight: 600;
+    color: var(--green-dark) !important;
+}
+
+.disinfection-log-note-warn {
+    background: #fff3e0;
+    color: #8a3a00;
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+}
+
+.disinfection-log-note-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--green-dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.disinfection-log-note-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+    .disinfection-log-note-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .disinfection-log-page {
+        padding: 1rem 1rem 2rem;
+    }
+
+    .disinfection-log-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .disinfection-log-back-btn {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.85rem;
+    }
+
+    .disinfection-log-stats {
+        gap: 0.4rem;
+        margin-bottom: 1.1rem;
+    }
+
+    .disinfection-log-stat {
+        padding: 0.75rem 0.4rem;
+    }
+
+    .disinfection-log-stat-value {
+        font-size: 1.1rem;
+    }
+
+    .disinfection-log-stat-label {
+        font-size: 0.68rem;
+    }
+
+    .disinfection-log-add-btn {
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .disinfection-log-form {
+        padding: 1rem;
+    }
+
+    .disinfection-log-card {
+        padding: 1rem;
+    }
+
+    .disinfection-log-card-btns {
+        width: 100%;
+    }
+
+    .disinfection-log-edit-btn,
+    .disinfection-log-done-btn,
+    .disinfection-log-delete-btn {
+        flex: 1 1 auto;
+        text-align: center;
+        font-size: 0.78rem;
+        padding: 0.4rem 0.5rem;
+    }
+
+    .disinfection-log-empty-illustration {
+        font-size: 48px;
+    }
+
+    .disinfection-log-empty-title {
+        font-size: 1.05rem;
+    }
+
+    .disinfection-log-empty-desc {
+        font-size: 0.85rem;
+    }
+}

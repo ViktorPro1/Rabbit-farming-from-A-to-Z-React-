@@ -227,6 +227,9 @@ const MyVaccinations = lazy(
   () => import("../pages/MyVaccinations/MyVaccinations"),
 );
 const MyTreatments = lazy(() => import("../pages/MyTreatments/MyTreatments"));
+const DisinfectionLog = lazy(
+  () => import("../pages/DisinfectionLog/DisinfectionLog"),
+);
 
 // ПЛЕМІННА СПРАВА ТА ВИСТАВКИ
 const BreedStandards = lazy(
@@ -512,6 +515,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route
           path="/my-treatments"
           element={session ? <MyTreatments session={session} /> : <Auth />}
+        />
+        <Route
+          path="/disinfection-log"
+          element={<DisinfectionLog session={session!} />}
         />
         {/* — Племінна справа та виставки — */}
         <Route path="/breed-standards" element={<BreedStandards />} />
