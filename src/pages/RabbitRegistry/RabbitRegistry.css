@@ -930,3 +930,19 @@ button.registry-email:hover {
     line-height: 1.6;
     margin: 0;
 }
+
+.rabbit-breeding-progress-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e4e4d8;
+    overflow: hidden;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
+
+.rabbit-breeding-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}

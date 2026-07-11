@@ -709,6 +709,31 @@ export default function RabbitRegistry({ session }: Props) {
                   })()}
                 {rabbit.notes && <p className="rabbit-notes">{rabbit.notes}</p>}
               </div>
+              {rabbit.birth_date &&
+                (() => {
+                  const birth = new Date(rabbit.birth_date);
+                  const today = new Date();
+                  const days = Math.floor(
+                    (today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24),
+                  );
+                  const breedingLimitDays = 3 * 365;
+                  const percent = Math.min(
+                    100,
+                    Math.round((days / breedingLimitDays) * 100),
+                  );
+
+                  return (
+                    <div className="rabbit-breeding-progress-track">
+                      <div
+                        className="rabbit-breeding-progress-fill"
+                        style={{
+                          width: `${percent}%`,
+                          backgroundColor: `hsl(${100 - percent}, 70%, 40%)`,
+                        }}
+                      />
+                    </div>
+                  );
+                })()}
               <div className="rabbit-card-actions">
                 <button
                   className="rabbit-edit-btn"
