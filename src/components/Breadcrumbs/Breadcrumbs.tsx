@@ -29,6 +29,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/subscription": "Підписка",
   "/community": "Спільнота",
   "/auth": "Вхід",
+  "/disinfection-log": "Дезінфекція",
 
   // ПОЧАТОК — знайомство з твариною
   "/biology": "Біологія та анатомія",
