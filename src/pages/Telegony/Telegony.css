@@ -1,0 +1,495 @@
+.teleg-page {
+    min-height: 100vh;
+}
+
+/* HEADER */
+.teleg-header {
+    background: linear-gradient(90deg, #5d3a1a, #a0522d);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.teleg-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.teleg-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.teleg-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.teleg-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-dark);
+}
+
+.teleg-note {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.teleg-note p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.teleg-note p:last-child {
+    margin-bottom: 0;
+}
+
+.teleg-note ul {
+    padding-left: 1.2rem;
+    margin: 8px 0;
+}
+
+.teleg-note li {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+/* GRIDS */
+.teleg-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.teleg-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+/* TABLE */
+.teleg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.teleg-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.teleg-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.teleg-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.teleg-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* VERDICT CARD (great big myth/fact banner) */
+.teleg-verdict {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    border-top: 4px solid #2e7d32;
+    padding: 1.5rem;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.teleg-verdict-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.teleg-verdict strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.teleg-verdict p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* MYTH VS FACT CARDS */
+.teleg-compare-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    border-top-width: 3px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.teleg-compare-card.myth {
+    border-top-color: #b71c1c;
+}
+
+.teleg-compare-card.fact {
+    border-top-color: #2e7d32;
+}
+
+.teleg-compare-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.teleg-compare-icon {
+    font-size: 20px;
+}
+
+.teleg-compare-header strong {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+}
+
+.teleg-compare-card p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* STEPS / EXPLANATION BLOCKS */
+.teleg-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.teleg-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.teleg-step:last-child {
+    border-bottom: none;
+}
+
+.teleg-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.teleg-step-content {
+    flex: 1;
+}
+
+.teleg-step-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.teleg-step-content p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0 0 8px;
+}
+
+/* EXAMPLE CARD */
+.teleg-example {
+    background: var(--green-light);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.teleg-example strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.teleg-example-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--green-dark);
+    padding: 6px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.teleg-example-row:last-child {
+    border-bottom: none;
+}
+
+.teleg-example-arrow {
+    color: var(--gray);
+}
+
+/* ALERTS */
+.teleg-alert {
+    margin-top: 12px;
+    margin-bottom: 1rem;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.teleg-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.teleg-alert.warn {
+    background: #fff3e0;
+    color: #8a3a00;
+    border-left: 3px solid #e65100;
+}
+
+.teleg-alert.info {
+    background: #e3f2fd;
+    color: #0d47a1;
+    border-left: 3px solid #1565c0;
+}
+
+/* HIGHLIGHT CARD */
+.teleg-highlight-card {
+    background: var(--amber-light);
+    border-radius: 16px;
+    border: 0.5px solid #ffe082;
+    padding: 1.25rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.teleg-highlight-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.teleg-highlight-card strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5d3a1a;
+    margin-bottom: 8px;
+}
+
+.teleg-highlight-card p {
+    font-size: 13px;
+    color: var(--brown);
+    line-height: 1.7;
+    margin: 0 0 8px;
+}
+
+.teleg-highlight-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* SOURCES */
+.teleg-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.teleg-source-item {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    padding: 8px 10px;
+    background: var(--green-light);
+    border-radius: 8px;
+}
+
+.teleg-source-item b {
+    font-weight: 500;
+}
+
+/* BACK */
+.teleg-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.teleg-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    width: fit-content;
+    flex-shrink: 0;
+}
+
+.teleg-back-btn:hover {
+    background: var(--green-mid);
+}
+
+.teleg-related {
+    margin-top: 32px;
+    padding-top: 24px;
+    padding-left: 16px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.teleg-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .teleg-related-title {
+    color: var(--green-pale);
+}
+
+.teleg-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.teleg-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.teleg-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .teleg-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-pale);
+}
+
+[data-theme="dark"] .teleg-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* DARK MODE for alerts/highlight */
+[data-theme="dark"] .teleg-alert.warn {
+    background: #4a2c0a;
+    color: #ffd9a8;
+}
+
+[data-theme="dark"] .teleg-alert.info {
+    background: #0d2b4a;
+    color: #a8d4ff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+    .teleg-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .teleg-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .teleg-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .teleg-verdict {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .teleg-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+
+    .teleg-related {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .teleg-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .teleg-table th,
+    .teleg-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .teleg-step {
+        gap: 10px;
+    }
+}

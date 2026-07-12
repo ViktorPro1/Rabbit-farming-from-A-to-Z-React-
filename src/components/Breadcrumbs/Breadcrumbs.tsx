@@ -91,6 +91,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/doe-preparation": "Підготовка самки до злучки",
   "/buck-management": "Утримання плідника",
   "/false-pregnancy": "Хибна вагітність",
+  "/telegony": "Телегонія",
 
   // ЗДОРОВ'Я
   "/vaccinations": "Вакцинація",

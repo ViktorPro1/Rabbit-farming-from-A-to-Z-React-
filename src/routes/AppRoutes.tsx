@@ -124,6 +124,7 @@ const BuckManagement = lazy(
 const FalsePregnancy = lazy(
   () => import("../pages/FalsePregnancy/FalsePregnancy"),
 );
+const Telegony = lazy(() => import("../pages/Telegony/Telegony"));
 
 // ЗДОРОВ'Я
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -424,6 +425,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/buck-management" element={<BuckManagement />} />
         <Route path="/false-pregnancy" element={<FalsePregnancy />} />
         <Route path="/poisoning" element={<Poisoning />} />
+        <Route path="/telegony" element={<Telegony />} />
         {/* 7. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
