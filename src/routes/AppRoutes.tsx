@@ -230,6 +230,7 @@ const MyTreatments = lazy(() => import("../pages/MyTreatments/MyTreatments"));
 const DisinfectionLog = lazy(
   () => import("../pages/DisinfectionLog/DisinfectionLog"),
 );
+const CageSearch = lazy(() => import("../pages/CageSearch/CageSearch"));
 
 // ПЛЕМІННА СПРАВА ТА ВИСТАВКИ
 const BreedStandards = lazy(
@@ -519,6 +520,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route
           path="/disinfection-log"
           element={<DisinfectionLog session={session!} />}
+        />
+        <Route
+          path="/cage-search"
+          element={<CageSearch session={session!} />}
         />
         {/* — Племінна справа та виставки — */}
         <Route path="/breed-standards" element={<BreedStandards />} />

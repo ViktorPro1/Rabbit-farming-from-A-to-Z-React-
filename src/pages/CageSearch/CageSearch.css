@@ -1,0 +1,237 @@
+.cage-search-page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    min-height: calc(100vh - 140px);
+}
+
+.cage-search-hint {
+    color: #6b6b5f;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.cage-search-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    padding: 16px;
+    background: #fffef5;
+    border: 1px solid #e4e4d8;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(39, 80, 10, 0.06);
+}
+
+.cage-search-form input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #d8d8c8;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.cage-search-form input:focus {
+    outline: none;
+    border-color: #27500a;
+    box-shadow: 0 0 0 2px rgba(39, 80, 10, 0.12);
+}
+
+.cage-search-form button {
+    padding: 10px 18px;
+    background: #27500a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-weight: 500;
+    transition: background 0.15s ease;
+}
+
+.cage-search-form button:hover:not(:disabled) {
+    background: #1d3d08;
+}
+
+.cage-search-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cage-search-empty {
+    color: #6b6b5f;
+}
+
+.cage-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cage-timeline-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid #e4e4d8;
+    border-radius: 10px;
+    background: #fffef5;
+    box-shadow: 0 1px 3px rgba(39, 80, 10, 0.05);
+    transition: box-shadow 0.15s ease;
+}
+
+.cage-timeline-item:hover {
+    box-shadow: 0 3px 10px rgba(39, 80, 10, 0.1);
+}
+
+.cage-timeline-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef3e6;
+    border-radius: 8px;
+}
+
+.cage-timeline-body {
+    min-width: 0;
+    flex: 1;
+}
+
+.cage-timeline-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.cage-timeline-header strong {
+    color: #27500a;
+    font-size: 0.98rem;
+}
+
+.cage-timeline-date {
+    color: #9a9a8c;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.cage-timeline-body p {
+    color: #4a4a3f;
+    margin: 0;
+    line-height: 1.45;
+}
+
+.cage-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.cage-search-header h1 {
+    margin: 0;
+}
+
+.cage-search-back-btn {
+    padding: 8px 14px;
+    border: 1px solid #27500a;
+    border-radius: 8px;
+    background: transparent;
+    color: #27500a;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+}
+
+.cage-search-back-btn:hover {
+    background: rgba(39, 80, 10, 0.08);
+}
+
+/* Адаптив для планшетів */
+@media (max-width: 768px) {
+    .cage-search-page {
+        padding: 16px 12px;
+    }
+
+    .cage-search-header h1 {
+        font-size: 1.4rem;
+    }
+}
+
+/* Адаптив для малих екранів */
+@media (max-width: 600px) {
+    .cage-search-header h1 {
+        font-size: 1.1rem;
+    }
+
+    .cage-search-back-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+
+    .cage-search-form {
+        padding: 12px;
+    }
+
+    .cage-search-form button {
+        padding: 10px 12px;
+    }
+
+    .cage-timeline-item {
+        padding: 10px 12px;
+    }
+
+    .cage-timeline-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1.15rem;
+    }
+
+    .cage-timeline-header {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .cage-timeline-date {
+        font-size: 0.8rem;
+    }
+}
+
+/* Адаптив для 420px */
+@media (max-width: 420px) {
+    .cage-search-page {
+        padding: 12px 10px;
+    }
+
+    .cage-search-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .cage-search-form {
+        gap: 6px;
+        padding: 10px;
+    }
+
+    .cage-search-form input {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    .cage-search-form button {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    .cage-timeline-item {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .cage-timeline-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}

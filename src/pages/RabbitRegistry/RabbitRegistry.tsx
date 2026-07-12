@@ -495,6 +495,12 @@ export default function RabbitRegistry({ session }: Props) {
             🧴 Дезінфекція
           </button>
           <button
+            className="registry-archive-link"
+            onClick={() => navigate("/cage-search")}
+          >
+            🔍 Історія клітки
+          </button>
+          <button
             className="registry-archive-link qr-nav-btn"
             onClick={() => setShowQrModal(true)}
           >

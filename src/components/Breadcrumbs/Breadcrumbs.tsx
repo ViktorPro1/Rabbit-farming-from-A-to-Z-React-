@@ -29,7 +29,6 @@ const ROUTE_LABELS: Record<string, string> = {
   "/subscription": "Підписка",
   "/community": "Спільнота",
   "/auth": "Вхід",
-  "/disinfection-log": "Дезінфекція",
 
   // ПОЧАТОК — знайомство з твариною
   "/biology": "Біологія та анатомія",
@@ -195,6 +194,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/statistics": "Статистика",
   "/my-vaccinations": "Мої щеплення",
   "/my-treatments": "Мої лікування",
+  "/cage-search": "Історія клітки",
+  "/disinfection-log": "Дезінфекція",
 
   // АДМІН
   "/admin": "Адмін",
