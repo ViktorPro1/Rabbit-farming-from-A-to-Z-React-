@@ -548,7 +548,7 @@ export default function Matings({ session }: Props) {
     return (
       <>
         <div className="matings-form-field">
-          <label>Коєць цього окролу ♂</label>
+          <label>Кролик цього окролу ♂</label>
           <select
             value={maleValue}
             onChange={(e) => onMaleChange(e.target.value)}
@@ -614,14 +614,14 @@ export default function Matings({ session }: Props) {
         <div className="matings-form">
           <div className="matings-form-grid">
             <div className="matings-form-field">
-              <label>Коєць ♂</label>
+              <label>Кролик ♂</label>
               <select
                 value={matingForm.male_id}
                 onChange={(e) =>
                   setMatingForm({ ...matingForm, male_id: e.target.value })
                 }
               >
-                <option value="">Оберіть коєця</option>
+                <option value="">Оберіть кроля</option>
                 {allMales.map((r) => (
                   <option key={r.id} value={r.id}>
                     {r.name}
@@ -650,7 +650,7 @@ export default function Matings({ session }: Props) {
               </select>
             </div>
             <div className="matings-form-field">
-              <label>Клітка коєця</label>
+              <label>Клітка кролика</label>
               <input
                 placeholder="№"
                 value={matingForm.male_cage}
@@ -740,7 +740,7 @@ export default function Matings({ session }: Props) {
             <div className="matings-empty-illustration">🐇</div>
             <h3 className="matings-empty-title">Злучок ще немає</h3>
             <p className="matings-empty-desc">
-              Додайте першу злучку — вкажіть коєця, крольчиху і дату. Система
+              Додайте першу злучку — вкажіть кролика, крольчиху і дату. Система
               автоматично розрахує контрольну дату і нагадає про маточник.
             </p>
           </div>
@@ -803,7 +803,7 @@ export default function Matings({ session }: Props) {
                 )}
                 {m.male_cage && (
                   <span>
-                    🏠 Коєць кл.: <strong>{m.male_cage}</strong>
+                    🏠 Кролик кл.: <strong>{m.male_cage}</strong>
                   </span>
                 )}
                 {m.female_cage && (
@@ -820,7 +820,7 @@ export default function Matings({ session }: Props) {
                   <h3>✏️ Редагування злучки</h3>
                   <div className="matings-form-grid">
                     <div className="matings-form-field">
-                      <label>Коєць ♂</label>
+                      <label>Кролик ♂</label>
                       <select
                         value={editingMatingData.male_id}
                         onChange={(e) =>
@@ -830,7 +830,7 @@ export default function Matings({ session }: Props) {
                           })
                         }
                       >
-                        <option value="">Оберіть коєця</option>
+                        <option value="">Оберіть кроля</option>
                         {allMales.map((r) => (
                           <option key={r.id} value={r.id}>
                             {r.name}
@@ -862,7 +862,7 @@ export default function Matings({ session }: Props) {
                       </select>
                     </div>
                     <div className="matings-form-field">
-                      <label>Клітка коєця</label>
+                      <label>Клітка кроля</label>
                       <input
                         placeholder="№"
                         value={editingMatingData.male_cage || ""}
