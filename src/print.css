@@ -1,0 +1,109 @@
+/* ==========================================================================
+   print.css — глобальні стилі для друку та збереження як PDF
+   Підключити ОДИН РАЗ у main.tsx або index.css (import './print.css')
+   Діє автоматично на всіх сторінках проєкту.
+   ========================================================================== */
+
+@media print {
+
+    /* --- Ховаємо все, що не потрібне на папері --- */
+    header,
+    nav,
+    footer,
+    .site-header,
+    .site-nav,
+    .site-footer,
+    .breadcrumbs,
+    .cookie-consent,
+    .print-button,
+    .share-buttons,
+    .back-to-top,
+    .theme-toggle,
+    .mobile-menu,
+    .related-links,
+    .feedback-widget,
+    .weather-widget,
+    .online-counter {
+        display: none !important;
+    }
+
+    /* --- Базові кольори: чорний текст, білий фон, економія чорнила --- */
+    html,
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    * {
+        color: #000000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* --- Контент на всю ширину сторінки --- */
+    main,
+    .page-content,
+    .content-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* --- Заголовки: не розривати сторінку одразу після заголовка --- */
+    h1,
+    h2,
+    h3 {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    /* --- Таблиці (дозування, вакцинація): не розривати посеред рядка --- */
+    table {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #000000 !important;
+    }
+
+    /* --- Зображення: не розтягувати за межі сторінки --- */
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
+    /* --- Посилання: показуємо URL поруч з текстом (важливо для друку) --- */
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.85em;
+        color: #333333 !important;
+    }
+
+    /* Не показувати URL для внутрішніх якорів/кнопок керування */
+    a.print-button[href]::after,
+    nav a[href]::after {
+        content: "";
+    }
+
+    /* --- Футер друку: джерело + дата --- */
+    .print-footer {
+        display: block !important;
+        margin-top: 24px;
+        padding-top: 12px;
+        border-top: 1px solid #000000;
+        font-size: 0.8em;
+        color: #333333 !important;
+    }
+}
+
+/* --- Печатний футер прихований на екрані, видимий лише при друці --- */
+.print-footer {
+    display: none;
+}

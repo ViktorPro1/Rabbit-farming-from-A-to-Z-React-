@@ -15,6 +15,8 @@ import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { usePublicPresence } from "./hooks/usePublicPresence";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import PrintButton from "./components/PrintButton/PrintButton";
+import "./print.css";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -302,6 +304,7 @@ function App() {
             <Breadcrumbs />
           </div>
           <AppRoutes session={session} />
+          <PrintButton />
           <ScrollToTop />
           <Footer />
           <UpdatePrompt />
