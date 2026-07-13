@@ -22,6 +22,9 @@ const Footer = () => {
               <div className="footer-brand-sub">
                 Довідник для кролівників України
               </div>
+              <div className="footer-brand-origin">
+                Розроблено на Хмельниччині
+              </div>
             </div>
           </div>
 
