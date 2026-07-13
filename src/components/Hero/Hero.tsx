@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Hero.css";
 import rabbitPhoto from "../../assets/my-breed.webp";
 import TempWarningPopup from "../TempWarningPopup/TempWarningPopup";
+import RunningTicker from "../RunningTicker/RunningTicker";
 
 const WMO_ICON: Record<number, string> = {
   0: "☀️",
@@ -52,6 +53,8 @@ const Hero = () => {
 
   return (
     <section className="hero">
+      <RunningTicker />
+
       {temp !== null && (
         <button
           className={`hero-weather ${temp >= 25 ? "hero-weather--warn" : ""} ${temp >= 32 ? "hero-weather--critical" : ""}`}
@@ -67,20 +70,22 @@ const Hero = () => {
         <TempWarningPopup temp={temp} onClose={() => setShowPopup(false)} />
       )}
 
-      <div className="hero-text">
-        <span className="hero-badge">🌿 Господарський довідник</span>
-        <h1>Все про кроликів — від народження до догляду</h1>
-        <p>Повний посібник для початківців і досвідчених кролівників.</p>
-      </div>
-      <div className="hero-image">
-        <img
-          src={rabbitPhoto}
-          alt="Мій кролик"
-          width={408}
-          height={612}
-          fetchPriority="high"
-          decoding="async"
-        />
+      <div className="hero-content">
+        <div className="hero-text">
+          <span className="hero-badge">🌿 Господарський довідник</span>
+          <h1>Все про кроликів — від народження до догляду</h1>
+          <p>Повний посібник для початківців і досвідчених кролівників.</p>
+        </div>
+        <div className="hero-image">
+          <img
+            src={rabbitPhoto}
+            alt="Мій кролик"
+            width={408}
+            height={612}
+            fetchPriority="high"
+            decoding="async"
+          />
+        </div>
       </div>
     </section>
   );
