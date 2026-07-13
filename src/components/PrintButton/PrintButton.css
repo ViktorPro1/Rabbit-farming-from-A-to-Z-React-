@@ -35,3 +35,14 @@
         display: flex;
     }
 }
+
+@media (max-width: 420px) {
+    .print-button {
+        width: 60%;
+        padding: 8px 12px;
+        font-size: 0.7rem;
+        gap: 6px;
+        margin: 6px auto;
+        justify-content: center;
+    }
+}
