@@ -452,3 +452,24 @@
         font-size: 12px;
     }
 }
+
+.grain-info-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+}
+
+.grain-info-arrow {
+    font-size: 1.4rem;
+    transition: transform 0.2s ease;
+}
+
+.grain-info-arrow.open {
+    transform: rotate(180deg);
+}

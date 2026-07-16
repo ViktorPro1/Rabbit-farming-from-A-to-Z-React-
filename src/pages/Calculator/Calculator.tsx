@@ -384,6 +384,7 @@ export default function Calculator() {
   const [grainResults, setGrainResults] = useState<GrainResult[]>([]);
   const [grainError, setGrainError] = useState("");
   const [hasGranulator, setHasGranulator] = useState(false);
+  const [showGrainInfo, setShowGrainInfo] = useState(false);
 
   const currentGrains =
     grainMode === "breeding" ? breedingGrains : fatteningGrains;
@@ -767,29 +768,42 @@ export default function Calculator() {
             )}
 
             <div className="calc-card">
-              <h2>Довідка по зернових</h2>
-              <div className="calc-table-wrap">
-                <table className="calc-table">
-                  <thead>
-                    <tr>
-                      <th>Зерно</th>
-                      <th>Плем. стадо</th>
-                      <th>Відгодівля</th>
-                      <th>Примітка</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {grainTable.map((row) => (
-                      <tr key={row.name}>
-                        <td>{row.name}</td>
-                        <td>{row.breeding}</td>
-                        <td>{row.fattening}</td>
-                        <td>{row.note}</td>
+              <button
+                className="grain-info-toggle"
+                onClick={() => setShowGrainInfo((v) => !v)}
+              >
+                <h2>Довідка по зернових</h2>
+                <span
+                  className={`grain-info-arrow ${showGrainInfo ? "open" : ""}`}
+                >
+                  ▾
+                </span>
+              </button>
+
+              {showGrainInfo && (
+                <div className="calc-table-wrap">
+                  <table className="calc-table">
+                    <thead>
+                      <tr>
+                        <th>Зерно</th>
+                        <th>Плем. стадо</th>
+                        <th>Відгодівля</th>
+                        <th>Примітка</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {grainTable.map((row) => (
+                        <tr key={row.name}>
+                          <td>{row.name}</td>
+                          <td>{row.breeding}</td>
+                          <td>{row.fattening}</td>
+                          <td>{row.note}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         )}
