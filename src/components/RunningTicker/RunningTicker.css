@@ -5,6 +5,9 @@
     border-top: 1px solid var(--gray-light);
     border-bottom: 1px solid var(--gray-light);
     background: var(--green-light);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    position: relative;
+    z-index: 5;
 }
 
 .ticker-track {

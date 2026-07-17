@@ -4,6 +4,16 @@ import { supabase } from "../../lib/supabase";
 import type { Session } from "@supabase/supabase-js";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { CHANGELOG } from "../../data/changelog";
+import {
+  Calculator,
+  Users,
+  Bell,
+  CreditCard,
+  Rabbit,
+  ShieldCheck,
+  LogIn,
+  LogOut,
+} from "lucide-react";
 import "./Header.css";
 
 interface Props {
@@ -201,9 +211,11 @@ const Header = ({ session }: Props) => {
 
         <div className="drawer-links">
           <NavLink to="/calculator" onClick={closeMenu}>
+            <Calculator size={18} />
             Калькулятор
           </NavLink>
           <NavLink to="/community" onClick={closeMenu}>
+            <Users size={18} />
             Спільноти
           </NavLink>
           <NavLink
@@ -217,30 +229,36 @@ const Header = ({ session }: Props) => {
               closeMenu();
             }}
           >
+            <Bell size={18} />
             Оновлення
             {unreadCount > 0 && (
               <span className="changelog-badge">{unreadCount}</span>
             )}
           </NavLink>
           <NavLink to="/subscription" onClick={closeMenu}>
+            <CreditCard size={18} />
             Підписка
           </NavLink>
           {session ? (
             <>
               <NavLink to="/registry" onClick={closeMenu}>
+                <Rabbit size={18} />
                 Мої кролики
               </NavLink>
               {isAdmin && (
                 <NavLink to="/admin" onClick={closeMenu}>
+                  <ShieldCheck size={18} />
                   Адмін
                 </NavLink>
               )}
               <button className="drawer-logout" onClick={handleLogout}>
+                <LogOut size={18} />
                 Вийти
               </button>
             </>
           ) : (
             <NavLink to="/auth" onClick={closeMenu}>
+              <LogIn size={18} />
               Увійти
             </NavLink>
           )}

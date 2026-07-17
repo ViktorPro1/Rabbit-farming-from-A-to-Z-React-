@@ -352,3 +352,9 @@
         width: 82vw;
     }
 }
+
+.drawer-links a svg,
+.drawer-logout svg {
+    flex-shrink: 0;
+    stroke-width: 2;
+}

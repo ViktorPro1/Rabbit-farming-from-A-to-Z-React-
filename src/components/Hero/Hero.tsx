@@ -70,6 +70,28 @@ const Hero = () => {
         <TempWarningPopup temp={temp} onClose={() => setShowPopup(false)} />
       )}
 
+      <svg className="hero-leaf hero-leaf--1" viewBox="0 0 100 100">
+        <path d="M50 92C15 75 5 35 50 5C95 35 85 75 50 92Z" />
+        <path d="M50 92V15" className="hero-leaf-vein" />
+      </svg>
+      <svg className="hero-leaf hero-leaf--2" viewBox="0 0 100 100">
+        <path d="M50 92C15 75 5 35 50 5C95 35 85 75 50 92Z" />
+        <path d="M50 92V15" className="hero-leaf-vein" />
+      </svg>
+      <svg className="hero-leaf hero-leaf--3" viewBox="0 0 100 100">
+        <path d="M50 92C15 75 5 35 50 5C95 35 85 75 50 92Z" />
+        <path d="M50 92V15" className="hero-leaf-vein" />
+      </svg>
+      <svg className="hero-leaf hero-leaf--4" viewBox="0 0 100 100">
+        <path d="M50 92C15 75 5 35 50 5C95 35 85 75 50 92Z" />
+        <path d="M50 92V15" className="hero-leaf-vein" />
+      </svg>
+      <span className="hero-bokeh hero-bokeh--1" />
+      <span className="hero-bokeh hero-bokeh--2" />
+      <span className="hero-bokeh hero-bokeh--3" />
+      <span className="hero-bokeh hero-bokeh--4" />
+      <span className="hero-bokeh hero-bokeh--5" />
+
       <div className="hero-content">
         <div className="hero-text">
           <span className="hero-badge">🌿 Господарський довідник</span>
