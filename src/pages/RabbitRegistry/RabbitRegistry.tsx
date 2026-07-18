@@ -85,6 +85,16 @@ const helpItems = [
     desc: "Журнал дезінфекції кліток. Вказуєш номер клітки, дату обробки і засіб — система автоматично пропонує наступну планову дату (+30 днів). Кнопка «Виконано сьогодні» швидко фіксує повторну дезінфекцію тієї ж клітки.",
   },
   {
+    icon: "💊",
+    title: "Лікування",
+    desc: "Журнал лікування кроликів. Обираєш препарат з довідника (кокцидіостатики, антипаразитарні, антибіотики тощо) або вказуєш свій, а також спосіб введення — орально, ін'єкція чи зовнішнє. Система підказує дозування та автоматично розраховує дату наступного прийому.",
+  },
+  {
+    icon: "💉",
+    title: "Вакцинація",
+    desc: "Журнал щеплень. Вказуєш клітку, вакцину і дату — система рахує наступну планову дату ревакцинації та нагадує, кому і коли треба зробити щеплення.",
+  },
+  {
     icon: "📊",
     title: "Лічильник",
     desc: "Блок з цифрами вгорі автоматично рахує всіх тварин з усіх розділів: реєстр + молодняк з окролів + підлогове + відгодівля + карантин.",
@@ -442,12 +452,6 @@ export default function RabbitRegistry({ session }: Props) {
         <div className="registry-header-nav">
           <button
             className="registry-archive-link"
-            onClick={() => navigate("/archive")}
-          >
-            📦 Архів
-          </button>
-          <button
-            className="registry-archive-link"
             onClick={() => navigate("/matings")}
           >
             🐇 Розведення
@@ -472,9 +476,9 @@ export default function RabbitRegistry({ session }: Props) {
           </button>
           <button
             className="registry-archive-link"
-            onClick={() => navigate("/statistics")}
+            onClick={() => navigate("/my-treatments")}
           >
-            📊 Статистика
+            💊 Лікування
           </button>
           <button
             className="registry-archive-link"
@@ -484,21 +488,27 @@ export default function RabbitRegistry({ session }: Props) {
           </button>
           <button
             className="registry-archive-link"
-            onClick={() => navigate("/my-treatments")}
-          >
-            💊 Пропойка
-          </button>
-          <button
-            className="registry-archive-link"
             onClick={() => navigate("/disinfection-log")}
           >
             🧴 Дезінфекція
           </button>
           <button
             className="registry-archive-link"
+            onClick={() => navigate("/statistics")}
+          >
+            📊 Статистика
+          </button>
+          <button
+            className="registry-archive-link"
             onClick={() => navigate("/cage-search")}
           >
             🔍 Історія клітки
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/archive")}
+          >
+            📦 Архів
           </button>
           <button
             className="registry-archive-link qr-nav-btn"

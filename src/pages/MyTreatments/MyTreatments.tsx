@@ -13,11 +13,20 @@ interface TreatmentRecord {
   cage_number: string;
   drug_name: string;
   drug_key: string | null;
+  route: string | null;
   course_days: number | null;
   date: string;
   next_date: string | null;
   notes: string | null;
 }
+
+// ─── Способи введення ───
+const ROUTE_OPTIONS = [
+  "Орально (з водою)",
+  "Орально (шприц/у корм)",
+  "Ін'єкція",
+  "Зовнішнє (краплі/мазь/spot-on)",
+];
 
 // ─── Довідник препаратів ───
 // Джерела: fermer.blog, pesyk.kiev.ua, MSD Veterinary Manual, Laboklin Vet, Veterinary Evidence 2022
@@ -34,6 +43,7 @@ interface DrugInfo {
   category: DrugCategory;
   indication: string;
   dose: string;
+  route: string;
   interval_days: number;
   course_days: number;
   source: string;
@@ -48,6 +58,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Кокцидіоз",
     indication: "Лікування та профілактика кокцидіозу",
     dose: "1 мл на 10 л води, випоювати 2 дні підряд. Або 7 мг/кг живої ваги",
+    route: "Орально (з водою)",
     interval_days: 90,
     course_days: 2,
     source: "fermer.blog / lifehacker.org.ua / MSD Veterinary Manual",
@@ -60,6 +71,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Кокцидіоз",
     indication: "Лікування та профілактика кокцидіозу",
     dose: "Лікування: 0.4 мл/кг у воду, 2 дні. Профілактика: 0.2 мл/кг, 2 дні на місяць",
+    route: "Орально (з водою)",
     interval_days: 30,
     course_days: 2,
     source: "fermeru.biz.ua / nastanova.com / Laboklin Vet",
@@ -73,6 +85,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Кокцидіоз",
     indication: "Профілактика гепатального кокцидіозу",
     dose: "0.04% безперервно у воді протягом 30 днів",
+    route: "Орально (з водою)",
     interval_days: 37,
     course_days: 30,
     source: "MSD Veterinary Manual (revised 2024)",
@@ -85,6 +98,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Паразити",
     indication: "Зовнішні паразити: кліщі, короста, воші",
     dose: "0.3–0.5 мг/кг підшкірно",
+    route: "Ін'єкція",
     interval_days: 10,
     course_days: 1,
     source: "Veterinary Evidence 2022 / Acta Vet. Scand. 2008",
@@ -96,6 +110,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Паразити",
     indication: "Зовнішні паразити (Cheyletiella, кліщі вух)",
     dose: "6–20 мг/кг spot-on на холку",
+    route: "Зовнішнє (краплі/мазь/spot-on)",
     interval_days: 21,
     course_days: 1,
     source: "Veterinary Evidence 2022",
@@ -105,6 +120,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Паразити",
     indication: "Глисти (нематоди), Encephalitozoon cuniculi",
     dose: "20 мг/кг перорально 1 раз/день",
+    route: "Орально (шприц/у корм)",
     interval_days: 14,
     course_days: 5,
     source: "Laboklin Vet / Everbreed",
@@ -115,6 +131,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Паразити",
     indication: "Нематоди (глисти)",
     dose: "20 мг/кг перорально 1 раз/день",
+    route: "Орально (шприц/у корм)",
     interval_days: 14,
     course_days: 3,
     source: "Laboklin Vet",
@@ -127,6 +144,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Антибіотики",
     indication: "Бактеріальні інфекції, пастерельоз, респіраторні хвороби",
     dose: "5 мг/кг підшкірно 1 раз/день. Або 5 мл 10%-го на 10 л води",
+    route: "Ін'єкція",
     interval_days: 0,
     course_days: 5,
     source: "goodhouse.com.ua / mobihelp.kiev.ua",
@@ -138,6 +156,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Антибіотики",
     indication: "Бактеріальні інфекції (пастерельоз, сальмонельоз)",
     dose: "20 мг/кг перорально 2 рази/день",
+    route: "Орально (шприц/у корм)",
     interval_days: 0,
     course_days: 5,
     source: "MSD Veterinary Manual",
@@ -151,6 +170,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     indication:
       "Метеоризм, здуття, ентерит, гастрит, дезінфекція ран, профілактика інфекцій ШКТ",
     dose: "Перорально: 4 мл розчину на воду, 5 днів. Зовнішньо: вищої концентрації для обробки ран",
+    route: "Орально (з водою)",
     interval_days: 30,
     course_days: 5,
     source: "fermer.blog / dovidkam.com / poradum.com.ua",
@@ -164,6 +184,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     indication:
       "Профілактика кокцидіозу, підтримка імунітету, зовнішня обробка ран",
     dose: "Фаза 1: 0.01% розчин, 50 мл/особину/день, 10 днів. Пауза 5 днів. Фаза 2: 0.02% розчин, 70 мл/особину/день, 7 днів",
+    route: "Орально (з водою)",
     interval_days: 22,
     course_days: 10,
     source: "pesyk.kiev.ua / fermer.blog / lifehacker.org.ua",
@@ -179,6 +200,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     indication:
       "Профілактика авітамінозу, підтримка імунітету, репродуктивна функція",
     dose: "За інструкцією до конкретного препарату",
+    route: "Орально (шприц/у корм)",
     interval_days: 90,
     course_days: 7,
     source: "Загальна ветеринарна практика",
@@ -189,6 +211,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Вітаміни/добавки",
     indication: "Джерело вітамінів A і D, підтримка шерсті та імунітету",
     dose: "0.5–1 мл на особину, додавати в корм",
+    route: "Орально (шприц/у корм)",
     interval_days: 30,
     course_days: 14,
     source: "Загальна ветеринарна практика кролівників",
@@ -200,6 +223,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     indication:
       "Відновлення мікрофлори після антибіотиків, профілактика дисбактеріозу",
     dose: "За інструкцією до конкретного препарату",
+    route: "Орально (шприц/у корм)",
     interval_days: 0,
     course_days: 7,
     source: "Загальна ветеринарна практика",
@@ -212,6 +236,7 @@ const DRUG_CATALOG: Record<string, DrugInfo> = {
     category: "Інше",
     indication: "",
     dose: "",
+    route: "",
     interval_days: 0,
     course_days: 1,
     source: "",
@@ -285,6 +310,7 @@ const emptyForm = {
   cage_number: "",
   drug_key: "toltrazuril",
   drug_name: "",
+  route: "",
   course_days: "",
   date: "",
   next_date: "",
@@ -320,6 +346,13 @@ function isSoon(next_date: string | null) {
 function isToday(next_date: string | null) {
   if (!next_date) return false;
   return next_date === todayStr();
+}
+
+function getRouteIcon(route: string | null): string {
+  if (!route) return "";
+  if (route.includes("Ін'єкція")) return "💉";
+  if (route.includes("Зовнішнє")) return "🧴";
+  return "💧"; // орально (з водою / шприц-корм)
 }
 
 export default function MyTreatments({ session }: Props) {
@@ -367,6 +400,7 @@ export default function MyTreatments({ session }: Props) {
         cage_number: editRecord.cage_number,
         drug_name: editRecord.drug_name,
         drug_key: editRecord.drug_key,
+        route: editRecord.route || null,
         course_days: editRecord.course_days,
         date: editRecord.date,
         next_date: editRecord.next_date || null,
@@ -419,6 +453,7 @@ export default function MyTreatments({ session }: Props) {
       ...form,
       drug_key: key,
       drug_name: key === "custom" ? "" : drug.label,
+      route: key === "custom" ? "" : drug.route,
       course_days: key === "custom" ? "" : String(drug.interval_days),
     };
     if (updated.date && key !== "custom") {
@@ -437,6 +472,7 @@ export default function MyTreatments({ session }: Props) {
           ? form.drug_name
           : DRUG_CATALOG[form.drug_key]?.label || form.drug_name,
       drug_key: form.drug_key === "custom" ? null : form.drug_key,
+      route: form.route || null,
       course_days: form.course_days ? parseInt(form.course_days, 10) : null,
       date: form.date,
       next_date: form.next_date || null,
@@ -482,7 +518,7 @@ export default function MyTreatments({ session }: Props) {
         >
           &#8592; Мої кролики
         </button>
-        <h1>&#128138; Пропойка</h1>
+        <h1>&#128138; Лікування</h1>
         <button
           className="mytreat-add-btn"
           onClick={() => setShowForm(!showForm)}
@@ -506,6 +542,11 @@ export default function MyTreatments({ session }: Props) {
                     Клітка {r.cage_number}
                   </span>
                   <p className="mytreat-today-drug">{r.drug_name}</p>
+                  {r.route && (
+                    <p className="mytreat-today-route">
+                      {getRouteIcon(r.route)} {r.route}
+                    </p>
+                  )}
                   {info && (
                     <p className="mytreat-today-dose">&#128202; {info.dose}</p>
                   )}
@@ -594,6 +635,22 @@ export default function MyTreatments({ session }: Props) {
               />
             )}
 
+            {/* Спосіб введення */}
+            <div className="mytreat-field-wrap">
+              <label>Спосіб введення *</label>
+              <select
+                value={form.route}
+                onChange={(e) => setForm({ ...form, route: e.target.value })}
+              >
+                <option value="">— Оберіть —</option>
+                {ROUTE_OPTIONS.map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Довідка по вибраному препарату */}
             {selectedDrug && (
               <div className="mytreat-drug-info">
@@ -610,6 +667,9 @@ export default function MyTreatments({ session }: Props) {
                   <div className="mytreat-drug-details">
                     <p>
                       <b>Показання:</b> {selectedDrug.indication}
+                    </p>
+                    <p>
+                      <b>Спосіб введення:</b> {selectedDrug.route}
                     </p>
                     <p>
                       <b>Доза:</b> {selectedDrug.dose}
@@ -684,6 +744,7 @@ export default function MyTreatments({ session }: Props) {
               saving ||
               !form.cage_number ||
               (!isCustom ? !form.drug_key : !form.drug_name) ||
+              !form.route ||
               !form.date
             }
           >
@@ -698,10 +759,11 @@ export default function MyTreatments({ session }: Props) {
       ) : records.length === 0 ? (
         <div className="mytreat-empty-state">
           <div className="mytreat-empty-illustration">💊</div>
-          <h3 className="mytreat-empty-title">Записів пропойки ще немає</h3>
+          <h3 className="mytreat-empty-title">Записів лікування ще немає</h3>
           <p className="mytreat-empty-desc">
-            Додайте перший запис — оберіть препарат зі списку, вкажіть клітку і
-            дату. Система автоматично розрахує дату наступного прийому.
+            Додайте перший запис — оберіть препарат зі списку, спосіб введення,
+            вкажіть клітку і дату. Система автоматично розрахує дату наступного
+            прийому.
           </p>
         </div>
       ) : (
@@ -736,6 +798,11 @@ export default function MyTreatments({ session }: Props) {
                     )}
                   </div>
                   <p className="mytreat-drug">{r.drug_name}</p>
+                  {r.route && (
+                    <p className="mytreat-route">
+                      {getRouteIcon(r.route)} {r.route}
+                    </p>
+                  )}
                   {info && (
                     <p className="mytreat-indication">{info.indication}</p>
                   )}
@@ -849,6 +916,22 @@ export default function MyTreatments({ session }: Props) {
                   setEditRecord({ ...editRecord, drug_name: e.target.value })
                 }
               />
+              <div className="mytreat-field-wrap">
+                <label>Спосіб введення *</label>
+                <select
+                  value={editRecord.route ?? ""}
+                  onChange={(e) =>
+                    setEditRecord({ ...editRecord, route: e.target.value })
+                  }
+                >
+                  <option value="">— Оберіть —</option>
+                  {ROUTE_OPTIONS.map((r) => (
+                    <option key={r} value={r}>
+                      {r}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="mytreat-field-wrap">
                 <label>Дата прийому *</label>
                 <input
