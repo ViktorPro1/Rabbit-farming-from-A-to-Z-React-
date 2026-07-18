@@ -61,12 +61,13 @@
     border: 1.5px solid var(--gray-light);
     border-radius: 999px;
     padding: 10px 16px;
-    transition: border-color 0.2s;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .1);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .sc-search-box:focus-within {
     border-color: var(--green-accent);
-    box-shadow: 0 0 0 3px rgba(99, 153, 34, 0.12);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .1), 0 0 0 4px rgba(99, 153, 34, 0.18);
 }
 
 .sc-search-icon {
@@ -309,11 +310,13 @@
     overflow: hidden;
     background: #fff;
     max-width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18), 0 2px 8px rgba(0, 0, 0, .06);
 }
 
 [data-theme="dark"] .sc-stats-pill {
     background: var(--green-dark);
     border-color: var(--green-mid);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
 }
 
 .sc-stat-seg {
