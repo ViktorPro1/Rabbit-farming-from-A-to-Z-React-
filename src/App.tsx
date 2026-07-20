@@ -142,6 +142,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!loading) {
+      const splash = document.getElementById("splash");
+      if (splash) {
+        splash.classList.add("splash--hidden");
+        setTimeout(() => splash.remove(), 400);
+      }
+    }
+  }, [loading]);
+
+  useEffect(() => {
     const updateStatus = () => setIsOffline(!navigator.onLine);
 
     window.addEventListener("online", updateStatus);
@@ -282,7 +292,16 @@ function App() {
 
   if (loading) {
     return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#1a3d0f",
+          color: "#f0f7eb",
+        }}
+      >
         Завантаження...
       </div>
     );
