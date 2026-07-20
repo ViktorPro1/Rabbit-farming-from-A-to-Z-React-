@@ -324,7 +324,18 @@ const TermsOfUse = lazy(() => import("../pages/Info/TermsOfUse/TermsOfUse"));
 
 // ─────────────────────────────────────────────
 const PageLoader = () => (
-  <div style={{ padding: "2rem", textAlign: "center" }}>Завантаження...</div>
+  <div
+    style={{
+      minHeight: "60vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "#1a3d0f",
+      color: "#f0f7eb",
+    }}
+  >
+    Завантаження...
+  </div>
 );
 
 // ─────────────────────────────────────────────
