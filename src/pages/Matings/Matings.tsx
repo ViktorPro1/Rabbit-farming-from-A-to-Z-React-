@@ -211,8 +211,8 @@ export default function Matings({ session }: Props) {
       );
     } else if (sortType === "male") {
       copy.sort((a, b) => {
-        const cageA = parseInt(a.male_cage || "0", 10);
-        const cageB = parseInt(b.male_cage || "0", 10);
+        const cageA = parseInt(a.female_cage || "0", 10);
+        const cageB = parseInt(b.female_cage || "0", 10);
         return cageA - cageB;
       });
     }
