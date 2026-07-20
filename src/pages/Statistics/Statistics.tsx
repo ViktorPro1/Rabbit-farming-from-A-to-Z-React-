@@ -1367,7 +1367,7 @@ export default function Statistics({ session }: Props) {
               className={`stats-tab ${activeTab === "males" ? "active" : ""}`}
               onClick={() => setActiveTab("males")}
             >
-              ♂ Кільці
+              ♂ Кролики
             </button>
             <button
               className={`stats-tab ${activeTab === "pairs" ? "active" : ""}`}
@@ -1417,7 +1417,7 @@ export default function Statistics({ session }: Props) {
               <div className="stats-chart-block">
                 <h3 className="chart-title">
                   Живих кроленят —{" "}
-                  {activeTab === "females" ? "крольчихи" : "кільці"}
+                  {activeTab === "females" ? "крольчихи" : "кролів"}
                 </h3>
                 <BarChart
                   data={currentStats.map((s) => ({
