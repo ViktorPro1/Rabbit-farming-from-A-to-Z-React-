@@ -47,6 +47,7 @@ interface Mating {
   male_cage: string;
   female_cage: string;
   notes: string;
+  breeding_scheme: string;
   female: { name: string; breed: string; cage_number: string };
   male: { name: string; breed: string; cage_number: string };
   litters?: Litter[];
@@ -62,6 +63,7 @@ const emptyMatingForm = {
   mating_date: "",
   control_date: "",
   notes: "",
+  breeding_scheme: "extensive",
 };
 
 const emptyLitterForm = {
@@ -88,6 +90,23 @@ function calcSlaughterDate(birthDate: string): string {
   const d = new Date(birthDate);
   d.setDate(d.getDate() + 110);
   return d.toISOString().split("T")[0];
+}
+
+const WEANING_SCHEME: Record<string, { min: number; target: number }> = {
+  intensive: { min: 21, target: 28 },
+  semi_intensive: { min: 35, target: 45 },
+  extensive: { min: 45, target: 60 },
+};
+
+function schemeLabel(scheme?: string): string {
+  switch (scheme) {
+    case "intensive":
+      return "Інтенсивна";
+    case "semi_intensive":
+      return "Напівінтенсивна";
+    default:
+      return "Екстенсивна";
+  }
 }
 
 export default function Matings({ session }: Props) {
@@ -334,6 +353,7 @@ export default function Matings({ session }: Props) {
         female_cage: editingMatingData.female_cage,
         mating_date: editingMatingData.mating_date,
         control_date: editingMatingData.control_date,
+        breeding_scheme: editingMatingData.breeding_scheme,
         notes: editingMatingData.notes,
       })
       .eq("id", editingMatingData.id);
@@ -480,16 +500,26 @@ export default function Matings({ session }: Props) {
         : `${months} міс.`
       : `${days} дн.`;
   }
-
-  function getWeaningInfo(birthDate: string) {
+  function getWeaningInfo(birthDate: string, scheme?: string) {
+    const cfg =
+      WEANING_SCHEME[scheme || "extensive"] || WEANING_SCHEME.extensive;
     const birth = new Date(birthDate);
-    const weaningDate = new Date(birth);
-    weaningDate.setDate(weaningDate.getDate() + 60);
     const today = new Date();
+
+    const minDate = new Date(birth);
+    minDate.setDate(minDate.getDate() + cfg.min);
+
+    const weaningDate = new Date(birth);
+    weaningDate.setDate(weaningDate.getDate() + cfg.target);
+
+    const daysToMin = Math.ceil(
+      (minDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
     const daysLeft = Math.ceil(
       (weaningDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
-    return { daysLeft, weaningDate };
+
+    return { daysLeft, daysToMin, minDate, weaningDate };
   }
 
   function getNestboxStatus(
@@ -687,6 +717,28 @@ export default function Matings({ session }: Props) {
                 }
               />
             </div>
+            <div className="matings-form-field">
+              <label>Схема злучування</label>
+              <select
+                value={matingForm.breeding_scheme}
+                onChange={(e) =>
+                  setMatingForm({
+                    ...matingForm,
+                    breeding_scheme: e.target.value,
+                  })
+                }
+              >
+                <option value="intensive">
+                  Інтенсивна (1–2 день після окролу)
+                </option>
+                <option value="semi_intensive">
+                  Напівінтенсивна (10–14 день)
+                </option>
+                <option value="extensive">
+                  Екстенсивна (після відлучення)
+                </option>
+              </select>
+            </div>
             <input
               placeholder="Нотатки"
               value={matingForm.notes}
@@ -811,6 +863,9 @@ export default function Matings({ session }: Props) {
                     🏠 Крольчиха кл.: <strong>{m.female_cage}</strong>
                   </span>
                 )}
+                <span>
+                  🔁 Схема: <strong>{schemeLabel(m.breeding_scheme)}</strong>
+                </span>
               </div>
 
               {m.notes && <p className="mating-notes">{m.notes}</p>}
@@ -913,6 +968,28 @@ export default function Matings({ session }: Props) {
                         }
                       />
                     </div>
+                    <div className="matings-form-field">
+                      <label>Схема злучування</label>
+                      <select
+                        value={editingMatingData.breeding_scheme || "extensive"}
+                        onChange={(e) =>
+                          setEditingMatingData({
+                            ...editingMatingData,
+                            breeding_scheme: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="intensive">
+                          Інтенсивна (1–2 день після окролу)
+                        </option>
+                        <option value="semi_intensive">
+                          Напівінтенсивна (10–14 день)
+                        </option>
+                        <option value="extensive">
+                          Екстенсивна (після відлучення)
+                        </option>
+                      </select>
+                    </div>
                     <input
                       placeholder="Нотатки"
                       value={editingMatingData.notes || ""}
@@ -953,7 +1030,9 @@ export default function Matings({ session }: Props) {
 
               {(m.litters || []).map((l) => {
                 const hasBirth = !!l.birth_date;
-                const weanInfo = hasBirth ? getWeaningInfo(l.birth_date) : null;
+                const weanInfo = hasBirth
+                  ? getWeaningInfo(l.birth_date, m.breeding_scheme)
+                  : null;
                 return (
                   <div key={l.id} className="litter-block">
                     <div className="litter-block-row">
@@ -1106,20 +1185,19 @@ export default function Matings({ session }: Props) {
                         <span className="litter-age">
                           Вік: <strong>{getLitterAge(l.birth_date)}</strong>
                         </span>
-                        {weanInfo.daysLeft <= 0 && (
+                        {weanInfo.daysLeft > 0 ? (
+                          <span
+                            className={
+                              weanInfo.daysToMin <= 0
+                                ? "litter-weaning-info"
+                                : "litter-weaning-default"
+                            }
+                          >
+                            ✂️ До відлучення: {weanInfo.daysLeft} дн.
+                          </span>
+                        ) : (
                           <span className="litter-weaning-alert">
-                            ✂️ Час відлучення!
-                          </span>
-                        )}
-                        {weanInfo.daysLeft > 0 && weanInfo.daysLeft <= 7 && (
-                          <span className="litter-weaning-soon">
-                            ✂️ Відлучення через {weanInfo.daysLeft} дн.
-                          </span>
-                        )}
-                        {weanInfo.daysLeft > 7 && (
-                          <span className="litter-weaning-info">
-                            ✂️ Відлучення:{" "}
-                            {weanInfo.weaningDate.toLocaleDateString("uk-UA")}
+                            🔴 Прострочено на {Math.abs(weanInfo.daysLeft)} дн.
                           </span>
                         )}
                       </div>
