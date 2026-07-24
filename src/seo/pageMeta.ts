@@ -4,7 +4,7 @@ export interface PageMeta {
     schema?: object;
 }
 
-const BASE_URL = "https://rabbit-farming-from-a-to-z-react.vercel.app";
+export const BASE_URL = "https://rabbit-farming-from-a-to-z-react.vercel.app";
 const SITE_NAME = "Кролівництво від А до Я";
 
 export const pageMeta: Record<string, PageMeta> = {
