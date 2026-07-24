@@ -296,6 +296,22 @@
     border-bottom: 2px solid var(--green-accent);
 }
 
+.grh-section-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+}
+
+.grh-section-toggle h2 {
+    margin: 0;
+}
+
 /* ── Адаптив ── */
 @media (max-width: 600px) {
     .grh-page {

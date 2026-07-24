@@ -63,6 +63,10 @@ export default function GrainRecipesHistory({ session }: Props) {
   const [manualSaving, setManualSaving] = useState(false);
   const [manualMsg, setManualMsg] = useState("");
 
+  // ── Акордеон: секції "По місяцях" та "Історія" згортаються цілком ──
+  const [monthsOpen, setMonthsOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+
   const loadRecipes = async () => {
     setLoading(true);
     try {
@@ -358,55 +362,85 @@ export default function GrainRecipesHistory({ session }: Props) {
               </div>
             </div>
 
-            {/* ── Підсумок по місяцях ── */}
+            {/* ── Підсумок по місяцях (згортається цілком) ── */}
             <div className="grh-card">
-              <h2>По місяцях</h2>
-              {monthGroups.map((m) => (
-                <div key={m.key} className="grh-month-block">
-                  <div className="grh-month-header">
-                    <span>{m.label}</span>
-                    <span className="grh-kg">
-                      {Math.round(m.totalKg * 10) / 10} кг
-                    </span>
+              <button
+                type="button"
+                className="grh-section-toggle"
+                onClick={() => setMonthsOpen((v) => !v)}
+                aria-expanded={monthsOpen}
+              >
+                <h2>По місяцях</h2>
+                <span
+                  className={`grh-manual-arrow ${monthsOpen ? "open" : ""}`}
+                >
+                  ▾
+                </span>
+              </button>
+
+              {monthsOpen &&
+                monthGroups.map((m) => (
+                  <div key={m.key} className="grh-month-block">
+                    <div className="grh-month-header">
+                      <span>{m.label}</span>
+                      <span className="grh-kg">
+                        {Math.round(m.totalKg * 10) / 10} кг
+                      </span>
+                    </div>
+                    {Object.entries(m.totals)
+                      .sort((a, b) => b[1].kg - a[1].kg)
+                      .map(([name, t]) => (
+                        <div key={name} className="grh-row">
+                          <span className="grh-icon">{t.icon}</span>
+                          <span className="grh-name">{name}</span>
+                          <span className="grh-kg">
+                            {Math.round(t.kg * 10) / 10} кг
+                          </span>
+                        </div>
+                      ))}
                   </div>
-                  {Object.entries(m.totals)
-                    .sort((a, b) => b[1].kg - a[1].kg)
-                    .map(([name, t]) => (
-                      <div key={name} className="grh-row">
-                        <span className="grh-icon">{t.icon}</span>
-                        <span className="grh-name">{name}</span>
-                        <span className="grh-kg">
-                          {Math.round(t.kg * 10) / 10} кг
-                        </span>
-                      </div>
-                    ))}
-                </div>
-              ))}
+                ))}
             </div>
 
-            {/* ── Повна історія ── */}
+            {/* ── Повна історія (згортається цілком) ── */}
             <div className="grh-card">
-              <h2>Історія</h2>
-              {recipes.map((r) => (
-                <div key={r.id} className="grh-entry">
-                  <div className="grh-entry-header">
-                    <span className="grh-entry-date">
-                      {new Date(r.created_at).toLocaleDateString("uk-UA")}
-                    </span>
-                    <span className="grh-entry-mode">
-                      {r.mode === "breeding" ? "Племінне стадо" : "Відгодівля"}{" "}
-                      — {r.total_kg} кг
-                    </span>
-                  </div>
-                  {r.items.map((item, i) => (
-                    <div key={i} className="grh-row">
-                      <span className="grh-icon">{item.icon}</span>
-                      <span className="grh-name">{item.name}</span>
-                      <span className="grh-kg">{item.kg} кг</span>
+              <button
+                type="button"
+                className="grh-section-toggle"
+                onClick={() => setHistoryOpen((v) => !v)}
+                aria-expanded={historyOpen}
+              >
+                <h2>Історія</h2>
+                <span
+                  className={`grh-manual-arrow ${historyOpen ? "open" : ""}`}
+                >
+                  ▾
+                </span>
+              </button>
+
+              {historyOpen &&
+                recipes.map((r) => (
+                  <div key={r.id} className="grh-entry">
+                    <div className="grh-entry-header">
+                      <span className="grh-entry-date">
+                        {new Date(r.created_at).toLocaleDateString("uk-UA")}
+                      </span>
+                      <span className="grh-entry-mode">
+                        {r.mode === "breeding"
+                          ? "Племінне стадо"
+                          : "Відгодівля"}{" "}
+                        — {r.total_kg} кг
+                      </span>
                     </div>
-                  ))}
-                </div>
-              ))}
+                    {r.items.map((item, i) => (
+                      <div key={i} className="grh-row">
+                        <span className="grh-icon">{item.icon}</span>
+                        <span className="grh-name">{item.name}</span>
+                        <span className="grh-kg">{item.kg} кг</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
             </div>
           </>
         )}
