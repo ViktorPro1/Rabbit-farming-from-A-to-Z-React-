@@ -104,6 +104,11 @@ const helpItems = [
     title: "Експорт CSV",
     desc: "Можна експортувати реєстр кроликів у файл CSV для відкриття в Excel, Google Таблицях або інших програмах. Експортуються кличка, стать, порода, дата народження, номер клітки та нотатки.",
   },
+  {
+    icon: "🧾",
+    title: "Раціони",
+    desc: "Історія розрахованих зернових сумішей з калькулятора. Кожен рецепт зберігається з датою — скільки і якої культури пішло. Можна також додати запис вручну заднім числом, якщо облік вівся на папері. Показує підсумок по кожній культурі окремо і загальну вагу використаного зерна.",
+  },
 ];
 
 export default function RabbitRegistry({ session }: Props) {
@@ -491,6 +496,12 @@ export default function RabbitRegistry({ session }: Props) {
             onClick={() => navigate("/disinfection-log")}
           >
             🧴 Дезінфекція
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/grain-recipes-history")}
+          >
+            🧾 Раціони
           </button>
           <button
             className="registry-archive-link"

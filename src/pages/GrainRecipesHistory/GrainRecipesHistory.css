@@ -1,0 +1,409 @@
+.grh-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.grh-header-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: nowrap;
+}
+
+.grh-header {
+    text-align: left;
+    flex: 1;
+    min-width: 0;
+}
+
+.grh-header h1 {
+    margin: 0 0 4px;
+    color: var(--green-dark);
+    font-size: 24px;
+    text-align: left;
+}
+
+.grh-header p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 14px;
+    text-align: left;
+}
+
+.grh-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.grh-back-btn {
+    flex-shrink: 0;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    color: var(--green-dark);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.grh-back-btn:hover {
+    background: var(--green-light);
+}
+
+.grh-card {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.grh-card h2 {
+    margin: 0 0 12px;
+    font-size: 17px;
+    color: var(--green-dark);
+}
+
+.grh-loading,
+.grh-error {
+    text-align: center;
+    color: var(--gray);
+}
+
+.grh-error {
+    color: #a33;
+}
+
+.grh-empty {
+    text-align: center;
+    color: var(--gray);
+}
+
+.grh-empty-hint {
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.grh-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--gray-light);
+    flex-wrap: wrap;
+}
+
+.grh-row:last-child {
+    border-bottom: none;
+}
+
+.grh-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.grh-name {
+    flex: 1;
+    font-size: 14px;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.grh-kg {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--green-dark);
+    white-space: nowrap;
+}
+
+.grh-total-row {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 2px solid var(--green-dark);
+}
+
+.grh-total-row .grh-name,
+.grh-total-row .grh-kg {
+    font-weight: 700;
+}
+
+.grh-entry {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--gray-light);
+}
+
+.grh-entry:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.grh-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.grh-entry-date {
+    font-size: 13px;
+    color: var(--gray);
+}
+
+.grh-entry-mode {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--green-dark);
+}
+
+/* ── Ручне внесення ── */
+.grh-manual-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+    padding: 0;
+}
+
+.grh-manual-arrow {
+    transition: transform 0.2s;
+}
+
+.grh-manual-arrow.open {
+    transform: rotate(180deg);
+}
+
+.grh-manual-form {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.grh-manual-label {
+    font-size: 13px;
+    color: var(--gray);
+    margin-top: 6px;
+}
+
+.grh-manual-date,
+.grh-manual-select {
+    padding: 8px 10px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--cream);
+    color: var(--green-dark);
+    width: 100%;
+}
+
+.grh-manual-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.grh-manual-row .grh-manual-select {
+    flex: 1;
+    min-width: 140px;
+}
+
+.grh-manual-kg-input {
+    width: 80px;
+    padding: 8px 10px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--cream);
+    color: var(--green-dark);
+}
+
+.grh-manual-remove {
+    background: none;
+    border: none;
+    color: #a33;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.grh-manual-add-row {
+    align-self: flex-start;
+    background: none;
+    border: 1px dashed var(--green-dark);
+    color: var(--green-dark);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.grh-empty-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.grh-empty-title {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.grh-month-block {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--gray-light);
+}
+
+.grh-month-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.grh-month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: var(--green-dark);
+    font-size: 15px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-accent);
+}
+
+/* ── Адаптив ── */
+@media (max-width: 600px) {
+    .grh-page {
+        padding: 12px;
+    }
+
+    .grh-header h1 {
+        font-size: 20px;
+    }
+
+    .grh-card {
+        padding: 12px;
+    }
+
+    .grh-manual-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .grh-manual-row .grh-manual-select {
+        min-width: 0;
+    }
+
+    .grh-manual-kg-input {
+        width: 100%;
+    }
+
+    .grh-manual-remove {
+        align-self: flex-end;
+    }
+
+    .grh-entry-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 420px) {
+    .grh-page {
+        padding: 8px;
+    }
+
+    .grh-header-row {
+        flex-wrap: wrap;
+    }
+
+    .grh-back-btn {
+        align-self: flex-start;
+        font-size: 13px;
+    }
+
+    .grh-header h1 {
+        font-size: 18px;
+    }
+
+    .grh-header p {
+        font-size: 13px;
+    }
+
+    .grh-card {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .grh-card h2 {
+        font-size: 15px;
+    }
+
+    .grh-row {
+        gap: 6px;
+        padding: 5px 0;
+    }
+
+    .grh-icon {
+        font-size: 16px;
+        width: 20px;
+    }
+
+    .grh-name {
+        font-size: 13px;
+    }
+
+    .grh-kg {
+        font-size: 13px;
+    }
+
+    .grh-entry-date,
+    .grh-entry-mode {
+        font-size: 12px;
+    }
+
+    .grh-manual-toggle {
+        font-size: 13px;
+    }
+
+    .grh-manual-label,
+    .grh-manual-date,
+    .grh-manual-select,
+    .grh-manual-kg-input {
+        font-size: 13px;
+    }
+
+    .grh-manual-add-row {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grh-month-header {
+        font-size: 13px;
+    }
+}

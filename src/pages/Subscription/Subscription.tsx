@@ -144,6 +144,17 @@ const features = [
       "Дати вакцинацій",
     ],
   },
+  {
+    icon: "🧾",
+    title: "Раціони",
+    desc: "Історія розрахованих зернових сумішей. Кожен рецепт з калькулятора зберігається з датою — скільки і якої культури пішло. Можна також додати запис вручну заднім числом.",
+    details: [
+      "Автоматичне збереження при розрахунку в калькуляторі",
+      "Ручне внесення записів заднім числом",
+      "Підсумок по кожній культурі окремо",
+      "Загальна вага використаного зерна за весь час",
+    ],
+  },
 ];
 
 const Subscription = () => {
@@ -180,7 +191,7 @@ const Subscription = () => {
           </div>
           <div className="sub-hero-stats">
             <div className="sub-stat">
-              <span className="sub-stat-num">13</span>
+              <span className="sub-stat-num">14</span>
               <span className="sub-stat-label">розділів обліку</span>
             </div>
             <div className="sub-stat">

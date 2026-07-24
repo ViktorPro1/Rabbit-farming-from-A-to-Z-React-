@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Calculator.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
+import type { Session } from "@supabase/supabase-js";
+import { supabase } from "../../lib/supabase";
 
 // ===== ЗЕРНОВА СУМІШ =====
 interface Grain {
@@ -369,7 +371,11 @@ type Tab = "grain" | "dates";
 type GrainMode = "breeding" | "fattening";
 type CalcType = "" | "birth" | "mating";
 
-export default function Calculator() {
+interface CalculatorProps {
+  session: Session;
+}
+
+export default function Calculator({ session }: CalculatorProps) {
   const [tab, setTab] = useState<Tab>("grain");
 
   // --- Зернова суміш ---
@@ -385,6 +391,8 @@ export default function Calculator() {
   const [grainError, setGrainError] = useState("");
   const [hasGranulator, setHasGranulator] = useState(false);
   const [showGrainInfo, setShowGrainInfo] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveMsg, setSaveMsg] = useState("");
 
   const currentGrains =
     grainMode === "breeding" ? breedingGrains : fatteningGrains;
@@ -425,6 +433,61 @@ export default function Calculator() {
       setGrainError("");
     }
     setGrainResults(calcGrains(currentGrains, currentSel, grainWeight));
+  };
+
+  const handleSaveRecipe = async () => {
+    if (!grainResults.length) return;
+
+    setSaving(true);
+    setSaveMsg("");
+
+    const items: {
+      name: string;
+      icon: string;
+      kg: number;
+      pct: number | null;
+    }[] = grainResults.map((r) => ({
+      name: r.name,
+      icon: r.icon,
+      kg: r.kg,
+      pct: Math.round(r.pct * 10) / 10,
+    }));
+
+    let lucerneKg: number | null = null;
+    let saltG: number | null = null;
+    let premixG: number | null = null;
+
+    if (hasGranulator) {
+      const additives = calcGranulatorAdditives(grainWeight);
+      lucerneKg = additives.lucerne;
+      saltG = additives.salt;
+      premixG = additives.premix;
+      items.push({
+        name: "Люцерна подрібнена",
+        icon: "🌿",
+        kg: lucerneKg,
+        pct: null,
+      });
+    }
+
+    try {
+      const { error } = await supabase.from("grain_recipes").insert({
+        user_id: session.user.id,
+        mode: grainMode,
+        total_kg: grainWeight,
+        items,
+        lucerne_kg: lucerneKg,
+        salt_g: saltG,
+        premix_g: premixG,
+      });
+      if (error) throw error;
+      setSaveMsg("Відмітку додано!");
+    } catch (err) {
+      console.error(err);
+      setSaveMsg("Помилка збереження. Спробуйте ще раз.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   // --- Дати розведення ---
@@ -764,6 +827,25 @@ export default function Calculator() {
                       </div>
                     );
                   })()}
+                <button
+                  className="calc-btn"
+                  style={{ marginTop: "14px" }}
+                  onClick={handleSaveRecipe}
+                  disabled={saving}
+                >
+                  {saving ? "Збереження..." : "💾 Додати відмітку"}
+                </button>
+                {saveMsg && (
+                  <p
+                    className={
+                      saveMsg.startsWith("Відмітку")
+                        ? "calc-alert ok"
+                        : "calc-error"
+                    }
+                  >
+                    {saveMsg}
+                  </p>
+                )}
               </div>
             )}
 

@@ -232,6 +232,9 @@ const DisinfectionLog = lazy(
   () => import("../pages/DisinfectionLog/DisinfectionLog"),
 );
 const CageSearch = lazy(() => import("../pages/CageSearch/CageSearch"));
+const GrainRecipesHistory = lazy(
+  () => import("../pages/GrainRecipesHistory/GrainRecipesHistory"),
+);
 
 // ПЛЕМІННА СПРАВА ТА ВИСТАВКИ
 const BreedStandards = lazy(
@@ -478,7 +481,13 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         {/* 8. ІНСТРУМЕНТИ */}
         <Route
           path="/calculator"
-          element={session ? <Calculator /> : <Auth returnTo="/calculator" />}
+          element={
+            session ? (
+              <Calculator session={session} />
+            ) : (
+              <Auth returnTo="/calculator" />
+            )
+          }
         />
         <Route path="/equipment" element={<Equipment />} />
         <Route path="/tools" element={<Tools />} />
@@ -537,6 +546,12 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route
           path="/cage-search"
           element={<CageSearch session={session!} />}
+        />
+        <Route
+          path="/grain-recipes-history"
+          element={
+            session ? <GrainRecipesHistory session={session} /> : <Auth />
+          }
         />
         {/* — Племінна справа та виставки — */}
         <Route path="/breed-standards" element={<BreedStandards />} />
