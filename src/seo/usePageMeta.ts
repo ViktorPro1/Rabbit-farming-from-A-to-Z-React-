@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { pageMeta, BASE_URL } from "./pageMeta";
+import {
+    pageMeta,
+    BASE_URL,
+    SITE_NAME,
+    DEFAULT_OG_IMAGE,
+} from "./pageMeta";
 
 function setMetaByName(name: string, content: string) {
     let el = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
@@ -36,7 +41,7 @@ function setCanonical(href: string) {
 
 export function usePageMeta() {
     const { pathname } = useLocation();
-    const meta = pageMeta[pathname];
+    const meta = pageMeta[pathname] ?? pageMeta["/"];
 
     useEffect(() => {
         // Кожна сторінка має власний canonical (а не завжди головну),
@@ -45,14 +50,22 @@ export function usePageMeta() {
             pathname === "/" ? `${BASE_URL}/` : `${BASE_URL}${pathname}`;
         setCanonical(canonical);
         setMetaByProperty("og:url", canonical);
+        setMetaByProperty("og:type", "website");
+        setMetaByProperty("og:site_name", SITE_NAME);
+        setMetaByProperty("og:locale", "uk_UA");
+        setMetaByProperty("og:image", DEFAULT_OG_IMAGE);
+        setMetaByProperty("og:image:alt", SITE_NAME);
 
         if (meta) {
             document.title = meta.title;
             setMetaByName("description", meta.description);
+            setMetaByName("robots", "index,follow");
             setMetaByProperty("og:title", meta.title);
             setMetaByProperty("og:description", meta.description);
             setMetaByName("twitter:title", meta.title);
             setMetaByName("twitter:description", meta.description);
+            setMetaByName("twitter:card", "summary_large_image");
+            setMetaByName("twitter:image", DEFAULT_OG_IMAGE);
         }
 
         const existing = document.getElementById("page-schema");

@@ -5,7 +5,8 @@ export interface PageMeta {
 }
 
 export const BASE_URL = "https://rabbit-farming-from-a-to-z-react.vercel.app";
-const SITE_NAME = "Кролівництво від А до Я";
+export const SITE_NAME = "Кролівництво від А до Я";
+export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.webp`;
 
 export const pageMeta: Record<string, PageMeta> = {
     "/": {
