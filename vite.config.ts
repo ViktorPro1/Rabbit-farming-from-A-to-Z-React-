@@ -1,10 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { vitePrerenderPlugin } from "vite-prerender-plugin";
+import { prerenderRoutes } from "./src/prerender-routes";
 
 export default defineConfig({
   plugins: [
     react(),
+
+    vitePrerenderPlugin({
+      renderTarget: "#root",
+      prerenderScript: "./src/entry-prerender.tsx",
+      additionalPrerenderRoutes: prerenderRoutes,
+    }),
+
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
@@ -64,12 +73,14 @@ export default defineConfig({
         ],
       },
     }),
+
   ],
   server: {
     open: true,
   },
   build: {
     rollupOptions: {
+      external: ['fsevents'],
       output: {
         manualChunks(id) {
           if (

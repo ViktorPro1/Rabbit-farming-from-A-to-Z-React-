@@ -21,8 +21,8 @@ const ShareButton = ({ title }: ShareButtonProps) => {
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const url = window.location.href;
-  const text = title || document.title;
+  const url = typeof window !== "undefined" ? window.location.href : "";
+  const text = title || (typeof document !== "undefined" ? document.title : "");
 
   const handleCopy = async () => {
     try {
