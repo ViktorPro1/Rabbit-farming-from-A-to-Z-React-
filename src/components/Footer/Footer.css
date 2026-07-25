@@ -144,3 +144,66 @@
     opacity: 0.45;
     margin-top: 2px;
 }
+
+/* ПОСИЛАННЯ "ЗА ЛАШТУНКАМИ" — акцент з пульсом */
+.footer-dev-link {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 7px;
+    margin-left: 4px;
+    padding: 3px 10px !important;
+    border: 1px solid rgba(57, 255, 106, 0.35);
+    border-radius: 20px;
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    font-size: 12px !important;
+    opacity: 1 !important;
+    color: #a8ffc0 !important;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.footer-dev-link:hover {
+    border-color: rgba(57, 255, 106, 0.7);
+    background: rgba(57, 255, 106, 0.06);
+}
+
+.footer-dev-label {
+    letter-spacing: 0.01em;
+}
+
+.footer-dev-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #39ff6a;
+    box-shadow: 0 0 6px rgba(57, 255, 106, 0.9);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.footer-dev-pulse::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #39ff6a;
+    animation: footer-dev-ping 1.8s ease-out infinite;
+}
+
+@keyframes footer-dev-ping {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    75%,
+    100% {
+        transform: scale(2.6);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer-dev-pulse::before {
+        animation: none;
+    }
+}

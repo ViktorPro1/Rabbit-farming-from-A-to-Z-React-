@@ -1,0 +1,230 @@
+.bts-page {
+    --bts-bg: #060a06;
+    --bts-panel: #0b120b;
+    --bts-border: #1c3a1c;
+    --bts-green: #39ff6a;
+    --bts-green-dim: #1f8a3f;
+    --bts-green-soft: #a8ffc0;
+    --bts-red: #ff5f56;
+    --bts-yellow: #ffbd2e;
+
+    position: relative;
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+    background: radial-gradient(ellipse at top, #0d150d 0%, var(--bts-bg) 60%);
+    font-family: "JetBrains Mono", "Fira Code", "Consolas", "SFMono-Regular",
+        Menlo, monospace;
+    overflow: hidden;
+}
+
+.bts-scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom,
+            rgba(57, 255, 106, 0.035) 0px,
+            rgba(57, 255, 106, 0.035) 1px,
+            transparent 2px,
+            transparent 3px);
+    mix-blend-mode: screen;
+}
+
+.bts-terminal {
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--bts-panel);
+    border: 0.5px solid var(--bts-border);
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(57, 255, 106, 0.05),
+        0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(57, 255, 106, 0.06);
+    overflow: hidden;
+}
+
+.bts-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #0e170e;
+    border-bottom: 0.5px solid var(--bts-border);
+}
+
+.bts-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.85;
+}
+
+.bts-dot-red {
+    background: var(--bts-red);
+}
+
+.bts-dot-yellow {
+    background: var(--bts-yellow);
+}
+
+.bts-dot-green {
+    background: var(--bts-green-dim);
+}
+
+.bts-titlebar-label {
+    margin-left: 8px;
+    font-size: 12px;
+    color: var(--bts-green-dim);
+    letter-spacing: 0.02em;
+}
+
+.bts-body {
+    padding: 24px 20px 32px;
+    color: var(--bts-green-soft);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.bts-greeting {
+    font-size: 15px;
+    color: var(--bts-green);
+    text-shadow: 0 0 6px rgba(57, 255, 106, 0.5);
+    min-height: 44px;
+}
+
+.bts-line {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.bts-cursor {
+    display: inline-block;
+    color: var(--bts-green);
+    text-shadow: 0 0 8px rgba(57, 255, 106, 0.8);
+}
+
+.bts-cursor-blink {
+    animation: bts-blink 1s steps(1) infinite;
+}
+
+@keyframes bts-blink {
+
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.bts-content {
+    margin-top: 28px;
+    animation: bts-fade-in 0.5s ease-out;
+}
+
+@keyframes bts-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bts-section {
+    margin-top: 22px;
+}
+
+.bts-prompt {
+    color: var(--bts-green);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.bts-prompt-end {
+    margin-top: 28px;
+    margin-bottom: 0;
+}
+
+.bts-cursor-inline {
+    text-shadow: 0 0 8px rgba(57, 255, 106, 0.8);
+    animation: bts-blink 1s steps(1) infinite;
+}
+
+.bts-text {
+    margin: 0;
+    color: var(--bts-green-soft);
+    opacity: 0.9;
+}
+
+.bts-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bts-list li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.bts-list li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--bts-green-dim);
+}
+
+.bts-key {
+    color: var(--bts-green);
+}
+
+.bts-ascii {
+    margin: 26px 0 0;
+    color: var(--bts-green-dim);
+    font-size: 13px;
+    line-height: 1.3;
+    text-shadow: 0 0 6px rgba(57, 255, 106, 0.35);
+}
+
+@media (max-width: 640px) {
+    .bts-page {
+        padding: 20px 10px 48px;
+    }
+
+    .bts-body {
+        padding: 18px 14px 24px;
+        font-size: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .bts-cursor-blink,
+    .bts-cursor-inline {
+        animation: none;
+        opacity: 1;
+    }
+
+    .bts-content {
+        animation: none;
+    }
+}
+
+@media (max-width: 420px) {
+    .bts-page {
+        padding: 14px 6px 36px;
+    }
+
+    .bts-body {
+        padding: 14px 10px 85px;
+        font-size: 12px;
+    }
+}

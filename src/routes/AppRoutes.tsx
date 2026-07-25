@@ -319,12 +319,13 @@ const Changelog = lazy(() => import("../pages/Changelog/Changelog"));
 const AboutProject = lazy(
   () => import("../pages/Info/AboutProject/AboutProject"),
 );
-
 const PrivacyPolicy = lazy(
   () => import("../pages/Info/PrivacyPolicy/PrivacyPolicy"),
 );
-
 const TermsOfUse = lazy(() => import("../pages/Info/TermsOfUse/TermsOfUse"));
+const BehindTheScenes = lazy(
+  () => import("../pages/BehindTheScenes/BehindTheScenes"),
+);
 
 // ─────────────────────────────────────────────
 const PageLoader = () => (
@@ -609,6 +610,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/about" element={<AboutProject />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
+        <Route path="/behind-the-scenes" element={<BehindTheScenes />} />
       </Routes>
     </Suspense>
   );

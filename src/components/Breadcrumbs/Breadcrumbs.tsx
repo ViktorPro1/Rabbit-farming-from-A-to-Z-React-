@@ -210,6 +210,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/about": "Про проєкт",
   "/privacy-policy": "Політика конфіденційності",
   "/terms-of-use": "Умови використання",
+  "/behind-the-scenes": "За лаштунками",
 };
 
 // ── Separator ────────────────────────────────────────────────────

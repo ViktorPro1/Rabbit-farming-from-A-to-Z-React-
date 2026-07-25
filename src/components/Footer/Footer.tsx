@@ -38,6 +38,10 @@ const Footer = () => {
             >
               ✉ Зворотний зв'язок
             </button>
+            <NavLink to="/behind-the-scenes" className="footer-dev-link">
+              <span className="footer-dev-pulse" aria-hidden="true" />
+              <span className="footer-dev-label">&lt;/&gt; за лаштунками</span>
+            </NavLink>
           </div>
         </div>
 
