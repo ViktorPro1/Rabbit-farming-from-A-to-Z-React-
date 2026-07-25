@@ -198,6 +198,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/cage-search": "Історія клітки",
   "/disinfection-log": "Дезінфекція",
   "/grain-recipes-history": "Раціони",
+  "/weighing": "Зважування",
 
   // АДМІН
   "/admin": "Адмін",

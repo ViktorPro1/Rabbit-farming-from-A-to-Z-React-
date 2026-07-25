@@ -66,7 +66,7 @@ const helpItems = [
   },
   {
     icon: "🏠",
-    title: "Підлогове утримання",
+    title: "Вольєрне утримання",
     desc: "Групове розведення в загоні. Один коєць + кілька самок. Самок додаєш вручну. Так само вносиш злучки і окроли для всього загону.",
   },
   {
@@ -108,6 +108,11 @@ const helpItems = [
     icon: "🧾",
     title: "Раціони",
     desc: "Історія розрахованих зернових сумішей з калькулятора. Кожен рецепт зберігається з датою — скільки і якої культури пішло. Можна також додати запис вручну заднім числом, якщо облік вівся на папері. Показує підсумок по кожній культурі окремо і загальну вагу використаного зерна.",
+  },
+  {
+    icon: "⚖️",
+    title: "Зважування",
+    desc: "Контроль ваги показового кролика з гнізда/кролятника раз на місяць. Вказуєш назву гнізда, дату і вагу — система рахує приріст у грамах на добу між зважуваннями.",
   },
 ];
 
@@ -465,7 +470,7 @@ export default function RabbitRegistry({ session }: Props) {
             className="registry-archive-link"
             onClick={() => navigate("/paddocks")}
           >
-            🏠 Підлогове
+            🏠 Вольєр
           </button>
           <button
             className="registry-archive-link"
@@ -502,6 +507,12 @@ export default function RabbitRegistry({ session }: Props) {
             onClick={() => navigate("/grain-recipes-history")}
           >
             🧾 Раціони
+          </button>
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/weighing")}
+          >
+            ⚖️ Зважування
           </button>
           <button
             className="registry-archive-link"

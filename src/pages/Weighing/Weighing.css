@@ -1,0 +1,348 @@
+.weighing-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.weighing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.weighing-header h1 {
+    color: var(--green-dark);
+    font-size: 1.8rem;
+}
+
+.weighing-back-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.weighing-back-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.weighing-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.weighing-stat {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid var(--green-accent);
+    min-width: 90px;
+}
+
+.weighing-stat.wide {
+    min-width: 160px;
+}
+
+.weighing-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1;
+}
+
+.weighing-stat-value.small {
+    font-size: 1.1rem;
+    text-transform: capitalize;
+}
+
+.weighing-stat-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.weighing-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.weighing-add-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.weighing-add-btn:hover {
+    background: var(--green-mid);
+}
+
+.weighing-form {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.weighing-form h3 {
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.weighing-edit-form {
+    border-left: 4px solid var(--amber);
+}
+
+.weighing-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.weighing-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.weighing-form-field label {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.weighing-form-grid input,
+.weighing-form-grid select {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    background: var(--cream);
+    color: var(--green-dark);
+}
+
+.weighing-form-grid input:focus,
+.weighing-form-grid select:focus {
+    border-color: var(--green-dark);
+}
+
+.weighing-form-full {
+    grid-column: 1 / -1;
+}
+
+.weighing-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.weighing-save-btn {
+    padding: 0.65rem 1.5rem;
+    background: var(--green-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.weighing-save-btn:hover {
+    background: var(--green-mid);
+}
+
+.weighing-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.weighing-edit-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.weighing-cancel-btn {
+    padding: 0.65rem 1.2rem;
+    background: none;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    color: var(--gray);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.weighing-cancel-btn:hover {
+    border-color: var(--gray);
+    color: var(--green-dark);
+}
+
+.weighing-loading {
+    text-align: center;
+    color: var(--gray);
+    padding: 2rem;
+}
+
+.weighing-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.weighing-group-title {
+    color: var(--green-dark);
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.weighing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.weighing-card {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-left: 4px solid var(--green-accent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.weighing-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.weighing-name {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 1rem;
+}
+
+.weighing-card-btns {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.weighing-edit-btn {
+    background: none;
+    border: 1px solid var(--green-accent);
+    color: var(--green-accent);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.weighing-edit-btn:hover {
+    background: var(--green-accent);
+    color: white;
+}
+
+.weighing-delete-btn {
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.weighing-delete-btn:hover {
+    background: #c0392b;
+    color: white;
+}
+
+.weighing-info {
+    font-size: 0.9rem;
+    color: var(--green-dark);
+}
+
+.weighing-gain {
+    font-size: 0.85rem;
+    color: var(--green-mid);
+    font-weight: 600;
+}
+
+.weighing-notes {
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-style: italic;
+}
+
+@media (max-width: 640px) {
+    .weighing-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .weighing-page {
+        padding: 1rem;
+    }
+}
+
+/* ===== ПОРОЖНІЙ СТАН ===== */
+.weighing-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.weighing-empty-illustration {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    animation: bounce 2s infinite;
+}
+
+.weighing-empty-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.weighing-empty-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    max-width: 300px;
+    line-height: 1.6;
+    margin: 0;
+}

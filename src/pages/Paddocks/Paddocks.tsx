@@ -378,7 +378,7 @@ export default function Paddocks({ session }: Props) {
   return (
     <div className="paddocks-page">
       <div className="paddocks-header">
-        <h1>🏠 Підлогове утримання</h1>
+        <h1>🏠 Вольєрне утримання</h1>
         <button
           className="paddocks-back-btn"
           onClick={() => navigate("/registry")}
@@ -412,7 +412,7 @@ export default function Paddocks({ session }: Props) {
               }
               className="paddocks-form-full"
             >
-              <option value="">♂ Коєць (необов'язково)</option>
+              <option value="">♂ Кролик (необов'язково)</option>
               {males.map((r) => (
                 <option key={r.id} value={r.id}>
                   {r.name} {r.breed ? `(${r.breed})` : ""}{" "}

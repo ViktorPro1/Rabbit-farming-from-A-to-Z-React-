@@ -235,6 +235,7 @@ const CageSearch = lazy(() => import("../pages/CageSearch/CageSearch"));
 const GrainRecipesHistory = lazy(
   () => import("../pages/GrainRecipesHistory/GrainRecipesHistory"),
 );
+const Weighing = lazy(() => import("../pages/Weighing/Weighing"));
 
 // ПЛЕМІННА СПРАВА ТА ВИСТАВКИ
 const BreedStandards = lazy(
@@ -552,6 +553,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           element={
             session ? <GrainRecipesHistory session={session} /> : <Auth />
           }
+        />
+        <Route
+          path="/weighing"
+          element={session ? <Weighing session={session} /> : <Auth />}
         />
         {/* — Племінна справа та виставки — */}
         <Route path="/breed-standards" element={<BreedStandards />} />
