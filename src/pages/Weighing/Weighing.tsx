@@ -35,6 +35,7 @@ export default function Weighing({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [showWeightChart, setShowWeightChart] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -369,6 +370,142 @@ export default function Weighing({ session }: Props) {
           })}
         </div>
       )}
+
+      {/* ── Довідка: орієнтовна вага за віком ── */}
+      <div className="registry-info">
+        <button
+          className="registry-info-toggle"
+          onClick={() => setShowWeightChart(!showWeightChart)}
+        >
+          <span>📋 Орієнтовна вага кроля за віком (норма)</span>
+          <span>{showWeightChart ? "▲" : "▼"}</span>
+        </button>
+
+        {showWeightChart && (
+          <>
+            <p className="registry-info-text">
+              Орієнтовні діапазони — реальна вага залежить від лінії, годівлі та
+              умов утримання. Використовуй як загальний орієнтир для
+              самоконтролю, а не жорсткий норматив.
+            </p>
+            <div className="weighing-chart-table-wrap">
+              <table className="weighing-chart-table">
+                <thead>
+                  <tr>
+                    <th>Вік</th>
+                    <th>М'ясні породи</th>
+                    <th>Великі породи</th>
+                    <th>Декоративні</th>
+                    <th>Примітка</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Народження</td>
+                    <td>40–80 г</td>
+                    <td>60–100 г</td>
+                    <td>30–60 г</td>
+                    <td>
+                      Залежить від розміру посліду. Менший послід — більші
+                      кроленята.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>7 днів</td>
+                    <td>100–150 г</td>
+                    <td>120–180 г</td>
+                    <td>70–100 г</td>
+                    <td>
+                      Перший тиждень — тільки молоко матері. Вага подвоюється.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>14 днів</td>
+                    <td>200–280 г</td>
+                    <td>250–320 г</td>
+                    <td>150–200 г</td>
+                    <td>Очі ще закриті. Починають виходити з гнізда.</td>
+                  </tr>
+                  <tr>
+                    <td>21 день</td>
+                    <td>350–450 г</td>
+                    <td>400–520 г</td>
+                    <td>250–320 г</td>
+                    <td>Починають пробувати сіно та м'який корм.</td>
+                  </tr>
+                  <tr>
+                    <td>28 днів</td>
+                    <td>500–650 г</td>
+                    <td>600–750 г</td>
+                    <td>350–450 г</td>
+                    <td>Активно їдять поряд з матір'ю.</td>
+                  </tr>
+                  <tr>
+                    <td>35 днів</td>
+                    <td>700–900 г</td>
+                    <td>850–1050 г</td>
+                    <td>450–600 г</td>
+                    <td>
+                      Орієнтир ваги — не рекомендація щодо термінів відлучення.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>45 днів</td>
+                    <td>900–1100 г</td>
+                    <td>1100–1350 г</td>
+                    <td>600–750 г</td>
+                    <td>Активний ріст. Профілактика кокцидіозу обов'язкова.</td>
+                  </tr>
+                  <tr>
+                    <td>60 днів</td>
+                    <td>1300–1600 г</td>
+                    <td>1600–2000 г</td>
+                    <td>800–1000 г</td>
+                    <td>Типовий вік відлучення в господарстві.</td>
+                  </tr>
+                  <tr>
+                    <td>75 днів</td>
+                    <td>1800–2200 г</td>
+                    <td>2200–2700 г</td>
+                    <td>1000–1300 г</td>
+                    <td>
+                      Оптимальний вік початку відгодівлі для м'ясних порід.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>90 днів</td>
+                    <td>2200–2700 г</td>
+                    <td>2800–3400 г</td>
+                    <td>1200–1600 г</td>
+                    <td>Орієнтовний вік забою для м'ясних порід.</td>
+                  </tr>
+                  <tr>
+                    <td>120 днів</td>
+                    <td>2800–3400 г</td>
+                    <td>3500–4500 г</td>
+                    <td>1500–2000 г</td>
+                    <td>Статева зрілість. Самців і самок розділяти.</td>
+                  </tr>
+                  <tr>
+                    <td>6 місяців</td>
+                    <td>3500–4500 г</td>
+                    <td>4500–6000 г</td>
+                    <td>1800–2500 г</td>
+                    <td>Дорослий кролик, готовий до першої злучки.</td>
+                  </tr>
+                  <tr>
+                    <td>12 місяців</td>
+                    <td>4000–5500 г</td>
+                    <td>5500–8000 г</td>
+                    <td>2000–3000 г</td>
+                    <td>Повна зрілість. Максимальна маса — до 1.5–2 років.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

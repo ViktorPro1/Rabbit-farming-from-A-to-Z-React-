@@ -314,6 +314,55 @@
     }
 }
 
+/* ===== ДОВІДКОВА ТАБЛИЦЯ ВАГИ ЗА ВІКОМ ===== */
+.weighing-chart-table-wrap {
+    overflow-x: auto;
+    margin-top: 0.75rem;
+}
+
+.weighing-chart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 640px;
+}
+
+.weighing-chart-table th {
+    background: var(--green-pale);
+    color: var(--green-dark);
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.weighing-chart-table td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.weighing-chart-table tr:last-child td {
+    border-bottom: none;
+}
+
+.weighing-chart-table tr:nth-child(even) {
+    background: var(--cream);
+}
+
+.weighing-chart-table td:last-child {
+    color: var(--gray);
+    font-style: italic;
+    min-width: 220px;
+}
+
+@media (max-width: 640px) {
+    .weighing-chart-table {
+        font-size: 0.8rem;
+    }
+}
+
 /* ===== ПОРОЖНІЙ СТАН ===== */
 .weighing-empty-state {
     display: flex;

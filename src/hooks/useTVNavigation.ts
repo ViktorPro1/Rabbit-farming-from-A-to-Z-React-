@@ -52,12 +52,18 @@ function isTextEditable(el: Element | null): boolean {
 
 type Direction = 'up' | 'down' | 'left' | 'right';
 
-function findNearest(current: HTMLElement, candidates: HTMLElement[], direction: Direction): HTMLElement | null {
+interface NearestResult {
+    element: HTMLElement;
+    primary: number;
+}
+
+function findNearest(current: HTMLElement, candidates: HTMLElement[], direction: Direction): NearestResult | null {
     const a = current.getBoundingClientRect();
     const ax = a.left + a.width / 2;
     const ay = a.top + a.height / 2;
 
     let best: HTMLElement | null = null;
+    let bestPrimary = Infinity;
     let bestScore = Infinity;
 
     for (const el of candidates) {
@@ -101,11 +107,23 @@ function findNearest(current: HTMLElement, candidates: HTMLElement[], direction:
 
         if (score < bestScore) {
             bestScore = score;
+            bestPrimary = primary;
             best = el;
         }
     }
 
-    return best;
+    if (!best) return null;
+    return { element: best, primary: bestPrimary };
+}
+
+// Якщо найближчий фокусований елемент далі, ніж приблизно один екран,
+// вважаємо що "поруч" нічого немає — краще дати звичайний скрол сторінки,
+// ніж перестрибувати фокус у хедер/футер через увесь текст статті.
+function isWithinReach(primary: number, direction: Direction): boolean {
+    const limit = direction === 'left' || direction === 'right'
+        ? window.innerWidth * 1.2
+        : window.innerHeight * 1.1;
+    return primary <= limit;
 }
 
 export function useTVNavigation(): void {
@@ -144,11 +162,14 @@ export function useTVNavigation(): void {
             }
 
             const next = findNearest(current, candidates, direction);
-            if (next) {
-                next.focus();
-                next.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+            if (next && isWithinReach(next.primary, direction)) {
+                next.element.focus();
+                next.element.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
                 e.preventDefault();
             }
+            // якщо найближчий елемент задалеко (наприклад хедер/футер під час
+            // читання довгої статті) — стрілку не перехоплюємо, браузер сам
+            // проскролить сторінку природним чином
         };
 
         window.addEventListener('keydown', handleKeyDown);
