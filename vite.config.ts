@@ -85,6 +85,22 @@ export default defineConfig({
             url: '/glossary',
             icons: [{ src: 'icons/icon-192.png', sizes: '192x192' }]
           }
+        ],
+        screenshots: [
+          {
+            src: 'screenshots/desktop.png',
+            sizes: '1280x720',
+            type: 'image/png',
+            form_factor: 'wide',
+            label: 'Головна сторінка довідника на десктопі'
+          },
+          {
+            src: 'screenshots/mobile.png',
+            sizes: '412x915',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Головна сторінка довідника на мобільному'
+          }
         ]
       },
       workbox: {
