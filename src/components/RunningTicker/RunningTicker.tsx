@@ -57,7 +57,8 @@ export default function RunningTicker({
         halfWidthRef.current = trackRef.current.scrollWidth / 2;
       }
     };
-    measure();
+    // Відкладаємо на кадр пізніше, щоб не форсувати reflow одразу після вставки DOM
+    requestAnimationFrame(measure);
     window.addEventListener("resize", measure);
 
     const tick = (time: number) => {

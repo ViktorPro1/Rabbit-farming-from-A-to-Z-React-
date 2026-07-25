@@ -13,8 +13,10 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>,
 );
 
-registerSW({
-  onNeedRefresh() {
-    window.dispatchEvent(new CustomEvent("sw-update"));
-  },
+window.addEventListener("load", () => {
+  registerSW({
+    onNeedRefresh() {
+      window.dispatchEvent(new CustomEvent("sw-update"));
+    },
+  });
 });
