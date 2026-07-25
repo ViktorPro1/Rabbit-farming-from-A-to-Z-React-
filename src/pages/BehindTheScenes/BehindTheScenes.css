@@ -194,15 +194,45 @@
     text-shadow: 0 0 6px rgba(57, 255, 106, 0.35);
 }
 
+/* Фон сторінки (body) — темний тільки поки відкрита ця сторінка */
+body.bts-active {
+    background: #060a06;
+}
+
+body.bts-active .print-button {
+    background-color: var(--bts-panel, #0b120b);
+    color: var(--bts-green, #39ff6a);
+    border: 1px solid rgba(57, 255, 106, 0.35);
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    text-shadow: 0 0 6px rgba(57, 255, 106, 0.5);
+}
+
+body.bts-active .print-button:hover {
+    background-color: rgba(57, 255, 106, 0.08);
+    border-color: rgba(57, 255, 106, 0.7);
+}
+
 @media (max-width: 640px) {
     .bts-page {
-        padding: 20px 10px 48px;
+        padding: 20px 10px 20px;
     }
 
     .bts-body {
         padding: 18px 14px 24px;
         font-size: 13px;
     }
+}
+
+@media (max-width: 420px) {
+    .bts-page {
+        padding: 14px 6px 14px;
+    }
+
+    .bts-body {
+        padding: 14px 10px 90px;
+        font-size: 12px;
+    }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -215,16 +245,5 @@
 
     .bts-content {
         animation: none;
-    }
-}
-
-@media (max-width: 420px) {
-    .bts-page {
-        padding: 14px 6px 36px;
-    }
-
-    .bts-body {
-        padding: 14px 10px 85px;
-        font-size: 12px;
     }
 }

@@ -6,15 +6,20 @@ const GREETING_LINES = [
   "> Раді бачити Вас тут, за лаштунками розробки...",
 ];
 
-const RABBIT_ASCII = String.raw`
-   (\(\
+const RABBIT_ASCII = String.raw`   (\(\
    ( -.-)
-  o_(")(")
-`;
+  o_(")(")`;
 
 const BehindTheScenes = () => {
   const [typedLines, setTypedLines] = useState<string[]>([]);
   const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.add("bts-active");
+    return () => {
+      document.body.classList.remove("bts-active");
+    };
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
