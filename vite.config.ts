@@ -16,8 +16,10 @@ export default defineConfig({
 
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'script',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
+        id: '/',
         name: 'Кролівництво від А до Я',
         short_name: 'Кролівництво',
         description: 'Повний довідник з кролівництва — породи, догляд, годування, хвороби',
@@ -27,18 +29,63 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
+        categories: ['utilities', 'books', 'education'],
         icons: [
           {
             src: 'icons/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: 'icons/icon-192-maskable.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
           },
           {
             src: 'icons/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: 'icons/icon-512-maskable.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
           },
         ],
+        shortcuts: [
+          {
+            name: 'Маршрут новачка',
+            short_name: 'Новачок',
+            description: 'Купив першого кроля — починай тут',
+            url: '/beginner-guide',
+            icons: [{ src: 'icons/icon-192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Типові помилки новачків',
+            short_name: 'Помилки',
+            description: '26 помилок що вбивають кролів — і як їх уникнути',
+            url: '/beginner-mistakes',
+            icons: [{ src: 'icons/icon-192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Породи кролів',
+            short_name: 'Породи',
+            description: 'Огляд популярних порід',
+            url: '/breeds',
+            icons: [{ src: 'icons/icon-192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Словник кролівника',
+            short_name: 'Словник',
+            description: 'Терміни та професійні поняття простими словами',
+            url: '/glossary',
+            icons: [{ src: 'icons/icon-192.png', sizes: '192x192' }]
+          }
+        ]
       },
       workbox: {
         skipWaiting: true,
