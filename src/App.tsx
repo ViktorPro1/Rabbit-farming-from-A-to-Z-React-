@@ -17,6 +17,7 @@ import { usePublicPresence } from "./hooks/usePublicPresence";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import PrintButton from "./components/PrintButton/PrintButton";
 import "./print.css";
+import { useTVNavigation } from "./hooks/useTVNavigation";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -134,6 +135,7 @@ function App() {
   }, []);
 
   usePublicPresence();
+  useTVNavigation();
 
   // Фікс 404 з невидимим символом Facebook — виконується один раз
   // на старті, до того як React Router почне обробляти шлях.

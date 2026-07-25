@@ -1,0 +1,20 @@
+/* Видимий фокус-індикатор для навігації пультом Smart TV.
+   Показується лише коли активний клас "tv-nav-active" на <body>
+   (тобто користувач керує клавіатурою/пультом, а не мишкою). */
+
+.tv-nav-active *:focus {
+    outline: 3px solid var(--green-accent);
+    outline-offset: 3px;
+    border-radius: 8px;
+    transition: outline-color 0.15s ease;
+}
+
+[data-theme="dark"] .tv-nav-active *:focus {
+    outline-color: var(--amber);
+}
+
+/* Прибираємо стандартну блакитну рамку браузера, коли TV-режим неактивний
+   (керування мишкою/тачем) — щоб не було подвійного стилю фокуса. */
+body:not(.tv-nav-active) *:focus {
+    outline: none;
+}
