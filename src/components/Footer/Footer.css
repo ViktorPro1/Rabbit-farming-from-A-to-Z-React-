@@ -145,25 +145,24 @@
     margin-top: 2px;
 }
 
-/* ПОСИЛАННЯ "ЗА ЛАШТУНКАМИ" — акцент з пульсом */
+/* ПОСИЛАННЯ ЗА ЛАШТУНКАМИ */
 .footer-dev-link {
-    display: inline-flex !important;
+    display: inline-flex;
     align-items: center;
     gap: 7px;
-    margin-left: 4px;
-    padding: 3px 10px !important;
-    border: 1px solid rgba(57, 255, 106, 0.35);
-    border-radius: 20px;
-    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
-    font-size: 12px !important;
-    opacity: 1 !important;
-    color: #a8ffc0 !important;
-    transition: border-color 0.2s, background 0.2s;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--green-pale);
+    font-size: 13px;
+    opacity: 0.75;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: opacity 0.2s, border-color 0.2s;
 }
 
 .footer-dev-link:hover {
-    border-color: rgba(57, 255, 106, 0.7);
-    background: rgba(57, 255, 106, 0.06);
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
 .footer-dev-label {
