@@ -229,7 +229,12 @@
     line-height: 1;
 }
 
+.section-group-title-wrap {
+    display: block;
+}
+
 .section-group-title {
+    display: block;
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--green-dark);
