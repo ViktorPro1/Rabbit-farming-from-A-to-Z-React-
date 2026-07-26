@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.rabbit_farming_from_a_to_z_react.twa",
+      "sha256_cert_fingerprints": [
+        "8C:7B:7E:71:60:F6:D2:63:26:43:2C:58:8F:94:39:51:0B:1B:20:EB:64:B0:84:74:DF:03:73:D8:04:A7:B9:85"
+      ]
+    }
+  }
+]
