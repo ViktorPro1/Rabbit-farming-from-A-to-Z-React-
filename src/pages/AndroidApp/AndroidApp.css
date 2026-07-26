@@ -1,5 +1,53 @@
-.android-app-page {
+.android-page {
     min-height: 100vh;
+}
+
+.android-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.android-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.android-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.android-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.android-intro {
+    background: var(--green-light);
+    border-left: 3px solid var(--green-mid);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--green-dark);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.android-group {
+    margin-bottom: 1.5rem;
+}
+
+.android-group-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
 }
 
 .android-download-btn {
@@ -19,4 +67,77 @@
 
 .android-download-btn:hover {
     background: var(--green-mid);
+}
+
+.android-card {
+    background: var(--cream);
+    border-radius: 12px;
+    border: 0.5px solid var(--gray-light);
+    padding: 16px;
+}
+
+.android-card p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.75;
+    margin: 0;
+}
+
+.android-card p+p {
+    margin-top: 12px;
+}
+
+.android-notice {
+    background: var(--green-light);
+    border-radius: 12px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 2rem 0 1.5rem;
+}
+
+.android-notice span {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.android-notice strong {
+    display: block;
+    font-size: 14px;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.android-notice p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.android-back {
+    display: flex;
+    justify-content: center;
+}
+
+.android-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.android-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 480px) {
+    .android-header {
+        padding: 1.5rem 1rem;
+    }
 }
