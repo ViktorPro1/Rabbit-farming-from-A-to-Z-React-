@@ -29,6 +29,7 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
+        lang: 'uk-UA',
         categories: ['utilities', 'books', 'education'],
         icons: [
           {
