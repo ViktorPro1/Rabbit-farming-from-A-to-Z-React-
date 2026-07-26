@@ -20,14 +20,16 @@ interface Props {
   session: Session | null;
 }
 
+const LATEST_CHANGELOG_ID = CHANGELOG[CHANGELOG.length - 1]?.id ?? 0;
+
 const Header = ({ session }: Props) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(() => {
-    const lastSeen = localStorage.getItem("changelog_last_seen");
-    if (!lastSeen) return CHANGELOG.length;
-    return CHANGELOG.filter((e) => e.created_at > lastSeen).length;
+    const lastSeenId =
+      Number(localStorage.getItem("changelog_last_seen_id")) || 0;
+    return CHANGELOG.filter((e) => e.id > lastSeenId).length;
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
   const swipeStartX = useRef<number | null>(null);
@@ -70,10 +72,14 @@ const Header = ({ session }: Props) => {
     };
   }, [menuOpen]);
 
+  function markChangelogSeen() {
+    localStorage.setItem("changelog_last_seen_id", String(LATEST_CHANGELOG_ID));
+    setUnreadCount(0);
+  }
+
   function toggleDropdown() {
     if (!showDropdown) {
-      localStorage.setItem("changelog_last_seen", new Date().toISOString());
-      setUnreadCount(0);
+      markChangelogSeen();
     }
     setShowDropdown((prev) => !prev);
   }
@@ -221,11 +227,7 @@ const Header = ({ session }: Props) => {
           <NavLink
             to="/changelog"
             onClick={() => {
-              localStorage.setItem(
-                "changelog_last_seen",
-                new Date().toISOString(),
-              );
-              setUnreadCount(0);
+              markChangelogSeen();
               closeMenu();
             }}
           >
