@@ -359,8 +359,8 @@ const MatingPage = () => {
 
         {/* ПОРІВНЯЛЬНА ТАБЛИЦЯ */}
         <div className="mat-section-title">📋 Порівняльна таблиця схем</div>
-        <div className="mat-note" style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ overflowX: "auto" }}>
+        <div className="mat-note mat-note--table-wrap">
+          <div className="mat-table-scroll">
             <table className="mat-table">
               <thead>
                 <tr>
@@ -393,8 +393,8 @@ const MatingPage = () => {
           підвищує ризик ускладнень при окролі, втрати посліду та виснаження
           молодої самки.
         </div>
-        <div className="mat-note" style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ overflowX: "auto" }}>
+        <div className="mat-note mat-note--table-wrap">
+          <div className="mat-table-scroll">
             <table className="mat-table">
               <thead>
                 <tr>
@@ -438,8 +438,8 @@ const MatingPage = () => {
         <div className="mat-section-title">
           ♂️ Навантаження на самця-плідника
         </div>
-        <div className="mat-note" style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ overflowX: "auto" }}>
+        <div className="mat-note mat-note--table-wrap">
+          <div className="mat-table-scroll">
             <table className="mat-table">
               <thead>
                 <tr>
@@ -590,8 +590,8 @@ const MatingPage = () => {
         <div className="mat-section-title">
           📓 Що записувати в журнал злучок
         </div>
-        <div className="mat-note" style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ overflowX: "auto" }}>
+        <div className="mat-note mat-note--table-wrap">
+          <div className="mat-table-scroll">
             <table className="mat-table">
               <thead>
                 <tr>

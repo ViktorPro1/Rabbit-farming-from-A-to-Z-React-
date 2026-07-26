@@ -600,6 +600,19 @@
     background: #8a6a3a;
 }
 
+.mat-note--table-wrap {
+    padding: 0;
+    overflow: hidden;
+}
+
+.mat-table-scroll {
+    overflow-x: auto;
+}
+
+.mat-note-muted {
+    color: #8a6a3a;
+}
+
 /* ─── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 1000px) {
     .mat-scheme-body {

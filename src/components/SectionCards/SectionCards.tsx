@@ -240,7 +240,7 @@ const SectionCards = () => {
         )}
       </div>
 
-      <h2 className="section-cards-title">Розділи довідника</h2>
+      <h2 className="section-cards-title">Розділи довідника кролівництва</h2>
 
       {/* ГРУПИ З АКОРДЕОНОМ */}
       {groups.map((group) => {

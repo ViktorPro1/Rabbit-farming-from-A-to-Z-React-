@@ -11,7 +11,7 @@ export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.webp`;
 export const pageMeta: Record<string, PageMeta> = {
     "/": {
         title: `${SITE_NAME} — облік, догляд та лікування кролів`,
-        description: "Сучасна платформа для кролівників: облік поголів'я, годівля, вакцинація, лікування та ведення господарства.",
+        description: "Сучасна платформа для кролівників: облік поголів'я, годівля, вакцинація, лікування, розведення та ведення домашнього господарства крок за кроком.",
         schema: {
             "@context": "https://schema.org",
             "@type": "Organization",

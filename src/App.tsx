@@ -17,6 +17,7 @@ import { usePublicPresence } from "./hooks/usePublicPresence";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import PrintButton from "./components/PrintButton/PrintButton";
 import "./print.css";
+import "./App-states.css";
 import { useTVNavigation } from "./hooks/useTVNavigation";
 
 // ─────────────────────────────────────────────
@@ -43,71 +44,41 @@ function SubscriptionExpired() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#f5f0e8",
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "16px",
-          padding: "3rem 2.5rem",
-          maxWidth: "420px",
-          textAlign: "center",
-          boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
-        }}
-      >
-        <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔒</div>
-        <h2
-          style={{ color: "#2d5a1b", marginBottom: "1rem", fontSize: "1.4rem" }}
-        >
+    <div className="app-state-screen">
+      <div className="app-state-card app-state-card--wide">
+        <div className="app-state-icon app-state-icon--lg">🔒</div>
+        <h2 className="app-state-title app-state-title--lg">
           Підписка закінчилась
         </h2>
 
-        <p style={{ color: "#555", marginBottom: "2rem", lineHeight: 1.6 }}>
+        <p className="app-state-desc app-state-desc--lg">
           Вибачте, ваша підписка була деактивована. Для поновлення доступу
           зверніться до адміністратора:
         </p>
 
-        <p style={{ marginBottom: "0.5rem" }}>
+        <p className="app-state-link-row">
           📧{" "}
           <a
             href="mailto:webstartstudio978@gmail.com"
-            style={{ color: "#2d5a1b" }}
+            className="app-state-link"
           >
             webstartstudio978@gmail.com
           </a>
         </p>
 
-        <p style={{ marginBottom: "2rem" }}>
+        <p className="app-state-link-row app-state-link-row--last">
           ✈️{" "}
           <a
             href="https://t.me/Viktor_freelancer_recruiting_pit"
             target="_blank"
             rel="noreferrer"
-            style={{ color: "#2d5a1b" }}
+            className="app-state-link"
           >
             Telegram
           </a>
         </p>
 
-        <button
-          onClick={handleLogout}
-          style={{
-            background: "#2d5a1b",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            padding: "0.75rem 2rem",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-        >
+        <button onClick={handleLogout} className="app-state-btn">
           Вийти
         </button>
       </div>
@@ -194,43 +165,16 @@ function App() {
 
   if (isOffline) {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#f5f0e8",
-        }}
-      >
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "16px",
-            padding: "2.5rem 2rem",
-            maxWidth: "380px",
-            textAlign: "center",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
-          }}
-        >
-          <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>📡</div>
-          <h2 style={{ color: "#2d5a1b", marginBottom: "1rem" }}>
-            Немає інтернету
-          </h2>
-          <p style={{ color: "#555", marginBottom: "1.5rem" }}>
+      <div className="app-state-screen">
+        <div className="app-state-card">
+          <div className="app-state-icon">📡</div>
+          <h2 className="app-state-title">Немає інтернету</h2>
+          <p className="app-state-desc">
             Перевірте підключення і спробуйте ще раз
           </p>
           <button
             onClick={() => window.location.reload()}
-            style={{
-              background: "#2d5a1b",
-              color: "#fff",
-              border: "none",
-              borderRadius: "8px",
-              padding: "0.75rem 2rem",
-              cursor: "pointer",
-              fontSize: "1rem",
-            }}
+            className="app-state-btn"
           >
             Оновити сторінку
           </button>
@@ -241,49 +185,18 @@ function App() {
 
   if (loading && loadingTimeout) {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#f5f0e8",
-        }}
-      >
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "16px",
-            padding: "2.5rem 2rem",
-            maxWidth: "380px",
-            textAlign: "center",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
-          }}
-        >
-          <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>📡</div>
-          <h2
-            style={{
-              color: "#2d5a1b",
-              marginBottom: "1rem",
-              fontSize: "1.2rem",
-            }}
-          >
+      <div className="app-state-screen">
+        <div className="app-state-card">
+          <div className="app-state-icon">📡</div>
+          <h2 className="app-state-title app-state-title--sm">
             Не вдалося підключитися
           </h2>
-          <p style={{ color: "#555", lineHeight: 1.6, marginBottom: "1.5rem" }}>
+          <p className="app-state-desc app-state-desc--lg">
             Перевірте інтернет і спробуйте ще раз.
           </p>
           <button
             onClick={() => window.location.reload()}
-            style={{
-              background: "#2d5a1b",
-              color: "#fff",
-              border: "none",
-              borderRadius: "8px",
-              padding: "0.75rem 2rem",
-              cursor: "pointer",
-              fontSize: "1rem",
-            }}
+            className="app-state-btn"
           >
             Оновити сторінку
           </button>
@@ -294,16 +207,7 @@ function App() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#1a3d0f",
-          color: "#f0f7eb",
-        }}
-      >
+      <div className="app-state-screen app-state-screen--loading">
         Завантаження...
       </div>
     );

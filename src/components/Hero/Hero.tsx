@@ -95,7 +95,7 @@ const Hero = () => {
       <div className="hero-content">
         <div className="hero-text">
           <span className="hero-badge">🌿 Господарський довідник</span>
-          <h1>Все про кроликів — від народження до догляду</h1>
+          <h1>Все про кролів — від народження до догляду</h1>
           <p>Повний посібник для початківців і досвідчених кролівників.</p>
         </div>
         <div className="hero-image">
