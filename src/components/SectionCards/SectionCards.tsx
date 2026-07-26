@@ -257,14 +257,14 @@ const SectionCards = () => {
               aria-expanded={isOpen}
             >
               <span className="section-group-icon">{group.groupIcon}</span>
-              <div className="section-group-title-wrap">
-                <h3 className="section-group-title">{group.groupTitle}</h3>
+              <span className="section-group-title-wrap">
+                <span className="section-group-title">{group.groupTitle}</span>
                 {!isOpen && (
                   <span className="section-group-preview">
                     {group.cards.map((c) => c.title).join(" · ")}
                   </span>
                 )}
-              </div>
+              </span>
               <span className="section-group-chevron">
                 {isOpen ? "▲" : "▼"}
               </span>
