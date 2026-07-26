@@ -1,0 +1,22 @@
+.android-app-page {
+    min-height: 100vh;
+}
+
+.android-download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--green-dark);
+    color: var(--green-pale);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 20px;
+    border-radius: 12px;
+    transition: background 0.2s;
+}
+
+.android-download-btn:hover {
+    background: var(--green-mid);
+}

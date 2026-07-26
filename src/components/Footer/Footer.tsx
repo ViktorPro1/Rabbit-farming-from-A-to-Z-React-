@@ -43,6 +43,9 @@ const Footer = () => {
               <span className="footer-dev-pulse" aria-hidden="true" />
               <span className="footer-dev-label">&lt;/&gt; за лаштунками</span>
             </NavLink>
+            <NavLink to="/android-app" className="footer-apk-btn">
+              📱 Android
+            </NavLink>
           </div>
         </div>
 

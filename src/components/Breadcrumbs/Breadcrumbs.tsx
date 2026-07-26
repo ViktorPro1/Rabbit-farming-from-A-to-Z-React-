@@ -211,6 +211,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/privacy-policy": "Політика конфіденційності",
   "/terms-of-use": "Умови використання",
   "/behind-the-scenes": "За лаштунками",
+  "/android-app": "Застосунок для Android",
 };
 
 // ── Separator ────────────────────────────────────────────────────

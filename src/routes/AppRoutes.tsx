@@ -326,6 +326,7 @@ const TermsOfUse = lazy(() => import("../pages/Info/TermsOfUse/TermsOfUse"));
 const BehindTheScenes = lazy(
   () => import("../pages/BehindTheScenes/BehindTheScenes"),
 );
+const AndroidApp = lazy(() => import("../pages/AndroidApp/AndroidApp"));
 
 // ─────────────────────────────────────────────
 const PageLoader = () => (
@@ -611,6 +612,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/behind-the-scenes" element={<BehindTheScenes />} />
+        <Route path="/android-app" element={<AndroidApp />} />
       </Routes>
     </Suspense>
   );

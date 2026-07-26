@@ -88,6 +88,31 @@
     opacity: 0.5;
 }
 
+.footer-apk-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--green-pale);
+    text-decoration: none;
+    font-size: 13px;
+    opacity: 0.75;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: opacity 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.footer-apk-btn:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-links a+a.footer-apk-btn::before {
+    content: none;
+}
+
 /* Мобільний — все по центру */
 @media (max-width: 640px) {
     .footer-top {
