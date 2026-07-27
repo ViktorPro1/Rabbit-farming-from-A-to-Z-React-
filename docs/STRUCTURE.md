@@ -201,3 +201,93 @@
 - tsconfig.node.json (tsconfig-вузол.json)
 - vercel.json (vercel.json)
 - vite.config.ts (vite-конфіг.ts)
+
+## Доповнення до структури
+
+Нижче наведено елементи, яких не було у попередньому переліку.
+
+### Документація та службові файли
+
+- `docs/ARCHITECTURE.md`
+- `docs/CODE_AUDIT.md`
+- `docs/DEPLOYMENT.md`
+- `docs/ENVIRONMENT.md`
+- `docs/ROADMAP.md`
+- `docs/STYLE_GUIDE.md`
+- `docs/TESTING.md`
+- `docs/TWA-інструкція.md`
+- `scripts/build.js`
+
+### Публічні ресурси
+
+- `.well-known/assetlinks.json`
+- `screenshots/`
+- `google372524037521ccac.html`
+- `krolivnytstvo.apk`
+- `llms.txt`
+- `llms-full.txt`
+
+### `src/` — кореневі файли та ресурси
+
+- `App-states.css`
+- `App.tsx`
+- `entry-prerender.tsx`
+- `index.css`
+- `main.tsx`
+- `prerender-routes.ts`
+- `print.css`
+- `tvNavigation.css`
+- `vite-env.d.ts`
+- `assets/logo.webp`
+
+### Компоненти
+
+- ErrorBoundary/
+- PrintButton/
+- RunningTicker/
+- ShareButton/
+- TempWarningPopup/
+
+### Хуки
+
+- `usePublicPresence.ts`
+- `useTVNavigation.ts`
+
+### Сторінки
+
+- AndroidApp/
+- AnesthesiaCare/
+- AntibioticTherapy/
+- ApartmentProofing/
+- BehindTheScenes/
+- BuyingRabbit/
+- CageSearch/
+- ClimateAutomation/
+- CompanionBonding/
+- DietTherapy/
+- DisinfectionLog/
+- Enrichment/
+- FarmManagementSoftware/
+- FarmMonitoring/
+- FeedingAutomation/
+- GrainRecipesHistory/
+- HeatStroke/
+- `Home.tsx`
+- InsuranceGrants/
+- LitterTraining/
+- PetTravel/
+- RabbitAllergy/
+- RabbitsAndChickens/
+- RabbitsAndChildren/
+- RabbitsAndPredators/
+- SeniorRabbit/
+- SmartFarm/
+- Telegony/
+- TreatmentLog/
+- Weighing/
+
+### Конфігураційні та супровідні файли
+
+- `CHANGELOG.md`
+- `LICENSE`
+- `LICENSE.uk.md`
