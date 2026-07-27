@@ -218,19 +218,25 @@ export default function Admin({ session }: Props) {
       .select("user_id")
       .eq("user_id", session.user.id)
       .single()
-      .then(async ({ data }) => {
-        if (data) {
-          setIsAdmin(true);
-          const allCodes = await fetchCodes();
-          await fetchUsers(allCodes);
-          await fetchDeactivated();
-          const { count: profileCount } = await supabase
-            .from("profiles")
-            .select("*", { count: "exact", head: true });
-          await fetchStats(allCodes, profileCount ?? 0);
-        }
-        setLoading(false);
-      });
+      .then(
+        async ({ data }) => {
+          if (data) {
+            setIsAdmin(true);
+            const allCodes = await fetchCodes();
+            await fetchUsers(allCodes);
+            await fetchDeactivated();
+            const { count: profileCount } = await supabase
+              .from("profiles")
+              .select("*", { count: "exact", head: true });
+            await fetchStats(allCodes, profileCount ?? 0);
+          }
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити дані адмін-панелі:", err);
+          setLoading(false);
+        },
+      );
   }, [session.user.id]);
 
   useEffect(() => {

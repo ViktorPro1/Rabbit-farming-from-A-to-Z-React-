@@ -160,7 +160,12 @@ export default function Paddocks({ session }: Props) {
       .select("id, name, breed, gender, cage_number")
       .eq("user_id", session.user.id)
       .eq("is_active", true)
-      .then(({ data }) => setRabbits(data || []));
+      .then(
+        ({ data }) => setRabbits(data || []),
+        (err) => {
+          console.error("Не вдалося завантажити кроликів для вигулів:", err);
+        },
+      );
 
     supabase
       .from("paddocks")
@@ -168,52 +173,74 @@ export default function Paddocks({ session }: Props) {
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("created_at", { ascending: false })
-      .then(({ data }) => {
-        if (!data) return;
-        const ids = data.map((p) => p.id);
-        Promise.all([
-          supabase.from("paddock_females").select("*").in("paddock_id", ids),
-          supabase
-            .from("paddock_matings")
-            .select("*")
-            .in("paddock_id", ids)
-            .order("mating_date", { ascending: false }),
-        ]).then(([{ data: femalesData }, { data: matingsData }]) => {
-          const matingIds = (matingsData || []).map((m) => m.id);
-          supabase
-            .from("paddock_litters")
-            .select("*")
-            .in("paddock_mating_id", matingIds)
-            .then(({ data: littersData }) => {
-              const femalesMap: Record<string, PaddockFemale[]> = {};
-              (femalesData || []).forEach((f) => {
-                if (!femalesMap[f.paddock_id]) femalesMap[f.paddock_id] = [];
-                femalesMap[f.paddock_id].push(f);
-              });
-              const littersMap: Record<string, PaddockLitter[]> = {};
-              (littersData || []).forEach((l) => {
-                if (!littersMap[l.paddock_mating_id])
-                  littersMap[l.paddock_mating_id] = [];
-                littersMap[l.paddock_mating_id].push(l);
-              });
-              const matingsMap: Record<string, PaddockMating[]> = {};
-              (matingsData || []).forEach((m) => {
-                if (!matingsMap[m.paddock_id]) matingsMap[m.paddock_id] = [];
-                matingsMap[m.paddock_id].push({
-                  ...m,
-                  litters: littersMap[m.id] || [],
-                });
-              });
-              setPaddocks(
-                data.map((p) => ({
-                  ...p,
-                  females: femalesMap[p.id] || [],
-                  matings: matingsMap[p.id] || [],
-                })),
+      .then(
+        ({ data }) => {
+          if (!data) return;
+          const ids = data.map((p) => p.id);
+          Promise.all([
+            supabase.from("paddock_females").select("*").in("paddock_id", ids),
+            supabase
+              .from("paddock_matings")
+              .select("*")
+              .in("paddock_id", ids)
+              .order("mating_date", { ascending: false }),
+          ])
+            .then(([{ data: femalesData }, { data: matingsData }]) => {
+              const matingIds = (matingsData || []).map((m) => m.id);
+              supabase
+                .from("paddock_litters")
+                .select("*")
+                .in("paddock_mating_id", matingIds)
+                .then(
+                  ({ data: littersData }) => {
+                    const femalesMap: Record<string, PaddockFemale[]> = {};
+                    (femalesData || []).forEach((f) => {
+                      if (!femalesMap[f.paddock_id])
+                        femalesMap[f.paddock_id] = [];
+                      femalesMap[f.paddock_id].push(f);
+                    });
+                    const littersMap: Record<string, PaddockLitter[]> = {};
+                    (littersData || []).forEach((l) => {
+                      if (!littersMap[l.paddock_mating_id])
+                        littersMap[l.paddock_mating_id] = [];
+                      littersMap[l.paddock_mating_id].push(l);
+                    });
+                    const matingsMap: Record<string, PaddockMating[]> = {};
+                    (matingsData || []).forEach((m) => {
+                      if (!matingsMap[m.paddock_id])
+                        matingsMap[m.paddock_id] = [];
+                      matingsMap[m.paddock_id].push({
+                        ...m,
+                        litters: littersMap[m.id] || [],
+                      });
+                    });
+                    setPaddocks(
+                      data.map((p) => ({
+                        ...p,
+                        females: femalesMap[p.id] || [],
+                        matings: matingsMap[p.id] || [],
+                      })),
+                    );
+                  },
+                  (err) => {
+                    console.error(
+                      "Не вдалося завантажити посліди вигулів:",
+                      err,
+                    );
+                  },
+                );
+            })
+            .catch((err) => {
+              console.error(
+                "Не вдалося завантажити самок і паруванн вигулів:",
+                err,
               );
             });
-        });
-      });
+        },
+        (err) => {
+          console.error("Не вдалося завантажити вигули:", err);
+        },
+      );
   }, [session.user.id]);
 
   async function handleAddPaddock() {

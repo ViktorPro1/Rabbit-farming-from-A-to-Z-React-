@@ -60,10 +60,16 @@ export default function Quarantine({ session }: Props) {
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("moved_date", { ascending: false })
-      .then(({ data }) => {
-        setAnimals(data || []);
-        setLoading(false);
-      });
+      .then(
+        ({ data }) => {
+          setAnimals(data || []);
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити карантин:", err);
+          setLoading(false);
+        },
+      );
   }, [session.user.id]);
 
   async function fetchAnimals() {

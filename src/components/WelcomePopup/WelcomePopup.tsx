@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./WelcomePopup.css";
 
 export default function WelcomePopup() {
   const [visible, setVisible] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
+  const fadeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const close = () => {
     setFadeOut(true);
-    setTimeout(() => setVisible(false), 400);
+    fadeTimeoutRef.current = setTimeout(() => setVisible(false), 400);
   };
 
   useEffect(() => {
     const timer = setTimeout(close, 3000);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
+    };
   }, []);
 
   if (!visible) return null;

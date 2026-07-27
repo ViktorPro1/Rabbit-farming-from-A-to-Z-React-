@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import "./FeedbackModal.css";
 
@@ -20,6 +20,13 @@ const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
   const [status, setStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
+  }, []);
 
   if (!isOpen) return null;
 
@@ -51,7 +58,7 @@ const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
         mode: "no-cors",
       });
       setStatus("success");
-      setTimeout(() => {
+      closeTimeoutRef.current = setTimeout(() => {
         setStatus("idle");
         setMessage("");
         setPage("");

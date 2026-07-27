@@ -20,6 +20,13 @@ const ShareButton = ({ title }: ShareButtonProps) => {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+    };
+  }, []);
 
   const url = typeof window !== "undefined" ? window.location.href : "";
   const text = title || (typeof document !== "undefined" ? document.title : "");
@@ -36,7 +43,7 @@ const ShareButton = ({ title }: ShareButtonProps) => {
       document.body.removeChild(el);
     }
     setCopied(true);
-    setTimeout(() => {
+    copyTimeoutRef.current = setTimeout(() => {
       setCopied(false);
       setOpen(false);
     }, 1800);

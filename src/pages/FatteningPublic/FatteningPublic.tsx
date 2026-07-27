@@ -35,14 +35,21 @@ export default function FatteningPublic() {
       .select("*")
       .eq("id", id)
       .single()
-      .then(({ data }) => {
-        if (data) {
-          setCage(data);
-        } else {
+      .then(
+        ({ data }) => {
+          if (data) {
+            setCage(data);
+          } else {
+            setNotFound(true);
+          }
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити публічну клітку відгодівлі:", err);
           setNotFound(true);
-        }
-        setLoading(false);
-      });
+          setLoading(false);
+        },
+      );
   }, [id]);
 
   if (loading) {

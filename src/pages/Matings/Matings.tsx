@@ -146,9 +146,14 @@ export default function Matings({ session }: Props) {
       .from("rabbits")
       .select("id, name, breed, gender, cage_number")
       .eq("user_id", session.user.id)
-      .then(({ data }) => {
-        if (!cancelled) setRabbits(data || []);
-      });
+      .then(
+        ({ data }) => {
+          if (!cancelled) setRabbits(data || []);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити кроликів для парувань:", err);
+        },
+      );
 
     supabase
       .from("matings")
@@ -156,38 +161,43 @@ export default function Matings({ session }: Props) {
         "*, female:female_id(name, breed, cage_number), male:male_id(name, breed, cage_number)",
       )
       .eq("user_id", session.user.id)
-      .then(async ({ data }) => {
-        if (cancelled || !data) return;
-        const ids = data.map((m) => m.id);
-        const { data: littersData } = await supabase
-          .from("litters")
-          .select("*")
-          .in("mating_id", ids);
-        if (cancelled) return;
-        const littersMap: Record<string, Litter[]> = {};
-        (littersData || []).forEach((l) => {
-          if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
-          littersMap[l.mating_id].push(l);
-        });
-        Object.keys(littersMap).forEach((matingId) => {
-          littersMap[matingId].sort((a, b) => {
-            const dateA =
-              a.birth_date ||
-              a.litter_expected_birth ||
-              a.litter_mating_date ||
-              "";
-            const dateB =
-              b.birth_date ||
-              b.litter_expected_birth ||
-              b.litter_mating_date ||
-              "";
-            return dateA.localeCompare(dateB); // старіші зверху, новіші знизу
+      .then(
+        async ({ data }) => {
+          if (cancelled || !data) return;
+          const ids = data.map((m) => m.id);
+          const { data: littersData } = await supabase
+            .from("litters")
+            .select("*")
+            .in("mating_id", ids);
+          if (cancelled) return;
+          const littersMap: Record<string, Litter[]> = {};
+          (littersData || []).forEach((l) => {
+            if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
+            littersMap[l.mating_id].push(l);
           });
-        });
-        setMatings(
-          data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })),
-        );
-      });
+          Object.keys(littersMap).forEach((matingId) => {
+            littersMap[matingId].sort((a, b) => {
+              const dateA =
+                a.birth_date ||
+                a.litter_expected_birth ||
+                a.litter_mating_date ||
+                "";
+              const dateB =
+                b.birth_date ||
+                b.litter_expected_birth ||
+                b.litter_mating_date ||
+                "";
+              return dateA.localeCompare(dateB); // старіші зверху, новіші знизу
+            });
+          });
+          setMatings(
+            data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })),
+          );
+        },
+        (err) => {
+          console.error("Не вдалося завантажити паруванн та посліди:", err);
+        },
+      );
 
     return () => {
       cancelled = true;
