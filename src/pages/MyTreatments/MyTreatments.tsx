@@ -422,10 +422,16 @@ export default function MyTreatments({ session }: Props) {
       .select("*")
       .eq("user_id", session.user.id)
       .order("date", { ascending: false })
-      .then(({ data }) => {
-        setRecords(data || []);
-        setLoading(false);
-      });
+      .then(
+        ({ data }) => {
+          setRecords(data || []);
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити лікування:", err);
+          setLoading(false);
+        },
+      );
   }, [session.user.id]);
 
   useEffect(() => {

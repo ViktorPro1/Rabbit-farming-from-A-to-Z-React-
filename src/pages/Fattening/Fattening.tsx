@@ -80,10 +80,16 @@ export default function Fattening({ session }: Props) {
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("cage_number", { ascending: true })
-      .then(({ data }) => {
-        setCages(data || []);
-        setLoading(false);
-      });
+      .then(
+        ({ data }) => {
+          setCages(data || []);
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити клітки відгодівлі:", err);
+          setLoading(false);
+        },
+      );
   }, [session.user.id]);
 
   async function fetchCages() {

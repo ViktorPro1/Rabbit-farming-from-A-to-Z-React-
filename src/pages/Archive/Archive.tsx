@@ -31,10 +31,16 @@ export default function Archive({ session }: Props) {
       .eq("user_id", session.user.id)
       .eq("is_active", false)
       .order("cage_number", { ascending: true })
-      .then(({ data }) => {
-        setRabbits(data || []);
-        setLoading(false);
-      });
+      .then(
+        ({ data }) => {
+          setRabbits(data || []);
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити архів кроликів:", err);
+          setLoading(false);
+        },
+      );
   }, [session.user.id]);
 
   async function handleRestore(id: string) {

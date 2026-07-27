@@ -143,11 +143,17 @@ function App() {
       setLoadingTimeout(true);
     }, 30000);
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session) checkProfile(session.user.id);
-      else setLoading(false);
-    });
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setSession(session);
+        if (session) checkProfile(session.user.id);
+        else setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Не вдалося отримати сесію:", err);
+        setLoading(false);
+      });
 
     const {
       data: { subscription },

@@ -122,6 +122,15 @@ const Assistant = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const greetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const replyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (greetTimeoutRef.current) clearTimeout(greetTimeoutRef.current);
+      if (replyTimeoutRef.current) clearTimeout(replyTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -133,7 +142,7 @@ const Assistant = () => {
     if (!open && !greeted) {
       setGreeted(true);
       const greeting = getTimeGreeting();
-      setTimeout(() => {
+      greetTimeoutRef.current = setTimeout(() => {
         setMessages((prev) => [
           ...prev,
           {
@@ -155,7 +164,7 @@ const Assistant = () => {
     setMessages((prev) => [...prev, { sender: "user", text: userText }]);
     setInput("");
 
-    setTimeout(() => {
+    replyTimeoutRef.current = setTimeout(() => {
       let botResponse: Message | null = null;
 
       // 1. ПЕРЕВІРКА НА МОВУ АГРЕСОРА

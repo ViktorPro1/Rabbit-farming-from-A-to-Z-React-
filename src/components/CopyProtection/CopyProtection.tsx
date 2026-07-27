@@ -41,11 +41,17 @@ const CopyProtection = () => {
     const sourceLink = window.location.href;
     const finalContent = `${copiedText}\n\nДжерело: ${sourceLink}`;
 
-    navigator.clipboard.writeText(finalContent).then(() => {
-      setShowModal(false);
-      setCopiedText("");
-      // Можна додати сповіщення "Скопійовано!", якщо хочете
-    });
+    navigator.clipboard
+      .writeText(finalContent)
+      .then(() => {
+        setShowModal(false);
+        setCopiedText("");
+        // Можна додати сповіщення "Скопійовано!", якщо хочете
+      })
+      .catch((err) => {
+        console.error("Не вдалося скопіювати текст:", err);
+        setShowModal(false);
+      });
   };
 
   const handleDismiss = () => {

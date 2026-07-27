@@ -35,19 +35,25 @@ export default function RabbitEdit({ session }: Props) {
       .eq("id", id)
       .eq("user_id", session.user.id)
       .single()
-      .then(({ data }) => {
-        if (data) {
-          setForm({
-            name: data.name || "",
-            breed: data.breed || "",
-            gender: data.gender || "female",
-            birth_date: data.birth_date || "",
-            cage_number: data.cage_number || "",
-            notes: data.notes || "",
-          });
-        }
-        setLoading(false);
-      });
+      .then(
+        ({ data }) => {
+          if (data) {
+            setForm({
+              name: data.name || "",
+              breed: data.breed || "",
+              gender: data.gender || "female",
+              birth_date: data.birth_date || "",
+              cage_number: data.cage_number || "",
+              notes: data.notes || "",
+            });
+          }
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити дані кролика:", err);
+          setLoading(false);
+        },
+      );
   }, [id, session.user.id]);
 
   async function handleSave() {

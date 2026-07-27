@@ -36,47 +36,53 @@ export default function RabbitPublic() {
       .select("*")
       .eq("id", id)
       .single()
-      .then(async ({ data: rabbitData }) => {
-        if (!rabbitData) {
-          setNotFound(true);
-          setLoading(false);
-          return;
-        }
-        setRabbit(rabbitData);
+      .then(
+        async ({ data: rabbitData }) => {
+          if (!rabbitData) {
+            setNotFound(true);
+            setLoading(false);
+            return;
+          }
+          setRabbit(rabbitData);
 
-        // Остання злучка де цей кролик є самцем або самицею
-        const { data: matingsData } = await supabase
-          .from("matings")
-          .select("id, mating_date, control_date, expected_birth")
-          .or(`male_id.eq.${id},female_id.eq.${id}`)
-          .order("mating_date", { ascending: false })
-          .limit(1);
-
-        if (matingsData && matingsData.length > 0) {
-          const lastMating = matingsData[0];
-
-          // Останній окріл по цій злучці
-          const { data: littersData } = await supabase
-            .from("litters")
-            .select("birth_date, alive")
-            .eq("mating_id", lastMating.id)
-            .order("birth_date", { ascending: false })
+          // Остання злучка де цей кролик є самцем або самицею
+          const { data: matingsData } = await supabase
+            .from("matings")
+            .select("id, mating_date, control_date, expected_birth")
+            .or(`male_id.eq.${id},female_id.eq.${id}`)
+            .order("mating_date", { ascending: false })
             .limit(1);
 
-          const lastLitter =
-            littersData && littersData.length > 0 ? littersData[0] : null;
+          if (matingsData && matingsData.length > 0) {
+            const lastMating = matingsData[0];
 
-          setMating({
-            mating_date: lastMating.mating_date,
-            control_date: lastMating.control_date || null,
-            expected_birth: lastMating.expected_birth || null,
-            last_litter_birth: lastLitter?.birth_date || null,
-            last_litter_alive: lastLitter?.alive ?? null,
-          });
-        }
+            // Останній окріл по цій злучці
+            const { data: littersData } = await supabase
+              .from("litters")
+              .select("birth_date, alive")
+              .eq("mating_id", lastMating.id)
+              .order("birth_date", { ascending: false })
+              .limit(1);
 
-        setLoading(false);
-      });
+            const lastLitter =
+              littersData && littersData.length > 0 ? littersData[0] : null;
+
+            setMating({
+              mating_date: lastMating.mating_date,
+              control_date: lastMating.control_date || null,
+              expected_birth: lastMating.expected_birth || null,
+              last_litter_birth: lastLitter?.birth_date || null,
+              last_litter_alive: lastLitter?.alive ?? null,
+            });
+          }
+
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити публічну картку кролика:", err);
+          setLoading(false);
+        },
+      );
   }, [id]);
 
   if (loading) {

@@ -42,9 +42,14 @@ const Header = ({ session }: Props) => {
       .select("user_id")
       .eq("user_id", session.user.id)
       .single()
-      .then(({ data }) => {
-        if (!cancelled) setIsAdmin(!!data);
-      });
+      .then(
+        ({ data }) => {
+          if (!cancelled) setIsAdmin(!!data);
+        },
+        (err) => {
+          console.error("Не вдалося перевірити права адміністратора:", err);
+        },
+      );
     return () => {
       cancelled = true;
       setIsAdmin(false);

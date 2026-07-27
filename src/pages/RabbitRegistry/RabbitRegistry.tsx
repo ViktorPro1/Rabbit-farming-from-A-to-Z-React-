@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { QRCodeCanvas } from "qrcode.react";
@@ -126,6 +126,17 @@ export default function RabbitRegistry({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [showInfo, setShowInfo] = useState(false);
+  const displayNameSavedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+
+  useEffect(() => {
+    return () => {
+      if (displayNameSavedTimeoutRef.current) {
+        clearTimeout(displayNameSavedTimeoutRef.current);
+      }
+    };
+  }, []);
   const [confirmArchiveId, setConfirmArchiveId] = useState<string | null>(null);
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
@@ -252,7 +263,10 @@ export default function RabbitRegistry({ session }: Props) {
           });
           setLoading(false);
         },
-      );
+      ).catch((err) => {
+        console.error("Не вдалося завантажити статистику:", err);
+        setLoading(false);
+      });
     },
     [session.user.id],
   );
@@ -264,11 +278,17 @@ export default function RabbitRegistry({ session }: Props) {
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("cage_number", { ascending: true })
-      .then(({ data: rabbitsData }) => {
-        const list = rabbitsData || [];
-        setRabbits(list);
-        loadStats(list);
-      });
+      .then(
+        ({ data: rabbitsData }) => {
+          const list = rabbitsData || [];
+          setRabbits(list);
+          loadStats(list);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити реєстр кроликів:", err);
+          setLoading(false);
+        },
+      );
   }, [session.user.id, loadStats]);
 
   useEffect(() => {
@@ -328,7 +348,10 @@ export default function RabbitRegistry({ session }: Props) {
       setDisplayNameError("Помилка збереження. Спробуй ще раз.");
     } else {
       setDisplayNameSaved(true);
-      setTimeout(() => setDisplayNameSaved(false), 3000);
+      displayNameSavedTimeoutRef.current = setTimeout(
+        () => setDisplayNameSaved(false),
+        3000,
+      );
     }
     setDisplayNameSaving(false);
   }
