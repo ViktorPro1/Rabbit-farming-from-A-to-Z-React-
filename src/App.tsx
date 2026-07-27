@@ -19,7 +19,6 @@ import PrintButton from "./components/PrintButton/PrintButton";
 import "./print.css";
 import "./App-states.css";
 import { useTVNavigation } from "./hooks/useTVNavigation";
-import { useFullscreenOnLandscape } from "./hooks/useFullscreenOnLandscape";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -94,8 +93,6 @@ function App() {
   const [hasProfile, setHasProfile] = useState(true);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
-
-  useFullscreenOnLandscape();
 
   const checkProfile = useCallback(async (userId: string) => {
     const { data } = await supabase
