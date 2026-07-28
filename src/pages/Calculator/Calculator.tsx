@@ -474,7 +474,7 @@ export default function Calculator({ session }: CalculatorProps) {
       const { error } = await supabase.from("grain_recipes").insert({
         user_id: session.user.id,
         mode: grainMode,
-        total_kg: grainWeight,
+        total_kg: grainWeight + (lucerneKg || 0),
         items,
         lucerne_kg: lucerneKg,
         salt_g: saltG,
