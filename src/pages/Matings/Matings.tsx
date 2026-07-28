@@ -14,6 +14,7 @@ interface Rabbit {
   breed: string;
   gender: "male" | "female";
   cage_number: string;
+  is_active: boolean;
 }
 
 interface Litter {
@@ -146,8 +147,10 @@ export default function Matings({ session }: Props) {
 
     supabase
       .from("rabbits")
-      .select("id, name, breed, gender, cage_number")
+      .select("id, name, breed, gender, cage_number, is_active")
       .eq("user_id", session.user.id)
+      .eq("is_active", true)
+
       .then(
         ({ data }) => {
           if (!cancelled) setRabbits(data || []);
