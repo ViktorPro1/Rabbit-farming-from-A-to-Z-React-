@@ -38,6 +38,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/selection": "Селекція",
   "/genetics": "Генетика забарвлення",
   "/rabbit-whiskers": "Вуса (вібриси)",
+  "/history": "Історія обліку",
 
   // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
   "/rabbit-vs-hare": "Кролик vs Заєць",

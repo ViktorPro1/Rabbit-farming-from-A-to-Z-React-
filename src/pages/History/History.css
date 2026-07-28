@@ -1,0 +1,406 @@
+.history-page {
+    min-height: 100vh;
+}
+
+.history-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.history-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.history-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.history-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.history-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.history-intro {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.history-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.history-intro p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+/* CONCEPTS */
+.history-concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.history-concept-card {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.history-concept-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+}
+
+.history-concept-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.history-concept-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* TIMELINE */
+.history-timeline {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.history-era-card {
+    position: relative;
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border-left: 4px solid var(--green-mid);
+}
+
+.history-era-connector {
+    position: absolute;
+    left: -4px;
+    bottom: -1.25rem;
+    width: 4px;
+    height: 1.25rem;
+    background: var(--green-light);
+}
+
+.history-era-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+    padding-bottom: 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.history-era-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.history-era-period {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+}
+
+.history-era-header h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.history-era-desc {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.history-era-note {
+    font-size: 13px;
+    padding: 10px 12px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-radius: 8px;
+    line-height: 1.5;
+}
+
+/* TABLE */
+.history-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--cream);
+    min-width: 500px;
+}
+
+.history-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.history-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.history-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.history-table tr:hover td {
+    background: var(--green-light);
+}
+
+.history-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* MISTAKES */
+.history-mistakes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.history-mistake-card {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+}
+
+.history-mistake-wrong,
+.history-mistake-right {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px 14px;
+}
+
+.history-mistake-wrong {
+    background: var(--amber-light);
+}
+
+.history-mistake-right {
+    background: var(--green-light);
+}
+
+.history-mistake-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.history-mistake-wrong p,
+.history-mistake-right p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* PRACTICAL */
+.history-practical {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.history-practical-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.history-practical-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.history-practical-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.history-practical-card li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 6px;
+}
+
+/* BACK */
+.history-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.history-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.history-back-btn:hover {
+    background: var(--green-mid);
+}
+
+.history-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.history-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .history-related-title {
+    color: var(--green-light);
+}
+
+.history-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.history-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.history-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .history-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .history-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .history-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .history-concepts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-practical {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .history-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .history-era-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

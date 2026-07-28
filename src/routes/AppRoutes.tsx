@@ -20,6 +20,7 @@ const Glossary = lazy(() => import("../pages/Glossary/Glossary"));
 const RabbitAllergy = lazy(
   () => import("../pages/RabbitAllergy/RabbitAllergy"),
 );
+const History = lazy(() => import("../pages/History/History"));
 
 // ГОЛОВНА
 const Home = lazy(() => import("../pages/Home"));
@@ -368,6 +369,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/rabbit-myths" element={<RabbitMyths />} />
         <Route path="/glossary" element={<Glossary />} />
         <Route path="/rabbit-allergy" element={<RabbitAllergy />} />
+        <Route path="/history" element={<History />} />
         {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />

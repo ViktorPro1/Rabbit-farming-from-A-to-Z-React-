@@ -9,6 +9,7 @@ export const prerenderRoutes = [
     "/rabbit-myths",
     "/glossary",
     "/rabbit-allergy",
+    "/history",
 
     // Знайомство з твариною
     "/biology",
