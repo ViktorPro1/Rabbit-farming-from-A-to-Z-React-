@@ -39,6 +39,7 @@ interface Litter {
 
 interface Mating {
   id: string;
+  is_archived: boolean;
   female_id: string;
   male_id: string;
   mating_date: string;
@@ -133,6 +134,7 @@ export default function Matings({ session }: Props) {
   const [error, setError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const [showInfo, setShowInfo] = useState(false);
+  const [showArchive, setShowArchive] = useState(false);
   const navigate = useNavigate();
 
   function fetchMatings() {
@@ -208,7 +210,7 @@ export default function Matings({ session }: Props) {
   const allFemales = rabbits.filter((r) => r.gender === "female");
 
   const sortedMatings = useMemo(() => {
-    const copy = [...matings];
+    const copy = matings.filter((m) => !m.is_archived);
     if (sortType === "date_desc") {
       copy.sort(
         (a, b) =>
@@ -228,6 +230,15 @@ export default function Matings({ session }: Props) {
     }
     return copy;
   }, [matings, sortType]);
+
+  const archivedMatings = useMemo(() => {
+    return matings
+      .filter((m) => m.is_archived)
+      .sort(
+        (a, b) =>
+          new Date(b.mating_date).getTime() - new Date(a.mating_date).getTime(),
+      );
+  }, [matings]);
 
   function handleMatingDateChange(date: string) {
     if (!date) {
@@ -487,6 +498,16 @@ export default function Matings({ session }: Props) {
   async function handleDeleteMating(id: string) {
     if (!confirm("Видалити злучку? Окроли залишаться в базі.")) return;
     await supabase.from("matings").delete().eq("id", id);
+    fetchMatings();
+  }
+
+  async function handleArchiveMating(id: string) {
+    await supabase.from("matings").update({ is_archived: true }).eq("id", id);
+    fetchMatings();
+  }
+
+  async function handleUnarchiveMating(id: string) {
+    await supabase.from("matings").update({ is_archived: false }).eq("id", id);
     fetchMatings();
   }
 
@@ -836,6 +857,12 @@ export default function Matings({ session }: Props) {
                     onClick={() => handleDeleteMating(m.id)}
                   >
                     Видалити
+                  </button>
+                  <button
+                    className="mating-archive-btn"
+                    onClick={() => handleArchiveMating(m.id)}
+                  >
+                    Архів
                   </button>
                 </div>
               </div>
@@ -1707,6 +1734,217 @@ export default function Matings({ session }: Props) {
           ))
         )}
       </div>
+
+      {/* ── ЗНОСКА: архівування ── */}
+      <div className="matings-archive">
+        <button
+          className="matings-archive-toggle"
+          onClick={() => setShowArchive(!showArchive)}
+        >
+          <span>🗄 Архів ({archivedMatings.length})</span>
+          <span>{showArchive ? "▲" : "▼"}</span>
+        </button>
+
+        {showArchive && (
+          <div className="matings-archive-list">
+            {archivedMatings.length === 0 ? (
+              <p className="matings-archive-empty">Архів порожній</p>
+            ) : (
+              archivedMatings.map((m) => (
+                <div key={m.id} className="mating-card mating-card-archived">
+                  <div className="mating-card-top">
+                    <span className="mating-pair">
+                      ♀ {m.female?.name}
+                      {m.female?.breed ? ` (${m.female.breed})` : ""} {"×"} ♂{" "}
+                      {m.male?.name}
+                      {m.male?.breed ? ` (${m.male.breed})` : ""}
+                    </span>
+                    <div className="mating-card-btns">
+                      <button
+                        className="mating-unarchive-btn"
+                        onClick={() => handleUnarchiveMating(m.id)}
+                      >
+                        Повернути з архіву
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mating-dates">
+                    <span>
+                      📅 Злучка:{" "}
+                      <strong>
+                        {new Date(m.mating_date).toLocaleDateString("uk-UA")}
+                      </strong>
+                    </span>
+                    {m.control_date && (
+                      <span>
+                        🔍 Контроль:{" "}
+                        <strong>
+                          {new Date(m.control_date).toLocaleDateString("uk-UA")}
+                        </strong>
+                      </span>
+                    )}
+                    {m.expected_birth && (
+                      <span>
+                        🗓 Очік. окріл:{" "}
+                        <strong>
+                          {new Date(m.expected_birth).toLocaleDateString(
+                            "uk-UA",
+                          )}
+                        </strong>
+                      </span>
+                    )}
+                    {m.male_cage && (
+                      <span>
+                        🏠 Кролик кл.: <strong>{m.male_cage}</strong>
+                      </span>
+                    )}
+                    {m.female_cage && (
+                      <span>
+                        🏠 Крольчиха кл.: <strong>{m.female_cage}</strong>
+                      </span>
+                    )}
+                    <span>
+                      🔁 Схема:{" "}
+                      <strong>{schemeLabel(m.breeding_scheme)}</strong>
+                    </span>
+                  </div>
+
+                  {m.notes && <p className="mating-notes">{m.notes}</p>}
+
+                  {(m.litters || []).map((l) => {
+                    const hasBirth = !!l.birth_date;
+                    return (
+                      <div key={l.id} className="litter-block">
+                        <div className="litter-block-row">
+                          <span>
+                            📦 Окріл:{" "}
+                            <strong>
+                              {hasBirth
+                                ? new Date(l.birth_date).toLocaleDateString(
+                                    "uk-UA",
+                                  )
+                                : "очікується"}
+                            </strong>
+                          </span>
+                        </div>
+
+                        {(l.actual_male_id || l.actual_female_id) && (
+                          <div className="litter-actual-parents">
+                            {l.actual_male_id && (
+                              <span>♂ {getRabbitName(l.actual_male_id)}</span>
+                            )}
+                            {l.actual_female_id && (
+                              <span>♀ {getRabbitName(l.actual_female_id)}</span>
+                            )}
+                          </div>
+                        )}
+
+                        {(l.litter_mating_date ||
+                          l.litter_control_date ||
+                          l.litter_expected_birth) && (
+                          <div className="litter-mating-info">
+                            {l.litter_mating_date && (
+                              <span>
+                                📅 Злучка:{" "}
+                                <strong>
+                                  {new Date(
+                                    l.litter_mating_date,
+                                  ).toLocaleDateString("uk-UA")}
+                                </strong>
+                              </span>
+                            )}
+                            {l.litter_control_date && (
+                              <span>
+                                🔍 Контрольна:{" "}
+                                <strong>
+                                  {new Date(
+                                    l.litter_control_date,
+                                  ).toLocaleDateString("uk-UA")}
+                                </strong>
+                              </span>
+                            )}
+                            {hasBirth && l.nestbox_date && (
+                              <span>
+                                ✅ Маточник:{" "}
+                                <strong>
+                                  {new Date(l.nestbox_date).toLocaleDateString(
+                                    "uk-UA",
+                                  )}
+                                </strong>
+                              </span>
+                            )}
+                            {l.litter_expected_birth && (
+                              <span>
+                                🗓 Очік. окріл:{" "}
+                                <strong>
+                                  {new Date(
+                                    l.litter_expected_birth,
+                                  ).toLocaleDateString("uk-UA")}
+                                </strong>
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {hasBirth && (
+                          <div className="litter-stats">
+                            <span>
+                              Народилось: <strong>{l.total_born}</strong>
+                            </span>
+                            <span>
+                              Живих: <strong>{l.alive}</strong>
+                            </span>
+                            <span>
+                              Мертвих: <strong>{l.dead}</strong>
+                            </span>
+                          </div>
+                        )}
+
+                        {hasBirth && !l.weaned_date && (
+                          <div className="litter-age-row">
+                            <span className="litter-age">
+                              Вік: <strong>{getLitterAge(l.birth_date)}</strong>
+                            </span>
+                          </div>
+                        )}
+
+                        {l.weaned_date && (
+                          <div className="litter-weaned">
+                            <span>
+                              ✂️ Відлучено:{" "}
+                              <strong>
+                                {new Date(l.weaned_date).toLocaleDateString(
+                                  "uk-UA",
+                                )}
+                              </strong>
+                            </span>
+                            {l.weaned_males > 0 && (
+                              <span>
+                                ♂ {l.weaned_males} гол. → кл.{" "}
+                                {l.weaned_males_cage}
+                              </span>
+                            )}
+                            {l.weaned_females > 0 && (
+                              <span>
+                                ♀ {l.weaned_females} гол. → кл.{" "}
+                                {l.weaned_females_cage}
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {l.notes && <p className="mating-notes">{l.notes}</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </div>
+
       {/* ── ЗНОСКА: терміни розведення ── */}
       <div className="matings-info">
         <button
