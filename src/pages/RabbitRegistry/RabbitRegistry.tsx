@@ -50,6 +50,11 @@ const emptyForm = {
 
 const helpItems = [
   {
+    icon: "🧬",
+    title: "Родовід",
+    desc: "Родовідна картка кролика. Обираєш тварину зі списку — бачиш батьків, дідів-бабів і прадідів у вигляді дерева. Де предок невідомий, можеш одразу призначити його з реєстру.",
+  },
+  {
     icon: "🐇",
     title: "Мої кролики",
     desc: "Реєстр дорослих тварин. Додавай кожного кролика з кличкою, породою, кліткою і датою народження. Вік розраховується автоматично.",
@@ -126,9 +131,9 @@ export default function RabbitRegistry({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [showInfo, setShowInfo] = useState(false);
-  const displayNameSavedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
+  const displayNameSavedTimeoutRef = useRef<ReturnType<
+    typeof setTimeout
+  > | null>(null);
 
   useEffect(() => {
     return () => {
@@ -191,82 +196,84 @@ export default function RabbitRegistry({ session }: Props) {
           .select("gender")
           .eq("user_id", session.user.id)
           .eq("is_active", true),
-      ]).then(
-        ([
-          { data: littersData },
-          { data: paddockLittersData },
-          { data: paddockFemalesData },
-          { data: fatteningData },
-          { data: quarantineData },
-        ]) => {
-          let youngFromCages = 0,
-            youngFromPaddocks = 0,
-            youngTotal = 0;
+      ])
+        .then(
+          ([
+            { data: littersData },
+            { data: paddockLittersData },
+            { data: paddockFemalesData },
+            { data: fatteningData },
+            { data: quarantineData },
+          ]) => {
+            let youngFromCages = 0,
+              youngFromPaddocks = 0,
+              youngTotal = 0;
 
-          (littersData || []).forEach((l) => {
-            if (l.weaned_date) return;
-            const alive = l.alive || 0;
-            youngFromCages += alive;
-            youngTotal += alive;
-          });
+            (littersData || []).forEach((l) => {
+              if (l.weaned_date) return;
+              const alive = l.alive || 0;
+              youngFromCages += alive;
+              youngTotal += alive;
+            });
 
-          (paddockLittersData || []).forEach((l) => {
-            if (l.weaned_date) return;
-            const alive = l.alive || 0;
-            youngFromPaddocks += alive;
-            youngTotal += alive;
-          });
+            (paddockLittersData || []).forEach((l) => {
+              if (l.weaned_date) return;
+              const alive = l.alive || 0;
+              youngFromPaddocks += alive;
+              youngTotal += alive;
+            });
 
-          const paddockFemales = (paddockFemalesData || []).length;
-          let fatteningMales = 0,
-            fatteningFemales = 0,
-            fatteningUnknown = 0;
-          (fatteningData || []).forEach((f) => {
-            fatteningMales += f.males || 0;
-            fatteningFemales += f.females || 0;
-            fatteningUnknown += f.unknown || 0;
-          });
-          const fatteningTotal =
-            fatteningMales + fatteningFemales + fatteningUnknown;
-          let quarantineMales = 0,
-            quarantineFemales = 0,
-            quarantineUnknown = 0;
-          (quarantineData || []).forEach((q) => {
-            if (q.gender === "male") quarantineMales++;
-            else if (q.gender === "female") quarantineFemales++;
-            else quarantineUnknown++;
-          });
-          const quarantineTotal =
-            quarantineMales + quarantineFemales + quarantineUnknown;
+            const paddockFemales = (paddockFemalesData || []).length;
+            let fatteningMales = 0,
+              fatteningFemales = 0,
+              fatteningUnknown = 0;
+            (fatteningData || []).forEach((f) => {
+              fatteningMales += f.males || 0;
+              fatteningFemales += f.females || 0;
+              fatteningUnknown += f.unknown || 0;
+            });
+            const fatteningTotal =
+              fatteningMales + fatteningFemales + fatteningUnknown;
+            let quarantineMales = 0,
+              quarantineFemales = 0,
+              quarantineUnknown = 0;
+            (quarantineData || []).forEach((q) => {
+              if (q.gender === "male") quarantineMales++;
+              else if (q.gender === "female") quarantineFemales++;
+              else quarantineUnknown++;
+            });
+            const quarantineTotal =
+              quarantineMales + quarantineFemales + quarantineUnknown;
 
-          setStats({
-            total:
-              list.length +
-              youngTotal +
-              paddockFemales +
-              fatteningTotal +
+            setStats({
+              total:
+                list.length +
+                youngTotal +
+                paddockFemales +
+                fatteningTotal +
+                quarantineTotal,
+              males: list.filter((r) => r.gender === "male").length,
+              females: list.filter((r) => r.gender === "female").length,
+              youngTotal,
+              youngFromCages,
+              youngFromPaddocks,
+              paddockFemales,
+              fatteningMales,
+              fatteningFemales,
+              fatteningUnknown,
+              fatteningTotal,
+              quarantineMales,
+              quarantineFemales,
+              quarantineUnknown,
               quarantineTotal,
-            males: list.filter((r) => r.gender === "male").length,
-            females: list.filter((r) => r.gender === "female").length,
-            youngTotal,
-            youngFromCages,
-            youngFromPaddocks,
-            paddockFemales,
-            fatteningMales,
-            fatteningFemales,
-            fatteningUnknown,
-            fatteningTotal,
-            quarantineMales,
-            quarantineFemales,
-            quarantineUnknown,
-            quarantineTotal,
-          });
+            });
+            setLoading(false);
+          },
+        )
+        .catch((err) => {
+          console.error("Не вдалося завантажити статистику:", err);
           setLoading(false);
-        },
-      ).catch((err) => {
-        console.error("Не вдалося завантажити статистику:", err);
-        setLoading(false);
-      });
+        });
     },
     [session.user.id],
   );
@@ -483,6 +490,12 @@ export default function RabbitRegistry({ session }: Props) {
           </button>
         </div>
         <div className="registry-header-nav">
+          <button
+            className="registry-archive-link"
+            onClick={() => navigate("/pedigree")}
+          >
+            🧬 Родовід
+          </button>
           <button
             className="registry-archive-link"
             onClick={() => navigate("/matings")}

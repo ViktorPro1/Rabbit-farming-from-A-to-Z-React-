@@ -3,6 +3,17 @@ import "./Subscription.css";
 
 const features = [
   {
+    icon: "🧬",
+    title: "Родовід",
+    desc: "Родовідна картка кролика. Обираєш тварину зі списку — система будує дерево походження: батько й мати, діди-баби, за потреби й прадіди.",
+    details: [
+      "Дерево на 3 або 4 покоління",
+      "Призначення предків прямо з реєстру",
+      "Збереження одразу, без окремої форми",
+      "Зручно для чистопородного розведення",
+    ],
+  },
+  {
     icon: "🐇",
     title: "Мої кролики",
     desc: "Реєстр дорослих тварин. Додавай кожного кролика з кличкою, породою, кліткою і датою народження. Вік розраховується автоматично.",
@@ -202,7 +213,7 @@ const Subscription = () => {
           </div>
           <div className="sub-hero-stats">
             <div className="sub-stat">
-              <span className="sub-stat-num">15</span>
+              <span className="sub-stat-num">16</span>
               <span className="sub-stat-label">розділів обліку</span>
             </div>
             <div className="sub-stat">

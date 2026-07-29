@@ -200,6 +200,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/disinfection-log": "Дезінфекція",
   "/grain-recipes-history": "Раціони",
   "/weighing": "Зважування",
+  "/pedigree": "Родовід",
 
   // АДМІН
   "/admin": "Адмін",

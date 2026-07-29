@@ -1,0 +1,267 @@
+.pedigree-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+}
+
+.pedigree-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.pedigree-header h1 {
+    color: var(--green-dark);
+    font-size: 1.6rem;
+}
+
+.pedigree-back-btn {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 0.5px solid var(--gray-light);
+    border-radius: 16px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+}
+
+.pedigree-loading {
+    color: var(--gray);
+    padding: 40px 0;
+    text-align: center;
+}
+
+.pedigree-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.pedigree-select {
+    flex: 1 1 260px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--green-dark);
+    font-size: 0.95rem;
+}
+
+.pedigree-gen-toggle {
+    display: flex;
+    gap: 6px;
+}
+
+.pedigree-gen-toggle button {
+    background: var(--cream);
+    color: var(--green-dark);
+    border: 0.5px solid var(--gray-light);
+    border-radius: 16px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+}
+
+.pedigree-gen-toggle button.active {
+    background: var(--green-mid);
+    color: #fff;
+    border-color: var(--green-mid);
+}
+
+.pedigree-empty-state {
+    text-align: center;
+    padding: 60px 16px;
+    color: var(--gray);
+}
+
+.pedigree-empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.pedigree-tree-wrapper {
+    overflow-x: auto;
+    padding: 12px 4px 24px;
+}
+
+.pedigree-node-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.pedigree-children {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 12px;
+    border-left: 0.5px solid var(--gray-light);
+    padding-left: 20px;
+}
+
+.pedigree-card {
+    flex: 1 1 auto;
+    min-width: 160px;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--green-light);
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+}
+
+.pedigree-card.male {
+    border-left: 4px solid var(--green-accent);
+}
+
+.pedigree-card.female {
+    border-left: 4px solid var(--amber);
+}
+
+.pedigree-card.unknown {
+    background: var(--cream);
+    align-items: center;
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.pedigree-card-name {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+}
+
+.pedigree-card-breed {
+    font-size: 0.8rem;
+    color: var(--brown);
+}
+
+.pedigree-card-date {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.pedigree-card-unknown {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.pedigree-assign-select {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 12px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--green-dark);
+    font-size: 0.8rem;
+}
+
+.pedigree-info {
+    margin-top: 32px;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--green-light);
+    overflow: hidden;
+}
+
+.pedigree-info-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    color: var(--green-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 14px 18px;
+}
+
+.pedigree-info-body {
+    padding: 0 18px 18px;
+}
+
+.pedigree-info-text {
+    color: var(--green-dark);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.pedigree-info-list {
+    margin: 0 0 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--brown);
+    font-size: 0.9rem;
+}
+
+.pedigree-info-note {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+    .pedigree-node-row {
+        gap: 10px;
+    }
+
+    .pedigree-children {
+        padding-left: 10px;
+        gap: 8px;
+    }
+
+    .pedigree-card {
+        min-width: 130px;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 420px) {
+    .pedigree-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .pedigree-select {
+        flex: 1 1 100%;
+    }
+
+    .pedigree-gen-toggle {
+        width: 100%;
+    }
+
+    .pedigree-gen-toggle button {
+        flex: 1;
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+
+    .pedigree-node-row {
+        gap: 6px;
+    }
+
+    .pedigree-children {
+        padding-left: 6px;
+        gap: 6px;
+    }
+
+    .pedigree-card {
+        min-width: 110px;
+        padding: 6px 8px;
+    }
+
+    .pedigree-card-name {
+        font-size: 0.85rem;
+    }
+
+    .pedigree-card-breed,
+    .pedigree-card-date {
+        font-size: 0.7rem;
+    }
+}
