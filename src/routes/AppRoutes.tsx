@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../pages/Auth/Auth";
 import { usePageMeta } from "../seo/usePageMeta";
+import Home from "../pages/Home";
 
 // АДМІН
 const Admin = lazy(() => import("../pages/Admin/Admin"));
@@ -23,7 +24,6 @@ const RabbitAllergy = lazy(
 const History = lazy(() => import("../pages/History/History"));
 
 // ГОЛОВНА
-const Home = lazy(() => import("../pages/Home"));
 const Subscription = lazy(() => import("../pages/Subscription/Subscription"));
 const Community = lazy(() => import("../pages/Community/Community"));
 const RabbitPublic = lazy(() => import("../pages/RabbitPublic/RabbitPublic"));
