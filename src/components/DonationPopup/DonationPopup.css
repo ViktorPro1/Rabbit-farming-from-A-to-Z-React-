@@ -1,0 +1,105 @@
+.donation-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 16px;
+    animation: donationFadeIn 0.25s ease;
+}
+
+@keyframes donationFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.donation-modal {
+    position: relative;
+    background: var(--cream);
+    border: 2px solid var(--green-accent);
+    border-radius: 16px;
+    padding: 32px 28px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.donation-close-x {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--gray);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.donation-close-x:hover {
+    color: var(--green-dark);
+}
+
+.donation-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.donation-modal h2 {
+    color: var(--green-dark);
+    margin: 0 0 12px;
+    font-size: 22px;
+}
+
+.donation-modal p {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0 0 24px;
+}
+
+.donation-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.donation-btn-secondary,
+.donation-btn-primary {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.donation-btn-secondary {
+    background: var(--gray-light);
+    color: var(--green-dark);
+}
+
+.donation-btn-secondary:hover {
+    background: var(--gray);
+    color: var(--cream);
+}
+
+.donation-btn-primary {
+    background: var(--amber);
+    color: var(--green-dark);
+}
+
+.donation-btn-primary:hover {
+    background: var(--amber-light);
+    transform: translateY(-1px);
+}

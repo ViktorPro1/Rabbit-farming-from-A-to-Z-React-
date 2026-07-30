@@ -19,6 +19,7 @@ import PrintButton from "./components/PrintButton/PrintButton";
 import "./print.css";
 import "./App-states.css";
 import { useTVNavigation } from "./hooks/useTVNavigation";
+import DonationPopup from "./components/DonationPopup/DonationPopup";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -224,6 +225,7 @@ function App() {
   return (
     <>
       <ErrorBoundary>
+        <DonationPopup />
         <CopyProtection />
         <CookieConsentBanner />
         <BrowserRouter>
