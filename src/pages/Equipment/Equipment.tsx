@@ -53,6 +53,28 @@ const chopperSpecs = [
   { param: "Обслуговування", value: "Заточка ножів кожні 50–100 год роботи" },
 ];
 
+const millSpecs = [
+  {
+    param: "Принцип роботи",
+    value:
+      "Ротор з молотками або ножами подрібнює зерно, маса проходить крізь змінне сито",
+  },
+  { param: "Продуктивність", value: "40–150 кг/год у побутових моделях" },
+  {
+    param: "Розмір отворів сита",
+    value: "2–8 мм — визначає фракцію помелу",
+  },
+  {
+    param: "Тип помелу",
+    value: "Дрібний (борошно), середній (крупа), крупний (дерть)",
+  },
+  { param: "Споживання енергії", value: "0.5–2.5 кВт залежно від моделі" },
+  {
+    param: "Ресурс молотків/ножів",
+    value: "300–800 год залежно від твердості зерна",
+  },
+];
+
 const granulatorFirstStart = [
   "Перевірити затяжку всіх болтів та кріплень",
   "Змастити матрицю та ролики харчовим маслом або тваринним жиром",
@@ -80,6 +102,15 @@ const chopperFirstStart = [
   "Подавати траву рівномірно — не допускати забивання бункера",
   "Перші 10–15 хвилин — помірне навантаження",
   "При різкому зниженні обертів — зменшити подачу",
+];
+
+const millFirstStart = [
+  "Перевірити, що встановлено сито з потрібним розміром отворів",
+  "Перевірити кріплення молотків або ножів ротора — вони не повинні торкатись корпусу",
+  "Запустити на холостому ходу 1–2 хвилини — перевірити відсутність вібрації та сторонніх звуків",
+  "Подавати зерно невеликими порціями, не одразу повний бункер",
+  "Не допускати завалу камери подрібнення — подача повинна встигати за переробкою",
+  "Перші 15–20 хвилин стежити за нагрівом двигуна",
 ];
 
 const granulatorMaintenance = [
@@ -141,6 +172,24 @@ const chopperMaintenance = [
   },
 ];
 
+const millMaintenance = [
+  {
+    period: "Після кожного використання",
+    tasks:
+      "Очистити бункер, сито та камеру подрібнення від залишків борошна чи дерті. Вологі залишки цвіліють за 1–2 доби.",
+  },
+  {
+    period: "Щотижня",
+    tasks:
+      "Перевірити кріплення молотків або ножів ротора. Оглянути сито на деформацію чи розбиття отворів.",
+  },
+  {
+    period: "Щомісяця",
+    tasks:
+      "Змастити підшипники (якщо передбачено конструкцією). Перевірити стан паса/муфти приводу та щітки двигуна (для колекторних двигунів).",
+  },
+];
+
 const granulatorProblems = [
   {
     problem: "Гранули розсипаються",
@@ -192,6 +241,36 @@ const extruderProblems = [
     cause: "Нестабільна температура або неоднорідна сировина",
     solution:
       "Перевірити нагрівачі, забезпечити рівномірне змішування сировини",
+  },
+];
+
+const millProblems = [
+  {
+    problem: "Зерно не подрібнюється, забивається",
+    cause: "Вологе зерно або занадто дрібне сито",
+    solution:
+      "Просушити зерно до 13–14% вологості, встановити сито з більшими отворами",
+  },
+  {
+    problem: "Занадто груба дерть",
+    cause: "Зношене сито або великі отвори",
+    solution: "Замінити сито на дрібніше під потрібну фракцію",
+  },
+  {
+    problem: "Перегрів двигуна",
+    cause: "Перевантаження або тривала безперервна робота",
+    solution: "Зменшити подачу, робити перерви кожні 15–20 хв роботи",
+  },
+  {
+    problem: "Сильна вібрація",
+    cause: "Дисбаланс ротора, ослаблене кріплення молотків/ножів",
+    solution: "Зупинити, перевірити та підтягнути кріплення ротора",
+  },
+  {
+    problem: "Двигун гуде, але ротор не крутиться",
+    cause: "Заклинювання стороннім предметом або обрив конденсатора",
+    solution:
+      "Знеструмити, перевірити камеру на сторонні предмети, за потреби замінити пусковий конденсатор",
   },
 ];
 
@@ -270,7 +349,7 @@ const Equipment = () => {
       <div className="equipment-header">
         <h1>Обладнання для кролівництва</h1>
         <p>
-          Гранулятор, екструдер та траворізка — призначення, запуск та
+          Гранулятор, екструдер, млин та траворізка — призначення, запуск та
           обслуговування
         </p>
       </div>
@@ -284,7 +363,7 @@ const Equipment = () => {
         <div className="equipment-device-intro">
           <div className="equipment-device-image">
             <img
-              src="/Equipment/granulator.png"
+              src="/Equipment/granulator.webp"
               alt="Гранулятор"
               className="equipment-device-img"
             />
@@ -426,7 +505,7 @@ const Equipment = () => {
         <div className="equipment-device-intro">
           <div className="equipment-device-image">
             <img
-              src="/Equipment/extruder.png"
+              src="/Equipment/extruder.webp"
               alt="Екструдер"
               className="equipment-device-img"
             />
@@ -562,6 +641,121 @@ const Equipment = () => {
           </div>
         </div>
 
+        {/* МЛИН / ЗЕРНОДРОБАРКА */}
+        <div className="equipment-section-title" id="mill">
+          🌾 Млин (зернодробарка)
+        </div>
+
+        <div className="equipment-device-intro">
+          <div className="equipment-device-image">
+            <img
+              src="/Equipment/mill.webp"
+              alt="Млин для зерна"
+              className="equipment-device-img"
+            />
+          </div>
+          <div className="equipment-device-desc">
+            <h2>Що таке млин і навіщо він потрібен</h2>
+            <p>
+              Млин (зернодробарка) — машина для подрібнення цілого зерна
+              (пшениці, ячменю, кукурудзи, вівса, гороху) у дерть, крупу або
+              борошно. На відміну від гранулятора і екструдера, млин нічого не
+              пресує в гранули — він просто подрібнює зерно до потрібної
+              фракції, яку далі можна згодовувати як є, або використовувати як
+              сировину для змішувача та гранулятора.
+            </p>
+            <p>
+              <strong>Навіщо подрібнювати зерно:</strong> ціле зерно кролики
+              засвоюють гірше і частину просто випльовують чи розкидають.
+              Подрібнене зерно легше змішується з іншими компонентами раціону та
+              рівномірніше поїдається.
+            </p>
+            <p>
+              <strong>Зв'язок з іншим обладнанням:</strong> млин зазвичай є
+              першим етапом переробки — спочатку зерно подрібнюється до дерті чи
+              борошна, потім суміш проходить через змішувач, і за потреби —
+              через гранулятор або екструдер.
+            </p>
+            <div className="equipment-alert ok">
+              ✅ Регульоване сито дозволяє отримувати як грубу дерть для
+              дорослих кролів, так і дрібне борошно для молодняку чи для
+              рецептури гранул.
+            </div>
+          </div>
+        </div>
+
+        <div className="equipment-section-subtitle">
+          📊 Технічні характеристики
+        </div>
+        <div className="equipment-specs-table-wrap">
+          <table className="equipment-specs-table">
+            <tbody>
+              {millSpecs.map((row) => (
+                <tr key={row.param}>
+                  <td>
+                    <strong>{row.param}</strong>
+                  </td>
+                  <td>{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="equipment-section-subtitle">🚀 Перший запуск</div>
+        <div className="equipment-note">
+          <ol className="equipment-steps-list">
+            {millFirstStart.map((step, i) => (
+              <li key={i}>{step}</li>
+            ))}
+          </ol>
+          <div className="equipment-alert warn">
+            ⚠️ Не подавати зерно з домішками каміння, металу чи піску — це
+            миттєво пошкоджує молотки/ножі та сито.
+          </div>
+        </div>
+
+        <div className="equipment-section-subtitle">
+          📅 Обслуговування та догляд
+        </div>
+        <div className="equipment-maintenance-grid">
+          {millMaintenance.map((m) => (
+            <div key={m.period} className="equipment-maintenance-card">
+              <div className="equipment-maintenance-period">{m.period}</div>
+              <p>{m.tasks}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="equipment-section-subtitle">🛠️ Типові несправності</div>
+        <div
+          className="equipment-note"
+          style={{ padding: 0, overflow: "hidden" }}
+        >
+          <div style={{ overflowX: "auto" }}>
+            <table className="equipment-problems-table">
+              <thead>
+                <tr>
+                  <th>Проблема</th>
+                  <th>Причина</th>
+                  <th>Рішення</th>
+                </tr>
+              </thead>
+              <tbody>
+                {millProblems.map((row) => (
+                  <tr key={row.problem}>
+                    <td>
+                      <strong>{row.problem}</strong>
+                    </td>
+                    <td>{row.cause}</td>
+                    <td>{row.solution}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         {/* ТРАВОРІЗКА */}
         <div className="equipment-section-title" id="chopper">
           🌿 Траворізка
@@ -570,7 +764,7 @@ const Equipment = () => {
         <div className="equipment-device-intro">
           <div className="equipment-device-image">
             <img
-              src="/Equipment/grass-cutter.jpeg"
+              src="/Equipment/grass-cutter.webp"
               alt="Траворізка"
               className="equipment-device-img"
             />
@@ -685,7 +879,7 @@ const Equipment = () => {
         <div className="equipment-device-intro">
           <div className="equipment-device-image">
             <img
-              src="/Equipment/mixer.png"
+              src="/Equipment/mixer.webp"
               alt="Змішувач кормів"
               className="equipment-device-img"
             />
@@ -872,8 +1066,8 @@ const Equipment = () => {
             </li>
             <li>
               <strong>Запасні частини:</strong> завжди мати в запасі: матрицю
-              (гранулятор), комплект ножів (траворізка), запобіжний болт шнека
-              (екструдер).
+              (гранулятор), комплект ножів (траворізка), сито та молотки (млин),
+              запобіжний болт шнека (екструдер).
             </li>
             <li>
               <strong>Зберігання:</strong> після сезону очистити, змастити всі
@@ -895,6 +1089,12 @@ const Equipment = () => {
             ✅ Власний гранулятор окупається за 1–2 сезони при поголів'ї від
             30–50 голів і власній сировині.
           </div>
+        </div>
+
+        <div className="equipment-ai-note">
+          ⚠️ Зображення обладнання на цій сторінці згенеровані за допомогою ШІ
+          та наведені лише для ілюстрації загального вигляду пристроїв. Реальна
+          модель, яку ви придбаєте(зробите), може відрізнятися.
         </div>
 
         <div className="equipment-related">

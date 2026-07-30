@@ -431,6 +431,16 @@
     background: rgba(255, 255, 255, 0.12);
 }
 
+.equipment-ai-note {
+    margin: 12px 0 24px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: var(--gray-light);
+    color: var(--gray);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
 @media (max-width: 640px) {
     .equipment-related-link {
         font-size: 0.85rem;
