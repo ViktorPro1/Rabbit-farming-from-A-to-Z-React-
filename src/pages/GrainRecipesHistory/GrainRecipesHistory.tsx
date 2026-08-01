@@ -45,6 +45,44 @@ interface ManualRow {
 
 const emptyManualRow: ManualRow = { name: manualGrainOptions[0].name, kg: "" };
 
+function pluralUk(n: number, one: string, few: string, many: string): string {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
+  return many;
+}
+
+function getPeriodLabel(startDate: Date, endDate: Date): string {
+  let years = endDate.getFullYear() - startDate.getFullYear();
+  let months = endDate.getMonth() - startDate.getMonth();
+  let days = endDate.getDate() - startDate.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  const totalMonths = years * 12 + months;
+
+  const parts: string[] = [];
+  if (totalMonths > 0) {
+    parts.push(
+      `${totalMonths} ${pluralUk(totalMonths, "місяць", "місяці", "місяців")}`,
+    );
+  }
+  if (days > 0 || parts.length === 0) {
+    parts.push(`${days} ${pluralUk(days, "день", "дні", "днів")}`);
+  }
+
+  return parts.join(" і ");
+}
+
 export default function GrainRecipesHistory({ session }: Props) {
   const [recipes, setRecipes] = useState<RecipeRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -168,6 +206,14 @@ export default function GrainRecipesHistory({ session }: Props) {
       totalAll += item.kg;
     }),
   );
+
+  const periodLabel =
+    recipes.length > 0
+      ? getPeriodLabel(
+          new Date(recipes[recipes.length - 1].created_at), // найстаріший запис (масив відсортований desc)
+          new Date(),
+        )
+      : "";
 
   // ── Підсумок по місяцях ──
   interface MonthGroup {
@@ -342,7 +388,10 @@ export default function GrainRecipesHistory({ session }: Props) {
           <>
             {/* ── Загальний підсумок ── */}
             <div className="grh-card">
-              <h2>Разом використано (за весь час)</h2>
+              <h2>
+                Разом використано{" "}
+                {periodLabel ? `(за ${periodLabel})` : "(за весь час)"}
+              </h2>
               {Object.entries(totals)
                 .sort((a, b) => b[1].kg - a[1].kg)
                 .map(([name, t]) => (

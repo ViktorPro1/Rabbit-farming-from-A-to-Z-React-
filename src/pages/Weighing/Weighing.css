@@ -302,6 +302,17 @@
     font-style: italic;
 }
 
+.weighing-group-badge {
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #eef3ea;
+    color: #4a6b3d;
+    vertical-align: middle;
+}
+
 @media (max-width: 640px) {
     .weighing-form-grid {
         grid-template-columns: 1fr;
