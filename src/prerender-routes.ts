@@ -10,6 +10,7 @@ export const prerenderRoutes = [
     "/glossary",
     "/rabbit-allergy",
     "/history",
+    "/rabbit-handling",
 
     // Знайомство з твариною
     "/biology",
@@ -22,6 +23,7 @@ export const prerenderRoutes = [
     "/rabbit-body-language",
     "/rabbit-stress",
     "/rabbit-whiskers",
+    "/lethal-color-genes",
 
     // Порівняння та співжиття
     "/rabbit-vs-hare",
@@ -72,6 +74,10 @@ export const prerenderRoutes = [
     "/false-pregnancy",
     "/poisoning",
     "/telegony",
+    "/pregnancy-toxemia",
+    "/splay-leg",
+    "/dystocia",
+    "/mastitis",
 
     // Здоров'я
     "/vaccinations",
@@ -94,12 +100,19 @@ export const prerenderRoutes = [
     "/anesthesia-care",
     "/treatment-log",
     "/antibiotic-therapy",
+    "/rabbit-abscesses",
+    "/rabbit-urolithiasis",
+    "/rabbit-eye-diseases",
+    "/wool-block",
+    "/encephalitozoon-cuniculi",
+    "/urine-scald",
 
     // Сезонні загрози
     "/seasonal-summer",
     "/seasonal-spring",
     "/seasonal-autumn",
     "/heat-stroke",
+    "/ear-frostbite",
 
     // Ветеринарні маніпуляції
     "/vet-injections",
@@ -140,6 +153,7 @@ export const prerenderRoutes = [
     "/disqualifying-faults",
     "/pedigree-records",
     "/show-scoring",
+    "/dna-testing",
 
     // Управління господарством
     "/economics",

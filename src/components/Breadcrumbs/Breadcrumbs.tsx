@@ -24,6 +24,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/rabbit-myths": "Міфи про кролів",
   "/glossary": "Словник",
   "/rabbit-allergy": "Алергія на кролів у людей",
+  "/rabbit-handling": "На руках",
 
   // ЗАГАЛЬНЕ
   "/subscription": "Підписка",
@@ -39,6 +40,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/genetics": "Генетика забарвлення",
   "/rabbit-whiskers": "Вуса (вібриси)",
   "/history": "Історія обліку",
+  "/lethal-color-genes": "Поєднання генів",
 
   // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
   "/rabbit-vs-hare": "Кролик vs Заєць",
@@ -93,6 +95,10 @@ const ROUTE_LABELS: Record<string, string> = {
   "/buck-management": "Утримання плідника",
   "/false-pregnancy": "Хибна вагітність",
   "/telegony": "Телегонія",
+  "/pregnancy-toxemia": "Кетоз",
+  "/splay-leg": "Розведені лапки",
+  "/dystocia": "Дистоція",
+  "/mastitis": "Мастит",
 
   // ЗДОРОВ'Я
   "/vaccinations": "Вакцинація",
@@ -118,17 +124,25 @@ const ROUTE_LABELS: Record<string, string> = {
   "/anesthesia-care": "Анестезія та догляд",
   "/treatment-log": "Журнал лікувань",
   "/antibiotic-therapy": "Антибіотикотерапія",
+  "/rabbit-abscesses": "Абсцеси",
+  "/rabbit-urolithiasis": "Сечокамяна хвороба",
+  "/rabbit-eye-diseases": "Хвороби очей",
+  "/wool-block": "Волосяні безоари",
+  "/encephalitozoon-cuniculi": "Енцефалітозооноз",
+  "/urine-scald": "Опік сечею",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",
   "/vet-oral-meds": "Таблетки та суспензії",
   "/vet-temperature": "Вимірювання температури",
   "/vet-fecal-sample": "Збір калу на аналіз",
+  "/blood-test-reference": "Аналіз крові",
 
   // СЕЗОННІ ЗАГРОЗИ
   "/seasonal-spring": "Весна: кокцидіоз",
   "/seasonal-summer": "Літо: міаз",
   "/seasonal-autumn": "Осінь: підготовка до зими",
+  "/ear-frostbite": "Обмороження вух",
 
   // ПЛАНУВАННЯ
   "/calendar": "Сезонний календар",
@@ -161,6 +175,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/disqualifying-faults": "Дискваліфікаційні вади",
   "/pedigree-records": "Родоводи та племінний облік",
   "/show-scoring": "Система оцінювання",
+  "/dna-testing": "ДНК-тест",
 
   // УПРАВЛІННЯ
   "/economics": "Економіка",

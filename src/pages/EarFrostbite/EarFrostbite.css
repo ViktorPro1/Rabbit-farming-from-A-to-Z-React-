@@ -1,0 +1,419 @@
+.frostbite-page {
+    min-height: 100vh;
+}
+
+.frostbite-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.frostbite-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.frostbite-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.frostbite-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.frostbite-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.frostbite-intro,
+.frostbite-note {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.frostbite-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.frostbite-intro p,
+.frostbite-note p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.frostbite-note ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.frostbite-note li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+.frostbite-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.frostbite-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.frostbite-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.frostbite-alert.danger {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--brown);
+}
+
+/* CAUSES GRID */
+.frostbite-causes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.frostbite-cause-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+}
+
+.frostbite-cause-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.frostbite-cause-icon {
+    font-size: 28px;
+}
+
+.frostbite-cause-header h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.frostbite-cause-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.frostbite-cause-facts {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.frostbite-cause-facts li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* TABLE */
+.frostbite-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.frostbite-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--cream);
+    min-width: 480px;
+}
+
+.frostbite-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.frostbite-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.frostbite-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.frostbite-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* TREATMENT GRID */
+.frostbite-treatment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.frostbite-treatment-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+}
+
+.frostbite-treatment-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.frostbite-treatment-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.frostbite-treatment-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.frostbite-treatment-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.frostbite-treatment-card li {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.frostbite-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.frostbite-tag.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.frostbite-tag.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+/* FACTS GRID */
+.frostbite-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.frostbite-fact-card {
+    border-radius: 14px;
+    padding: 1.25rem;
+}
+
+.frostbite-fact-card.ok {
+    background: var(--green-light);
+    border: 0.5px solid var(--green-pale);
+}
+
+.frostbite-fact-card.warn {
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
+}
+
+.frostbite-fact-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.frostbite-fact-card.ok h3 {
+    color: var(--green-dark);
+}
+
+.frostbite-fact-card.warn h3 {
+    color: var(--amber);
+}
+
+.frostbite-fact-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.frostbite-sources h3 {
+    font-size: 15px;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.frostbite-disclaimer {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gray);
+    margin-top: 8px;
+}
+
+/* RELATED */
+.frostbite-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.frostbite-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .frostbite-related-title {
+    color: var(--green-light);
+}
+
+.frostbite-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.frostbite-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.frostbite-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .frostbite-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .frostbite-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* BACK */
+.frostbite-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.frostbite-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.frostbite-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 768px) {
+
+    .frostbite-causes-grid,
+    .frostbite-treatment-grid,
+    .frostbite-facts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .frostbite-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .frostbite-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .frostbite-table th,
+    .frostbite-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}

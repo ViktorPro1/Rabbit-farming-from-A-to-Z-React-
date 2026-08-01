@@ -22,6 +22,9 @@ const RabbitAllergy = lazy(
   () => import("../pages/RabbitAllergy/RabbitAllergy"),
 );
 const History = lazy(() => import("../pages/History/History"));
+const RabbitHandling = lazy(
+  () => import("../pages/RabbitHandling/RabbitHandling"),
+);
 
 // ГОЛОВНА
 const Subscription = lazy(() => import("../pages/Subscription/Subscription"));
@@ -48,6 +51,9 @@ const RabbitBodyLanguage = lazy(
 const RabbitStress = lazy(() => import("../pages/RabbitStress/RabbitStress"));
 const RabbitWhiskers = lazy(
   () => import("../pages/RabbitWhiskers/RabbitWhiskers"),
+);
+const LethalColorGenes = lazy(
+  () => import("../pages/LethalColorGenes/LethalColorGenes"),
 );
 
 // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
@@ -126,6 +132,12 @@ const FalsePregnancy = lazy(
   () => import("../pages/FalsePregnancy/FalsePregnancy"),
 );
 const Telegony = lazy(() => import("../pages/Telegony/Telegony"));
+const PregnancyToxemia = lazy(
+  () => import("../pages/PregnancyToxemia/PregnancyToxemia"),
+);
+const SplayLeg = lazy(() => import("../pages/SplayLeg/SplayLeg"));
+const Dystocia = lazy(() => import("../pages/Dystocia/Dystocia"));
+const Mastitis = lazy(() => import("../pages/Mastitis/Mastitis"));
 
 // ЗДОРОВ'Я
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -165,6 +177,20 @@ const TreatmentLog = lazy(() => import("../pages/TreatmentLog/TreatmentLog"));
 const AntibioticTherapy = lazy(
   () => import("../pages/AntibioticTherapy/AntibioticTherapy"),
 );
+const RabbitAbscesses = lazy(
+  () => import("../pages/RabbitAbscesses/RabbitAbscesses"),
+);
+const RabbitUrolithiasis = lazy(
+  () => import("../pages/RabbitUrolithiasis/RabbitUrolithiasis"),
+);
+const RabbitEyeDiseases = lazy(
+  () => import("../pages/RabbitEyeDiseases/RabbitEyeDiseases"),
+);
+const WoolBlock = lazy(() => import("../pages/WoolBlock/WoolBlock"));
+const EncephalitozoonCuniculi = lazy(
+  () => import("../pages/EncephalitozoonCuniculi/EncephalitozoonCuniculi"),
+);
+const UrineScald = lazy(() => import("../pages/UrineScald/UrineScald"));
 
 // СЕЗОННІ ЗАГРОЗИ
 const SeasonalSummer = lazy(
@@ -177,6 +203,7 @@ const SeasonalAutumn = lazy(
   () => import("../pages/SeasonalAutumn/SeasonalAutumn"),
 );
 const HeatStroke = lazy(() => import("../pages/HeatStroke/HeatStroke"));
+const EarFrostbite = lazy(() => import("../pages/EarFrostbite/EarFrostbite"));
 
 // ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ
 const VetInjections = lazy(
@@ -188,6 +215,9 @@ const VetTemperature = lazy(
 );
 const VetFecalSample = lazy(
   () => import("../pages/VetFecalSample/VetFecalSample"),
+);
+const BloodTestReference = lazy(
+  () => import("../pages/BloodTestReference/BloodTestReference"),
 );
 
 // ПЛАНУВАННЯ
@@ -271,6 +301,7 @@ const PedigreeRecords = lazy(
   () => import("../pages/PedigreeRecords/PedigreeRecords"),
 );
 const ShowScoring = lazy(() => import("../pages/ShowScoring/ShowScoring"));
+const DnaTesting = lazy(() => import("../pages/DnaTesting/DnaTesting"));
 
 // УПРАВЛІННЯ ГОСПОДАРСТВОМ
 const Economics = lazy(() => import("../pages/Economics/Economics"));
@@ -371,6 +402,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/glossary" element={<Glossary />} />
         <Route path="/rabbit-allergy" element={<RabbitAllergy />} />
         <Route path="/history" element={<History />} />
+        <Route path="/rabbit-handling" element={<RabbitHandling />} />
         {/* — ГОЛОВНА — */}
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
@@ -392,6 +424,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/rabbit-body-language" element={<RabbitBodyLanguage />} />
         <Route path="/rabbit-stress" element={<RabbitStress />} />
         <Route path="/rabbit-whiskers" element={<RabbitWhiskers />} />
+        <Route path="/lethal-color-genes" element={<LethalColorGenes />} />
         {/* 2. ПОРІВНЯННЯ ТА СПІВЖИТТЯ */}
         <Route path="/rabbit-vs-hare" element={<RabbitVsHare />} />
         <Route
@@ -446,6 +479,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/false-pregnancy" element={<FalsePregnancy />} />
         <Route path="/poisoning" element={<Poisoning />} />
         <Route path="/telegony" element={<Telegony />} />
+        <Route path="/pregnancy-toxemia" element={<PregnancyToxemia />} />
+        <Route path="/splay-leg" element={<SplayLeg />} />
+        <Route path="/dystocia" element={<Dystocia />} />
+        <Route path="/mastitis" element={<Mastitis />} />
         {/* 7. ЗДОРОВ'Я */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/parasites" element={<Parasites />} />
@@ -470,16 +507,27 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/anesthesia-care" element={<AnesthesiaCare />} />
         <Route path="/treatment-log" element={<TreatmentLog />} />
         <Route path="/antibiotic-therapy" element={<AntibioticTherapy />} />
+        <Route path="/rabbit-abscesses" element={<RabbitAbscesses />} />
+        <Route path="/rabbit-urolithiasis" element={<RabbitUrolithiasis />} />
+        <Route path="/rabbit-eye-diseases" element={<RabbitEyeDiseases />} />
+        <Route path="/wool-block" element={<WoolBlock />} />
+        <Route
+          path="/encephalitozoon-cuniculi"
+          element={<EncephalitozoonCuniculi />}
+        />
+        <Route path="/urine-scald" element={<UrineScald />} />
         {/* СЕЗОННІ ЗАГРОЗИ */}
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />
         <Route path="/seasonal-autumn" element={<SeasonalAutumn />} />
         <Route path="/heat-stroke" element={<HeatStroke />} />
+        <Route path="/ear-frostbite" element={<EarFrostbite />} />
         {/* ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ */}
         <Route path="/vet-injections" element={<VetInjections />} />
         <Route path="/vet-oral-meds" element={<VetOralMeds />} />
         <Route path="/vet-temperature" element={<VetTemperature />} />
         <Route path="/vet-fecal-sample" element={<VetFecalSample />} />
+        <Route path="/blood-test-reference" element={<BloodTestReference />} />
         {/* 7. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />
@@ -584,6 +632,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/disqualifying-faults" element={<DisqualifyingFaults />} />
         <Route path="/pedigree-records" element={<PedigreeRecords />} />
         <Route path="/show-scoring" element={<ShowScoring />} />
+        <Route path="/dna-testing" element={<DnaTesting />} />
         {/* — Управління господарством — */}
         <Route path="/economics" element={<Economics />} />
         <Route path="/legal" element={<Legal />} />
