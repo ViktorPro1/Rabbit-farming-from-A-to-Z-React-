@@ -33,7 +33,7 @@ export default function DonationPopup() {
       if (!isSubscriber && shouldShowPopup()) {
         timer = setTimeout(() => {
           if (mounted) setVisible(true);
-        }, 1500);
+        }, 30000);
       }
     }
 
