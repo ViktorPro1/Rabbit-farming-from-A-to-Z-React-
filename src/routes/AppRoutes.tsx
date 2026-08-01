@@ -138,59 +138,97 @@ const PregnancyToxemia = lazy(
 const SplayLeg = lazy(() => import("../pages/SplayLeg/SplayLeg"));
 const Dystocia = lazy(() => import("../pages/Dystocia/Dystocia"));
 const Mastitis = lazy(() => import("../pages/Mastitis/Mastitis"));
+const PostpartumCare = lazy(
+  () => import("../pages/PostpartumCare/PostpartumCare"),
+);
 
 // ЗДОРОВ'Я
-const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
-const Parasites = lazy(() => import("../pages/Parasites/Parasites"));
-const Diseases = lazy(() => import("../pages/Diseases/Diseases"));
-const Medicines = lazy(() => import("../pages/Medicines/Medicines"));
-const Treatment = lazy(() => import("../pages/Treatment/Treatment"));
-const FirstAid = lazy(() => import("../pages/FirstAid/FirstAid"));
-const LabDiagnostics = lazy(
-  () => import("../pages/LabDiagnostics/LabDiagnostics"),
-);
 const Symptoms = lazy(() => import("../pages/Symptoms/Symptoms"));
-const Necropsy = lazy(() => import("../pages/Necropsy/Necropsy"));
-const DrugCompatibility = lazy(
-  () => import("../pages/DrugCompatibility/DrugCompatibility"),
-);
-const PainManagement = lazy(
-  () => import("../pages/PainManagement/PainManagement"),
-);
-const Neutering = lazy(() => import("../pages/Neutering/Neutering"));
-const WaterMedication = lazy(
-  () => import("../pages/WaterMedication/WaterMedication"),
-);
+const Diseases = lazy(() => import("../pages/Diseases/Diseases"));
+const Parasites = lazy(() => import("../pages/Parasites/Parasites"));
 const Droppings = lazy(() => import("../pages/Droppings/Droppings"));
 const RabbitBodyCondition = lazy(
   () => import("../pages/RabbitBodyCondition/RabbitBodyCondition"),
 );
-const DosageCalculator = lazy(
-  () => import("../pages/DosageCalculator/DosageCalculator"),
-);
 const Poisoning = lazy(() => import("../pages/Poisoning/Poisoning"));
-const DietTherapy = lazy(() => import("../pages/DietTherapy/DietTherapy"));
-const AnesthesiaCare = lazy(
-  () => import("../pages/AnesthesiaCare/AnesthesiaCare"),
-);
-const TreatmentLog = lazy(() => import("../pages/TreatmentLog/TreatmentLog"));
-const AntibioticTherapy = lazy(
-  () => import("../pages/AntibioticTherapy/AntibioticTherapy"),
-);
 const RabbitAbscesses = lazy(
   () => import("../pages/RabbitAbscesses/RabbitAbscesses"),
-);
-const RabbitUrolithiasis = lazy(
-  () => import("../pages/RabbitUrolithiasis/RabbitUrolithiasis"),
 );
 const RabbitEyeDiseases = lazy(
   () => import("../pages/RabbitEyeDiseases/RabbitEyeDiseases"),
 );
-const WoolBlock = lazy(() => import("../pages/WoolBlock/WoolBlock"));
+const RabbitUrolithiasis = lazy(
+  () => import("../pages/RabbitUrolithiasis/RabbitUrolithiasis"),
+);
+const UrineScald = lazy(() => import("../pages/UrineScald/UrineScald"));
 const EncephalitozoonCuniculi = lazy(
   () => import("../pages/EncephalitozoonCuniculi/EncephalitozoonCuniculi"),
 );
-const UrineScald = lazy(() => import("../pages/UrineScald/UrineScald"));
+const WoolBlock = lazy(() => import("../pages/WoolBlock/WoolBlock"));
+const UterineAdenocarcinoma = lazy(
+  () => import("../pages/UterineAdenocarcinoma/UterineAdenocarcinoma"),
+);
+const ChronicKidneyDisease = lazy(
+  () => import("../pages/ChronicKidneyDisease/ChronicKidneyDisease"),
+);
+const Treponematosis = lazy(
+  () => import("../pages/Treponematosis/Treponematosis"),
+);
+const OtitisMediaInterna = lazy(
+  () => import("../pages/OtitisMediaInterna/OtitisMediaInterna"),
+);
+const RabbitObesity = lazy(
+  () => import("../pages/RabbitObesity/RabbitObesity"),
+);
+const UmbilicalHernia = lazy(
+  () => import("../pages/UmbilicalHernia/UmbilicalHernia"),
+);
+const Cryptorchidism = lazy(
+  () => import("../pages/Cryptorchidism/Cryptorchidism"),
+);
+const SeniorSensoryLoss = lazy(
+  () => import("../pages/SeniorSensoryLoss/SeniorSensoryLoss"),
+);
+
+// ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА
+const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
+const VaccineReactions = lazy(
+  () => import("../pages/VaccineReactions/VaccineReactions"),
+);
+const Medicines = lazy(() => import("../pages/Medicines/Medicines"));
+const DrugCompatibility = lazy(
+  () => import("../pages/DrugCompatibility/DrugCompatibility"),
+);
+const WaterMedication = lazy(
+  () => import("../pages/WaterMedication/WaterMedication"),
+);
+const AntibioticTherapy = lazy(
+  () => import("../pages/AntibioticTherapy/AntibioticTherapy"),
+);
+const DosageCalculator = lazy(
+  () => import("../pages/DosageCalculator/DosageCalculator"),
+);
+const Treatment = lazy(() => import("../pages/Treatment/Treatment"));
+const FirstAid = lazy(() => import("../pages/FirstAid/FirstAid"));
+const BiteWoundCare = lazy(
+  () => import("../pages/BiteWoundCare/BiteWoundCare"),
+);
+const PainManagement = lazy(
+  () => import("../pages/PainManagement/PainManagement"),
+);
+const DietTherapy = lazy(() => import("../pages/DietTherapy/DietTherapy"));
+const AnesthesiaCare = lazy(
+  () => import("../pages/AnesthesiaCare/AnesthesiaCare"),
+);
+const Neutering = lazy(() => import("../pages/Neutering/Neutering"));
+const LabDiagnostics = lazy(
+  () => import("../pages/LabDiagnostics/LabDiagnostics"),
+);
+const Necropsy = lazy(() => import("../pages/Necropsy/Necropsy"));
+const TreatmentLog = lazy(() => import("../pages/TreatmentLog/TreatmentLog"));
+const PalliativeCare = lazy(
+  () => import("../pages/PalliativeCare/PalliativeCare"),
+);
 
 // СЕЗОННІ ЗАГРОЗИ
 const SeasonalSummer = lazy(
@@ -483,39 +521,60 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/splay-leg" element={<SplayLeg />} />
         <Route path="/dystocia" element={<Dystocia />} />
         <Route path="/mastitis" element={<Mastitis />} />
+        <Route path="/postpartum-care" element={<PostpartumCare />} />
         {/* 7. ЗДОРОВ'Я */}
-        <Route path="/vaccinations" element={<Vaccinations />} />
-        <Route path="/parasites" element={<Parasites />} />
-        <Route path="/diseases" element={<Diseases />} />
-        <Route path="/medicines" element={<Medicines />} />
-        <Route path="/treatment" element={<Treatment />} />
-        <Route path="/first-aid" element={<FirstAid />} />
-        <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
         <Route path="/symptoms" element={<Symptoms />} />
-        <Route path="/necropsy" element={<Necropsy />} />
-        <Route path="/drug-compatibility" element={<DrugCompatibility />} />
-        <Route path="/pain-management" element={<PainManagement />} />
-        <Route path="/neutering" element={<Neutering />} />
-        <Route path="/water-medication" element={<WaterMedication />} />
+        <Route path="/diseases" element={<Diseases />} />
+        <Route path="/parasites" element={<Parasites />} />
         <Route path="/droppings" element={<Droppings />} />
         <Route
           path="/rabbit-body-condition"
           element={<RabbitBodyCondition />}
         />
-        <Route path="/dosage-calculator" element={<DosageCalculator />} />
-        <Route path="/diet-therapy" element={<DietTherapy />} />
-        <Route path="/anesthesia-care" element={<AnesthesiaCare />} />
-        <Route path="/treatment-log" element={<TreatmentLog />} />
-        <Route path="/antibiotic-therapy" element={<AntibioticTherapy />} />
+        <Route path="/poisoning" element={<Poisoning />} />
         <Route path="/rabbit-abscesses" element={<RabbitAbscesses />} />
-        <Route path="/rabbit-urolithiasis" element={<RabbitUrolithiasis />} />
         <Route path="/rabbit-eye-diseases" element={<RabbitEyeDiseases />} />
-        <Route path="/wool-block" element={<WoolBlock />} />
+        <Route path="/rabbit-urolithiasis" element={<RabbitUrolithiasis />} />
+        <Route path="/urine-scald" element={<UrineScald />} />
         <Route
           path="/encephalitozoon-cuniculi"
           element={<EncephalitozoonCuniculi />}
         />
-        <Route path="/urine-scald" element={<UrineScald />} />
+        <Route path="/wool-block" element={<WoolBlock />} />
+        <Route
+          path="/uterine-adenocarcinoma"
+          element={<UterineAdenocarcinoma />}
+        />
+        <Route
+          path="/chronic-kidney-disease"
+          element={<ChronicKidneyDisease />}
+        />
+        <Route path="/treponematosis" element={<Treponematosis />} />
+        <Route path="/otitis-media-interna" element={<OtitisMediaInterna />} />
+        <Route path="/rabbit-obesity" element={<RabbitObesity />} />
+        <Route path="/umbilical-hernia" element={<UmbilicalHernia />} />
+        <Route path="/cryptorchidism" element={<Cryptorchidism />} />
+        <Route path="/senior-sensory-loss" element={<SeniorSensoryLoss />} />
+
+        {/* 8. ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА */}
+        <Route path="/vaccinations" element={<Vaccinations />} />
+        <Route path="/vaccine-reactions" element={<VaccineReactions />} />
+        <Route path="/medicines" element={<Medicines />} />
+        <Route path="/drug-compatibility" element={<DrugCompatibility />} />
+        <Route path="/water-medication" element={<WaterMedication />} />
+        <Route path="/antibiotic-therapy" element={<AntibioticTherapy />} />
+        <Route path="/dosage-calculator" element={<DosageCalculator />} />
+        <Route path="/treatment" element={<Treatment />} />
+        <Route path="/first-aid" element={<FirstAid />} />
+        <Route path="/bite-wound-care" element={<BiteWoundCare />} />
+        <Route path="/pain-management" element={<PainManagement />} />
+        <Route path="/diet-therapy" element={<DietTherapy />} />
+        <Route path="/anesthesia-care" element={<AnesthesiaCare />} />
+        <Route path="/neutering" element={<Neutering />} />
+        <Route path="/lab-diagnostics" element={<LabDiagnostics />} />
+        <Route path="/necropsy" element={<Necropsy />} />
+        <Route path="/treatment-log" element={<TreatmentLog />} />
+        <Route path="/palliative-care" element={<PalliativeCare />} />
         {/* СЕЗОННІ ЗАГРОЗИ */}
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />
@@ -528,11 +587,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/vet-temperature" element={<VetTemperature />} />
         <Route path="/vet-fecal-sample" element={<VetFecalSample />} />
         <Route path="/blood-test-reference" element={<BloodTestReference />} />
-        {/* 7. ПЛАНУВАННЯ */}
+        {/* 11. ПЛАНУВАННЯ */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/tips" element={<Tips />} />
         <Route path="/breeding-herd" element={<BreedingHerd />} />
-        {/* 8. ІНСТРУМЕНТИ */}
+        {/* 12. ІНСТРУМЕНТИ */}
         <Route
           path="/calculator"
           element={
@@ -545,12 +604,12 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route path="/equipment" element={<Equipment />} />
         <Route path="/tools" element={<Tools />} />
-        {/* 9. ФІНАЛ */}
+        {/* 13. ФІНАЛ */}
         <Route path="/slaughter" element={<Slaughter />} />
         <Route path="/fur-processing" element={<FurProcessing />} />
         <Route path="/culling" element={<Culling />} />
         <Route path="/transport" element={<Transport />} />
-        {/* 10. РЕЦЕПТИ */}
+        {/* 14. РЕЦЕПТИ */}
         <Route path="/recipes" element={<Recipes />} />
         {/* — ОСОБИСТИЙ КАБІНЕТ — */}
         <Route
