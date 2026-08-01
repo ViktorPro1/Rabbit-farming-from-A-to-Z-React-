@@ -1,0 +1,16 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Запуск щовівторка та щоп'ятниці о 08:00 (кожні 3-4 дні)
+    - cron: '0 8 * * 2,5'
+  workflow_dispatch: # Дозволяє завантажувати/запускати вручну з інтерфейсу GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Ping Request to Supabase
+        run: |
+          curl -i -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}"

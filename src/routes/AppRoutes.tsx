@@ -380,12 +380,6 @@ const CompanionBonding = lazy(
 const PetTravel = lazy(() => import("../pages/PetTravel/PetTravel"));
 const SeniorRabbit = lazy(() => import("../pages/SeniorRabbit/SeniorRabbit"));
 
-// 404 СТОРІНКА
-const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
-
-// ОНОВЛЕННЯ
-const Changelog = lazy(() => import("../pages/Changelog/Changelog"));
-
 // ІНФО
 const AboutProject = lazy(
   () => import("../pages/Info/AboutProject/AboutProject"),
@@ -398,6 +392,12 @@ const BehindTheScenes = lazy(
   () => import("../pages/BehindTheScenes/BehindTheScenes"),
 );
 const AndroidApp = lazy(() => import("../pages/AndroidApp/AndroidApp"));
+
+// ОНОВЛЕННЯ
+const Changelog = lazy(() => import("../pages/Changelog/Changelog"));
+
+// 404 СТОРІНКА
+const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 
 // ─────────────────────────────────────────────
 const PageLoader = () => (
@@ -515,7 +515,6 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/doe-preparation" element={<DoePreparation />} />
         <Route path="/buck-management" element={<BuckManagement />} />
         <Route path="/false-pregnancy" element={<FalsePregnancy />} />
-        <Route path="/poisoning" element={<Poisoning />} />
         <Route path="/telegony" element={<Telegony />} />
         <Route path="/pregnancy-toxemia" element={<PregnancyToxemia />} />
         <Route path="/splay-leg" element={<SplayLeg />} />
@@ -654,11 +653,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route
           path="/disinfection-log"
-          element={<DisinfectionLog session={session!} />}
+          element={session ? <DisinfectionLog session={session} /> : <Auth />}
         />
         <Route
           path="/cage-search"
-          element={<CageSearch session={session!} />}
+          element={session ? <CageSearch session={session} /> : <Auth />}
         />
         <Route
           path="/grain-recipes-history"
@@ -718,16 +717,16 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/companion-bonding" element={<CompanionBonding />} />
         <Route path="/pet-travel" element={<PetTravel />} />
         <Route path="/senior-rabbit" element={<SeniorRabbit />} />
-        {/* — ОНОВЛЕННЯ — */}
-        <Route path="/changelog" element={<Changelog />} />
-        {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
-        <Route path="*" element={<NotFound />} />
         {/* — ІНФО — */}
         <Route path="/about" element={<AboutProject />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/behind-the-scenes" element={<BehindTheScenes />} />
         <Route path="/android-app" element={<AndroidApp />} />
+        {/* — ОНОВЛЕННЯ — */}
+        <Route path="/changelog" element={<Changelog />} />
+        {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   );
