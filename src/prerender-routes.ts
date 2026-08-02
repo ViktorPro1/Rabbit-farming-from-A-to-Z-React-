@@ -102,6 +102,10 @@ export const prerenderRoutes = [
     "/umbilical-hernia",
     "/cryptorchidism",
     "/senior-sensory-loss",
+    "/pyometra",
+    "/megaesophagus",
+    "/pyoderma",
+    "/secondary-hyperparathyroidism",
 
     // Лікування та ветеринарна допомога
     "/vaccinations",
@@ -121,6 +125,7 @@ export const prerenderRoutes = [
     "/lab-diagnostics",
     "/necropsy",
     "/treatment-log",
+    "/rhdv-strains",
 
     // Сезонні загрози
     "/seasonal-summer",
@@ -177,6 +182,8 @@ export const prerenderRoutes = [
     "/profit-calculator",
     "/composting",
     "/insurance-grants",
+    "/import-export-rabbits",
+    "/rabbit-cooperatives",
 
     // Технології
     "/feeding-automation",

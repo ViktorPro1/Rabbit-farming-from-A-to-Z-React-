@@ -193,6 +193,15 @@ const Cryptorchidism = lazy(
 const SeniorSensoryLoss = lazy(
   () => import("../pages/SeniorSensoryLoss/SeniorSensoryLoss"),
 );
+const Pyometra = lazy(() => import("../pages/Pyometra/Pyometra"));
+const Megaesophagus = lazy(
+  () => import("../pages/Megaesophagus/Megaesophagus"),
+);
+const Pyoderma = lazy(() => import("../pages/Pyoderma/Pyoderma"));
+const SecondaryHyperparathyroidism = lazy(
+  () =>
+    import("../pages/SecondaryHyperparathyroidism/SecondaryHyperparathyroidism"),
+);
 
 // ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -233,6 +242,7 @@ const TreatmentLog = lazy(() => import("../pages/TreatmentLog/TreatmentLog"));
 const PalliativeCare = lazy(
   () => import("../pages/PalliativeCare/PalliativeCare"),
 );
+const RhdvStrains = lazy(() => import("../pages/RhdvStrains/RhdvStrains"));
 
 // СЕЗОННІ ЗАГРОЗИ
 const SeasonalSummer = lazy(
@@ -246,6 +256,9 @@ const SeasonalAutumn = lazy(
 );
 const HeatStroke = lazy(() => import("../pages/HeatStroke/HeatStroke"));
 const EarFrostbite = lazy(() => import("../pages/EarFrostbite/EarFrostbite"));
+const SunProtection = lazy(
+  () => import("../pages/SunProtection/SunProtection"),
+);
 
 // ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ
 const VetInjections = lazy(
@@ -353,6 +366,12 @@ const ProfitCalc = lazy(() => import("../pages/ProfitCalc/ProfitCalc"));
 const Composting = lazy(() => import("../pages/Composting/Composting"));
 const InsuranceGrants = lazy(
   () => import("../pages/InsuranceGrants/InsuranceGrants"),
+);
+const RabbitCooperatives = lazy(
+  () => import("../pages/RabbitCooperatives/RabbitCooperatives"),
+);
+const ImportExportRabbits = lazy(
+  () => import("../pages/ImportExportRabbits/ImportExportRabbits"),
 );
 
 // ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
@@ -563,7 +582,13 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/umbilical-hernia" element={<UmbilicalHernia />} />
         <Route path="/cryptorchidism" element={<Cryptorchidism />} />
         <Route path="/senior-sensory-loss" element={<SeniorSensoryLoss />} />
-
+        <Route path="/pyometra" element={<Pyometra />} />
+        <Route path="/megaesophagus" element={<Megaesophagus />} />
+        <Route path="/pyoderma" element={<Pyoderma />} />
+        <Route
+          path="/secondary-hyperparathyroidism"
+          element={<SecondaryHyperparathyroidism />}
+        />
         {/* 8. ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/vaccine-reactions" element={<VaccineReactions />} />
@@ -583,12 +608,14 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/necropsy" element={<Necropsy />} />
         <Route path="/treatment-log" element={<TreatmentLog />} />
         <Route path="/palliative-care" element={<PalliativeCare />} />
+        <Route path="/rhdv-strains" element={<RhdvStrains />} />
         {/* СЕЗОННІ ЗАГРОЗИ */}
         <Route path="/seasonal-summer" element={<SeasonalSummer />} />
         <Route path="/seasonal-spring" element={<SeasonalSpring />} />
         <Route path="/seasonal-autumn" element={<SeasonalAutumn />} />
         <Route path="/heat-stroke" element={<HeatStroke />} />
         <Route path="/ear-frostbite" element={<EarFrostbite />} />
+        <Route path="/sun-protection" element={<SunProtection />} />
         {/* ВЕТЕРЕНАРНІ МАНІПУЛЯЦІЇ */}
         <Route path="/vet-injections" element={<VetInjections />} />
         <Route path="/vet-oral-meds" element={<VetOralMeds />} />
@@ -707,6 +734,11 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/profit-calculator" element={<ProfitCalc />} />
         <Route path="/composting" element={<Composting />} />
         <Route path="/insurance-grants" element={<InsuranceGrants />} />
+        <Route path="/rabbit-cooperatives" element={<RabbitCooperatives />} />
+        <Route
+          path="/import-export-rabbits"
+          element={<ImportExportRabbits />}
+        />
 
         {/* — ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ — */}
         <Route path="/feeding-automation" element={<FeedingAutomation />} />

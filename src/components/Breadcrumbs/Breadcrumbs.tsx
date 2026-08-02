@@ -72,6 +72,9 @@ const ROUTE_LABELS: Record<string, string> = {
   "/new-food": "Введення нового корму",
   "/compound-feed": "Комбікорм",
   "/special-feeds": "Соковиті корми",
+  "/weight-control": "Контроль ваги",
+  "/droppings": "Послід",
+  "/rabbit-obesity": "Ожиріння у кролів",
 
   // ДОГЛЯД
   "/care": "Догляд",
@@ -80,12 +83,12 @@ const ROUTE_LABELS: Record<string, string> = {
   "/grooming": "Кігті та зуби",
   "/seasonal-molting": "Линька: норма та патологія",
   "/predators": "Хижаки та шкідники",
+  "/wool-block": "Волосяні безоари",
 
   // РОЗВЕДЕННЯ
   "/okril": "Окріл",
   "/winter-litter": "Зимовий окріл",
   "/weaning": "Відлучення та дорощування",
-  "/weight-control": "Контроль ваги",
   "/artificial-feeding": "Штучне вигодовування",
   "/mating-frequency": "Частота злучування",
   "/mating-behavior": "Поведінка при злучці",
@@ -106,9 +109,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/symptoms": "Симптоматичний пошук",
   "/diseases": "Хвороби",
   "/parasites": "Паразити",
-  "/droppings": "Послід",
   "/rabbit-body-condition": "Кондиція тіла (BCS)",
-  "/rabbit-obesity": "Ожиріння у кролів",
   "/poisoning": "Отруєння кролів",
   "/zoonoses": "Зонози",
   "/rabbit-urolithiasis": "Сечокам'яна хвороба",
@@ -116,7 +117,6 @@ const ROUTE_LABELS: Record<string, string> = {
   "/rabbit-eye-diseases": "Хвороби очей",
   "/otitis-media-interna": "Отит середнього та внутрішнього вуха",
   "/encephalitozoon-cuniculi": "Енцефалітозооноз",
-  "/wool-block": "Волосяні безоари",
   "/rabbit-abscesses": "Абсцеси",
   "/uterine-adenocarcinoma": "Аденокарцинома матки",
   "/chronic-kidney-disease": "Хронічна ниркова недостатність",
@@ -124,6 +124,10 @@ const ROUTE_LABELS: Record<string, string> = {
   "/umbilical-hernia": "Пупкова грижа",
   "/cryptorchidism": "Крипторхізм",
   "/senior-sensory-loss": "Втрата зору й слуху",
+  "/pyometra": "Піометра",
+  "/megaesophagus": "Мегаесофаг",
+  "/pyoderma": "Піодерма",
+  "/secondary-hyperparathyroidism": "Секундарна гіперпаратиреоз",
 
   // ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА
   "/vaccinations": "Вакцинація",
@@ -143,6 +147,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/lab-diagnostics": "Лаб. діагностика",
   "/necropsy": "Некропсія",
   "/treatment-log": "Журнал лікувань",
+  "/rhdv-strains": "Штами RHDV",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",
@@ -198,6 +203,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/profit-calculator": "Калькулятор рентабельності",
   "/composting": "Переробка гною",
   "/insurance-grants": "Страхування та грантова підтримка ОСГ",
+  "/import-export-rabbits": "Імпорт та експорт племінних кролів",
+  "/rabbit-cooperatives": "Кооперативи та об'єднання кролівників",
 
   // ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
   "/feeding-automation": "Автоматизація годівлі та напування",
