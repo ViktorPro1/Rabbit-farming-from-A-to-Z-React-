@@ -55,6 +55,9 @@ const RabbitWhiskers = lazy(
 const LethalColorGenes = lazy(
   () => import("../pages/LethalColorGenes/LethalColorGenes"),
 );
+const ColorGeneticsExample = lazy(
+  () => import("../pages/ColorGeneticsExample/ColorGeneticsExample"),
+);
 
 // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
 const RabbitVsHare = lazy(() => import("../pages/RabbitVsHare/RabbitVsHare"));
@@ -141,6 +144,7 @@ const Mastitis = lazy(() => import("../pages/Mastitis/Mastitis"));
 const PostpartumCare = lazy(
   () => import("../pages/PostpartumCare/PostpartumCare"),
 );
+const Fostering = lazy(() => import("../pages/Fostering/Fostering"));
 
 // ЗДОРОВ'Я
 const Symptoms = lazy(() => import("../pages/Symptoms/Symptoms"));
@@ -463,6 +467,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/rabbit-stress" element={<RabbitStress />} />
         <Route path="/rabbit-whiskers" element={<RabbitWhiskers />} />
         <Route path="/lethal-color-genes" element={<LethalColorGenes />} />
+        <Route
+          path="/color-genetics-example"
+          element={<ColorGeneticsExample />}
+        />
         {/* 2. ПОРІВНЯННЯ ТА СПІВЖИТТЯ */}
         <Route path="/rabbit-vs-hare" element={<RabbitVsHare />} />
         <Route
@@ -521,6 +529,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         <Route path="/dystocia" element={<Dystocia />} />
         <Route path="/mastitis" element={<Mastitis />} />
         <Route path="/postpartum-care" element={<PostpartumCare />} />
+        <Route path="/fostering" element={<Fostering />} />
         {/* 7. ЗДОРОВ'Я */}
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/diseases" element={<Diseases />} />

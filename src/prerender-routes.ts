@@ -24,6 +24,7 @@ export const prerenderRoutes = [
     "/rabbit-stress",
     "/rabbit-whiskers",
     "/lethal-color-genes",
+    "/color-genetics-example",
 
     // Порівняння та співжиття
     "/rabbit-vs-hare",
@@ -79,6 +80,7 @@ export const prerenderRoutes = [
     "/dystocia",
     "/mastitis",
     "/postpartum-care",
+    "/fostering",
 
     // Здоров'я
     "/symptoms",

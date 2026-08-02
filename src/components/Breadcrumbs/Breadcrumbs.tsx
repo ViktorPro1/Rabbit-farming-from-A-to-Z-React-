@@ -40,7 +40,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/genetics": "Генетика забарвлення",
   "/rabbit-whiskers": "Вуса (вібриси)",
   "/history": "Історія обліку",
-  "/lethal-color-genes": "Поєднання генів",
+  "/color-genetics-example": "Практичний калькулятор кольору кроля",
 
   // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
   "/rabbit-vs-hare": "Кролик vs Заєць",
@@ -100,6 +100,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/dystocia": "Дистоція",
   "/mastitis": "Мастит",
   "/postpartum-care": "Догляд після окролу",
+  "/fostering": "Фостеринг",
 
   // ЗДОРОВ'Я
   "/symptoms": "Симптоматичний пошук",

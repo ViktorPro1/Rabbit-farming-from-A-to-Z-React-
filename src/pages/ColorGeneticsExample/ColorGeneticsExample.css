@@ -1,0 +1,629 @@
+.colorcalc-page {
+    min-height: 100vh;
+}
+
+.colorcalc-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.colorcalc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.colorcalc-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.colorcalc-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.colorcalc-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+.colorcalc-intro,
+.colorcalc-note {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.colorcalc-intro h2 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.colorcalc-intro p,
+.colorcalc-note p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.colorcalc-note ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.colorcalc-note li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+.colorcalc-alert {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.colorcalc-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.colorcalc-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.colorcalc-alert.danger {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--brown);
+}
+
+/* CAUSES GRID */
+.colorcalc-causes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.colorcalc-cause-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+}
+
+.colorcalc-cause-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.colorcalc-cause-icon {
+    font-size: 28px;
+}
+
+.colorcalc-cause-header h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.colorcalc-cause-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.colorcalc-cause-facts {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.colorcalc-cause-facts li {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+/* TABLE */
+.colorcalc-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.colorcalc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--cream);
+    min-width: 480px;
+}
+
+.colorcalc-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.colorcalc-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.colorcalc-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.colorcalc-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* TREATMENT GRID */
+.colorcalc-treatment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.colorcalc-treatment-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+}
+
+.colorcalc-treatment-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.colorcalc-treatment-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.colorcalc-treatment-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.colorcalc-treatment-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.colorcalc-treatment-card li {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.colorcalc-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.colorcalc-tag.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.colorcalc-tag.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+/* FACTS GRID */
+.colorcalc-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.colorcalc-fact-card {
+    border-radius: 14px;
+    padding: 1.25rem;
+}
+
+.colorcalc-fact-card.ok {
+    background: var(--green-light);
+    border: 0.5px solid var(--green-pale);
+}
+
+.colorcalc-fact-card.warn {
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
+}
+
+.colorcalc-fact-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.colorcalc-fact-card.ok h3 {
+    color: var(--green-dark);
+}
+
+.colorcalc-fact-card.warn h3 {
+    color: var(--amber);
+}
+
+.colorcalc-fact-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.colorcalc-sources h3 {
+    font-size: 15px;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+}
+
+.colorcalc-disclaimer {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gray);
+    margin-top: 8px;
+}
+
+/* RELATED */
+.colorcalc-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.colorcalc-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .colorcalc-related-title {
+    color: var(--green-light);
+}
+
+.colorcalc-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.colorcalc-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.colorcalc-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .colorcalc-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .colorcalc-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* BACK */
+.colorcalc-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.colorcalc-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.colorcalc-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* Калькулятор за породою*/
+
+.breedcalc-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.breedcalc-tab {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid #d8d2c4;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.breedcalc-tab.active {
+    background: #2f5233;
+    border-color: #2f5233;
+    color: #fff;
+}
+
+.breedcalc-select-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.breedcalc-select-row.two {
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 640px) {
+    .breedcalc-select-row.two {
+        grid-template-columns: 1fr;
+    }
+}
+
+.breedcalc-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.breedcalc-label select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #d8d2c4;
+    font-size: 1rem;
+    background: #fff;
+}
+
+.colorcalc-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.colorcalc-badge.ok {
+    background: #e3f3e6;
+    color: #2f5233;
+}
+
+.colorcalc-badge.warn {
+    background: #fbf0d9;
+    color: #8a5a00;
+}
+
+.colorcalc-badge.info {
+    background: #e6eef7;
+    color: #1f4e79;
+}
+
+.colorcalc-badge.danger {
+    background: #fbe3e3;
+    color: #8a1f1f;
+}
+
+
+.breedcalc-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.breedcalc-tab {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid #d8d2c4;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.breedcalc-tab.active {
+    background: #2f5233;
+    border-color: #2f5233;
+    color: #fff;
+}
+
+.breedcalc-select-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.breedcalc-select-row.two {
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 640px) {
+    .breedcalc-select-row.two {
+        grid-template-columns: 1fr;
+    }
+}
+
+.breedcalc-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.breedcalc-label select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #d8d2c4;
+    font-size: 1rem;
+    background: #fff;
+}
+
+.colorcalc-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.colorcalc-badge.ok {
+    background: #e3f3e6;
+    color: #2f5233;
+}
+
+.colorcalc-badge.warn {
+    background: #fbf0d9;
+    color: #8a5a00;
+}
+
+.colorcalc-badge.info {
+    background: #e6eef7;
+    color: #1f4e79;
+}
+
+.colorcalc-badge.danger {
+    background: #fbe3e3;
+    color: #8a1f1f;
+}
+
+.colorcalc-glossary summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    list-style: none;
+}
+
+.colorcalc-glossary summary::-webkit-details-marker {
+    display: none;
+}
+
+.colorcalc-glossary summary::before {
+    content: "▸ ";
+}
+
+.colorcalc-glossary[open] summary::before {
+    content: "▾ ";
+}
+
+.colorcalc-glossary dl {
+    margin: 14px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.colorcalc-glossary-item dt {
+    font-weight: 700;
+    color: #2f5233;
+}
+
+.colorcalc-glossary-item dd {
+    margin: 2px 0 0;
+    color: #4a4a44;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+
+    .colorcalc-causes-grid,
+    .colorcalc-treatment-grid,
+    .colorcalc-facts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .colorcalc-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .colorcalc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .colorcalc-table th,
+    .colorcalc-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
