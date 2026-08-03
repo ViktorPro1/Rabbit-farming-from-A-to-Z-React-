@@ -106,6 +106,9 @@ export const prerenderRoutes = [
     "/megaesophagus",
     "/pyoderma",
     "/secondary-hyperparathyroidism",
+    "/ringworm",
+    "/heart-disease",
+    "/thymoma",
 
     // Лікування та ветеринарна допомога
     "/vaccinations",
@@ -126,6 +129,7 @@ export const prerenderRoutes = [
     "/necropsy",
     "/treatment-log",
     "/rhdv-strains",
+    "/palliative-care",
 
     // Сезонні загрози
     "/seasonal-summer",
@@ -133,6 +137,7 @@ export const prerenderRoutes = [
     "/seasonal-autumn",
     "/heat-stroke",
     "/ear-frostbite",
+    "/sun-protection",
 
     // Ветеринарні маніпуляції
     "/vet-injections",
@@ -149,6 +154,7 @@ export const prerenderRoutes = [
     "/equipment",
     "/tools",
     "/calculator",
+    "/rabbit-identification",
 
     // Фінал
     "/slaughter",

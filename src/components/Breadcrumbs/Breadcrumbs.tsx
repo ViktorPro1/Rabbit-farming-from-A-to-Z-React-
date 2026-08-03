@@ -128,6 +128,9 @@ const ROUTE_LABELS: Record<string, string> = {
   "/megaesophagus": "Мегаесофаг",
   "/pyoderma": "Піодерма",
   "/secondary-hyperparathyroidism": "Секундарна гіперпаратиреоз",
+  "/ringworm": "Стригучий лишай",
+  "/heart-disease": "Хвороба серця",
+  "/thymoma": "Тимома",
 
   // ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА
   "/vaccinations": "Вакцинація",
@@ -148,6 +151,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/necropsy": "Некропсія",
   "/treatment-log": "Журнал лікувань",
   "/rhdv-strains": "Штами RHDV",
+  "/palliative-care": "Паліативний догляд",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",
@@ -162,6 +166,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/seasonal-autumn": "Осінь: підготовка до зими",
   "/ear-frostbite": "Обмороження вух",
   "/heat-stroke": "Спека",
+  "/sun-protection": "Захист від сонця",
 
   // ПЛАНУВАННЯ
   "/calendar": "Сезонний календар",
@@ -172,6 +177,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/calculator": "Калькулятор",
   "/equipment": "Обладнання",
   "/tools": "Інструменти",
+  "/rabbit-identification": "Ідентифікація кролів",
 
   // ФІНАЛ
   "/slaughter": "Забій та переробка",

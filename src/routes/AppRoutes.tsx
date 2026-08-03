@@ -202,6 +202,9 @@ const SecondaryHyperparathyroidism = lazy(
   () =>
     import("../pages/SecondaryHyperparathyroidism/SecondaryHyperparathyroidism"),
 );
+const Ringworm = lazy(() => import("../pages/Ringworm/Ringworm"));
+const HeartDisease = lazy(() => import("../pages/HeartDisease/HeartDisease"));
+const Thymoma = lazy(() => import("../pages/Thymoma/Thymoma"));
 
 // ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА
 const Vaccinations = lazy(() => import("../pages/Vaccinations/Vaccinations"));
@@ -284,6 +287,9 @@ const BreedingHerd = lazy(() => import("../pages/BreedingHerd/BreedingHerd"));
 const Equipment = lazy(() => import("../pages/Equipment/Equipment"));
 const Tools = lazy(() => import("../pages/Tools/Tools"));
 const Calculator = lazy(() => import("../pages/Calculator/Calculator"));
+const RabbitIdentification = lazy(
+  () => import("../pages/RabbitIdentification/RabbitIdentification"),
+);
 
 // ФІНАЛ
 const Slaughter = lazy(() => import("../pages/Slaughter/Slaughter"));
@@ -589,6 +595,9 @@ export default function AppRoutes({ session }: AppRoutesProps) {
           path="/secondary-hyperparathyroidism"
           element={<SecondaryHyperparathyroidism />}
         />
+        <Route path="/ringworm" element={<Ringworm />} />
+        <Route path="/heart-disease" element={<HeartDisease />} />
+        <Route path="/thymoma" element={<Thymoma />} />
         {/* 8. ЛІКУВАННЯ ТА ВЕТЕРИНАРНА ДОПОМОГА */}
         <Route path="/vaccinations" element={<Vaccinations />} />
         <Route path="/vaccine-reactions" element={<VaccineReactions />} />
@@ -639,6 +648,10 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         />
         <Route path="/equipment" element={<Equipment />} />
         <Route path="/tools" element={<Tools />} />
+        <Route
+          path="/rabbit-identification"
+          element={<RabbitIdentification />}
+        />
         {/* 13. ФІНАЛ */}
         <Route path="/slaughter" element={<Slaughter />} />
         <Route path="/fur-processing" element={<FurProcessing />} />
