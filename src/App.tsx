@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { supabase } from "./lib/supabase";
+import { logError } from "./lib/logError";
 import type { Session } from "@supabase/supabase-js";
 import CopyProtection from "./components/CopyProtection/CopyProtection";
 import Assistant from "./components/Assistant/Assistant";
@@ -41,7 +42,11 @@ function cleanInvisibleUnicodeFromPath() {
 // ─────────────────────────────────────────────
 function SubscriptionExpired() {
   async function handleLogout() {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      logError("SubscriptionExpired.handleLogout", error);
+    }
   }
 
   return (
@@ -96,14 +101,25 @@ function App() {
   const [isOffline, setIsOffline] = useState(false);
 
   const checkProfile = useCallback(async (userId: string) => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("id", userId)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", userId)
+        .single();
 
-    setHasProfile(!!data);
-    setLoading(false);
+      if (error) throw error;
+
+      setHasProfile(!!data);
+    } catch (error) {
+      logError("App.checkProfile", error);
+      // Не блокуємо доступ через технічну помилку запиту —
+      // трактуємо як "профіль є", щоб не показати хибний
+      // SubscriptionExpired через збій мережі/супабейзу.
+      setHasProfile(true);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   usePublicPresence();
@@ -151,8 +167,8 @@ function App() {
         if (session) checkProfile(session.user.id);
         else setLoading(false);
       })
-      .catch((err) => {
-        console.error("Не вдалося отримати сесію:", err);
+      .catch((error) => {
+        logError("App.getSession", error);
         setLoading(false);
       });
 

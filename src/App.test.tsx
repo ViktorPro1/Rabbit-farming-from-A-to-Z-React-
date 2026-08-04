@@ -146,4 +146,23 @@ describe("App", () => {
       value: originalLocation,
     });
   });
+
+  it("не показує SubscriptionExpired при технічній помилці запиту профілю", async () => {
+    vi.mocked(supabase.auth.getSession).mockResolvedValue({
+      data: { session: { user: { id: "user-1" } } },
+    } as never);
+    vi.mocked(supabase.auth.onAuthStateChange).mockReturnValue({
+      data: { subscription: { unsubscribe: vi.fn() } },
+    } as never);
+    vi.mocked(supabase.from).mockReturnValue({
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      single: vi.fn().mockRejectedValue(new Error("Network error")),
+    } as never);
+
+    render(<App />);
+
+    expect(await screen.findByTestId("app-routes")).toBeInTheDocument();
+    expect(screen.queryByText("Підписка закінчилась")).not.toBeInTheDocument();
+  });
 });

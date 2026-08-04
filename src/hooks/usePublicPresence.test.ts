@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import { usePublicPresence } from './usePublicPresence'
 import { supabase } from '../lib/supabase'
+import { logError } from '../lib/logError'
 
 vi.mock('../lib/supabase', () => ({
     supabase: {
@@ -9,6 +10,8 @@ vi.mock('../lib/supabase', () => ({
         removeChannel: vi.fn(),
     },
 }))
+
+vi.mock('../lib/logError', () => ({ logError: vi.fn() }))
 
 type MockChannel = ReturnType<typeof supabase.channel>
 
@@ -91,5 +94,19 @@ describe('usePublicPresence', () => {
         unmount()
 
         expect(supabase.removeChannel).toHaveBeenCalledWith(mockChannel)
+    })
+
+    it('логує помилку, якщо track() відхиляється', async () => {
+        window.history.pushState({}, '', '/breeds')
+        const trackError = new Error('Network error')
+        const mockChannel = createMockChannel('SUBSCRIBED')
+        mockChannel.track = vi.fn().mockRejectedValue(trackError)
+        vi.mocked(supabase.channel).mockReturnValue(mockChannel)
+
+        renderHook(() => usePublicPresence())
+
+        await vi.waitFor(() => {
+            expect(logError).toHaveBeenCalledWith('usePublicPresence.track', trackError)
+        })
     })
 })

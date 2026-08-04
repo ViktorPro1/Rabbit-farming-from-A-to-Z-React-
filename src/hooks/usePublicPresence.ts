@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { supabase } from "../lib/supabase";
+import { logError } from "../lib/logError";
 
 const CHANNEL_NAME = "public-site-presence";
 
@@ -20,11 +21,15 @@ export function usePublicPresence() {
             .on("presence", { event: "sync" }, () => { })
             .subscribe(async (status) => {
                 if (status === "SUBSCRIBED") {
-                    await channel.track({
-                        session_id: sessionId,
-                        page: window.location.pathname,
-                        joined_at: new Date().toISOString(),
-                    });
+                    try {
+                        await channel.track({
+                            session_id: sessionId,
+                            page: window.location.pathname,
+                            joined_at: new Date().toISOString(),
+                        });
+                    } catch (error) {
+                        logError("usePublicPresence.track", error);
+                    }
                 }
             });
 
