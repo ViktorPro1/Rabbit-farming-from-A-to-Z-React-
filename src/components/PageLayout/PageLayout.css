@@ -1,0 +1,118 @@
+.page-layout {
+    min-height: 100vh;
+}
+
+.page-layout-header {
+    color: white;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: var(--green-dark);
+}
+
+.page-layout-header h1 {
+    margin: 0 0 8px;
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+}
+
+.page-layout-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.page-layout-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* RELATED */
+.page-layout-related {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.page-layout-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .page-layout-related-title {
+    color: var(--green-light);
+}
+
+.page-layout-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.page-layout-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.page-layout-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .page-layout-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .page-layout-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* BACK */
+.page-layout-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.page-layout-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 999px;
+    background: var(--green-dark);
+    color: var(--green-pale);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.page-layout-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 640px) {
+    .page-layout-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .page-layout-header {
+        padding: 1.5rem 1rem;
+    }
+}

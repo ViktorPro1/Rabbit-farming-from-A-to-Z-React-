@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import PageLayout from "../../components/PageLayout/PageLayout";
 import "./BeginnerGuide.css";
-import ShareButton from "../../components/ShareButton/ShareButton";
 
 const warningCards = [
   {
@@ -215,138 +214,118 @@ const checklistItems = [
 
 const BeginnerGuide = () => {
   return (
-    <main className="bg-page">
-      <div className="bg-header">
-        <h1>Купив першого кроля — починай тут</h1>
-        <p>Крок за кроком від клітки до першої вакцинації. Простими словами.</p>
+    <PageLayout
+      className="bg-page"
+      title="Купив першого кроля — починай тут"
+      subtitle="Крок за кроком від клітки до першої вакцинації. Простими словами."
+      shareTitle="Поділитись"
+      relatedLinks={[
+        { to: "/buying-rabbit", icon: "🐇", label: "Купівля кроля" },
+        { to: "/feeding", icon: "🥕", label: "Годування" },
+        { to: "/vaccinations", icon: "💉", label: "Вакцинація" },
+        { to: "/enclosure", icon: "🏠", label: "Клітки" },
+        {
+          to: "/beginner-mistakes",
+          icon: "⚠️",
+          label: "Типові помилки новачків",
+        },
+      ]}
+    >
+      {/* ПОПЕРЕДЖЕННЯ */}
+      <div className="bg-warnings">
+        {warningCards.map((w, i) => (
+          <div key={i} className="bg-warning-card">
+            <span className="bg-warning-icon">{w.icon}</span>
+            <p>{w.text}</p>
+          </div>
+        ))}
       </div>
 
-      <div className="bg-wrap">
-        {/* ПОПЕРЕДЖЕННЯ */}
-        <div className="bg-warnings">
-          {warningCards.map((w, i) => (
-            <div key={i} className="bg-warning-card">
-              <span className="bg-warning-icon">{w.icon}</span>
-              <p>{w.text}</p>
+      {/* КРОКИ */}
+      {steps.map((step) => (
+        <div className="bg-step-block" key={step.num}>
+          <div className="bg-step-title">
+            <div className="bg-step-num">{step.num}</div>
+            <div className="bg-step-heading">
+              <span className="bg-step-emoji">{step.emoji}</span>
+              <h2>{step.title}</h2>
+            </div>
+          </div>
+          <div className="bg-step-content">
+            {step.content.map((c) => (
+              <div key={c.subtitle} className="bg-content-block">
+                <strong className="bg-content-subtitle">{c.subtitle}</strong>
+                <p>{c.text}</p>
+              </div>
+            ))}
+            {step.alert && (
+              <div className={`bg-alert ${step.alert.type}`}>
+                {step.alert.text}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+
+      {/* ЧЕКЛІСТ */}
+      <div className="bg-section-title">
+        ✅ Чекліст новачка — готовий до першого кроля?
+      </div>
+      <div className="bg-checklist-card">
+        <p className="bg-checklist-intro">
+          Перевір все до того як везти кроля додому:
+        </p>
+        <div className="bg-checklist">
+          {checklistItems.map((item, i) => (
+            <div key={i} className="bg-checklist-item">
+              <span className="bg-checkbox">☐</span>
+              <span>{item.item}</span>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* КРОКИ */}
-        {steps.map((step) => (
-          <div className="bg-step-block" key={step.num}>
-            <div className="bg-step-title">
-              <div className="bg-step-num">{step.num}</div>
-              <div className="bg-step-heading">
-                <span className="bg-step-emoji">{step.emoji}</span>
-                <h2>{step.title}</h2>
-              </div>
-            </div>
-            <div className="bg-step-content">
-              {step.content.map((c) => (
-                <div key={c.subtitle} className="bg-content-block">
-                  <strong className="bg-content-subtitle">{c.subtitle}</strong>
-                  <p>{c.text}</p>
-                </div>
-              ))}
-              {step.alert && (
-                <div className={`bg-alert ${step.alert.type}`}>
-                  {step.alert.text}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-
-        {/* ЧЕКЛІСТ */}
-        <div className="bg-section-title">
-          ✅ Чекліст новачка — готовий до першого кроля?
-        </div>
-        <div className="bg-checklist-card">
-          <p className="bg-checklist-intro">
-            Перевір все до того як везти кроля додому:
+      {/* ПІДСУМОК */}
+      <div className="bg-section-title">💡 Найважливіше — одним реченням</div>
+      <div className="bg-summary">
+        <div className="bg-summary-item">
+          <span>🌾</span>
+          <p>
+            <strong>Сіно завжди</strong> — без обмежень, завжди в сіннику
           </p>
-          <div className="bg-checklist">
-            {checklistItems.map((item, i) => (
-              <div key={i} className="bg-checklist-item">
-                <span className="bg-checkbox">☐</span>
-                <span>{item.item}</span>
-              </div>
-            ))}
-          </div>
         </div>
-
-        {/* ПІДСУМОК */}
-        <div className="bg-section-title">💡 Найважливіше — одним реченням</div>
-        <div className="bg-summary">
-          <div className="bg-summary-item">
-            <span>🌾</span>
-            <p>
-              <strong>Сіно завжди</strong> — без обмежень, завжди в сіннику
-            </p>
-          </div>
-          <div className="bg-summary-item">
-            <span>💧</span>
-            <p>
-              <strong>Вода щодня</strong> — свіжа, чиста, кімнатна
-            </p>
-          </div>
-          <div className="bg-summary-item">
-            <span>💉</span>
-            <p>
-              <strong>Вакцина</strong> — ВГХК + Міксоматоз, раз на рік
-            </p>
-          </div>
-          <div className="bg-summary-item">
-            <span>🧹</span>
-            <p>
-              <strong>Чистота</strong> — прибирання 2–3 рази на тиждень
-            </p>
-          </div>
-          <div className="bg-summary-item">
-            <span>🩺</span>
-            <p>
-              <strong>Ветеринар</strong> — знайти до, а не після проблеми
-            </p>
-          </div>
-          <div className="bg-summary-item">
-            <span>😌</span>
-            <p>
-              <strong>Адаптація</strong> — перші 5 днів мінімум стресу
-            </p>
-          </div>
+        <div className="bg-summary-item">
+          <span>💧</span>
+          <p>
+            <strong>Вода щодня</strong> — свіжа, чиста, кімнатна
+          </p>
         </div>
-
-        {/* ЧИТАЙТЕ ТАКОЖ */}
-        <div className="bg-related">
-          <h3 className="bg-related-title">Читайте також</h3>
-          <div className="bg-related-grid">
-            <Link to="/buying-rabbit" className="bg-related-link">
-              🐇 Купівля кроля
-            </Link>
-            <Link to="/feeding" className="bg-related-link">
-              🥕 Годування
-            </Link>
-            <Link to="/vaccinations" className="bg-related-link">
-              💉 Вакцинація
-            </Link>
-            <Link to="/enclosure" className="bg-related-link">
-              🏠 Клітки
-            </Link>
-            <Link to="/beginner-mistakes" className="bg-related-link">
-              ⚠️ Типові помилки новачків
-            </Link>
-          </div>
+        <div className="bg-summary-item">
+          <span>💉</span>
+          <p>
+            <strong>Вакцина</strong> — ВГХК + Міксоматоз, раз на рік
+          </p>
         </div>
-
-        <div className="bg-back">
-          <Link to="/" className="bg-back-btn">
-            ⬅ На головну
-          </Link>
-          <ShareButton title="Купив першого кроля — починай тут" />
+        <div className="bg-summary-item">
+          <span>🧹</span>
+          <p>
+            <strong>Чистота</strong> — прибирання 2–3 рази на тиждень
+          </p>
+        </div>
+        <div className="bg-summary-item">
+          <span>🩺</span>
+          <p>
+            <strong>Ветеринар</strong> — знайти до, а не після проблеми
+          </p>
+        </div>
+        <div className="bg-summary-item">
+          <span>😌</span>
+          <p>
+            <strong>Адаптація</strong> — перші 5 днів мінімум стресу
+          </p>
         </div>
       </div>
-    </main>
+    </PageLayout>
   );
 };
 
