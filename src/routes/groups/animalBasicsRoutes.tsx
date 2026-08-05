@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
@@ -63,20 +64,11 @@ export const animalBasicsRoutes = (
     <Route path="/rabbit-stress" element={<RabbitStress />} />
     <Route path="/rabbit-whiskers" element={<RabbitWhiskers />} />
     <Route path="/lethal-color-genes" element={<LethalColorGenes />} />
-    <Route
-      path="/color-genetics-example"
-      element={<ColorGeneticsExample />}
-    />
+    <Route path="/color-genetics-example" element={<ColorGeneticsExample />} />
     {/* 2. ПОРІВНЯННЯ ТА СПІВЖИТТЯ */}
     <Route path="/rabbit-vs-hare" element={<RabbitVsHare />} />
-    <Route
-      path="/rabbits-and-guinea-pigs"
-      element={<RabbitsAndGuineaPigs />}
-    />
-    <Route
-      path="/rabbits-and-predators"
-      element={<RabbitsAndPredators />}
-    />
+    <Route path="/rabbits-and-guinea-pigs" element={<RabbitsAndGuineaPigs />} />
+    <Route path="/rabbits-and-predators" element={<RabbitsAndPredators />} />
     <Route path="/rabbits-and-chickens" element={<RabbitsAndChickens />} />
     <Route path="/rabbits-and-children" element={<RabbitsAndChildren />} />
   </>

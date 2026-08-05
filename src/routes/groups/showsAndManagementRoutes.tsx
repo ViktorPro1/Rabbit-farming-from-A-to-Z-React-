@@ -1,12 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 const BreedStandards = lazy(
   () => import("../../pages/BreedStandards/BreedStandards"),
 );
-const ShowJudging = lazy(
-  () => import("../../pages/ShowJudging/ShowJudging"),
-);
+const ShowJudging = lazy(() => import("../../pages/ShowJudging/ShowJudging"));
 const ShowPreparation = lazy(
   () => import("../../pages/ShowPreparation/ShowPreparation"),
 );
@@ -33,9 +32,7 @@ const DisqualifyingFaults = lazy(
 const PedigreeRecords = lazy(
   () => import("../../pages/PedigreeRecords/PedigreeRecords"),
 );
-const ShowScoring = lazy(
-  () => import("../../pages/ShowScoring/ShowScoring"),
-);
+const ShowScoring = lazy(() => import("../../pages/ShowScoring/ShowScoring"));
 const DnaTesting = lazy(() => import("../../pages/DnaTesting/DnaTesting"));
 const Economics = lazy(() => import("../../pages/Economics/Economics"));
 const Legal = lazy(() => import("../../pages/Legal/Legal"));
@@ -76,19 +73,13 @@ export const showsAndManagementRoutes = (
     <Route path="/show-judging" element={<ShowJudging />} />
     <Route path="/show-preparation" element={<ShowPreparation />} />
     <Route path="/breeding-evaluation" element={<BreedingEvaluation />} />
-    <Route
-      path="/coat-colors-evaluation"
-      element={<CoatColorsEvaluation />}
-    />
+    <Route path="/coat-colors-evaluation" element={<CoatColorsEvaluation />} />
     <Route path="/rabbit-conformation" element={<RabbitConformation />} />
     <Route path="/fur-evaluation" element={<FurEvaluation />} />
     <Route path="/replacement-stock" element={<ReplacementStock />} />
     <Route path="/select-buck" element={<SelectBuck />} />
     <Route path="/select-doe" element={<SelectDoe />} />
-    <Route
-      path="/disqualifying-faults"
-      element={<DisqualifyingFaults />}
-    />
+    <Route path="/disqualifying-faults" element={<DisqualifyingFaults />} />
     <Route path="/pedigree-records" element={<PedigreeRecords />} />
     <Route path="/show-scoring" element={<ShowScoring />} />
     <Route path="/dna-testing" element={<DnaTesting />} />
@@ -100,10 +91,7 @@ export const showsAndManagementRoutes = (
     <Route path="/composting" element={<Composting />} />
     <Route path="/insurance-grants" element={<InsuranceGrants />} />
     <Route path="/rabbit-cooperatives" element={<RabbitCooperatives />} />
-    <Route
-      path="/import-export-rabbits"
-      element={<ImportExportRabbits />}
-    />
+    <Route path="/import-export-rabbits" element={<ImportExportRabbits />} />
     {/* — ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ — */}
     <Route path="/feeding-automation" element={<FeedingAutomation />} />
     <Route path="/climate-automation" element={<ClimateAutomation />} />

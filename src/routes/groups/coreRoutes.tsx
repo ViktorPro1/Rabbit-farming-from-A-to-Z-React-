@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
@@ -28,7 +29,9 @@ const Subscription = lazy(
   () => import("../../pages/Subscription/Subscription"),
 );
 const Community = lazy(() => import("../../pages/Community/Community"));
-const RabbitPublic = lazy(() => import("../../pages/RabbitPublic/RabbitPublic"));
+const RabbitPublic = lazy(
+  () => import("../../pages/RabbitPublic/RabbitPublic"),
+);
 const FatteningPublic = lazy(
   () => import("../../pages/FatteningPublic/FatteningPublic"),
 );

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
@@ -22,9 +23,7 @@ const AboutProject = lazy(
 const PrivacyPolicy = lazy(
   () => import("../../pages/Info/PrivacyPolicy/PrivacyPolicy"),
 );
-const TermsOfUse = lazy(
-  () => import("../../pages/Info/TermsOfUse/TermsOfUse"),
-);
+const TermsOfUse = lazy(() => import("../../pages/Info/TermsOfUse/TermsOfUse"));
 const BehindTheScenes = lazy(
   () => import("../../pages/BehindTheScenes/BehindTheScenes"),
 );

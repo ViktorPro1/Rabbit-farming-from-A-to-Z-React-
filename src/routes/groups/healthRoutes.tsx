@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
@@ -54,9 +55,7 @@ const Megaesophagus = lazy(
 const Pyoderma = lazy(() => import("../../pages/Pyoderma/Pyoderma"));
 const SecondaryHyperparathyroidism = lazy(
   () =>
-    import(
-      "../../pages/SecondaryHyperparathyroidism/SecondaryHyperparathyroidism"
-    ),
+    import("../../pages/SecondaryHyperparathyroidism/SecondaryHyperparathyroidism"),
 );
 const Ringworm = lazy(() => import("../../pages/Ringworm/Ringworm"));
 const HeartDisease = lazy(
@@ -74,10 +73,7 @@ export const healthRoutes = (
     <Route path="/diseases" element={<Diseases />} />
     <Route path="/parasites" element={<Parasites />} />
     <Route path="/droppings" element={<Droppings />} />
-    <Route
-      path="/rabbit-body-condition"
-      element={<RabbitBodyCondition />}
-    />
+    <Route path="/rabbit-body-condition" element={<RabbitBodyCondition />} />
     <Route path="/poisoning" element={<Poisoning />} />
     <Route path="/rabbit-abscesses" element={<RabbitAbscesses />} />
     <Route path="/rabbit-eye-diseases" element={<RabbitEyeDiseases />} />
@@ -88,14 +84,8 @@ export const healthRoutes = (
       element={<EncephalitozoonCuniculi />}
     />
     <Route path="/wool-block" element={<WoolBlock />} />
-    <Route
-      path="/uterine-adenocarcinoma"
-      element={<UterineAdenocarcinoma />}
-    />
-    <Route
-      path="/chronic-kidney-disease"
-      element={<ChronicKidneyDisease />}
-    />
+    <Route path="/uterine-adenocarcinoma" element={<UterineAdenocarcinoma />} />
+    <Route path="/chronic-kidney-disease" element={<ChronicKidneyDisease />} />
     <Route path="/treponematosis" element={<Treponematosis />} />
     <Route path="/otitis-media-interna" element={<OtitisMediaInterna />} />
     <Route path="/rabbit-obesity" element={<RabbitObesity />} />

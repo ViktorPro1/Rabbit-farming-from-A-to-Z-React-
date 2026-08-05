@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
@@ -28,9 +29,7 @@ const BiteWoundCare = lazy(
 const PainManagement = lazy(
   () => import("../../pages/PainManagement/PainManagement"),
 );
-const DietTherapy = lazy(
-  () => import("../../pages/DietTherapy/DietTherapy"),
-);
+const DietTherapy = lazy(() => import("../../pages/DietTherapy/DietTherapy"));
 const AnesthesiaCare = lazy(
   () => import("../../pages/AnesthesiaCare/AnesthesiaCare"),
 );
@@ -65,9 +64,7 @@ const SunProtection = lazy(
 const VetInjections = lazy(
   () => import("../../pages/VetInjections/VetInjections"),
 );
-const VetOralMeds = lazy(
-  () => import("../../pages/VetOralMeds/VetOralMeds"),
-);
+const VetOralMeds = lazy(() => import("../../pages/VetOralMeds/VetOralMeds"));
 const VetTemperature = lazy(
   () => import("../../pages/VetTemperature/VetTemperature"),
 );
@@ -115,9 +112,6 @@ export const treatmentRoutes = (
     <Route path="/vet-oral-meds" element={<VetOralMeds />} />
     <Route path="/vet-temperature" element={<VetTemperature />} />
     <Route path="/vet-fecal-sample" element={<VetFecalSample />} />
-    <Route
-      path="/blood-test-reference"
-      element={<BloodTestReference />}
-    />
+    <Route path="/blood-test-reference" element={<BloodTestReference />} />
   </>
 );

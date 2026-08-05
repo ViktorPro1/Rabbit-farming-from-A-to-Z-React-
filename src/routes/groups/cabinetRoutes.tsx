@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
@@ -69,9 +70,7 @@ export function getCabinetRoutes(session: Session | null) {
       />
       <Route
         path="/my-vaccinations"
-        element={
-          session ? <MyVaccinations session={session} /> : <Auth />
-        }
+        element={session ? <MyVaccinations session={session} /> : <Auth />}
       />
       <Route
         path="/my-treatments"
@@ -79,9 +78,7 @@ export function getCabinetRoutes(session: Session | null) {
       />
       <Route
         path="/disinfection-log"
-        element={
-          session ? <DisinfectionLog session={session} /> : <Auth />
-        }
+        element={session ? <DisinfectionLog session={session} /> : <Auth />}
       />
       <Route
         path="/cage-search"
@@ -89,9 +86,7 @@ export function getCabinetRoutes(session: Session | null) {
       />
       <Route
         path="/grain-recipes-history"
-        element={
-          session ? <GrainRecipesHistory session={session} /> : <Auth />
-        }
+        element={session ? <GrainRecipesHistory session={session} /> : <Auth />}
       />
       <Route
         path="/weighing"

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
@@ -46,10 +47,7 @@ export function getPlanningToolsRoutes(session: Session | null) {
       />
       <Route path="/equipment" element={<Equipment />} />
       <Route path="/tools" element={<Tools />} />
-      <Route
-        path="/rabbit-identification"
-        element={<RabbitIdentification />}
-      />
+      <Route path="/rabbit-identification" element={<RabbitIdentification />} />
       {/* 13. ФІНАЛ */}
       <Route path="/slaughter" element={<Slaughter />} />
       <Route path="/fur-processing" element={<FurProcessing />} />

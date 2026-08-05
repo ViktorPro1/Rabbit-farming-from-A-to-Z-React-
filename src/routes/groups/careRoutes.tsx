@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
@@ -5,9 +6,7 @@ const Care = lazy(() => import("../../pages/Care/Care"));
 const Disinfection = lazy(
   () => import("../../pages/Disinfection/Disinfection"),
 );
-const Biosecurity = lazy(
-  () => import("../../pages/Biosecurity/Biosecurity"),
-);
+const Biosecurity = lazy(() => import("../../pages/Biosecurity/Biosecurity"));
 const Grooming = lazy(() => import("../../pages/Grooming/Grooming"));
 const RabbitBehaviorProblems = lazy(
   () => import("../../pages/RabbitBehaviorProblems/RabbitBehaviorProblems"),
