@@ -3,10 +3,18 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { vitePrerenderPlugin } from "vite-prerender-plugin";
 import { prerenderRoutes } from "./src/prerender-routes";
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [
     react(),
+
+    visualizer({
+      filename: './dist/stats.html',
+      gzipSize: true,
+      brotliSize: true,
+      open: false,
+    }),
 
     vitePrerenderPlugin({
       renderTarget: "#root",
