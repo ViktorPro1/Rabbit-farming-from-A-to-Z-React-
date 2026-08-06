@@ -5,6 +5,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { supabase } from "../../lib/supabase";
 import SkeletonCard from "./SkeletonCard";
 import "./RabbitRegistry.css";
+import { logError } from "../../lib/logError";
 
 interface Props {
   session: Session;
@@ -271,7 +272,7 @@ export default function RabbitRegistry({ session }: Props) {
           },
         )
         .catch((err) => {
-          console.error("Не вдалося завантажити статистику:", err);
+          logError("RabbitRegistry.loadStats", err);
           setLoading(false);
         });
     },
@@ -292,7 +293,7 @@ export default function RabbitRegistry({ session }: Props) {
           loadStats(list);
         },
         (err) => {
-          console.error("Не вдалося завантажити реєстр кроликів:", err);
+          logError("RabbitRegistry.loadData", err);
           setLoading(false);
         },
       );
@@ -302,28 +303,15 @@ export default function RabbitRegistry({ session }: Props) {
     loadData();
   }, [loadData]);
 
-  async function handleAdd() {
-    setSaving(true);
-    setError("");
-    const { error } = await supabase
-      .from("rabbits")
-      .insert({ ...form, user_id: session.user.id });
-    if (error) {
-      setError("Помилка збереження");
-    } else {
-      setForm(emptyForm);
-      setShowForm(false);
-      loadData();
-    }
-    setSaving(false);
-  }
-
   async function confirmArchive() {
     if (!confirmArchiveId) return;
-    await supabase
+    const { error } = await supabase
       .from("rabbits")
       .update({ is_active: false })
       .eq("id", confirmArchiveId);
+    if (error) {
+      logError("RabbitRegistry.confirmArchive", error);
+    }
     setConfirmArchiveId(null);
     loadData();
   }
@@ -361,6 +349,23 @@ export default function RabbitRegistry({ session }: Props) {
       );
     }
     setDisplayNameSaving(false);
+  }
+
+  async function handleAdd() {
+    setSaving(true);
+    setError("");
+    const { error } = await supabase
+      .from("rabbits")
+      .insert({ ...form, user_id: session.user.id });
+    if (error) {
+      logError("RabbitRegistry.handleAdd", error);
+      setError("Помилка збереження");
+    } else {
+      setForm(emptyForm);
+      setShowForm(false);
+      loadData();
+    }
+    setSaving(false);
   }
 
   function exportCSV() {

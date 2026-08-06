@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import "./Paddocks.css";
+import { logError } from "../../lib/logError";
 
 interface Props {
   session: Session;
@@ -104,12 +105,16 @@ export default function Paddocks({ session }: Props) {
   const navigate = useNavigate();
 
   async function fetchPaddocks() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("paddocks")
       .select("*, male:male_id(name, breed, cage_number)")
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("created_at", { ascending: false });
+    if (error) {
+      logError("Paddocks.fetchPaddocks", error);
+      return;
+    }
     if (!data) return;
 
     const ids = data.map((p) => p.id);
@@ -163,7 +168,7 @@ export default function Paddocks({ session }: Props) {
       .then(
         ({ data }) => setRabbits(data || []),
         (err) => {
-          console.error("Не вдалося завантажити кроликів для вигулів:", err);
+          logError("Paddocks.loadRabbits", err);
         },
       );
 
@@ -223,22 +228,16 @@ export default function Paddocks({ session }: Props) {
                     );
                   },
                   (err) => {
-                    console.error(
-                      "Не вдалося завантажити посліди вигулів:",
-                      err,
-                    );
+                    logError("Paddocks.loadLitters", err);
                   },
                 );
             })
             .catch((err) => {
-              console.error(
-                "Не вдалося завантажити самок і паруванн вигулів:",
-                err,
-              );
+              logError("Paddocks.loadFemalesAndMatings", err);
             });
         },
         (err) => {
-          console.error("Не вдалося завантажити вигули:", err);
+          logError("Paddocks.loadPaddocks", err);
         },
       );
   }, [session.user.id]);
@@ -252,6 +251,7 @@ export default function Paddocks({ session }: Props) {
       male_id: paddockForm.male_id || null,
     });
     if (error) {
+      logError("Paddocks.handleAddPaddock", error);
       setError("Помилка збереження");
     } else {
       setPaddockForm(emptyPaddockForm);
@@ -264,20 +264,29 @@ export default function Paddocks({ session }: Props) {
   async function handleAddFemale(paddockId: string) {
     const form = femaleForms[paddockId] || emptyFemaleForm;
     if (!form.name.trim()) return;
-    await supabase.from("paddock_females").insert({
+    const { error } = await supabase.from("paddock_females").insert({
       paddock_id: paddockId,
       rabbit_id: null,
       name: form.name,
       breed: form.breed || null,
       birth_year: form.birth_year || null,
     });
+    if (error) {
+      logError("Paddocks.handleAddFemale", error);
+    }
     setFemaleForms({ ...femaleForms, [paddockId]: emptyFemaleForm });
     setShowFemaleForm({ ...showFemaleForm, [paddockId]: false });
     fetchPaddocks();
   }
 
   async function handleRemoveFemale(id: string) {
-    await supabase.from("paddock_females").delete().eq("id", id);
+    const { error } = await supabase
+      .from("paddock_females")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      logError("Paddocks.handleRemoveFemale", error);
+    }
     fetchPaddocks();
   }
 
@@ -318,6 +327,7 @@ export default function Paddocks({ session }: Props) {
       notes: form.notes || null,
     });
     if (error) {
+      logError("Paddocks.handleAddMating", error);
       setError("Помилка збереження");
     } else {
       setMatingForms({ ...matingForms, [paddockId]: emptyMatingForm });
@@ -345,6 +355,7 @@ export default function Paddocks({ session }: Props) {
       notes: form.notes || null,
     });
     if (error) {
+      logError("Paddocks.handleAddLitter", error);
       setError("Помилка збереження");
     } else {
       setLitterForms({ ...litterForms, [matingId]: emptyLitterForm });
@@ -373,6 +384,7 @@ export default function Paddocks({ session }: Props) {
       })
       .eq("id", editingLitter.id);
     if (error) {
+      logError("Paddocks.handleEditLitter", error);
       setError("Помилка збереження");
     } else {
       setEditingLitter(null);
@@ -383,20 +395,44 @@ export default function Paddocks({ session }: Props) {
 
   async function handleDeletePaddock(id: string) {
     if (!confirm("Видалити загін?")) return;
-    await supabase.from("paddocks").update({ is_active: false }).eq("id", id);
+    const { error } = await supabase
+      .from("paddocks")
+      .update({ is_active: false })
+      .eq("id", id);
+    if (error) {
+      logError("Paddocks.handleDeletePaddock", error);
+    }
     fetchPaddocks();
   }
 
   async function handleDeleteMating(id: string) {
     if (!confirm("Видалити злучку?")) return;
-    await supabase.from("paddock_litters").delete().eq("paddock_mating_id", id);
-    await supabase.from("paddock_matings").delete().eq("id", id);
+    const { error: littersError } = await supabase
+      .from("paddock_litters")
+      .delete()
+      .eq("paddock_mating_id", id);
+    if (littersError) {
+      logError("Paddocks.handleDeleteMating.litters", littersError);
+    }
+    const { error: matingError } = await supabase
+      .from("paddock_matings")
+      .delete()
+      .eq("id", id);
+    if (matingError) {
+      logError("Paddocks.handleDeleteMating.mating", matingError);
+    }
     fetchPaddocks();
   }
 
   async function handleDeleteLitter(id: string) {
     if (!confirm("Видалити окріл?")) return;
-    await supabase.from("paddock_litters").delete().eq("id", id);
+    const { error } = await supabase
+      .from("paddock_litters")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      logError("Paddocks.handleDeleteLitter", error);
+    }
     fetchPaddocks();
   }
 

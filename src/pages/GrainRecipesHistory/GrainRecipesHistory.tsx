@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import "./GrainRecipesHistory.css";
+import { logError } from "../../lib/logError";
 
 interface Props {
   session: Session;
@@ -116,7 +117,7 @@ export default function GrainRecipesHistory({ session }: Props) {
       if (error) throw error;
       setRecipes(data || []);
     } catch (err) {
-      console.error(err);
+      logError("GrainRecipesHistory.loadRecipes", err);
       setError("Не вдалося завантажити раціони.");
     } finally {
       setLoading(false);
@@ -189,7 +190,7 @@ export default function GrainRecipesHistory({ session }: Props) {
       setManualDate("");
       loadRecipes();
     } catch (err) {
-      console.error(err);
+      logError("GrainRecipesHistory.handleSaveManual", err);
       setManualMsg("Помилка збереження. Спробуйте ще раз.");
     } finally {
       setManualSaving(false);

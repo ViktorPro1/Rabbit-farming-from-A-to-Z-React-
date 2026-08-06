@@ -4,6 +4,7 @@ import "./Calculator.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
 
 // ===== ЗЕРНОВА СУМІШ =====
 interface Grain {
@@ -483,7 +484,7 @@ export default function Calculator({ session }: CalculatorProps) {
       if (error) throw error;
       setSaveMsg("Відмітку додано!");
     } catch (err) {
-      console.error(err);
+      logError("Calculator.handleSaveRecipe", err);
       setSaveMsg("Помилка збереження. Спробуйте ще раз.");
     } finally {
       setSaving(false);
