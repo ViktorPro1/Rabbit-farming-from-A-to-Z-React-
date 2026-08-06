@@ -165,5 +165,19 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      exclude: [
+        'node_modules/**',
+        'dist/**',
+        'src/test/**',
+        'src/**/*.d.ts',
+        'src/routes/groups/**',
+        'scripts/**',
+        '**/*.config.*',
+        '**/*.css',
+      ],
+    },
   },
 })

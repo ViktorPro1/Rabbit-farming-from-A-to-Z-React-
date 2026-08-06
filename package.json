@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "node scripts/generate-sitemap.mjs && tsc -b && node scripts/build.js",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.0",
