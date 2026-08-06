@@ -62,50 +62,29 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ### Перевірка та збірка
 
 - `npm run lint` — запускає ESLint по всьому репозиторію.
+- `npm run lint:fix` — запускає ESLint з автоматичним виправленням.
 - `npm test` — виконує всі існуючі тести через Vitest.
+- `npm run test:coverage` — виконує тести зі звітом покриття (`coverage/`).
 - `npm run build` — генерує sitemap, компілює TypeScript, виконує Vite build та пререндеринг.
 
-## 4. CI-процес (рекомендований)
+## 4. CI-процес
 
 ### 4.1 Що перевіряє CI
 
-CI має запускати мінімальні кроки при push/PR:
+CI складається з чотирьох окремих jobs, що запускаються при push у `main`/`feature/**` та при PR у `main`:
 
-1. `npm ci`
-2. `npm run lint`
-3. `npm test`
-4. `npm run build`
+1. **Lint** — `npm run lint`
+2. **Typecheck** — `npx tsc -b --noEmit` (окремий job, не чекає build)
+3. **Tests** — `npm run test -- --coverage`, звіт покриття вивантажується як артефакт `coverage-report` (14 днів)
+4. **Build** — запускається лише якщо lint, typecheck і test пройшли успішно (`needs`); вантажить `dist/` як артефакт (7 днів)
 
-Якщо хочете, додайте кроки для перевірки type coverage та security scan.
+Паралельні запуски одного workflow (напр. кілька push у PR) скасовують попередній через `concurrency`.
 
-### 4.2 Приклад GitHub Actions
+### 4.2 Реальний конфіг
 
-```yaml
-name: CI
+Актуальний файл — `.github/workflows/ci.yml`. Основна структура: чотири jobs (`lint`, `typecheck`, `test`, `build`), кожен зі своїм checkout/setup-node/npm ci.
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 20
-          cache: "npm"
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
-      - run: npm run build
-```
-
-> Якщо тестам потрібні змінні оточення, збережіть їх у Secrets (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`).
+> Секрети `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` потрібні лише для job `build` (пререндер звертається до Supabase).
 
 ## 5. Релізний процес
 
