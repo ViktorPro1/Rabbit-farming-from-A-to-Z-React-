@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
 import Home from "../../pages/Home";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 const Admin = lazy(() => import("../../pages/Admin/Admin"));
 const BeginnerGuide = lazy(
@@ -46,7 +47,18 @@ export function getCoreRoutes(session: Session | null) {
       {/* — АДМІН — */}
       <Route
         path="/admin"
-        element={session ? <Admin session={session} /> : <Auth />}
+        element={
+          session ? (
+            <ErrorBoundary
+              boundaryName="Admin"
+              fallbackTitle="Сталася помилка в адмін-панелі. Спробуйте перезавантажити."
+            >
+              <Admin session={session} />
+            </ErrorBoundary>
+          ) : (
+            <Auth />
+          )
+        }
       />
       {/* — З ЧОГО ПОЧАТИ — */}
       <Route path="/beginner-guide" element={<BeginnerGuide />} />

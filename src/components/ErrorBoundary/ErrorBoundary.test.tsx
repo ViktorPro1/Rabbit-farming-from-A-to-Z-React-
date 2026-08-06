@@ -94,4 +94,25 @@ describe("ErrorBoundary", () => {
 
     expect(reloadSpy).toHaveBeenCalledTimes(1);
   });
+
+  it("рендерить кастомний fallback замість дефолтної картки, якщо переданий", () => {
+    render(
+      <ErrorBoundary fallback={<div data-testid="custom-fallback" />}>
+        <Bomb shouldThrow={true} />
+      </ErrorBoundary>,
+    );
+
+    expect(screen.getByTestId("custom-fallback")).toBeInTheDocument();
+    expect(screen.queryByText("Щось пішло не так.")).not.toBeInTheDocument();
+  });
+
+  it("нічого не рендерить при fallback={null}", () => {
+    const { container } = render(
+      <ErrorBoundary fallback={null}>
+        <Bomb shouldThrow={true} />
+      </ErrorBoundary>,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
 });

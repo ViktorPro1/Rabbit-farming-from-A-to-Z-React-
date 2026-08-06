@@ -246,8 +246,10 @@ function App() {
         <CookieConsentBanner />
         <BrowserRouter>
           <WelcomePopup />
-          <Assistant />
-          <AssistantPromo />
+          <ErrorBoundary boundaryName="Assistant" fallback={null}>
+            <Assistant />
+            <AssistantPromo />
+          </ErrorBoundary>
           <Header session={session} />
           <div className="breadcrumbs-wrap">
             <Breadcrumbs />

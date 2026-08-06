@@ -9,6 +9,11 @@ interface Props {
   // Назва секції для трасування в логах (напр. "Calculator", "AdminPanel"),
   // щоб було видно, яка саме частина застосунку впала.
   boundaryName?: string;
+  // Кастомний UI замість дефолтної картки — для некритичних віджетів
+  // (напр. Assistant), де при падінні краще нічого не показувати,
+  // ніж карту-фолбек посеред екрана. Якщо не передано — рендериться
+  // стандартний фолбек з fallbackTitle і кнопкою перезавантаження.
+  fallback?: ReactNode;
 }
 
 interface State {
@@ -24,8 +29,6 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     logError(this.props.boundaryName ?? "ErrorBoundary", error);
-    // Component stack лишаємо тільки в dev — для продакшн-логів
-    // достатньо самої помилки й контексту (boundaryName).
     if (import.meta.env.DEV) {
       console.error("Component stack:", info.componentStack);
     }
@@ -37,6 +40,10 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      if (this.props.fallback !== undefined) {
+        return this.props.fallback;
+      }
+
       return (
         <div
           style={{

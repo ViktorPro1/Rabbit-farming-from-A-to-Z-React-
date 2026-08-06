@@ -3,6 +3,7 @@ import { lazy } from "react";
 import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 const Calendar = lazy(() => import("../../pages/Calendar/Calendar"));
 const Tips = lazy(() => import("../../pages/Tips/Tips"));
@@ -39,7 +40,12 @@ export function getPlanningToolsRoutes(session: Session | null) {
         path="/calculator"
         element={
           session ? (
-            <Calculator session={session} />
+            <ErrorBoundary
+              boundaryName="Calculator"
+              fallbackTitle="Сталася помилка в калькуляторі. Спробуйте перезавантажити."
+            >
+              <Calculator session={session} />
+            </ErrorBoundary>
           ) : (
             <Auth returnTo="/calculator" />
           )
