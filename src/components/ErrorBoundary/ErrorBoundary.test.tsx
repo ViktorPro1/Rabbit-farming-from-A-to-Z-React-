@@ -51,7 +51,7 @@ describe("ErrorBoundary", () => {
     expect(screen.getByText("Кастомна помилка")).toBeInTheDocument();
   });
 
-  it("логує помилку через componentDidCatch", () => {
+  it("логує помилку через logError з дефолтним контекстом 'ErrorBoundary'", () => {
     render(
       <ErrorBoundary>
         <Bomb shouldThrow={true} />
@@ -59,9 +59,21 @@ describe("ErrorBoundary", () => {
     );
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "ErrorBoundary перехопив помилку:",
+      "[ErrorBoundary]",
       expect.any(Error),
-      expect.any(String),
+    );
+  });
+
+  it("використовує boundaryName як контекст логування, якщо переданий", () => {
+    render(
+      <ErrorBoundary boundaryName="TestSection">
+        <Bomb shouldThrow={true} />
+      </ErrorBoundary>,
+    );
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "[TestSection]",
+      expect.any(Error),
     );
   });
 

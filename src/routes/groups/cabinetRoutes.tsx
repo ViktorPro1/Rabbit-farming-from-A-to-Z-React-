@@ -3,6 +3,8 @@ import { lazy } from "react";
 import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
+import type { ReactNode } from "react";
 
 const RabbitRegistry = lazy(
   () => import("../../pages/RabbitRegistry/RabbitRegistry"),
@@ -31,6 +33,22 @@ const Weighing = lazy(() => import("../../pages/Weighing/Weighing"));
 const Pedigree = lazy(() => import("../../pages/Pedigree/Pedigree"));
 
 /**
+ * Обгортає елемент сторінки кабінету власним ErrorBoundary,
+ * щоб падіння однієї сторінки (напр. Statistics) не забирало
+ * з собою весь застосунок — тільки цю секцію.
+ */
+function withCabinetBoundary(name: string, element: ReactNode) {
+  return (
+    <ErrorBoundary
+      boundaryName={name}
+      fallbackTitle={`Сталася помилка на сторінці «${name}». Спробуйте перезавантажити.`}
+    >
+      {element}
+    </ErrorBoundary>
+  );
+}
+
+/**
  * Особистий кабінет — усі маршрути потребують активної сесії.
  */
 export function getCabinetRoutes(session: Session | null) {
@@ -38,63 +56,168 @@ export function getCabinetRoutes(session: Session | null) {
     <>
       <Route
         path="/registry"
-        element={session ? <RabbitRegistry session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary(
+              "RabbitRegistry",
+              <RabbitRegistry session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/registry/edit/:id"
-        element={session ? <RabbitEdit session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("RabbitEdit", <RabbitEdit session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/archive"
-        element={session ? <Archive session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Archive", <Archive session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/matings"
-        element={session ? <Matings session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Matings", <Matings session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/paddocks"
-        element={session ? <Paddocks session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Paddocks", <Paddocks session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/fattening"
-        element={session ? <Fattening session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Fattening", <Fattening session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/quarantine"
-        element={session ? <Quarantine session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Quarantine", <Quarantine session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/statistics"
-        element={session ? <Statistics session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Statistics", <Statistics session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/my-vaccinations"
-        element={session ? <MyVaccinations session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary(
+              "MyVaccinations",
+              <MyVaccinations session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/my-treatments"
-        element={session ? <MyTreatments session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary(
+              "MyTreatments",
+              <MyTreatments session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/disinfection-log"
-        element={session ? <DisinfectionLog session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary(
+              "DisinfectionLog",
+              <DisinfectionLog session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/cage-search"
-        element={session ? <CageSearch session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("CageSearch", <CageSearch session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/grain-recipes-history"
-        element={session ? <GrainRecipesHistory session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary(
+              "GrainRecipesHistory",
+              <GrainRecipesHistory session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/weighing"
-        element={session ? <Weighing session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Weighing", <Weighing session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
       <Route
         path="/pedigree"
-        element={session ? <Pedigree session={session} /> : <Auth />}
+        element={
+          session ? (
+            withCabinetBoundary("Pedigree", <Pedigree session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
       />
     </>
   );

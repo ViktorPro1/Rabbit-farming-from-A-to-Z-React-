@@ -1,10 +1,14 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
+import { logError } from "../../lib/logError";
 
 interface Props {
   children: ReactNode;
   // Текст, що покажеться користувачу. За замовчуванням — загальне повідомлення.
   fallbackTitle?: string;
+  // Назва секції для трасування в логах (напр. "Calculator", "AdminPanel"),
+  // щоб було видно, яка саме частина застосунку впала.
+  boundaryName?: string;
 }
 
 interface State {
@@ -19,11 +23,12 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error(
-      "ErrorBoundary перехопив помилку:",
-      error,
-      info.componentStack,
-    );
+    logError(this.props.boundaryName ?? "ErrorBoundary", error);
+    // Component stack лишаємо тільки в dev — для продакшн-логів
+    // достатньо самої помилки й контексту (boundaryName).
+    if (import.meta.env.DEV) {
+      console.error("Component stack:", info.componentStack);
+    }
   }
 
   handleReload = () => {
