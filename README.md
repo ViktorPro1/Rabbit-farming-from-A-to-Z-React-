@@ -90,19 +90,19 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 
 # Статистика проєкту
 
-| Показник               | Значення |
-| ---------------------- | -------: |
-| React Router маршрутів |      176 |
-| Сторінок (`src/pages`) |     200+ |
-| React-компонентів      |       27 |
-| Data-модулів           |       25 |
-| Unit-тестів            |       38 |
-| Test Suites            |        7 |
-| E2E сценаріїв          |        2 |
-| TypeScript             |      Так |
-| PWA                    |      Так |
-| SEO                    |      Так |
-| Supabase               |      Так |
+| Показник               |                 Значення |
+| ---------------------- | -----------------------: |
+| Маршрутна логіка       | 13 файлів у `src/routes` |
+| Сторінок (`src/pages`) |                      401 |
+| React-компонентів      |                       52 |
+| Data-модулів           |                       26 |
+| Unit-тестів            |                       38 |
+| Test Suites            |                        7 |
+| E2E сценаріїв          |                       10 |
+| TypeScript             |                      Так |
+| PWA                    |                      Так |
+| SEO                    |                      Так |
+| Supabase               |                      Так |
 
 ---
 
@@ -161,21 +161,17 @@ src/
 
 ├── assets/
 ├── components/
-├── contexts/
 ├── data/
 ├── hooks/
-├── layouts/
 ├── lib/
 ├── pages/
 ├── routes/
-│   └── groups/
 ├── seo/
-├── services/
-├── styles/
 ├── test/
-├── types/
-├── utils/
-└── main.tsx
+├── App.tsx
+├── entry-prerender.tsx
+├── main.tsx
+└── prerender-routes.ts
 ```
 
 ---
@@ -198,10 +194,10 @@ src/
 
 | Метрика    | Покриття |
 | ---------- | -------: |
-| Statements |   87.83% |
+| Statements |   88.15% |
 | Branches   |   85.00% |
-| Functions  |   79.54% |
-| Lines      |   88.97% |
+| Functions  |   80.43% |
+| Lines      |   89.20% |
 
 ---
 
@@ -264,10 +260,10 @@ docs/
 
 Основні документи:
 
-- Developer Guide
-- Тестування
-- Ліцензія (UA)
-- License (EN)
+- [docs/Розробка/DEVELOPER_GUIDE.md](docs/Розробка/DEVELOPER_GUIDE.md)
+- [docs/Тестування/TESTING.md](docs/Тестування/TESTING.md)
+- [LICENSE](LICENSE)
+- [LICENSE.uk.md](LICENSE.uk.md)
 
 ---
 
