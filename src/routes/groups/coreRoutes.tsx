@@ -3,7 +3,7 @@ import { lazy } from "react";
 import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
-import Home from "../../pages/Home";
+const Home = lazy(() => import("../../pages/Home"));
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 const Admin = lazy(() => import("../../pages/Admin/Admin"));

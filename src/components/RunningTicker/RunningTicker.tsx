@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { groups } from "../../data/sectionCards";
+import { LIGHT_CARDS } from "../../data/navMap.generated";
 import "./RunningTicker.css";
 
 interface TickerEntry {
@@ -9,17 +9,7 @@ interface TickerEntry {
   path: string;
 }
 
-// Розгортаємо всі cards з усіх груп у плаский масив.
-// Групу "Статті" (зовнішні лендінги) можна включити назад, прибравши .filter нижче.
-const tickerItems: TickerEntry[] = groups
-  .filter((group) => group.groupTitle !== "Статті")
-  .flatMap((group) =>
-    group.cards.map((card) => ({
-      icon: card.icon,
-      title: card.title,
-      path: card.path,
-    })),
-  );
+const tickerItems: TickerEntry[] = LIGHT_CARDS;
 
 const STORAGE_KEY = "runningTickerOffset";
 

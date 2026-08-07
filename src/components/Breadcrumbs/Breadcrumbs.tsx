@@ -1,16 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import "./Breadcrumbs.css";
-import { groups } from "../../data/sectionCards";
-
-// ── Path -> назва розділу (для середньої хлібної крихти) ────────
-const PATH_TO_SECTION: Record<string, string> = {};
-groups.forEach((g) => {
-  g.cards.forEach((c) => {
-    if (!c.external) {
-      PATH_TO_SECTION[c.path] = g.groupTitle;
-    }
-  });
-});
+import { PATH_TO_SECTION } from "../../data/navMap.generated";
 
 // ── Route label map ──────────────────────────────────────────────
 const ROUTE_LABELS: Record<string, string> = {
