@@ -283,16 +283,24 @@ export default function GrainRecipesHistory({ session }: Props) {
 
           {showManualForm && (
             <div className="grh-manual-form">
-              <label className="grh-manual-label">Дата</label>
+              <label className="grh-manual-label" htmlFor="grh-manual-date">
+                Дата
+              </label>
               <input
+                id="grh-manual-date"
+                name="manualDate"
                 type="date"
                 className="grh-manual-date"
                 value={manualDate}
                 onChange={(e) => setManualDate(e.target.value)}
               />
 
-              <label className="grh-manual-label">Тип раціону</label>
+              <label className="grh-manual-label" htmlFor="grh-manual-mode">
+                Тип раціону
+              </label>
               <select
+                id="grh-manual-mode"
+                name="manualMode"
                 className="grh-manual-select"
                 value={manualMode}
                 onChange={(e) =>
@@ -303,10 +311,16 @@ export default function GrainRecipesHistory({ session }: Props) {
                 <option value="fattening">Відгодівля</option>
               </select>
 
-              <label className="grh-manual-label">Культури і кг</label>
+              <p className="grh-manual-label" id="grh-manual-rows-label">
+                Культури і кг
+              </p>
               {manualRows.map((row, idx) => (
                 <div key={idx} className="grh-manual-row">
                   <select
+                    id={`grh-manual-grain-${idx}`}
+                    name={`grainName-${idx}`}
+                    aria-labelledby="grh-manual-rows-label"
+                    aria-label={`Культура ${idx + 1}`}
                     className="grh-manual-select"
                     value={row.name}
                     onChange={(e) =>
@@ -320,6 +334,9 @@ export default function GrainRecipesHistory({ session }: Props) {
                     ))}
                   </select>
                   <input
+                    id={`grh-manual-kg-${idx}`}
+                    name={`grainKg-${idx}`}
+                    aria-label={`Вага культури ${idx + 1} у кілограмах`}
                     type="number"
                     min="0"
                     step="0.5"
@@ -333,6 +350,7 @@ export default function GrainRecipesHistory({ session }: Props) {
                       type="button"
                       className="grh-manual-remove"
                       onClick={() => removeManualRow(idx)}
+                      aria-label={`Видалити рядок ${idx + 1}`}
                     >
                       ✕
                     </button>
