@@ -89,6 +89,7 @@ export default function GrainRecipesHistory({ session }: Props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [infoOpen, setInfoOpen] = useState(false);
 
   // ── Ручне внесення ──
   const [showManualForm, setShowManualForm] = useState(false);
@@ -494,6 +495,42 @@ export default function GrainRecipesHistory({ session }: Props) {
             </div>
           </>
         )}
+        {/* ── Пояснення: звідки беруться записи (внизу, біля футера) ── */}
+        <div className="grh-card grh-info-card">
+          <button
+            type="button"
+            className="grh-section-toggle"
+            onClick={() => setInfoOpen((v) => !v)}
+            aria-expanded={infoOpen}
+          >
+            <h2>ℹ️ Звідки беруться записи</h2>
+            <span className={`grh-manual-arrow ${infoOpen ? "open" : ""}`}>
+              ▾
+            </span>
+          </button>
+
+          {infoOpen && (
+            <div className="grh-info-text">
+              <p>Записи в цьому розділі з'являються двома способами.</p>
+              <p>
+                <strong>Автоматично</strong> — коли ви розраховуєте суміш у
+                калькуляторі раціонів і тиснете кнопку «Додати відмітку». Запис
+                одразу зберігається з поточною датою, типом раціону (племінне
+                стадо чи відгодівля) та складом суміші.
+              </p>
+              <p>
+                <strong>Вручну</strong> — якщо годування вже відбулось і було
+                записане на листочку, а в застосунок його ще не внесли. Кнопка
+                «Додати запис вручну (заднім числом)» вище дозволяє вказати
+                будь-яку дату заднім числом, тип раціону та витрачені культури.
+              </p>
+              <p>
+                Усі записи — і автоматичні, і ручні — враховуються разом у
+                підсумках вище: «Разом використано», «По місяцях» та «Історія».
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );
