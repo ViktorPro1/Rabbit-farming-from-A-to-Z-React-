@@ -29,35 +29,42 @@ const emptyForm = {
   weighing_type: "breeding" as WeighingType,
 };
 
-interface MonthlyAvg {
+interface MonthGroup {
   monthKey: string;
   monthLabel: string;
   avgWeight: number;
   count: number;
+  records: WeighingRecord[];
 }
 
-function getMonthlyAverages(list: WeighingRecord[]): MonthlyAvg[] {
-  const map: Record<string, { sum: number; count: number }> = {};
+function groupWeighingsByMonth(list: WeighingRecord[]): MonthGroup[] {
+  const map: Record<string, WeighingRecord[]> = {};
   list.forEach((r) => {
     const d = new Date(r.weighing_date);
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    if (!map[key]) map[key] = { sum: 0, count: 0 };
-    map[key].sum += r.weight_g;
-    map[key].count += 1;
+    if (!map[key]) map[key] = [];
+    map[key].push(r);
   });
 
   return Object.entries(map)
-    .map(([key, { sum, count }]) => {
+    .map(([key, records]) => {
       const [y, m] = key.split("-");
       const label = new Date(Number(y), Number(m) - 1).toLocaleDateString(
         "uk-UA",
         { month: "long", year: "numeric" },
       );
+      const sortedRecords = [...records].sort(
+        (a, b) =>
+          new Date(a.weighing_date).getTime() -
+          new Date(b.weighing_date).getTime(),
+      );
+      const sum = records.reduce((s, r) => s + r.weight_g, 0);
       return {
         monthKey: key,
         monthLabel: label.charAt(0).toUpperCase() + label.slice(1),
-        avgWeight: Math.round(sum / count),
-        count,
+        avgWeight: Math.round(sum / records.length),
+        count: records.length,
+        records: sortedRecords,
       };
     })
     .sort((a, b) => a.monthKey.localeCompare(b.monthKey));
@@ -169,6 +176,100 @@ export default function Weighing({ session }: Props) {
       ).toLocaleDateString("uk-UA", { month: "long", year: "numeric" })
     : "—";
 
+  function renderInlineEditForm() {
+    if (!editingRecord) return null;
+    return (
+      <div className="weighing-form weighing-edit-form weighing-inline-edit">
+        <h3>✏️ Редагування</h3>
+        <div className="weighing-form-grid">
+          <input
+            placeholder="Гніздо / кролятник *"
+            value={editingRecord.litter_label}
+            onChange={(e) =>
+              setEditingRecord({
+                ...editingRecord,
+                litter_label: e.target.value,
+              })
+            }
+          />
+          <select
+            value={editingRecord.weighing_type}
+            onChange={(e) =>
+              setEditingRecord({
+                ...editingRecord,
+                weighing_type: e.target.value as WeighingType,
+              })
+            }
+          >
+            <option value="breeding">🐇 Племінне</option>
+            <option value="fattening">🍖 Відгодівля</option>
+          </select>
+          <input
+            placeholder="Кличка / номер кролика"
+            value={editingRecord.rabbit_name || ""}
+            onChange={(e) =>
+              setEditingRecord({
+                ...editingRecord,
+                rabbit_name: e.target.value,
+              })
+            }
+          />
+          <div className="weighing-form-field">
+            <label>Дата зважування</label>
+            <input
+              type="date"
+              value={editingRecord.weighing_date}
+              onChange={(e) =>
+                setEditingRecord({
+                  ...editingRecord,
+                  weighing_date: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="weighing-form-field">
+            <label>Вага (г)</label>
+            <input
+              type="number"
+              min="0"
+              value={editingRecord.weight_g}
+              onChange={(e) =>
+                setEditingRecord({
+                  ...editingRecord,
+                  weight_g: Number(e.target.value),
+                })
+              }
+            />
+          </div>
+          <input
+            placeholder="Нотатки"
+            value={editingRecord.notes || ""}
+            onChange={(e) =>
+              setEditingRecord({ ...editingRecord, notes: e.target.value })
+            }
+            className="weighing-form-full"
+          />
+        </div>
+        {error && <p className="weighing-error">{error}</p>}
+        <div className="weighing-edit-actions">
+          <button
+            className="weighing-cancel-btn"
+            onClick={() => setEditingRecord(null)}
+          >
+            Скасувати
+          </button>
+          <button
+            className="weighing-save-btn"
+            onClick={handleEdit}
+            disabled={saving}
+          >
+            {saving ? "Збереження..." : "Зберегти зміни"}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="weighing-page">
       <div className="weighing-header">
@@ -278,97 +379,6 @@ export default function Weighing({ session }: Props) {
         </div>
       )}
 
-      {editingRecord && (
-        <div className="weighing-form weighing-edit-form">
-          <h3>✏️ Редагування</h3>
-          <div className="weighing-form-grid">
-            <input
-              placeholder="Гніздо / кролятник *"
-              value={editingRecord.litter_label}
-              onChange={(e) =>
-                setEditingRecord({
-                  ...editingRecord,
-                  litter_label: e.target.value,
-                })
-              }
-            />
-            <select
-              value={editingRecord.weighing_type}
-              onChange={(e) =>
-                setEditingRecord({
-                  ...editingRecord,
-                  weighing_type: e.target.value as WeighingType,
-                })
-              }
-            >
-              <option value="breeding">🐇 Племінне</option>
-              <option value="fattening">🍖 Відгодівля</option>
-            </select>
-            <input
-              placeholder="Кличка / номер кролика"
-              value={editingRecord.rabbit_name || ""}
-              onChange={(e) =>
-                setEditingRecord({
-                  ...editingRecord,
-                  rabbit_name: e.target.value,
-                })
-              }
-            />
-            <div className="weighing-form-field">
-              <label>Дата зважування</label>
-              <input
-                type="date"
-                value={editingRecord.weighing_date}
-                onChange={(e) =>
-                  setEditingRecord({
-                    ...editingRecord,
-                    weighing_date: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="weighing-form-field">
-              <label>Вага (г)</label>
-              <input
-                type="number"
-                min="0"
-                value={editingRecord.weight_g}
-                onChange={(e) =>
-                  setEditingRecord({
-                    ...editingRecord,
-                    weight_g: Number(e.target.value),
-                  })
-                }
-              />
-            </div>
-            <input
-              placeholder="Нотатки"
-              value={editingRecord.notes || ""}
-              onChange={(e) =>
-                setEditingRecord({ ...editingRecord, notes: e.target.value })
-              }
-              className="weighing-form-full"
-            />
-          </div>
-          {error && <p className="weighing-error">{error}</p>}
-          <div className="weighing-edit-actions">
-            <button
-              className="weighing-cancel-btn"
-              onClick={() => setEditingRecord(null)}
-            >
-              Скасувати
-            </button>
-            <button
-              className="weighing-save-btn"
-              onClick={handleEdit}
-              disabled={saving}
-            >
-              {saving ? "Збереження..." : "Зберегти зміни"}
-            </button>
-          </div>
-        </div>
-      )}
-
       {loading ? (
         <p className="weighing-loading">Завантаження...</p>
       ) : records.length === 0 ? (
@@ -401,67 +411,118 @@ export default function Weighing({ session }: Props) {
                 </h2>
 
                 {groupType === "fattening" ? (
-                  // ── Відгодівля: середня вага по клітці за кожен місяць ──
+                  // ── Відгодівля: середня вага по клітці за кожен місяць + окремі записи ──
                   <div className="weighing-monthly">
-                    {getMonthlyAverages(sorted).map((m, idx, arr) => (
-                      <div key={m.monthKey} className="weighing-card">
-                        <p className="weighing-info">
-                          {m.monthLabel}: середня{" "}
-                          <strong>{m.avgWeight} г</strong> ({m.count} зважувань)
-                          {idx > 0 && (
-                            <span className="weighing-gain">
-                              {" "}
-                              (
-                              {m.avgWeight - arr[idx - 1].avgWeight >= 0
-                                ? "+"
-                                : ""}
-                              {m.avgWeight - arr[idx - 1].avgWeight} г до
-                              попереднього місяця)
-                            </span>
+                    {groupWeighingsByMonth(sorted).map((m, idx, arr) => (
+                      <div key={m.monthKey} className="weighing-month-block">
+                        {m.count > 1 && (
+                          <p className="weighing-info weighing-month-summary">
+                            {m.monthLabel}: середня{" "}
+                            <strong>{m.avgWeight} г</strong> ({m.count}{" "}
+                            зважувань)
+                            {idx > 0 && (
+                              <span className="weighing-gain">
+                                {" "}
+                                (
+                                {m.avgWeight - arr[idx - 1].avgWeight >= 0
+                                  ? "+"
+                                  : ""}
+                                {m.avgWeight - arr[idx - 1].avgWeight} г до
+                                попереднього місяця)
+                              </span>
+                            )}
+                          </p>
+                        )}
+
+                        <div className="weighing-list weighing-month-records">
+                          {m.records.map((r) =>
+                            editingRecord?.id === r.id ? (
+                              <div key={r.id}>{renderInlineEditForm()}</div>
+                            ) : (
+                              <div key={r.id} className="weighing-card">
+                                <div className="weighing-card-top">
+                                  <span className="weighing-name">
+                                    {new Date(
+                                      r.weighing_date,
+                                    ).toLocaleDateString("uk-UA")}
+                                    {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
+                                  </span>
+                                  <div className="weighing-card-btns">
+                                    <button
+                                      className="weighing-edit-btn"
+                                      onClick={() => setEditingRecord(r)}
+                                    >
+                                      ✏️
+                                    </button>
+                                    <button
+                                      className="weighing-delete-btn"
+                                      onClick={() => handleDelete(r.id)}
+                                    >
+                                      ✕
+                                    </button>
+                                  </div>
+                                </div>
+                                <p className="weighing-info">
+                                  Вага: <strong>{r.weight_g} г</strong>
+                                </p>
+                                <p className="weighing-sample-tag">
+                                  Показовий кролик (один навмання з гнізда)
+                                </p>
+                                {r.notes && (
+                                  <p className="weighing-notes">{r.notes}</p>
+                                )}
+                              </div>
+                            ),
                           )}
-                        </p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 ) : (
                   // ── Племінне: приріст по добі між зважуваннями ──
                   <div className="weighing-list">
-                    {sorted.map((r, idx) => (
-                      <div key={r.id} className="weighing-card">
-                        <div className="weighing-card-top">
-                          <span className="weighing-name">
-                            {new Date(r.weighing_date).toLocaleDateString(
-                              "uk-UA",
-                            )}
-                            {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
-                          </span>
-                          <div className="weighing-card-btns">
-                            <button
-                              className="weighing-edit-btn"
-                              onClick={() => setEditingRecord(r)}
-                            >
-                              ✏️
-                            </button>
-                            <button
-                              className="weighing-delete-btn"
-                              onClick={() => handleDelete(r.id)}
-                            >
-                              ✕
-                            </button>
-                          </div>
-                        </div>
-                        <p className="weighing-info">
-                          Вага: <strong>{r.weight_g} г</strong>
-                          {idx > 0 && (
-                            <span className="weighing-gain">
-                              {" "}
-                              ({dailyGain(sorted[idx - 1], r)})
+                    {sorted.map((r, idx) =>
+                      editingRecord?.id === r.id ? (
+                        <div key={r.id}>{renderInlineEditForm()}</div>
+                      ) : (
+                        <div key={r.id} className="weighing-card">
+                          <div className="weighing-card-top">
+                            <span className="weighing-name">
+                              {new Date(r.weighing_date).toLocaleDateString(
+                                "uk-UA",
+                              )}
+                              {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
                             </span>
+                            <div className="weighing-card-btns">
+                              <button
+                                className="weighing-edit-btn"
+                                onClick={() => setEditingRecord(r)}
+                              >
+                                ✏️
+                              </button>
+                              <button
+                                className="weighing-delete-btn"
+                                onClick={() => handleDelete(r.id)}
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                          <p className="weighing-info">
+                            Вага: <strong>{r.weight_g} г</strong>
+                            {idx > 0 && (
+                              <span className="weighing-gain">
+                                {" "}
+                                ({dailyGain(sorted[idx - 1], r)})
+                              </span>
+                            )}
+                          </p>
+                          {r.notes && (
+                            <p className="weighing-notes">{r.notes}</p>
                           )}
-                        </p>
-                        {r.notes && <p className="weighing-notes">{r.notes}</p>}
-                      </div>
-                    ))}
+                        </div>
+                      ),
+                    )}
                   </div>
                 )}
               </div>

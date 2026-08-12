@@ -316,35 +316,53 @@ export default function Matings({ session }: Props) {
     females: number,
     femalesCage: string,
   ) {
-    const inserts = [];
+    // Групуємо за номером клітки, щоб не плодити дублікати однієї й тієї ж клітки
+    const cageTotals: Record<string, { males: number; females: number }> = {};
+
     if (males > 0 && malesCage) {
-      inserts.push({
-        user_id: session.user.id,
-        cage_number: malesCage,
-        males,
-        females: 0,
-        unknown: 0,
-        breed: breed || null,
-        birth_date: birthDate || null,
-        slaughter_date: birthDate ? calcSlaughterDate(birthDate) : null,
-        is_active: true,
-      });
+      cageTotals[malesCage] = cageTotals[malesCage] || { males: 0, females: 0 };
+      cageTotals[malesCage].males += males;
     }
     if (females > 0 && femalesCage) {
-      inserts.push({
-        user_id: session.user.id,
-        cage_number: femalesCage,
+      cageTotals[femalesCage] = cageTotals[femalesCage] || {
         males: 0,
-        females,
-        unknown: 0,
-        breed: breed || null,
-        birth_date: birthDate || null,
-        slaughter_date: birthDate ? calcSlaughterDate(birthDate) : null,
-        is_active: true,
-      });
+        females: 0,
+      };
+      cageTotals[femalesCage].females += females;
     }
-    if (inserts.length > 0) {
-      await supabase.from("fattening").insert(inserts);
+
+    for (const [cageNumber, counts] of Object.entries(cageTotals)) {
+      const { data: existingRows } = await supabase
+        .from("fattening")
+        .select("id, males, females")
+        .eq("user_id", session.user.id)
+        .eq("cage_number", cageNumber)
+        .eq("is_active", true)
+        .limit(1);
+
+      const existing = existingRows && existingRows[0];
+
+      if (existing) {
+        await supabase
+          .from("fattening")
+          .update({
+            males: (existing.males || 0) + counts.males,
+            females: (existing.females || 0) + counts.females,
+          })
+          .eq("id", existing.id);
+      } else {
+        await supabase.from("fattening").insert({
+          user_id: session.user.id,
+          cage_number: cageNumber,
+          males: counts.males,
+          females: counts.females,
+          unknown: 0,
+          breed: breed || null,
+          birth_date: birthDate || null,
+          slaughter_date: birthDate ? calcSlaughterDate(birthDate) : null,
+          is_active: true,
+        });
+      }
     }
   }
 
