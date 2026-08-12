@@ -113,6 +113,7 @@ function schemeLabel(scheme?: string): string {
 
 export default function Matings({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
+  const [allRabbits, setAllRabbits] = useState<Rabbit[]>([]);
   const [matings, setMatings] = useState<Mating[]>([]);
   const [sortType, setSortType] = useState<SortType>("date_desc");
   const [showMatingForm, setShowMatingForm] = useState(false);
@@ -149,11 +150,12 @@ export default function Matings({ session }: Props) {
       .from("rabbits")
       .select("id, name, breed, gender, cage_number, is_active")
       .eq("user_id", session.user.id)
-      .eq("is_active", true)
-
       .then(
         ({ data }) => {
-          if (!cancelled) setRabbits(data || []);
+          if (!cancelled) {
+            setAllRabbits(data || []);
+            setRabbits((data || []).filter((r) => r.is_active));
+          }
         },
         (err) => {
           console.error("Не вдалося завантажити кроликів для парувань:", err);
@@ -287,7 +289,7 @@ export default function Matings({ session }: Props) {
 
   function getRabbitName(id: string | null): string {
     if (!id) return "";
-    const r = rabbits.find((r) => r.id === id);
+    const r = allRabbits.find((r) => r.id === id);
     if (!r) return "невідомий";
     return `${r.name}${r.breed ? ` (${r.breed})` : ""}`;
   }
@@ -298,11 +300,11 @@ export default function Matings({ session }: Props) {
     actualFemaleId: string,
   ): string {
     if (actualMaleId) {
-      const r = rabbits.find((r) => r.id === actualMaleId);
+      const r = allRabbits.find((r) => r.id === actualMaleId);
       if (r?.breed) return r.breed;
     }
     if (actualFemaleId) {
-      const r = rabbits.find((r) => r.id === actualFemaleId);
+      const r = allRabbits.find((r) => r.id === actualFemaleId);
       if (r?.breed) return r.breed;
     }
     return mating.female?.breed || mating.male?.breed || "";
