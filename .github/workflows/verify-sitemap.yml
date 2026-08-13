@@ -1,0 +1,32 @@
+# Регулярно (і після кожного пушу в main) перевіряє, що прод-сайт
+# реально віддає повний sitemap.xml, а не куций варіант через
+# race condition під час деплою на Vercel.
+
+name: Verify sitemap
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Раз на добу о 06:00 UTC (09:00 за Києвом)
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  verify-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Даємо Vercel час завершити деплой перед перевіркою,
+      # якщо цей workflow запущено одразу після push.
+      - name: Пауза перед перевіркою (даємо CDN прогрітись)
+        if: github.event_name == 'push'
+        run: sleep 60
+
+      - name: Перевірити sitemap.xml
+        run: node scripts/verify-sitemap.mjs
