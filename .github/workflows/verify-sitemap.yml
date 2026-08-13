@@ -9,7 +9,7 @@ on:
     branches: [main]
   schedule:
     # Раз на добу о 06:00 UTC (09:00 за Києвом)
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
   workflow_dispatch: {}
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       # Даємо Vercel час завершити деплой перед перевіркою,
       # якщо цей workflow запущено одразу після push.
