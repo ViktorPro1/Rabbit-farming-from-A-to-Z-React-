@@ -406,3 +406,106 @@
     line-height: 1.6;
     margin: 0;
 }
+
+/* Додати ці правила в Weighing.css */
+
+.weighing-final-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.weighing-final-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #7a1f1f;
+    color: #fff;
+    font-size: 0.7rem;
+    vertical-align: middle;
+}
+
+.weighing-cycle-empty {
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.weighing-cycle-archive {
+    margin-top: 14px;
+}
+
+.weighing-cycle-archive-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.weighing-cycle-block {
+    margin-top: 10px;
+    padding: 10px;
+    border-left: 3px solid rgba(122, 31, 31, 0.5);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.weighing-cycle-summary {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.weighing-comparison-table-wrap {
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+.weighing-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.weighing-comparison-table th,
+.weighing-comparison-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    text-align: left;
+}
+
+.registry-info {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    margin-top: 0.5rem;
+}
+
+.registry-info-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    cursor: pointer;
+}
+
+.registry-info-text {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+}

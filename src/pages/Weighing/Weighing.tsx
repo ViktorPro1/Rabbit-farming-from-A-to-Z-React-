@@ -18,6 +18,7 @@ interface WeighingRecord {
   weight_g: number;
   notes: string;
   weighing_type: WeighingType;
+  is_final: boolean;
 }
 
 const emptyForm = {
@@ -27,6 +28,7 @@ const emptyForm = {
   weight_g: "",
   notes: "",
   weighing_type: "breeding" as WeighingType,
+  is_final: false,
 };
 
 interface MonthGroup {
@@ -70,6 +72,72 @@ function groupWeighingsByMonth(list: WeighingRecord[]): MonthGroup[] {
     .sort((a, b) => a.monthKey.localeCompare(b.monthKey));
 }
 
+// ── Цикли відгодівлі ──
+// Один цикл — це серія записів у клітці від заселення до фінального
+// зважування (is_final = true) перед забоєм. Після фінального зважування
+// наступні записи в тій самій клітці автоматично належать новому циклу.
+interface WeighingCycle {
+  cycleIndex: number;
+  records: WeighingRecord[];
+  startDate: string;
+  endDate: string;
+  isClosed: boolean;
+  durationDays: number;
+  finalAvgWeight: number | null;
+}
+
+function buildCycle(
+  records: WeighingRecord[],
+  cycleIndex: number,
+  isClosed: boolean,
+): WeighingCycle {
+  const start = records[0].weighing_date;
+  const end = records[records.length - 1].weighing_date;
+  const durationDays = Math.round(
+    (new Date(end).getTime() - new Date(start).getTime()) /
+      (1000 * 60 * 60 * 24),
+  );
+  const finalRecords = records.filter((r) => r.is_final);
+  const finalAvgWeight =
+    isClosed && finalRecords.length
+      ? Math.round(
+          finalRecords.reduce((s, r) => s + r.weight_g, 0) /
+            finalRecords.length,
+        )
+      : null;
+
+  return {
+    cycleIndex,
+    records,
+    startDate: start,
+    endDate: end,
+    isClosed,
+    durationDays,
+    finalAvgWeight,
+  };
+}
+
+function splitIntoCycles(sorted: WeighingRecord[]): WeighingCycle[] {
+  const cycles: WeighingCycle[] = [];
+  let current: WeighingRecord[] = [];
+  let cycleIndex = 1;
+
+  sorted.forEach((r) => {
+    current.push(r);
+    if (r.is_final) {
+      cycles.push(buildCycle(current, cycleIndex, true));
+      current = [];
+      cycleIndex += 1;
+    }
+  });
+
+  if (current.length > 0) {
+    cycles.push(buildCycle(current, cycleIndex, false));
+  }
+
+  return cycles;
+}
+
 export default function Weighing({ session }: Props) {
   const [records, setRecords] = useState<WeighingRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +149,9 @@ export default function Weighing({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [showWeightChart, setShowWeightChart] = useState(false);
+  const [showCycleInfo, setShowCycleInfo] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
+  const [openArchives, setOpenArchives] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -109,6 +180,7 @@ export default function Weighing({ session }: Props) {
       weight_g: Number(form.weight_g),
       notes: form.notes || null,
       weighing_type: form.weighing_type,
+      is_final: form.weighing_type === "fattening" ? form.is_final : false,
       user_id: session.user.id,
     });
     if (error) {
@@ -134,6 +206,10 @@ export default function Weighing({ session }: Props) {
         weight_g: Number(editingRecord.weight_g),
         notes: editingRecord.notes || null,
         weighing_type: editingRecord.weighing_type,
+        is_final:
+          editingRecord.weighing_type === "fattening"
+            ? editingRecord.is_final
+            : false,
       })
       .eq("id", editingRecord.id);
     if (error) {
@@ -175,6 +251,25 @@ export default function Weighing({ session }: Props) {
         Math.max(...records.map((r) => new Date(r.weighing_date).getTime())),
       ).toLocaleDateString("uk-UA", { month: "long", year: "numeric" })
     : "—";
+
+  // Усі закриті цикли відгодівлі по всіх клітках — для порівняння за рік
+  const allClosedCycles: Array<{ litter: string; cycle: WeighingCycle }> = [];
+  Object.entries(groups).forEach(([litter, list]) => {
+    const isFattening = list[0]?.weighing_type === "fattening";
+    if (!isFattening) return;
+    const sorted = [...list].sort(
+      (a, b) =>
+        new Date(a.weighing_date).getTime() -
+        new Date(b.weighing_date).getTime(),
+    );
+    splitIntoCycles(sorted)
+      .filter((c) => c.isClosed)
+      .forEach((cycle) => allClosedCycles.push({ litter, cycle }));
+  });
+  allClosedCycles.sort(
+    (a, b) =>
+      new Date(a.cycle.endDate).getTime() - new Date(b.cycle.endDate).getTime(),
+  );
 
   function renderInlineEditForm() {
     if (!editingRecord) return null;
@@ -250,6 +345,21 @@ export default function Weighing({ session }: Props) {
             className="weighing-form-full"
           />
         </div>
+        {editingRecord.weighing_type === "fattening" && (
+          <label className="weighing-final-check">
+            <input
+              type="checkbox"
+              checked={editingRecord.is_final}
+              onChange={(e) =>
+                setEditingRecord({
+                  ...editingRecord,
+                  is_final: e.target.checked,
+                })
+              }
+            />
+            Фінальне зважування (забій, клітка звільняється під нову партію)
+          </label>
+        )}
         {error && <p className="weighing-error">{error}</p>}
         <div className="weighing-edit-actions">
           <button
@@ -270,6 +380,72 @@ export default function Weighing({ session }: Props) {
     );
   }
 
+  function renderFatteningRecordCard(r: WeighingRecord) {
+    if (editingRecord?.id === r.id) {
+      return <div key={r.id}>{renderInlineEditForm()}</div>;
+    }
+    return (
+      <div key={r.id} className="weighing-card">
+        <div className="weighing-card-top">
+          <span className="weighing-name">
+            {new Date(r.weighing_date).toLocaleDateString("uk-UA")}
+            {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
+            {r.is_final && <span className="weighing-final-badge">забій</span>}
+          </span>
+          <div className="weighing-card-btns">
+            <button
+              className="weighing-edit-btn"
+              onClick={() => setEditingRecord(r)}
+            >
+              ✏️
+            </button>
+            <button
+              className="weighing-delete-btn"
+              onClick={() => handleDelete(r.id)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+        <p className="weighing-info">
+          Вага: <strong>{r.weight_g} г</strong>
+        </p>
+        <p className="weighing-sample-tag">
+          Показовий кролик (один навмання з гнізда)
+        </p>
+        {r.notes && <p className="weighing-notes">{r.notes}</p>}
+      </div>
+    );
+  }
+
+  function renderFatteningCycleBody(cycle: WeighingCycle) {
+    return (
+      <div className="weighing-monthly">
+        {groupWeighingsByMonth(cycle.records).map((m, idx, arr) => (
+          <div key={m.monthKey} className="weighing-month-block">
+            {m.count > 1 && (
+              <p className="weighing-info weighing-month-summary">
+                {m.monthLabel}: середня <strong>{m.avgWeight} г</strong> (
+                {m.count} зважувань)
+                {idx > 0 && (
+                  <span className="weighing-gain">
+                    {" "}
+                    ({m.avgWeight - arr[idx - 1].avgWeight >= 0 ? "+" : ""}
+                    {m.avgWeight - arr[idx - 1].avgWeight} г до попереднього
+                    місяця)
+                  </span>
+                )}
+              </p>
+            )}
+            <div className="weighing-list weighing-month-records">
+              {m.records.map((r) => renderFatteningRecordCard(r))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="weighing-page">
       <div className="weighing-header">
@@ -281,7 +457,6 @@ export default function Weighing({ session }: Props) {
           ⬅ Мої кролики
         </button>
       </div>
-
       <div className="weighing-stats">
         <div className="weighing-stat">
           <span className="weighing-stat-value">{records.length}</span>
@@ -296,7 +471,6 @@ export default function Weighing({ session }: Props) {
           <span className="weighing-stat-label">Останнє зважування</span>
         </div>
       </div>
-
       <div className="weighing-actions">
         <button
           className="weighing-add-btn"
@@ -305,7 +479,6 @@ export default function Weighing({ session }: Props) {
           {showForm ? "✕ Скасувати" : "+ Додати зважування"}
         </button>
       </div>
-
       {showForm && (
         <div className="weighing-form">
           <h3>Нове зважування</h3>
@@ -363,6 +536,18 @@ export default function Weighing({ session }: Props) {
               className="weighing-form-full"
             />
           </div>
+          {form.weighing_type === "fattening" && (
+            <label className="weighing-final-check">
+              <input
+                type="checkbox"
+                checked={form.is_final}
+                onChange={(e) =>
+                  setForm({ ...form, is_final: e.target.checked })
+                }
+              />
+              Фінальне зважування (забій, клітка звільняється під нову партію)
+            </label>
+          )}
           {error && <p className="weighing-error">{error}</p>}
           <button
             className="weighing-save-btn"
@@ -378,7 +563,6 @@ export default function Weighing({ session }: Props) {
           </button>
         </div>
       )}
-
       {loading ? (
         <p className="weighing-loading">Завантаження...</p>
       ) : records.length === 0 ? (
@@ -401,6 +585,12 @@ export default function Weighing({ session }: Props) {
             const groupType: WeighingType =
               sorted[0]?.weighing_type || "breeding";
 
+            const cycles =
+              groupType === "fattening" ? splitIntoCycles(sorted) : [];
+            const activeCycle = cycles.find((c) => !c.isClosed);
+            const closedCycles = cycles.filter((c) => c.isClosed);
+            const archiveOpen = !!openArchives[litter];
+
             return (
               <div key={litter} className="weighing-group">
                 <h2 className="weighing-group-title">
@@ -411,73 +601,64 @@ export default function Weighing({ session }: Props) {
                 </h2>
 
                 {groupType === "fattening" ? (
-                  // ── Відгодівля: середня вага по клітці за кожен місяць + окремі записи ──
-                  <div className="weighing-monthly">
-                    {groupWeighingsByMonth(sorted).map((m, idx, arr) => (
-                      <div key={m.monthKey} className="weighing-month-block">
-                        {m.count > 1 && (
-                          <p className="weighing-info weighing-month-summary">
-                            {m.monthLabel}: середня{" "}
-                            <strong>{m.avgWeight} г</strong> ({m.count}{" "}
-                            зважувань)
-                            {idx > 0 && (
-                              <span className="weighing-gain">
-                                {" "}
-                                (
-                                {m.avgWeight - arr[idx - 1].avgWeight >= 0
-                                  ? "+"
-                                  : ""}
-                                {m.avgWeight - arr[idx - 1].avgWeight} г до
-                                попереднього місяця)
-                              </span>
-                            )}
-                          </p>
-                        )}
+                  <>
+                    {activeCycle ? (
+                      renderFatteningCycleBody(activeCycle)
+                    ) : (
+                      <p className="weighing-info weighing-cycle-empty">
+                        Поточний цикл ще не розпочато — додайте зважування нової
+                        партії в цю клітку.
+                      </p>
+                    )}
 
-                        <div className="weighing-list weighing-month-records">
-                          {m.records.map((r) =>
-                            editingRecord?.id === r.id ? (
-                              <div key={r.id}>{renderInlineEditForm()}</div>
-                            ) : (
-                              <div key={r.id} className="weighing-card">
-                                <div className="weighing-card-top">
-                                  <span className="weighing-name">
-                                    {new Date(
-                                      r.weighing_date,
-                                    ).toLocaleDateString("uk-UA")}
-                                    {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
-                                  </span>
-                                  <div className="weighing-card-btns">
-                                    <button
-                                      className="weighing-edit-btn"
-                                      onClick={() => setEditingRecord(r)}
-                                    >
-                                      ✏️
-                                    </button>
-                                    <button
-                                      className="weighing-delete-btn"
-                                      onClick={() => handleDelete(r.id)}
-                                    >
-                                      ✕
-                                    </button>
-                                  </div>
-                                </div>
-                                <p className="weighing-info">
-                                  Вага: <strong>{r.weight_g} г</strong>
+                    {closedCycles.length > 0 && (
+                      <div className="weighing-cycle-archive">
+                        <button
+                          className="weighing-cycle-archive-toggle"
+                          onClick={() =>
+                            setOpenArchives((prev) => ({
+                              ...prev,
+                              [litter]: !prev[litter],
+                            }))
+                          }
+                        >
+                          <span>📦 Архів циклів ({closedCycles.length})</span>
+                          <span>{archiveOpen ? "▲" : "▼"}</span>
+                        </button>
+
+                        {archiveOpen &&
+                          closedCycles
+                            .slice()
+                            .reverse()
+                            .map((cycle) => (
+                              <div
+                                key={cycle.cycleIndex}
+                                className="weighing-cycle-block weighing-cycle-closed"
+                              >
+                                <p className="weighing-cycle-summary">
+                                  Цикл {cycle.cycleIndex}:{" "}
+                                  {new Date(cycle.startDate).toLocaleDateString(
+                                    "uk-UA",
+                                  )}{" "}
+                                  –{" "}
+                                  {new Date(cycle.endDate).toLocaleDateString(
+                                    "uk-UA",
+                                  )}{" "}
+                                  ({cycle.durationDays} дн.)
+                                  {cycle.finalAvgWeight !== null && (
+                                    <>
+                                      {" "}
+                                      · середня вага на забій:{" "}
+                                      <strong>{cycle.finalAvgWeight} г</strong>
+                                    </>
+                                  )}
                                 </p>
-                                <p className="weighing-sample-tag">
-                                  Показовий кролик (один навмання з гнізда)
-                                </p>
-                                {r.notes && (
-                                  <p className="weighing-notes">{r.notes}</p>
-                                )}
+                                {renderFatteningCycleBody(cycle)}
                               </div>
-                            ),
-                          )}
-                        </div>
+                            ))}
                       </div>
-                    ))}
-                  </div>
+                    )}
+                  </>
                 ) : (
                   // ── Племінне: приріст по добі між зважуваннями ──
                   <div className="weighing-list">
@@ -530,7 +711,50 @@ export default function Weighing({ session }: Props) {
           })}
         </div>
       )}
+      {/* ── Порівняння циклів відгодівлі за рік ── */}
+      {allClosedCycles.length > 0 && (
+        <div className="registry-info">
+          <button
+            className="registry-info-toggle"
+            onClick={() => setShowComparison(!showComparison)}
+          >
+            <span>📊 Порівняння циклів відгодівлі</span>
+            <span>{showComparison ? "▲" : "▼"}</span>
+          </button>
 
+          {showComparison && (
+            <div className="weighing-comparison-table-wrap">
+              <table className="weighing-comparison-table">
+                <thead>
+                  <tr>
+                    <th>Клітка</th>
+                    <th>Період</th>
+                    <th>Тривалість</th>
+                    <th>Середня вага на забій</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allClosedCycles.map(({ litter, cycle }) => (
+                    <tr key={`${litter}-${cycle.cycleIndex}`}>
+                      <td>{litter}</td>
+                      <td>
+                        {new Date(cycle.startDate).toLocaleDateString("uk-UA")}{" "}
+                        – {new Date(cycle.endDate).toLocaleDateString("uk-UA")}
+                      </td>
+                      <td>{cycle.durationDays} дн.</td>
+                      <td>
+                        {cycle.finalAvgWeight !== null
+                          ? `${cycle.finalAvgWeight} г`
+                          : "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
       {/* ── Довідка: орієнтовна вага за віком ── */}
       <div className="registry-info">
         <button
@@ -664,6 +888,37 @@ export default function Weighing({ session }: Props) {
               </table>
             </div>
           </>
+        )}
+      </div>
+
+      <div className="registry-info">
+        <button
+          className="registry-info-toggle"
+          onClick={() => setShowCycleInfo(!showCycleInfo)}
+        >
+          <span>❔ Як рахуються цикли відгодівлі</span>
+          <span>{showCycleInfo ? "▲" : "▼"}</span>
+        </button>
+
+        {showCycleInfo && (
+          <p className="registry-info-text">
+            Кожна клітка проходить цикли: заселили кроленят у 2 місяці —
+            зважуєте в 3 місяці — фінальне зважування в 4 місяці перед забоєм.
+            <br />
+            <br />
+            Коли додаєте зважування, познач чекбоксом "Фінальне зважування" той
+            запис, що робиться перед забоєм. Після цього цикл вважається
+            завершеним і автоматично йде в архів.
+            <br />
+            <br />
+            Наступне зважування в тій самій клітці (нова партія кроленят) почне
+            новий цикл сам, без ручного очищення чи перейменування клітки.
+            <br />
+            <br />В архіві циклів по кожній клітці зберігається історія всіх
+            попередніх партій: дати заселення й забою, тривалість відгодівлі,
+            середня вага на забій — можна порівнювати цикли між собою протягом
+            року.
+          </p>
         )}
       </div>
     </div>
