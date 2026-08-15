@@ -18,5 +18,9 @@ window.addEventListener("load", () => {
     onNeedRefresh() {
       window.dispatchEvent(new CustomEvent("sw-update"));
     },
+    onRegisterError(error) {
+      // тихо логуємо, щоб не було "Uncaught (in promise)"
+      console.warn("SW registration failed:", error);
+    },
   });
 });
