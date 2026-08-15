@@ -1,26 +1,39 @@
-.welcome-overlay {
+.welcome-toast {
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 1rem;
-    padding-top: 8vh;
-}
-
-.welcome-popup {
-    background: #fff;
-    border-radius: 12px;
-    padding: 1.5rem 4.5rem;
+    top: 8vh;
+    left: 50%;
+    transform: translateX(-50%) translateY(-16px);
     width: 100%;
     max-width: 620px;
+    padding: 1.5rem 4.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    z-index: 9999;
     text-align: center;
-    position: relative;
+    opacity: 0;
+    animation: welcome-slide-in 0.4s ease forwards;
 }
 
-.welcome-popup__close {
+.welcome-toast--fade {
+    animation: welcome-slide-out 0.4s ease forwards;
+}
+
+@keyframes welcome-slide-in {
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes welcome-slide-out {
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-16px);
+    }
+}
+
+.welcome-toast__close {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -32,70 +45,46 @@
     line-height: 1;
 }
 
-.welcome-popup__title {
+.welcome-toast__title {
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 0.4rem;
     color: #1a1a1a;
 }
 
-.welcome-popup__text {
+.welcome-toast__text {
     color: #555;
     line-height: 1.4;
     margin: 0;
     font-size: 15px;
 }
 
-.welcome-overlay {
-    opacity: 1;
-    transition: opacity 0.4s ease;
-}
-
-.welcome-overlay--fade {
-    opacity: 0;
-}
-
 /* Мобільний — до 480px */
 @media (max-width: 480px) {
-    .welcome-overlay {
-        padding-top: 5vh;
-    }
-
-    .welcome-popup {
+    .welcome-toast {
+        top: 5vh;
+        width: calc(100% - 2rem);
         padding: 1.25rem 1.5rem;
         border-radius: 10px;
-        max-width: 100%;
     }
 
-    .welcome-popup__title {
+    .welcome-toast__title {
         font-size: 18px;
     }
 
-    .welcome-popup__text {
+    .welcome-toast__text {
         font-size: 14px;
     }
 }
 
 /* Планшет — 481px до 768px */
 @media (min-width: 481px) and (max-width: 768px) {
-    .welcome-popup {
+    .welcome-toast {
         max-width: 580px;
         padding: 1.5rem 3rem;
     }
 
-    .welcome-popup__title {
+    .welcome-toast__title {
         font-size: 20px;
-    }
-}
-
-/* Десктоп — від 769px */
-@media (min-width: 769px) {
-    .welcome-popup {
-        max-width: 620px;
-        padding: 1.5rem 4.5rem;
-    }
-
-    .welcome-popup__title {
-        font-size: 22px;
     }
 }
