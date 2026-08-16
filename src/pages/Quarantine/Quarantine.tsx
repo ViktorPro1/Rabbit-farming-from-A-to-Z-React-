@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
@@ -10,6 +10,7 @@ interface Props {
 
 interface QuarantineAnimal {
   id: string;
+  rabbit_id: string | null;
   name: string;
   gender: "male" | "female" | "unknown";
   breed: string;
@@ -20,6 +21,14 @@ interface QuarantineAnimal {
   result: "recovered" | "slaughter" | "died" | null;
   notes: string;
   is_active: boolean;
+}
+
+interface RegistryRabbit {
+  id: string;
+  name: string;
+  gender: "male" | "female";
+  breed: string;
+  cage_number: string;
 }
 
 const emptyForm = {
@@ -53,6 +62,12 @@ export default function Quarantine({ session }: Props) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Кролики з реєстру, доступні для вибору (не в карантині, не архівовані)
+  const [availableRabbits, setAvailableRabbits] = useState<RegistryRabbit[]>(
+    [],
+  );
+  const [selectedRabbitId, setSelectedRabbitId] = useState<string>("");
+
   useEffect(() => {
     supabase
       .from("quarantine")
@@ -70,6 +85,32 @@ export default function Quarantine({ session }: Props) {
           setLoading(false);
         },
       );
+  }, [session.user.id]);
+
+  const fetchAvailableRabbits = useCallback(async () => {
+    const { data } = await supabase
+      .from("rabbits")
+      .select("id, name, gender, breed, cage_number")
+      .eq("user_id", session.user.id)
+      .eq("is_active", true)
+      .order("cage_number", { ascending: true });
+    setAvailableRabbits(data || []);
+  }, [session.user.id]);
+
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      const { data } = await supabase
+        .from("rabbits")
+        .select("id, name, gender, breed, cage_number")
+        .eq("user_id", session.user.id)
+        .eq("is_active", true)
+        .order("cage_number", { ascending: true });
+      if (!ignore) setAvailableRabbits(data || []);
+    })();
+    return () => {
+      ignore = true;
+    };
   }, [session.user.id]);
 
   async function fetchAnimals() {
@@ -92,11 +133,31 @@ export default function Quarantine({ session }: Props) {
     setArchived(data || []);
   }
 
+  function handleSelectRabbit(id: string) {
+    setSelectedRabbitId(id);
+    if (!id) {
+      // "Вписати вручну" — очищаємо автозаповнені поля
+      setForm({ ...emptyForm, moved_date: form.moved_date });
+      return;
+    }
+    const r = availableRabbits.find((x) => x.id === id);
+    if (r) {
+      setForm({
+        ...form,
+        name: r.name,
+        gender: r.gender,
+        breed: r.breed || "",
+        from_cage: r.cage_number || "",
+      });
+    }
+  }
+
   async function handleAdd() {
     setSaving(true);
     setError("");
     const { error } = await supabase.from("quarantine").insert({
       ...form,
+      rabbit_id: selectedRabbitId || null,
       user_id: session.user.id,
       end_date: form.end_date || null,
       breed: form.breed || null,
@@ -106,11 +167,30 @@ export default function Quarantine({ session }: Props) {
     });
     if (error) {
       setError("Помилка збереження");
-    } else {
-      setForm(emptyForm);
-      setShowForm(false);
-      fetchAnimals();
+      setSaving(false);
+      return;
     }
+
+    // Кролик пішов у карантин — він більше не активний у загальному реєстрі,
+    // інакше рахується двічі (і в реєстрі, і в карантині)
+    if (selectedRabbitId) {
+      const { error: rabbitError } = await supabase
+        .from("rabbits")
+        .update({ is_active: false })
+        .eq("id", selectedRabbitId);
+      if (rabbitError) {
+        console.error(
+          "Не вдалося оновити статус кролика в реєстрі:",
+          rabbitError,
+        );
+      }
+    }
+
+    setForm(emptyForm);
+    setSelectedRabbitId("");
+    setShowForm(false);
+    fetchAnimals();
+    fetchAvailableRabbits();
     setSaving(false);
   }
 
@@ -149,7 +229,25 @@ export default function Quarantine({ session }: Props) {
       .from("quarantine")
       .update({ is_active: false, result })
       .eq("id", animal.id);
+
+    // Синхронізуємо реєстр, якщо запис пов'язаний з конкретним кроликом
+    if (animal.rabbit_id) {
+      if (result === "recovered") {
+        // Видужав — повертається в активний реєстр
+        const { error: rabbitError } = await supabase
+          .from("rabbits")
+          .update({ is_active: true })
+          .eq("id", animal.rabbit_id);
+        if (rabbitError) {
+          console.error("Не вдалося повернути кролика в реєстр:", rabbitError);
+        }
+      }
+      // При "slaughter" і "died" is_active в rabbits лишається false —
+      // тварина остаточно вибула з поголів'я
+    }
+
     fetchAnimals();
+    fetchAvailableRabbits();
     if (showArchive) fetchArchived();
   }
 
@@ -224,6 +322,19 @@ export default function Quarantine({ session }: Props) {
         <div className="quarantine-form">
           <h3>Новий запис</h3>
           <div className="quarantine-form-grid">
+            <select
+              className="quarantine-form-full"
+              value={selectedRabbitId}
+              onChange={(e) => handleSelectRabbit(e.target.value)}
+            >
+              <option value="">— Вписати вручну (немає в реєстрі) —</option>
+              {availableRabbits.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.name}
+                  {r.cage_number ? ` (клітка ${r.cage_number})` : ""}
+                </option>
+              ))}
+            </select>
             <input
               placeholder="Кличка / номер *"
               value={form.name}
