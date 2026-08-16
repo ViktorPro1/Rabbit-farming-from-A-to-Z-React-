@@ -675,6 +675,15 @@
     border-left-color: var(--gray);
 }
 
+.mating-toggle-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 @media (max-width: 640px) {
     .matings-info-grid {
         grid-template-columns: 1fr;
