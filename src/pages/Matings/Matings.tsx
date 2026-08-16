@@ -119,6 +119,28 @@ function schemeLabel(scheme?: string): string {
   }
 }
 
+function getUpcomingInfo(m: Mating): { label: string; date: string } | null {
+  const pendingLitter = (m.litters || []).find((l) => !l.birth_date);
+  if (pendingLitter?.litter_expected_birth) {
+    return {
+      label: "🗓 Очік. окріл",
+      date: pendingLitter.litter_expected_birth,
+    };
+  }
+  if (pendingLitter?.litter_control_date) {
+    return { label: "🔍 Контрольна", date: pendingLitter.litter_control_date };
+  }
+  if (!m.litters || m.litters.length === 0) {
+    if (m.expected_birth) {
+      return { label: "🗓 Очік. окріл", date: m.expected_birth };
+    }
+    if (m.control_date) {
+      return { label: "🔍 Контроль", date: m.control_date };
+    }
+  }
+  return null;
+}
+
 export default function Matings({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
   const [allRabbits, setAllRabbits] = useState<Rabbit[]>([]);
@@ -972,6 +994,18 @@ export default function Matings({ session }: Props) {
                     </button>
                   </div>
                 </div>
+
+                {(() => {
+                  const info = getUpcomingInfo(m);
+                  return info ? (
+                    <div className="mating-summary-date">
+                      {info.label}:{" "}
+                      <strong>
+                        {new Date(info.date).toLocaleDateString("uk-UA")}
+                      </strong>
+                    </div>
+                  ) : null;
+                })()}
 
                 {isExpanded && (
                   <>
