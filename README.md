@@ -32,9 +32,27 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - QR-паспорти кролів
 - Калькулятори
 - PWA (офлайн-режим)
+- Android-застосунок (TWA)
 - Адаптивний дизайн
 - SEO-оптимізація
 - Швидка навігація
+
+---
+
+## 📱 Android-застосунок (TWA)
+
+Проєкт упаковано в Android-застосунок через **Trusted Web Activity (TWA)** — PWA працює як нативна програма без WebView-обгортки, зі своєю іконкою та швидким запуском як окрема програма.
+
+Реалізовано:
+
+- Підготовка PWA до встановлення (manifest, service worker, іконки)
+- Збірка APK-файлу
+- Цифровий підпис застосунку ключем
+- Digital Asset Links (`.well-known/assetlinks.json`) для верифікації домену
+- Тестування встановлення на телефоні
+- Перевірка роботи всіх основних функцій
+
+**Статус:** APK доступний для прямого встановлення. Публікація в Google Play відкладена до сплати одноразового реєстраційного внеску розробника (25 USD).
 
 ---
 
@@ -90,19 +108,20 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 
 # Статистика проєкту
 
-| Показник               |                 Значення |
-| ---------------------- | -----------------------: |
-| Маршрутна логіка       | 13 файлів у `src/routes` |
-| Сторінок (`src/pages`) |                      401 |
-| React-компонентів      |                       52 |
-| Data-модулів           |                       26 |
-| Unit-тестів            |                       38 |
-| Test Suites            |                        7 |
-| E2E сценаріїв          |                       10 |
-| TypeScript             |                      Так |
-| PWA                    |                      Так |
-| SEO                    |                      Так |
-| Supabase               |                      Так |
+| Показник                 |                 Значення |
+| ------------------------ | -----------------------: |
+| Маршрутна логіка         | 13 файлів у `src/routes` |
+| Сторінок (`src/pages`)   |                      401 |
+| React-компонентів        |                       52 |
+| Data-модулів             |                       26 |
+| Unit-тестів              |                       38 |
+| Test Suites              |                        7 |
+| E2E сценаріїв            |                       10 |
+| TypeScript               |                      Так |
+| PWA                      |                      Так |
+| Android-застосунок (TWA) |                      Так |
+| SEO                      |                      Так |
+| Supabase                 |                      Так |
 
 ---
 
@@ -141,6 +160,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 ## Оптимізація
 
 - PWA
+- TWA (Trusted Web Activity)
 - Service Worker
 - Code Splitting
 - React.lazy()
@@ -213,6 +233,7 @@ src/
 - Cookie Consent
 - Захищене підключення до Supabase
 - HTTPS
+- Digital Asset Links (для TWA)
 
 ---
 
@@ -291,6 +312,7 @@ docs/
 - SEO
 - Supabase
 - Автоматичне тестування
+- Android-застосунок (TWA)
 
 ---
 

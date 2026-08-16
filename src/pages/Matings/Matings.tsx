@@ -26,8 +26,12 @@ interface Litter {
   weaned_date: string;
   weaned_males: number;
   weaned_males_cage: string;
+  weaned_males_cage_2: string;
+  weaned_males_2: number;
   weaned_females: number;
   weaned_females_cage: string;
+  weaned_females_cage_2: string;
+  weaned_females_2: number;
   notes: string;
   mating_id: string;
   litter_mating_date: string;
@@ -76,8 +80,12 @@ const emptyLitterForm = {
   weaned_date: "",
   weaned_males: "",
   weaned_males_cage: "",
+  weaned_males_cage_2: "",
+  weaned_males_2: "",
   weaned_females: "",
   weaned_females_cage: "",
+  weaned_females_cage_2: "",
+  weaned_females_2: "",
   notes: "",
   litter_mating_date: "",
   litter_control_date: "",
@@ -132,6 +140,14 @@ export default function Matings({ session }: Props) {
   const [showLitterForm, setShowLitterForm] = useState<Record<string, boolean>>(
     {},
   );
+  const [showSplitMale, setShowSplitMale] = useState<Record<string, boolean>>(
+    {},
+  );
+  const [showSplitFemale, setShowSplitFemale] = useState<
+    Record<string, boolean>
+  >({});
+  const [editSplitMale, setEditSplitMale] = useState(false);
+  const [editSplitFemale, setEditSplitFemale] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
@@ -313,24 +329,20 @@ export default function Matings({ session }: Props) {
   async function createFatteningRecords(
     birthDate: string,
     breed: string,
-    males: number,
-    malesCage: string,
-    females: number,
-    femalesCage: string,
+    entries: { cage: string; males: number; females: number }[],
   ) {
     // Групуємо за номером клітки, щоб не плодити дублікати однієї й тієї ж клітки
     const cageTotals: Record<string, { males: number; females: number }> = {};
 
-    if (males > 0 && malesCage) {
-      cageTotals[malesCage] = cageTotals[malesCage] || { males: 0, females: 0 };
-      cageTotals[malesCage].males += males;
-    }
-    if (females > 0 && femalesCage) {
-      cageTotals[femalesCage] = cageTotals[femalesCage] || {
+    for (const entry of entries) {
+      if (!entry.cage) continue;
+      if (entry.males <= 0 && entry.females <= 0) continue;
+      cageTotals[entry.cage] = cageTotals[entry.cage] || {
         males: 0,
         females: 0,
       };
-      cageTotals[femalesCage].females += females;
+      cageTotals[entry.cage].males += entry.males;
+      cageTotals[entry.cage].females += entry.females;
     }
 
     for (const [cageNumber, counts] of Object.entries(cageTotals)) {
@@ -366,6 +378,55 @@ export default function Matings({ session }: Props) {
         });
       }
     }
+  }
+
+  function buildFatteningEntries(form: {
+    weaned_males_cage: string;
+    weaned_males_cage_2?: string;
+    weaned_males_2?: string | number;
+    weaned_males: string | number;
+    weaned_females_cage: string;
+    weaned_females_cage_2?: string;
+    weaned_females_2?: string | number;
+    weaned_females: string | number;
+  }) {
+    const totalMales = Number(form.weaned_males) || 0;
+    const secondMales = Number(form.weaned_males_2) || 0;
+    const firstMales = form.weaned_males_cage_2
+      ? Math.max(totalMales - secondMales, 0)
+      : totalMales;
+
+    const totalFemales = Number(form.weaned_females) || 0;
+    const secondFemales = Number(form.weaned_females_2) || 0;
+    const firstFemales = form.weaned_females_cage_2
+      ? Math.max(totalFemales - secondFemales, 0)
+      : totalFemales;
+
+    const entries: { cage: string; males: number; females: number }[] = [
+      { cage: form.weaned_males_cage || "", males: firstMales, females: 0 },
+      {
+        cage: form.weaned_females_cage || "",
+        males: 0,
+        females: firstFemales,
+      },
+    ];
+
+    if (form.weaned_males_cage_2 && secondMales > 0) {
+      entries.push({
+        cage: form.weaned_males_cage_2,
+        males: secondMales,
+        females: 0,
+      });
+    }
+    if (form.weaned_females_cage_2 && secondFemales > 0) {
+      entries.push({
+        cage: form.weaned_females_cage_2,
+        males: 0,
+        females: secondFemales,
+      });
+    }
+
+    return entries;
   }
 
   async function handleAddMating() {
@@ -432,8 +493,12 @@ export default function Matings({ session }: Props) {
         weaned_date: editingLitterData.weaned_date || null,
         weaned_males: Number(editingLitterData.weaned_males) || 0,
         weaned_males_cage: editingLitterData.weaned_males_cage || null,
+        weaned_males_cage_2: editingLitterData.weaned_males_cage_2 || null,
+        weaned_males_2: Number(editingLitterData.weaned_males_2) || 0,
         weaned_females: Number(editingLitterData.weaned_females) || 0,
         weaned_females_cage: editingLitterData.weaned_females_cage || null,
+        weaned_females_cage_2: editingLitterData.weaned_females_cage_2 || null,
+        weaned_females_2: Number(editingLitterData.weaned_females_2) || 0,
         notes: editingLitterData.notes || null,
         litter_mating_date: editingLitterData.litter_mating_date || null,
         litter_control_date: editingLitterData.litter_control_date || null,
@@ -456,14 +521,13 @@ export default function Matings({ session }: Props) {
         await createFatteningRecords(
           editingLitterData.birth_date,
           breed,
-          Number(editingLitterData.weaned_males) || 0,
-          editingLitterData.weaned_males_cage || "",
-          Number(editingLitterData.weaned_females) || 0,
-          editingLitterData.weaned_females_cage || "",
+          buildFatteningEntries(editingLitterData),
         );
       }
       setEditingLitterId(null);
       setEditingLitterData(null);
+      setEditSplitMale(false);
+      setEditSplitFemale(false);
       fetchMatings();
     }
     setSaving(false);
@@ -483,8 +547,12 @@ export default function Matings({ session }: Props) {
       weaned_date: form.weaned_date || null,
       weaned_males: Number(form.weaned_males) || 0,
       weaned_males_cage: form.weaned_males_cage || null,
+      weaned_males_cage_2: form.weaned_males_cage_2 || null,
+      weaned_males_2: Number(form.weaned_males_2) || 0,
       weaned_females: Number(form.weaned_females) || 0,
       weaned_females_cage: form.weaned_females_cage || null,
+      weaned_females_cage_2: form.weaned_females_cage_2 || null,
+      weaned_females_2: Number(form.weaned_females_2) || 0,
       notes: form.notes || null,
       litter_mating_date: form.litter_mating_date || null,
       litter_control_date: form.litter_control_date || null,
@@ -505,14 +573,13 @@ export default function Matings({ session }: Props) {
         await createFatteningRecords(
           form.birth_date,
           breed,
-          Number(form.weaned_males) || 0,
-          form.weaned_males_cage || "",
-          Number(form.weaned_females) || 0,
-          form.weaned_females_cage || "",
+          buildFatteningEntries(form),
         );
       }
       setLitterForms({ ...litterForms, [matingId]: emptyLitterForm });
       setShowLitterForm({ ...showLitterForm, [matingId]: false });
+      setShowSplitMale({ ...showSplitMale, [matingId]: false });
+      setShowSplitFemale({ ...showSplitFemale, [matingId]: false });
       fetchMatings();
     }
     setSaving(false);
@@ -1111,9 +1178,13 @@ export default function Matings({ session }: Props) {
                             if (editingLitterId === l.id) {
                               setEditingLitterId(null);
                               setEditingLitterData(null);
+                              setEditSplitMale(false);
+                              setEditSplitFemale(false);
                             } else {
                               setEditingLitterId(l.id);
                               setEditingLitterData({ ...l });
+                              setEditSplitMale(!!l.weaned_males_cage_2);
+                              setEditSplitFemale(!!l.weaned_females_cage_2);
                             }
                           }}
                         >
@@ -1275,13 +1346,32 @@ export default function Matings({ session }: Props) {
                         </span>
                         {l.weaned_males > 0 && (
                           <span>
-                            ♂ {l.weaned_males} гол. → кл. {l.weaned_males_cage}
+                            ♂{" "}
+                            {l.weaned_males_cage_2
+                              ? Math.max(
+                                  l.weaned_males - (l.weaned_males_2 || 0),
+                                  0,
+                                )
+                              : l.weaned_males}{" "}
+                            гол. → кл. {l.weaned_males_cage}
+                            {l.weaned_males_cage_2 &&
+                              l.weaned_males_2 > 0 &&
+                              ` · ${l.weaned_males_2} гол. → кл. ${l.weaned_males_cage_2}`}
                           </span>
                         )}
                         {l.weaned_females > 0 && (
                           <span>
-                            ♀ {l.weaned_females} гол. → кл.{" "}
-                            {l.weaned_females_cage}
+                            ♀{" "}
+                            {l.weaned_females_cage_2
+                              ? Math.max(
+                                  l.weaned_females - (l.weaned_females_2 || 0),
+                                  0,
+                                )
+                              : l.weaned_females}{" "}
+                            гол. → кл. {l.weaned_females_cage}
+                            {l.weaned_females_cage_2 &&
+                              l.weaned_females_2 > 0 &&
+                              ` · ${l.weaned_females_2} гол. → кл. ${l.weaned_females_cage_2}`}
                           </span>
                         )}
                       </div>
@@ -1446,6 +1536,41 @@ export default function Matings({ session }: Props) {
                               })
                             }
                           />
+                          {!editSplitMale ? (
+                            <button
+                              type="button"
+                              className="litter-split-btn"
+                              onClick={() => setEditSplitMale(true)}
+                            >
+                              + Ще одна клітка для самців
+                            </button>
+                          ) : (
+                            <>
+                              <input
+                                type="number"
+                                placeholder="♂ Скільки з них у другу клітку"
+                                value={editingLitterData.weaned_males_2 || ""}
+                                onChange={(e) =>
+                                  setEditingLitterData({
+                                    ...editingLitterData,
+                                    weaned_males_2: Number(e.target.value),
+                                  })
+                                }
+                              />
+                              <input
+                                placeholder="♂ Друга клітка"
+                                value={
+                                  editingLitterData.weaned_males_cage_2 || ""
+                                }
+                                onChange={(e) =>
+                                  setEditingLitterData({
+                                    ...editingLitterData,
+                                    weaned_males_cage_2: e.target.value,
+                                  })
+                                }
+                              />
+                            </>
+                          )}
                           <input
                             type="number"
                             placeholder="♀ Кількість самиць"
@@ -1467,6 +1592,41 @@ export default function Matings({ session }: Props) {
                               })
                             }
                           />
+                          {!editSplitFemale ? (
+                            <button
+                              type="button"
+                              className="litter-split-btn"
+                              onClick={() => setEditSplitFemale(true)}
+                            >
+                              + Ще одна клітка для самиць
+                            </button>
+                          ) : (
+                            <>
+                              <input
+                                type="number"
+                                placeholder="♀ Скільки з них у другу клітку"
+                                value={editingLitterData.weaned_females_2 || ""}
+                                onChange={(e) =>
+                                  setEditingLitterData({
+                                    ...editingLitterData,
+                                    weaned_females_2: Number(e.target.value),
+                                  })
+                                }
+                              />
+                              <input
+                                placeholder="♀ Друга клітка"
+                                value={
+                                  editingLitterData.weaned_females_cage_2 || ""
+                                }
+                                onChange={(e) =>
+                                  setEditingLitterData({
+                                    ...editingLitterData,
+                                    weaned_females_cage_2: e.target.value,
+                                  })
+                                }
+                              />
+                            </>
+                          )}
                           <input
                             placeholder="Нотатки"
                             value={editingLitterData.notes || ""}
@@ -1486,6 +1646,8 @@ export default function Matings({ session }: Props) {
                             onClick={() => {
                               setEditingLitterId(null);
                               setEditingLitterData(null);
+                              setEditSplitMale(false);
+                              setEditSplitFemale(false);
                             }}
                           >
                             Скасувати
@@ -1701,6 +1863,47 @@ export default function Matings({ session }: Props) {
                         })
                       }
                     />
+                    {!showSplitMale[m.id] ? (
+                      <button
+                        type="button"
+                        className="litter-split-btn"
+                        onClick={() =>
+                          setShowSplitMale({ ...showSplitMale, [m.id]: true })
+                        }
+                      >
+                        + Ще одна клітка для самців
+                      </button>
+                    ) : (
+                      <>
+                        <input
+                          type="number"
+                          placeholder="♂ Скільки з них у другу клітку"
+                          value={litterForms[m.id]?.weaned_males_2 || ""}
+                          onChange={(e) =>
+                            setLitterForms({
+                              ...litterForms,
+                              [m.id]: {
+                                ...(litterForms[m.id] || emptyLitterForm),
+                                weaned_males_2: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                        <input
+                          placeholder="♂ Друга клітка"
+                          value={litterForms[m.id]?.weaned_males_cage_2 || ""}
+                          onChange={(e) =>
+                            setLitterForms({
+                              ...litterForms,
+                              [m.id]: {
+                                ...(litterForms[m.id] || emptyLitterForm),
+                                weaned_males_cage_2: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </>
+                    )}
                     <input
                       type="number"
                       placeholder="♀ Кількість самиць"
@@ -1728,6 +1931,50 @@ export default function Matings({ session }: Props) {
                         })
                       }
                     />
+                    {!showSplitFemale[m.id] ? (
+                      <button
+                        type="button"
+                        className="litter-split-btn"
+                        onClick={() =>
+                          setShowSplitFemale({
+                            ...showSplitFemale,
+                            [m.id]: true,
+                          })
+                        }
+                      >
+                        + Ще одна клітка для самиць
+                      </button>
+                    ) : (
+                      <>
+                        <input
+                          type="number"
+                          placeholder="♀ Скільки з них у другу клітку"
+                          value={litterForms[m.id]?.weaned_females_2 || ""}
+                          onChange={(e) =>
+                            setLitterForms({
+                              ...litterForms,
+                              [m.id]: {
+                                ...(litterForms[m.id] || emptyLitterForm),
+                                weaned_females_2: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                        <input
+                          placeholder="♀ Друга клітка"
+                          value={litterForms[m.id]?.weaned_females_cage_2 || ""}
+                          onChange={(e) =>
+                            setLitterForms({
+                              ...litterForms,
+                              [m.id]: {
+                                ...(litterForms[m.id] || emptyLitterForm),
+                                weaned_females_cage_2: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </>
+                    )}
                     <input
                       placeholder="Нотатки"
                       value={litterForms[m.id]?.notes || ""}
@@ -1944,14 +2191,33 @@ export default function Matings({ session }: Props) {
                             </span>
                             {l.weaned_males > 0 && (
                               <span>
-                                ♂ {l.weaned_males} гол. → кл.{" "}
-                                {l.weaned_males_cage}
+                                ♂{" "}
+                                {l.weaned_males_cage_2
+                                  ? Math.max(
+                                      l.weaned_males - (l.weaned_males_2 || 0),
+                                      0,
+                                    )
+                                  : l.weaned_males}{" "}
+                                гол. → кл. {l.weaned_males_cage}
+                                {l.weaned_males_cage_2 &&
+                                  l.weaned_males_2 > 0 &&
+                                  ` · ${l.weaned_males_2} гол. → кл. ${l.weaned_males_cage_2}`}
                               </span>
                             )}
                             {l.weaned_females > 0 && (
                               <span>
-                                ♀ {l.weaned_females} гол. → кл.{" "}
-                                {l.weaned_females_cage}
+                                ♀{" "}
+                                {l.weaned_females_cage_2
+                                  ? Math.max(
+                                      l.weaned_females -
+                                        (l.weaned_females_2 || 0),
+                                      0,
+                                    )
+                                  : l.weaned_females}{" "}
+                                гол. → кл. {l.weaned_females_cage}
+                                {l.weaned_females_cage_2 &&
+                                  l.weaned_females_2 > 0 &&
+                                  ` · ${l.weaned_females_2} гол. → кл. ${l.weaned_females_cage_2}`}
                               </span>
                             )}
                           </div>
