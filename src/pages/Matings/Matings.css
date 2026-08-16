@@ -688,9 +688,7 @@
     .matings-info-grid {
         grid-template-columns: 1fr;
     }
-}
 
-@media (max-width: 640px) {
     .matings-form-grid {
         grid-template-columns: 1fr;
     }
@@ -702,6 +700,11 @@
     .mating-dates {
         flex-direction: column;
         gap: 0.4rem;
+    }
+
+    .mating-card-btns {
+        flex-wrap: wrap;
+        row-gap: 0.4rem;
     }
 }
 
