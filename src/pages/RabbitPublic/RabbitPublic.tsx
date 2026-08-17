@@ -61,10 +61,17 @@ export default function RabbitPublic() {
         } else if (matingsData && matingsData.length > 0) {
           const lastMating = matingsData[0];
 
-          // Останній окріл по цій злучці
+          // Останній окріл по цій злучці.
+          // Один mating може мати кілька окролів (повторні злучки тієї ж
+          // пари записуються в litter_mating_date/litter_control_date/
+          // litter_expected_birth окролу, а не в дати самого mating) —
+          // тому беремо ці поля теж, щоб не показати дату першої злучки
+          // поруч із результатом фактично іншої, пізнішої.
           const { data: littersData, error: littersError } = await supabase
             .from("litters")
-            .select("birth_date, alive")
+            .select(
+              "birth_date, alive, litter_mating_date, litter_control_date, litter_expected_birth",
+            )
             .eq("mating_id", lastMating.id)
             .order("birth_date", { ascending: false })
             .limit(1);
@@ -77,9 +84,16 @@ export default function RabbitPublic() {
             littersData && littersData.length > 0 ? littersData[0] : null;
 
           setMating({
-            mating_date: lastMating.mating_date,
-            control_date: lastMating.control_date || null,
-            expected_birth: lastMating.expected_birth || null,
+            mating_date:
+              lastLitter?.litter_mating_date || lastMating.mating_date,
+            control_date:
+              lastLitter?.litter_control_date ||
+              lastMating.control_date ||
+              null,
+            expected_birth:
+              lastLitter?.litter_expected_birth ||
+              lastMating.expected_birth ||
+              null,
             last_litter_birth: lastLitter?.birth_date || null,
             last_litter_alive: lastLitter?.alive ?? null,
           });
