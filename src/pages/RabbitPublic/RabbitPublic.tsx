@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
+import { calcAgeLabel } from "../../utils/calcAge";
 import "./RabbitPublic.css";
 
 interface Rabbit {
@@ -31,58 +33,66 @@ export default function RabbitPublic() {
   useEffect(() => {
     if (!id) return;
 
-    supabase
-      .from("rabbits")
-      .select("*")
-      .eq("id", id)
-      .single()
-      .then(
-        async ({ data: rabbitData }) => {
-          if (!rabbitData) {
-            setNotFound(true);
-            setLoading(false);
-            return;
-          }
-          setRabbit(rabbitData);
+    async function loadRabbit() {
+      try {
+        const { data: rabbitData, error: rabbitError } = await supabase
+          .from("rabbits")
+          .select("*")
+          .eq("id", id)
+          .single();
 
-          // Остання злучка де цей кролик є самцем або самицею
-          const { data: matingsData } = await supabase
-            .from("matings")
-            .select("id, mating_date, control_date, expected_birth")
-            .or(`male_id.eq.${id},female_id.eq.${id}`)
-            .order("mating_date", { ascending: false })
+        if (rabbitError || !rabbitData) {
+          setNotFound(true);
+          return;
+        }
+
+        setRabbit(rabbitData);
+
+        // Остання злучка де цей кролик є самцем або самицею
+        const { data: matingsData, error: matingsError } = await supabase
+          .from("matings")
+          .select("id, mating_date, control_date, expected_birth")
+          .or(`male_id.eq.${id},female_id.eq.${id}`)
+          .order("mating_date", { ascending: false })
+          .limit(1);
+
+        if (matingsError) {
+          logError("RabbitPublic:loadMatings", matingsError);
+        } else if (matingsData && matingsData.length > 0) {
+          const lastMating = matingsData[0];
+
+          // Останній окріл по цій злучці
+          const { data: littersData, error: littersError } = await supabase
+            .from("litters")
+            .select("birth_date, alive")
+            .eq("mating_id", lastMating.id)
+            .order("birth_date", { ascending: false })
             .limit(1);
 
-          if (matingsData && matingsData.length > 0) {
-            const lastMating = matingsData[0];
-
-            // Останній окріл по цій злучці
-            const { data: littersData } = await supabase
-              .from("litters")
-              .select("birth_date, alive")
-              .eq("mating_id", lastMating.id)
-              .order("birth_date", { ascending: false })
-              .limit(1);
-
-            const lastLitter =
-              littersData && littersData.length > 0 ? littersData[0] : null;
-
-            setMating({
-              mating_date: lastMating.mating_date,
-              control_date: lastMating.control_date || null,
-              expected_birth: lastMating.expected_birth || null,
-              last_litter_birth: lastLitter?.birth_date || null,
-              last_litter_alive: lastLitter?.alive ?? null,
-            });
+          if (littersError) {
+            logError("RabbitPublic:loadLitters", littersError);
           }
 
-          setLoading(false);
-        },
-        (err) => {
-          console.error("Не вдалося завантажити публічну картку кролика:", err);
-          setLoading(false);
-        },
-      );
+          const lastLitter =
+            littersData && littersData.length > 0 ? littersData[0] : null;
+
+          setMating({
+            mating_date: lastMating.mating_date,
+            control_date: lastMating.control_date || null,
+            expected_birth: lastMating.expected_birth || null,
+            last_litter_birth: lastLitter?.birth_date || null,
+            last_litter_alive: lastLitter?.alive ?? null,
+          });
+        }
+      } catch (err) {
+        logError("RabbitPublic:loadRabbit", err);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadRabbit();
   }, [id]);
 
   if (loading) {
@@ -106,24 +116,7 @@ export default function RabbitPublic() {
   }
 
   const birth = rabbit.birth_date ? new Date(rabbit.birth_date) : null;
-  let age = "";
-  if (birth) {
-    const today = new Date();
-    const days = Math.floor(
-      (today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24),
-    );
-    const months = Math.floor(days / 30);
-    const years = Math.floor(days / 365);
-    if (years >= 1) {
-      const remMonths = Math.floor((days - years * 365) / 30);
-      age = remMonths > 0 ? `${years} р. ${remMonths} міс.` : `${years} р.`;
-    } else if (months >= 1) {
-      const remDays = days - months * 30;
-      age = remDays > 0 ? `${months} міс. ${remDays} дн.` : `${months} міс.`;
-    } else {
-      age = `${days} дн.`;
-    }
-  }
+  const age = rabbit.birth_date ? calcAgeLabel(rabbit.birth_date) : "";
 
   return (
     <div className="rp-wrap">

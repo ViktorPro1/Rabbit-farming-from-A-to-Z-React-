@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import SkeletonCard from "./SkeletonCard";
 import "./RabbitRegistry.css";
 import { logError } from "../../lib/logError";
+import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
 
 interface Props {
   session: Session;
@@ -750,51 +751,22 @@ export default function RabbitRegistry({ session }: Props) {
                     <strong>Порода:</strong> {rabbit.breed}
                   </p>
                 )}
-                {rabbit.birth_date &&
-                  (() => {
-                    const birth = new Date(rabbit.birth_date);
-                    const today = new Date();
-                    const days = Math.floor(
-                      (today.getTime() - birth.getTime()) /
-                        (1000 * 60 * 60 * 24),
-                    );
-                    const months = Math.floor(days / 30);
-                    const years = Math.floor(days / 365);
-                    let age = "";
-                    if (years >= 1) {
-                      const remMonths = Math.floor((days - years * 365) / 30);
-                      age =
-                        remMonths > 0
-                          ? `${years} р. ${remMonths} міс.`
-                          : `${years} р.`;
-                    } else if (months >= 1) {
-                      const remDays = days - months * 30;
-                      age =
-                        remDays > 0
-                          ? `${months} міс. ${remDays} дн.`
-                          : `${months} міс.`;
-                    } else {
-                      age = `${days} дн.`;
-                    }
-                    return (
-                      <>
-                        <p>
-                          <strong>Нар.:</strong>{" "}
-                          {birth.toLocaleDateString("uk-UA")}
-                        </p>
-                        <p className="rabbit-age">Вік: {age}</p>
-                      </>
-                    );
-                  })()}
+                {rabbit.birth_date && (
+                  <>
+                    <p>
+                      <strong>Нар.:</strong>{" "}
+                      {new Date(rabbit.birth_date).toLocaleDateString("uk-UA")}
+                    </p>
+                    <p className="rabbit-age">
+                      Вік: {calcAgeLabel(rabbit.birth_date)}
+                    </p>
+                  </>
+                )}
                 {rabbit.notes && <p className="rabbit-notes">{rabbit.notes}</p>}
               </div>
               {rabbit.birth_date &&
                 (() => {
-                  const birth = new Date(rabbit.birth_date);
-                  const today = new Date();
-                  const days = Math.floor(
-                    (today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24),
-                  );
+                  const days = calcAgeDays(rabbit.birth_date);
                   const breedingLimitDays = 3 * 365;
                   const percent = Math.min(
                     100,

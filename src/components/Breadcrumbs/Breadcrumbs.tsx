@@ -5,6 +5,8 @@ import { PATH_TO_SECTION } from "../../data/navMap.generated";
 // ── Route label map ──────────────────────────────────────────────
 const ROUTE_LABELS: Record<string, string> = {
   "/": "Головна",
+  "/rabbit": "Картка кролика",
+  "/fattening-public": "Картка відгодівлі",
 
   // З ЧОГО ПОЧАТИ
   "/beginner-guide": "Маршрут новачка",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
 import "./FatteningPublic.css";
 
 interface FatteningCage {
@@ -15,10 +16,14 @@ interface FatteningCage {
   notes: string;
 }
 
+// Скільки днів від народження до планового забою за замовчуванням,
+// якщо slaughter_date не вказана вручну.
+const DEFAULT_DAYS_TO_SLAUGHTER = 110;
+
 function calcSlaughterDate(birthDate: string): string {
   if (!birthDate) return "";
   const d = new Date(birthDate);
-  d.setDate(d.getDate() + 110);
+  d.setDate(d.getDate() + DEFAULT_DAYS_TO_SLAUGHTER);
   return d.toISOString().split("T")[0];
 }
 
@@ -30,26 +35,30 @@ export default function FatteningPublic() {
 
   useEffect(() => {
     if (!id) return;
-    supabase
-      .from("fattening")
-      .select("*")
-      .eq("id", id)
-      .single()
-      .then(
-        ({ data }) => {
-          if (data) {
-            setCage(data);
-          } else {
-            setNotFound(true);
-          }
-          setLoading(false);
-        },
-        (err) => {
-          console.error("Не вдалося завантажити публічну клітку відгодівлі:", err);
+
+    async function loadCage() {
+      try {
+        const { data, error } = await supabase
+          .from("fattening")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (error || !data) {
           setNotFound(true);
-          setLoading(false);
-        },
-      );
+          return;
+        }
+
+        setCage(data);
+      } catch (err) {
+        logError("FatteningPublic:loadCage", err);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadCage();
   }, [id]);
 
   if (loading) {
