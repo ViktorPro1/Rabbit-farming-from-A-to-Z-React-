@@ -1,3 +1,5 @@
+import { Crown } from "lucide-react";
+import { Link } from "react-router-dom";
 import { CHANGELOG } from "../../data/changelog";
 import "./Changelog.css";
 
@@ -30,8 +32,18 @@ const Changelog = () => {
             <div
               className={`changelog-card${entry.id === latestId ? " latest" : ""}`}
             >
-              {entry.id === latestId && (
-                <span className="changelog-card-badge">НОВЕ</span>
+              {(entry.id === latestId || entry.isSubscription) && (
+                <div className="changelog-card-badges">
+                  {entry.id === latestId && (
+                    <span className="changelog-card-badge">НОВЕ</span>
+                  )}
+                  {entry.isSubscription && (
+                    <Link to="/subscription" className="badge-subscription">
+                      <Crown size={12} strokeWidth={2.5} />
+                      Підписка
+                    </Link>
+                  )}
+                </div>
               )}
               <h2>{entry.title}</h2>
               {entry.description && <p>{entry.description}</p>}

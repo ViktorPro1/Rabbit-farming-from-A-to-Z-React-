@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   LogIn,
   LogOut,
+  Crown,
 } from "lucide-react";
 import "./Header.css";
 
@@ -105,6 +106,7 @@ const Header = ({ session }: Props) => {
 
   // Показуємо 3 останніх в дропдауні (найновіші спочатку)
   const recent = [...CHANGELOG].reverse().slice(0, 3);
+  const recentLatestId = recent[0]?.id;
 
   return (
     <>
@@ -129,19 +131,41 @@ const Header = ({ session }: Props) => {
 
             {showDropdown && (
               <div className="changelog-dropdown">
-                {recent.map((entry) => (
-                  <div key={entry.id} className="changelog-item">
-                    <span className="changelog-item-title">{entry.title}</span>
-                    {entry.description && (
-                      <span className="changelog-item-desc">
-                        {entry.description}
+                <div className="changelog-dropdown-items">
+                  {recent.map((entry) => (
+                    <div key={entry.id} className="changelog-item">
+                      {(entry.id === recentLatestId ||
+                        entry.isSubscription) && (
+                        <div className="changelog-item-badges">
+                          {entry.id === recentLatestId && (
+                            <span className="changelog-card-badge">НОВЕ</span>
+                          )}
+                          {entry.isSubscription && (
+                            <NavLink
+                              to="/subscription"
+                              className="badge-subscription"
+                              onClick={() => setShowDropdown(false)}
+                            >
+                              <Crown size={12} strokeWidth={2.5} />
+                              Підписка
+                            </NavLink>
+                          )}
+                        </div>
+                      )}
+                      <span className="changelog-item-title">
+                        {entry.title}
                       </span>
-                    )}
-                    <span className="changelog-item-date">
-                      {formatDate(entry.created_at)}
-                    </span>
-                  </div>
-                ))}
+                      {entry.description && (
+                        <span className="changelog-item-desc">
+                          {entry.description}
+                        </span>
+                      )}
+                      <span className="changelog-item-date">
+                        {formatDate(entry.created_at)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
                 <NavLink
                   to="/changelog"
                   className="changelog-all"

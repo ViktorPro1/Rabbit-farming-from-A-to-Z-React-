@@ -520,10 +520,12 @@
     border: 1px solid #c9a227;
     color: #c9a227;
     border-radius: 6px;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
+    flex: 0 0 auto;
 }
 
 .fattening-sell-btn:hover {
@@ -531,9 +533,76 @@
     color: white;
 }
 
+/* ── Модалка На плем'я ── */
+
+.fattening-breed-btn {
+    background: none;
+    border: 1px solid var(--green-accent);
+    color: var(--green-accent);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+.fattening-breed-btn:hover {
+    background: var(--green-accent);
+    color: white;
+}
+
+.fattening-form-field select {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    background: var(--cream);
+    color: var(--green-dark);
+}
+
+.fattening-form-field select:focus {
+    border-color: var(--green-dark);
+}
+
+.fattening-breed-btn:hover {
+    background: var(--green-accent);
+    color: white;
+}
+
+.breed-modal {
+    padding-left: 2rem;
+}
+
+
 @media (max-width: 480px) {
     .fattening-note-grid {
         grid-template-columns: 1fr;
+    }
+
+    .help-modal {
+        padding: 1rem;
+        max-width: 100%;
+    }
+
+    .breed-modal {
+        padding-left: 1rem;
+    }
+
+    .fattening-card-btns {
+        gap: 0.25rem;
+    }
+
+    .fattening-edit-btn,
+    .fattening-sell-btn,
+    .fattening-breed-btn,
+    .fattening-slaughter-btn,
+    .fattening-delete-btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.7rem;
     }
 }
 
@@ -547,6 +616,7 @@
     }
 }
 
+
 @media (max-width: 420px) {
     .fattening-page {
         padding: 1rem;
@@ -554,5 +624,33 @@
 
     .fattening-grid {
         grid-template-columns: 1fr;
+    }
+
+    .help-overlay {
+        padding: 0.5rem;
+    }
+
+    .help-modal {
+        padding: 0.85rem;
+        border-radius: 12px;
+    }
+
+    .breed-modal {
+        padding-left: 0.75rem;
+    }
+
+    .fattening-form-field select,
+    .fattening-form-field input {
+        font-size: 0.9rem;
+        padding: 0.55rem 0.75rem;
+    }
+
+    .fattening-edit-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .fattening-edit-actions button {
+        width: 100%;
     }
 }

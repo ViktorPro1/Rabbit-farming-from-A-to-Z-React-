@@ -71,6 +71,15 @@ export default function Fattening({ session }: Props) {
   const [sellSaving, setSellSaving] = useState(false);
   const [sellError, setSellError] = useState("");
 
+  // Модалка "На плем'я"
+  const [breedCage, setBreedCage] = useState<FatteningCage | null>(null);
+  const [breedName, setBreedName] = useState("");
+  const [breedCageNumber, setBreedCageNumber] = useState("");
+  const [breedNotes, setBreedNotes] = useState("");
+  const [breedSaving, setBreedSaving] = useState(false);
+  const [breedError, setBreedError] = useState("");
+  const [breedGender, setBreedGender] = useState<"male" | "female">("female");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -244,6 +253,75 @@ export default function Fattening({ session }: Props) {
       .eq("id", slaughterCage.id);
     setSlaughterCage(null);
     setSlaughterSaving(false);
+    fetchCages();
+  }
+
+  function openBreedModal(cage: FatteningCage) {
+    setBreedCage(cage);
+    setBreedName("");
+    setBreedCageNumber(cage.cage_number);
+    setBreedNotes("");
+    setBreedError("");
+    setBreedGender(cage.females > 0 ? "female" : "male");
+  }
+
+  async function handleBreed() {
+    if (!breedCage) return;
+    if (!breedName.trim()) {
+      setBreedError("Вкажіть кличку кролика");
+      return;
+    }
+    const available =
+      breedGender === "female" ? breedCage.females : breedCage.males;
+    if (available < 1) {
+      setBreedError(
+        breedGender === "female"
+          ? "В клітці немає самиць"
+          : "В клітці немає самців",
+      );
+      return;
+    }
+
+    setBreedSaving(true);
+
+    const { error: insertError } = await supabase.from("rabbits").insert({
+      user_id: session.user.id,
+      name: breedName.trim(),
+      breed: breedCage.breed || "",
+      gender: breedGender,
+      birth_date: breedCage.birth_date || "",
+      cage_number: breedCageNumber.trim(),
+      notes: breedNotes.trim(),
+      is_active: true,
+    });
+
+    if (insertError) {
+      setBreedError("Помилка збереження в реєстрі");
+      setBreedSaving(false);
+      return;
+    }
+
+    const newMales =
+      breedGender === "male" ? breedCage.males - 1 : breedCage.males;
+    const newFemales =
+      breedGender === "female" ? breedCage.females - 1 : breedCage.females;
+    const allGone =
+      newMales === 0 && newFemales === 0 && breedCage.unknown === 0;
+
+    if (allGone) {
+      await supabase
+        .from("fattening")
+        .update({ is_active: false })
+        .eq("id", breedCage.id);
+    } else {
+      await supabase
+        .from("fattening")
+        .update({ males: newMales, females: newFemales })
+        .eq("id", breedCage.id);
+    }
+
+    setBreedCage(null);
+    setBreedSaving(false);
     fetchCages();
   }
 
@@ -458,6 +536,80 @@ export default function Fattening({ session }: Props) {
                 disabled={sellSaving}
               >
                 {sellSaving ? "Збереження..." : "💰 Підтвердити"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {breedCage && (
+        <div className="help-overlay" onClick={() => setBreedCage(null)}>
+          <div
+            className="help-modal"
+            style={{ maxWidth: 380 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="help-modal-header">
+              <h2>Перевести на плем'я</h2>
+              <button className="help-close" onClick={() => setBreedCage(null)}>
+                ✕
+              </button>
+            </div>
+            <p style={{ margin: "12px 0 8px" }}>
+              Клітка <strong>№ {breedCage.cage_number}</strong>
+              {breedCage.breed ? ` · ${breedCage.breed}` : ""} · В наявності: ♂{" "}
+              {breedCage.males} · ♀ {breedCage.females}
+            </p>
+            <div className="fattening-form-field" style={{ marginBottom: 12 }}>
+              <label>Стать</label>
+              <select
+                value={breedGender}
+                onChange={(e) =>
+                  setBreedGender(e.target.value as "male" | "female")
+                }
+              >
+                <option value="female">Самиця</option>
+                <option value="male">Самець</option>
+              </select>
+            </div>
+            <div className="fattening-form-field" style={{ marginBottom: 12 }}>
+              <label>Кличка *</label>
+              <input
+                type="text"
+                value={breedName}
+                onChange={(e) => setBreedName(e.target.value)}
+              />
+            </div>
+            <div className="fattening-form-field" style={{ marginBottom: 12 }}>
+              <label>Номер клітки (в реєстрі)</label>
+              <input
+                type="text"
+                value={breedCageNumber}
+                onChange={(e) => setBreedCageNumber(e.target.value)}
+              />
+            </div>
+            <div className="fattening-form-field" style={{ marginBottom: 16 }}>
+              <label>Нотатки</label>
+              <input
+                type="text"
+                value={breedNotes}
+                onChange={(e) => setBreedNotes(e.target.value)}
+              />
+            </div>
+            {breedError && <p className="fattening-error">{breedError}</p>}
+            <div className="fattening-edit-actions">
+              <button
+                className="fattening-cancel-btn"
+                onClick={() => setBreedCage(null)}
+              >
+                Скасувати
+              </button>
+              <button
+                className="fattening-save-btn"
+                onClick={handleBreed}
+                disabled={breedSaving}
+              >
+                {breedSaving ? "Збереження..." : "Перевести"}
               </button>
             </div>
           </div>
@@ -765,6 +917,14 @@ export default function Fattening({ session }: Props) {
                     >
                       Продано
                     </button>
+                    {(cage.males > 0 || cage.females > 0) && (
+                      <button
+                        className="fattening-breed-btn"
+                        onClick={() => openBreedModal(cage)}
+                      >
+                        На плем'я
+                      </button>
+                    )}
                     <button
                       className="fattening-slaughter-btn"
                       onClick={() => openSlaughterModal(cage)}
