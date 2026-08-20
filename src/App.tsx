@@ -230,7 +230,7 @@ function App() {
         <BrowserRouter>
           {isOffline && (
             <div className="offline-banner" role="status">
-              Немає з'єднання з інтернетом — показано збережену версію сайту
+              Немає з'єднання з інтернетом — показано збережену версію платформи
             </div>
           )}
           <WelcomePopup />

@@ -530,6 +530,70 @@ function WeighingGauge({ metric }: { metric: GaugeMetric }) {
   );
 }
 
+// ══════════════════════════════════════════════════════════════════════
+// БЕЙДЖ СТАТУСУ ОКРЕМОГО ЗАПИСУ
+// Те саме порівняння з таблицею норм, що й у гейджах вище, але для одного
+// конкретного зважування — щоб було видно "мала / у нормі / велика вага"
+// прямо в картці, не гортаючи список.
+// ══════════════════════════════════════════════════════════════════════
+
+interface RecordStatus {
+  zone: GaugeZone;
+  label: string;
+  arrow: string;
+}
+
+function describeRecordStatus(
+  r: WeighingRecord,
+  rabbitById: Record<string, RabbitOption>,
+  fatteningById: Record<string, FatteningOption>,
+): RecordStatus {
+  let birthDate: string | null = null;
+  if (r.rabbit_id && rabbitById[r.rabbit_id]?.birth_date) {
+    birthDate = rabbitById[r.rabbit_id].birth_date as string;
+  } else if (r.fattening_id && fatteningById[r.fattening_id]?.birth_date) {
+    birthDate = fatteningById[r.fattening_id].birth_date as string;
+  }
+
+  if (!birthDate) {
+    return { zone: "unknown", label: "вік невідомий", arrow: "?" };
+  }
+
+  const age = ageDaysAt(birthDate, r.weighing_date);
+  const category = r.size_category || "meat";
+  const range = getExpectedRange(age, category);
+  const zone = zoneFromRange(r.weight_g, range);
+
+  if (zone === "green") {
+    return { zone, label: "у нормі", arrow: "✓" };
+  }
+
+  const isLow = r.weight_g < range[0];
+  if (zone === "yellow") {
+    return {
+      zone,
+      label: isLow ? "трохи мала" : "трохи велика",
+      arrow: isLow ? "↓" : "↑",
+    };
+  }
+  return {
+    zone,
+    label: isLow ? "мала вага" : "велика вага",
+    arrow: isLow ? "↓" : "↑",
+  };
+}
+
+function RecordStatusBadge({ status }: { status: RecordStatus }) {
+  return (
+    <span
+      className={`weighing-status-badge weighing-status-badge-${status.zone}`}
+    >
+      <span className="weighing-status-arrow">{status.arrow}</span>
+      {status.label}
+    </span>
+  );
+}
+
 export default function Weighing({ session }: Props) {
   const [records, setRecords] = useState<WeighingRecord[]>([]);
   const [rabbitOptions, setRabbitOptions] = useState<RabbitOption[]>([]);
@@ -938,6 +1002,7 @@ export default function Weighing({ session }: Props) {
     if (editingRecord?.id === r.id) {
       return <div key={r.id}>{renderInlineEditForm()}</div>;
     }
+    const status = describeRecordStatus(r, rabbitById, fatteningById);
     return (
       <div key={r.id} className="weighing-card">
         <div className="weighing-card-top">
@@ -963,6 +1028,7 @@ export default function Weighing({ session }: Props) {
         </div>
         <p className="weighing-info">
           Вага: <strong>{r.weight_g} г</strong>
+          <RecordStatusBadge status={status} />
         </p>
         <p className="weighing-sample-tag">
           Показовий кролик (один навмання з гнізда)
@@ -1295,6 +1361,13 @@ export default function Weighing({ session }: Props) {
                           </div>
                           <p className="weighing-info">
                             Вага: <strong>{r.weight_g} г</strong>
+                            <RecordStatusBadge
+                              status={describeRecordStatus(
+                                r,
+                                rabbitById,
+                                fatteningById,
+                              )}
+                            />
                             {idx > 0 && (
                               <span className="weighing-gain">
                                 {" "}
@@ -1373,8 +1446,9 @@ export default function Weighing({ session }: Props) {
           <>
             <p className="registry-info-text">
               Орієнтовні діапазони — реальна вага залежить від лінії, годівлі та
-              умов утримання. Гейджі вище автоматично звіряють кожен запис саме
-              з цією таблицею за віком зв'язаного кролика чи клітки.
+              умов утримання. Гейджі та бейджі на картках вище автоматично
+              звіряють кожен запис саме з цією таблицею за віком зв'язаного
+              кролика чи клітки.
             </p>
             <div className="weighing-chart-table-wrap">
               <table className="weighing-chart-table">

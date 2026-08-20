@@ -666,3 +666,43 @@
         font-size: 1rem;
     }
 }
+
+/* ===== БЕЙДЖ СТАТУСУ ОКРЕМОГО ЗАПИСУ ЗВАЖУВАННЯ ===== */
+.weighing-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: 8px;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.weighing-status-arrow {
+    font-size: 0.85rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.weighing-status-badge-green {
+    background: rgba(122, 180, 90, 0.15);
+    color: var(--green-accent);
+}
+
+.weighing-status-badge-yellow {
+    background: rgba(230, 180, 60, 0.18);
+    color: var(--amber);
+}
+
+.weighing-status-badge-red {
+    background: rgba(192, 57, 43, 0.12);
+    color: #c0392b;
+}
+
+.weighing-status-badge-unknown {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--gray);
+}
