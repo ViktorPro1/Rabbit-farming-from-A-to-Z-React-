@@ -80,3 +80,17 @@
     cursor: pointer;
     font-size: 1rem;
 }
+
+/* ===== ОФЛАЙН-БАНЕР (ненав'язливий, не блокує контент) ===== */
+
+.offline-banner {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #2d5a1b;
+    color: #f5f0e8;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}

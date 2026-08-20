@@ -1,0 +1,73 @@
+.require-online-screen {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: #f5f0e8;
+}
+
+.require-online-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.require-online-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.require-online-title {
+    color: #2d5a1b;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.require-online-desc {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Планшети */
+@media (max-width: 768px) {
+    .require-online-card {
+        padding: 2rem 1.5rem;
+        max-width: 340px;
+    }
+
+    .require-online-title {
+        font-size: 1.15rem;
+    }
+}
+
+/* Мобільні */
+@media (max-width: 480px) {
+    .require-online-screen {
+        min-height: 50vh;
+        padding: 1.5rem 1rem;
+    }
+
+    .require-online-card {
+        padding: 1.75rem 1.25rem;
+        max-width: 100%;
+        border-radius: 12px;
+    }
+
+    .require-online-icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .require-online-title {
+        font-size: 1.05rem;
+    }
+
+    .require-online-desc {
+        font-size: 0.9rem;
+    }
+}

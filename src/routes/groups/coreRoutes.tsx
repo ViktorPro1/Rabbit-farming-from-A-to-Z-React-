@@ -5,6 +5,7 @@ import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
 const Home = lazy(() => import("../../pages/Home"));
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
+import RequireOnline from "../../components/RequireOnline/RequireOnline";
 
 const Admin = lazy(() => import("../../pages/Admin/Admin"));
 const BeginnerGuide = lazy(
@@ -53,7 +54,9 @@ export function getCoreRoutes(session: Session | null) {
               boundaryName="Admin"
               fallbackTitle="Сталася помилка в адмін-панелі. Спробуйте перезавантажити."
             >
-              <Admin session={session} />
+              <RequireOnline>
+                <Admin session={session} />
+              </RequireOnline>
             </ErrorBoundary>
           ) : (
             <Auth />

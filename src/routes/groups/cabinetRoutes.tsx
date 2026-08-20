@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
+import RequireOnline from "../../components/RequireOnline/RequireOnline";
 import type { ReactNode } from "react";
 
 const RabbitRegistry = lazy(
@@ -43,7 +44,7 @@ function withCabinetBoundary(name: string, element: ReactNode) {
       boundaryName={name}
       fallbackTitle={`Сталася помилка на сторінці «${name}». Спробуйте перезавантажити.`}
     >
-      {element}
+      <RequireOnline>{element}</RequireOnline>
     </ErrorBoundary>
   );
 }

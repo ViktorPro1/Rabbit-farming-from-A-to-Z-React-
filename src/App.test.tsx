@@ -96,7 +96,9 @@ describe("App", () => {
 
     render(<App />);
 
-    expect(await screen.findByText("Немає інтернету")).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Немає з'єднання з інтернетом/i),
+    ).toBeInTheDocument();
   });
 
   it("рендерить основний застосунок, коли сесії немає", async () => {

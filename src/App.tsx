@@ -189,26 +189,6 @@ function App() {
     };
   }, [checkProfile]);
 
-  if (isOffline) {
-    return (
-      <div className="app-state-screen">
-        <div className="app-state-card">
-          <div className="app-state-icon">📡</div>
-          <h2 className="app-state-title">Немає інтернету</h2>
-          <p className="app-state-desc">
-            Перевірте підключення і спробуйте ще раз
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="app-state-btn"
-          >
-            Оновити сторінку
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   if (loading && loadingTimeout) {
     return (
       <div className="app-state-screen">
@@ -248,6 +228,11 @@ function App() {
         <CopyProtection />
         <CookieConsentBanner />
         <BrowserRouter>
+          {isOffline && (
+            <div className="offline-banner" role="status">
+              Немає з'єднання з інтернетом — показано збережену версію сайту
+            </div>
+          )}
           <WelcomePopup />
           <ErrorBoundary boundaryName="Assistant" fallback={null}>
             <Suspense fallback={null}>
