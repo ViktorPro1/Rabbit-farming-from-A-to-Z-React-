@@ -15,6 +15,13 @@ interface CageEvent {
   description: string;
 }
 
+// Переклад значень поля result з таблиці quarantine
+const resultLabels: Record<string, string> = {
+  recovered: "видужав",
+  slaughter: "на забій",
+  died: "згинув",
+};
+
 // Перевіряє, чи входить target-клітка в текстове значення поля
 // (враховує "4", "4-6", "2-3", "8.9.10.11", "Від 1 по 14")
 function cageMatches(
@@ -132,7 +139,7 @@ export default function CageSearch({ session }: Props) {
           type: "Карантин",
           icon: "🔒",
           description: `${q.name || "Тварина"}: ${q.reason || "причина не вказана"}${
-            q.result ? `, результат: ${q.result}` : ""
+            q.result ? `, результат: ${resultLabels[q.result] ?? q.result}` : ""
           }`,
         });
       });

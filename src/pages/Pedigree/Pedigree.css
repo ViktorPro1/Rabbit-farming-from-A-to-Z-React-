@@ -14,7 +14,7 @@
 
 .pedigree-header h1 {
     color: var(--green-dark);
-    font-size: 1.6rem;
+    font-size: clamp(1.15rem, 4vw, 1.6rem);
 }
 
 .pedigree-back-btn {
@@ -32,27 +32,14 @@
     text-align: center;
 }
 
-.pedigree-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-}
-
-.pedigree-select {
-    flex: 1 1 260px;
-    padding: 10px 12px;
-    border-radius: 16px;
-    border: 0.5px solid var(--gray-light);
-    background: var(--cream);
-    color: var(--green-dark);
-    font-size: 0.95rem;
-}
-
 .pedigree-gen-toggle {
     display: flex;
     gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pedigree-gen-toggle-top {
+    margin-bottom: 24px;
 }
 
 .pedigree-gen-toggle button {
@@ -70,15 +57,85 @@
     border-color: var(--green-mid);
 }
 
+.pedigree-section {
+    margin-bottom: 32px;
+}
+
+.pedigree-section-title {
+    color: var(--green-dark);
+    font-size: clamp(1rem, 3.4vw, 1.15rem);
+    margin-bottom: 12px;
+}
+
+.pedigree-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.pedigree-select {
+    flex: 1 1 260px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    color: var(--green-dark);
+    font-size: 0.95rem;
+}
+
 .pedigree-empty-state {
     text-align: center;
-    padding: 60px 16px;
+    padding: 40px 16px;
     color: var(--gray);
 }
 
 .pedigree-empty-icon {
     font-size: 2.5rem;
     margin-bottom: 12px;
+}
+
+/* Акордеон — тільки кролики, у яких вже є внесений родовід */
+.pedigree-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pedigree-accordion-item {
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    background: var(--cream);
+    overflow: hidden;
+}
+
+.pedigree-accordion-item.open {
+    background: var(--green-light);
+}
+
+.pedigree-accordion-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: transparent;
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.pedigree-accordion-title {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+}
+
+.pedigree-accordion-chevron {
+    color: var(--green-dark);
+    font-size: 0.8rem;
+    flex-shrink: 0;
 }
 
 .pedigree-tree-wrapper {
@@ -103,11 +160,11 @@
 
 .pedigree-card {
     flex: 1 1 auto;
-    min-width: 160px;
+    min-width: clamp(120px, 32vw, 160px);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     background: var(--green-light);
-    padding: 10px 14px;
+    padding: 8px 12px;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -127,41 +184,42 @@
     align-items: center;
     color: var(--gray);
     font-size: 0.85rem;
+    padding: 6px 8px;
 }
 
 .pedigree-card-name {
     font-weight: 600;
     color: var(--green-dark);
-    font-size: 0.95rem;
+    font-size: clamp(0.8rem, 2.6vw, 0.95rem);
 }
 
 .pedigree-card-breed {
-    font-size: 0.8rem;
+    font-size: clamp(0.68rem, 2.2vw, 0.8rem);
     color: var(--brown);
 }
 
 .pedigree-card-date {
-    font-size: 0.75rem;
+    font-size: clamp(0.65rem, 2vw, 0.75rem);
     color: var(--gray);
 }
 
 .pedigree-card-unknown {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--gray);
 }
 
 .pedigree-assign-select {
     width: 100%;
-    padding: 6px 8px;
+    padding: 6px 6px;
     border-radius: 12px;
     border: 0.5px solid var(--gray-light);
     background: var(--cream);
     color: var(--green-dark);
-    font-size: 0.8rem;
+    font-size: clamp(0.68rem, 2.3vw, 0.8rem);
 }
 
 .pedigree-info {
-    margin-top: 32px;
+    margin-top: 8px;
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
     background: var(--green-light);
@@ -209,7 +267,7 @@
 
 @media (max-width: 640px) {
     .pedigree-node-row {
-        gap: 10px;
+        gap: 8px;
     }
 
     .pedigree-children {
@@ -218,18 +276,15 @@
     }
 
     .pedigree-card {
-        min-width: 130px;
-        padding: 8px 10px;
-    }
-}
-
-@media (max-width: 420px) {
-    .pedigree-header h1 {
-        font-size: 1.3rem;
+        padding: 6px 8px;
     }
 
-    .pedigree-select {
-        flex: 1 1 100%;
+    .pedigree-accordion-header {
+        padding: 10px 12px;
+    }
+
+    .pedigree-tree-wrapper {
+        padding: 8px 4px 16px;
     }
 
     .pedigree-gen-toggle {
@@ -242,26 +297,7 @@
         font-size: 0.8rem;
     }
 
-    .pedigree-node-row {
-        gap: 6px;
-    }
-
-    .pedigree-children {
-        padding-left: 6px;
-        gap: 6px;
-    }
-
-    .pedigree-card {
-        min-width: 110px;
-        padding: 6px 8px;
-    }
-
-    .pedigree-card-name {
-        font-size: 0.85rem;
-    }
-
-    .pedigree-card-breed,
-    .pedigree-card-date {
-        font-size: 0.7rem;
+    .pedigree-select {
+        flex: 1 1 100%;
     }
 }
