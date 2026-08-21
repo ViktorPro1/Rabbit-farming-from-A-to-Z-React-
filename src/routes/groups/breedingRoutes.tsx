@@ -43,6 +43,9 @@ const PostpartumCare = lazy(
   () => import("../../pages/PostpartumCare/PostpartumCare"),
 );
 const Fostering = lazy(() => import("../../pages/Fostering/Fostering"));
+const HalfSiblings = lazy(
+  () => import("../../pages/HalfSiblings/HalfSiblings"),
+);
 
 /**
  * Розведення: окріл, парування, вагітність та пов'язані ускладнення.
@@ -69,5 +72,6 @@ export const breedingRoutes = (
     <Route path="/mastitis" element={<Mastitis />} />
     <Route path="/postpartum-care" element={<PostpartumCare />} />
     <Route path="/fostering" element={<Fostering />} />
+    <Route path="/half-siblings" element={<HalfSiblings />} />
   </>
 );

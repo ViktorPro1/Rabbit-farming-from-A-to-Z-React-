@@ -96,6 +96,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/mastitis": "Мастит",
   "/postpartum-care": "Догляд після окролу",
   "/fostering": "Фостеринг",
+  "/half-siblings": "Напівсибси",
 
   // ЗДОРОВ'Я
   "/symptoms": "Симптоматичний пошук",
