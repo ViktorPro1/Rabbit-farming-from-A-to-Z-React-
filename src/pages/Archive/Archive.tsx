@@ -16,7 +16,16 @@ interface Rabbit {
   birth_date: string;
   cage_number: string;
   notes: string;
+  archive_reason: string | null;
+  archive_date: string | null;
 }
+
+const archiveReasonLabels: Record<string, string> = {
+  slaughter: "Вибракування (забій)",
+  died: "Загинула",
+  sold: "Продана",
+  other: "Інше",
+};
 
 export default function Archive({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
@@ -44,7 +53,10 @@ export default function Archive({ session }: Props) {
   }, [session.user.id]);
 
   async function handleRestore(id: string) {
-    await supabase.from("rabbits").update({ is_active: true }).eq("id", id);
+    await supabase
+      .from("rabbits")
+      .update({ is_active: true, archive_reason: null, archive_date: null })
+      .eq("id", id);
     setRabbits((prev) => prev.filter((r) => r.id !== id));
   }
 
@@ -108,6 +120,14 @@ export default function Archive({ session }: Props) {
                     Клітка {rabbit.cage_number}
                   </span>
                 )}
+                {rabbit.archive_reason && (
+                  <span
+                    className={`archive-reason-tag ${rabbit.archive_reason}`}
+                  >
+                    {archiveReasonLabels[rabbit.archive_reason] ||
+                      rabbit.archive_reason}
+                  </span>
+                )}
               </div>
               <div className="archive-card-body">
                 {rabbit.breed && (
@@ -119,6 +139,12 @@ export default function Archive({ session }: Props) {
                   <p>
                     <strong>Нар.:</strong>{" "}
                     {new Date(rabbit.birth_date).toLocaleDateString("uk-UA")}
+                  </p>
+                )}
+                {rabbit.archive_date && (
+                  <p>
+                    <strong>В архіві з:</strong>{" "}
+                    {new Date(rabbit.archive_date).toLocaleDateString("uk-UA")}
                   </p>
                 )}
                 {rabbit.notes && (

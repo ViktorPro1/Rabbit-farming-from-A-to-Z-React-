@@ -50,6 +50,13 @@ const emptyForm = {
   notes: "",
 };
 
+const archiveReasons = [
+  { value: "slaughter", label: "Вибракування (забій)" },
+  { value: "died", label: "Загинула" },
+  { value: "sold", label: "Продана" },
+  { value: "other", label: "Інше" },
+];
+
 const helpItems = [
   {
     icon: "🧬",
@@ -145,6 +152,7 @@ export default function RabbitRegistry({ session }: Props) {
     };
   }, []);
   const [confirmArchiveId, setConfirmArchiveId] = useState<string | null>(null);
+  const [selectedReason, setSelectedReason] = useState("");
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -305,15 +313,20 @@ export default function RabbitRegistry({ session }: Props) {
   }, [loadData]);
 
   async function confirmArchive() {
-    if (!confirmArchiveId) return;
+    if (!confirmArchiveId || !selectedReason) return;
     const { error } = await supabase
       .from("rabbits")
-      .update({ is_active: false })
+      .update({
+        is_active: false,
+        archive_reason: selectedReason,
+        archive_date: new Date().toISOString().slice(0, 10),
+      })
       .eq("id", confirmArchiveId);
     if (error) {
       logError("RabbitRegistry.confirmArchive", error);
     }
     setConfirmArchiveId(null);
+    setSelectedReason("");
     loadData();
   }
 
@@ -962,17 +975,41 @@ export default function RabbitRegistry({ session }: Props) {
         </div>
       )}
       {confirmArchiveId && (
-        <div className="help-overlay" onClick={() => setConfirmArchiveId(null)}>
+        <div
+          className="help-overlay"
+          onClick={() => {
+            setConfirmArchiveId(null);
+            setSelectedReason("");
+          }}
+        >
           <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
-            <p className="confirm-text">Архівувати цього кролика?</p>
+            <p className="confirm-text">Причина архівування?</p>
+            <div className="archive-reason-list">
+              {archiveReasons.map((r) => (
+                <button
+                  key={r.value}
+                  className={`archive-reason-btn ${selectedReason === r.value ? "active" : ""}`}
+                  onClick={() => setSelectedReason(r.value)}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
             <div className="confirm-actions">
               <button
                 className="confirm-cancel"
-                onClick={() => setConfirmArchiveId(null)}
+                onClick={() => {
+                  setConfirmArchiveId(null);
+                  setSelectedReason("");
+                }}
               >
                 Скасувати
               </button>
-              <button className="confirm-ok" onClick={confirmArchive}>
+              <button
+                className="confirm-ok"
+                onClick={confirmArchive}
+                disabled={!selectedReason}
+              >
                 Архівувати
               </button>
             </div>
