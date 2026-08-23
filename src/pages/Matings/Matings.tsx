@@ -40,6 +40,7 @@ interface Litter {
   actual_male_id: string | null;
   actual_female_id: string | null;
   nestbox_date: string | null;
+  previous_mating_date: string | null;
 }
 
 interface Mating {
@@ -634,6 +635,38 @@ export default function Matings({ session }: Props) {
     if (!confirm("Видалити окріл?")) return;
     await supabase.from("litters").delete().eq("id", id);
     fetchMatings();
+  }
+
+  async function handleRemating(l: Litter) {
+    if (
+      !confirm(
+        "Кролиця покрилась повторно? Дата злучки, контрольна та очікуваний окріл будуть оновлені.",
+      )
+    )
+      return;
+
+    const today = new Date().toISOString().split("T")[0];
+    const control = new Date();
+    control.setDate(control.getDate() + 7);
+    const expected = new Date();
+    expected.setDate(expected.getDate() + 31);
+
+    const { error } = await supabase
+      .from("litters")
+      .update({
+        litter_mating_date: today,
+        litter_control_date: control.toISOString().split("T")[0],
+        litter_expected_birth: expected.toISOString().split("T")[0],
+        nestbox_date: null,
+        previous_mating_date: l.litter_mating_date || null,
+      })
+      .eq("id", l.id);
+
+    if (error) {
+      alert("Помилка збереження");
+    } else {
+      fetchMatings();
+    }
   }
 
   function getLitterAge(birthDate: string) {
@@ -1300,6 +1333,17 @@ export default function Matings({ session }: Props) {
                                   </strong>
                                 </span>
                               )}
+                              {l.previous_mating_date && (
+                                <span className="litter-weaning-alert">
+                                  ⚠️ Попередня спроба:{" "}
+                                  <strong>
+                                    {new Date(
+                                      l.previous_mating_date,
+                                    ).toLocaleDateString("uk-UA")}
+                                  </strong>{" "}
+                                  — не запліднилась
+                                </span>
+                              )}
 
                               {/* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ — лише поки немає окролу */}
                               {!hasBirth &&
@@ -1349,6 +1393,16 @@ export default function Matings({ session }: Props) {
                                     ).toLocaleDateString("uk-UA")}
                                   </strong>
                                 </span>
+                              )}
+
+                              {!hasBirth && l.litter_mating_date && (
+                                <button
+                                  className="nestbox-done-btn"
+                                  onClick={() => handleRemating(l)}
+                                  title="Кролиця підпустила самця під час контрольної — оновити дати"
+                                >
+                                  🔁 Покрилась повторно
+                                </button>
                               )}
 
                               {l.litter_expected_birth && (
