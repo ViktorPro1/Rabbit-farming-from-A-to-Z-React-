@@ -20,18 +20,15 @@ test.describe('PWA', () => {
         expect(manifest.short_name).toBe('Кролівництво');
     });
 
-    test('офлайн показує екран "Не вдалося підключитися"', async ({ page, context }) => {
-        test.setTimeout(50000); // 30с очікування в App.tsx + запас на рендер і завантаження
+    test('офлайн показує банер "Немає з\'єднання з інтернетом"', async ({ page, context }) => {
+        await page.goto('/');
+        await expect(page.locator('.offline-banner')).not.toBeVisible();
 
         await context.setOffline(true);
-        await page.goto('/', { timeout: 5000 }).catch(() => { });
 
         await expect(
-            page.getByRole('heading', { name: 'Не вдалося підключитися' })
-        ).toBeVisible({ timeout: 40000 });
-        await expect(
-            page.getByRole('button', { name: 'Оновити сторінку' })
-        ).toBeVisible();
+            page.getByText(/Немає з'єднання з інтернетом/i)
+        ).toBeVisible({ timeout: 10000 });
 
         await context.setOffline(false);
     });
