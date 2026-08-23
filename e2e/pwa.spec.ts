@@ -20,20 +20,15 @@ test.describe('PWA', () => {
         expect(manifest.short_name).toBe('Кролівництво');
     });
 
-    test('офлайн показує екран "Немає інтернету"', async ({ page, context }) => {
+    test('офлайн показує банер "Немає з\'єднання з інтернетом"', async ({ page, context }) => {
         await page.goto('/');
-        await expect(
-            page.getByRole('heading', { name: 'Немає інтернету' })
-        ).not.toBeVisible();
+        await expect(page.locator('.offline-banner')).not.toBeVisible();
 
         await context.setOffline(true);
 
         await expect(
-            page.getByRole('heading', { name: 'Немає інтернету' })
-        ).toBeVisible();
-        await expect(
-            page.getByRole('button', { name: 'Оновити сторінку' })
-        ).toBeVisible();
+            page.getByText(/Немає з'єднання з інтернетом/i)
+        ).toBeVisible({ timeout: 10000 });
 
         await context.setOffline(false);
     });
