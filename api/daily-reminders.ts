@@ -25,6 +25,8 @@ async function sendToUser(userId: string, title: string, body: string, url: stri
         .select('*')
         .eq('user_id', userId);
 
+    console.log(`sendToUser ${userId}: found ${subs?.length ?? 0} subscription(s)`);
+
     await Promise.allSettled(
         (subs ?? []).map((sub) =>
             webpush
@@ -32,7 +34,13 @@ async function sendToUser(userId: string, title: string, body: string, url: stri
                     { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
                     JSON.stringify({ title, body, url })
                 )
+                .then(() => {
+                    console.log(`push OK -> subscription ${sub.id}`);
+                })
                 .catch(async (err: WebPushError) => {
+                    console.error(
+                        `push FAILED -> subscription ${sub.id}, status ${err.statusCode}, body: ${err.body}`
+                    );
                     if (err.statusCode === 410 || err.statusCode === 404) {
                         await supabase.from('push_subscriptions').delete().eq('id', sub.id);
                     }
@@ -50,7 +58,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tomorrow = tomorrowDate();
     let sentCount = 0;
 
-    // 1. Контрольна злучка завтра (перша злучка, таблиця matings)
     const { data: controlMatings } = await supabase
         .from('matings')
         .select('user_id, female_cage, male_cage')
@@ -67,7 +74,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sentCount++;
     }
 
-    // 2. Очікуваний окріл завтра (перша злучка, таблиця matings)
     const { data: expectedBirths } = await supabase
         .from('matings')
         .select('user_id, female_cage')
@@ -84,7 +90,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sentCount++;
     }
 
-    // 3. Повторна контрольна злучка завтра (після попереднього окролу, таблиця litters)
     const { data: repeatControls } = await supabase
         .from('litters')
         .select('user_id, mother_id, weaned_males_cage, weaned_females_cage')
@@ -100,7 +105,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sentCount++;
     }
 
-    // 4. Повторний очікуваний окріл завтра (таблиця litters)
     const { data: repeatBirths } = await supabase
         .from('litters')
         .select('user_id')
@@ -116,7 +120,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sentCount++;
     }
 
-    // 5. Вакцинація завтра
     const { data: vaccinations } = await supabase
         .from('vaccinations')
         .select('user_id, cage_number, vaccine_name')
