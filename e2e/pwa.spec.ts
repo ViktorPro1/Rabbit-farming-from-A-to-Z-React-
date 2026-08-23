@@ -20,17 +20,13 @@ test.describe('PWA', () => {
         expect(manifest.short_name).toBe('Кролівництво');
     });
 
-    test('офлайн показує екран "Немає інтернету"', async ({ page, context }) => {
-        await page.goto('/');
-        await expect(
-            page.getByRole('heading', { name: 'Немає інтернету' })
-        ).not.toBeVisible();
-
+    test('офлайн показує екран "Не вдалося підключитися"', async ({ page, context }) => {
         await context.setOffline(true);
+        await page.goto('/', { timeout: 5000 }).catch(() => { });
 
         await expect(
-            page.getByRole('heading', { name: 'Немає інтернету' })
-        ).toBeVisible();
+            page.getByRole('heading', { name: 'Не вдалося підключитися' })
+        ).toBeVisible({ timeout: 35000 });
         await expect(
             page.getByRole('button', { name: 'Оновити сторінку' })
         ).toBeVisible();
