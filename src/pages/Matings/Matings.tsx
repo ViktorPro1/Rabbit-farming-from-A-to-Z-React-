@@ -1323,16 +1323,6 @@ export default function Matings({ session }: Props) {
                                   </strong>
                                 </span>
                               )}
-                              {l.litter_control_date && (
-                                <span>
-                                  🔍 Контрольна:{" "}
-                                  <strong>
-                                    {new Date(
-                                      l.litter_control_date,
-                                    ).toLocaleDateString("uk-UA")}
-                                  </strong>
-                                </span>
-                              )}
                               {l.previous_mating_date && (
                                 <span className="litter-weaning-alert">
                                   ⚠️ Попередня спроба:{" "}
@@ -1344,6 +1334,27 @@ export default function Matings({ session }: Props) {
                                   — не запліднилась
                                 </span>
                               )}
+                              {l.litter_control_date && (
+                                <div className="litter-mating-row">
+                                  <span>
+                                    🔍 Контрольна:{" "}
+                                    <strong>
+                                      {new Date(
+                                        l.litter_control_date,
+                                      ).toLocaleDateString("uk-UA")}
+                                    </strong>
+                                  </span>
+                                  {!hasBirth && l.litter_mating_date && (
+                                    <button
+                                      className="nestbox-done-btn"
+                                      onClick={() => handleRemating(l)}
+                                      title="Кролиця підпустила самця під час контрольної — оновити дати"
+                                    >
+                                      🔁 Покрилась повторно
+                                    </button>
+                                  )}
+                                </div>
+                              )}
 
                               {/* АВТОМАТИЧНЕ НАГАДУВАННЯ ПРО РОДІЛКУ — лише поки немає окролу */}
                               {!hasBirth &&
@@ -1354,34 +1365,32 @@ export default function Matings({ session }: Props) {
                                     l.nestbox_date,
                                   );
                                   return (
-                                    <span
-                                      className={`nestbox-status ${className}`}
-                                    >
-                                      {text}
-                                    </span>
+                                    <div className="litter-mating-row">
+                                      <span
+                                        className={`nestbox-status ${className}`}
+                                      >
+                                        {text}
+                                      </span>
+                                      {!l.nestbox_date && (
+                                        <button
+                                          className="nestbox-done-btn"
+                                          onClick={async () => {
+                                            const today = new Date()
+                                              .toISOString()
+                                              .split("T")[0];
+                                            await supabase
+                                              .from("litters")
+                                              .update({ nestbox_date: today })
+                                              .eq("id", l.id);
+                                            fetchMatings();
+                                          }}
+                                        >
+                                          ✅ Маточник підготовлено
+                                        </button>
+                                      )}
+                                    </div>
                                   );
                                 })()}
-
-                              {/* Кнопка "Поставив маточник" — лише поки немає окролу */}
-                              {!hasBirth &&
-                                l.litter_mating_date &&
-                                !l.nestbox_date && (
-                                  <button
-                                    className="nestbox-done-btn"
-                                    onClick={async () => {
-                                      const today = new Date()
-                                        .toISOString()
-                                        .split("T")[0];
-                                      await supabase
-                                        .from("litters")
-                                        .update({ nestbox_date: today })
-                                        .eq("id", l.id);
-                                      fetchMatings();
-                                    }}
-                                  >
-                                    ✅ Маточник підготовлено
-                                  </button>
-                                )}
 
                               {/* Якщо маточник вже стоїть (навіть після окролу) — просто показати дату */}
                               {hasBirth && l.nestbox_date && (
@@ -1395,18 +1404,8 @@ export default function Matings({ session }: Props) {
                                 </span>
                               )}
 
-                              {!hasBirth && l.litter_mating_date && (
-                                <button
-                                  className="nestbox-done-btn"
-                                  onClick={() => handleRemating(l)}
-                                  title="Кролиця підпустила самця під час контрольної — оновити дати"
-                                >
-                                  🔁 Покрилась повторно
-                                </button>
-                              )}
-
                               {l.litter_expected_birth && (
-                                <span>
+                                <span className="litter-mating-break">
                                   🗓 Очік. окріл:{" "}
                                   <strong>
                                     {new Date(

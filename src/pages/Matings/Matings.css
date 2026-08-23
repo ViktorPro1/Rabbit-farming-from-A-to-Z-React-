@@ -363,6 +363,23 @@
     border-radius: 6px;
     padding: 0.5rem 0.75rem;
     margin-bottom: 0.4rem;
+    align-items: center;
+}
+
+.litter-mating-info .nestbox-done-btn {
+    margin-top: 0;
+}
+
+.litter-mating-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    flex-basis: 100%;
+}
+
+.litter-mating-break {
+    flex-basis: 100%;
 }
 
 .matings-sort-bar {
