@@ -1,0 +1,16 @@
+name: Daily Push Reminders
+
+on:
+    schedule:
+        - cron: "0 6 * * *" # 8:00 за Києвом (UTC+2/+3, підбери під сезон)
+    workflow_dispatch: {}
+
+jobs:
+    send-reminders:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Call reminders endpoint
+              run: |
+                  curl -X POST https://rabbit-farming-from-a-to-z-react.vercel.app/api/daily-reminders \
+                    -H "x-push-secret: ${{ secrets.PUSH_SEND_SECRET }}" \
+                    -f

@@ -23,6 +23,9 @@ export default defineConfig({
     }),
 
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectRegister: false, // ← було 'script'; реєстрацію робимо вручну в main.tsx
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
@@ -144,6 +147,11 @@ export default defineConfig({
             handler: 'NetworkOnly',
           },
         ],
+      },
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg,woff2}'],
+        globIgnores: ['**/og-image.webp'],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
       },
     }),
 
