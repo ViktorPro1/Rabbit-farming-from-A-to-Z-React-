@@ -6,6 +6,11 @@ import { supabase } from "../../lib/supabase";
 import SkeletonCard from "./SkeletonCard";
 import "./RabbitRegistry.css";
 import { logError } from "../../lib/logError";
+import {
+  subscribeToPush,
+  unsubscribeFromPush,
+  getPushSubscriptionStatus,
+} from "../../utils/pushNotifications";
 import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
 
 interface Props {
@@ -151,6 +156,7 @@ export default function RabbitRegistry({ session }: Props) {
       }
     };
   }, []);
+
   const [confirmArchiveId, setConfirmArchiveId] = useState<string | null>(null);
   const [selectedReason, setSelectedReason] = useState("");
   const currentLabel =
@@ -179,7 +185,22 @@ export default function RabbitRegistry({ session }: Props) {
   const [displayNameSaving, setDisplayNameSaving] = useState(false);
   const [displayNameSaved, setDisplayNameSaved] = useState(false);
   const [displayNameError, setDisplayNameError] = useState("");
+
+  // ── Push-сповіщення: стейти ──
+  const [pushEnabled, setPushEnabled] = useState(false);
+  const [pushLoading, setPushLoading] = useState(false);
+  const [pushError, setPushError] = useState("");
+
   const navigate = useNavigate();
+
+  // ── Push-сповіщення: перевірка статусу підписки при відкритті налаштувань ──
+  // (розміщено після оголошення showSettings, від якого залежить)
+  useEffect(() => {
+    if (!showSettings) return;
+    getPushSubscriptionStatus()
+      .then(setPushEnabled)
+      .catch((err) => logError("RabbitRegistry.pushStatus", err));
+  }, [showSettings]);
 
   const loadStats = useCallback(
     (list: Rabbit[]) => {
@@ -363,6 +384,31 @@ export default function RabbitRegistry({ session }: Props) {
       );
     }
     setDisplayNameSaving(false);
+  }
+
+  // ── Push-сповіщення: увімкнення/вимкнення ──
+  async function handleTogglePush() {
+    setPushLoading(true);
+    setPushError("");
+    try {
+      if (pushEnabled) {
+        await unsubscribeFromPush();
+        setPushEnabled(false);
+      } else {
+        const ok = await subscribeToPush(session.user.id);
+        if (!ok) {
+          setPushError(
+            "Не вдалося увімкнути сповіщення. Перевір дозволи браузера.",
+          );
+        } else {
+          setPushEnabled(true);
+        }
+      }
+    } catch (err) {
+      logError("RabbitRegistry.handleTogglePush", err);
+      setPushError("Сталася помилка. Спробуй ще раз.");
+    }
+    setPushLoading(false);
   }
 
   async function handleAdd() {
@@ -968,6 +1014,26 @@ export default function RabbitRegistry({ session }: Props) {
                   onClick={() => setShowSettings(false)}
                 >
                   Закрити
+                </button>
+              </div>
+              {/* ── Push-сповіщення: блок у налаштуваннях ── */}
+              <div className="settings-push-block">
+                <label className="settings-label">Push-сповіщення</label>
+                <p className="settings-hint">
+                  Нагадування про вакцинації, окроли та інші події кабінету —
+                  прямо в браузер.
+                </p>
+                {pushError && <p className="settings-error">{pushError}</p>}
+                <button
+                  className="registry-save-btn"
+                  onClick={handleTogglePush}
+                  disabled={pushLoading}
+                >
+                  {pushLoading
+                    ? "Зачекай..."
+                    : pushEnabled
+                      ? "🔕 Вимкнути сповіщення"
+                      : "🔔 Дозволити сповіщення"}
                 </button>
               </div>
             </div>

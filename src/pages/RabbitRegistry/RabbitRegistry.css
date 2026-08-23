@@ -976,3 +976,9 @@ button.registry-email:hover {
     border-radius: 3px;
     transition: width 0.3s ease, background-color 0.3s ease;
 }
+
+.settings-push-block {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
