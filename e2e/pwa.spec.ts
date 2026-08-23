@@ -21,12 +21,14 @@ test.describe('PWA', () => {
     });
 
     test('офлайн показує екран "Не вдалося підключитися"', async ({ page, context }) => {
+        test.setTimeout(50000); // 30с очікування в App.tsx + запас на рендер і завантаження
+
         await context.setOffline(true);
         await page.goto('/', { timeout: 5000 }).catch(() => { });
 
         await expect(
             page.getByRole('heading', { name: 'Не вдалося підключитися' })
-        ).toBeVisible({ timeout: 35000 });
+        ).toBeVisible({ timeout: 40000 });
         await expect(
             page.getByRole('button', { name: 'Оновити сторінку' })
         ).toBeVisible();
