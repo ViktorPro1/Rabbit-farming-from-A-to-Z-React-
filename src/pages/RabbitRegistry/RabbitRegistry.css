@@ -982,3 +982,52 @@ button.registry-email:hover {
     padding-top: 20px;
     border-top: 1px solid var(--border-color, #e0e0e0);
 }
+
+/* ===== Акордеон для Облік кролівництва ===== */
+.registry-nav-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+
+    padding: 0.8rem 1rem;
+
+    color: var(--green-dark);
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.registry-nav-toggle:hover {
+    background: var(--green-pale);
+}
+
+.registry-nav-arrow {
+    transition: transform 0.25s ease;
+}
+
+.registry-nav-arrow.open {
+    transform: rotate(180deg);
+}
+
+.registry-header-nav-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+}
+
+.registry-header-nav-wrap.open {
+    grid-template-rows: 1fr;
+}
+
+.registry-header-nav-wrap>.registry-header-nav {
+    overflow: hidden;
+    min-height: 0;
+}

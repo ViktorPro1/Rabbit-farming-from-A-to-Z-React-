@@ -148,6 +148,7 @@ export default function RabbitRegistry({ session }: Props) {
   const displayNameSavedTimeoutRef = useRef<ReturnType<
     typeof setTimeout
   > | null>(null);
+  const [showNav, setShowNav] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -554,107 +555,121 @@ export default function RabbitRegistry({ session }: Props) {
             {currentLabel}
           </button>
         </div>
-        <div className="registry-header-nav">
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/pedigree")}
-          >
-            🧬 Родовід
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/my-calendar")}
-          >
-            📅 Календар
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/matings")}
-          >
-            🐇 Розведення
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/paddocks")}
-          >
-            🏠 Вольєр
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/fattening")}
-          >
-            🥩 Відгодівля
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/quarantine")}
-          >
-            🔒 Карантин
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/my-treatments")}
-          >
-            💊 Лікування
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/my-vaccinations")}
-          >
-            💉 Вакцинація
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/disinfection-log")}
-          >
-            🧴 Дезінфекція
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/grain-recipes-history")}
-          >
-            🧾 Раціони
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/weighing")}
-          >
-            ⚖️ Зважування
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/statistics")}
-          >
-            📊 Статистика
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/cage-search")}
-          >
-            🔍 Історія клітки
-          </button>
-          <button
-            className="registry-archive-link"
-            onClick={() => navigate("/archive")}
-          >
-            📦 Архів
-          </button>
-          <button
-            className="registry-archive-link qr-nav-btn"
-            onClick={() => setShowQrModal(true)}
-          >
-            📷 QR-коди
-          </button>
-          <button className="registry-archive-link" onClick={exportCSV}>
-            📥 Експорт CSV
-          </button>
-          <button
-            className="registry-help-btn"
-            onClick={() => setShowHelp(true)}
-          >
-            ? Довідка
-          </button>
+
+        <button
+          className="registry-nav-toggle"
+          onClick={() => setShowNav(!showNav)}
+        >
+          📊 Панель кролівництва
+          <span className={`registry-nav-arrow ${showNav ? "open" : ""}`}>
+            ▼
+          </span>
+        </button>
+
+        <div className={`registry-header-nav-wrap ${showNav ? "open" : ""}`}>
+          <div className="registry-header-nav">
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/pedigree")}
+            >
+              🧬 Родовід
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/my-calendar")}
+            >
+              📅 Календар
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/matings")}
+            >
+              🐇 Розведення
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/paddocks")}
+            >
+              🏠 Вольєр
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/fattening")}
+            >
+              🥩 Відгодівля
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/quarantine")}
+            >
+              🔒 Карантин
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/my-treatments")}
+            >
+              💊 Лікування
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/my-vaccinations")}
+            >
+              💉 Вакцинація
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/disinfection-log")}
+            >
+              🧴 Дезінфекція
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/grain-recipes-history")}
+            >
+              🧾 Раціони
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/weighing")}
+            >
+              ⚖️ Зважування
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/statistics")}
+            >
+              📊 Статистика
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/cage-search")}
+            >
+              🔍 Історія клітки
+            </button>
+            <button
+              className="registry-archive-link"
+              onClick={() => navigate("/archive")}
+            >
+              📦 Архів
+            </button>
+            <button
+              className="registry-archive-link qr-nav-btn"
+              onClick={() => setShowQrModal(true)}
+            >
+              📷 QR-коди
+            </button>
+            <button className="registry-archive-link" onClick={exportCSV}>
+              📥 Експорт CSV
+            </button>
+            <button
+              className="registry-help-btn"
+              onClick={() => setShowHelp(true)}
+            >
+              ? Довідка
+            </button>
+          </div>
         </div>
+
         <div className="registry-header-action">
           <button
             className="registry-add-btn"
