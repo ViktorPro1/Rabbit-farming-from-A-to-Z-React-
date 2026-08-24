@@ -32,6 +32,9 @@ const GrainRecipesHistory = lazy(
 );
 const Weighing = lazy(() => import("../../pages/Weighing/Weighing"));
 const Pedigree = lazy(() => import("../../pages/Pedigree/Pedigree"));
+const CalendarPage = lazy(
+  () => import("../../pages/CalendarPage/CalendarPage"),
+);
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -215,6 +218,19 @@ export function getCabinetRoutes(session: Session | null) {
         element={
           session ? (
             withCabinetBoundary("Pedigree", <Pedigree session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
+      />
+      <Route
+        path="/my-calendar"
+        element={
+          session ? (
+            withCabinetBoundary(
+              "CalendarPage",
+              <CalendarPage session={session} />,
+            )
           ) : (
             <Auth />
           )

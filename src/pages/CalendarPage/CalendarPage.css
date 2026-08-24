@@ -1,0 +1,206 @@
+.calendar-page-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+}
+
+.calendar-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.calendar-page-title {
+    color: var(--green-dark);
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.calendar-page-range-switch {
+    display: flex;
+    gap: 8px;
+    background: var(--gray-light);
+    border-radius: 10px;
+    padding: 6px;
+    margin-bottom: 16px;
+}
+
+.calendar-page-range-btn {
+    border: none;
+    background: transparent;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--green-dark);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.calendar-page-range-btn--active {
+    background: var(--green-mid);
+    color: var(--cream);
+}
+
+.calendar-page-back-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.calendar-page-back-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.calendar-page-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.calendar-page-filter-chip {
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border: 1px solid var(--green-accent);
+    color: var(--green-accent);
+    opacity: 0.55;
+}
+
+.calendar-page-filter-chip--active {
+    opacity: 1;
+    background: var(--green-accent);
+    color: white;
+}
+
+.calendar-page-filter-chip:hover {
+    background: var(--green-accent);
+    color: white;
+    opacity: 1;
+}
+
+.calendar-page-loading,
+.calendar-page-empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 40px 0;
+    font-size: 1rem;
+}
+
+.calendar-page-days {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.calendar-page-day {
+    background: var(--cream);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid var(--brown);
+}
+
+.calendar-page-day-header {
+    background: var(--green-dark);
+    color: var(--cream);
+    padding: 14px 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+}
+
+.calendar-page-events {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-page-event {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid var(--green-pale);
+    background: transparent;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.calendar-page-event:last-child {
+    border-bottom: none;
+}
+
+.calendar-page-event:hover {
+    background: var(--green-pale);
+}
+
+.calendar-page-event-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.calendar-page-event-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.calendar-page-event-title {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+}
+
+.calendar-page-event-subject {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+    .calendar-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .calendar-page-range-switch {
+        width: 100%;
+    }
+
+    .calendar-page-range-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+[data-theme="dark"] .calendar-page-day {
+    background: #16330d;
+    border-color: #2a4d1c;
+}
+
+[data-theme="dark"] .calendar-page-event {
+    border-bottom-color: #2a4d1c;
+}
+
+[data-theme="dark"] .calendar-page-event:hover {
+    background: #1f4413;
+}
+
+[data-theme="dark"] .calendar-page-event-title {
+    color: var(--cream);
+}

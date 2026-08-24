@@ -563,6 +563,12 @@ export default function RabbitRegistry({ session }: Props) {
           </button>
           <button
             className="registry-archive-link"
+            onClick={() => navigate("/my-calendar")}
+          >
+            📅 Календар
+          </button>
+          <button
+            className="registry-archive-link"
             onClick={() => navigate("/matings")}
           >
             🐇 Розведення

@@ -236,6 +236,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/grain-recipes-history": "Раціони",
   "/weighing": "Зважування",
   "/pedigree": "Родовід",
+  "/my-calendar": "Календар",
 
   // АДМІН
   "/admin": "Адмін",
