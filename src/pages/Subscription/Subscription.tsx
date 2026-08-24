@@ -123,6 +123,17 @@ const features = [
     ],
   },
   {
+    icon: "🔔",
+    title: "Push-сповіщення",
+    desc: "Нагадування про ключові події господарства приходять прямо на телефон — навіть коли застосунок закритий.",
+    details: [
+      "Контрольна злучка та очікуваний окріл",
+      "Підготовка маточника й відлучення молодняку",
+      "Планова дата забою",
+      "Наступний прийом препарату та вакцинація",
+    ],
+  },
+  {
     icon: "📷",
     title: "QR-коди кліток",
     desc: "Генерація QR-кодів для кожного кролика. Роздрукуй і прикріпи на клітку — при скануванні відкривається паспорт тварини.",
@@ -213,7 +224,7 @@ const Subscription = () => {
           </div>
           <div className="sub-hero-stats">
             <div className="sub-stat">
-              <span className="sub-stat-num">16</span>
+              <span className="sub-stat-num">17</span>
               <span className="sub-stat-label">розділів обліку</span>
             </div>
             <div className="sub-stat">

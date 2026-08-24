@@ -28,6 +28,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - Реєстр кролів
 - Облік злучок
 - Облік окролів
+- Push-сповіщення (нагадування про злучки, окроли, маточник, відлучення, забій, лікування, вакцинації)
 - Статистика господарства
 - QR-паспорти кролів
 - Калькулятори
@@ -53,6 +54,30 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - Перевірка роботи всіх основних функцій
 
 **Статус:** APK доступний для прямого встановлення. Публікація в Google Play відкладена до сплати одноразового реєстраційного внеску розробника (25 USD).
+
+---
+
+## 🔔 Push-сповіщення
+
+Кабінет господарства надсилає push-сповіщення про ключові події — навіть коли застосунок закритий.
+
+Реалізовано:
+
+- Self-hosted Web Push через VAPID — без сторонніх сервісів, без лімітів і без облікових записів
+- Підписка/відписка прямо з налаштувань кабінету
+- Service worker (`src/sw.ts`) обробляє показ сповіщень і перехід за кліком
+- Щоденна серверна перевірка (Vercel Serverless Function) по всіх ключових датах:
+  - контрольна злучка (перша й повторна)
+  - очікуваний окріл (перший і повторний)
+  - підготовка маточника
+  - відлучення молодняку
+  - планова дата забою
+  - наступний прийом препарату (лікування)
+  - наступна вакцинація
+- Автоматичний щоденний запуск через GitHub Actions cron (08:00 за Києвом)
+- Перевірено наскрізно на Android (TWA)
+
+**Вартість:** повністю безкоштовно — VAPID/Web Push не має лімітів; серверна перевірка й cron-запуск займають частки відсотка безкоштовних квот Vercel і GitHub Actions.
 
 ---
 
@@ -119,6 +144,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 | E2E сценаріїв            |                       10 |
 | TypeScript               |                      Так |
 | PWA                      |                      Так |
+| Push-сповіщення          |                      Так |
 | Android-застосунок (TWA) |                      Так |
 | SEO                      |                      Так |
 | Supabase                 |                      Так |
@@ -156,12 +182,15 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - PostgreSQL
 - Authentication
 - Realtime
+- Vercel Serverless Functions (push-сповіщення)
+- GitHub Actions (щоденний cron)
 
 ## Оптимізація
 
 - PWA
 - TWA (Trusted Web Activity)
 - Service Worker
+- Web Push / VAPID
 - Code Splitting
 - React.lazy()
 - Lazy Loading
@@ -188,10 +217,15 @@ src/
 ├── routes/
 ├── seo/
 ├── test/
+├── sw.ts
 ├── App.tsx
 ├── entry-prerender.tsx
 ├── main.tsx
 └── prerender-routes.ts
+
+api/
+├── send-push.ts
+└── daily-reminders.ts
 ```
 
 ---
@@ -313,6 +347,7 @@ docs/
 - Supabase
 - Автоматичне тестування
 - Android-застосунок (TWA)
+- Push-сповіщення
 
 ---
 
