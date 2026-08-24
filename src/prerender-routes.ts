@@ -49,6 +49,7 @@ export const prerenderRoutes = [
     "/new-food",
     "/compound-feed",
     "/special-feeds",
+    "/pelleting-problems",
 
     // Догляд
     "/care",

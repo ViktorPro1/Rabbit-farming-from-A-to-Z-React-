@@ -23,6 +23,9 @@ const CompoundFeed = lazy(
 const SpecialFeeds = lazy(
   () => import("../../pages/SpecialFeeds/SpecialFeeds"),
 );
+const PelletingProblems = lazy(
+  () => import("../../pages/PelletingProblems/PelletingProblems"),
+);
 
 /**
  * Житло (клітки, вольєри) та харчування.
@@ -44,5 +47,6 @@ export const housingFeedingRoutes = (
     <Route path="/new-food" element={<NewFood />} />
     <Route path="/compound-feed" element={<CompoundFeed />} />
     <Route path="/special-feeds" element={<SpecialFeeds />} />
+    <Route path="/pelleting-problems" element={<PelletingProblems />} />
   </>
 );

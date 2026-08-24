@@ -67,6 +67,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/weight-control": "Контроль ваги",
   "/droppings": "Послід",
   "/rabbit-obesity": "Ожиріння у кролів",
+  "/pelleting-problems": "Проблеми з грануляцією",
 
   // ДОГЛЯД
   "/care": "Догляд",

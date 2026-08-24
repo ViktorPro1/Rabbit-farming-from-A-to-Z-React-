@@ -44,6 +44,7 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/droppings": "Харчування",
   "/weight-control": "Харчування",
   "/rabbit-obesity": "Харчування",
+  "/pelleting-problems": "Харчування",
   "/care": "Догляд",
   "/grooming": "Догляд",
   "/seasonal-molting": "Догляд",
