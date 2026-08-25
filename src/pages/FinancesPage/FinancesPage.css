@@ -70,6 +70,10 @@
     border-top-color: #b71c1c;
 }
 
+.finances-summary-card.self-consumption {
+    border-top-color: #8d6e63;
+}
+
 .finances-summary-card.profit {
     border-top-color: #c9a227;
 }
@@ -84,6 +88,7 @@
 .finances-summary-label {
     font-size: 0.85rem;
     color: var(--gray);
+    text-align: center;
 }
 
 .finances-tabs {

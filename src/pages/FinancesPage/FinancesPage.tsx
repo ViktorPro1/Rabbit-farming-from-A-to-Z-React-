@@ -26,11 +26,22 @@ interface SaleRecord {
   buyer: string | null;
 }
 
+interface SelfConsumptionRecord {
+  id: string;
+  cage_number: string;
+  breed: string;
+  males: number;
+  females: number;
+  unknown: number;
+  slaughtered_at: string;
+}
+
 interface MonthlyFinance {
   month: string; // "2026-08"
   income: number;
   expenses: number;
   profit: number;
+  slaughtered: number;
 }
 
 const CATEGORY_LABELS: Record<ExpenseCategory, string> = {
@@ -93,9 +104,12 @@ const emptyExpenseForm = {
 };
 
 function OverviewChart({ data }: { data: MonthlyFinance[] }) {
-  const max = Math.max(...data.map((d) => Math.max(d.income, d.expenses)), 1);
-  const groupW = 76;
-  const barW = 22;
+  const max = Math.max(
+    ...data.map((d) => Math.max(d.income, d.expenses, d.slaughtered)),
+    1,
+  );
+  const groupW = 100;
+  const barW = 20;
   const gap = 6;
   const chartW = data.length * groupW + 16;
   const chartH = 150;
@@ -141,12 +155,19 @@ function OverviewChart({ data }: { data: MonthlyFinance[] }) {
           const groupX = 8 + i * groupW;
           const incomeX = groupX;
           const expenseX = groupX + barW + gap;
+          const slaughteredX = groupX + (barW + gap) * 2;
           return (
             <g key={d.month}>
               {bar(incomeX, d.income, "#4caf50", `${d.month}-income`)}
               {bar(expenseX, d.expenses, "#b71c1c", `${d.month}-expense`)}
+              {bar(
+                slaughteredX,
+                d.slaughtered,
+                "#8d6e63",
+                `${d.month}-slaughtered`,
+              )}
               <text
-                x={groupX + (barW * 2 + gap) / 2}
+                x={groupX + (barW * 3 + gap * 2) / 2}
                 y={topPadding + chartH + 16}
                 textAnchor="middle"
                 fontSize={10}
@@ -165,6 +186,9 @@ function OverviewChart({ data }: { data: MonthlyFinance[] }) {
 export default function FinancesPage({ session }: Props) {
   const [expenses, setExpenses] = useState<ExpenseRecord[]>([]);
   const [sales, setSales] = useState<SaleRecord[]>([]);
+  const [selfConsumption, setSelfConsumption] = useState<
+    SelfConsumptionRecord[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
     "overview" | "expenses" | "income"
@@ -198,10 +222,22 @@ export default function FinancesPage({ session }: Props) {
         .select("id, price, sold_at, cage_number, buyer")
         .eq("user_id", session.user.id)
         .order("sold_at", { ascending: false }),
-    ]).then(([expensesRes, salesRes]) => {
+      // "Власне споживання" — беремо напряму із забитих кліток Відгодівлі
+      // (is_active=false + slaughtered_at заповнено), без окремого запису.
+      supabase
+        .from("fattening")
+        .select(
+          "id, cage_number, breed, males, females, unknown, slaughtered_at",
+        )
+        .eq("user_id", session.user.id)
+        .eq("is_active", false)
+        .not("slaughtered_at", "is", null)
+        .order("slaughtered_at", { ascending: false }),
+    ]).then(([expensesRes, salesRes, slaughteredRes]) => {
       if (cancelled) return;
       setExpenses(expensesRes.data || []);
       setSales(salesRes.data || []);
+      setSelfConsumption(slaughteredRes.data || []);
       setLoading(false);
     });
 
@@ -253,11 +289,17 @@ export default function FinancesPage({ session }: Props) {
     setRefreshKey((k) => k + 1);
   }
 
-  // ── Агрегація по місяцях ──
+  // ── Агрегація по місяцях (дохід/витрати/прибуток/забито) ──
   const monthlyMap: Record<string, MonthlyFinance> = {};
   function ensureMonth(key: string) {
     if (!monthlyMap[key]) {
-      monthlyMap[key] = { month: key, income: 0, expenses: 0, profit: 0 };
+      monthlyMap[key] = {
+        month: key,
+        income: 0,
+        expenses: 0,
+        profit: 0,
+        slaughtered: 0,
+      };
     }
     return monthlyMap[key];
   }
@@ -269,6 +311,11 @@ export default function FinancesPage({ session }: Props) {
     if (!e.expense_date) return;
     ensureMonth(e.expense_date.slice(0, 7)).expenses += e.amount;
   });
+  selfConsumption.forEach((c) => {
+    if (!c.slaughtered_at) return;
+    ensureMonth(c.slaughtered_at.slice(0, 7)).slaughtered +=
+      (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+  });
   const monthlyStats = Object.values(monthlyMap)
     .map((m) => ({ ...m, profit: m.income - m.expenses }))
     .sort((a, b) => a.month.localeCompare(b.month));
@@ -276,6 +323,22 @@ export default function FinancesPage({ session }: Props) {
   const totalIncome = sales.reduce((s, r) => s + (r.price || 0), 0);
   const totalExpenses = expenses.reduce((s, r) => s + r.amount, 0);
   const totalProfit = totalIncome - totalExpenses;
+
+  // ── Власне споживання: підсумок і групування по місяцях (для детального списку) ──
+  const selfConsumptionTotal = selfConsumption.reduce(
+    (s, c) => s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
+    0,
+  );
+  const selfConsumptionByMonth: Record<string, SelfConsumptionRecord[]> = {};
+  selfConsumption.forEach((c) => {
+    if (!c.slaughtered_at) return;
+    const key = c.slaughtered_at.slice(0, 7);
+    if (!selfConsumptionByMonth[key]) selfConsumptionByMonth[key] = [];
+    selfConsumptionByMonth[key].push(c);
+  });
+  const selfConsumptionMonths = Object.keys(selfConsumptionByMonth).sort(
+    (a, b) => b.localeCompare(a),
+  );
 
   // ── Групування витрат по місяцях для вкладки "Витрати" ──
   const expensesByMonth: Record<string, ExpenseRecord[]> = {};
@@ -336,6 +399,17 @@ export default function FinancesPage({ session }: Props) {
               </span>
               <span className="finances-summary-label">Витрати</span>
             </div>
+            <div className="finances-summary-card self-consumption">
+              <span
+                className="finances-summary-val"
+                style={{ color: "#8d6e63" }}
+              >
+                {selfConsumptionTotal} гол.
+              </span>
+              <span className="finances-summary-label">
+                🍖 Власне споживання
+              </span>
+            </div>
             <div className="finances-summary-card profit">
               <span
                 className="finances-summary-val"
@@ -375,8 +449,8 @@ export default function FinancesPage({ session }: Props) {
                 <div className="finances-empty-illustration">📈</div>
                 <h3 className="finances-empty-title">Даних ще немає</h3>
                 <p className="finances-empty-desc">
-                  Огляд з'явиться, коли буде хоча б один продаж або записана
-                  витрата.
+                  Огляд з'явиться, коли буде хоча б один продаж, забій або
+                  записана витрата.
                 </p>
               </div>
             ) : (
@@ -396,9 +470,16 @@ export default function FinancesPage({ session }: Props) {
                     />
                     Витрати
                   </span>
+                  <span className="finances-legend-item">
+                    <span
+                      className="finances-legend-dot"
+                      style={{ background: "#8d6e63" }}
+                    />
+                    Забито (гол.)
+                  </span>
                 </div>
                 <h3 className="finances-chart-title">
-                  Дохід / Витрати по місяцях
+                  Дохід / Витрати / Забито по місяцях
                 </h3>
                 <OverviewChart data={monthlyStats} />
 
@@ -412,6 +493,11 @@ export default function FinancesPage({ session }: Props) {
                           <span className="finances-row-category">
                             {monthLabelFull(m.month)}
                           </span>
+                          {m.slaughtered > 0 && (
+                            <span className="finances-row-desc">
+                              🍖 забито: {m.slaughtered} гол.
+                            </span>
+                          )}
                         </div>
                         <div className="finances-row-right">
                           <span
@@ -560,96 +646,171 @@ export default function FinancesPage({ session }: Props) {
             </>
           )}
 
-          {activeTab === "income" &&
-            (salesMonths.length === 0 ? (
-              <div className="finances-empty-state">
-                <div className="finances-empty-illustration">🔺</div>
-                <h3 className="finances-empty-title">Продажів ще не було</h3>
-                <p className="finances-empty-desc">
-                  Дохід рахується з розділу Відгодівля (кнопка «Продано»).
-                </p>
-              </div>
-            ) : (
-              salesMonths.map((month) => {
-                const group = salesByMonth[month];
-                const groupTotal = group.reduce(
-                  (s, r) => s + (r.price || 0),
-                  0,
-                );
-                return (
-                  <div key={month} className="finances-month">
-                    <div className="finances-month-header">
-                      <span>{monthLabelFull(month)}</span>
-                      <span>{formatUAH(groupTotal)}</span>
-                    </div>
-                    <div className="finances-list">
-                      {group.map((s) => (
-                        <div key={s.id} className="finances-row">
-                          <div className="finances-row-left">
-                            <span className="finances-row-category">
-                              Клітка {s.cage_number || "?"}
-                            </span>
-                            {s.buyer && (
-                              <span className="finances-row-desc">
-                                Покупець: {s.buyer}
+          {activeTab === "income" && (
+            <>
+              {salesMonths.length === 0 ? (
+                <div className="finances-empty-state">
+                  <div className="finances-empty-illustration">🔺</div>
+                  <h3 className="finances-empty-title">Продажів ще не було</h3>
+                  <p className="finances-empty-desc">
+                    Дохід рахується з розділу Відгодівля (кнопка «Продано»).
+                  </p>
+                </div>
+              ) : (
+                salesMonths.map((month) => {
+                  const group = salesByMonth[month];
+                  const groupTotal = group.reduce(
+                    (s, r) => s + (r.price || 0),
+                    0,
+                  );
+                  return (
+                    <div key={month} className="finances-month">
+                      <div className="finances-month-header">
+                        <span>{monthLabelFull(month)}</span>
+                        <span>{formatUAH(groupTotal)}</span>
+                      </div>
+                      <div className="finances-list">
+                        {group.map((s) => (
+                          <div key={s.id} className="finances-row">
+                            <div className="finances-row-left">
+                              <span className="finances-row-category">
+                                Клітка {s.cage_number || "?"}
                               </span>
-                            )}
-                          </div>
-                          <div className="finances-row-right">
-                            {editingPriceId === s.id ? (
-                              <>
-                                <input
-                                  type="number"
-                                  placeholder="Ціна, грн"
-                                  autoFocus
-                                  value={editingPriceValue}
-                                  onChange={(e) =>
-                                    setEditingPriceValue(e.target.value)
-                                  }
-                                  style={{
-                                    width: "90px",
-                                    padding: "0.3rem 0.5rem",
-                                    border: "1px solid var(--gray-light)",
-                                    borderRadius: "6px",
-                                  }}
-                                />
+                              {s.buyer && (
+                                <span className="finances-row-desc">
+                                  Покупець: {s.buyer}
+                                </span>
+                              )}
+                            </div>
+                            <div className="finances-row-right">
+                              {editingPriceId === s.id ? (
+                                <>
+                                  <input
+                                    type="number"
+                                    placeholder="Ціна, грн"
+                                    autoFocus
+                                    value={editingPriceValue}
+                                    onChange={(e) =>
+                                      setEditingPriceValue(e.target.value)
+                                    }
+                                    style={{
+                                      width: "90px",
+                                      padding: "0.3rem 0.5rem",
+                                      border: "1px solid var(--gray-light)",
+                                      borderRadius: "6px",
+                                    }}
+                                  />
+                                  <button
+                                    className="finances-save-btn"
+                                    style={{ padding: "0.3rem 0.7rem" }}
+                                    onClick={() => handleSavePrice(s.id)}
+                                  >
+                                    ✓
+                                  </button>
+                                </>
+                              ) : (
                                 <button
-                                  className="finances-save-btn"
-                                  style={{ padding: "0.3rem 0.7rem" }}
-                                  onClick={() => handleSavePrice(s.id)}
+                                  className="finances-row-amount income"
+                                  style={{
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    padding: 0,
+                                    font: "inherit",
+                                  }}
+                                  onClick={() => startEditPrice(s)}
+                                  title="Клікни, щоб вписати ціну"
                                 >
-                                  ✓
+                                  {s.price
+                                    ? `+${formatUAH(s.price)}`
+                                    : "➕ Вказати ціну"}
                                 </button>
-                              </>
-                            ) : (
-                              <button
-                                className="finances-row-amount income"
-                                style={{
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  padding: 0,
-                                  font: "inherit",
-                                }}
-                                onClick={() => startEditPrice(s)}
-                                title="Клікни, щоб вписати ціну"
-                              >
-                                {s.price
-                                  ? `+${formatUAH(s.price)}`
-                                  : "➕ Вказати ціну"}
-                              </button>
-                            )}
-                            <span className="finances-row-date">
-                              {new Date(s.sold_at).toLocaleDateString("uk-UA")}
-                            </span>
+                              )}
+                              <span className="finances-row-date">
+                                {new Date(s.sold_at).toLocaleDateString(
+                                  "uk-UA",
+                                )}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ))}
+                  );
+                })
+              )}
+
+              {/* ── Власне споживання (окремо від грошового доходу) ── */}
+              {selfConsumptionMonths.length > 0 && (
+                <div style={{ marginTop: "1.5rem" }}>
+                  <h3 className="finances-chart-title">
+                    🍖 Власне споживання ({selfConsumptionTotal} гол.)
+                  </h3>
+                  {selfConsumptionMonths.map((month) => {
+                    const group = selfConsumptionByMonth[month];
+                    const groupTotal = group.reduce(
+                      (s, c) =>
+                        s +
+                        (c.males || 0) +
+                        (c.females || 0) +
+                        (c.unknown || 0),
+                      0,
+                    );
+                    return (
+                      <div key={month} className="finances-month">
+                        <div
+                          className="finances-month-header"
+                          style={{ background: "#8d6e63" }}
+                        >
+                          <span>{monthLabelFull(month)}</span>
+                          <span>{groupTotal} гол.</span>
+                        </div>
+                        <div className="finances-list">
+                          {group.map((c) => {
+                            const count =
+                              (c.males || 0) +
+                              (c.females || 0) +
+                              (c.unknown || 0);
+                            return (
+                              <div
+                                key={c.id}
+                                className="finances-row"
+                                style={{ borderLeftColor: "#8d6e63" }}
+                              >
+                                <div className="finances-row-left">
+                                  <span className="finances-row-category">
+                                    Клітка {c.cage_number || "?"}
+                                  </span>
+                                  {c.breed && (
+                                    <span className="finances-row-desc">
+                                      {c.breed}
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="finances-row-right">
+                                  <span
+                                    className="finances-row-amount"
+                                    style={{ color: "#8d6e63" }}
+                                  >
+                                    {count} гол.
+                                  </span>
+                                  <span className="finances-row-date">
+                                    {new Date(
+                                      c.slaughtered_at,
+                                    ).toLocaleDateString("uk-UA")}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          )}
 
           {/* ── Зноска: як це працює ── */}
           <div className="finances-note">
@@ -690,6 +851,18 @@ export default function FinancesPage({ session }: Props) {
                     </div>
                   </div>
                   <div className="finances-note-item">
+                    <span className="finances-note-icon">🍖</span>
+                    <div>
+                      <strong>Власне споживання</strong>
+                      <span>
+                        Рахується автоматично з кнопки «Забій» у Відгодівлі — це
+                        м'ясо для себе, не гроші, тому воно не входить у дохід і
+                        прибуток. Кількість голів по місяцях видно прямо на
+                        графіку "Огляду".
+                      </span>
+                    </div>
+                  </div>
+                  <div className="finances-note-item">
                     <span className="finances-note-icon">🔻</span>
                     <div>
                       <strong>Витрати</strong>
@@ -706,6 +879,7 @@ export default function FinancesPage({ session }: Props) {
                       <span>
                         Розраховується автоматично: дохід мінус витрати — як
                         загалом, так і по кожному місяцю у вкладці «Огляд».
+                        Власне споживання на прибуток не впливає.
                       </span>
                     </div>
                   </div>
