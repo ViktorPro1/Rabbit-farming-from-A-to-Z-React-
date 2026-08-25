@@ -24,12 +24,6 @@
     margin: 0;
 }
 
-.registry-header-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
 .registry-header-action {
     display: flex;
 }
@@ -1030,4 +1024,63 @@ button.registry-email:hover {
 .registry-header-nav-wrap>.registry-header-nav {
     overflow: hidden;
     min-height: 0;
+}
+
+/* ===== Секції навігації ===== */
+.registry-header-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.nav-section {
+    position: relative;
+    padding-left: 12px;
+}
+
+.nav-section::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 3px;
+    border-radius: 3px;
+    background: #6ea63c;
+    /* тон зеленого з кнопки "Панель кролівництва" */
+}
+
+.nav-section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #5a7a3a;
+    margin-bottom: 8px;
+}
+
+.nav-section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Десктоп: розкладаємо самі секції плиткою, кнопки не розтягуємо на всю ширину */
+@media (min-width: 900px) {
+    .registry-header-nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px 40px;
+        align-items: start;
+    }
+
+    .nav-section-grid {
+        grid-template-columns: repeat(2, minmax(0, 220px));
+    }
+}
+
+@media (min-width: 1200px) {
+    .registry-header-nav {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
