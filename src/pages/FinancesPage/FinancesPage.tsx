@@ -176,6 +176,7 @@ export default function FinancesPage({ session }: Props) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null);
   const [editingPriceValue, setEditingPriceValue] = useState("");
+  const [showNote, setShowNote] = useState(false);
   const navigate = useNavigate();
 
   // Примітка: setLoading(true) навмисно НЕ викликається тут синхронно
@@ -565,8 +566,7 @@ export default function FinancesPage({ session }: Props) {
                 <div className="finances-empty-illustration">🔺</div>
                 <h3 className="finances-empty-title">Продажів ще не було</h3>
                 <p className="finances-empty-desc">
-                  Дохід рахується з розділу Відгодівля (кнопка «Продано»). Вкажи
-                  ціну під час продажу — вона з'явиться тут автоматично.
+                  Дохід рахується з розділу Відгодівля (кнопка «Продано»).
                 </p>
               </div>
             ) : (
@@ -650,6 +650,69 @@ export default function FinancesPage({ session }: Props) {
                 );
               })
             ))}
+
+          {/* ── Зноска: як це працює ── */}
+          <div className="finances-note">
+            <button
+              className="finances-note-toggle"
+              onClick={() => setShowNote(!showNote)}
+            >
+              <span>❓ Як рахуються дохід, витрати і прибуток</span>
+              <span>{showNote ? "▲" : "▼"}</span>
+            </button>
+
+            {showNote && (
+              <>
+                <p>
+                  Дохід і витрати збираються з різних розділів автоматично або
+                  вносяться вручну, а прибуток система рахує сама.
+                </p>
+                <div className="finances-note-grid">
+                  <div className="finances-note-item">
+                    <span className="finances-note-icon">🥩</span>
+                    <div>
+                      <strong>Дохід (продажі)</strong>
+                      <span>
+                        З'являється автоматично з розділу «Відгодівля» після
+                        натискання кнопки «Продано» на клітці.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="finances-note-item">
+                    <span className="finances-note-icon">💰</span>
+                    <div>
+                      <strong>Вказати ціну</strong>
+                      <span>
+                        Одразу після продажу запис з'являється тут без ціни. У
+                        вкладці «Доходи» клікни «➕ Вказати ціну» і впиши суму —
+                        вона одразу врахується в загальний дохід.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="finances-note-item">
+                    <span className="finances-note-icon">🔻</span>
+                    <div>
+                      <strong>Витрати</strong>
+                      <span>
+                        Додаються вручну у вкладці «Витрати»: категорія (корм,
+                        вет, обладнання, транспорт, інше), сума, дата та опис.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="finances-note-item">
+                    <span className="finances-note-icon">📈</span>
+                    <div>
+                      <strong>Прибуток</strong>
+                      <span>
+                        Розраховується автоматично: дохід мінус витрати — як
+                        загалом, так і по кожному місяцю у вкладці «Огляд».
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </>
       )}
     </div>

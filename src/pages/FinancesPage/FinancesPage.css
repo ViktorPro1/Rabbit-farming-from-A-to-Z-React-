@@ -356,8 +356,81 @@
     display: inline-block;
 }
 
+/* ── Зноска "Як це працює" (акордеон) ── */
+.finances-note {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    margin-top: 0.5rem;
+}
+
+.finances-note-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    cursor: pointer;
+    padding: 0;
+}
+
+.finances-note p {
+    margin: 0.75rem 0 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+.finances-note-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.finances-note-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    background: var(--green-pale);
+    border-radius: 10px;
+    padding: 0.75rem;
+}
+
+.finances-note-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.finances-note-item>div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.finances-note-item strong {
+    color: var(--green-dark);
+    font-size: 0.9rem;
+}
+
+.finances-note-item span {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.5;
+}
+
 @media (max-width: 640px) {
     .finances-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .finances-note-grid {
         grid-template-columns: 1fr;
     }
 }
