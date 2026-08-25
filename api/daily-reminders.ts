@@ -32,10 +32,15 @@ function addDays(dateStr: string, days: number): string {
 }
 
 async function sendToUser(userId: string, title: string, body: string, url: string) {
-    const { data: subs } = await supabase
+    const { data: subs, error: subsError } = await supabase
         .from('push_subscriptions')
         .select('*')
         .eq('user_id', userId);
+
+    if (subsError) {
+        console.error(`[sendToUser] failed to fetch subscriptions for user ${userId}:`, subsError);
+        return;
+    }
 
     console.log(`sendToUser ${userId}: found ${subs?.length ?? 0} subscription(s)`);
 
@@ -54,7 +59,16 @@ async function sendToUser(userId: string, title: string, body: string, url: stri
                         `push FAILED -> subscription ${sub.id}, status ${err.statusCode}, body: ${err.body}`
                     );
                     if (err.statusCode === 410 || err.statusCode === 404) {
-                        await supabase.from('push_subscriptions').delete().eq('id', sub.id);
+                        const { error: deleteError } = await supabase
+                            .from('push_subscriptions')
+                            .delete()
+                            .eq('id', sub.id);
+                        if (deleteError) {
+                            console.error(
+                                `[sendToUser] failed to delete expired subscription ${sub.id}:`,
+                                deleteError
+                            );
+                        }
                     }
                 })
         )
@@ -69,13 +83,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const tomorrow = tomorrowDate();
     let sentCount = 0;
+    const queryErrors: string[] = [];
 
     // 1. Контрольна злучка завтра (перша злучка, таблиця matings)
-    const { data: controlMatings } = await supabase
+    const { data: controlMatings, error: controlMatingsError } = await supabase
         .from('matings')
         .select('user_id, female_cage, male_cage')
         .eq('control_date', tomorrow)
         .eq('is_archived', false);
+
+    if (controlMatingsError) {
+        console.error('[daily-reminders] controlMatings query failed:', controlMatingsError);
+        queryErrors.push('controlMatings');
+    }
 
     for (const m of controlMatings ?? []) {
         await sendToUser(
@@ -88,11 +108,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 2. Очікуваний окріл завтра (перша злучка, таблиця matings)
-    const { data: expectedBirths } = await supabase
+    const { data: expectedBirths, error: expectedBirthsError } = await supabase
         .from('matings')
         .select('user_id, female_cage')
         .eq('expected_birth', tomorrow)
         .eq('is_archived', false);
+
+    if (expectedBirthsError) {
+        console.error('[daily-reminders] expectedBirths query failed:', expectedBirthsError);
+        queryErrors.push('expectedBirths');
+    }
 
     for (const m of expectedBirths ?? []) {
         await sendToUser(
@@ -105,10 +130,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 3. Повторна контрольна злучка завтра (після попереднього окролу, таблиця litters)
-    const { data: repeatControls } = await supabase
+    const { data: repeatControls, error: repeatControlsError } = await supabase
         .from('litters')
         .select('user_id, mother_id')
         .eq('litter_control_date', tomorrow);
+
+    if (repeatControlsError) {
+        console.error('[daily-reminders] repeatControls query failed:', repeatControlsError);
+        queryErrors.push('repeatControls');
+    }
 
     for (const l of repeatControls ?? []) {
         await sendToUser(
@@ -121,10 +151,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 4. Повторний очікуваний окріл завтра (таблиця litters)
-    const { data: repeatBirths } = await supabase
+    const { data: repeatBirths, error: repeatBirthsError } = await supabase
         .from('litters')
         .select('user_id')
         .eq('litter_expected_birth', tomorrow);
+
+    if (repeatBirthsError) {
+        console.error('[daily-reminders] repeatBirths query failed:', repeatBirthsError);
+        queryErrors.push('repeatBirths');
+    }
 
     for (const l of repeatBirths ?? []) {
         await sendToUser(
@@ -137,12 +172,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 5. Підготовка маточника завтра (litter_mating_date + 26 днів, ще не поставлений і окролу ще немає)
-    const { data: nestboxCandidates } = await supabase
+    const { data: nestboxCandidates, error: nestboxError } = await supabase
         .from('litters')
         .select('user_id, litter_mating_date, mating_id')
         .is('birth_date', null)
         .is('nestbox_date', null)
         .not('litter_mating_date', 'is', null);
+
+    if (nestboxError) {
+        console.error('[daily-reminders] nestboxCandidates query failed:', nestboxError);
+        queryErrors.push('nestboxCandidates');
+    }
 
     for (const l of nestboxCandidates ?? []) {
         if (addDays(l.litter_mating_date, 26) === tomorrow) {
@@ -157,19 +197,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 6. Відлучення завтра (birth_date + дні за схемою злучування, ще не відлучено)
-    const { data: weaningCandidates } = await supabase
+    const { data: weaningCandidates, error: weaningError } = await supabase
         .from('litters')
         .select('user_id, birth_date, mating_id')
         .not('birth_date', 'is', null)
         .is('weaned_date', null);
 
+    if (weaningError) {
+        console.error('[daily-reminders] weaningCandidates query failed:', weaningError);
+        queryErrors.push('weaningCandidates');
+    }
+
     const matingIds = [...new Set((weaningCandidates ?? []).map((l) => l.mating_id).filter(Boolean))];
     const schemeByMatingId: Record<string, string> = {};
     if (matingIds.length > 0) {
-        const { data: matingsForScheme } = await supabase
+        const { data: matingsForScheme, error: matingsForSchemeError } = await supabase
             .from('matings')
             .select('id, breeding_scheme')
             .in('id', matingIds);
+
+        if (matingsForSchemeError) {
+            console.error('[daily-reminders] matingsForScheme query failed:', matingsForSchemeError);
+            queryErrors.push('matingsForScheme');
+        }
+
         (matingsForScheme ?? []).forEach((m) => {
             schemeByMatingId[m.id] = m.breeding_scheme || 'extensive';
         });
@@ -189,13 +240,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
     }
 
-
     // 7. Забій завтра (клітки відгодівлі, planned slaughter_date)
-    const { data: slaughterCages } = await supabase
+    const { data: slaughterCages, error: slaughterError } = await supabase
         .from('fattening')
         .select('user_id, cage_number, breed')
         .eq('slaughter_date', tomorrow)
         .eq('is_active', true);
+
+    if (slaughterError) {
+        console.error('[daily-reminders] slaughterCages query failed:', slaughterError);
+        queryErrors.push('slaughterCages');
+    }
 
     for (const c of slaughterCages ?? []) {
         await sendToUser(
@@ -208,10 +263,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 8. Лікування — наступний прийом препарату завтра
-    const { data: treatmentsDue } = await supabase
+    const { data: treatmentsDue, error: treatmentsError } = await supabase
         .from('treatments')
         .select('user_id, cage_number, drug_name')
         .eq('next_date', tomorrow);
+
+    if (treatmentsError) {
+        console.error('[daily-reminders] treatmentsDue query failed:', treatmentsError);
+        queryErrors.push('treatmentsDue');
+    }
 
     for (const t of treatmentsDue ?? []) {
         await sendToUser(
@@ -224,10 +284,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 9. Вакцинація завтра
-    const { data: vaccinations } = await supabase
+    const { data: vaccinations, error: vaccinationsError } = await supabase
         .from('vaccinations')
         .select('user_id, cage_number, vaccine_name')
         .eq('next_date', tomorrow);
+
+    if (vaccinationsError) {
+        console.error('[daily-reminders] vaccinations query failed:', vaccinationsError);
+        queryErrors.push('vaccinations');
+    }
 
     for (const v of vaccinations ?? []) {
         await sendToUser(
@@ -239,5 +304,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sentCount++;
     }
 
-    res.status(200).json({ sent: sentCount, date: tomorrow });
+    res.status(200).json({ sent: sentCount, date: tomorrow, ...(queryErrors.length > 0 && { failedQueries: queryErrors }) });
 }
