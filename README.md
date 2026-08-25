@@ -109,6 +109,19 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 
 ---
 
+## 🐞 Моніторинг помилок (Sentry)
+
+Автоматичне відстеження помилок продакшн-версії застосунку через Sentry.
+
+Реалізовано:
+
+- Централізоване логування помилок (`src/lib/logError.ts`) з відправкою в Sentry
+- `ErrorBoundary` перехоплює падіння React-компонентів і передає їх у Sentry
+- Ініціалізація тільки в production-збірці — локальна розробка не засмічує статистику
+- DSN винесений в env-змінну, не захардкоджений у коді
+
+---
+
 ## Lighthouse
 
 <img src="docs/images/lighthouse.webp" alt="Lighthouse Report" width="700">
@@ -212,6 +225,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - Realtime
 - Vercel Serverless Functions (push-сповіщення)
 - GitHub Actions (щоденний cron)
+- Sentry (error tracking)
 
 ## Оптимізація
 
