@@ -339,6 +339,20 @@
     margin-bottom: 0.75rem;
 }
 
+/* ── Горизонтальний контейнер графіка — свайп на мобільному ── */
+.finances-chart-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+}
+
+.finances-chart-scroll svg {
+    display: block;
+    scroll-snap-align: start;
+}
+
 .finances-legend {
     display: flex;
     gap: 1rem;
@@ -437,6 +451,15 @@
 
     .finances-note-grid {
         grid-template-columns: 1fr;
+    }
+
+    .finances-chart-block {
+        padding: 0.9rem 0.75rem;
+    }
+
+    .finances-legend {
+        gap: 0.6rem;
+        font-size: 0.78rem;
     }
 }
 

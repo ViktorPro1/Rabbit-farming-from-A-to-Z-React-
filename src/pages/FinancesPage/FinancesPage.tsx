@@ -35,6 +35,8 @@ interface SelfConsumptionRecord {
   females: number;
   unknown: number;
   slaughtered_at: string;
+  carcass_weight_kg: number | null;
+  carcass_price_per_kg: number | null;
 }
 
 interface OtherIncomeRecord {
@@ -51,6 +53,7 @@ interface MonthlyFinance {
   expenses: number;
   profit: number;
   slaughtered: number;
+  slaughteredValue: number; // оцінна вартість власного споживання, якби продали
 }
 
 const CATEGORY_LABELS: Record<ExpenseCategory, string> = {
@@ -125,17 +128,40 @@ const emptyOtherIncomeForm = {
   description: "",
 };
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 640 : false,
+  );
+  useEffect(() => {
+    function onResize() {
+      setIsMobile(window.innerWidth <= 640);
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return isMobile;
+}
+
 function OverviewChart({ data }: { data: MonthlyFinance[] }) {
+  const isMobile = useIsMobile();
+  // slaughteredValue (грн) тепер теж звичайний стовпчик, тому враховуємо
+  // його в спільній шкалі поруч із доходом/витратами.
   const max = Math.max(
-    ...data.map((d) => Math.max(d.income, d.expenses, d.slaughtered)),
+    ...data.map((d) =>
+      Math.max(d.income, d.expenses, d.slaughtered, d.slaughteredValue),
+    ),
     1,
   );
-  const groupW = 100;
-  const barW = 20;
-  const gap = 6;
-  const chartW = data.length * groupW + 16;
-  const chartH = 150;
-  const topPadding = 20;
+  // На мобільному груп менше пікселів — інакше графік вилазить за екран
+  // і видно лише обрізаний шматок замість повних чисел.
+  const groupW = isMobile ? 104 : 160;
+  const barW = isMobile ? 16 : 26;
+  const gap = isMobile ? 5 : 8;
+  const chartW = data.length * groupW + 20;
+  const chartH = isMobile ? 140 : 200;
+  const topPadding = isMobile ? 20 : 26;
+  const valueFontSize = isMobile ? 9 : 11;
+  const labelFontSize = isMobile ? 10 : 12;
 
   function bar(x: number, value: number, color: string, key: string) {
     const h = Math.round((value / max) * chartH);
@@ -147,16 +173,16 @@ function OverviewChart({ data }: { data: MonthlyFinance[] }) {
           y={y}
           width={barW}
           height={h}
-          rx={4}
+          rx={isMobile ? 4 : 5}
           fill={color}
           opacity={0.85}
         />
         {value > 0 && (
           <text
             x={x + barW / 2}
-            y={y - 4}
+            y={y - 5}
             textAnchor="middle"
-            fontSize={9}
+            fontSize={valueFontSize}
             fill="var(--gray)"
           >
             {Math.round(value)}
@@ -167,17 +193,18 @@ function OverviewChart({ data }: { data: MonthlyFinance[] }) {
   }
 
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div className="finances-chart-scroll">
       <svg
         width={chartW}
-        height={chartH + 36 + topPadding}
+        height={chartH + 60 + topPadding}
         style={{ overflow: "visible" }}
       >
         {data.map((d, i) => {
-          const groupX = 8 + i * groupW;
+          const groupX = 10 + i * groupW;
           const incomeX = groupX;
           const expenseX = groupX + barW + gap;
           const slaughteredX = groupX + (barW + gap) * 2;
+          const slaughteredValueX = groupX + (barW + gap) * 3;
           return (
             <g key={d.month}>
               {bar(incomeX, d.income, "#4caf50", `${d.month}-income`)}
@@ -188,11 +215,20 @@ function OverviewChart({ data }: { data: MonthlyFinance[] }) {
                 "#8d6e63",
                 `${d.month}-slaughtered`,
               )}
+              {/* Умовна вартість "якби продали" — навмисно НЕ зелений,
+                  щоб господар, який тримає кроликів для себе, не сплутав
+                  цю оцінку з реальним доходом від продажу. */}
+              {bar(
+                slaughteredValueX,
+                d.slaughteredValue,
+                "#ffb300",
+                `${d.month}-slaughtered-value`,
+              )}
               <text
-                x={groupX + (barW * 3 + gap * 2) / 2}
-                y={topPadding + chartH + 16}
+                x={groupX + (barW * 4 + gap * 3) / 2}
+                y={topPadding + chartH + 20}
                 textAnchor="middle"
-                fontSize={10}
+                fontSize={labelFontSize}
                 fill="var(--gray)"
               >
                 {monthLabelShort(d.month)}
@@ -225,6 +261,10 @@ export default function FinancesPage({ session }: Props) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null);
   const [editingPriceValue, setEditingPriceValue] = useState("");
+  // ── Редагування ваги туші та ціни за кг для власного споживання ──
+  const [editingCarcassId, setEditingCarcassId] = useState<string | null>(null);
+  const [editingWeightValue, setEditingWeightValue] = useState("");
+  const [editingPriceKgValue, setEditingPriceKgValue] = useState("210");
   const [showNote, setShowNote] = useState(false);
   const navigate = useNavigate();
 
@@ -249,10 +289,12 @@ export default function FinancesPage({ session }: Props) {
         .order("sold_at", { ascending: false }),
       // "Власне споживання" — беремо напряму із забитих кліток Відгодівлі
       // (is_active=false + slaughtered_at заповнено), без окремого запису.
+      // carcass_weight_kg / carcass_price_per_kg — вага туші (не жива вага
+      // із Зважування) та ціна за кг, вносяться вручну на цій сторінці.
       supabase
         .from("fattening")
         .select(
-          "id, cage_number, breed, males, females, unknown, slaughtered_at",
+          "id, cage_number, breed, males, females, unknown, slaughtered_at, carcass_weight_kg, carcass_price_per_kg",
         )
         .eq("user_id", session.user.id)
         .eq("is_active", false)
@@ -349,7 +391,31 @@ export default function FinancesPage({ session }: Props) {
     setRefreshKey((k) => k + 1);
   }
 
-  // ── Агрегація по місяцях (дохід/витрати/прибуток/забито) ──
+  // ── Вага туші та ціна за кг для власного споживання ──
+  function startEditCarcass(record: SelfConsumptionRecord) {
+    setEditingCarcassId(record.id);
+    setEditingWeightValue(
+      record.carcass_weight_kg ? String(record.carcass_weight_kg) : "",
+    );
+    setEditingPriceKgValue(
+      record.carcass_price_per_kg ? String(record.carcass_price_per_kg) : "210",
+    );
+  }
+
+  async function handleSaveCarcass(id: string) {
+    const weight = Number(editingWeightValue);
+    const price = Number(editingPriceKgValue);
+    if (!weight || weight <= 0 || !price || price <= 0) return;
+    await supabase
+      .from("fattening")
+      .update({ carcass_weight_kg: weight, carcass_price_per_kg: price })
+      .eq("id", id);
+    setEditingCarcassId(null);
+    setLoading(true);
+    setRefreshKey((k) => k + 1);
+  }
+
+  // ── Агрегація по місяцях (дохід/витрати/прибуток/забито/вартість забитого) ──
   const monthlyMap: Record<string, MonthlyFinance> = {};
   function ensureMonth(key: string) {
     if (!monthlyMap[key]) {
@@ -359,6 +425,7 @@ export default function FinancesPage({ session }: Props) {
         expenses: 0,
         profit: 0,
         slaughtered: 0,
+        slaughteredValue: 0,
       };
     }
     return monthlyMap[key];
@@ -377,8 +444,15 @@ export default function FinancesPage({ session }: Props) {
   });
   selfConsumption.forEach((c) => {
     if (!c.slaughtered_at) return;
-    ensureMonth(c.slaughtered_at.slice(0, 7)).slaughtered +=
-      (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+    const m = ensureMonth(c.slaughtered_at.slice(0, 7));
+    const count = (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+    m.slaughtered += count;
+    if (c.carcass_weight_kg && c.carcass_price_per_kg) {
+      // ФІКС: вага/ціна вказуються за ОДНУ голову, тому множимо на
+      // кількість голів у партії — інакше сума занижена в count разів.
+      m.slaughteredValue +=
+        c.carcass_weight_kg * c.carcass_price_per_kg * count;
+    }
   });
   const monthlyStats = Object.values(monthlyMap)
     .map((m) => ({ ...m, profit: m.income - m.expenses }))
@@ -390,11 +464,21 @@ export default function FinancesPage({ session }: Props) {
   const totalExpenses = expenses.reduce((s, r) => s + r.amount, 0);
   const totalProfit = totalIncome - totalExpenses;
 
-  // ── Власне споживання: підсумок і групування по місяцях (для детального списку) ──
+  // ── Власне споживання: підсумок голів, оцінна вартість і групування по місяцях ──
   const selfConsumptionTotal = selfConsumption.reduce(
     (s, c) => s + (c.males || 0) + (c.females || 0) + (c.unknown || 0),
     0,
   );
+  const selfConsumptionValue = selfConsumption.reduce((s, c) => {
+    const count = (c.males || 0) + (c.females || 0) + (c.unknown || 0);
+    // ФІКС: те саме множення на кількість голів
+    return (
+      s +
+      (c.carcass_weight_kg && c.carcass_price_per_kg
+        ? c.carcass_weight_kg * c.carcass_price_per_kg * count
+        : 0)
+    );
+  }, 0);
   const selfConsumptionByMonth: Record<string, SelfConsumptionRecord[]> = {};
   selfConsumption.forEach((c) => {
     if (!c.slaughtered_at) return;
@@ -487,6 +571,14 @@ export default function FinancesPage({ session }: Props) {
               <span className="finances-summary-label">
                 🍖 Власне споживання
               </span>
+              {selfConsumptionValue > 0 && (
+                <span
+                  className="finances-row-desc"
+                  style={{ color: "#8d6e63" }}
+                >
+                  ≈ {formatUAH(selfConsumptionValue)}
+                </span>
+              )}
             </div>
             <div className="finances-summary-card profit">
               <span
@@ -555,6 +647,13 @@ export default function FinancesPage({ session }: Props) {
                     />
                     Забито (гол.)
                   </span>
+                  <span className="finances-legend-item">
+                    <span
+                      className="finances-legend-dot"
+                      style={{ background: "#ffb300" }}
+                    />
+                    Умовна вартість "якби продали"
+                  </span>
                 </div>
                 <h3 className="finances-chart-title">
                   Дохід / Витрати / Забито по місяцях
@@ -574,6 +673,8 @@ export default function FinancesPage({ session }: Props) {
                           {m.slaughtered > 0 && (
                             <span className="finances-row-desc">
                               🍖 забито: {m.slaughtered} гол.
+                              {m.slaughteredValue > 0 &&
+                                ` (умовно ≈${formatUAH(m.slaughteredValue)}, якби продали)`}
                             </span>
                           )}
                         </div>
@@ -971,7 +1072,10 @@ export default function FinancesPage({ session }: Props) {
                   {selfConsumptionMonths.length > 0 && (
                     <div style={{ marginTop: "1.5rem" }}>
                       <h3 className="finances-chart-title">
-                        🍖 Власне споживання ({selfConsumptionTotal} гол.)
+                        🍖 Власне споживання ({selfConsumptionTotal} гол.
+                        {selfConsumptionValue > 0 &&
+                          `, ≈${formatUAH(selfConsumptionValue)}`}
+                        )
                       </h3>
                       {selfConsumptionMonths.map((month) => {
                         const group = selfConsumptionByMonth[month];
@@ -983,6 +1087,21 @@ export default function FinancesPage({ session }: Props) {
                             (c.unknown || 0),
                           0,
                         );
+                        const groupValue = group.reduce((s, c) => {
+                          const count =
+                            (c.males || 0) +
+                            (c.females || 0) +
+                            (c.unknown || 0);
+                          // ФІКС: множення на кількість голів
+                          return (
+                            s +
+                            (c.carcass_weight_kg && c.carcass_price_per_kg
+                              ? c.carcass_weight_kg *
+                                c.carcass_price_per_kg *
+                                count
+                              : 0)
+                          );
+                        }, 0);
                         return (
                           <div key={month} className="finances-month">
                             <div
@@ -990,7 +1109,11 @@ export default function FinancesPage({ session }: Props) {
                               style={{ background: "#8d6e63" }}
                             >
                               <span>{monthLabelFull(month)}</span>
-                              <span>{groupTotal} гол.</span>
+                              <span>
+                                {groupTotal} гол.
+                                {groupValue > 0 &&
+                                  ` · ≈${formatUAH(groupValue)}`}
+                              </span>
                             </div>
                             <div className="finances-list">
                               {group.map((c) => {
@@ -1015,6 +1138,93 @@ export default function FinancesPage({ session }: Props) {
                                       )}
                                     </div>
                                     <div className="finances-row-right">
+                                      {editingCarcassId === c.id ? (
+                                        <>
+                                          <input
+                                            type="number"
+                                            placeholder="Вага туші, кг"
+                                            autoFocus
+                                            value={editingWeightValue}
+                                            onChange={(e) =>
+                                              setEditingWeightValue(
+                                                e.target.value,
+                                              )
+                                            }
+                                            style={{
+                                              width: "90px",
+                                              padding: "0.3rem 0.5rem",
+                                              border:
+                                                "1px solid var(--gray-light)",
+                                              borderRadius: "6px",
+                                            }}
+                                          />
+                                          <input
+                                            type="number"
+                                            placeholder="Грн/кг"
+                                            value={editingPriceKgValue}
+                                            onChange={(e) =>
+                                              setEditingPriceKgValue(
+                                                e.target.value,
+                                              )
+                                            }
+                                            style={{
+                                              width: "80px",
+                                              padding: "0.3rem 0.5rem",
+                                              border:
+                                                "1px solid var(--gray-light)",
+                                              borderRadius: "6px",
+                                            }}
+                                          />
+                                          <button
+                                            className="finances-save-btn"
+                                            style={{ padding: "0.3rem 0.7rem" }}
+                                            onClick={() =>
+                                              handleSaveCarcass(c.id)
+                                            }
+                                          >
+                                            ✓
+                                          </button>
+                                        </>
+                                      ) : c.carcass_weight_kg &&
+                                        c.carcass_price_per_kg ? (
+                                        <button
+                                          className="finances-row-amount"
+                                          style={{
+                                            background: "none",
+                                            border: "none",
+                                            cursor: "pointer",
+                                            padding: 0,
+                                            font: "inherit",
+                                            color: "#8d6e63",
+                                          }}
+                                          onClick={() => startEditCarcass(c)}
+                                          title="Клікни, щоб змінити вагу/ціну (за 1 голову)"
+                                        >
+                                          {c.carcass_weight_kg} кг × {count} гол
+                                          · ≈
+                                          {formatUAH(
+                                            c.carcass_weight_kg *
+                                              c.carcass_price_per_kg *
+                                              count,
+                                          )}
+                                        </button>
+                                      ) : (
+                                        <button
+                                          className="finances-row-amount"
+                                          style={{
+                                            background: "none",
+                                            border: "none",
+                                            cursor: "pointer",
+                                            padding: 0,
+                                            font: "inherit",
+                                            color: "#8d6e63",
+                                          }}
+                                          onClick={() => startEditCarcass(c)}
+                                          title="Клікни, щоб вказати вагу туші (за 1 голову) і ціну"
+                                        >
+                                          ➕ Вказати вагу/ціну
+                                        </button>
+                                      )}
                                       <span
                                         className="finances-row-amount"
                                         style={{ color: "#8d6e63" }}
@@ -1097,8 +1307,12 @@ export default function FinancesPage({ session }: Props) {
                       <span>
                         Рахується автоматично з кнопки «Забій» у Відгодівлі — це
                         м'ясо для себе, не гроші, тому воно не входить у дохід і
-                        прибуток. Кількість голів по місяцях видно прямо на
-                        графіку "Огляду".
+                        прибуток. У вкладці «Доходи» можна вказати вагу туші за
+                        одну голову (не жива вага, а саме м'ясо після обробки) і
+                        ціну за кг — тоді система порахує умовну вартість усієї
+                        партії, «якби продали» (вага × ціна × кількість голів).
+                        Кількість голів і ця оцінна вартість видно на графіку
+                        "Огляду" зеленою лінією.
                       </span>
                     </div>
                   </div>
@@ -1120,7 +1334,8 @@ export default function FinancesPage({ session }: Props) {
                         Розраховується автоматично: весь дохід (продажі + інший
                         дохід) мінус витрати — як загалом, так і по кожному
                         місяцю у вкладці «Огляд». Власне споживання на прибуток
-                        не впливає.
+                        не впливає — воно показується лише як окрема умовна
+                        оцінка.
                       </span>
                     </div>
                   </div>
