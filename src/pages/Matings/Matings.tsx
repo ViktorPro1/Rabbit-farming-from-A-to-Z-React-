@@ -807,7 +807,7 @@ export default function Matings({ session }: Props) {
   return (
     <div className="matings-page">
       <div className="matings-header">
-        <h1>🐇 Розведення</h1>
+        <h1>🐰 Парування</h1>
         <button
           className="matings-back-btn"
           onClick={() => navigate("/registry")}

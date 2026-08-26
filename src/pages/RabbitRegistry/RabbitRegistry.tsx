@@ -584,7 +584,7 @@ export default function RabbitRegistry({ session }: Props) {
         <div className={`registry-header-nav-wrap ${showNav ? "open" : ""}`}>
           <div className="registry-header-nav">
             <div className="nav-section">
-              <div className="nav-section-title">🐇 Розведення</div>
+              <div className="nav-section-title">🐇 Утримання</div>
               <div className="nav-section-grid">
                 <button
                   className="registry-archive-link"
@@ -596,7 +596,7 @@ export default function RabbitRegistry({ session }: Props) {
                   className="registry-archive-link"
                   onClick={() => navigate("/matings")}
                 >
-                  🐇 Розведення
+                  🐰 Парування
                 </button>
                 <button
                   className="registry-archive-link"
