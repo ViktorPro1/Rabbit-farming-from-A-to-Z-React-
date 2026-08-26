@@ -37,6 +37,7 @@ const RabbitPublic = lazy(
 const FatteningPublic = lazy(
   () => import("../../pages/FatteningPublic/FatteningPublic"),
 );
+const Partnership = lazy(() => import("../../pages/Partnership/Partnership"));
 
 /**
  * Адмінка, розділ "З чого почати" та головні сторінки.
@@ -80,6 +81,7 @@ export function getCoreRoutes(session: Session | null) {
       <Route path="/community" element={<Community />} />
       <Route path="/rabbit/:id" element={<RabbitPublic />} />
       <Route path="/fattening-public/:id" element={<FatteningPublic />} />
+      <Route path="/partnership" element={<Partnership />} />
     </>
   );
 }

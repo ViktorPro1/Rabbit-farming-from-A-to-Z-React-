@@ -1,0 +1,318 @@
+.partner-page {
+    min-height: 100vh;
+}
+
+.partner-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), #639922);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.partner-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.partner-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.partner-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.partner-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-dark);
+}
+
+/* HERO */
+.partner-hero {
+    background: var(--cream);
+    border-radius: 20px;
+    border: 0.5px solid var(--gray-light);
+    padding: 2rem;
+    margin-bottom: 1rem;
+}
+
+.partner-hero-text h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+.partner-hero-text p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.partner-cta-wrap {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.partner-contact-btn {
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+.partner-contact-btn:hover {
+    opacity: 0.85;
+}
+
+.partner-contact-btn.telegram {
+    background: #2196f3;
+    color: white;
+}
+
+.partner-contact-btn.email {
+    background: var(--green-dark);
+    color: var(--green-pale);
+}
+
+.partner-contact-btn.large {
+    padding: 12px 28px;
+    font-size: 15px;
+}
+
+/* СТАТУС ПЛАТФОРМИ */
+.partner-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--green-light);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.partner-status-icon {
+    font-size: 20px;
+    line-height: 1.6;
+    flex-shrink: 0;
+}
+
+.partner-status p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* НАПРЯМКИ СПІВПРАЦІ */
+.partner-directions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.partner-direction-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+}
+
+.partner-direction-card:hover {
+    border-color: var(--green-accent);
+}
+
+.partner-direction-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.partner-direction-icon {
+    font-size: 28px;
+}
+
+.partner-direction-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.partner-direction-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* STEPS */
+.partner-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.partner-step {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.partner-step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.partner-step-content {
+    flex: 1;
+}
+
+.partner-step-content strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.partner-step-content p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* FAQ */
+.partner-faq {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.partner-faq-item {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.25rem;
+}
+
+.partner-faq-item strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.partner-faq-item p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* BOTTOM CTA */
+.partner-bottom-cta {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.partner-bottom-cta h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.partner-bottom-cta p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+.partner-bottom-contacts {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* BACK */
+.partner-back {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.partner-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.partner-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 768px) {
+    .partner-directions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .partner-faq {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .partner-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .partner-hero {
+        padding: 1.25rem;
+    }
+
+    .partner-bottom-cta {
+        padding: 1.5rem 1rem;
+    }
+}

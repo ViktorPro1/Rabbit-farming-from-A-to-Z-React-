@@ -218,4 +218,5 @@ export const prerenderRoutes = [
     "/about",
     "/privacy-policy",
     "/terms-of-use",
+    "/partnership"
 ];
