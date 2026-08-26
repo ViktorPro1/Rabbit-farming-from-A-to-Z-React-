@@ -584,7 +584,7 @@ export default function RabbitRegistry({ session }: Props) {
         <div className={`registry-header-nav-wrap ${showNav ? "open" : ""}`}>
           <div className="registry-header-nav">
             <div className="nav-section">
-              <div className="nav-section-title">🐇 Утримання</div>
+              <div className="nav-section-title">🐰 Утримання</div>
               <div className="nav-section-grid">
                 <button
                   className="registry-archive-link"
@@ -596,7 +596,7 @@ export default function RabbitRegistry({ session }: Props) {
                   className="registry-archive-link"
                   onClick={() => navigate("/matings")}
                 >
-                  🐰 Парування
+                  💞 Парування
                 </button>
                 <button
                   className="registry-archive-link"
@@ -614,7 +614,7 @@ export default function RabbitRegistry({ session }: Props) {
             </div>
 
             <div className="nav-section">
-              <div className="nav-section-title">💊 Здоров'я</div>
+              <div className="nav-section-title">🩺 Здоров'я</div>
               <div className="nav-section-grid">
                 <button
                   className="registry-archive-link"
@@ -644,7 +644,7 @@ export default function RabbitRegistry({ session }: Props) {
             </div>
 
             <div className="nav-section">
-              <div className="nav-section-title">⚖️ Ріст і вихід</div>
+              <div className="nav-section-title">📈 Ріст і вихід</div>
               <div className="nav-section-grid">
                 <button
                   className="registry-archive-link"
@@ -668,7 +668,7 @@ export default function RabbitRegistry({ session }: Props) {
             </div>
 
             <div className="nav-section">
-              <div className="nav-section-title">📊 Вартість й аналітика</div>
+              <div className="nav-section-title">🧮 Вартість й аналітика</div>
               <div className="nav-section-grid">
                 <button
                   className="registry-archive-link"
@@ -680,7 +680,7 @@ export default function RabbitRegistry({ session }: Props) {
                   className="registry-archive-link"
                   onClick={() => navigate("/statistics")}
                 >
-                  📊 Статистика
+                  📉 Статистика
                 </button>
                 <button
                   className="registry-archive-link"
