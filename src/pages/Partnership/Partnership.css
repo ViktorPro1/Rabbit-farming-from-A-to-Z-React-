@@ -293,6 +293,41 @@
     background: var(--green-mid);
 }
 
+/* DOWNLOAD */
+.partner-download {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--cream);
+    border: 0.5px solid var(--gray-light);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.partner-download p {
+    font-size: 13px;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.partner-download-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.partner-download-btn:hover {
+    background: var(--green-mid);
+}
+
 @media (max-width: 768px) {
     .partner-directions-grid {
         grid-template-columns: 1fr;

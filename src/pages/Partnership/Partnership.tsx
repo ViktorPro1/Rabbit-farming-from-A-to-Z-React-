@@ -94,6 +94,17 @@ const Partnership = () => {
           </div>
         </div>
 
+        <div className="partner-download">
+          <p>Повні умови співпраці — одним файлом</p>
+          <a
+            href="/files/partnership-offer.pdf"
+            download
+            className="partner-download-btn"
+          >
+            📄 Завантажити умови (PDF)
+          </a>
+        </div>
+
         {/* СТАТУС ПЛАТФОРМИ */}
         <div className="partner-status">
           <span className="partner-status-icon">🚧</span>
