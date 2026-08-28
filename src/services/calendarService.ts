@@ -4,12 +4,15 @@ export type CalendarEventType =
     | "mating"
     | "matingControl"
     | "expectedBirth"
+    | "nestbox"
     | "paddockMating"
     | "paddockControl"
     | "paddockExpectedBirth"
+    | "paddockNestbox"
     | "kindling"
     | "paddockKindling"
     | "weaning"
+    | "weaningExpected"
     | "paddockWeaning"
     | "vaccination"
     | "vaccinationNext"
@@ -40,6 +43,19 @@ interface EventDef {
     path: string;
 }
 
+// Скільки днів після злучки готувати маточник (5 днів до очікуваного окролу
+// на 31-й день вагітності — та сама логіка, що й getNestboxStatus у Matings.tsx)
+const NESTBOX_DAYS_AFTER_MATING = 26;
+
+// Цільовий день відлучення від народження, залежно від схеми злучування
+// (та сама логіка, що й WEANING_SCHEME у Matings.tsx)
+const WEANING_TARGET_DAYS: Record<string, number> = {
+    intensive: 28,
+    semi_intensive: 45,
+    extensive: 60,
+};
+const DEFAULT_WEANING_TARGET_DAYS = WEANING_TARGET_DAYS.extensive;
+
 const EVENT_DEFS: Record<CalendarEventType, EventDef> = {
     mating: { type: "mating", icon: "🐇", title: "Злучка", path: "/matings" },
     matingControl: {
@@ -52,6 +68,12 @@ const EVENT_DEFS: Record<CalendarEventType, EventDef> = {
         type: "expectedBirth",
         icon: "🍼",
         title: "Очікуваний окріл",
+        path: "/matings",
+    },
+    nestbox: {
+        type: "nestbox",
+        icon: "🪺",
+        title: "Підготувати маточник",
         path: "/matings",
     },
     paddockMating: {
@@ -72,6 +94,12 @@ const EVENT_DEFS: Record<CalendarEventType, EventDef> = {
         title: "Очікуваний окріл (вольєр)",
         path: "/paddocks",
     },
+    paddockNestbox: {
+        type: "paddockNestbox",
+        icon: "🪺",
+        title: "Підготувати маточник (вольєр)",
+        path: "/paddocks",
+    },
     kindling: { type: "kindling", icon: "🐰", title: "Окріл", path: "/matings" },
     paddockKindling: {
         type: "paddockKindling",
@@ -83,6 +111,12 @@ const EVENT_DEFS: Record<CalendarEventType, EventDef> = {
         type: "weaning",
         icon: "🥕",
         title: "Відлучення",
+        path: "/matings",
+    },
+    weaningExpected: {
+        type: "weaningExpected",
+        icon: "✂️",
+        title: "Планове відлучення",
         path: "/matings",
     },
     paddockWeaning: {
@@ -173,6 +207,14 @@ function makeEvent(
     };
 }
 
+/** Додає задану кількість днів до дати у форматі YYYY-MM-DD. */
+function addDays(dateStr: string | null | undefined, days: number): string | null {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + "T00:00:00");
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0, 10);
+}
+
 /**
  * Завантажує всі події господарства у заданому діапазоні дат
  * (fromDate/toDate у форматі YYYY-MM-DD, включно).
@@ -202,7 +244,7 @@ export async function loadCalendarEvents(
         supabase
             .from("matings")
             .select(
-                "id, mating_date, control_date, expected_birth, female_cage, male_cage, is_archived",
+                "id, mating_date, control_date, expected_birth, female_cage, male_cage, is_archived, breeding_scheme",
             )
             .eq("user_id", userId),
         supabase
@@ -212,7 +254,7 @@ export async function loadCalendarEvents(
         supabase
             .from("litters")
             .select(
-                "id, birth_date, weaned_date, mother_id, father_id, litter_mating_date, litter_control_date, litter_expected_birth",
+                "id, birth_date, weaned_date, mother_id, father_id, litter_mating_date, litter_control_date, litter_expected_birth, nestbox_date, mating_id",
             )
             .eq("user_id", userId),
         supabase
@@ -251,6 +293,11 @@ export async function loadCalendarEvents(
 
     const events: CalendarEvent[] = [];
 
+    const schemeByMatingId = new Map<string, string>();
+    (matingsRes.data || []).forEach((m) => {
+        if (m.breeding_scheme) schemeByMatingId.set(m.id, m.breeding_scheme);
+    });
+
     (matingsRes.data || []).forEach((m) => {
         if (m.is_archived === true) return;
         const subject = `Клітка ${m.female_cage || "?"} × ${m.male_cage || "?"}`;
@@ -258,6 +305,12 @@ export async function loadCalendarEvents(
             makeEvent(m.id, m.mating_date, "mating", subject),
             makeEvent(m.id, m.control_date, "matingControl", subject),
             makeEvent(m.id, m.expected_birth, "expectedBirth", subject),
+            makeEvent(
+                `${m.id}-nestbox`,
+                addDays(m.mating_date, NESTBOX_DAYS_AFTER_MATING),
+                "nestbox",
+                subject,
+            ),
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
 
@@ -267,11 +320,44 @@ export async function loadCalendarEvents(
             makeEvent(m.id, m.mating_date, "paddockMating", subject),
             makeEvent(m.id, m.control_date, "paddockControl", subject),
             makeEvent(m.id, m.expected_birth, "paddockExpectedBirth", subject),
+            makeEvent(
+                `${m.id}-nestbox`,
+                addDays(m.mating_date, NESTBOX_DAYS_AFTER_MATING),
+                "paddockNestbox",
+                subject,
+            ),
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
 
     (littersRes.data || []).forEach((l) => {
         const subject = "Окріл";
+        // Маточник для повторної злучки конкретного окролу — тільки якщо
+        // окріл ще не стався і маточник ще не позначений готовим
+        const nestboxEvent =
+            !l.birth_date && !l.nestbox_date
+                ? makeEvent(
+                    `${l.id}-nestbox`,
+                    addDays(l.litter_mating_date, NESTBOX_DAYS_AFTER_MATING),
+                    "nestbox",
+                    subject,
+                )
+                : null;
+        // Планове відлучення — тільки якщо окріл уже стався, а відлучення ще ні;
+        // цільовий день залежить від схеми злучування батьківської злучки
+        const weaningEvent =
+            l.birth_date && !l.weaned_date
+                ? makeEvent(
+                    `${l.id}-weaning-expected`,
+                    addDays(
+                        l.birth_date,
+                        WEANING_TARGET_DAYS[
+                        schemeByMatingId.get(l.mating_id) || ""
+                        ] ?? DEFAULT_WEANING_TARGET_DAYS,
+                    ),
+                    "weaningExpected",
+                    subject,
+                )
+                : null;
         [
             makeEvent(l.id, l.birth_date, "kindling", subject),
             makeEvent(l.id, l.weaned_date, "weaning", subject),
@@ -288,6 +374,8 @@ export async function loadCalendarEvents(
                 "expectedBirth",
                 subject,
             ),
+            nestboxEvent,
+            weaningEvent,
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
 
