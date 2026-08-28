@@ -46,6 +46,13 @@ interface DeactivatedUser {
   email: string;
 }
 
+interface LeadRow {
+  id: string;
+  email: string;
+  source: string;
+  created_at: string;
+}
+
 interface TableStat {
   name: string;
   label: string;
@@ -129,6 +136,7 @@ export default function Admin({ session }: Props) {
   const [codes, setCodes] = useState<InviteCode[]>([]);
   const [users, setUsers] = useState<RegisteredUser[]>([]);
   const [deactivated, setDeactivated] = useState<DeactivatedUser[]>([]);
+  const [leads, setLeads] = useState<LeadRow[]>([]);
   const [newCode, setNewCode] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -174,6 +182,14 @@ export default function Admin({ session }: Props) {
   async function fetchDeactivated() {
     const { data } = await supabase.rpc("get_deactivated_users");
     setDeactivated(data || []);
+  }
+
+  async function fetchLeads() {
+    const { data } = await supabase
+      .from("leads")
+      .select("*")
+      .order("created_at", { ascending: false });
+    setLeads(data || []);
   }
 
   async function fetchStats(allCodes: InviteCode[], userCount: number) {
@@ -225,6 +241,7 @@ export default function Admin({ session }: Props) {
             const allCodes = await fetchCodes();
             await fetchUsers(allCodes);
             await fetchDeactivated();
+            await fetchLeads();
             const { count: profileCount } = await supabase
               .from("profiles")
               .select("*", { count: "exact", head: true });
@@ -453,6 +470,46 @@ export default function Admin({ session }: Props) {
         ) : (
           <p style={{ opacity: 0.6 }}>Статистика недоступна</p>
         )}
+      </div>
+
+      {/* Ліди з лід-магніту */}
+      <div className="admin-section">
+        <h2>
+          📧 Ліди (лід-магніт){" "}
+          <span className="admin-count">{leads.length}</span>
+        </h2>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Джерело</th>
+                <th>Дата</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leads.length === 0 ? (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: "center", opacity: 0.5 }}>
+                    Ще немає лідів
+                  </td>
+                </tr>
+              ) : (
+                leads.map((lead, i) => (
+                  <tr key={lead.id}>
+                    <td>{i + 1}</td>
+                    <td>{lead.email}</td>
+                    <td className="code-text">{lead.source}</td>
+                    <td>
+                      {new Date(lead.created_at).toLocaleDateString("uk-UA")}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Активні користувачі */}

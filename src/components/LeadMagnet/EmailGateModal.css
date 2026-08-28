@@ -1,0 +1,150 @@
+.email-gate-modal__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.email-gate-modal {
+    position: relative;
+    background: #fbf8f1;
+    border-radius: 18px;
+    padding: 28px 26px;
+    max-width: 320px;
+    width: 100%;
+    box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.email-gate-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #8a8175;
+    line-height: 1;
+}
+
+.email-gate-modal__badge {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 12px;
+}
+
+.email-gate-modal__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f4d29;
+    margin: 0 0 8px;
+    line-height: 1.3;
+}
+
+.email-gate-modal__desc {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #6b6155;
+    margin: 0 0 18px;
+}
+
+.email-gate-modal__input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d8d2c4;
+    border-radius: 10px;
+    font-size: 13.5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.email-gate-modal__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.email-gate-modal__error {
+    color: #c0392b;
+    font-size: 12.5px;
+    margin: 0 0 10px;
+}
+
+.email-gate-modal__submit {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 999px;
+    background: #2f7a3d;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.email-gate-modal__submit:hover:not(:disabled) {
+    background: #24602f;
+}
+
+.email-gate-modal__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.email-gate-modal__hint {
+    font-size: 10.5px;
+    color: #9a9284;
+    margin: 10px 0 0;
+}
+
+.email-gate-modal__success {
+    text-align: center;
+}
+
+.email-gate-modal__success p {
+    font-size: 14px;
+    color: #1f4d29;
+    margin: 0 0 14px;
+}
+
+.email-gate-modal__success button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    background: #2f7a3d;
+    color: #fff;
+    border-radius: 999px;
+    padding: 11px 22px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.email-gate-modal__success button svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.email-gate-modal__success button:hover {
+    background: #24602f;
+}
+
+@media (max-width: 420px) {
+    .email-gate-modal {
+        padding: 24px 20px;
+    }
+}
