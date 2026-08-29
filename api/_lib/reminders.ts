@@ -1,5 +1,5 @@
-import { supabase, sendToUser } from './push';
-import { addDays } from './dates';
+import { supabase, sendToUser } from './push.js';
+import { addDays } from './dates.js';
 
 const WEANING_SCHEME_DAYS: Record<string, number> = {
     intensive: 28,

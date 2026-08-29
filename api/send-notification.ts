@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabase, webpush, WebPushError, removeExpiredSubscription } from './_lib/push';
+import { supabase, webpush, WebPushError, removeExpiredSubscription } from './_lib/push.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();

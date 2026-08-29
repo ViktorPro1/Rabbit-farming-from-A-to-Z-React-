@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { tomorrowDate } from './_lib/dates';
-import { ALL_CHECKS } from './_lib/reminders';
+import { tomorrowDate } from './_lib/dates.js';
+import { ALL_CHECKS } from './_lib/reminders.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
