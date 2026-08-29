@@ -77,6 +77,11 @@ export default function CageSearch({ session }: Props) {
       vaccinationsRes,
       matingsRes,
       littersRes,
+      salesRes,
+      paddocksRes,
+      paddockFemalesRes,
+      paddockMatingsRes,
+      paddockLittersRes,
     ] = await Promise.all([
       supabase.from("rabbits").select("*").eq("user_id", session.user.id),
       supabase
@@ -89,6 +94,27 @@ export default function CageSearch({ session }: Props) {
       supabase.from("vaccinations").select("*").eq("user_id", session.user.id),
       supabase.from("matings").select("*").eq("user_id", session.user.id),
       supabase.from("litters").select("*").eq("user_id", session.user.id),
+      supabase.from("sales").select("*").eq("user_id", session.user.id),
+      // Вольєри (підлогове утримання) — прив'язки до клітки немає напряму,
+      // визначаємо через клітку самця (male_id) і клітки зареєстрованих самок
+      supabase
+        .from("paddocks")
+        .select("id, name, male:male_id(cage_number)")
+        .eq("user_id", session.user.id),
+      supabase
+        .from("paddock_females")
+        .select("id, paddock_id, rabbit_id, name")
+        .eq("user_id", session.user.id),
+      supabase
+        .from("paddock_matings")
+        .select("id, paddock_id, mating_date, expected_birth")
+        .eq("user_id", session.user.id),
+      supabase
+        .from("paddock_litters")
+        .select(
+          "id, paddock_mating_id, birth_date, total_born, alive, weaned_date",
+        )
+        .eq("user_id", session.user.id),
     ]);
 
     const list: CageEvent[] = [];
@@ -152,6 +178,19 @@ export default function CageSearch({ session }: Props) {
           type: "Пропойка",
           icon: "💊",
           description: t.drug_name || "Препарат",
+        });
+      });
+
+    (salesRes.data || [])
+      .filter((s) => cageMatches(s.cage_number, num))
+      .forEach((s) => {
+        list.push({
+          date: s.sold_at,
+          type: "Продаж",
+          icon: "💰",
+          description: `♂${s.males || 0} ♀${s.females || 0}${
+            s.unknown ? ` +${s.unknown} невизн.` : ""
+          }${s.buyer ? `, покупець: ${s.buyer}` : ""}`,
         });
       });
 
@@ -219,6 +258,72 @@ export default function CageSearch({ session }: Props) {
       }
     });
 
+    // ── Вольєри (підлогове утримання) ──
+    // Клітки самого вольєра не існує — прив'язка йде через клітку самця
+    // (paddocks.male_id) і через клітки зареєстрованих самок (paddock_females.rabbit_id)
+    const rabbitCageById: Record<string, string> = {};
+    (rabbitsRes.data || []).forEach((r) => {
+      rabbitCageById[r.id] = r.cage_number;
+    });
+
+    const paddockMatchesCage: Record<string, boolean> = {};
+    const paddockNameById: Record<string, string> = {};
+    (paddocksRes.data || []).forEach((p) => {
+      paddockNameById[p.id] = p.name || "Вольєр";
+      const maleCage = (p as { male?: { cage_number?: string } }).male
+        ?.cage_number;
+      if (cageMatches(maleCage, num)) paddockMatchesCage[p.id] = true;
+    });
+    (paddockFemalesRes.data || []).forEach((f) => {
+      if (!f.rabbit_id) return;
+      const femaleCage = rabbitCageById[f.rabbit_id];
+      if (cageMatches(femaleCage, num)) paddockMatchesCage[f.paddock_id] = true;
+    });
+
+    (paddocksRes.data || [])
+      .filter((p) => paddockMatchesCage[p.id])
+      .forEach((p) => {
+        list.push({
+          date: "",
+          type: "Кролик у вольєрі",
+          icon: "🐇",
+          description: paddockNameById[p.id] || "Вольєр",
+        });
+      });
+
+    const paddockIdByMatingId: Record<string, string> = {};
+    (paddockMatingsRes.data || [])
+      .filter((m) => paddockMatchesCage[m.paddock_id])
+      .forEach((m) => {
+        paddockIdByMatingId[m.id] = m.paddock_id;
+        list.push({
+          date: m.mating_date,
+          type: "Злучка (вольєр)",
+          icon: "🐇",
+          description: `${paddockNameById[m.paddock_id] || "Вольєр"}${
+            m.expected_birth ? `, очік. окріл: ${m.expected_birth}` : ""
+          }`,
+        });
+      });
+
+    (paddockLittersRes.data || [])
+      .filter(
+        (l) => paddockMatchesCage[paddockIdByMatingId[l.paddock_mating_id]],
+      )
+      .forEach((l) => {
+        const paddockId = paddockIdByMatingId[l.paddock_mating_id];
+        list.push({
+          date: l.birth_date,
+          type: "Окріл (вольєр)",
+          icon: "🐰",
+          description: `${paddockNameById[paddockId] || "Вольєр"}: народжено ${
+            l.total_born ?? "?"
+          }, живих: ${l.alive ?? "?"}${
+            l.weaned_date ? `, відлучено ${l.weaned_date}` : ""
+          }`,
+        });
+      });
+
     list.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
 
     setEvents(list);
@@ -238,7 +343,7 @@ export default function CageSearch({ session }: Props) {
       </div>
       <p className="cage-search-hint">
         Введи номер клітки — покажемо всю історію: злучки, окроли, вакцинації,
-        пропойки, дезінфекцію, відгодівлю і карантин.
+        пропойки, дезінфекцію, відгодівлю, карантин, продажі та вольєри.
       </p>
 
       <div className="cage-search-form">

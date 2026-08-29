@@ -782,7 +782,13 @@ function OverviewChart({ data }: { data: MonthlyStat[] }) {
   );
 }
 
-function OverviewTab({ data }: { data: MonthlyStat[] }) {
+function OverviewTab({
+  data,
+  quarantineDeaths,
+}: {
+  data: MonthlyStat[];
+  quarantineDeaths: number;
+}) {
   if (data.length === 0) {
     return (
       <div className="stats-empty-state">
@@ -799,7 +805,8 @@ function OverviewTab({ data }: { data: MonthlyStat[] }) {
   const totalBornAll = data.reduce((s, d) => s + d.totalAlive, 0);
   const totalSlaughteredAll = data.reduce((s, d) => s + d.totalSlaughtered, 0);
   const totalSoldAll = data.reduce((s, d) => s + d.totalSold, 0);
-  const balance = totalBornAll - totalSlaughteredAll - totalSoldAll;
+  const balance =
+    totalBornAll - totalSlaughteredAll - totalSoldAll - quarantineDeaths;
 
   return (
     <div className="overview-tab">
@@ -853,6 +860,14 @@ function OverviewTab({ data }: { data: MonthlyStat[] }) {
           </span>
           <span className="overview-summary-label">Продано всього</span>
         </div>
+        {quarantineDeaths > 0 && (
+          <div className="overview-summary-item">
+            <span className="overview-summary-val" style={{ color: "#b71c1c" }}>
+              {quarantineDeaths}
+            </span>
+            <span className="overview-summary-label">Загинуло всього</span>
+          </div>
+        )}
         <div className="overview-summary-item">
           <span
             className="overview-summary-val"
@@ -892,6 +907,7 @@ export default function Statistics({ session }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [monthlyStats, setMonthlyStats] = useState<MonthlyStat[]>([]);
+  const [quarantineDeaths, setQuarantineDeaths] = useState(0);
 
   useEffect(() => {
     async function loadStats() {
@@ -946,6 +962,58 @@ export default function Statistics({ session }: Props) {
         ensureMonth(key).totalSold +=
           (s.males || 0) + (s.females || 0) + (s.unknown || 0);
       });
+
+      // Окроли з вольєрів (підлогове утримання) — окрема таблиця, не входить
+      // у "litters", тому без цього блоку народжений там молодняк випадав
+      // з "Народжено/Живих" в огляді
+      const { data: paddockLitters } = await supabase
+        .from("paddock_litters")
+        .select("birth_date, total_born, alive")
+        .eq("user_id", session.user.id);
+
+      (paddockLitters || []).forEach((l) => {
+        if (!l.birth_date) return;
+        const key = l.birth_date.slice(0, 7);
+        const stat = ensureMonth(key);
+        stat.totalBorn += l.total_born || 0;
+        stat.totalAlive += l.alive || 0;
+      });
+
+      // Втрати і вибуття серед іменованих кроликів реєстру (не групові партії
+      // Відгодівлі/Продажів, а конкретні тварини, архівовані напряму з
+      // "Моїх кроликів" або через результат карантину)
+      const { data: registryExits } = await supabase
+        .from("rabbits")
+        .select("archive_reason, archive_date")
+        .eq("user_id", session.user.id)
+        .eq("is_active", false)
+        .not("archive_reason", "is", null);
+
+      let registryDied = 0;
+      (registryExits || []).forEach((r) => {
+        const key = (r.archive_date || "").slice(0, 7);
+        if (r.archive_reason === "died") {
+          registryDied += 1;
+        } else if (r.archive_reason === "slaughter" && key) {
+          ensureMonth(key).totalSlaughtered += 1;
+        } else if (r.archive_reason === "sold" && key) {
+          ensureMonth(key).totalSold += 1;
+        }
+        // archive_reason === "other" свідомо не враховуємо в баланс —
+        // незрозуміло, чи тварина справді вибула з господарства
+      });
+
+      // Загиблі в карантині БЕЗ прив'язки до конкретного кролика реєстру
+      // (rabbit_id = null, вписані вручну). Ті, що прив'язані до rabbit_id,
+      // вже пораховані вище через rabbits.archive_reason — інакше було б
+      // подвійне рахування однієї й тієї ж тварини
+      const { data: quarantineDied } = await supabase
+        .from("quarantine")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .eq("result", "died")
+        .is("rabbit_id", null);
+      setQuarantineDeaths(registryDied + (quarantineDied || []).length);
 
       const { data: matings } = await supabase
         .from("matings")
@@ -1581,7 +1649,12 @@ export default function Statistics({ session }: Props) {
 
             {activeTab === "sales" && <SalesTab sales={salesData} />}
 
-            {activeTab === "overview" && <OverviewTab data={monthlyStats} />}
+            {activeTab === "overview" && (
+              <OverviewTab
+                data={monthlyStats}
+                quarantineDeaths={quarantineDeaths}
+              />
+            )}
           </div>
         </>
       )}

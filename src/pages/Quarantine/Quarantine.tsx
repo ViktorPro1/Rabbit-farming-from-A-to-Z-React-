@@ -241,9 +241,27 @@ export default function Quarantine({ session }: Props) {
         if (rabbitError) {
           console.error("Не вдалося повернути кролика в реєстр:", rabbitError);
         }
+      } else {
+        // "slaughter" і "died" — тварина остаточно вибула з поголів'я.
+        // Пишемо причину і дату архівування, інакше картка в Архіві
+        // лишається без пояснення "чому" і "коли" (на відміну від ручного
+        // архівування через реєстр)
+        const { error: rabbitError } = await supabase
+          .from("rabbits")
+          .update({
+            is_active: false,
+            archive_reason: result,
+            archive_date:
+              animal.end_date || new Date().toISOString().slice(0, 10),
+          })
+          .eq("id", animal.rabbit_id);
+        if (rabbitError) {
+          console.error(
+            "Не вдалося оновити картку в архіві реєстру:",
+            rabbitError,
+          );
+        }
       }
-      // При "slaughter" і "died" is_active в rabbits лишається false —
-      // тварина остаточно вибула з поголів'я
     }
 
     fetchAnimals();

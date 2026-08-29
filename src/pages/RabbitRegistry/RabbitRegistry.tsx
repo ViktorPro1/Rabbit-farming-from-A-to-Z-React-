@@ -232,6 +232,7 @@ export default function RabbitRegistry({ session }: Props) {
         supabase
           .from("paddock_females")
           .select("id")
+          .eq("user_id", session.user.id)
           .not("paddock_id", "is", null),
         supabase
           .from("fattening")
