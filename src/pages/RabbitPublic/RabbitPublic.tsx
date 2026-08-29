@@ -331,7 +331,7 @@ export default function RabbitPublic() {
         {/* ── Остання вага ── */}
         {weight && (
           <div className="rp-weight-block">
-            <div className="rp-weight-title">⚖️ Остання вага</div>
+            <div className="rp-weight-title"> Остання вага</div>
             <div className="rp-info rp-info--weight">
               <div className="rp-row">
                 <span className="rp-row-label">Дата зважування</span>
