@@ -407,8 +407,6 @@
     margin: 0;
 }
 
-/* Додати ці правила в Weighing.css */
-
 .weighing-final-check {
     display: flex;
     align-items: center;
@@ -705,4 +703,105 @@
 .weighing-status-badge-unknown {
     background: rgba(0, 0, 0, 0.06);
     color: var(--gray);
+}
+
+/* ===== НАГАДУВАННЯ ПРО НАСТУПНЕ ЗВАЖУВАННЯ ===== */
+.weighing-group-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.weighing-group-header-row .weighing-group-title {
+    margin-bottom: 0;
+}
+
+.weighing-reminder {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.weighing-reminder-overdue {
+    background: rgba(192, 57, 43, 0.12);
+    color: #c0392b;
+}
+
+.weighing-reminder-soon {
+    background: rgba(230, 180, 60, 0.18);
+    color: var(--amber);
+}
+
+.weighing-reminder-ok {
+    background: rgba(122, 180, 90, 0.15);
+    color: var(--green-accent);
+}
+
+.weighing-reminder-none {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--gray);
+    cursor: pointer;
+}
+
+.weighing-reminder-edit {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--green-dark);
+    cursor: default;
+}
+
+.weighing-reminder-input {
+    width: 48px;
+    padding: 1px 4px;
+    border: 1px solid var(--gray-light);
+    border-radius: 4px;
+    font-size: 0.78rem;
+    text-align: center;
+    background: var(--cream);
+    color: var(--green-dark);
+}
+
+@media (max-width: 480px) {
+    .weighing-group-header-row {
+        align-items: flex-start;
+    }
+}
+
+/* ===== ОДНОРАЗОВА ПІДКАЗКА ПРО НАГАДУВАННЯ ПІСЛЯ ЗБЕРЕЖЕННЯ ===== */
+.weighing-reminder-prompt {
+    background: var(--cream);
+    border-left: 4px solid var(--green-accent);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.weighing-reminder-prompt-text {
+    font-size: 0.95rem;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.weighing-reminder-prompt-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.weighing-reminder-prompt-actions .weighing-reminder-input {
+    width: 70px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.9rem;
 }

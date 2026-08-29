@@ -30,12 +30,14 @@ interface RabbitOption {
   name: string;
   birth_date: string | null;
   cage_number: string;
+  reminder_days: number | null;
 }
 
 interface FatteningOption {
   id: string;
   cage_number: string;
   birth_date: string | null;
+  reminder_days: number | null;
 }
 
 const emptyForm = {
@@ -594,6 +596,172 @@ function RecordStatusBadge({ status }: { status: RecordStatus }) {
   );
 }
 
+// ══════════════════════════════════════════════════════════════════════
+// НАГАДУВАННЯ ПРО НАСТУПНЕ ЗВАЖУВАННЯ
+// Інтервал (у днях) задається окремо для кожної клітки/кролика — зберігається
+// в колонці reminder_days у таблицях rabbits / fattening. Відлік — від дати
+// останнього зважування в групі. Якщо інтервал не заданий — нагадування не
+// показується (крім підказки, що його можна встановити).
+// ══════════════════════════════════════════════════════════════════════
+
+type ReminderZone = "overdue" | "soon" | "ok" | "none";
+type ReminderEntityType = "rabbit" | "fattening";
+
+interface ReminderInfo {
+  entityType: ReminderEntityType | null;
+  entityId: string | null;
+  reminderDays: number | null;
+  dueDate: string | null;
+  daysUntil: number | null;
+  zone: ReminderZone;
+}
+
+function computeReminderInfo(
+  sorted: WeighingRecord[],
+  rabbitById: Record<string, RabbitOption>,
+  fatteningById: Record<string, FatteningOption>,
+): ReminderInfo {
+  if (sorted.length === 0) {
+    return {
+      entityType: null,
+      entityId: null,
+      reminderDays: null,
+      dueDate: null,
+      daysUntil: null,
+      zone: "none",
+    };
+  }
+
+  const last = sorted[sorted.length - 1];
+  let entityType: ReminderEntityType | null = null;
+  let entityId: string | null = null;
+  let reminderDays: number | null = null;
+
+  if (last.rabbit_id && rabbitById[last.rabbit_id]) {
+    entityType = "rabbit";
+    entityId = last.rabbit_id;
+    reminderDays = rabbitById[last.rabbit_id].reminder_days;
+  } else if (last.fattening_id && fatteningById[last.fattening_id]) {
+    entityType = "fattening";
+    entityId = last.fattening_id;
+    reminderDays = fatteningById[last.fattening_id].reminder_days;
+  }
+
+  if (!entityType || !reminderDays) {
+    return {
+      entityType,
+      entityId,
+      reminderDays: reminderDays ?? null,
+      dueDate: null,
+      daysUntil: null,
+      zone: "none",
+    };
+  }
+
+  const due = new Date(last.weighing_date);
+  due.setDate(due.getDate() + reminderDays);
+  due.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const daysUntil = Math.round(
+    (due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  let zone: ReminderZone = "ok";
+  if (daysUntil < 0) zone = "overdue";
+  else if (daysUntil <= 2) zone = "soon";
+
+  return {
+    entityType,
+    entityId,
+    reminderDays,
+    dueDate: due.toISOString().slice(0, 10),
+    daysUntil,
+    zone,
+  };
+}
+
+function ReminderBadge({
+  info,
+  onChangeInterval,
+}: {
+  info: ReminderInfo;
+  onChangeInterval: (days: number | null) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState("");
+
+  function startEditing() {
+    setDraft(info.reminderDays ? String(info.reminderDays) : "");
+    setEditing(true);
+  }
+
+  if (!info.entityType) {
+    return (
+      <span className="weighing-reminder weighing-reminder-none">
+        🔔 нагадування недоступне без прив'язки до реєстру
+      </span>
+    );
+  }
+
+  function save() {
+    const trimmed = draft.trim();
+    const n = trimmed === "" ? null : Number(trimmed);
+    onChangeInterval(n && n > 0 ? Math.round(n) : null);
+    setEditing(false);
+  }
+
+  if (editing) {
+    return (
+      <span className="weighing-reminder weighing-reminder-edit">
+        🔔 нагадувати кожні
+        <input
+          type="number"
+          min="1"
+          value={draft}
+          autoFocus
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={save}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") save();
+            if (e.key === "Escape") setEditing(false);
+          }}
+          className="weighing-reminder-input"
+        />
+        дн.
+      </span>
+    );
+  }
+
+  let label: string;
+  if (info.zone === "overdue") {
+    label = `прострочено на ${Math.abs(info.daysUntil ?? 0)} дн.`;
+  } else if (info.zone === "soon") {
+    label =
+      info.daysUntil === 0
+        ? "зважити сьогодні"
+        : `зважити через ${info.daysUntil} дн.`;
+  } else if (info.zone === "ok") {
+    label = `наступне зважування: ${
+      info.dueDate ? new Date(info.dueDate).toLocaleDateString("uk-UA") : ""
+    }`;
+  } else {
+    label = "натисніть, щоб задати нагадування";
+  }
+
+  return (
+    <span
+      className={`weighing-reminder weighing-reminder-${info.zone}`}
+      onClick={startEditing}
+      title="Натисніть, щоб змінити інтервал нагадування"
+    >
+      🔔 {label}
+    </span>
+  );
+}
+
 export default function Weighing({ session }: Props) {
   const [records, setRecords] = useState<WeighingRecord[]>([]);
   const [rabbitOptions, setRabbitOptions] = useState<RabbitOption[]>([]);
@@ -613,6 +781,13 @@ export default function Weighing({ session }: Props) {
   const [showComparison, setShowComparison] = useState(false);
   const [openArchives, setOpenArchives] = useState<Record<string, boolean>>({});
   const [gaugeMode, setGaugeMode] = useState<WeighingType>("fattening");
+  const [pendingReminderPrompt, setPendingReminderPrompt] = useState<{
+    entityType: ReminderEntityType;
+    entityId: string;
+    label: string;
+  } | null>(null);
+  const [reminderPromptDraft, setReminderPromptDraft] = useState("");
+  const [showReminderInfo, setShowReminderInfo] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -636,13 +811,13 @@ export default function Weighing({ session }: Props) {
     const [{ data: rabbitsData }, { data: fatteningData }] = await Promise.all([
       supabase
         .from("rabbits")
-        .select("id, name, birth_date, cage_number")
+        .select("id, name, birth_date, cage_number, reminder_days")
         .eq("user_id", session.user.id)
         .eq("is_active", true)
         .order("cage_number", { ascending: true }),
       supabase
         .from("fattening")
-        .select("id, cage_number, birth_date")
+        .select("id, cage_number, birth_date, reminder_days")
         .eq("user_id", session.user.id)
         .eq("is_active", true)
         .order("cage_number", { ascending: true }),
@@ -659,6 +834,21 @@ export default function Weighing({ session }: Props) {
     () => Object.fromEntries(fatteningOptions.map((f) => [f.id, f])),
     [fatteningOptions],
   );
+
+  async function handleReminderIntervalChange(
+    entityType: ReminderEntityType,
+    entityId: string,
+    days: number | null,
+  ) {
+    const table = entityType === "rabbit" ? "rabbits" : "fattening";
+    const { error: updateError } = await supabase
+      .from(table)
+      .update({ reminder_days: days })
+      .eq("id", entityId);
+    if (!updateError) {
+      fetchOptions();
+    }
+  }
 
   async function handleAdd() {
     setSaving(true);
@@ -681,11 +871,45 @@ export default function Weighing({ session }: Props) {
     if (error) {
       setError("Помилка збереження");
     } else {
+      const entityType: ReminderEntityType | null =
+        form.weighing_type === "breeding" ? "rabbit" : "fattening";
+      const entityId =
+        form.weighing_type === "breeding" ? form.rabbit_id : form.fattening_id;
+
+      if (entityType && entityId) {
+        const entity: RabbitOption | FatteningOption | undefined =
+          entityType === "rabbit"
+            ? rabbitById[entityId]
+            : fatteningById[entityId];
+        if (entity && !entity.reminder_days) {
+          const label =
+            entityType === "rabbit"
+              ? (entity as RabbitOption).name
+              : `Клітка ${(entity as FatteningOption).cage_number}`;
+          setReminderPromptDraft("");
+          setPendingReminderPrompt({ entityType, entityId, label });
+        }
+      }
+
       setForm(emptyForm);
       setShowForm(false);
       fetchRecords();
     }
     setSaving(false);
+  }
+
+  function saveReminderPrompt() {
+    if (!pendingReminderPrompt) return;
+    const n = Number(reminderPromptDraft);
+    if (n > 0) {
+      handleReminderIntervalChange(
+        pendingReminderPrompt.entityType,
+        pendingReminderPrompt.entityId,
+        Math.round(n),
+      );
+    }
+    setPendingReminderPrompt(null);
+    setReminderPromptDraft("");
   }
 
   async function handleEdit() {
@@ -1220,6 +1444,41 @@ export default function Weighing({ session }: Props) {
           </button>
         </div>
       )}
+      {pendingReminderPrompt && (
+        <div className="weighing-reminder-prompt">
+          <p className="weighing-reminder-prompt-text">
+            🔔 Встановити нагадування про наступне зважування для «
+            {pendingReminderPrompt.label}»?
+          </p>
+          <div className="weighing-reminder-prompt-actions">
+            <input
+              type="number"
+              min="1"
+              placeholder="днів"
+              autoFocus
+              value={reminderPromptDraft}
+              onChange={(e) => setReminderPromptDraft(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && saveReminderPrompt()}
+              className="weighing-reminder-input"
+            />
+            <button
+              className="weighing-save-btn"
+              onClick={saveReminderPrompt}
+              disabled={
+                !reminderPromptDraft || Number(reminderPromptDraft) <= 0
+              }
+            >
+              Зберегти
+            </button>
+            <button
+              className="weighing-cancel-btn"
+              onClick={() => setPendingReminderPrompt(null)}
+            >
+              Пропустити
+            </button>
+          </div>
+        </div>
+      )}
       {loading ? (
         <p className="weighing-loading">Завантаження...</p>
       ) : records.length === 0 ? (
@@ -1260,15 +1519,34 @@ export default function Weighing({ session }: Props) {
             const activeCycle = cycles.find((c) => !c.isClosed);
             const closedCycles = cycles.filter((c) => c.isClosed);
             const archiveOpen = !!openArchives[litter];
+            const reminderInfo = computeReminderInfo(
+              sorted,
+              rabbitById,
+              fatteningById,
+            );
 
             return (
               <div key={litter} className="weighing-group">
-                <h2 className="weighing-group-title">
-                  {groupType === "fattening" ? "🍖" : "🐇"} {litter}
-                  <span className="weighing-group-badge">
-                    {groupType === "fattening" ? "Відгодівля" : "Племінне"}
-                  </span>
-                </h2>
+                <div className="weighing-group-header-row">
+                  <h2 className="weighing-group-title">
+                    {groupType === "fattening" ? "🍖" : "🐇"} {litter}
+                    <span className="weighing-group-badge">
+                      {groupType === "fattening" ? "Відгодівля" : "Племінне"}
+                    </span>
+                  </h2>
+                  <ReminderBadge
+                    info={reminderInfo}
+                    onChangeInterval={(days) => {
+                      if (reminderInfo.entityType && reminderInfo.entityId) {
+                        handleReminderIntervalChange(
+                          reminderInfo.entityType,
+                          reminderInfo.entityId,
+                          days,
+                        );
+                      }
+                    }}
+                  />
+                </div>
 
                 {groupType === "fattening" ? (
                   <>
@@ -1596,6 +1874,47 @@ export default function Weighing({ session }: Props) {
             попередніх партій: дати заселення й забою, тривалість відгодівлі,
             середня вага на забій — можна порівнювати цикли між собою протягом
             року.
+          </p>
+        )}
+      </div>
+
+      <div className="registry-info">
+        <button
+          className="registry-info-toggle"
+          onClick={() => setShowReminderInfo(!showReminderInfo)}
+        >
+          <span>🔔 Як працює нагадування про зважування</span>
+          <span>{showReminderInfo ? "▲" : "▼"}</span>
+        </button>
+
+        {showReminderInfo && (
+          <p className="registry-info-text">
+            Кожна клітка/кролик має свій власний інтервал нагадування (в днях) —
+            він зберігається окремо для кожного і не залежить від інших кліток.
+            <br />
+            <br />
+            Відлік завжди йде від дати <strong>останнього</strong> зважування в
+            цій групі: щойно вносиш новий запис — дата наступного нагадування
+            автоматично переноситься вперед на той самий інтервал, вручну нічого
+            перевводити не треба.
+            <br />
+            <br />
+            Бейдж біля назви клітки/кролика показує статус: зелений — наступне
+            зважування ще попереду (з датою), жовтий — лишилось 1–2 дні,
+            червоний — вже прострочено. Клік по бейджу дозволяє в будь- який
+            момент змінити інтервал.
+            <br />
+            <br />
+            Якщо для клітки/кролика інтервал ще не задано — після збереження
+            першого запису зважування зʼявиться підказка з пропозицією одразу
+            встановити нагадування. Її можна пропустити — тоді інтервал просто
+            лишиться незаданим, і бейдж покаже, що нагадування вимкнене, поки не
+            задаси його вручну.
+            <br />
+            <br />
+            Для клітин відгодівлі інтервал належить самій клітці, а не
+            конкретному циклу — тож він автоматично діє й на наступну партію
+            кроленят після фінального зважування (забою).
           </p>
         )}
       </div>

@@ -24,6 +24,7 @@ export type CalendarEventType =
     | "slaughterActual"
     | "quarantineEnd"
     | "weighing"
+    | "weighingReminder"
     | "sale";
 
 export interface CalendarEvent {
@@ -185,6 +186,12 @@ const EVENT_DEFS: Record<CalendarEventType, EventDef> = {
         title: "Контроль ваги",
         path: "/weighing",
     },
+    weighingReminder: {
+        type: "weighingReminder",
+        icon: "🔔",
+        title: "Час зважити",
+        path: "/weighing",
+    },
     sale: { type: "sale", icon: "💰", title: "Продаж", path: "/fattening" },
 };
 
@@ -240,6 +247,8 @@ export async function loadCalendarEvents(
         quarantineRes,
         weighingsRes,
         salesRes,
+        reminderRabbitsRes,
+        reminderFatteningRes,
     ] = await Promise.all([
         supabase
             .from("matings")
@@ -283,12 +292,28 @@ export async function loadCalendarEvents(
             .eq("user_id", userId),
         supabase
             .from("weighings")
-            .select("id, weighing_date, rabbit_name, litter_label, fattening_id")
+            .select(
+                "id, weighing_date, rabbit_name, litter_label, rabbit_id, fattening_id",
+            )
             .eq("user_id", userId),
         supabase
             .from("sales")
             .select("id, sold_at, cage_number, buyer")
             .eq("user_id", userId),
+        // Тільки ті кролики/клітки, для яких задано власний інтервал
+        // нагадування (reminder_days) на сторінці "Зважування"
+        supabase
+            .from("rabbits")
+            .select("id, name, cage_number, reminder_days")
+            .eq("user_id", userId)
+            .eq("is_active", true)
+            .not("reminder_days", "is", null),
+        supabase
+            .from("fattening")
+            .select("id, cage_number, reminder_days")
+            .eq("user_id", userId)
+            .eq("is_active", true)
+            .not("reminder_days", "is", null),
     ]);
 
     const events: CalendarEvent[] = [];
@@ -431,6 +456,61 @@ export async function loadCalendarEvents(
         const e = makeEvent(w.id, w.weighing_date, "weighing", subject);
         if (e && inRange(e.date)) events.push(e);
     });
+
+    // ── Нагадування про наступне зважування ──
+    // Для кожного кролика/клітки з reminder_days шукаємо дату останнього
+    // зважування серед усіх завантажених записів (weighingsRes без
+    // фільтра по діапазону) і додаємо подію on last + reminder_days.
+    // Та сама логіка, що й ReminderBadge на сторінці "Зважування".
+    if (
+        (reminderRabbitsRes.data && reminderRabbitsRes.data.length) ||
+        (reminderFatteningRes.data && reminderFatteningRes.data.length)
+    ) {
+        const lastWeighingByRabbit = new Map<string, string>();
+        const lastWeighingByFattening = new Map<string, string>();
+
+        (weighingsRes.data || []).forEach((w) => {
+            if (w.rabbit_id) {
+                const prev = lastWeighingByRabbit.get(w.rabbit_id);
+                if (!prev || w.weighing_date > prev) {
+                    lastWeighingByRabbit.set(w.rabbit_id, w.weighing_date);
+                }
+            } else if (w.fattening_id) {
+                const prev = lastWeighingByFattening.get(w.fattening_id);
+                if (!prev || w.weighing_date > prev) {
+                    lastWeighingByFattening.set(w.fattening_id, w.weighing_date);
+                }
+            }
+        });
+
+        (reminderRabbitsRes.data || []).forEach((r) => {
+            const lastDate = lastWeighingByRabbit.get(r.id);
+            if (!lastDate || !r.reminder_days) return;
+            const subject = r.cage_number
+                ? `${r.name} (кл.${r.cage_number})`
+                : r.name;
+            const e = makeEvent(
+                `weighing-reminder-rabbit-${r.id}`,
+                addDays(lastDate, r.reminder_days),
+                "weighingReminder",
+                subject,
+            );
+            if (e && inRange(e.date)) events.push(e);
+        });
+
+        (reminderFatteningRes.data || []).forEach((f) => {
+            const lastDate = lastWeighingByFattening.get(f.id);
+            if (!lastDate || !f.reminder_days) return;
+            const subject = `Клітка ${f.cage_number || "?"}`;
+            const e = makeEvent(
+                `weighing-reminder-fattening-${f.id}`,
+                addDays(lastDate, f.reminder_days),
+                "weighingReminder",
+                subject,
+            );
+            if (e && inRange(e.date)) events.push(e);
+        });
+    }
 
     (salesRes.data || []).forEach((s) => {
         const subject = `Клітка ${s.cage_number || "?"}${s.buyer ? ` — ${s.buyer}` : ""}`;
