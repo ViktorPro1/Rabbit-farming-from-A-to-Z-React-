@@ -1,17 +1,5 @@
-import webpush, { WebPushError } from 'web-push';
-import { createClient } from '@supabase/supabase-js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-
-webpush.setVapidDetails(
-    process.env.VAPID_SUBJECT!,
-    process.env.VITE_VAPID_PUBLIC_KEY!,
-    process.env.VAPID_PRIVATE_KEY!
-);
-
-const supabase = createClient(
-    process.env.VITE_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY! // service role — ТІЛЬКИ на сервері, не VITE_*
-);
+import { supabase, webpush, WebPushError, removeExpiredSubscription } from './_lib/push';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
@@ -34,9 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     JSON.stringify({ title, body, url })
                 )
                 .catch(async (err: WebPushError) => {
-                    if (err.statusCode === 410 || err.statusCode === 404) {
-                        await supabase.from('push_subscriptions').delete().eq('id', sub.id);
-                    }
+                    await removeExpiredSubscription(sub.id, err.statusCode);
                     throw err;
                 })
         )
