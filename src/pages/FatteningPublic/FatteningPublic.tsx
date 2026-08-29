@@ -325,7 +325,7 @@ export default function FatteningPublic() {
         {/* ── Остання вага ── */}
         {weight && (
           <div className="fp-weight-block">
-            <div className="fp-weight-title"> Остання вага</div>
+            <div className="fp-weight-title">⚖️ Остання вага</div>
             <div className="fp-info fp-info--weight">
               <div className="fp-row">
                 <span className="fp-row-label">Дата зважування</span>

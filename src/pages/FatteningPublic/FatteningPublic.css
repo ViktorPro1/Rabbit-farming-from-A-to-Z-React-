@@ -168,3 +168,39 @@
         font-size: 2.2rem;
     }
 }
+
+/* ── Блок останньої ваги ── */
+.fp-weight-block {
+    margin: 0 0 0;
+    border-top: 2px solid var(--green-pale);
+}
+
+.fp-weight-title {
+    background: var(--green-pale);
+    color: var(--green-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.fp-info--weight {
+    padding-top: 0.5rem;
+}
+
+.fp-weight-zone {
+    font-weight: 700;
+}
+
+.fp-weight-zone-green {
+    color: var(--green-mid);
+}
+
+.fp-weight-zone-yellow {
+    color: var(--amber);
+}
+
+.fp-weight-zone-red {
+    color: #c0392b;
+}
