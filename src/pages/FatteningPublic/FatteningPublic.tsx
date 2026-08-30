@@ -160,11 +160,11 @@ export default function FatteningPublic() {
 
     async function loadCage() {
       try {
-        const { data, error } = await supabase
-          .from("fattening")
-          .select("*")
-          .eq("id", id)
-          .single();
+        const { data: cageRows, error } = await supabase.rpc(
+          "get_public_fattening_cage",
+          { p_id: id },
+        );
+        const data = cageRows && cageRows.length > 0 ? cageRows[0] : null;
 
         if (error || !data) {
           setNotFound(true);
@@ -174,12 +174,10 @@ export default function FatteningPublic() {
         setCage(data);
 
         // Останнє зважування цієї клітки відгодівлі.
-        const { data: weighingsData, error: weighingsError } = await supabase
-          .from("weighings")
-          .select("weighing_date, weight_g, size_category")
-          .eq("fattening_id", id)
-          .order("weighing_date", { ascending: false })
-          .limit(1);
+        const { data: weighingsData, error: weighingsError } =
+          await supabase.rpc("get_public_fattening_last_weight", {
+            p_fattening_id: id,
+          });
 
         if (weighingsError) {
           logError("FatteningPublic:loadWeighings", weighingsError);

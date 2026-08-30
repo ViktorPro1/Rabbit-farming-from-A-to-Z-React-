@@ -157,11 +157,12 @@ export default function RabbitPublic() {
 
     async function loadRabbit() {
       try {
-        const { data: rabbitData, error: rabbitError } = await supabase
-          .from("rabbits")
-          .select("*")
-          .eq("id", id)
-          .single();
+        const { data: rabbitRows, error: rabbitError } = await supabase.rpc(
+          "get_public_rabbit",
+          { p_id: id },
+        );
+        const rabbitData =
+          rabbitRows && rabbitRows.length > 0 ? rabbitRows[0] : null;
 
         if (rabbitError || !rabbitData) {
           setNotFound(true);
@@ -170,66 +171,36 @@ export default function RabbitPublic() {
 
         setRabbit(rabbitData);
 
-        // Остання злучка де цей кролик є самцем або самицею
-        const { data: matingsData, error: matingsError } = await supabase
-          .from("matings")
-          .select("id, mating_date, control_date, expected_birth")
-          .or(`male_id.eq.${id},female_id.eq.${id}`)
-          .order("mating_date", { ascending: false })
-          .limit(1);
+        // Остання злучка/окріл цього кролика — вся логіка (в тому числі
+        // fallback на litter_mating_date/litter_control_date/
+        // litter_expected_birth повторної злучки) тепер рахується в самій
+        // функції get_public_rabbit_mating_info, щоб не вивантажувати
+        // таблиці matings/litters публічно
+        const { data: matingRows, error: matingError } = await supabase.rpc(
+          "get_public_rabbit_mating_info",
+          { p_rabbit_id: id },
+        );
 
-        if (matingsError) {
-          logError("RabbitPublic:loadMatings", matingsError);
-        } else if (matingsData && matingsData.length > 0) {
-          const lastMating = matingsData[0];
-
-          // Останній окріл по цій злучці.
-          // Один mating може мати кілька окролів (повторні злучки тієї ж
-          // пари записуються в litter_mating_date/litter_control_date/
-          // litter_expected_birth окролу, а не в дати самого mating) —
-          // тому беремо ці поля теж, щоб не показати дату першої злучки
-          // поруч із результатом фактично іншої, пізнішої.
-          const { data: littersData, error: littersError } = await supabase
-            .from("litters")
-            .select(
-              "birth_date, alive, litter_mating_date, litter_control_date, litter_expected_birth",
-            )
-            .eq("mating_id", lastMating.id)
-            .order("birth_date", { ascending: false })
-            .limit(1);
-
-          if (littersError) {
-            logError("RabbitPublic:loadLitters", littersError);
-          }
-
-          const lastLitter =
-            littersData && littersData.length > 0 ? littersData[0] : null;
-
+        if (matingError) {
+          logError("RabbitPublic:loadMatings", matingError);
+        } else if (matingRows && matingRows.length > 0) {
+          const m = matingRows[0];
           setMating({
-            mating_date:
-              lastLitter?.litter_mating_date || lastMating.mating_date,
-            control_date:
-              lastLitter?.litter_control_date ||
-              lastMating.control_date ||
-              null,
-            expected_birth:
-              lastLitter?.litter_expected_birth ||
-              lastMating.expected_birth ||
-              null,
-            last_litter_birth: lastLitter?.birth_date || null,
-            last_litter_alive: lastLitter?.alive ?? null,
+            mating_date: m.mating_date,
+            control_date: m.control_date,
+            expected_birth: m.expected_birth,
+            last_litter_birth: m.last_litter_birth,
+            last_litter_alive: m.last_litter_alive,
           });
         }
 
         // Останнє зважування цього кролика (breeding-записи прив'язані
         // через rabbit_id; fattening-клітки сюди не потрапляють, бо
         // публічна сторінка показує конкретного кролика з реєстру).
-        const { data: weighingsData, error: weighingsError } = await supabase
-          .from("weighings")
-          .select("weighing_date, weight_g, size_category")
-          .eq("rabbit_id", id)
-          .order("weighing_date", { ascending: false })
-          .limit(1);
+        const { data: weighingsData, error: weighingsError } =
+          await supabase.rpc("get_public_rabbit_last_weight", {
+            p_rabbit_id: id,
+          });
 
         if (weighingsError) {
           logError("RabbitPublic:loadWeighings", weighingsError);
