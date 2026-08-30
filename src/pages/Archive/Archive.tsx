@@ -34,22 +34,38 @@ export default function Archive({ session }: Props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase
-      .from("rabbits")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .eq("is_active", false)
-      .order("cage_number", { ascending: true })
-      .then(
-        ({ data }) => {
-          setRabbits(data || []);
-          setLoading(false);
-        },
-        (err) => {
-          console.error("Не вдалося завантажити архів кроликів:", err);
-          setLoading(false);
-        },
-      );
+    Promise.all([
+      supabase
+        .from("rabbits")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .eq("is_active", false)
+        .order("cage_number", { ascending: true }),
+      // Тварина в активному карантині теж має is_active=false в rabbits,
+      // але вона ще не архівна — вона просто зараз лікується. Без цього
+      // фільтра вона показувалась би в Архіві поряд із забитими/загиблими
+      supabase
+        .from("quarantine")
+        .select("rabbit_id")
+        .eq("user_id", session.user.id)
+        .eq("is_active", true)
+        .not("rabbit_id", "is", null),
+    ]).then(
+      ([rabbitsRes, quarantineRes]) => {
+        const inQuarantineIds = new Set(
+          (quarantineRes.data || []).map((q) => q.rabbit_id),
+        );
+        const archivedOnly = (rabbitsRes.data || []).filter(
+          (r) => !inQuarantineIds.has(r.id),
+        );
+        setRabbits(archivedOnly);
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Не вдалося завантажити архів кроликів:", err);
+        setLoading(false);
+      },
+    );
   }, [session.user.id]);
 
   async function handleRestore(id: string) {
