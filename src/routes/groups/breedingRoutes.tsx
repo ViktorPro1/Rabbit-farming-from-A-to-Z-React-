@@ -46,6 +46,7 @@ const Fostering = lazy(() => import("../../pages/Fostering/Fostering"));
 const HalfSiblings = lazy(
   () => import("../../pages/HalfSiblings/HalfSiblings"),
 );
+const Conveyor = lazy(() => import("../../pages/Conveyor/Conveyor"));
 
 /**
  * Розведення: окріл, парування, вагітність та пов'язані ускладнення.
@@ -73,5 +74,6 @@ export const breedingRoutes = (
     <Route path="/postpartum-care" element={<PostpartumCare />} />
     <Route path="/fostering" element={<Fostering />} />
     <Route path="/half-siblings" element={<HalfSiblings />} />
+    <Route path="/conveyor" element={<Conveyor />} />
   </>
 );

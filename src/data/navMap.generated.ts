@@ -60,6 +60,7 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/pregnancy-toxemia": "Розведення",
   "/okril": "Розведення",
   "/winter-litter": "Розведення",
+  "/conveyor": "Розведення",
   "/postpartum-care": "Розведення",
   "/dystocia": "Розведення",
   "/false-pregnancy": "Розведення",

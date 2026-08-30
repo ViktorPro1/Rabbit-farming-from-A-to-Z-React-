@@ -1,0 +1,354 @@
+.okril-page {
+    min-height: 100vh;
+}
+
+.okril-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.okril-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.okril-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.okril-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.okril-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 2rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--green-dark);
+}
+
+.okril-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 1rem;
+}
+
+.okril-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+}
+
+.okril-card-header {
+    padding: 14px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 0.5px solid var(--gray-light);
+}
+
+.okril-icon {
+    font-size: 26px;
+    line-height: 1;
+}
+
+.okril-card-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.okril-card-body {
+    padding: 14px 16px 16px;
+    flex: 1;
+}
+
+.okril-card-body p {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.okril-note {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.okril-note h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.okril-note p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.okril-alert {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.okril-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.okril-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.okril-table th {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.okril-table td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--gray-light);
+    color: var(--green-dark);
+    vertical-align: top;
+}
+
+.okril-table tr:nth-child(even) td {
+    background: var(--green-light);
+}
+
+.okril-table tr:hover td {
+    background: var(--green-light);
+}
+
+.okril-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.okril-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.okril-back-btn:hover {
+    background: var(--green-mid);
+}
+
+.okril-related-section {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.okril-related-title {
+    font-size: 1.15rem;
+    color: var(--green-dark);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.okril-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.okril-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 9999px;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.okril-related-link:hover {
+    background: var(--green-light);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 960px) {
+    .okril-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .okril-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .okril-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .okril-table th,
+    .okril-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
+
+/* ===== Власні класи сторінки Конвеєр ===== */
+
+.conveyor-calc-note {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.conveyor-mode-switch {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.conveyor-mode-btn {
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: #fff;
+    color: var(--green-dark);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.conveyor-mode-btn:hover {
+    border-color: var(--green-dark);
+}
+
+.conveyor-mode-btn.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+.conveyor-mode-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.conveyor-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.conveyor-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.conveyor-form-field label {
+    font-size: 13px;
+    color: var(--gray);
+}
+
+.conveyor-form-field input,
+.conveyor-form-field select {
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    background: #fff;
+    color: var(--green-dark);
+}
+
+.conveyor-form-field input:focus,
+.conveyor-form-field select:focus {
+    border-color: var(--green-dark);
+}
+
+.conveyor-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 14px;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+}
+
+.conveyor-forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.6rem;
+}
+
+.conveyor-forecast-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    background: #fff3e0;
+    border-left: 3px solid #e65100;
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+}
+
+.conveyor-forecast-month {
+    font-size: 12px;
+    color: #e65100;
+    text-transform: capitalize;
+}
+
+.conveyor-forecast-count {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+@media (max-width: 640px) {
+    .conveyor-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

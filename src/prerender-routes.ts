@@ -83,6 +83,7 @@ export const prerenderRoutes = [
     "/postpartum-care",
     "/fostering",
     "/half-siblings",
+    "/conveyor",
 
     // Здоров'я
     "/symptoms",
