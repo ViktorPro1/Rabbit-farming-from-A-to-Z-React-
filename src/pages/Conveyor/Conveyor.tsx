@@ -46,8 +46,10 @@ function fmtMonth(date: Date): string {
 
 const Conveyor = () => {
   const [mode, setMode] = useState<Mode>("groups");
-  const [rabbitsCount, setRabbitsCount] = useState<number>(9);
-  const [groupSize, setGroupSize] = useState<number>(3);
+  const [rabbitsCountInput, setRabbitsCountInput] = useState<string>("9");
+  const [groupSizeInput, setGroupSizeInput] = useState<string>("3");
+  const rabbitsCount = Number(rabbitsCountInput) || 0;
+  const groupSize = Number(groupSizeInput) || 0;
   const [scheme, setScheme] = useState<string>("extensive");
   const [startDate, setStartDate] = useState<string>(
     new Date().toISOString().split("T")[0],
@@ -180,8 +182,12 @@ const Conveyor = () => {
               <input
                 type="number"
                 min={1}
-                value={rabbitsCount}
-                onChange={(e) => setRabbitsCount(Number(e.target.value) || 0)}
+                value={rabbitsCountInput}
+                onChange={(e) => setRabbitsCountInput(e.target.value)}
+                onBlur={() => {
+                  const n = Number(rabbitsCountInput);
+                  if (!n || n < 1) setRabbitsCountInput("1");
+                }}
               />
             </div>
 
@@ -191,8 +197,12 @@ const Conveyor = () => {
                 <input
                   type="number"
                   min={1}
-                  value={groupSize}
-                  onChange={(e) => setGroupSize(Number(e.target.value) || 1)}
+                  value={groupSizeInput}
+                  onChange={(e) => setGroupSizeInput(e.target.value)}
+                  onBlur={() => {
+                    const n = Number(groupSizeInput);
+                    if (!n || n < 1) setGroupSizeInput("1");
+                  }}
                 />
               </div>
             )}
