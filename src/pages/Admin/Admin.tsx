@@ -68,6 +68,12 @@ interface BackendStats {
   freeCodes: number;
 }
 
+interface UserDataUsage {
+  userId: string;
+  email: string | null;
+  totalBytes: number;
+}
+
 interface OnlineVisitor {
   session_id: string;
   page: string;
@@ -143,6 +149,8 @@ export default function Admin({ session }: Props) {
   const [stats, setStats] = useState<BackendStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
   const [onlineVisitors, setOnlineVisitors] = useState<OnlineVisitor[]>([]);
+  const [userUsage, setUserUsage] = useState<UserDataUsage[]>([]);
+  const [userUsageLoading, setUserUsageLoading] = useState(false);
   const presenceChannelRef = useRef<ReturnType<
     typeof adminSupabase.channel
   > | null>(null);
@@ -228,6 +236,33 @@ export default function Admin({ session }: Props) {
     setStatsLoading(false);
   }
 
+  async function fetchUserUsage() {
+    setUserUsageLoading(true);
+    const { data, error: rpcError } = await supabase.rpc("get_user_data_usage");
+    if (rpcError) {
+      console.error(
+        "Не вдалося завантажити використання по користувачах:",
+        rpcError,
+      );
+      setUserUsage([]);
+    } else if (data) {
+      setUserUsage(
+        data.map(
+          (row: {
+            user_id: string;
+            email: string | null;
+            total_bytes: number;
+          }) => ({
+            userId: row.user_id,
+            email: row.email,
+            totalBytes: Number(row.total_bytes ?? 0),
+          }),
+        ),
+      );
+    }
+    setUserUsageLoading(false);
+  }
+
   useEffect(() => {
     supabase
       .from("admins")
@@ -246,6 +281,7 @@ export default function Admin({ session }: Props) {
               .from("profiles")
               .select("*", { count: "exact", head: true });
             await fetchStats(allCodes, profileCount ?? 0);
+            await fetchUserUsage();
           }
           setLoading(false);
         },
@@ -469,6 +505,41 @@ export default function Admin({ session }: Props) {
           </>
         ) : (
           <p style={{ opacity: 0.6 }}>Статистика недоступна</p>
+        )}
+      </div>
+
+      {/* Використання по користувачах */}
+      <div className="admin-section">
+        <h2>
+          💾 Використання по користувачах{" "}
+          <span className="admin-count">{userUsage.length}</span>
+        </h2>
+
+        {userUsageLoading ? (
+          <p style={{ opacity: 0.6 }}>Завантаження...</p>
+        ) : userUsage.length === 0 ? (
+          <p style={{ opacity: 0.6 }}>Немає даних</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Email</th>
+                  <th>Обсяг даних</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userUsage.map((u, i) => (
+                  <tr key={u.userId}>
+                    <td>{i + 1}</td>
+                    <td>{u.email || "—"}</td>
+                    <td>{formatBytes(u.totalBytes)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
