@@ -1,9 +1,9 @@
 /// <reference lib="webworker" />
 declare const self: ServiceWorkerGlobalScope
 
-import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
-import { registerRoute, NavigationRoute } from 'workbox-routing'
-import { CacheFirst, NetworkOnly } from 'workbox-strategies'
+import { precacheAndRoute, matchPrecache } from 'workbox-precaching'
+import { registerRoute, setCatchHandler } from 'workbox-routing'
+import { CacheFirst, NetworkFirst, NetworkOnly } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 
 // --- precache (заміна globPatterns з попереднього workbox-конфіга) ---
@@ -25,12 +25,33 @@ registerRoute(({ url }) => /^(www\.)?googletagmanager\.com$/.test(url.hostname),
 registerRoute(({ url }) => /^(www\.|region\d\.)?google-analytics\.com$/.test(url.hostname), new NetworkOnly())
 registerRoute(({ url }) => url.hostname === 'analytics.google.com', new NetworkOnly())
 
-// navigateFallbackDenylist з попереднього конфіга — SPA fallback на index.html,
-// але не для sitemap/robots/llms.txt
+// --- НАВІГАЦІЯ (виправлено) ---
+// sitemap/robots/llms.txt мають обслуговуватись напряму, без SW-логіки
 const denylist = [/^\/sitemap\.xml$/, /^\/robots\.txt$/, /^\/llms(-full)?\.txt$/]
-registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html'), { denylist }))
 
-// --- PUSH-СПОВІЩЕННЯ (нове) ---
+registerRoute(
+    ({ request, url }) => {
+        if (request.mode !== 'navigate') return false
+        return !denylist.some((re) => re.test(url.pathname))
+    },
+    new NetworkFirst({
+        cacheName: 'pages-cache',
+        networkTimeoutSeconds: 3, // якщо мережа не відповіла за 3с — беремо з кешу для цього шляху
+        plugins: [new ExpirationPlugin({ maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 7 })],
+    })
+)
+
+// Офлайн-фолбек: якщо саме цю сторінку ще ніколи не відвідували (немає в pages-cache)
+// і мережі немає — віддаємо закешований app-shell замість помилки браузера.
+setCatchHandler(async ({ request }) => {
+    if (request.mode === 'navigate') {
+        const shell = await matchPrecache('/index.html')
+        if (shell) return shell
+    }
+    return Response.error()
+})
+
+// --- PUSH-СПОВІЩЕННЯ (без змін) ---
 self.addEventListener('push', (event: PushEvent) => {
     const data = event.data?.json() ?? {}
     const title = data.title ?? 'Кролівництво від А до Я'
