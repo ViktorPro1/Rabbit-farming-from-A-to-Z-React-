@@ -1,0 +1,319 @@
+.reviews-page {
+    min-height: 100vh;
+}
+
+.reviews-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), #639922);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.reviews-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.reviews-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.reviews-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* INTRO */
+.reviews-intro {
+    background: var(--cream);
+    border-radius: 20px;
+    border: 0.5px solid var(--gray-light);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.reviews-intro p {
+    font-size: 14px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+.reviews-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.reviews-link-btn {
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+.reviews-link-btn:hover {
+    opacity: 0.85;
+}
+
+.reviews-link-btn.telegram {
+    background: #2196f3;
+    color: white;
+}
+
+.reviews-link-btn.facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.reviews-link-btn.large {
+    padding: 12px 28px;
+    font-size: 15px;
+}
+
+/* CORKBOARD */
+.reviews-board {
+    background: var(--green-light);
+    background-image: radial-gradient(var(--gray-light) 1px, transparent 1px);
+    background-size: 14px 14px;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2.5rem 1.75rem;
+    margin-bottom: 2rem;
+}
+
+.reviews-photo {
+    position: relative;
+    background: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 10px 14px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    font: inherit;
+    text-align: left;
+}
+
+.reviews-photo:hover,
+.reviews-photo:focus-visible {
+    transform: rotate(0deg) translateY(-6px) scale(1.03);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26);
+    z-index: 2;
+}
+
+.reviews-photo:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 3px;
+}
+
+.reviews-pin {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #e57373, #b71c1c);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.reviews-photo-frame {
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--gray-light);
+}
+
+.reviews-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.reviews-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--gray);
+}
+
+.reviews-caption-source {
+    font-weight: 500;
+}
+
+/* EMPTY STATE */
+.reviews-empty {
+    background: var(--cream);
+    border-radius: 20px;
+    border: 0.5px dashed var(--gray-light);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.reviews-empty p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+/* BOTTOM CTA */
+.reviews-bottom-cta {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.reviews-bottom-cta h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.reviews-bottom-cta p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+.reviews-bottom-contacts {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* BACK */
+.reviews-back {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.reviews-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.reviews-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* LIGHTBOX */
+.reviews-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.reviews-lightbox-img {
+    max-width: min(90vw, 560px);
+    max-height: 85vh;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.reviews-lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.reviews-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    color: white;
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.reviews-lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+.reviews-lightbox-nav.prev {
+    left: 20px;
+}
+
+.reviews-lightbox-nav.next {
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .reviews-board {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 2rem 1rem;
+        padding: 2rem 1.25rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .reviews-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .reviews-intro {
+        padding: 1.25rem;
+    }
+
+    .reviews-board {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem 0.75rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .reviews-lightbox-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+    }
+
+    .reviews-bottom-cta {
+        padding: 1.5rem 1rem;
+    }
+}

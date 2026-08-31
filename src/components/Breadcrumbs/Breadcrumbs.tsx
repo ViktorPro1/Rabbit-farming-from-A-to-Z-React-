@@ -23,6 +23,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/community": "Спільнота",
   "/auth": "Вхід",
   "/partnership": "Партнерство",
+  "/reviews": "Відгуки",
 
   // ПОЧАТОК — знайомство з твариною
   "/biology": "Біологія та анатомія",

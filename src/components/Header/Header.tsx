@@ -15,6 +15,7 @@ import {
   LogOut,
   Crown,
   Handshake,
+  Star,
 } from "lucide-react";
 import "./Header.css";
 
@@ -122,6 +123,7 @@ const Header = ({ session }: Props) => {
           <NavLink to="/calculator">Калькулятор</NavLink>
           <NavLink to="/community">Спільноти</NavLink>
           <NavLink to="/partnership">Партнерство</NavLink>
+          <NavLink to="/reviews">Відгуки</NavLink>
 
           <div className="changelog-menu" ref={dropdownRef}>
             <button className="changelog-trigger" onClick={toggleDropdown}>
@@ -258,6 +260,10 @@ const Header = ({ session }: Props) => {
           <NavLink to="/partnership" onClick={closeMenu}>
             <Handshake size={18} />
             Партнерство
+          </NavLink>
+          <NavLink to="/reviews" onClick={closeMenu}>
+            <Star size={18} />
+            Відгуки
           </NavLink>
           <NavLink
             to="/changelog"
