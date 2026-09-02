@@ -46,14 +46,15 @@ export default function Auth({ returnTo = "/registry" }: Props) {
       return;
     }
 
-    // Крок 1: шукаємо код БЕЗ фільтра is_used, щоб розрізнити
-    // "коду не існує" від "код уже використаний" — раніше обидва
-    // випадки поверталися однаковим повідомленням через .eq("is_used", false).
-    const { data: code, error: codeError } = await supabase
-      .from("invite_codes")
-      .select("*")
-      .eq("code", cleanCode)
-      .maybeSingle();
+    // Крок 1: перевіряємо код через RPC-функцію (SECURITY DEFINER),
+    // а не прямим SELECT — до логіну користувач анонімний, і прямий
+    // SELECT з таблиці invite_codes блокується RLS, через що коди
+    // завжди виглядали "неіснуючими", навіть коли існували.
+    // SQL для створення функції: validate_invite_code.sql
+    const { data: rpcData, error: codeError } = await supabase.rpc(
+      "validate_invite_code",
+      { code_input: cleanCode },
+    );
 
     if (codeError) {
       setError("Помилка перевірки коду: " + codeError.message);
@@ -61,17 +62,21 @@ export default function Auth({ returnTo = "/registry" }: Props) {
       return;
     }
 
-    if (!code) {
+    const codeResult = rpcData?.[0];
+
+    if (!codeResult || !codeResult.code_exists) {
       setError("Такого інвайт коду не існує. Перевірте правильність введення");
       setLoading(false);
       return;
     }
 
-    if (code.is_used) {
+    if (codeResult.code_used) {
       setError("Цей інвайт код уже використаний");
       setLoading(false);
       return;
     }
+
+    const code = { id: codeResult.code_id };
 
     // Крок 2: реєстрація користувача
     const { data: authData, error: authError } = await supabase.auth.signUp({
