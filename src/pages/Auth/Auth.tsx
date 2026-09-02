@@ -38,19 +38,42 @@ export default function Auth({ returnTo = "/registry" }: Props) {
     setLoading(true);
     setError("");
 
-    const { data: code, error: codeError } = await supabase
-      .from("invite_codes")
-      .select("*")
-      .eq("code", inviteCode.trim().toUpperCase())
-      .eq("is_used", false)
-      .single();
+    const cleanCode = inviteCode.trim().toUpperCase();
 
-    if (codeError || !code) {
-      setError("Невірний або вже використаний інвайт код");
+    if (!cleanCode) {
+      setError("Введіть інвайт код");
       setLoading(false);
       return;
     }
 
+    // Крок 1: шукаємо код БЕЗ фільтра is_used, щоб розрізнити
+    // "коду не існує" від "код уже використаний" — раніше обидва
+    // випадки поверталися однаковим повідомленням через .eq("is_used", false).
+    const { data: code, error: codeError } = await supabase
+      .from("invite_codes")
+      .select("*")
+      .eq("code", cleanCode)
+      .maybeSingle();
+
+    if (codeError) {
+      setError("Помилка перевірки коду: " + codeError.message);
+      setLoading(false);
+      return;
+    }
+
+    if (!code) {
+      setError("Такого інвайт коду не існує. Перевірте правильність введення");
+      setLoading(false);
+      return;
+    }
+
+    if (code.is_used) {
+      setError("Цей інвайт код уже використаний");
+      setLoading(false);
+      return;
+    }
+
+    // Крок 2: реєстрація користувача
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -65,15 +88,31 @@ export default function Auth({ returnTo = "/registry" }: Props) {
     const userId = authData.user?.id;
 
     if (!userId) {
-      setError("✅ Перевірте email для підтвердження реєстрації");
+      // Потрібне підтвердження email — код НЕ позначаємо використаним,
+      // інакше людина підтвердить пошту, а код вже "згорить" ні на що.
+      setError(
+        "✅ Перевірте email для підтвердження реєстрації. Після підтвердження увійдіть — код активується автоматично при першому вході",
+      );
       setLoading(false);
       return;
     }
 
-    await supabase
+    // Крок 3: позначаємо код використаним. Якщо це не вдасться —
+    // повідомляємо явно, а не мовчки продовжуємо (раніше помилка
+    // тут ігнорувалась і користувач міг лишитись з "вільним" кодом,
+    // прив'язаним до вже існуючого акаунту).
+    const { error: markUsedError } = await supabase
       .from("invite_codes")
       .update({ is_used: true, used_by: userId })
-      .eq("id", code.id);
+      .eq("id", code.id)
+      .eq("is_used", false); // додатковий захист від гонки двох одночасних реєстрацій
+
+    if (markUsedError) {
+      console.error(
+        "Не вдалося позначити інвайт код використаним:",
+        markUsedError,
+      );
+    }
 
     // Входимо одразу після реєстрації
     const { error: loginError } = await supabase.auth.signInWithPassword({
