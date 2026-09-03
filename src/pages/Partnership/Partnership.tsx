@@ -167,7 +167,7 @@ const Partnership = () => {
               ✈️ Написати в Telegram
             </a>
             <a
-              href="mailto:webstartstudio978@gmail.com"
+              href="mailto:rabbit.farming.ua@gmail.com"
               className="partner-contact-btn email large"
             >
               📧 Написати на Email

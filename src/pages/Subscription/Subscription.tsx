@@ -227,7 +227,7 @@ const Subscription = () => {
   return (
     <main className="sub-page">
       <div className="sub-header">
-        <h1>🐇 Що ви отримуєте після підписки</h1>
+        <h1>🐇 Що Ви отримуєте після підписки</h1>
         <p>
           Повний облік кролячого господарства в одному місці — з телефону або
           комп'ютера
@@ -245,7 +245,7 @@ const Subscription = () => {
               будь-якого пристрою.
             </p>
             <p>
-              Система рахує, нагадує та відстежує — ти лише вносиш дані та
+              Система рахує, нагадує та відстежує — Ви лише вносиш дані та
               приймаєш рішення.
             </p>
             <div className="sub-cta-wrap">
@@ -282,6 +282,18 @@ const Subscription = () => {
           </p>
         </div>
 
+        {/* ТЕСТОВИЙ ПЕРІОД */}
+        <div className="sub-trial-block">
+          <div className="sub-trial-icon">🎁</div>
+          <div className="sub-trial-content">
+            <h3>Тестовий період</h3>
+            <p>
+              Хочете спочатку спробувати? Напишіть нам — і за домовленістю
+              надамо тестовий доступ, щоб Ви оцінив систему перед оплатою.
+            </p>
+          </div>
+        </div>
+
         {/* ФУНКЦІЇ */}
         <div className="sub-section-title">📋 Що входить у підписку</div>
         <div className="sub-features-grid">
@@ -307,9 +319,9 @@ const Subscription = () => {
           <div className="sub-step">
             <div className="sub-step-num">1</div>
             <div className="sub-step-content">
-              <strong>Напиши нам</strong>
+              <strong>Напишіть нам</strong>
               <p>
-                Звернись у Telegram або на email — ми відповімо та уточнимо
+                Зверніться у Telegram або на email — ми відповімо та уточнимо
                 деталі.
               </p>
               <div className="sub-step-contacts">
@@ -322,7 +334,7 @@ const Subscription = () => {
                   ✈️ Telegram
                 </a>
                 <a
-                  href="mailto:webstartstudio978@gmail.com"
+                  href="mailto:rabbit.farming.ua@gmail.com"
                   className="sub-contact-btn email"
                 >
                   📧 Email
@@ -333,19 +345,19 @@ const Subscription = () => {
           <div className="sub-step">
             <div className="sub-step-num">2</div>
             <div className="sub-step-content">
-              <strong>Отримай інвайт-код</strong>
+              <strong>Отримайте інвайт-код</strong>
               <p>
-                Після оплати ти отримаєш унікальний інвайт-код для реєстрації.
+                Після оплати Ви отримаєте унікальний інвайт-код для реєстрації.
               </p>
             </div>
           </div>
           <div className="sub-step">
             <div className="sub-step-num">3</div>
             <div className="sub-step-content">
-              <strong>Зареєструйся та користуйся</strong>
+              <strong>Зареєструйтесь та користуйтесь</strong>
               <p>
-                Введи email, пароль та інвайт-код — і одразу отримуєш доступ до
-                всіх функцій.
+                Введіть email, пароль та інвайт-код — і одразу отримаєте доступ
+                до всіх функцій.
               </p>
               <Link to="/auth" className="sub-step-link">
                 Перейти до реєстрації →
@@ -367,7 +379,7 @@ const Subscription = () => {
           <div className="sub-faq-item">
             <strong>Чи зберігаються дані при зміні телефону?</strong>
             <p>
-              Так. Всі дані зберігаються в хмарі — просто увійди з нового
+              Так. Всі дані зберігаються в хмарі — просто увійдіть з нового
               пристрою.
             </p>
           </div>
@@ -381,16 +393,16 @@ const Subscription = () => {
           <div className="sub-faq-item">
             <strong>Чи можна скасувати підписку?</strong>
             <p>
-              Так, у будь-який момент. Звернись до нас і ми вирішимо питання.
+              Так, у будь-який момент. Зверніться до нас і ми вирішимо питання.
             </p>
           </div>
         </div>
 
         {/* CTA ВНИЗУ */}
         <div className="sub-bottom-cta">
-          <h2>Готовий почати?</h2>
+          <h2>Готові почати?</h2>
           <p>
-            Напиши нам — і вже сьогодні твоє господарство буде під контролем
+            Напишіть нам — і вже сьогодні ваше господарство буде під контролем
           </p>
           <div className="sub-bottom-contacts">
             <a
@@ -402,7 +414,7 @@ const Subscription = () => {
               ✈️ Написати в Telegram
             </a>
             <a
-              href="mailto:webstartstudio978@gmail.com"
+              href="mailto:rabbit.farming.ua@gmail.com"
               className="sub-contact-btn email large"
             >
               📧 Написати на Email
