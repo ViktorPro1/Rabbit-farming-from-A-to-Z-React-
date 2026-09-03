@@ -1,0 +1,54 @@
+name: IndexNow Submit
+
+# Спрацьовує щоразу, коли Vercel повідомляє GitHub про статус деплою.
+# Vercel автоматично створює GitHub Deployment при кожному push у main,
+# тому цей workflow не запускається "наосліп" одразу після push —
+# він чекає, поки Vercel реально завершить білд і підтвердить успіх.
+on:
+    deployment_status:
+
+jobs:
+    submit-to-indexnow:
+        # Запускаємо тільки якщо деплой успішний і це продакшн-оточення.
+        # Якщо у вашому Vercel-інтеграції оточення називається інакше
+        # (наприклад "production" з малої літери), перевірте назву
+        # в GitHub → вкладка "Environments" репозиторію і виправте рядок нижче.
+        if: >
+            github.event.deployment_status.state == 'success' &&
+            github.event.deployment_status.environment == 'Production'
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Завантажити sitemap.xml з живого сайту
+              run: |
+                  SITE_URL="https://rabbit-farming-from-a-to-z-react.vercel.app"
+                  curl -s "$SITE_URL/sitemap.xml" -o sitemap.xml
+                  echo "Sitemap завантажено, розмір: $(wc -c < sitemap.xml) байт"
+
+            - name: Витягти список URL із sitemap
+              run: |
+                  grep -oP '(?<=<loc>)[^<]+' sitemap.xml > urls.txt
+                  echo "Знайдено URL: $(wc -l < urls.txt)"
+                  if [ ! -s urls.txt ]; then
+                    echo "Список URL порожній — sitemap не розпарсився, перевірте формат."
+                    exit 1
+                  fi
+
+            - name: Сформувати JSON-запит для IndexNow
+              run: |
+                  # jq попередньо встановлений на всіх ubuntu-runner'ах GitHub Actions
+                  jq -R -s -c 'split("\n") | map(select(length > 0))' urls.txt > urllist.json
+
+                  jq -n \
+                    --arg host "rabbit-farming-from-a-to-z-react.vercel.app" \
+                    --arg key "df415ffabd8e42d9b8b01b173c87739e" \
+                    --arg keyLocation "https://rabbit-farming-from-a-to-z-react.vercel.app/df415ffabd8e42d9b8b01b173c87739e.txt" \
+                    --argjson urlList "$(cat urllist.json)" \
+                    '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}' \
+                    > payload.json
+
+            - name: Відправити запит на IndexNow API
+              run: |
+                  curl -i -X POST "https://api.indexnow.org/indexnow" \
+                    -H "Content-Type: application/json" \
+                    -d @payload.json

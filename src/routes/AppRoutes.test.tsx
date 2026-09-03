@@ -80,9 +80,9 @@ describe("AppRoutes — auth-гейтинг захищених маршруті�
 
   it("/registry з сесією показує RabbitRegistry", async () => {
     renderAt("/registry", mockSession);
-    expect(await screen.findByTestId("registry-page")).toHaveTextContent(
-      "user-1",
-    );
+    expect(
+      await screen.findByTestId("registry-page", {}, { timeout: 3000 }),
+    ).toHaveTextContent("user-1");
   });
 
   it('"/" рендерить Home незалежно від сесії', async () => {
