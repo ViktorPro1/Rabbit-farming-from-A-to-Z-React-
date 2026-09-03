@@ -155,6 +155,7 @@ export default function Admin({ session }: Props) {
   const [onlineVisitors, setOnlineVisitors] = useState<OnlineVisitor[]>([]);
   const [userUsage, setUserUsage] = useState<UserDataUsage[]>([]);
   const [userUsageLoading, setUserUsageLoading] = useState(false);
+  const [tablesOpen, setTablesOpen] = useState(false);
   const presenceChannelRef = useRef<ReturnType<
     typeof adminSupabase.channel
   > | null>(null);
@@ -529,28 +530,49 @@ export default function Admin({ session }: Props) {
               </div>
             </div>
 
-            <div className="stats-codes-row">
-              <div className="stats-code-badge total">
-                Всього кодів: <strong>{stats.totalCodes}</strong>
-              </div>
-              <div className="stats-code-badge used">
-                Використано: <strong>{stats.usedCodes}</strong>
-              </div>
-              <div className="stats-code-badge free">
-                Вільних: <strong>{stats.freeCodes}</strong>
-              </div>
-            </div>
-
+            {/* Записи у таблицях — акордеон (згорнуто за замовчуванням) */}
             <div className="stats-tables">
-              <div className="stats-tables-title">Записи у таблицях</div>
-              <div className="stats-tables-grid">
-                {stats.tableCounts.map((t) => (
-                  <div key={t.name} className="stats-table-card">
-                    <div className="stats-table-label">{t.label}</div>
-                    <div className="stats-table-count">{t.count}</div>
-                  </div>
-                ))}
-              </div>
+              <button
+                type="button"
+                className="stats-tables-title stats-tables-toggle"
+                onClick={() => setTablesOpen((open) => !open)}
+                aria-expanded={tablesOpen}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  font: "inherit",
+                  color: "inherit",
+                }}
+              >
+                <span>Записи у таблицях</span>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: "inline-block",
+                    transition: "transform 0.2s ease",
+                    transform: tablesOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                >
+                  ▾
+                </span>
+              </button>
+
+              {tablesOpen && (
+                <div className="stats-tables-grid">
+                  {stats.tableCounts.map((t) => (
+                    <div key={t.name} className="stats-table-card">
+                      <div className="stats-table-label">{t.label}</div>
+                      <div className="stats-table-count">{t.count}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </>
         ) : (
@@ -558,7 +580,7 @@ export default function Admin({ session }: Props) {
         )}
       </div>
 
-      {/* Використання по користувачах */}
+      {/* Використання по користувахах */}
       <div className="admin-section">
         <h2>
           💾 Використання по користувачах{" "}
@@ -795,6 +817,20 @@ export default function Admin({ session }: Props) {
       {/* Інвайт коди */}
       <div className="admin-section">
         <h2>🎟️ Інвайт коди</h2>
+
+        {stats && (
+          <div className="stats-codes-row">
+            <div className="stats-code-badge total">
+              Всього кодів: <strong>{stats.totalCodes}</strong>
+            </div>
+            <div className="stats-code-badge used">
+              Використано: <strong>{stats.usedCodes}</strong>
+            </div>
+            <div className="stats-code-badge free">
+              Вільних: <strong>{stats.freeCodes}</strong>
+            </div>
+          </div>
+        )}
 
         <div className="admin-add">
           <input
