@@ -73,16 +73,16 @@ export default function Community() {
         <div className="community__add-box">
           <div className="community__add-icon">+</div>
           <p className="community__add-text">
-            Знаєш хорошу спільноту?
+            Знаєте хорошу спільноту?
             <br />
-            Запропонуй для каталогу
+            Запропонуйте для каталогу
           </p>
         </div>
       </div>
 
       <div className="community__note">
         Маєте цікавий канал чи групу? Поділіться з іншими кролівниками — ми
-        додамо вас до списку!
+        додамо Вас до списку!
       </div>
 
       <a href="/" className="community__back">
