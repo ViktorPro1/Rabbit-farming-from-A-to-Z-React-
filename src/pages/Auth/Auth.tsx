@@ -27,7 +27,13 @@ export default function Auth({ returnTo = "/registry" }: Props) {
       password,
     });
     if (error) {
-      setError("Невірний email або пароль");
+      if (error.message.toLowerCase().includes("email not confirmed")) {
+        setError(
+          "Пошта ще не підтверджена. Перевірте вхідні (і папку Спам) та перейдіть за посиланням з листа",
+        );
+      } else {
+        setError("Невірний email або пароль");
+      }
       setLoading(false);
     } else {
       navigate(returnTo);
@@ -102,17 +108,16 @@ export default function Auth({ returnTo = "/registry" }: Props) {
       return;
     }
 
-    // Крок 3: позначаємо код використаним. Якщо це не вдасться —
-    // повідомляємо явно, а не мовчки продовжуємо (раніше помилка
-    // тут ігнорувалась і користувач міг лишитись з "вільним" кодом,
-    // прив'язаним до вже існуючого акаунту).
-    const { error: markUsedError } = await supabase
-      .from("invite_codes")
-      .update({ is_used: true, used_by: userId })
-      .eq("id", code.id)
-      .eq("is_used", false); // додатковий захист від гонки двох одночасних реєстрацій
+    // Крок 3: позначаємо код використаним через RPC-функцію (SECURITY
+    // DEFINER) — пряме invite_codes.update() блокувалось RLS (немає
+    // політики на UPDATE), тому код завжди лишався "вільним" в базі,
+    // навіть коли фактично його вже хтось використав.
+    const { data: markUsedResult, error: markUsedError } = await supabase.rpc(
+      "mark_invite_code_used",
+      { code_id_input: code.id, user_id_input: userId },
+    );
 
-    if (markUsedError) {
+    if (markUsedError || markUsedResult !== true) {
       console.error(
         "Не вдалося позначити інвайт код використаним:",
         markUsedError,
@@ -199,11 +204,11 @@ export default function Auth({ returnTo = "/registry" }: Props) {
           <p className="auth-info">
             ℹ️ Реєстрація є платною. Для отримання інвайт-коду звертайтесь:
             <br />
-            📧 <a href="mailto:webstartstudio978@gmail.com">Наша пошта</a>
+            📧 <a href="mailto:rabbit.farming.ua@gmail.com">Наша пошта</a>
             <br />
             ✈️{" "}
             <a
-              href="https://t.me/Viktor_freelancer_recruiting_pit"
+              href="https://t.me/Dima_freelancer_recruiting_pit"
               target="_blank"
               rel="noreferrer"
             >

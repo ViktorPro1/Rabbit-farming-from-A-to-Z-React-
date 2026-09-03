@@ -154,6 +154,43 @@
     color: white;
 }
 
+/* ── Access-until cell (Доступ до) ─────────────────────────────── */
+.access-status {
+    display: inline-block;
+    margin-bottom: 0.3rem;
+}
+
+.access-controls {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.access-date-input {
+    padding: 0.3rem 0.45rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    width: 130px;
+    max-width: 100%;
+}
+
+.access-btn-mini {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.access-plan-select {
+    padding: 0.3rem 0.4rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    max-width: 110px;
+}
+
 /* ── Stats Section ─────────────────────────────── */
 .stats-limits {
     display: grid;
@@ -335,10 +372,38 @@
         padding: 0.5rem 0.6rem;
         font-size: 0.85rem;
     }
+
+    .access-date-input {
+        width: 115px;
+        font-size: 0.8rem;
+    }
+
+    .access-btn-mini {
+        padding: 0.25rem 0.45rem;
+        font-size: 0.75rem;
+    }
+
+    .access-plan-select {
+        max-width: 95px;
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 420px) {
     .admin-page {
         padding: 1rem;
+    }
+
+    .access-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .access-date-input {
+        width: 100%;
+    }
+
+    .access-btn-mini {
+        width: 100%;
     }
 }

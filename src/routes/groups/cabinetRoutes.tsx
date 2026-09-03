@@ -5,6 +5,7 @@ import type { Session } from "@supabase/supabase-js";
 import Auth from "../../pages/Auth/Auth";
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 import RequireOnline from "../../components/RequireOnline/RequireOnline";
+import AccessGuard from "../../components/AccessGuard/AccessGuard";
 import type { ReactNode } from "react";
 
 const RabbitRegistry = lazy(
@@ -43,6 +44,10 @@ const FinancesPage = lazy(
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
  * щоб падіння однієї сторінки (напр. Statistics) не забирало
  * з собою весь застосунок — тільки цю секцію.
+ *
+ * AccessGuard додано тут (в одному місці), а не в кожному Route
+ * окремо — тому термін доступу перевіряється для всіх кабінетних
+ * сторінок автоматично, без правок нижче.
  */
 function withCabinetBoundary(name: string, element: ReactNode) {
   return (
@@ -50,7 +55,9 @@ function withCabinetBoundary(name: string, element: ReactNode) {
       boundaryName={name}
       fallbackTitle={`Сталася помилка на сторінці «${name}». Спробуйте перезавантажити.`}
     >
-      <RequireOnline>{element}</RequireOnline>
+      <RequireOnline>
+        <AccessGuard>{element}</AccessGuard>
+      </RequireOnline>
     </ErrorBoundary>
   );
 }

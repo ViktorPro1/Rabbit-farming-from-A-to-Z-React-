@@ -31,6 +31,8 @@ interface Profile {
   id: string;
   email: string | null;
   created_at: string;
+  access_until: string | null;
+  plan_type: "trial" | "paid";
 }
 
 interface RegisteredUser {
@@ -39,6 +41,8 @@ interface RegisteredUser {
   created_at: string;
   invite_code: string | null;
   invite_code_id: string | null;
+  access_until: string | null;
+  plan_type: "trial" | "paid";
 }
 
 interface DeactivatedUser {
@@ -167,7 +171,7 @@ export default function Admin({ session }: Props) {
   async function fetchUsers(allCodes: InviteCode[]) {
     const { data: profiles } = await supabase
       .from("profiles")
-      .select("id, email, created_at");
+      .select("id, email, created_at, access_until, plan_type");
 
     if (profiles && profiles.length > 0) {
       const usedCodes = allCodes.filter((c) => c.is_used);
@@ -179,12 +183,58 @@ export default function Admin({ session }: Props) {
           created_at: p.created_at,
           invite_code: matchedCode?.code || "—",
           invite_code_id: matchedCode?.id || null,
+          access_until: p.access_until,
+          plan_type: p.plan_type,
         };
       });
       setUsers(mapped);
     } else {
       setUsers([]);
     }
+  }
+
+  // Позначити користувача як пробного/платного (лише мітка для адмінки,
+  // на блокування доступу не впливає — те регулюється access_until)
+  async function handleSetPlanType(userId: string, planType: "trial" | "paid") {
+    const { error } = await supabase
+      .from("profiles")
+      .update({ plan_type: planType })
+      .eq("id", userId);
+    if (error) {
+      console.error("Не вдалося оновити тип плану:", error);
+      setError("Не вдалося оновити тип плану");
+      return;
+    }
+    const allCodes = await fetchCodes();
+    await fetchUsers(allCodes);
+  }
+
+  // Оновити дату доступу (порожньо/null = безстроково)
+  async function handleSetAccessUntil(userId: string, dateValue: string) {
+    const isoValue = dateValue ? new Date(dateValue).toISOString() : null;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ access_until: isoValue })
+      .eq("id", userId);
+    if (error) {
+      console.error("Не вдалося оновити термін доступу:", error);
+      setError("Не вдалося оновити термін доступу");
+      return;
+    }
+    const allCodes = await fetchCodes();
+    await fetchUsers(allCodes);
+  }
+
+  // Швидка кнопка: +1 місяць від сьогодні
+  async function handleGrantOneMonth(userId: string) {
+    const until = new Date();
+    until.setMonth(until.getMonth() + 1);
+    await handleSetAccessUntil(userId, until.toISOString().slice(0, 10));
+  }
+
+  // Прибрати обмеження — безстроковий доступ
+  async function handleMakeUnlimited(userId: string) {
+    await handleSetAccessUntil(userId, "");
   }
 
   async function fetchDeactivated() {
@@ -597,37 +647,108 @@ export default function Admin({ session }: Props) {
                 <th>Email</th>
                 <th>Інвайт код</th>
                 <th>Дата реєстрації</th>
+                <th>Тип</th>
+                <th>Доступ до</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {users.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center", opacity: 0.5 }}>
+                  <td colSpan={7} style={{ textAlign: "center", opacity: 0.5 }}>
                     Немає користувачів
                   </td>
                 </tr>
               ) : (
-                users.map((user, i) => (
-                  <tr key={user.id}>
-                    <td>{i + 1}</td>
-                    <td>{user.email}</td>
-                    <td className="code-text">{user.invite_code}</td>
-                    <td>
-                      {new Date(user.created_at).toLocaleDateString("uk-UA")}
-                    </td>
-                    <td>
-                      {user.id !== session.user.id && (
-                        <button
-                          className="admin-btn-delete"
-                          onClick={() => handleDeleteUser(user)}
+                users.map((user, i) => {
+                  const isExpired =
+                    !!user.access_until &&
+                    new Date(user.access_until) < new Date();
+                  return (
+                    <tr key={user.id}>
+                      <td>{i + 1}</td>
+                      <td>{user.email}</td>
+                      <td className="code-text">{user.invite_code}</td>
+                      <td>
+                        {new Date(user.created_at).toLocaleDateString("uk-UA")}
+                      </td>
+                      <td>
+                        <select
+                          className="access-plan-select"
+                          value={user.plan_type}
+                          onChange={(e) =>
+                            handleSetPlanType(
+                              user.id,
+                              e.target.value as "trial" | "paid",
+                            )
+                          }
                         >
-                          Видалити
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))
+                          <option value="trial">Пробний</option>
+                          <option value="paid">Платний</option>
+                        </select>
+                      </td>
+                      <td>
+                        {user.access_until ? (
+                          <span
+                            className={`code-status access-status ${isExpired ? "used" : "free"}`}
+                            title={new Date(user.access_until).toLocaleString(
+                              "uk-UA",
+                            )}
+                          >
+                            {new Date(user.access_until).toLocaleDateString(
+                              "uk-UA",
+                            )}
+                            {isExpired ? " (прострочено)" : ""}
+                          </span>
+                        ) : (
+                          <span className="code-status access-status free">
+                            Безстроково
+                          </span>
+                        )}
+                        <div className="access-controls">
+                          <input
+                            type="date"
+                            className="access-date-input"
+                            defaultValue={
+                              user.access_until
+                                ? user.access_until.slice(0, 10)
+                                : ""
+                            }
+                            onChange={(e) =>
+                              handleSetAccessUntil(user.id, e.target.value)
+                            }
+                          />
+                          <button
+                            className="admin-btn-add access-btn-mini"
+                            title="Продовжити на 1 місяць від сьогодні"
+                            onClick={() => handleGrantOneMonth(user.id)}
+                          >
+                            +1 міс
+                          </button>
+                          {user.access_until && (
+                            <button
+                              className="admin-btn-generate access-btn-mini"
+                              title="Зробити безстроковим"
+                              onClick={() => handleMakeUnlimited(user.id)}
+                            >
+                              ∞
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        {user.id !== session.user.id && (
+                          <button
+                            className="admin-btn-delete"
+                            onClick={() => handleDeleteUser(user)}
+                          >
+                            Видалити
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
