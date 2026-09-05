@@ -1,5 +1,7 @@
 import { supabase, sendToUser } from './push.js';
 import { addDays } from './dates.js';
+import { sendEmail } from './email.js';
+import { renderTemplate } from './email-templates.js';
 
 const WEANING_SCHEME_DAYS: Record<string, number> = {
     intensive: 28,
@@ -339,6 +341,37 @@ export async function checkWeighing(tomorrow: string): Promise<CheckResult> {
     return { sent };
 }
 
+// 11. Пробний період закінчується через 3 дні (profiles.access_until, plan_type = 'trial')
+// tomorrow — це "сьогодні + 1", тому "сьогодні + 3" = addDays(tomorrow, 2).
+// Порівнюємо діапазоном [цільова дата 00:00, наступна доба 00:00), а не рівністю
+// рядка, бо access_until — timestamptz, а не date, і час усередині доби може бути будь-який.
+export async function checkTrialEndingSoon(tomorrow: string): Promise<CheckResult> {
+    const targetDate = addDays(tomorrow, 2);
+    const rangeStart = `${targetDate}T00:00:00.000Z`;
+    const rangeEnd = `${addDays(targetDate, 1)}T00:00:00.000Z`;
+
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('email, access_until')
+        .eq('plan_type', 'trial')
+        .gte('access_until', rangeStart)
+        .lt('access_until', rangeEnd);
+
+    if (error) {
+        console.error('[daily-reminders] trialEndingSoon query failed:', error);
+        return { sent: 0, error: 'trialEndingSoon' };
+    }
+
+    let sent = 0;
+    for (const p of data ?? []) {
+        if (!p.email) continue;
+        const html = renderTemplate('lyst-probnyi_period_zavershuyetsya_skoro.html', { K: '3' });
+        const ok = await sendEmail(p.email, 'Ваш пробний період добігає кінця', html);
+        if (ok) sent++;
+    }
+    return { sent };
+}
+
 export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkControlMatings,
     checkExpectedBirths,
@@ -350,4 +383,5 @@ export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkTreatments,
     checkVaccinations,
     checkWeighing,
+    checkTrialEndingSoon,
 ];
