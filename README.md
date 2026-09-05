@@ -81,6 +81,20 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 
 ---
 
+## 📧 Email-сповіщення
+
+Транзакційні листи для всього циклу користувача — від реєстрації до підписки — з власною версткою й автоматичною відправкою.
+
+Реалізовано:
+
+- 17 HTML-шаблонів листів (реєстрація/доступ, пробний період, оплата й підписка, утримання користувачів, продуктові сповіщення)
+- Відправка через Gmail SMTP (Nodemailer) — без сторонніх email-сервісів
+- Vercel Serverless Function (`api/send-email.ts`) з авторизацією за секретним заголовком і базовою валідацією вхідних даних
+- Автоматичне нагадування про завершення пробного періоду за 3 дні до `access_until`, вбудоване в той самий щоденний цикл перевірок, що й push-сповіщення
+- Шаблони кешуються в пам'яті після першого читання, без зайвих файлових операцій при масовій розсилці
+
+---
+
 ## 📅 Календар господарства
 
 Єдиний календар, який збирає в одне місце всі заплановані події з різних розділів обліку — без дублювання даних, напряму з існуючих таблиць.
@@ -223,7 +237,8 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - PostgreSQL
 - Authentication
 - Realtime
-- Vercel Serverless Functions (push-сповіщення)
+- Vercel Serverless Functions (push-сповіщення, email)
+- Nodemailer (Gmail SMTP)
 - GitHub Actions (щоденний cron)
 - Sentry (error tracking)
 
@@ -266,7 +281,15 @@ src/
 └── prerender-routes.ts
 
 api/
-├── send-push.ts
+├── _lib/
+│   ├── push.ts
+│   ├── dates.ts
+│   ├── reminders.ts
+│   ├── email.ts
+│   ├── email-templates.ts
+│   └── email-templates/       # 17 HTML-шаблонів листів
+├── send-notification.ts
+├── send-email.ts
 └── daily-reminders.ts
 ```
 
