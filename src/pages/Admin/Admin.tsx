@@ -32,7 +32,7 @@ interface Profile {
   email: string | null;
   created_at: string;
   access_until: string | null;
-  plan_type: "trial" | "paid";
+  plan_type: "trial" | "paid" | "founder";
 }
 
 interface RegisteredUser {
@@ -42,7 +42,7 @@ interface RegisteredUser {
   invite_code: string | null;
   invite_code_id: string | null;
   access_until: string | null;
-  plan_type: "trial" | "paid";
+  plan_type: "trial" | "paid" | "founder";
 }
 
 interface DeactivatedUser {
@@ -196,7 +196,10 @@ export default function Admin({ session }: Props) {
 
   // Позначити користувача як пробного/платного (лише мітка для адмінки,
   // на блокування доступу не впливає — те регулюється access_until)
-  async function handleSetPlanType(userId: string, planType: "trial" | "paid") {
+  async function handleSetPlanType(
+    userId: string,
+    planType: "trial" | "paid" | "founder",
+  ) {
     const { error } = await supabase
       .from("profiles")
       .update({ plan_type: planType })
@@ -701,12 +704,13 @@ export default function Admin({ session }: Props) {
                           onChange={(e) =>
                             handleSetPlanType(
                               user.id,
-                              e.target.value as "trial" | "paid",
+                              e.target.value as "trial" | "paid" | "founder",
                             )
                           }
                         >
                           <option value="trial">Пробний</option>
                           <option value="paid">Платний</option>
+                          <option value="founder">Засновник</option>
                         </select>
                       </td>
                       <td>
