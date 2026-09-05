@@ -372,6 +372,37 @@ export async function checkTrialEndingSoon(tomorrow: string): Promise<CheckResul
     return { sent };
 }
 
+// 12. Пробний період завершився сьогодні (profiles.access_until = сьогодні, plan_type = 'trial')
+// tomorrow — це "сьогодні + 1", тому "сьогодні" = addDays(tomorrow, -1).
+// Той самий принцип діапазону, що й у checkTrialEndingSoon — access_until це
+// timestamptz, порівнюємо межами доби, а не рівністю рядка.
+export async function checkTrialEndedToday(tomorrow: string): Promise<CheckResult> {
+    const targetDate = addDays(tomorrow, -1);
+    const rangeStart = `${targetDate}T00:00:00.000Z`;
+    const rangeEnd = `${tomorrow}T00:00:00.000Z`;
+
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('email, access_until')
+        .eq('plan_type', 'trial')
+        .gte('access_until', rangeStart)
+        .lt('access_until', rangeEnd);
+
+    if (error) {
+        console.error('[daily-reminders] trialEndedToday query failed:', error);
+        return { sent: 0, error: 'trialEndedToday' };
+    }
+
+    let sent = 0;
+    for (const p of data ?? []) {
+        if (!p.email) continue;
+        const html = renderTemplate('lyst-probnyi_period_zavershено_pidpyska.html');
+        const ok = await sendEmail(p.email, 'Ваш пробний період завершено', html);
+        if (ok) sent++;
+    }
+    return { sent };
+}
+
 export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkControlMatings,
     checkExpectedBirths,
@@ -384,4 +415,5 @@ export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkVaccinations,
     checkWeighing,
     checkTrialEndingSoon,
+    checkTrialEndedToday,
 ];
