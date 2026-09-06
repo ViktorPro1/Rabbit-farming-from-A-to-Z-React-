@@ -403,6 +403,65 @@ export async function checkTrialEndedToday(tomorrow: string): Promise<CheckResul
     return { sent };
 }
 
+// 13. Прохання відгуку через 2 дні після завершення пробного (profiles.access_until,
+// plan_type все ще 'trial' — тобто людина не оформила підписку). Ціль = access_until + 2 дні.
+// tomorrow — це "сьогодні + 1", тому "сьогодні - 2" = addDays(tomorrow, -3).
+export async function checkTrialFeedbackRequest(tomorrow: string): Promise<CheckResult> {
+    const targetDate = addDays(tomorrow, -3);
+    const rangeStart = `${targetDate}T00:00:00.000Z`;
+    const rangeEnd = `${addDays(targetDate, 1)}T00:00:00.000Z`;
+
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('email, access_until')
+        .eq('plan_type', 'trial')
+        .gte('access_until', rangeStart)
+        .lt('access_until', rangeEnd);
+
+    if (error) {
+        console.error('[daily-reminders] trialFeedbackRequest query failed:', error);
+        return { sent: 0, error: 'trialFeedbackRequest' };
+    }
+
+    let sent = 0;
+    for (const p of data ?? []) {
+        if (!p.email) continue;
+        const html = renderTemplate('lyst-vidguk_pislya_probnogo.html');
+        const ok = await sendEmail(p.email, 'Поділіться враженнями про сервіс', html);
+        if (ok) sent++;
+    }
+    return { sent };
+}
+
+// 14. Реактивація неактивних — 14 днів без входу (auth.users.last_sign_in_at,
+// вбудоване поле Supabase Auth, оновлюється саме собою при кожному вході).
+// tomorrow — це "сьогодні + 1", тому "14 днів тому" = addDays(tomorrow, -15).
+// Порівнюємо точну дату входу, а не "менше ніж", щоб лист пішов рівно один раз —
+// якщо людина не заходила й далі, дата останнього входу не зміниться і більше
+// в жодне наступне вікно не потрапить.
+export async function checkInactiveReactivation(tomorrow: string): Promise<CheckResult> {
+    const targetDate = addDays(tomorrow, -15);
+    const rangeStart = `${targetDate}T00:00:00.000Z`;
+    const rangeEnd = `${addDays(targetDate, 1)}T00:00:00.000Z`;
+
+    const { data, error } = await supabase.auth.admin.listUsers({ perPage: 1000 });
+    if (error) {
+        console.error('[daily-reminders] inactiveReactivation listUsers failed:', error);
+        return { sent: 0, error: 'inactiveReactivation' };
+    }
+
+    let sent = 0;
+    for (const u of data.users) {
+        if (!u.email || !u.last_sign_in_at) continue;
+        if (u.last_sign_in_at >= rangeStart && u.last_sign_in_at < rangeEnd) {
+            const html = renderTemplate('lyst-reaktyvatsiya_neaktyvnykh.html');
+            const ok = await sendEmail(u.email, 'Давно вас не бачили', html);
+            if (ok) sent++;
+        }
+    }
+    return { sent };
+}
+
 export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkControlMatings,
     checkExpectedBirths,
@@ -416,4 +475,6 @@ export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkWeighing,
     checkTrialEndingSoon,
     checkTrialEndedToday,
+    checkTrialFeedbackRequest,
+    checkInactiveReactivation,
 ];

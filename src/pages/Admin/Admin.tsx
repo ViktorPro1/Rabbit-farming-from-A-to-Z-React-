@@ -200,6 +200,9 @@ export default function Admin({ session }: Props) {
     userId: string,
     planType: "trial" | "paid" | "founder",
   ) {
+    const target = users.find((u) => u.id === userId);
+    const previousPlanType = target?.plan_type;
+
     const { error } = await supabase
       .from("profiles")
       .update({ plan_type: planType })
@@ -209,6 +212,64 @@ export default function Admin({ session }: Props) {
       setError("Не вдалося оновити тип плану");
       return;
     }
+
+    // Додано: лист про активацію підписки при переведенні на "Платний"
+    if (planType === "paid") {
+      if (target?.email && target.email !== "—") {
+        fetch("/api/notify-subscription-activated", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ email: target.email }),
+        }).catch((err) =>
+          console.error(
+            "Не вдалося надіслати лист про активацію підписки:",
+            err,
+          ),
+        );
+
+        // Додано: разом з активацією — квитанція про оплату (фіксована ціна
+        // з env, бо реальної платіжки поки немає)
+        fetch("/api/notify-payment-receipt", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ email: target.email }),
+        }).catch((err) =>
+          console.error("Не вдалося надіслати квитанцію про оплату:", err),
+        );
+      }
+    }
+
+    // Додано: лист про скасування підписки — лише якщо реально був перехід
+    // з платного/засновницького типу назад на пробний, а не повторний вибір
+    // "Пробний" для того, хто вже й так пробний
+    if (
+      planType === "trial" &&
+      previousPlanType &&
+      previousPlanType !== "trial"
+    ) {
+      if (target?.email && target.email !== "—") {
+        fetch("/api/notify-subscription-cancelled", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ email: target.email }),
+        }).catch((err) =>
+          console.error(
+            "Не вдалося надіслати лист про скасування підписки:",
+            err,
+          ),
+        );
+      }
+    }
+
     const allCodes = await fetchCodes();
     await fetchUsers(allCodes);
   }
@@ -895,6 +956,75 @@ export default function Admin({ session }: Props) {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Документація: як працюють email-сповіщення */}
+      <div className="admin-section">
+        <h2>📧 Документація — Email-сповіщення</h2>
+
+        <details className="docs-details">
+          <summary className="docs-summary">
+            Як це працює (натисніть, щоб розгорнути)
+          </summary>
+
+          <div className="docs-body">
+            <p>
+              <strong>Автоматично, без участі (щодня о 08:00):</strong>
+            </p>
+            <ul>
+              <li>нагадування про пробний період за 3 дні до кінця</li>
+              <li>лист "пробний завершено" у день завершення</li>
+              <li>
+                прохання відгуку через 2 дні після пробного (якщо не оформив
+                підписку)
+              </li>
+              <li>реактивація неактивних (14 днів без входу)</li>
+              <li>
+                нагадування про кінець оплаченого доступу за 3 дні (тип
+                "Платний", не "Засновник")
+              </li>
+            </ul>
+
+            <p>
+              <strong>
+                За вашою дією в адмінці (не саме по собі — тригер це ваш клік):
+              </strong>
+            </p>
+            <ul>
+              <li>
+                Коли у випадаючому списку "Тип" нижче вибираєте{" "}
+                <strong>"Платний"</strong> — в момент цього кліку відбувається
+                одразу три речі: в базі змінюється
+                <code>plan_type</code> на <code>paid</code>, автоматично йде
+                лист "Вашу підписку активовано!", і додатково йде ще один
+                окремий лист — квитанція, з сьогоднішньою датою, фіксованою
+                ціною і фразою "переказ на картку". Людина отримує обидва листи
+                майже одночасно.
+              </li>
+              <li>
+                При поверненні типу назад на <strong>"Пробний"</strong> (з
+                "Платного" чи "Засновника") — тим самим кліком іде лист про
+                скасування підписки.
+              </li>
+            </ul>
+
+            <p>
+              <strong>Вручну, командою в терміналі:</strong>
+            </p>
+            <ul>
+              <li>
+                анонс нової функції всім користувачам:{" "}
+                <code>node scripts/announce-feature.mjs "опис"</code>
+              </li>
+              <li>
+                тест окремого шаблону на одну адресу:{" "}
+                <code>
+                  node scripts/test-send-email.mjs файл.html "Тема" email
+                </code>
+              </li>
+            </ul>
+          </div>
+        </details>
       </div>
     </div>
   );
