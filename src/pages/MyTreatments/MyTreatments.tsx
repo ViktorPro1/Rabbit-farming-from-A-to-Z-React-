@@ -607,8 +607,9 @@ export default function MyTreatments({ session }: Props) {
 
             {/* Вибір препарату */}
             <div className="mytreat-field-wrap">
-              <label>Препарат *</label>
+              <label htmlFor="mytreat-drug-select">Препарат *</label>
               <select
+                id="mytreat-drug-select"
                 value={form.drug_key}
                 onChange={(e) => handleDrugSelect(e.target.value)}
               >
@@ -643,8 +644,9 @@ export default function MyTreatments({ session }: Props) {
 
             {/* Спосіб введення */}
             <div className="mytreat-field-wrap">
-              <label>Спосіб введення *</label>
+              <label htmlFor="mytreat-route-select">Спосіб введення *</label>
               <select
+                id="mytreat-route-select"
                 value={form.route}
                 onChange={(e) => setForm({ ...form, route: e.target.value })}
               >
@@ -699,8 +701,9 @@ export default function MyTreatments({ session }: Props) {
 
             {/* Дата прийому */}
             <div className="mytreat-field-wrap">
-              <label>Дата прийому *</label>
+              <label htmlFor="mytreat-date">Дата прийому *</label>
               <input
+                id="mytreat-date"
                 type="date"
                 value={form.date}
                 onChange={(e) =>
@@ -711,8 +714,11 @@ export default function MyTreatments({ session }: Props) {
 
             {/* Інтервал до наступного */}
             <div className="mytreat-field-wrap">
-              <label>Через скільки днів повтор</label>
+              <label htmlFor="mytreat-course-days">
+                Через скільки днів повтор
+              </label>
               <input
+                id="mytreat-course-days"
                 type="number"
                 min="1"
                 placeholder="Авто з препарату"
@@ -725,8 +731,9 @@ export default function MyTreatments({ session }: Props) {
 
             {/* Наступна дата (авто або ручна) */}
             <div className="mytreat-field-wrap">
-              <label>Наступний прийом (авто)</label>
+              <label htmlFor="mytreat-next-date">Наступний прийом (авто)</label>
               <input
+                id="mytreat-next-date"
                 type="date"
                 value={form.next_date}
                 onChange={(e) =>
@@ -736,6 +743,7 @@ export default function MyTreatments({ session }: Props) {
             </div>
 
             <input
+              id="mytreat-notes"
               placeholder="Нотатки"
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
@@ -855,7 +863,6 @@ export default function MyTreatments({ session }: Props) {
       )}
 
       {/* ── СЕЗОННІ РЕКОМЕНДАЦІЇ ── */}
-      {/* ── СЕЗОННІ РЕКОМЕНДАЦІЇ ── */}
       {seasonalRecs.length > 0 && (
         <div className="mytreat-season-block">
           <button
@@ -893,10 +900,12 @@ export default function MyTreatments({ session }: Props) {
 
       {/* ── МОДАЛКА РЕДАГУВАННЯ ── */}
       {editRecord && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
           className="mytreat-modal-overlay"
           onClick={() => setEditRecord(null)}
         >
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <div className="mytreat-modal" onClick={(e) => e.stopPropagation()}>
             <div className="mytreat-modal-header">
               <h2>&#9998; Редагувати запис</h2>
@@ -923,8 +932,9 @@ export default function MyTreatments({ session }: Props) {
                 }
               />
               <div className="mytreat-field-wrap">
-                <label>Спосіб введення *</label>
+                <label htmlFor="mytreat-edit-route">Спосіб введення *</label>
                 <select
+                  id="mytreat-edit-route"
                   value={editRecord.route ?? ""}
                   onChange={(e) =>
                     setEditRecord({ ...editRecord, route: e.target.value })
@@ -939,8 +949,9 @@ export default function MyTreatments({ session }: Props) {
                 </select>
               </div>
               <div className="mytreat-field-wrap">
-                <label>Дата прийому *</label>
+                <label htmlFor="mytreat-edit-date">Дата прийому *</label>
                 <input
+                  id="mytreat-edit-date"
                   type="date"
                   value={editRecord.date}
                   onChange={(e) =>
@@ -949,8 +960,11 @@ export default function MyTreatments({ session }: Props) {
                 />
               </div>
               <div className="mytreat-field-wrap">
-                <label>Через скільки днів повтор</label>
+                <label htmlFor="mytreat-edit-course-days">
+                  Через скільки днів повтор
+                </label>
                 <input
+                  id="mytreat-edit-course-days"
                   type="number"
                   min="1"
                   value={editRecord.course_days ?? ""}
@@ -960,8 +974,9 @@ export default function MyTreatments({ session }: Props) {
                 />
               </div>
               <div className="mytreat-field-wrap">
-                <label>Наступний прийом</label>
+                <label htmlFor="mytreat-edit-next-date">Наступний прийом</label>
                 <input
+                  id="mytreat-edit-next-date"
                   type="date"
                   value={editRecord.next_date ?? ""}
                   onChange={(e) =>
@@ -970,6 +985,7 @@ export default function MyTreatments({ session }: Props) {
                 />
               </div>
               <input
+                id="mytreat-edit-notes"
                 placeholder="Нотатки"
                 value={editRecord.notes ?? ""}
                 onChange={(e) =>

@@ -431,7 +431,16 @@ const Glossary = () => {
                       <div
                         key={t.term}
                         className={`gl-item ${isOpen ? "open" : ""}`}
+                        role="button"
+                        tabIndex={0}
+                        aria-expanded={isOpen}
                         onClick={() => setOpenTerm(isOpen ? null : t.term)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setOpenTerm(isOpen ? null : t.term);
+                          }
+                        }}
                       >
                         <div className="gl-item-top">
                           <div className="gl-item-texts">
@@ -467,11 +476,25 @@ const Glossary = () => {
                                     <span
                                       key={r}
                                       className="gl-tag"
+                                      role="button"
+                                      tabIndex={0}
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         setSearch(r);
                                         setOpenTerm(null);
                                         setActiveCategory("Всі");
+                                      }}
+                                      onKeyDown={(e) => {
+                                        if (
+                                          e.key === "Enter" ||
+                                          e.key === " "
+                                        ) {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          setSearch(r);
+                                          setOpenTerm(null);
+                                          setActiveCategory("Всі");
+                                        }
                                       }}
                                     >
                                       {r}

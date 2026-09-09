@@ -541,15 +541,18 @@ export default function DisqualifyingFaults() {
             const sev = severityConfig[fault.severity];
             const cat = categories.find((c) => c.id === fault.category)!;
             return (
-              <article
+              <div
                 key={fault.id}
                 className={`df-fault-card ${isOpen ? "df-fault-card--open" : ""}`}
                 onClick={() => setOpenFault(isOpen ? null : fault.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setOpenFault(isOpen ? null : fault.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenFault(isOpen ? null : fault.id);
+                  }
+                }}
                 aria-expanded={isOpen}
               >
                 <div className="df-fault-header">
@@ -618,7 +621,7 @@ export default function DisqualifyingFaults() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

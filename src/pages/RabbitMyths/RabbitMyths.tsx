@@ -312,7 +312,16 @@ const RabbitMyths = () => {
               <div
                 key={i}
                 className={`myths-item ${isOpen ? "open" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
                 onClick={() => setOpenMyth(isOpen ? null : i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenMyth(isOpen ? null : i);
+                  }
+                }}
               >
                 <div className="myths-item-top">
                   <span className="myths-item-icon">{m.icon}</span>

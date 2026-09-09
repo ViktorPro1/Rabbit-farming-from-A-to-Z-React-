@@ -66,7 +66,20 @@ const CopyProtection = () => {
     copiedText.length > 80 ? copiedText.slice(0, 80) + "…" : copiedText;
 
   return (
-    <div className="cp-overlay" onClick={handleDismiss}>
+    <div
+      className="cp-overlay"
+      role="button"
+      tabIndex={0}
+      aria-label="Закрити вікно"
+      onClick={handleDismiss}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+          e.preventDefault();
+          handleDismiss();
+        }
+      }}
+    >
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="cp-modal" onClick={(e) => e.stopPropagation()}>
         <div className="cp-emoji">🐰</div>
         <h2 className="cp-title">Ні-ні, не так просто!</h2>

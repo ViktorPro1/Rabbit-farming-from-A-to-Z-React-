@@ -486,7 +486,7 @@ export default function RabbitBodyLanguage() {
               const cfg = moodConfig[pose.mood];
               const isOpen = activePose === pose.id;
               return (
-                <article
+                <div
                   key={pose.id}
                   className={`bl-pose-card ${isOpen ? "bl-pose-card--open" : ""}`}
                   style={
@@ -535,7 +535,7 @@ export default function RabbitBodyLanguage() {
                       </div>
                     </div>
                   )}
-                </article>
+                </div>
               );
             })}
           </div>

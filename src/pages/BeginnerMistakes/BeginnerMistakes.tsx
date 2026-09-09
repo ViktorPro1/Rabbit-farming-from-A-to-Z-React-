@@ -320,7 +320,16 @@ const BeginnerMistakes = () => {
               <div
                 key={i}
                 className={`bm-card ${isOpen ? "open" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
                 onClick={() => setOpenCard(isOpen ? null : i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenCard(isOpen ? null : i);
+                  }
+                }}
               >
                 <div className="bm-card-top">
                   <span className="bm-card-num">{i + 1}</span>

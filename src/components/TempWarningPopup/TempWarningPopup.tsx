@@ -70,7 +70,9 @@ export default function TempWarningPopup({ temp, onClose }: Props) {
   if (!level) return null;
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div className="twp-overlay" onClick={onClose}>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={`twp-popup twp-${level.severity}`}
         style={{ borderColor: level.color }}

@@ -298,7 +298,16 @@ const Necropsy = () => {
               <div
                 key={key}
                 className={`necropsy-step ${isOpen ? "open" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
                 onClick={() => setExpandedStep(isOpen ? null : key)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setExpandedStep(isOpen ? null : key);
+                  }
+                }}
               >
                 <div className="necropsy-step-top">
                   <span className="necropsy-step-num">{index + 1}</span>

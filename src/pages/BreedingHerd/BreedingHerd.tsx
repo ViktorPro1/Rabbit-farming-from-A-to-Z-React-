@@ -422,9 +422,12 @@ const BreedingHerd = () => {
               <div className="bh-calc-title">🎯 Ціль і параметри</div>
 
               <div className="bh-field">
-                <label>Скільки голів молодняку хочу отримати за рік</label>
+                <label htmlFor="bh-target-young">
+                  Скільки голів молодняку хочу отримати за рік
+                </label>
                 <div className="bh-slider-row">
                   <input
+                    id="bh-target-young"
                     type="range"
                     min={20}
                     max={2000}
@@ -440,8 +443,14 @@ const BreedingHerd = () => {
               </div>
 
               <div className="bh-field">
-                <label>Схема розведення</label>
-                <div className="bh-radio-group">
+                <span className="bh-field-label" id="bh-scheme-label">
+                  Схема розведення
+                </span>
+                <div
+                  className="bh-radio-group"
+                  role="radiogroup"
+                  aria-labelledby="bh-scheme-label"
+                >
                   {(Object.keys(SCHEME_LABELS) as Scheme[]).map((s) => (
                     <label
                       key={s}
@@ -460,9 +469,12 @@ const BreedingHerd = () => {
               </div>
 
               <div className="bh-field">
-                <label>Середній виплід (живих крільченят на окріл)</label>
+                <label htmlFor="bh-litter-size">
+                  Середній виплід (живих крільченят на окріл)
+                </label>
                 <div className="bh-slider-row">
                   <input
+                    id="bh-litter-size"
                     type="range"
                     min={4}
                     max={12}
@@ -478,9 +490,12 @@ const BreedingHerd = () => {
               </div>
 
               <div className="bh-field">
-                <label>Виживаність молодняку до продажу</label>
+                <label htmlFor="bh-survival">
+                  Виживаність молодняку до продажу
+                </label>
                 <div className="bh-slider-row">
                   <input
+                    id="bh-survival"
                     type="range"
                     min={50}
                     max={95}

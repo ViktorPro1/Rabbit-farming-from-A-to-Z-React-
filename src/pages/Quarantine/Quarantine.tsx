@@ -382,8 +382,9 @@ export default function Quarantine({ session }: Props) {
               onChange={(e) => setForm({ ...form, from_cage: e.target.value })}
             />
             <div className="quarantine-form-field">
-              <label>Дата переміщення *</label>
+              <label htmlFor="q-moved-date">Дата переміщення *</label>
               <input
+                id="q-moved-date"
                 type="date"
                 value={form.moved_date}
                 onChange={(e) =>
@@ -392,8 +393,9 @@ export default function Quarantine({ session }: Props) {
               />
             </div>
             <div className="quarantine-form-field">
-              <label>Дата завершення карантину</label>
+              <label htmlFor="q-end-date">Дата завершення карантину</label>
               <input
+                id="q-end-date"
                 type="date"
                 value={form.end_date}
                 onChange={(e) => setForm({ ...form, end_date: e.target.value })}
@@ -465,8 +467,9 @@ export default function Quarantine({ session }: Props) {
               }
             />
             <div className="quarantine-form-field">
-              <label>Дата переміщення</label>
+              <label htmlFor="q-edit-moved-date">Дата переміщення</label>
               <input
+                id="q-edit-moved-date"
                 type="date"
                 value={editingAnimal.moved_date}
                 onChange={(e) =>
@@ -478,8 +481,9 @@ export default function Quarantine({ session }: Props) {
               />
             </div>
             <div className="quarantine-form-field">
-              <label>Дата завершення</label>
+              <label htmlFor="q-edit-end-date">Дата завершення</label>
               <input
+                id="q-edit-end-date"
                 type="date"
                 value={editingAnimal.end_date || ""}
                 onChange={(e) =>

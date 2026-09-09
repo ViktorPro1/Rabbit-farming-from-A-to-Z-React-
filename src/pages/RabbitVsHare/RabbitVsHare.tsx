@@ -624,7 +624,7 @@ export default function RabbitVsHare() {
             const isOpen = openDomestic === i;
             const vc = verdictColors[fact.verdictType];
             return (
-              <article
+              <div
                 key={i}
                 className={`rvh-domestic-card ${isOpen ? "rvh-domestic-card--open" : ""}`}
                 onClick={() => setOpenDomestic(isOpen ? null : i)}
@@ -649,7 +649,7 @@ export default function RabbitVsHare() {
                   <span className="rvh-chevron">{isOpen ? "▲" : "▼"}</span>
                 </div>
                 {isOpen && <p className="rvh-domestic-answer">{fact.answer}</p>}
-              </article>
+              </div>
             );
           })}
         </div>
@@ -679,7 +679,7 @@ export default function RabbitVsHare() {
           {hareSpecies.map((sp) => {
             const isOpen = openHare === sp.id;
             return (
-              <article
+              <div
                 key={sp.id}
                 className={`rvh-species-card ${isOpen ? "rvh-species-card--open" : ""}`}
                 onClick={() => setOpenHare(isOpen ? null : sp.id)}
@@ -716,7 +716,7 @@ export default function RabbitVsHare() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

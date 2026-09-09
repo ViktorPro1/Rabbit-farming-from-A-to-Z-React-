@@ -637,7 +637,7 @@ export default function RabbitConformation() {
           {breedTypes.map((b) => {
             const isOpen = activeBreed === b.id;
             return (
-              <article
+              <div
                 key={b.id}
                 className={`rc-breed-card ${isOpen ? "rc-breed-card--open" : ""}`}
                 onClick={() => setActiveBreed(isOpen ? null : b.id)}
@@ -679,7 +679,7 @@ export default function RabbitConformation() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

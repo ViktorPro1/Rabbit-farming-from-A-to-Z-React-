@@ -363,15 +363,18 @@ export default function FalsePregnancy() {
           {causes.map((cause) => {
             const isOpen = openCause === cause.id;
             return (
-              <article
+              <div
                 key={cause.id}
                 className={`fp-cause-card ${isOpen ? "fp-cause-card--open" : ""}`}
                 onClick={() => setOpenCause(isOpen ? null : cause.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setOpenCause(isOpen ? null : cause.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenCause(isOpen ? null : cause.id);
+                  }
+                }}
                 aria-expanded={isOpen}
               >
                 <div className="fp-cause-card-header">
@@ -388,7 +391,7 @@ export default function FalsePregnancy() {
                     <p>{cause.farmNote}</p>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

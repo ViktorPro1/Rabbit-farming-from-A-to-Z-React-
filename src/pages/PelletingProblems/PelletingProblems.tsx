@@ -319,7 +319,16 @@ const PelletingProblems = () => {
               <div
                 key={i}
                 className={`pp-card ${isOpen ? "open" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
                 onClick={() => setOpenCard(isOpen ? null : i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenCard(isOpen ? null : i);
+                  }
+                }}
               >
                 <div className="pp-card-top">
                   <span className="pp-card-num">{i + 1}</span>

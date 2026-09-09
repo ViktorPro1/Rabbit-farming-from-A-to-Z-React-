@@ -525,15 +525,18 @@ export default function HeatStroke() {
           {coolingMethods.map((m) => {
             const isOpen = openMethod === m.id;
             return (
-              <article
+              <div
                 key={m.id}
                 className={`hs-method-card ${isOpen ? "hs-method-card--open" : ""}`}
                 onClick={() => setOpenMethod(isOpen ? null : m.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setOpenMethod(isOpen ? null : m.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenMethod(isOpen ? null : m.id);
+                  }
+                }}
               >
                 <div className="hs-method-header">
                   <span className="hs-method-icon">{m.icon}</span>
@@ -565,7 +568,7 @@ export default function HeatStroke() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

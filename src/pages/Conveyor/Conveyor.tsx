@@ -178,8 +178,9 @@ const Conveyor = () => {
 
           <div className="conveyor-form-grid">
             <div className="conveyor-form-field">
-              <label>Кількість кроличок</label>
+              <label htmlFor="conveyor-rabbits-count">Кількість кроличок</label>
               <input
+                id="conveyor-rabbits-count"
                 type="number"
                 min={1}
                 value={rabbitsCountInput}
@@ -193,8 +194,9 @@ const Conveyor = () => {
 
             {mode === "groups" && (
               <div className="conveyor-form-field">
-                <label>Розмір групи</label>
+                <label htmlFor="conveyor-group-size">Розмір групи</label>
                 <input
+                  id="conveyor-group-size"
                   type="number"
                   min={1}
                   value={groupSizeInput}
@@ -208,8 +210,9 @@ const Conveyor = () => {
             )}
 
             <div className="conveyor-form-field">
-              <label>Схема злучування</label>
+              <label htmlFor="conveyor-scheme">Схема злучування</label>
               <select
+                id="conveyor-scheme"
                 value={scheme}
                 onChange={(e) => setScheme(e.target.value)}
               >
@@ -220,8 +223,9 @@ const Conveyor = () => {
             </div>
 
             <div className="conveyor-form-field">
-              <label>Дата старту конвеєра</label>
+              <label htmlFor="conveyor-start-date">Дата старту конвеєра</label>
               <input
+                id="conveyor-start-date"
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}

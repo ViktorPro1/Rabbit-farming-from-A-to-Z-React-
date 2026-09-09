@@ -510,8 +510,9 @@ export default function Paddocks({ session }: Props) {
           </h3>
           <div className="paddocks-form-grid">
             <div className="paddocks-form-field">
-              <label>Дата окролу *</label>
+              <label htmlFor="edit-litter-birth-date">Дата окролу *</label>
               <input
+                id="edit-litter-birth-date"
                 type="date"
                 value={editingLitter.birth_date}
                 onChange={(e) =>
@@ -567,8 +568,9 @@ export default function Paddocks({ session }: Props) {
               }
             />
             <div className="paddocks-form-field">
-              <label>Дата відлучення</label>
+              <label htmlFor="edit-litter-weaned-date">Дата відлучення</label>
               <input
+                id="edit-litter-weaned-date"
                 type="date"
                 value={editingLitter.weaned_date || ""}
                 onChange={(e) =>
@@ -850,8 +852,11 @@ export default function Paddocks({ session }: Props) {
                     <div className="litter-form">
                       <div className="paddocks-form-grid">
                         <div className="paddocks-form-field">
-                          <label>Дата окролу *</label>
+                          <label htmlFor={`litter-birth-date-${m.id}`}>
+                            Дата окролу *
+                          </label>
                           <input
+                            id={`litter-birth-date-${m.id}`}
                             type="date"
                             value={litterForms[m.id]?.birth_date || ""}
                             onChange={(e) =>
@@ -922,8 +927,11 @@ export default function Paddocks({ session }: Props) {
                           }
                         />
                         <div className="paddocks-form-field">
-                          <label>Дата відлучення</label>
+                          <label htmlFor={`litter-weaned-date-${m.id}`}>
+                            Дата відлучення
+                          </label>
                           <input
+                            id={`litter-weaned-date-${m.id}`}
                             type="date"
                             value={litterForms[m.id]?.weaned_date || ""}
                             onChange={(e) =>
@@ -1009,8 +1017,11 @@ export default function Paddocks({ session }: Props) {
                 <div className="paddocks-form">
                   <div className="paddocks-form-grid">
                     <div className="paddocks-form-field">
-                      <label>Дата злучки *</label>
+                      <label htmlFor={`mating-date-${p.id}`}>
+                        Дата злучки *
+                      </label>
                       <input
+                        id={`mating-date-${p.id}`}
                         type="date"
                         value={matingForms[p.id]?.mating_date || ""}
                         onChange={(e) =>
@@ -1019,8 +1030,11 @@ export default function Paddocks({ session }: Props) {
                       />
                     </div>
                     <div className="paddocks-form-field">
-                      <label>Контрольна дата</label>
+                      <label htmlFor={`mating-control-date-${p.id}`}>
+                        Контрольна дата
+                      </label>
                       <input
+                        id={`mating-control-date-${p.id}`}
                         type="date"
                         value={matingForms[p.id]?.control_date || ""}
                         onChange={(e) =>

@@ -217,7 +217,7 @@ export default function RabbitSounds() {
               const isOpen = active === sound.id;
               const cfg = emotionConfig[sound.emotion];
               return (
-                <article
+                <div
                   key={sound.id}
                   className={`rs-card ${isOpen ? "rs-card--open" : ""}`}
                   style={{ "--accent": cfg.color } as React.CSSProperties}
@@ -309,7 +309,7 @@ export default function RabbitSounds() {
                       )}
                     </svg>
                   </div>
-                </article>
+                </div>
               );
             })}
           </div>

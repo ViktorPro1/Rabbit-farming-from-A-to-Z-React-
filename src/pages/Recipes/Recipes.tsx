@@ -440,9 +440,18 @@ const Recipes = () => {
             <article key={recipe.id} className="recipes-card">
               <div
                 className="recipes-card-header"
+                role="button"
+                tabIndex={0}
+                aria-expanded={openId === recipe.id}
                 onClick={() =>
                   setOpenId(openId === recipe.id ? null : recipe.id)
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenId(openId === recipe.id ? null : recipe.id);
+                  }
+                }}
               >
                 <div className="recipes-card-left">
                   <span className="recipes-card-icon">{recipe.icon}</span>

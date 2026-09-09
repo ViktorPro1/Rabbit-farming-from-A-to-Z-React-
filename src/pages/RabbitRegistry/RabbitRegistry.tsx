@@ -487,8 +487,16 @@ export default function RabbitRegistry({ session }: Props) {
     <div className="registry-page">
       {/* HELP MODAL */}
       {showHelp && (
-        <div className="help-overlay" onClick={() => setShowHelp(false)}>
-          <div className="help-modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="help-overlay"
+          onClick={() => setShowHelp(false)}
+          role="presentation"
+        >
+          <div
+            className="help-modal"
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
             <div className="help-modal-header">
               <h2>Як користуватись</h2>
               <button className="help-close" onClick={() => setShowHelp(false)}>
@@ -512,10 +520,15 @@ export default function RabbitRegistry({ session }: Props) {
 
       {/* QR MODAL */}
       {showQrModal && (
-        <div className="help-overlay" onClick={() => setShowQrModal(false)}>
+        <div
+          className="help-overlay"
+          onClick={() => setShowQrModal(false)}
+          role="presentation"
+        >
           <div
             className="help-modal qr-modal"
             onClick={(e) => e.stopPropagation()}
+            role="presentation"
           >
             <div className="help-modal-header">
               <h2>QR-коди кроликів</h2>
@@ -1042,10 +1055,15 @@ export default function RabbitRegistry({ session }: Props) {
         )}
       </div>
       {showSettings && (
-        <div className="help-overlay" onClick={() => setShowSettings(false)}>
+        <div
+          className="help-overlay"
+          onClick={() => setShowSettings(false)}
+          role="presentation"
+        >
           <div
             className="help-modal settings-modal"
             onClick={(e) => e.stopPropagation()}
+            role="presentation"
           >
             <div className="help-modal-header">
               <h2>⚙️ Налаштування</h2>
@@ -1057,7 +1075,7 @@ export default function RabbitRegistry({ session }: Props) {
               </button>
             </div>
             <div className="settings-body">
-              <label className="settings-label">
+              <label className="settings-label" htmlFor="registry-display-name">
                 Відображуване ім'я або назва господарства
               </label>
               <p className="settings-hint">
@@ -1065,6 +1083,7 @@ export default function RabbitRegistry({ session }: Props) {
                 Петровича» або «ФГ Прозоро».
               </p>
               <input
+                id="registry-display-name"
                 className="settings-input"
                 type="text"
                 placeholder="Введіть нік або назву..."
@@ -1095,7 +1114,11 @@ export default function RabbitRegistry({ session }: Props) {
               </div>
               {/* ── Push-сповіщення: блок у налаштуваннях ── */}
               <div className="settings-push-block">
-                <label className="settings-label">Push-сповіщення</label>
+                {/* "Push-сповіщення" тут — заголовок блоку, не мітка для
+                    конкретного поля (нижче йде кнопка-перемикач, не input),
+                    тож span замість label, щоб не вводити в оману читалку
+                    екрана порожньою міткою. */}
+                <span className="settings-label">Push-сповіщення</span>
                 <p className="settings-hint">
                   Нагадування про вакцинації, окроли та інші події кабінету —
                   прямо в браузер.
@@ -1124,8 +1147,13 @@ export default function RabbitRegistry({ session }: Props) {
             setConfirmArchiveId(null);
             setSelectedReason("");
           }}
+          role="presentation"
         >
-          <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="confirm-modal"
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
             <p className="confirm-text">Причина архівування?</p>
             <div className="archive-reason-list">
               {archiveReasons.map((r) => (

@@ -506,15 +506,18 @@ export default function Predators() {
           {filteredPredators.map((p) => {
             const isOpen = openPredator === p.id;
             return (
-              <article
+              <div
                 key={p.id}
                 className={`pr-predator-card ${isOpen ? "pr-predator-card--open" : ""}`}
                 onClick={() => setOpenPredator(isOpen ? null : p.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setOpenPredator(isOpen ? null : p.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenPredator(isOpen ? null : p.id);
+                  }
+                }}
                 aria-expanded={isOpen}
               >
                 <div className="pr-predator-header">
@@ -561,7 +564,7 @@ export default function Predators() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>
@@ -573,15 +576,18 @@ export default function Predators() {
           {protectionMethods.map((m) => {
             const isOpen = openMethod === m.id;
             return (
-              <article
+              <div
                 key={m.id}
                 className={`pr-method-card ${isOpen ? "pr-method-card--open" : ""}`}
                 onClick={() => setOpenMethod(isOpen ? null : m.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setOpenMethod(isOpen ? null : m.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenMethod(isOpen ? null : m.id);
+                  }
+                }}
               >
                 <div className="pr-method-header">
                   <span className="pr-method-icon">{m.icon}</span>
@@ -604,7 +610,7 @@ export default function Predators() {
                     <p>{m.details}</p>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

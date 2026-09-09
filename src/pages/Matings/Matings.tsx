@@ -757,12 +757,14 @@ export default function Matings({ session }: Props) {
     onMaleChange: (v: string) => void,
     onFemaleChange: (v: string) => void,
     mating: Mating,
+    idPrefix: string,
   ) {
     return (
       <>
         <div className="matings-form-field">
-          <label>Кролик цього окролу ♂</label>
+          <label htmlFor={`${idPrefix}-male`}>Кролик цього окролу ♂</label>
           <select
+            id={`${idPrefix}-male`}
             value={maleValue}
             onChange={(e) => onMaleChange(e.target.value)}
           >
@@ -781,8 +783,9 @@ export default function Matings({ session }: Props) {
           </select>
         </div>
         <div className="matings-form-field">
-          <label>Крольчиха цього окролу ♀</label>
+          <label htmlFor={`${idPrefix}-female`}>Крольчиха цього окролу ♀</label>
           <select
+            id={`${idPrefix}-female`}
             value={femaleValue}
             onChange={(e) => onFemaleChange(e.target.value)}
           >
@@ -827,8 +830,9 @@ export default function Matings({ session }: Props) {
         <div className="matings-form">
           <div className="matings-form-grid">
             <div className="matings-form-field">
-              <label>Кролик ♂</label>
+              <label htmlFor="mating-add-male">Кролик ♂</label>
               <select
+                id="mating-add-male"
                 value={matingForm.male_id}
                 onChange={(e) =>
                   setMatingForm({ ...matingForm, male_id: e.target.value })
@@ -845,8 +849,9 @@ export default function Matings({ session }: Props) {
               </select>
             </div>
             <div className="matings-form-field">
-              <label>Крольчиха ♀</label>
+              <label htmlFor="mating-add-female">Крольчиха ♀</label>
               <select
+                id="mating-add-female"
                 value={matingForm.female_id}
                 onChange={(e) =>
                   setMatingForm({ ...matingForm, female_id: e.target.value })
@@ -863,8 +868,9 @@ export default function Matings({ session }: Props) {
               </select>
             </div>
             <div className="matings-form-field">
-              <label>Клітка кролика</label>
+              <label htmlFor="mating-add-male-cage">Клітка кролика</label>
               <input
+                id="mating-add-male-cage"
                 placeholder="№"
                 value={matingForm.male_cage}
                 onChange={(e) =>
@@ -873,8 +879,9 @@ export default function Matings({ session }: Props) {
               />
             </div>
             <div className="matings-form-field">
-              <label>Клітка крольчихи</label>
+              <label htmlFor="mating-add-female-cage">Клітка крольчихи</label>
               <input
+                id="mating-add-female-cage"
                 placeholder="№"
                 value={matingForm.female_cage}
                 onChange={(e) =>
@@ -883,16 +890,18 @@ export default function Matings({ session }: Props) {
               />
             </div>
             <div className="matings-form-field">
-              <label>Дата злучки *</label>
+              <label htmlFor="mating-add-date">Дата злучки *</label>
               <input
+                id="mating-add-date"
                 type="date"
                 value={matingForm.mating_date}
                 onChange={(e) => handleMatingDateChange(e.target.value)}
               />
             </div>
             <div className="matings-form-field">
-              <label>Контрольна дата</label>
+              <label htmlFor="mating-add-control-date">Контрольна дата</label>
               <input
+                id="mating-add-control-date"
                 type="date"
                 value={matingForm.control_date}
                 onChange={(e) =>
@@ -901,8 +910,9 @@ export default function Matings({ session }: Props) {
               />
             </div>
             <div className="matings-form-field">
-              <label>Схема злучування</label>
+              <label htmlFor="mating-add-scheme">Схема злучування</label>
               <select
+                id="mating-add-scheme"
                 value={matingForm.breeding_scheme}
                 onChange={(e) =>
                   setMatingForm({
@@ -1092,8 +1102,11 @@ export default function Matings({ session }: Props) {
                         <h3>✏️ Редагування злучки</h3>
                         <div className="matings-form-grid">
                           <div className="matings-form-field">
-                            <label>Кролик ♂</label>
+                            <label htmlFor={`mating-edit-${m.id}-male`}>
+                              Кролик ♂
+                            </label>
                             <select
+                              id={`mating-edit-${m.id}-male`}
                               value={editingMatingData.male_id}
                               onChange={(e) =>
                                 setEditingMatingData({
@@ -1113,8 +1126,11 @@ export default function Matings({ session }: Props) {
                             </select>
                           </div>
                           <div className="matings-form-field">
-                            <label>Крольчиха ♀</label>
+                            <label htmlFor={`mating-edit-${m.id}-female`}>
+                              Крольчиха ♀
+                            </label>
                             <select
+                              id={`mating-edit-${m.id}-female`}
                               value={editingMatingData.female_id}
                               onChange={(e) =>
                                 setEditingMatingData({
@@ -1134,8 +1150,11 @@ export default function Matings({ session }: Props) {
                             </select>
                           </div>
                           <div className="matings-form-field">
-                            <label>Клітка кроля</label>
+                            <label htmlFor={`mating-edit-${m.id}-male-cage`}>
+                              Клітка кроля
+                            </label>
                             <input
+                              id={`mating-edit-${m.id}-male-cage`}
                               placeholder="№"
                               value={editingMatingData.male_cage || ""}
                               onChange={(e) =>
@@ -1147,8 +1166,11 @@ export default function Matings({ session }: Props) {
                             />
                           </div>
                           <div className="matings-form-field">
-                            <label>Клітка крольчихи</label>
+                            <label htmlFor={`mating-edit-${m.id}-female-cage`}>
+                              Клітка крольчихи
+                            </label>
                             <input
+                              id={`mating-edit-${m.id}-female-cage`}
                               placeholder="№"
                               value={editingMatingData.female_cage || ""}
                               onChange={(e) =>
@@ -1160,8 +1182,11 @@ export default function Matings({ session }: Props) {
                             />
                           </div>
                           <div className="matings-form-field">
-                            <label>Дата злучки</label>
+                            <label htmlFor={`mating-edit-${m.id}-date`}>
+                              Дата злучки
+                            </label>
                             <input
+                              id={`mating-edit-${m.id}-date`}
                               type="date"
                               value={editingMatingData.mating_date}
                               onChange={(e) =>
@@ -1173,8 +1198,11 @@ export default function Matings({ session }: Props) {
                             />
                           </div>
                           <div className="matings-form-field">
-                            <label>Контрольна дата</label>
+                            <label htmlFor={`mating-edit-${m.id}-control-date`}>
+                              Контрольна дата
+                            </label>
                             <input
+                              id={`mating-edit-${m.id}-control-date`}
                               type="date"
                               value={editingMatingData.control_date || ""}
                               onChange={(e) =>
@@ -1186,8 +1214,11 @@ export default function Matings({ session }: Props) {
                             />
                           </div>
                           <div className="matings-form-field">
-                            <label>Схема злучування</label>
+                            <label htmlFor={`mating-edit-${m.id}-scheme`}>
+                              Схема злучування
+                            </label>
                             <select
+                              id={`mating-edit-${m.id}-scheme`}
                               value={
                                 editingMatingData.breeding_scheme || "extensive"
                               }
@@ -1521,10 +1552,16 @@ export default function Matings({ session }: Props) {
                                       actual_female_id: v,
                                     }),
                                   m,
+                                  `litter-edit-${l.id}`,
                                 )}
                                 <div className="matings-form-field">
-                                  <label>Злучка</label>
+                                  <label
+                                    htmlFor={`litter-edit-${l.id}-mating-date`}
+                                  >
+                                    Злучка
+                                  </label>
                                   <input
+                                    id={`litter-edit-${l.id}-mating-date`}
                                     type="date"
                                     value={
                                       editingLitterData.litter_mating_date || ""
@@ -1538,8 +1575,13 @@ export default function Matings({ session }: Props) {
                                   />
                                 </div>
                                 <div className="matings-form-field">
-                                  <label>Контрольна</label>
+                                  <label
+                                    htmlFor={`litter-edit-${l.id}-control-date`}
+                                  >
+                                    Контрольна
+                                  </label>
                                   <input
+                                    id={`litter-edit-${l.id}-control-date`}
                                     type="date"
                                     value={
                                       editingLitterData.litter_control_date ||
@@ -1554,8 +1596,13 @@ export default function Matings({ session }: Props) {
                                   />
                                 </div>
                                 <div className="matings-form-field">
-                                  <label>Очікуваний окріл</label>
+                                  <label
+                                    htmlFor={`litter-edit-${l.id}-expected-birth`}
+                                  >
+                                    Очікуваний окріл
+                                  </label>
                                   <input
+                                    id={`litter-edit-${l.id}-expected-birth`}
                                     type="date"
                                     value={
                                       editingLitterData.litter_expected_birth ||
@@ -1570,8 +1617,13 @@ export default function Matings({ session }: Props) {
                                   />
                                 </div>
                                 <div className="matings-form-field">
-                                  <label>Маточник встановлено</label>
+                                  <label
+                                    htmlFor={`litter-edit-${l.id}-nestbox-date`}
+                                  >
+                                    Маточник встановлено
+                                  </label>
                                   <input
+                                    id={`litter-edit-${l.id}-nestbox-date`}
                                     type="date"
                                     value={editingLitterData.nestbox_date || ""}
                                     onChange={(e) =>
@@ -1583,8 +1635,13 @@ export default function Matings({ session }: Props) {
                                   />
                                 </div>
                                 <div className="matings-form-field">
-                                  <label>Дата окролу</label>
+                                  <label
+                                    htmlFor={`litter-edit-${l.id}-birth-date`}
+                                  >
+                                    Дата окролу
+                                  </label>
                                   <input
+                                    id={`litter-edit-${l.id}-birth-date`}
                                     type="date"
                                     value={editingLitterData.birth_date || ""}
                                     onChange={(e) =>
@@ -1630,8 +1687,13 @@ export default function Matings({ session }: Props) {
                                 />
                                 <div></div>
                                 <div className="matings-form-field">
-                                  <label>Дата відлучення</label>
+                                  <label
+                                    htmlFor={`litter-edit-${l.id}-weaned-date`}
+                                  >
+                                    Дата відлучення
+                                  </label>
                                   <input
+                                    id={`litter-edit-${l.id}-weaned-date`}
                                     type="date"
                                     value={editingLitterData.weaned_date || ""}
                                     onChange={(e) =>
@@ -1847,10 +1909,14 @@ export default function Matings({ session }: Props) {
                             },
                           }),
                         m,
+                        `litter-add-${m.id}`,
                       )}
                       <div className="matings-form-field">
-                        <label>Злучка</label>
+                        <label htmlFor={`litter-add-${m.id}-mating-date`}>
+                          Злучка
+                        </label>
                         <input
+                          id={`litter-add-${m.id}-mating-date`}
                           type="date"
                           value={litterForms[m.id]?.litter_mating_date || ""}
                           onChange={(e) =>
@@ -1859,8 +1925,11 @@ export default function Matings({ session }: Props) {
                         />
                       </div>
                       <div className="matings-form-field">
-                        <label>Контрольна</label>
+                        <label htmlFor={`litter-add-${m.id}-control-date`}>
+                          Контрольна
+                        </label>
                         <input
+                          id={`litter-add-${m.id}-control-date`}
                           type="date"
                           value={litterForms[m.id]?.litter_control_date || ""}
                           onChange={(e) =>
@@ -1875,8 +1944,11 @@ export default function Matings({ session }: Props) {
                         />
                       </div>
                       <div className="matings-form-field">
-                        <label>Очікуваний окріл</label>
+                        <label htmlFor={`litter-add-${m.id}-expected-birth`}>
+                          Очікуваний окріл
+                        </label>
                         <input
+                          id={`litter-add-${m.id}-expected-birth`}
                           type="date"
                           value={litterForms[m.id]?.litter_expected_birth || ""}
                           onChange={(e) =>
@@ -1891,8 +1963,11 @@ export default function Matings({ session }: Props) {
                         />
                       </div>
                       <div className="matings-form-field">
-                        <label>Маточник встановлено</label>
+                        <label htmlFor={`litter-add-${m.id}-nestbox-date`}>
+                          Маточник встановлено
+                        </label>
                         <input
+                          id={`litter-add-${m.id}-nestbox-date`}
                           type="date"
                           value={litterForms[m.id]?.nestbox_date || ""}
                           onChange={(e) =>
@@ -1907,8 +1982,11 @@ export default function Matings({ session }: Props) {
                         />
                       </div>
                       <div className="matings-form-field">
-                        <label>Дата окролу</label>
+                        <label htmlFor={`litter-add-${m.id}-birth-date`}>
+                          Дата окролу
+                        </label>
                         <input
+                          id={`litter-add-${m.id}-birth-date`}
                           type="date"
                           value={litterForms[m.id]?.birth_date || ""}
                           onChange={(e) =>
@@ -1966,8 +2044,11 @@ export default function Matings({ session }: Props) {
                       />
                       <div></div>
                       <div className="matings-form-field">
-                        <label>Дата відлучення</label>
+                        <label htmlFor={`litter-add-${m.id}-weaned-date`}>
+                          Дата відлучення
+                        </label>
                         <input
+                          id={`litter-add-${m.id}-weaned-date`}
                           type="date"
                           value={litterForms[m.id]?.weaned_date || ""}
                           onChange={(e) =>

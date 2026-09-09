@@ -138,6 +138,9 @@ export default function Pedigree({ session }: Props) {
                           <PedigreeNode
                             rabbitId={r.id}
                             childId={null}
+                            // role тут — проп компонента PedigreeNode
+                            // (father/mother/null), не ARIA-атрибут
+                            // eslint-disable-next-line jsx-a11y/aria-role
                             role={null}
                             generation={0}
                             maxGen={generations - 1}
@@ -184,6 +187,8 @@ export default function Pedigree({ session }: Props) {
                 <PedigreeNode
                   rabbitId={selectedId}
                   childId={null}
+                  // role тут — проп компонента PedigreeNode, не ARIA-атрибут
+                  // eslint-disable-next-line jsx-a11y/aria-role
                   role={null}
                   generation={0}
                   maxGen={generations - 1}
@@ -327,6 +332,8 @@ function PedigreeNode({
           <PedigreeNode
             rabbitId={rabbit?.father_id ?? null}
             childId={rabbit?.id ?? null}
+            // role тут — проп компонента PedigreeNode, не ARIA-атрибут
+            // eslint-disable-next-line jsx-a11y/aria-role
             role="father"
             generation={generation + 1}
             maxGen={maxGen}
@@ -337,6 +344,8 @@ function PedigreeNode({
           <PedigreeNode
             rabbitId={rabbit?.mother_id ?? null}
             childId={rabbit?.id ?? null}
+            // role тут — проп компонента PedigreeNode, не ARIA-атрибут
+            // eslint-disable-next-line jsx-a11y/aria-role
             role="mother"
             generation={generation + 1}
             maxGen={maxGen}

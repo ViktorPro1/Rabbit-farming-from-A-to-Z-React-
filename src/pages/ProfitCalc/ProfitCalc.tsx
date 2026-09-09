@@ -257,9 +257,10 @@ const ProfitCalc = () => {
             <div className="pc-card-title">📋 Параметри господарства</div>
 
             <div className="pc-field">
-              <label>Кількість самок для розведення</label>
+              <label htmlFor="pc-females">Кількість самок для розведення</label>
               <div className="pc-slider-row">
                 <input
+                  id="pc-females"
                   type="range"
                   min={1}
                   max={100}
@@ -275,8 +276,14 @@ const ProfitCalc = () => {
             </div>
 
             <div className="pc-field">
-              <label>Схема розведення</label>
-              <div className="pc-radio-group">
+              <span className="pc-field-label" id="pc-scheme-label">
+                Схема розведення
+              </span>
+              <div
+                className="pc-radio-group"
+                role="radiogroup"
+                aria-labelledby="pc-scheme-label"
+              >
                 {(Object.keys(schemeData) as Scheme[]).map((s) => (
                   <label
                     key={s}
@@ -299,8 +306,14 @@ const ProfitCalc = () => {
             </div>
 
             <div className="pc-field">
-              <label>Тип продажу</label>
-              <div className="pc-select-group">
+              <span className="pc-field-label" id="pc-saletype-label">
+                Тип продажу
+              </span>
+              <div
+                className="pc-select-group"
+                role="group"
+                aria-labelledby="pc-saletype-label"
+              >
                 {(["carcass", "live", "breeding"] as SaleType[]).map((t) => (
                   <button
                     key={t}
@@ -340,8 +353,14 @@ const ProfitCalc = () => {
             </div>
 
             <div className="pc-field">
-              <label>Корм</label>
-              <div className="pc-radio-group horiz">
+              <span className="pc-field-label" id="pc-feed-label">
+                Корм
+              </span>
+              <div
+                className="pc-radio-group horiz"
+                role="radiogroup"
+                aria-labelledby="pc-feed-label"
+              >
                 {(Object.keys(feedCostBase) as FeedType[]).map((f) => (
                   <label
                     key={f}
@@ -363,9 +382,12 @@ const ProfitCalc = () => {
             </div>
 
             <div className="pc-field">
-              <label>Виживаність молодняку до продажу</label>
+              <label htmlFor="pc-survival">
+                Виживаність молодняку до продажу
+              </label>
               <div className="pc-slider-row">
                 <input
+                  id="pc-survival"
                   type="range"
                   min={50}
                   max={95}
@@ -379,9 +401,12 @@ const ProfitCalc = () => {
             </div>
 
             <div className="pc-field">
-              <label>Стартові витрати (для розрахунку окупності)</label>
+              <label htmlFor="pc-startup-cost">
+                Стартові витрати (для розрахунку окупності)
+              </label>
               <div className="pc-slider-row">
                 <input
+                  id="pc-startup-cost"
                   type="range"
                   min={0}
                   max={150000}

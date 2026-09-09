@@ -356,11 +356,21 @@ export default function Fattening({ session }: Props) {
 
       {/* МОДАЛКА ЗАБОЮ */}
       {slaughterCage && (
-        <div className="help-overlay" onClick={() => setSlaughterCage(null)}>
+        // Клік по фону закриває модалку — role="presentation" знімає
+        // a11y-попередження про клік на невінтерактивному елементі;
+        // закриття по Escape окремою функціональністю не реалізовано.
+        <div
+          className="help-overlay"
+          onClick={() => setSlaughterCage(null)}
+          role="presentation"
+        >
+          {/* Клік всередині модалки лише зупиняє спливання до фону —
+              не самостійна інтерактивна дія. */}
           <div
             className="help-modal"
             style={{ maxWidth: 380 }}
             onClick={(e) => e.stopPropagation()}
+            role="presentation"
           >
             <div className="help-modal-header">
               <h2>Підтвердити забій</h2>
@@ -376,8 +386,9 @@ export default function Fattening({ session }: Props) {
               {slaughterCage.breed ? ` · ${slaughterCage.breed}` : ""}
             </p>
             <div className="fattening-form-field" style={{ marginBottom: 16 }}>
-              <label>Дата забою</label>
+              <label htmlFor="fattening-slaughter-date">Дата забою</label>
               <input
+                id="fattening-slaughter-date"
                 type="date"
                 value={slaughterDate}
                 onChange={(e) => setSlaughterDate(e.target.value)}
@@ -404,10 +415,15 @@ export default function Fattening({ session }: Props) {
 
       {/* QR MODAL */}
       {showQrModal && (
-        <div className="help-overlay" onClick={() => setShowQrModal(false)}>
+        <div
+          className="help-overlay"
+          onClick={() => setShowQrModal(false)}
+          role="presentation"
+        >
           <div
             className="help-modal qr-modal"
             onClick={(e) => e.stopPropagation()}
+            role="presentation"
           >
             <div className="help-modal-header">
               <h2>QR-коди — Відгодівля</h2>
@@ -459,11 +475,16 @@ export default function Fattening({ session }: Props) {
 
       {/* МОДАЛКА ПРОДАЖУ */}
       {sellCage && (
-        <div className="help-overlay" onClick={() => setSellCage(null)}>
+        <div
+          className="help-overlay"
+          onClick={() => setSellCage(null)}
+          role="presentation"
+        >
           <div
             className="help-modal"
             style={{ maxWidth: 380 }}
             onClick={(e) => e.stopPropagation()}
+            role="presentation"
           >
             <div className="help-modal-header">
               <h2>Продано з клітки</h2>
@@ -490,8 +511,9 @@ export default function Fattening({ session }: Props) {
               style={{ gridTemplateColumns: "1fr 1fr" }}
             >
               <div className="fattening-form-field">
-                <label>Продано самців</label>
+                <label htmlFor="fattening-sell-males">Продано самців</label>
                 <input
+                  id="fattening-sell-males"
                   type="number"
                   min={0}
                   max={sellCage.males}
@@ -500,8 +522,9 @@ export default function Fattening({ session }: Props) {
                 />
               </div>
               <div className="fattening-form-field">
-                <label>Продано самиць</label>
+                <label htmlFor="fattening-sell-females">Продано самиць</label>
                 <input
+                  id="fattening-sell-females"
                   type="number"
                   min={0}
                   max={sellCage.females}
@@ -511,8 +534,11 @@ export default function Fattening({ session }: Props) {
               </div>
               {sellCage.unknown > 0 && (
                 <div className="fattening-form-field">
-                  <label>Продано (стать невід.)</label>
+                  <label htmlFor="fattening-sell-unknown">
+                    Продано (стать невід.)
+                  </label>
                   <input
+                    id="fattening-sell-unknown"
                     type="number"
                     min={0}
                     max={sellCage.unknown}
@@ -543,11 +569,16 @@ export default function Fattening({ session }: Props) {
       )}
 
       {breedCage && (
-        <div className="help-overlay" onClick={() => setBreedCage(null)}>
+        <div
+          className="help-overlay"
+          onClick={() => setBreedCage(null)}
+          role="presentation"
+        >
           <div
             className="help-modal"
             style={{ maxWidth: 380 }}
             onClick={(e) => e.stopPropagation()}
+            role="presentation"
           >
             <div className="help-modal-header">
               <h2>Перевести на плем'я</h2>
@@ -561,8 +592,9 @@ export default function Fattening({ session }: Props) {
               {breedCage.males} · ♀ {breedCage.females}
             </p>
             <div className="fattening-form-field" style={{ marginBottom: 12 }}>
-              <label>Стать</label>
+              <label htmlFor="fattening-breed-gender">Стать</label>
               <select
+                id="fattening-breed-gender"
                 value={breedGender}
                 onChange={(e) =>
                   setBreedGender(e.target.value as "male" | "female")
@@ -573,24 +605,29 @@ export default function Fattening({ session }: Props) {
               </select>
             </div>
             <div className="fattening-form-field" style={{ marginBottom: 12 }}>
-              <label>Кличка *</label>
+              <label htmlFor="fattening-breed-name">Кличка *</label>
               <input
+                id="fattening-breed-name"
                 type="text"
                 value={breedName}
                 onChange={(e) => setBreedName(e.target.value)}
               />
             </div>
             <div className="fattening-form-field" style={{ marginBottom: 12 }}>
-              <label>Номер клітки (в реєстрі)</label>
+              <label htmlFor="fattening-breed-cage-number">
+                Номер клітки (в реєстрі)
+              </label>
               <input
+                id="fattening-breed-cage-number"
                 type="text"
                 value={breedCageNumber}
                 onChange={(e) => setBreedCageNumber(e.target.value)}
               />
             </div>
             <div className="fattening-form-field" style={{ marginBottom: 16 }}>
-              <label>Нотатки</label>
+              <label htmlFor="fattening-breed-notes">Нотатки</label>
               <input
+                id="fattening-breed-notes"
                 type="text"
                 value={breedNotes}
                 onChange={(e) => setBreedNotes(e.target.value)}
@@ -675,8 +712,9 @@ export default function Fattening({ session }: Props) {
             />
             <div></div>
             <div className="fattening-form-field">
-              <label>Дата народження</label>
+              <label htmlFor="fattening-add-birth-date">Дата народження</label>
               <input
+                id="fattening-add-birth-date"
                 type="date"
                 value={form.birth_date}
                 onChange={(e) =>
@@ -689,8 +727,11 @@ export default function Fattening({ session }: Props) {
               />
             </div>
             <div className="fattening-form-field">
-              <label>Планова дата забою (авто +110 днів)</label>
+              <label htmlFor="fattening-add-slaughter-date">
+                Планова дата забою (авто +110 днів)
+              </label>
               <input
+                id="fattening-add-slaughter-date"
                 type="date"
                 value={form.slaughter_date}
                 onChange={(e) =>
@@ -763,8 +804,9 @@ export default function Fattening({ session }: Props) {
             />
             <div></div>
             <div className="fattening-form-field">
-              <label>Дата народження</label>
+              <label htmlFor="fattening-edit-birth-date">Дата народження</label>
               <input
+                id="fattening-edit-birth-date"
                 type="date"
                 value={editingCage.birth_date || ""}
                 onChange={(e) =>
@@ -777,8 +819,11 @@ export default function Fattening({ session }: Props) {
               />
             </div>
             <div className="fattening-form-field">
-              <label>Планова дата забою (авто +110 днів)</label>
+              <label htmlFor="fattening-edit-slaughter-date">
+                Планова дата забою (авто +110 днів)
+              </label>
               <input
+                id="fattening-edit-slaughter-date"
                 type="date"
                 value={editingCage.slaughter_date || ""}
                 onChange={(e) =>

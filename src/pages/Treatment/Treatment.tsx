@@ -834,9 +834,18 @@ const Treatment = () => {
           <div key={disease.id} className={`treatment-card ${disease.urgency}`}>
             <div
               className="treatment-card-header"
+              role="button"
+              tabIndex={0}
+              aria-expanded={openId === disease.id}
               onClick={() =>
                 setOpenId(openId === disease.id ? null : disease.id)
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setOpenId(openId === disease.id ? null : disease.id);
+                }
+              }}
             >
               <div className="treatment-card-title">
                 <span className="treatment-card-icon">{disease.icon}</span>

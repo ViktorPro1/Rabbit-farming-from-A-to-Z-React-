@@ -422,7 +422,19 @@ const Leaves: React.FC = () => {
             key={item.id}
             className={`lv-card${openCards.has(item.id) ? " open" : ""}`}
           >
-            <div className="lv-card-header" onClick={() => toggleCard(item.id)}>
+            <div
+              className="lv-card-header"
+              role="button"
+              tabIndex={0}
+              aria-expanded={openCards.has(item.id)}
+              onClick={() => toggleCard(item.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  toggleCard(item.id);
+                }
+              }}
+            >
               <div className={`lv-card-icon ${item.iconBg}`}>{item.emoji}</div>
               <div className="lv-card-title-group">
                 <div className="lv-card-name">{item.name}</div>
@@ -475,7 +487,19 @@ const Leaves: React.FC = () => {
 
         {/* Щоденні */}
         <div className={`lv-card${openCards.has(100) ? " open" : ""}`}>
-          <div className="lv-card-header" onClick={() => toggleCard(100)}>
+          <div
+            className="lv-card-header"
+            role="button"
+            tabIndex={0}
+            aria-expanded={openCards.has(100)}
+            onClick={() => toggleCard(100)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleCard(100);
+              }
+            }}
+          >
             <div className="lv-card-icon icon-green">✅</div>
             <div className="lv-card-title-group">
               <div className="lv-card-name">Гілки щоденного раціону</div>
@@ -550,7 +574,19 @@ const Leaves: React.FC = () => {
 
         {/* Лікувальні */}
         <div className={`lv-card${openCards.has(101) ? " open" : ""}`}>
-          <div className="lv-card-header" onClick={() => toggleCard(101)}>
+          <div
+            className="lv-card-header"
+            role="button"
+            tabIndex={0}
+            aria-expanded={openCards.has(101)}
+            onClick={() => toggleCard(101)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleCard(101);
+              }
+            }}
+          >
             <div className="lv-card-icon icon-orange">🏥</div>
             <div className="lv-card-title-group">
               <div className="lv-card-name">Лікувальні гілки</div>

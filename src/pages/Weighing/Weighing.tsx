@@ -721,6 +721,7 @@ function ReminderBadge({
           type="number"
           min="1"
           value={draft}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           onChange={(e) => setDraft(e.target.value)}
           onBlur={save}
@@ -754,7 +755,15 @@ function ReminderBadge({
   return (
     <span
       className={`weighing-reminder weighing-reminder-${info.zone}`}
+      role="button"
+      tabIndex={0}
       onClick={startEditing}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          startEditing();
+        }
+      }}
       title="Натисніть, щоб змінити інтервал нагадування"
     >
       🔔 {label}
@@ -1031,13 +1040,15 @@ export default function Weighing({ session }: Props) {
         rabbit_name?: string;
       },
     ) => void,
+    idPrefix: string,
   ) {
     return (
       <>
         {values.weighing_type === "breeding" ? (
           <div className="weighing-form-field">
-            <label>Кролик з реєстру *</label>
+            <label htmlFor={`${idPrefix}-rabbit`}>Кролик з реєстру *</label>
             <select
+              id={`${idPrefix}-rabbit`}
               value={values.rabbit_id}
               onChange={(e) => {
                 const id = e.target.value;
@@ -1065,8 +1076,9 @@ export default function Weighing({ session }: Props) {
           </div>
         ) : (
           <div className="weighing-form-field">
-            <label>Клітка відгодівлі *</label>
+            <label htmlFor={`${idPrefix}-fattening`}>Клітка відгодівлі *</label>
             <select
+              id={`${idPrefix}-fattening`}
               value={values.fattening_id}
               onChange={(e) => {
                 const id = e.target.value;
@@ -1090,8 +1102,11 @@ export default function Weighing({ session }: Props) {
           </div>
         )}
         <div className="weighing-form-field">
-          <label>Категорія породи (для порівняння з нормою)</label>
+          <label htmlFor={`${idPrefix}-size-category`}>
+            Категорія породи (для порівняння з нормою)
+          </label>
           <select
+            id={`${idPrefix}-size-category`}
             value={values.size_category}
             onChange={(e) =>
               onChange({ size_category: e.target.value as SizeCategory })
@@ -1150,10 +1165,12 @@ export default function Weighing({ session }: Props) {
                   ? { rabbit_name: patch.rabbit_name }
                   : {}),
               }),
+            "weighing-edit",
           )}
           <div className="weighing-form-field">
-            <label>Дата зважування</label>
+            <label htmlFor="weighing-edit-date">Дата зважування</label>
             <input
+              id="weighing-edit-date"
               type="date"
               value={editingRecord.weighing_date}
               onChange={(e) =>
@@ -1165,8 +1182,9 @@ export default function Weighing({ session }: Props) {
             />
           </div>
           <div className="weighing-form-field">
-            <label>Вага (г)</label>
+            <label htmlFor="weighing-edit-weight">Вага (г)</label>
             <input
+              id="weighing-edit-weight"
               type="number"
               min="0"
               value={editingRecord.weight_g}
@@ -1386,10 +1404,12 @@ export default function Weighing({ session }: Props) {
                 size_category: form.size_category,
               },
               (patch) => setForm({ ...form, ...patch }),
+              "weighing-add",
             )}
             <div className="weighing-form-field">
-              <label>Дата зважування *</label>
+              <label htmlFor="weighing-add-date">Дата зважування *</label>
               <input
+                id="weighing-add-date"
                 type="date"
                 value={form.weighing_date}
                 onChange={(e) =>
@@ -1398,8 +1418,9 @@ export default function Weighing({ session }: Props) {
               />
             </div>
             <div className="weighing-form-field">
-              <label>Вага (г) *</label>
+              <label htmlFor="weighing-add-weight">Вага (г) *</label>
               <input
+                id="weighing-add-weight"
                 type="number"
                 min="0"
                 placeholder="Наприклад 1450"
@@ -1455,6 +1476,7 @@ export default function Weighing({ session }: Props) {
               type="number"
               min="1"
               placeholder="днів"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               value={reminderPromptDraft}
               onChange={(e) => setReminderPromptDraft(e.target.value)}

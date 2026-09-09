@@ -592,15 +592,18 @@ export default function PedigreeRecords() {
           {documentTypes.map((doc) => {
             const isOpen = activeDoc === doc.id;
             return (
-              <article
+              <div
                 key={doc.id}
                 className={`pr2-doc-card ${isOpen ? "pr2-doc-card--open" : ""}`}
                 onClick={() => setActiveDoc(isOpen ? null : doc.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setActiveDoc(isOpen ? null : doc.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActiveDoc(isOpen ? null : doc.id);
+                  }
+                }}
               >
                 <div className="pr2-doc-header">
                   <span className="pr2-doc-icon">{doc.icon}</span>
@@ -630,7 +633,7 @@ export default function PedigreeRecords() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

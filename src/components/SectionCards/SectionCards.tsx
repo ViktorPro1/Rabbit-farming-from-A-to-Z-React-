@@ -207,6 +207,8 @@ const SectionCards = () => {
                     <div
                       key={r.path}
                       className="sc-search-item"
+                      role="link"
+                      tabIndex={0}
                       onClick={() => {
                         if (r.path.startsWith("http")) {
                           window.open(r.path, "_blank", "noopener,noreferrer");
@@ -214,6 +216,21 @@ const SectionCards = () => {
                           navigate(r.path);
                         }
                         handleClear();
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          if (r.path.startsWith("http")) {
+                            window.open(
+                              r.path,
+                              "_blank",
+                              "noopener,noreferrer",
+                            );
+                          } else {
+                            navigate(r.path);
+                          }
+                          handleClear();
+                        }
                       }}
                     >
                       <span className="sc-search-item-icon">{r.icon}</span>

@@ -243,7 +243,16 @@ const Biosecurity = () => {
               <div
                 key={key}
                 className={`bio-step${isOpen ? " open" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
                 onClick={() => setExpandedStep(isOpen ? null : key)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setExpandedStep(isOpen ? null : key);
+                  }
+                }}
               >
                 <div className="bio-step-top">
                   <span className="bio-step-num">{i + 1}</span>

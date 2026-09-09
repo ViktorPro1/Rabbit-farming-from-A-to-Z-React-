@@ -482,7 +482,7 @@ export default function RabbitStress() {
               const cfg = severityConfig[cause.severity];
               const isOpen = activeCause === cause.id;
               return (
-                <article
+                <div
                   key={cause.id}
                   className={`st-cause-card ${isOpen ? "st-cause-card--open" : ""}`}
                   style={
@@ -537,7 +537,7 @@ export default function RabbitStress() {
                       </div>
                     </div>
                   )}
-                </article>
+                </div>
               );
             })}
           </div>

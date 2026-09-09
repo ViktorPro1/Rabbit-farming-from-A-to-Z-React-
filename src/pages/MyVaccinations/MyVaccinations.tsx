@@ -148,16 +148,18 @@ export default function MyVaccinations({ session }: Props) {
               }
             />
             <div className="myvac-field-wrap">
-              <label>Дата вакцинації</label>
+              <label htmlFor="myvac-date">Дата вакцинації</label>
               <input
+                id="myvac-date"
                 type="date"
                 value={form.date}
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
               />
             </div>
             <div className="myvac-field-wrap">
-              <label>Наступна дата</label>
+              <label htmlFor="myvac-next-date">Наступна дата</label>
               <input
+                id="myvac-next-date"
                 type="date"
                 value={form.next_date}
                 onChange={(e) =>

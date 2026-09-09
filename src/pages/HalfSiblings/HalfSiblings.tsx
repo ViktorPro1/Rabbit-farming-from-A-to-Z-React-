@@ -216,7 +216,16 @@ const HalfSiblings = () => {
               <div
                 key={key}
                 className={`hs-step${isOpen ? " open" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
                 onClick={() => setExpandedStep(isOpen ? null : key)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setExpandedStep(isOpen ? null : key);
+                  }
+                }}
               >
                 <div className="hs-step-top">
                   <span className="hs-step-num">{i + 1}</span>

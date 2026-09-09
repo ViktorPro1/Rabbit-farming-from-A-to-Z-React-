@@ -72,13 +72,9 @@ const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
   };
 
   return createPortal(
-    <div
-      className="fm-overlay"
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className="fm-modal">
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    <div className="fm-overlay" onClick={handleOverlayClick}>
+      <div className="fm-modal" role="dialog" aria-modal="true">
         <div className="fm-header">
           <h2 className="fm-title">Зворотний зв'язок</h2>
           <button className="fm-close" onClick={onClose} aria-label="Закрити">
@@ -94,8 +90,14 @@ const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
         ) : (
           <div className="fm-body">
             <div className="fm-field">
-              <label className="fm-label">Тип звернення</label>
-              <div className="fm-type-group">
+              <span className="fm-label" id="fm-type-label">
+                Тип звернення
+              </span>
+              <div
+                className="fm-type-group"
+                role="group"
+                aria-labelledby="fm-type-label"
+              >
                 {(["error", "question", "suggestion"] as FeedbackType[]).map(
                   (t) => {
                     const labels: Record<FeedbackType, string> = {

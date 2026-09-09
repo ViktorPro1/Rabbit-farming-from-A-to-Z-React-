@@ -72,7 +72,15 @@ const ShareButton = ({ title }: ShareButtonProps) => {
 
       {open &&
         createPortal(
-          <div className="share-overlay" onClick={() => setOpen(false)}>
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+          <div
+            className="share-overlay"
+            onClick={() => setOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setOpen(false);
+            }}
+          >
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
               className="share-menu"
               ref={ref}

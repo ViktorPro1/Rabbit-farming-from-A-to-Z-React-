@@ -75,7 +75,16 @@ const Medicines = () => {
             <div
               key={m.name}
               className={`med-card${expanded === m.name ? " open" : ""}${m.category === "injection" ? " injection" : ""}`}
+              role="button"
+              tabIndex={0}
+              aria-expanded={expanded === m.name}
               onClick={() => setExpanded(expanded === m.name ? null : m.name)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setExpanded(expanded === m.name ? null : m.name);
+                }
+              }}
             >
               <div className="med-card-top">
                 <span className="med-card-icon">{m.icon}</span>

@@ -896,8 +896,11 @@ export default function Calculator({ session }: CalculatorProps) {
           <div>
             <div className="calc-card">
               <h2>🐰 Кроличка (самка)</h2>
-              <label className="calc-label">Обрати спосіб розрахунку:</label>
+              <label className="calc-label" htmlFor="calc-type-select">
+                Обрати спосіб розрахунку:
+              </label>
               <select
+                id="calc-type-select"
                 className="calc-select"
                 value={calcType}
                 onChange={(e) => {
@@ -911,8 +914,14 @@ export default function Calculator({ session }: CalculatorProps) {
               </select>
               {calcType === "birth" && (
                 <>
-                  <label className="calc-label">Дата народження:</label>
+                  <label
+                    className="calc-label"
+                    htmlFor="calc-female-date-birth"
+                  >
+                    Дата народження:
+                  </label>
                   <input
+                    id="calc-female-date-birth"
                     type="date"
                     className="calc-date"
                     value={femaleDate}
@@ -922,8 +931,14 @@ export default function Calculator({ session }: CalculatorProps) {
               )}
               {calcType === "mating" && (
                 <>
-                  <label className="calc-label">Дата злучки:</label>
+                  <label
+                    className="calc-label"
+                    htmlFor="calc-female-date-mating"
+                  >
+                    Дата злучки:
+                  </label>
                   <input
+                    id="calc-female-date-mating"
                     type="date"
                     className="calc-date"
                     value={femaleDate}
@@ -939,8 +954,11 @@ export default function Calculator({ session }: CalculatorProps) {
 
             <div className="calc-card">
               <h2>🐇 Кролик (самець)</h2>
-              <label className="calc-label">Дата народження:</label>
+              <label className="calc-label" htmlFor="calc-male-date">
+                Дата народження:
+              </label>
               <input
+                id="calc-male-date"
                 type="date"
                 className="calc-date"
                 value={maleDate}

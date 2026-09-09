@@ -16,12 +16,12 @@ const Reviews = () => {
 
   const showPrev = () =>
     setActiveIndex((current) =>
-      current === null ? null : (current - 1 + reviews.length) % reviews.length
+      current === null ? null : (current - 1 + reviews.length) % reviews.length,
     );
 
   const showNext = () =>
     setActiveIndex((current) =>
-      current === null ? null : (current + 1) % reviews.length
+      current === null ? null : (current + 1) % reviews.length,
     );
 
   useEffect(() => {
@@ -49,10 +49,10 @@ const Reviews = () => {
       <div className="reviews-wrap">
         <div className="reviews-intro">
           <p>
-            Платформа — не бізнес на картах Google, тому зібрати відгуки
-            звичним способом ми не можемо. Натомість читачі залишають їх у
-            наших спільнотах — Telegram та Facebook. Ми регулярно переглядаємо
-            обидві групи і закріплюємо тут скріншот кожного нового відгуку.
+            Платформа — не бізнес на картах Google, тому зібрати відгуки звичним
+            способом ми не можемо. Натомість читачі залишають їх у наших
+            спільнотах — Telegram та Facebook. Ми регулярно переглядаємо обидві
+            групи і закріплюємо тут скріншот кожного нового відгуку.
           </p>
           <div className="reviews-links">
             <a
@@ -99,7 +99,9 @@ const Reviews = () => {
                       {source.icon} {source.label}
                     </span>
                     {review.date && (
-                      <span className="reviews-caption-date">{review.date}</span>
+                      <span className="reviews-caption-date">
+                        {review.date}
+                      </span>
                     )}
                   </span>
                 </button>
@@ -109,8 +111,8 @@ const Reviews = () => {
         ) : (
           <div className="reviews-empty">
             <p>
-              Поки що тут порожньо — станьте першим, хто залишить відгук в
-              одній з наших спільнот. Ми обов'язково закріпимо його тут.
+              Поки що тут порожньо — станьте першим, хто залишить відгук в одній
+              з наших спільнот. Ми обов'язково закріпимо його тут.
             </p>
           </div>
         )}
@@ -146,6 +148,7 @@ const Reviews = () => {
       </div>
 
       {activeReview && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div className="reviews-lightbox" onClick={closeLightbox}>
           <button
             type="button"
@@ -170,6 +173,7 @@ const Reviews = () => {
             </button>
           )}
 
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
           <img
             src={activeReview.src}
             alt={activeReview.alt}

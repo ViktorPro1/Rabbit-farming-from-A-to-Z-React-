@@ -114,7 +114,15 @@ export default function RunningTicker({
           <span
             className="ticker-item ticker-item-clickable"
             key={`${item.path}-${idx}`}
+            role="link"
+            tabIndex={0}
             onClick={() => handleClick(item.path)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleClick(item.path);
+              }
+            }}
           >
             <span className="ticker-icon">{item.icon}</span>
             {item.title}

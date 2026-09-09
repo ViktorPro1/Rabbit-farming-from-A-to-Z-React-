@@ -618,15 +618,18 @@ export default function Poisoning() {
           {poisonSources.map((src) => {
             const isOpen = openSource === src.id;
             return (
-              <article
+              <div
                 key={src.id}
                 className={`pz-source-card ${isOpen ? "pz-source-card--open" : ""}`}
                 onClick={() => setOpenSource(isOpen ? null : src.id)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setOpenSource(isOpen ? null : src.id)
-                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenSource(isOpen ? null : src.id);
+                  }
+                }}
                 aria-expanded={isOpen}
               >
                 <div className="pz-source-header">
@@ -656,7 +659,7 @@ export default function Poisoning() {
                     </div>
                   </div>
                 )}
-              </article>
+              </div>
             );
           })}
         </div>

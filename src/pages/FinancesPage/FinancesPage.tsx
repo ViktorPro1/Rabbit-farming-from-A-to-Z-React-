@@ -708,8 +708,9 @@ export default function FinancesPage({ session }: Props) {
                 <div className="finances-form">
                   <div className="finances-form-grid">
                     <div className="finances-form-field">
-                      <label>Категорія</label>
+                      <label htmlFor="expense-category">Категорія</label>
                       <select
+                        id="expense-category"
                         value={form.category}
                         onChange={(e) =>
                           setForm({
@@ -726,8 +727,9 @@ export default function FinancesPage({ session }: Props) {
                       </select>
                     </div>
                     <div className="finances-form-field">
-                      <label>Сума, грн *</label>
+                      <label htmlFor="expense-amount">Сума, грн *</label>
                       <input
+                        id="expense-amount"
                         type="number"
                         placeholder="0"
                         value={form.amount}
@@ -737,8 +739,9 @@ export default function FinancesPage({ session }: Props) {
                       />
                     </div>
                     <div className="finances-form-field">
-                      <label>Дата *</label>
+                      <label htmlFor="expense-date">Дата *</label>
                       <input
+                        id="expense-date"
                         type="date"
                         value={form.expense_date}
                         onChange={(e) =>
@@ -747,8 +750,9 @@ export default function FinancesPage({ session }: Props) {
                       />
                     </div>
                     <div className="finances-form-field finances-form-full">
-                      <label>Опис</label>
+                      <label htmlFor="expense-description">Опис</label>
                       <input
+                        id="expense-description"
                         placeholder="Наприклад: комбікорм 50 кг"
                         value={form.description}
                         onChange={(e) =>
@@ -840,8 +844,9 @@ export default function FinancesPage({ session }: Props) {
                 <div className="finances-form">
                   <div className="finances-form-grid">
                     <div className="finances-form-field">
-                      <label>Категорія</label>
+                      <label htmlFor="income-category">Категорія</label>
                       <select
+                        id="income-category"
                         value={otherIncomeForm.category}
                         onChange={(e) =>
                           setOtherIncomeForm({
@@ -860,8 +865,9 @@ export default function FinancesPage({ session }: Props) {
                       </select>
                     </div>
                     <div className="finances-form-field">
-                      <label>Сума, грн *</label>
+                      <label htmlFor="income-amount">Сума, грн *</label>
                       <input
+                        id="income-amount"
                         type="number"
                         placeholder="0"
                         value={otherIncomeForm.amount}
@@ -874,8 +880,9 @@ export default function FinancesPage({ session }: Props) {
                       />
                     </div>
                     <div className="finances-form-field">
-                      <label>Дата *</label>
+                      <label htmlFor="income-date">Дата *</label>
                       <input
+                        id="income-date"
                         type="date"
                         value={otherIncomeForm.income_date}
                         onChange={(e) =>
@@ -887,8 +894,9 @@ export default function FinancesPage({ session }: Props) {
                       />
                     </div>
                     <div className="finances-form-field finances-form-full">
-                      <label>Опис</label>
+                      <label htmlFor="income-description">Опис</label>
                       <input
+                        id="income-description"
                         placeholder="Наприклад: 12 шкурок висушено і продано"
                         value={otherIncomeForm.description}
                         onChange={(e) =>
@@ -956,9 +964,14 @@ export default function FinancesPage({ session }: Props) {
                               <div className="finances-row-right">
                                 {editingPriceId === s.id ? (
                                   <>
+                                    {/* autoFocus навмисний: поле редагування
+                                        ціни з'являється по кліку, і фокус
+                                        одразу на ньому — очікувана поведінка
+                                        для inline-редагування. */}
                                     <input
                                       type="number"
                                       placeholder="Ціна, грн"
+                                      // eslint-disable-next-line jsx-a11y/no-autofocus
                                       autoFocus
                                       value={editingPriceValue}
                                       onChange={(e) =>
@@ -1140,9 +1153,13 @@ export default function FinancesPage({ session }: Props) {
                                     <div className="finances-row-right">
                                       {editingCarcassId === c.id ? (
                                         <>
+                                          {/* autoFocus навмисний: поле
+                                              редагування ваги туші з'являється
+                                              по кліку, фокус одразу на ньому. */}
                                           <input
                                             type="number"
                                             placeholder="Вага туші, кг"
+                                            // eslint-disable-next-line jsx-a11y/no-autofocus
                                             autoFocus
                                             value={editingWeightValue}
                                             onChange={(e) =>
