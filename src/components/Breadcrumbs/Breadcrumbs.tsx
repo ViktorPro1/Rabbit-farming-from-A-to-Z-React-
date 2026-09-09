@@ -35,6 +35,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/rabbit-whiskers": "Вуса (вібриси)",
   "/history": "Історія обліку",
   "/color-genetics-example": "Практичний калькулятор кольору кроля",
+  "/lethal-color-genes": "Летальні гени забарвлення",
 
   // ПОРІВНЯННЯ ТА СПІВЖИТТЯ
   "/rabbit-vs-hare": "Кролик vs Заєць",
