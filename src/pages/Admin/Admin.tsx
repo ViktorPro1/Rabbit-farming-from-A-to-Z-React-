@@ -1029,6 +1029,19 @@ export default function Admin({ session }: Props) {
                 </code>
               </li>
             </ul>
+
+            <p>
+              <strong>⚠️ Не забути:</strong>
+            </p>
+            <ul>
+              <li>
+                Ціна підписки в листах-нагадуваннях і квитанціях береться зі
+                змінної <code>SUBSCRIPTION_PRICE</code> у Vercel (Settings →
+                Environment Variables), а не з коду. Якщо міняється вартість
+                підписки — треба вручну оновити значення там (наприклад{" "}
+                <code>99 грн/міс</code>), інакше в листах лишиться стара ціна.
+              </li>
+            </ul>
           </div>
         </details>
       </div>
