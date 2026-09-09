@@ -461,6 +461,8 @@ export default function Paddocks({ session }: Props) {
         <div className="paddocks-form">
           <div className="paddocks-form-grid">
             <input
+              id="paddock-form-name"
+              name="paddockName"
               placeholder="Назва загону *"
               value={paddockForm.name}
               onChange={(e) =>
@@ -469,6 +471,8 @@ export default function Paddocks({ session }: Props) {
               className="paddocks-form-full"
             />
             <select
+              id="paddock-form-male-id"
+              name="paddockMaleId"
               value={paddockForm.male_id}
               onChange={(e) =>
                 setPaddockForm({ ...paddockForm, male_id: e.target.value })
@@ -484,6 +488,8 @@ export default function Paddocks({ session }: Props) {
               ))}
             </select>
             <input
+              id="paddock-form-notes"
+              name="paddockNotes"
               placeholder="Нотатки"
               value={paddockForm.notes}
               onChange={(e) =>
@@ -524,6 +530,8 @@ export default function Paddocks({ session }: Props) {
               />
             </div>
             <input
+              id={`edit-litter-females-birthed-${editingLitter.id}`}
+              name="femalesBirthed"
               type="number"
               placeholder="Скільки самок родило"
               value={editingLitter.females_birthed || ""}
@@ -535,6 +543,8 @@ export default function Paddocks({ session }: Props) {
               }
             />
             <input
+              id={`edit-litter-total-born-${editingLitter.id}`}
+              name="totalBorn"
               type="number"
               placeholder="Народилось всього"
               value={editingLitter.total_born || ""}
@@ -546,6 +556,8 @@ export default function Paddocks({ session }: Props) {
               }
             />
             <input
+              id={`edit-litter-alive-${editingLitter.id}`}
+              name="alive"
               type="number"
               placeholder="Живих"
               value={editingLitter.alive || ""}
@@ -557,6 +569,8 @@ export default function Paddocks({ session }: Props) {
               }
             />
             <input
+              id={`edit-litter-dead-${editingLitter.id}`}
+              name="dead"
               type="number"
               placeholder="Мертвих"
               value={editingLitter.dead || ""}
@@ -582,6 +596,8 @@ export default function Paddocks({ session }: Props) {
               />
             </div>
             <input
+              id={`edit-litter-weaned-males-${editingLitter.id}`}
+              name="weanedMales"
               type="number"
               placeholder="♂ Відлучено самців"
               value={editingLitter.weaned_males || ""}
@@ -593,6 +609,8 @@ export default function Paddocks({ session }: Props) {
               }
             />
             <input
+              id={`edit-litter-weaned-females-${editingLitter.id}`}
+              name="weanedFemales"
               type="number"
               placeholder="♀ Відлучено самиць"
               value={editingLitter.weaned_females || ""}
@@ -604,6 +622,8 @@ export default function Paddocks({ session }: Props) {
               }
             />
             <input
+              id={`edit-litter-notes-${editingLitter.id}`}
+              name="notes"
               placeholder="Нотатки"
               value={editingLitter.notes || ""}
               onChange={(e) =>
@@ -687,6 +707,8 @@ export default function Paddocks({ session }: Props) {
                   <div className="paddock-female-form">
                     <div className="paddocks-form-grid">
                       <input
+                        id={`paddock-female-name-${p.id}`}
+                        name="femaleName"
                         placeholder="Кличка / номер *"
                         value={femaleForms[p.id]?.name || ""}
                         onChange={(e) =>
@@ -700,6 +722,8 @@ export default function Paddocks({ session }: Props) {
                         }
                       />
                       <input
+                        id={`paddock-female-breed-${p.id}`}
+                        name="femaleBreed"
                         placeholder="Порода"
                         value={femaleForms[p.id]?.breed || ""}
                         onChange={(e) =>
@@ -713,6 +737,8 @@ export default function Paddocks({ session }: Props) {
                         }
                       />
                       <input
+                        id={`paddock-female-birth-year-${p.id}`}
+                        name="femaleBirthYear"
                         placeholder="Рік народження"
                         value={femaleForms[p.id]?.birth_year || ""}
                         onChange={(e) =>
@@ -871,6 +897,8 @@ export default function Paddocks({ session }: Props) {
                           />
                         </div>
                         <input
+                          id={`litter-females-birthed-${m.id}`}
+                          name="femalesBirthed"
                           type="number"
                           placeholder="Скільки самок родило"
                           value={litterForms[m.id]?.females_birthed || ""}
@@ -885,6 +913,8 @@ export default function Paddocks({ session }: Props) {
                           }
                         />
                         <input
+                          id={`litter-total-born-${m.id}`}
+                          name="totalBorn"
                           type="number"
                           placeholder="Народилось всього"
                           value={litterForms[m.id]?.total_born || ""}
@@ -899,6 +929,8 @@ export default function Paddocks({ session }: Props) {
                           }
                         />
                         <input
+                          id={`litter-alive-${m.id}`}
+                          name="alive"
                           type="number"
                           placeholder="Живих"
                           value={litterForms[m.id]?.alive || ""}
@@ -913,6 +945,8 @@ export default function Paddocks({ session }: Props) {
                           }
                         />
                         <input
+                          id={`litter-dead-${m.id}`}
+                          name="dead"
                           type="number"
                           placeholder="Мертвих"
                           value={litterForms[m.id]?.dead || ""}
@@ -946,6 +980,8 @@ export default function Paddocks({ session }: Props) {
                           />
                         </div>
                         <input
+                          id={`litter-weaned-males-${m.id}`}
+                          name="weanedMales"
                           type="number"
                           placeholder="♂ Відлучено самців"
                           value={litterForms[m.id]?.weaned_males || ""}
@@ -960,6 +996,8 @@ export default function Paddocks({ session }: Props) {
                           }
                         />
                         <input
+                          id={`litter-weaned-females-${m.id}`}
+                          name="weanedFemales"
                           type="number"
                           placeholder="♀ Відлучено самиць"
                           value={litterForms[m.id]?.weaned_females || ""}
@@ -974,6 +1012,8 @@ export default function Paddocks({ session }: Props) {
                           }
                         />
                         <input
+                          id={`litter-notes-${m.id}`}
+                          name="litterNotes"
                           placeholder="Нотатки"
                           value={litterForms[m.id]?.notes || ""}
                           onChange={(e) =>
@@ -1049,6 +1089,8 @@ export default function Paddocks({ session }: Props) {
                       />
                     </div>
                     <input
+                      id={`mating-notes-${p.id}`}
+                      name="matingNotes"
                       placeholder="Нотатки"
                       value={matingForms[p.id]?.notes || ""}
                       onChange={(e) =>

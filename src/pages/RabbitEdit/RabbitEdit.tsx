@@ -86,16 +86,22 @@ export default function RabbitEdit({ session }: Props) {
       <div className="edit-form">
         <div className="edit-form-grid">
           <input
+            id="edit-name"
+            name="name"
             placeholder="Кличка *"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
           <input
+            id="edit-breed"
+            name="breed"
             placeholder="Порода"
             value={form.breed}
             onChange={(e) => setForm({ ...form, breed: e.target.value })}
           />
           <select
+            id="edit-gender"
+            name="gender"
             value={form.gender}
             onChange={(e) =>
               setForm({ ...form, gender: e.target.value as "male" | "female" })
@@ -105,16 +111,22 @@ export default function RabbitEdit({ session }: Props) {
             <option value="male">Самець</option>
           </select>
           <input
+            id="edit-birth-date"
+            name="birth_date"
             type="date"
             value={form.birth_date}
             onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
           />
           <input
+            id="edit-cage-number"
+            name="cage_number"
             placeholder="Номер клітки"
             value={form.cage_number}
             onChange={(e) => setForm({ ...form, cage_number: e.target.value })}
           />
           <input
+            id="edit-notes"
+            name="notes"
             placeholder="Нотатки"
             value={form.notes}
             onChange={(e) => setForm({ ...form, notes: e.target.value })}

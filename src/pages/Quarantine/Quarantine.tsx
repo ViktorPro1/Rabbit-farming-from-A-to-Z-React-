@@ -341,6 +341,8 @@ export default function Quarantine({ session }: Props) {
           <h3>Новий запис</h3>
           <div className="quarantine-form-grid">
             <select
+              id="q-select-rabbit"
+              name="selectRabbit"
               className="quarantine-form-full"
               value={selectedRabbitId}
               onChange={(e) => handleSelectRabbit(e.target.value)}
@@ -354,11 +356,15 @@ export default function Quarantine({ session }: Props) {
               ))}
             </select>
             <input
+              id="q-name"
+              name="name"
               placeholder="Кличка / номер *"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
             <select
+              id="q-gender"
+              name="gender"
               value={form.gender}
               onChange={(e) =>
                 setForm({
@@ -372,11 +378,15 @@ export default function Quarantine({ session }: Props) {
               <option value="male">♂ Самець</option>
             </select>
             <input
+              id="q-breed"
+              name="breed"
               placeholder="Порода"
               value={form.breed}
               onChange={(e) => setForm({ ...form, breed: e.target.value })}
             />
             <input
+              id="q-from-cage"
+              name="from_cage"
               placeholder="З якої клітки"
               value={form.from_cage}
               onChange={(e) => setForm({ ...form, from_cage: e.target.value })}
@@ -402,12 +412,16 @@ export default function Quarantine({ session }: Props) {
               />
             </div>
             <input
+              id="q-reason"
+              name="reason"
               placeholder="Причина переміщення"
               value={form.reason}
               onChange={(e) => setForm({ ...form, reason: e.target.value })}
               className="quarantine-form-full"
             />
             <input
+              id="q-notes"
+              name="notes"
               placeholder="Нотатки"
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
@@ -430,6 +444,8 @@ export default function Quarantine({ session }: Props) {
           <h3>✏️ Редагування</h3>
           <div className="quarantine-form-grid">
             <input
+              id="q-edit-name"
+              name="name"
               placeholder="Кличка / номер *"
               value={editingAnimal.name}
               onChange={(e) =>
@@ -437,6 +453,8 @@ export default function Quarantine({ session }: Props) {
               }
             />
             <select
+              id="q-edit-gender"
+              name="gender"
               value={editingAnimal.gender}
               onChange={(e) =>
                 setEditingAnimal({
@@ -450,6 +468,8 @@ export default function Quarantine({ session }: Props) {
               <option value="male">♂ Самець</option>
             </select>
             <input
+              id="q-edit-breed"
+              name="breed"
               placeholder="Порода"
               value={editingAnimal.breed || ""}
               onChange={(e) =>
@@ -457,6 +477,8 @@ export default function Quarantine({ session }: Props) {
               }
             />
             <input
+              id="q-edit-from-cage"
+              name="from_cage"
               placeholder="З якої клітки"
               value={editingAnimal.from_cage || ""}
               onChange={(e) =>
@@ -495,6 +517,8 @@ export default function Quarantine({ session }: Props) {
               />
             </div>
             <input
+              id="q-edit-reason"
+              name="reason"
               placeholder="Причина"
               value={editingAnimal.reason || ""}
               onChange={(e) =>
@@ -503,6 +527,8 @@ export default function Quarantine({ session }: Props) {
               className="quarantine-form-full"
             />
             <input
+              id="q-edit-notes"
+              name="notes"
               placeholder="Нотатки"
               value={editingAnimal.notes || ""}
               onChange={(e) =>

@@ -933,6 +933,8 @@ export default function Matings({ session }: Props) {
               </select>
             </div>
             <input
+              id="mating-add-notes"
+              aria-label="Нотатки"
               placeholder="Нотатки"
               value={matingForm.notes}
               onChange={(e) =>
@@ -1241,6 +1243,8 @@ export default function Matings({ session }: Props) {
                             </select>
                           </div>
                           <input
+                            id={`mating-edit-${m.id}-notes`}
+                            aria-label="Нотатки"
                             placeholder="Нотатки"
                             value={editingMatingData.notes || ""}
                             onChange={(e) =>
@@ -1653,6 +1657,8 @@ export default function Matings({ session }: Props) {
                                   />
                                 </div>
                                 <input
+                                  id={`litter-edit-${l.id}-total-born`}
+                                  aria-label="Народилось всього"
                                   type="number"
                                   placeholder="Народилось всього"
                                   value={editingLitterData.total_born || ""}
@@ -1664,6 +1670,8 @@ export default function Matings({ session }: Props) {
                                   }
                                 />
                                 <input
+                                  id={`litter-edit-${l.id}-alive`}
+                                  aria-label="Живих"
                                   type="number"
                                   placeholder="Живих"
                                   value={editingLitterData.alive || ""}
@@ -1675,6 +1683,8 @@ export default function Matings({ session }: Props) {
                                   }
                                 />
                                 <input
+                                  id={`litter-edit-${l.id}-dead`}
+                                  aria-label="Мертвих"
                                   type="number"
                                   placeholder="Мертвих"
                                   value={editingLitterData.dead || ""}
@@ -1706,6 +1716,8 @@ export default function Matings({ session }: Props) {
                                 </div>
                                 <div></div>
                                 <input
+                                  id={`litter-edit-${l.id}-weaned-males`}
+                                  aria-label="Кількість самців"
                                   type="number"
                                   placeholder="♂ Кількість самців"
                                   value={editingLitterData.weaned_males || ""}
@@ -1717,6 +1729,8 @@ export default function Matings({ session }: Props) {
                                   }
                                 />
                                 <input
+                                  id={`litter-edit-${l.id}-weaned-males-cage`}
+                                  aria-label="Клітка для самців"
                                   placeholder="♂ Клітка / куди"
                                   value={
                                     editingLitterData.weaned_males_cage || ""
@@ -1739,6 +1753,8 @@ export default function Matings({ session }: Props) {
                                 ) : (
                                   <>
                                     <input
+                                      id={`litter-edit-${l.id}-weaned-males-2`}
+                                      aria-label="Скільки самців у другу клітку"
                                       type="number"
                                       placeholder="♂ Скільки з них у другу клітку"
                                       value={
@@ -1754,6 +1770,8 @@ export default function Matings({ session }: Props) {
                                       }
                                     />
                                     <input
+                                      id={`litter-edit-${l.id}-weaned-males-cage-2`}
+                                      aria-label="Друга клітка для самців"
                                       placeholder="♂ Друга клітка"
                                       value={
                                         editingLitterData.weaned_males_cage_2 ||
@@ -1769,6 +1787,8 @@ export default function Matings({ session }: Props) {
                                   </>
                                 )}
                                 <input
+                                  id={`litter-edit-${l.id}-weaned-females`}
+                                  aria-label="Кількість самиць"
                                   type="number"
                                   placeholder="♀ Кількість самиць"
                                   value={editingLitterData.weaned_females || ""}
@@ -1780,6 +1800,8 @@ export default function Matings({ session }: Props) {
                                   }
                                 />
                                 <input
+                                  id={`litter-edit-${l.id}-weaned-females-cage`}
+                                  aria-label="Клітка для самиць"
                                   placeholder="♀ Клітка / куди"
                                   value={
                                     editingLitterData.weaned_females_cage || ""
@@ -1802,6 +1824,8 @@ export default function Matings({ session }: Props) {
                                 ) : (
                                   <>
                                     <input
+                                      id={`litter-edit-${l.id}-weaned-females-2`}
+                                      aria-label="Скільки самиць у другу клітку"
                                       type="number"
                                       placeholder="♀ Скільки з них у другу клітку"
                                       value={
@@ -1817,6 +1841,8 @@ export default function Matings({ session }: Props) {
                                       }
                                     />
                                     <input
+                                      id={`litter-edit-${l.id}-weaned-females-cage-2`}
+                                      aria-label="Друга клітка для самиць"
                                       placeholder="♀ Друга клітка"
                                       value={
                                         editingLitterData.weaned_females_cage_2 ||
@@ -1832,6 +1858,8 @@ export default function Matings({ session }: Props) {
                                   </>
                                 )}
                                 <input
+                                  id={`litter-edit-${l.id}-notes`}
+                                  aria-label="Нотатки"
                                   placeholder="Нотатки"
                                   value={editingLitterData.notes || ""}
                                   onChange={(e) =>
@@ -2001,6 +2029,8 @@ export default function Matings({ session }: Props) {
                         />
                       </div>
                       <input
+                        id={`litter-add-${m.id}-total-born`}
+                        aria-label="Народилось всього"
                         type="number"
                         placeholder="Народилось всього"
                         value={litterForms[m.id]?.total_born || ""}
@@ -2015,6 +2045,8 @@ export default function Matings({ session }: Props) {
                         }
                       />
                       <input
+                        id={`litter-add-${m.id}-alive`}
+                        aria-label="Живих"
                         type="number"
                         placeholder="Живих"
                         value={litterForms[m.id]?.alive || ""}
@@ -2029,6 +2061,8 @@ export default function Matings({ session }: Props) {
                         }
                       />
                       <input
+                        id={`litter-add-${m.id}-dead`}
+                        aria-label="Мертвих"
                         type="number"
                         placeholder="Мертвих"
                         value={litterForms[m.id]?.dead || ""}
@@ -2064,6 +2098,8 @@ export default function Matings({ session }: Props) {
                       </div>
                       <div></div>
                       <input
+                        id={`litter-add-${m.id}-weaned-males`}
+                        aria-label="Кількість самців"
                         type="number"
                         placeholder="♂ Кількість самців"
                         value={litterForms[m.id]?.weaned_males || ""}
@@ -2078,6 +2114,8 @@ export default function Matings({ session }: Props) {
                         }
                       />
                       <input
+                        id={`litter-add-${m.id}-weaned-males-cage`}
+                        aria-label="Клітка для самців"
                         placeholder="♂ Клітка / куди"
                         value={litterForms[m.id]?.weaned_males_cage || ""}
                         onChange={(e) =>
@@ -2103,6 +2141,8 @@ export default function Matings({ session }: Props) {
                       ) : (
                         <>
                           <input
+                            id={`litter-add-${m.id}-weaned-males-2`}
+                            aria-label="Скільки самців у другу клітку"
                             type="number"
                             placeholder="♂ Скільки з них у другу клітку"
                             value={litterForms[m.id]?.weaned_males_2 || ""}
@@ -2117,6 +2157,8 @@ export default function Matings({ session }: Props) {
                             }
                           />
                           <input
+                            id={`litter-add-${m.id}-weaned-males-cage-2`}
+                            aria-label="Друга клітка для самців"
                             placeholder="♂ Друга клітка"
                             value={litterForms[m.id]?.weaned_males_cage_2 || ""}
                             onChange={(e) =>
@@ -2132,6 +2174,8 @@ export default function Matings({ session }: Props) {
                         </>
                       )}
                       <input
+                        id={`litter-add-${m.id}-weaned-females`}
+                        aria-label="Кількість самиць"
                         type="number"
                         placeholder="♀ Кількість самиць"
                         value={litterForms[m.id]?.weaned_females || ""}
@@ -2146,6 +2190,8 @@ export default function Matings({ session }: Props) {
                         }
                       />
                       <input
+                        id={`litter-add-${m.id}-weaned-females-cage`}
+                        aria-label="Клітка для самиць"
                         placeholder="♀ Клітка / куди"
                         value={litterForms[m.id]?.weaned_females_cage || ""}
                         onChange={(e) =>
@@ -2174,6 +2220,8 @@ export default function Matings({ session }: Props) {
                       ) : (
                         <>
                           <input
+                            id={`litter-add-${m.id}-weaned-females-2`}
+                            aria-label="Скільки самиць у другу клітку"
                             type="number"
                             placeholder="♀ Скільки з них у другу клітку"
                             value={litterForms[m.id]?.weaned_females_2 || ""}
@@ -2188,6 +2236,8 @@ export default function Matings({ session }: Props) {
                             }
                           />
                           <input
+                            id={`litter-add-${m.id}-weaned-females-cage-2`}
+                            aria-label="Друга клітка для самиць"
                             placeholder="♀ Друга клітка"
                             value={
                               litterForms[m.id]?.weaned_females_cage_2 || ""
@@ -2205,6 +2255,8 @@ export default function Matings({ session }: Props) {
                         </>
                       )}
                       <input
+                        id={`litter-add-${m.id}-notes`}
+                        aria-label="Нотатки"
                         placeholder="Нотатки"
                         value={litterForms[m.id]?.notes || ""}
                         onChange={(e) =>

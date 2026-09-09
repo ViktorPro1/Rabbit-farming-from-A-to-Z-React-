@@ -161,6 +161,8 @@ export default function Pedigree({ session }: Props) {
             <h2 className="pedigree-section-title">Інші кролики</h2>
             <div className="pedigree-controls no-print">
               <select
+                id="pedigree-select-rabbit"
+                name="selectedRabbit"
                 className="pedigree-select"
                 value={selectedId}
                 onChange={(e) => setSelectedId(e.target.value)}
@@ -307,6 +309,8 @@ function PedigreeNode({
           </>
         ) : childId && role ? (
           <select
+            id={`pedigree-assign-${role}-${childId}`}
+            name={`assign-${role}-${childId}`}
             className="pedigree-assign-select no-print"
             defaultValue=""
             onChange={(e) =>

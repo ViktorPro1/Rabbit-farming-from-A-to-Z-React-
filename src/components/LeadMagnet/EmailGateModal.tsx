@@ -111,6 +111,8 @@ export default function EmailGateModal({
             <p className="email-gate-modal__desc">{description}</p>
 
             <input
+              id="email-gate-email"
+              name="email"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
@@ -120,6 +122,8 @@ export default function EmailGateModal({
             />
 
             <input
+              id="email-gate-website"
+              name="website"
               type="text"
               value={honeypot}
               onChange={(event) => setHoneypot(event.target.value)}

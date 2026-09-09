@@ -641,6 +641,8 @@ export default function Calculator({ session }: CalculatorProps) {
                     className={`grain-item ${currentSel.includes(g.id) ? "selected" : ""}`}
                   >
                     <input
+                      id={`grain-${grainMode}-${g.id}`}
+                      name={`grain-${g.id}`}
                       type="checkbox"
                       checked={currentSel.includes(g.id)}
                       onChange={() => toggleGrain(g.id)}
@@ -712,6 +714,8 @@ export default function Calculator({ session }: CalculatorProps) {
                 {/* ===== ГРАНУЛЯТОР ===== */}
                 <label className="granulator-toggle">
                   <input
+                    id="has-granulator"
+                    name="hasGranulator"
                     type="checkbox"
                     checked={hasGranulator}
                     onChange={(e) => setHasGranulator(e.target.checked)}

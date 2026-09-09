@@ -123,6 +123,8 @@ export default function MyVaccinations({ session }: Props) {
           <h2>Новий запис</h2>
           <div className="myvac-form-grid">
             <input
+              id="myvac-cage-number"
+              aria-label="Номер клітки"
               placeholder="Номер клітки *"
               value={form.cage_number}
               onChange={(e) =>
@@ -130,6 +132,8 @@ export default function MyVaccinations({ session }: Props) {
               }
             />
             <select
+              id="myvac-vaccine-type"
+              aria-label="Тип вакцини"
               value={form.vaccine_type}
               onChange={(e) =>
                 setForm({ ...form, vaccine_type: e.target.value })
@@ -141,6 +145,8 @@ export default function MyVaccinations({ session }: Props) {
               <option value="Інше">Інше</option>
             </select>
             <input
+              id="myvac-vaccine-name"
+              aria-label="Назва препарату"
               placeholder="Назва препарату *"
               value={form.vaccine_name}
               onChange={(e) =>
@@ -149,6 +155,9 @@ export default function MyVaccinations({ session }: Props) {
             />
             <div className="myvac-field-wrap">
               <label htmlFor="myvac-date">Дата вакцинації</label>
+              {/* control-has-associated-label вже коректно розпізнає
+                  зв'язок через htmlFor у цьому запуску лінтера — окремий
+                  disable-коментар тут більше не потрібен. */}
               <input
                 id="myvac-date"
                 type="date"
@@ -168,6 +177,8 @@ export default function MyVaccinations({ session }: Props) {
               />
             </div>
             <input
+              id="myvac-notes"
+              aria-label="Нотатки"
               placeholder="Нотатки"
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}

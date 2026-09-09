@@ -22,8 +22,6 @@ export default defineConfig([
       globals: globals.browser,
     },
     rules: {
-      // Знижуємо суворість a11y-правил до warn, щоб не блокувати білд/лінт.
-      // Виправляємо поступово, файл за файлом.
       'jsx-a11y/click-events-have-key-events': 'warn',
       'jsx-a11y/no-static-element-interactions': 'warn',
       'jsx-a11y/no-noninteractive-element-interactions': 'warn',
@@ -31,6 +29,18 @@ export default defineConfig([
       'jsx-a11y/label-has-associated-control': 'warn',
       'jsx-a11y/no-autofocus': 'warn',
       'jsx-a11y/aria-role': 'warn',
+      // Ловить <input>/<select>/<textarea> без id і без name —
+      // саме те, на що скаржиться Chrome DevTools ("form field should
+      // have an id or name attribute") для автозаповнення браузера.
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector:
+            "JSXOpeningElement[name.name=/^(input|select|textarea)$/]:not(:has(JSXAttribute[name.name='id'])):not(:has(JSXAttribute[name.name='name']))",
+          message:
+            'Полю форми бракує id або name (потрібно для автозаповнення браузера).',
+        },
+      ],
     },
   },
 ])

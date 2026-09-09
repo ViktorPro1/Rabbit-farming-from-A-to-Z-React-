@@ -357,9 +357,13 @@ const DoseCalculator = () => {
       </p>
 
       <div className="dc-weight-section">
-        <span className="dc-label">Вага кролика</span>
+        <label className="dc-label" htmlFor="dc-weight">
+          Вага кролика
+        </label>
         <div className="dc-weight-row">
           <input
+            id="dc-weight"
+            name="weight"
             type="range"
             min={0.1}
             max={8}

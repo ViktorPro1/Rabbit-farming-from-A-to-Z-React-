@@ -164,20 +164,30 @@ export default function Auth({ returnTo = "/registry" }: Props) {
 
         <div className="auth-form">
           <input
+            id="auth-email"
+            name="email"
             type="email"
             placeholder="Email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
+            id="auth-password"
+            name="password"
             type="password"
             placeholder="Пароль"
+            autoComplete={
+              mode === "login" ? "current-password" : "new-password"
+            }
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
           {mode === "register" && (
             <input
+              id="auth-invite-code"
+              name="inviteCode"
               type="text"
               placeholder="Інвайт код"
               value={inviteCode}

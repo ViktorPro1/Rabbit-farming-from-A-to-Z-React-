@@ -140,6 +140,7 @@ const ShareButton = ({ title }: ShareButtonProps) => {
 
               <div className="share-copy-row">
                 <input
+                  id="share-url-input"
                   className="share-url-input"
                   value={url}
                   readOnly

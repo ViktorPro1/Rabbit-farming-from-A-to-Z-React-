@@ -331,9 +331,13 @@ const ProfitCalc = () => {
             </div>
 
             <div className="pc-field">
-              <label>{saleTypeLabel[inputs.saleType]}</label>
+              <label htmlFor="pc-sale-price">
+                {saleTypeLabel[inputs.saleType]}
+              </label>
               <div className="pc-slider-row">
                 <input
+                  id="pc-sale-price"
+                  name="salePrice"
                   type="range"
                   min={inputs.saleType === "breeding" ? 200 : 60}
                   max={inputs.saleType === "breeding" ? 2000 : 300}

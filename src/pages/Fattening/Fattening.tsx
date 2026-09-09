@@ -694,6 +694,8 @@ export default function Fattening({ session }: Props) {
         <div className="fattening-form">
           <div className="fattening-form-grid">
             <input
+              id="fattening-add-cage-number"
+              name="cage_number"
               placeholder="Номер клітки *"
               value={form.cage_number}
               onChange={(e) =>
@@ -701,11 +703,15 @@ export default function Fattening({ session }: Props) {
               }
             />
             <input
+              id="fattening-add-breed"
+              name="breed"
               placeholder="Порода"
               value={form.breed}
               onChange={(e) => setForm({ ...form, breed: e.target.value })}
             />
             <input
+              id="fattening-add-birth-year"
+              name="birth_year"
               placeholder="Рік народження"
               value={form.birth_year}
               onChange={(e) => setForm({ ...form, birth_year: e.target.value })}
@@ -740,18 +746,24 @@ export default function Fattening({ session }: Props) {
               />
             </div>
             <input
+              id="fattening-add-males"
+              name="males"
               type="number"
               placeholder="Самців"
               value={form.males}
               onChange={(e) => setForm({ ...form, males: e.target.value })}
             />
             <input
+              id="fattening-add-females"
+              name="females"
               type="number"
               placeholder="Самиць"
               value={form.females}
               onChange={(e) => setForm({ ...form, females: e.target.value })}
             />
             <input
+              id="fattening-add-unknown"
+              name="unknown"
               type="number"
               placeholder="Стать невідома"
               value={form.unknown}
@@ -759,6 +771,8 @@ export default function Fattening({ session }: Props) {
             />
             <div></div>
             <input
+              id="fattening-add-notes"
+              name="notes"
               placeholder="Нотатки"
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
@@ -782,6 +796,8 @@ export default function Fattening({ session }: Props) {
           <h3>✏️ Редагування клітки {editingCage.cage_number}</h3>
           <div className="fattening-form-grid">
             <input
+              id="fattening-edit-cage-number"
+              name="cage_number"
               placeholder="Номер клітки *"
               value={editingCage.cage_number}
               onChange={(e) =>
@@ -789,6 +805,8 @@ export default function Fattening({ session }: Props) {
               }
             />
             <input
+              id="fattening-edit-breed"
+              name="breed"
               placeholder="Порода"
               value={editingCage.breed || ""}
               onChange={(e) =>
@@ -796,6 +814,8 @@ export default function Fattening({ session }: Props) {
               }
             />
             <input
+              id="fattening-edit-birth-year"
+              name="birth_year"
               placeholder="Рік народження"
               value={editingCage.birth_year || ""}
               onChange={(e) =>
@@ -835,6 +855,8 @@ export default function Fattening({ session }: Props) {
               />
             </div>
             <input
+              id="fattening-edit-males"
+              name="males"
               type="number"
               placeholder="Самців"
               value={editingCage.males || ""}
@@ -846,6 +868,8 @@ export default function Fattening({ session }: Props) {
               }
             />
             <input
+              id="fattening-edit-females"
+              name="females"
               type="number"
               placeholder="Самиць"
               value={editingCage.females || ""}
@@ -857,6 +881,8 @@ export default function Fattening({ session }: Props) {
               }
             />
             <input
+              id="fattening-edit-unknown"
+              name="unknown"
               type="number"
               placeholder="Стать невідома"
               value={editingCage.unknown || ""}
@@ -869,6 +895,8 @@ export default function Fattening({ session }: Props) {
             />
             <div></div>
             <input
+              id="fattening-edit-notes"
+              name="notes"
               placeholder="Нотатки"
               value={editingCage.notes || ""}
               onChange={(e) =>

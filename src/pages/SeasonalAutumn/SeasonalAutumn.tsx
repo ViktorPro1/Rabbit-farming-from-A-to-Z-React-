@@ -200,6 +200,8 @@ const SeasonalAutumn = () => {
                     className={`sa-item${checked[item.id] ? " sa-item--done" : ""}`}
                   >
                     <input
+                      id={`sa-check-${item.id}`}
+                      name={`sa-check-${item.id}`}
                       type="checkbox"
                       className="sa-checkbox"
                       checked={!!checked[item.id]}

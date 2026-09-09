@@ -46,6 +46,8 @@ export default function AssistantWindow({
 
       <div className="assistant-footer">
         <input
+          id="assistant-message-input"
+          name="message"
           type="text"
           placeholder="Напишіть повідомлення..."
           value={input}

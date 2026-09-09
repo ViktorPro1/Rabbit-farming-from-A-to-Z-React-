@@ -525,11 +525,16 @@ export default function DisqualifyingFaults() {
             ))}
           </div>
           <label className="df-toggle-label">
-            <input
-              type="checkbox"
-              checked={showOnlyBreedingBan}
-              onChange={(e) => setShowOnlyBreedingBan(e.target.checked)}
-            />
+            <label className="df-toggle-label">
+              <input
+                id="df-breeding-ban-only"
+                name="breedingBanOnly"
+                type="checkbox"
+                checked={showOnlyBreedingBan}
+                onChange={(e) => setShowOnlyBreedingBan(e.target.checked)}
+              />
+              Тільки ті, що виключають з розведення
+            </label>
             Тільки ті, що виключають з розведення
           </label>
         </div>

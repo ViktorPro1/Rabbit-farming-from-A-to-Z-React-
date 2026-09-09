@@ -598,6 +598,8 @@ export default function MyTreatments({ session }: Props) {
           <h2>Новий запис</h2>
           <div className="mytreat-form-grid">
             <input
+              id="mytreat-cage"
+              name="cage_number"
               placeholder="Номер клітки *"
               value={form.cage_number}
               onChange={(e) =>
@@ -634,6 +636,8 @@ export default function MyTreatments({ session }: Props) {
             {/* Ручне введення якщо "Інший" */}
             {isCustom && (
               <input
+                id="mytreat-drug-name"
+                name="drug_name"
                 placeholder="Назва препарату *"
                 value={form.drug_name}
                 onChange={(e) =>
@@ -918,6 +922,8 @@ export default function MyTreatments({ session }: Props) {
             </div>
             <div className="mytreat-form-grid">
               <input
+                id="mytreat-edit-cage"
+                name="cage_number"
                 placeholder="Номер клітки *"
                 value={editRecord.cage_number}
                 onChange={(e) =>
@@ -925,6 +931,8 @@ export default function MyTreatments({ session }: Props) {
                 }
               />
               <input
+                id="mytreat-edit-drug-name"
+                name="drug_name"
                 placeholder="Препарат *"
                 value={editRecord.drug_name}
                 onChange={(e) =>

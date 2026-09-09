@@ -969,6 +969,8 @@ export default function FinancesPage({ session }: Props) {
                                         одразу на ньому — очікувана поведінка
                                         для inline-редагування. */}
                                     <input
+                                      id={`sale-price-${s.id}`}
+                                      name={`sale-price-${s.id}`}
                                       type="number"
                                       placeholder="Ціна, грн"
                                       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -1157,6 +1159,8 @@ export default function FinancesPage({ session }: Props) {
                                               редагування ваги туші з'являється
                                               по кліку, фокус одразу на ньому. */}
                                           <input
+                                            id={`carcass-weight-${c.id}`}
+                                            name={`carcass-weight-${c.id}`}
                                             type="number"
                                             placeholder="Вага туші, кг"
                                             // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -1176,6 +1180,8 @@ export default function FinancesPage({ session }: Props) {
                                             }}
                                           />
                                           <input
+                                            id={`carcass-price-kg-${c.id}`}
+                                            name={`carcass-price-kg-${c.id}`}
                                             type="number"
                                             placeholder="Грн/кг"
                                             value={editingPriceKgValue}

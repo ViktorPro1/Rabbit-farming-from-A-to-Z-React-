@@ -718,6 +718,8 @@ function ReminderBadge({
       <span className="weighing-reminder weighing-reminder-edit">
         🔔 нагадувати кожні
         <input
+          id={`reminder-interval-${info.entityId ?? "unknown"}`}
+          name="reminderDays"
           type="number"
           min="1"
           value={draft}
@@ -1128,6 +1130,8 @@ export default function Weighing({ session }: Props) {
         <h3>✏️ Редагування</h3>
         <div className="weighing-form-grid">
           <select
+            id="weighing-edit-type"
+            name="weighing_type"
             value={editingRecord.weighing_type}
             onChange={(e) =>
               setEditingRecord({
@@ -1197,6 +1201,8 @@ export default function Weighing({ session }: Props) {
             />
           </div>
           <input
+            id="weighing-edit-notes"
+            name="notes"
             placeholder="Нотатки"
             value={editingRecord.notes || ""}
             onChange={(e) =>
@@ -1208,6 +1214,8 @@ export default function Weighing({ session }: Props) {
         {editingRecord.weighing_type === "fattening" && (
           <label className="weighing-final-check">
             <input
+              id="weighing-edit-is-final"
+              name="is_final"
               type="checkbox"
               checked={editingRecord.is_final}
               onChange={(e) =>
@@ -1381,6 +1389,8 @@ export default function Weighing({ session }: Props) {
           <h3>Нове зважування</h3>
           <div className="weighing-form-grid">
             <select
+              id="weighing-add-type"
+              name="weighing_type"
               value={form.weighing_type}
               onChange={(e) =>
                 setForm({
@@ -1429,6 +1439,8 @@ export default function Weighing({ session }: Props) {
               />
             </div>
             <input
+              id="weighing-add-notes"
+              name="notes"
               placeholder="Нотатки"
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
@@ -1438,6 +1450,8 @@ export default function Weighing({ session }: Props) {
           {form.weighing_type === "fattening" && (
             <label className="weighing-final-check">
               <input
+                id="weighing-add-is-final"
+                name="is_final"
                 type="checkbox"
                 checked={form.is_final}
                 onChange={(e) =>
@@ -1473,6 +1487,8 @@ export default function Weighing({ session }: Props) {
           </p>
           <div className="weighing-reminder-prompt-actions">
             <input
+              id="weighing-reminder-prompt-days"
+              name="reminderPromptDays"
               type="number"
               min="1"
               placeholder="днів"

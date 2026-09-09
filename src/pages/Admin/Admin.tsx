@@ -760,6 +760,8 @@ export default function Admin({ session }: Props) {
                       </td>
                       <td>
                         <select
+                          id={`plan-type-${user.id}`}
+                          name={`plan-type-${user.id}`}
                           className="access-plan-select"
                           value={user.plan_type}
                           onChange={(e) =>
@@ -794,6 +796,8 @@ export default function Admin({ session }: Props) {
                         )}
                         <div className="access-controls">
                           <input
+                            id={`access-until-${user.id}`}
+                            name={`access-until-${user.id}`}
                             type="date"
                             className="access-date-input"
                             defaultValue={
@@ -899,6 +903,8 @@ export default function Admin({ session }: Props) {
 
         <div className="admin-add">
           <input
+            id="new-invite-code"
+            name="newInviteCode"
             placeholder="Новий код"
             value={newCode}
             onChange={(e) => setNewCode(e.target.value.toUpperCase())}

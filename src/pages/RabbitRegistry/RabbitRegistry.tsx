@@ -814,16 +814,23 @@ export default function RabbitRegistry({ session }: Props) {
           <h2>Новий кролик</h2>
           <div className="registry-form-grid">
             <input
+              id="registry-name"
+              name="name"
+              autoComplete="off"
               placeholder="Кличка *"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
             <input
+              id="registry-breed"
+              name="breed"
               placeholder="Порода"
               value={form.breed}
               onChange={(e) => setForm({ ...form, breed: e.target.value })}
             />
             <select
+              id="registry-gender"
+              name="gender"
               value={form.gender}
               onChange={(e) =>
                 setForm({
@@ -836,11 +843,15 @@ export default function RabbitRegistry({ session }: Props) {
               <option value="male">Самець</option>
             </select>
             <input
+              id="registry-birth-date"
+              name="birth_date"
               type="date"
               value={form.birth_date}
               onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
             />
             <input
+              id="registry-cage-number"
+              name="cage_number"
               placeholder="Номер клітки"
               value={form.cage_number}
               onChange={(e) =>
@@ -848,6 +859,8 @@ export default function RabbitRegistry({ session }: Props) {
               }
             />
             <input
+              id="registry-notes"
+              name="notes"
               placeholder="Нотатки"
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
