@@ -57,6 +57,14 @@ interface LeadRow {
   created_at: string;
 }
 
+interface NpsFeedbackRow {
+  id: string;
+  score: number;
+  category: "detractor" | "passive" | "promoter";
+  comment: string | null;
+  created_at: string;
+}
+
 interface TableStat {
   name: string;
   label: string;
@@ -147,6 +155,8 @@ export default function Admin({ session }: Props) {
   const [users, setUsers] = useState<RegisteredUser[]>([]);
   const [deactivated, setDeactivated] = useState<DeactivatedUser[]>([]);
   const [leads, setLeads] = useState<LeadRow[]>([]);
+  const [npsFeedback, setNpsFeedback] = useState<NpsFeedbackRow[]>([]);
+  const [npsLoading, setNpsLoading] = useState(false);
   const [newCode, setNewCode] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -315,6 +325,21 @@ export default function Admin({ session }: Props) {
     setLeads(data || []);
   }
 
+  async function fetchNpsFeedback() {
+    setNpsLoading(true);
+    const { data, error: rpcError } = await supabase
+      .from("nps_feedback")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (rpcError) {
+      console.error("Не вдалося завантажити NPS-відгуки:", rpcError);
+      setNpsFeedback([]);
+    } else {
+      setNpsFeedback(data || []);
+    }
+    setNpsLoading(false);
+  }
+
   async function fetchStats(allCodes: InviteCode[], userCount: number) {
     setStatsLoading(true);
 
@@ -392,6 +417,7 @@ export default function Admin({ session }: Props) {
             await fetchUsers(allCodes);
             await fetchDeactivated();
             await fetchLeads();
+            await fetchNpsFeedback();
             const { count: profileCount } = await supabase
               .from("profiles")
               .select("*", { count: "exact", head: true });
@@ -490,6 +516,25 @@ export default function Admin({ session }: Props) {
 
   if (loading) return <p style={{ padding: "2rem" }}>Завантаження...</p>;
   if (!isAdmin) return <p style={{ padding: "2rem" }}>Доступ заборонено.</p>;
+
+  const npsTotal = npsFeedback.length;
+  const npsPromoters = npsFeedback.filter(
+    (f) => f.category === "promoter",
+  ).length;
+  const npsPassives = npsFeedback.filter(
+    (f) => f.category === "passive",
+  ).length;
+  const npsDetractors = npsFeedback.filter(
+    (f) => f.category === "detractor",
+  ).length;
+  const npsAverage =
+    npsTotal > 0
+      ? (npsFeedback.reduce((sum, f) => sum + f.score, 0) / npsTotal).toFixed(1)
+      : "—";
+  const npsScore =
+    npsTotal > 0
+      ? Math.round(((npsPromoters - npsDetractors) / npsTotal) * 100)
+      : null;
 
   return (
     <div className="admin-page">
@@ -673,6 +718,91 @@ export default function Admin({ session }: Props) {
                     <td>{formatBytes(u.totalBytes)}</td>
                   </tr>
                 ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Опитування NPS */}
+      <div className="admin-section">
+        <h2>
+          ⭐ Опитування NPS{" "}
+          <span className="admin-count">{npsFeedback.length}</span>
+        </h2>
+
+        {npsTotal > 0 && (
+          <>
+            <div className="stats-limits">
+              <div className="stats-limit-card">
+                <div className="stats-limit-title">Середня оцінка</div>
+                <div className="stats-limit-value">{npsAverage}</div>
+                <div className="stats-limit-max">з 10</div>
+              </div>
+              <div className="stats-limit-card">
+                <div className="stats-limit-title">NPS-індекс</div>
+                <div className="stats-limit-value">{npsScore}</div>
+                <div className="stats-limit-max">
+                  % промоутерів − % детракторів
+                </div>
+              </div>
+            </div>
+
+            <div className="stats-codes-row">
+              <div className="stats-code-badge free">
+                Промоутери (9–10): <strong>{npsPromoters}</strong>
+              </div>
+              <div className="stats-code-badge used">
+                Нейтральні (7–8): <strong>{npsPassives}</strong>
+              </div>
+              <div className="stats-code-badge detractor">
+                Детрактори (0–6): <strong>{npsDetractors}</strong>
+              </div>
+            </div>
+          </>
+        )}
+
+        {npsLoading ? (
+          <p style={{ opacity: 0.6 }}>Завантаження...</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Оцінка</th>
+                  <th>Коментар</th>
+                  <th>Дата</th>
+                </tr>
+              </thead>
+              <tbody>
+                {npsFeedback.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      style={{ textAlign: "center", opacity: 0.5 }}
+                    >
+                      Ще немає відповідей
+                    </td>
+                  </tr>
+                ) : (
+                  npsFeedback.map((f, i) => (
+                    <tr key={f.id}>
+                      <td>{i + 1}</td>
+                      <td>
+                        <span
+                          className={`nps-score-badge nps-score-badge--${f.category}`}
+                        >
+                          {f.score}
+                        </span>
+                      </td>
+                      <td>{f.comment || "—"}</td>
+                      <td>
+                        {new Date(f.created_at).toLocaleDateString("uk-UA")}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

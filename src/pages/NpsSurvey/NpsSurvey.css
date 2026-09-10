@@ -1,0 +1,226 @@
+.nps-page {
+    min-height: 100vh;
+}
+
+.nps-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), #639922);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.nps-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.nps-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.nps-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.nps-card {
+    background: var(--cream);
+    border-radius: 20px;
+    border: 0.5px solid var(--gray-light);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.nps-scale {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.nps-circle {
+    --circle-color: var(--gray);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--circle-color);
+    background: white;
+    color: var(--circle-color);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.nps-circle:hover {
+    background: var(--circle-color);
+    color: white;
+}
+
+.nps-circle:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 3px;
+}
+
+.nps-circle--active {
+    background: var(--circle-color);
+    color: white;
+    transform: scale(1.08);
+}
+
+.nps-circle--detractor {
+    --circle-color: #b71c1c;
+}
+
+.nps-circle--passive {
+    --circle-color: #c68a2e;
+}
+
+.nps-circle--promoter {
+    --circle-color: var(--green-accent);
+}
+
+.nps-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 8px;
+}
+
+.nps-followup {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--gray-light);
+    text-align: left;
+}
+
+.nps-followup-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+}
+
+.nps-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 0.5px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+    margin-bottom: 16px;
+}
+
+.nps-textarea:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 1px;
+}
+
+.nps-submit {
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.nps-submit:hover {
+    background: var(--green-mid);
+}
+
+.nps-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.nps-error {
+    color: #b71c1c;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.nps-thanks-cta {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.nps-thanks-cta h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.nps-thanks-cta p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+.nps-thanks-cta .nps-back-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.nps-thanks-cta .nps-back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.nps-back {
+    display: flex;
+    justify-content: center;
+}
+
+.nps-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    display: inline-block;
+}
+
+.nps-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 420px) {
+    .nps-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .nps-card {
+        padding: 1.25rem;
+    }
+
+    .nps-circle {
+        width: 34px;
+        height: 34px;
+        font-size: 13px;
+    }
+
+    .nps-scale {
+        gap: 6px;
+    }
+
+    .nps-thanks-cta {
+        padding: 1.5rem 1rem;
+    }
+}

@@ -220,5 +220,6 @@ export const prerenderRoutes = [
     "/privacy-policy",
     "/terms-of-use",
     "/partnership",
-    "/reviews"
+    "/reviews",
+    "/nps-survey"
 ];
