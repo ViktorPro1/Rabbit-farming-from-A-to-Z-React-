@@ -17,6 +17,7 @@ import {
   Handshake,
   Star,
   MessageSquareHeart,
+  ChevronDown,
 } from "lucide-react";
 import "./Header.css";
 
@@ -28,14 +29,18 @@ const LATEST_CHANGELOG_ID = CHANGELOG[CHANGELOG.length - 1]?.id ?? 0;
 
 const Header = ({ session }: Props) => {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false); // дропдаун "Оновлення"
+  const [showMore, setShowMore] = useState(false); // дропдаун "Ще"
+  const [showUserMenu, setShowUserMenu] = useState(false); // дропдаун аватара
+  const [menuOpen, setMenuOpen] = useState(false); // мобільний drawer
   const [unreadCount, setUnreadCount] = useState(() => {
     const lastSeenId =
       Number(localStorage.getItem("changelog_last_seen_id")) || 0;
     return CHANGELOG.filter((e) => e.id > lastSeenId).length;
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const swipeStartX = useRef<number | null>(null);
 
   useEffect(() => {
@@ -60,13 +65,18 @@ const Header = ({ session }: Props) => {
     };
   }, [session]);
 
+  // Закриття будь-якого відкритого дропдауна кліком поза ним
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
+      const target = e.target as Node;
+      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
         setShowDropdown(false);
+      }
+      if (moreRef.current && !moreRef.current.contains(target)) {
+        setShowMore(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(target)) {
+        setShowUserMenu(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -90,7 +100,21 @@ const Header = ({ session }: Props) => {
     if (!showDropdown) {
       markChangelogSeen();
     }
+    setShowMore(false);
+    setShowUserMenu(false);
     setShowDropdown((prev) => !prev);
+  }
+
+  function toggleMore() {
+    setShowDropdown(false);
+    setShowUserMenu(false);
+    setShowMore((prev) => !prev);
+  }
+
+  function toggleUserMenu() {
+    setShowDropdown(false);
+    setShowMore(false);
+    setShowUserMenu((prev) => !prev);
   }
 
   function formatDate(iso: string) {
@@ -102,6 +126,7 @@ const Header = ({ session }: Props) => {
 
   async function handleLogout() {
     await supabase.auth.signOut();
+    setShowUserMenu(false);
     setMenuOpen(false);
   }
 
@@ -110,6 +135,9 @@ const Header = ({ session }: Props) => {
   // Показуємо 3 останніх в дропдауні (найновіші спочатку)
   const recent = [...CHANGELOG].reverse().slice(0, 3);
   const recentLatestId = recent[0]?.id;
+
+  // Ініціал для аватара (перша літера email користувача)
+  const userInitial = session?.user.email?.[0]?.toUpperCase() ?? "?";
 
   return (
     <>
@@ -121,17 +149,55 @@ const Header = ({ session }: Props) => {
 
         {/* ДЕСКТОП nav */}
         <nav className="header-nav header-nav--desktop">
-          <NavLink to="/calculator">Калькулятор</NavLink>
-          <NavLink to="/community">Спільноти</NavLink>
+          {/* Головні пункти — завжди видимі */}
+          <NavLink to="/subscription">Підписка</NavLink>
           <NavLink to="/partnership">Партнерство</NavLink>
-          <NavLink to="/reviews">Відгуки</NavLink>
           <NavLink to="/nps-survey">Оцінка</NavLink>
 
+          {/* "Ще" — решта пунктів, сховані за замовчуванням */}
+          <div className="header-more" ref={moreRef}>
+            <button
+              className="header-more-trigger"
+              onClick={toggleMore}
+              aria-expanded={showMore}
+            >
+              Ще
+              <ChevronDown
+                size={14}
+                strokeWidth={2.5}
+                className={`header-more-chevron ${showMore ? "header-more-chevron--open" : ""}`}
+              />
+            </button>
+
+            {showMore && (
+              <div className="header-more-dropdown">
+                <NavLink to="/calculator" onClick={() => setShowMore(false)}>
+                  <Calculator size={16} />
+                  Калькулятор
+                </NavLink>
+                <NavLink to="/community" onClick={() => setShowMore(false)}>
+                  <Users size={16} />
+                  Спільноти
+                </NavLink>
+                <NavLink to="/reviews" onClick={() => setShowMore(false)}>
+                  <Star size={16} />
+                  Відгуки
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          {/* Оновлення — іконка-дзвіночок, не займає горизонтального місця */}
           <div className="changelog-menu" ref={dropdownRef}>
-            <button className="changelog-trigger" onClick={toggleDropdown}>
-              Оновлення
+            <button
+              className="changelog-icon-trigger"
+              onClick={toggleDropdown}
+              aria-label="Оновлення"
+              aria-expanded={showDropdown}
+            >
+              <Bell size={18} />
               {unreadCount > 0 && (
-                <span className="changelog-badge">{unreadCount}</span>
+                <span className="changelog-dot" aria-hidden="true" />
               )}
             </button>
 
@@ -183,19 +249,52 @@ const Header = ({ session }: Props) => {
             )}
           </div>
 
-          <NavLink to="/subscription">Підписка</NavLink>
-          {session ? (
-            <>
-              <NavLink to="/registry">Мої кролики</NavLink>
-              {isAdmin && <NavLink to="/admin">Адмін</NavLink>}
-              <button className="header-logout" onClick={handleLogout}>
-                Вийти
-              </button>
-            </>
-          ) : (
-            <NavLink to="/auth">Увійти</NavLink>
-          )}
           <ThemeToggle />
+
+          {/* Акцентна пігулка: "Увійти" для гостя, "Мої кролики" після входу */}
+          {session ? (
+            <NavLink to="/registry" className="header-accent-pill">
+              <Rabbit size={14} strokeWidth={2.5} />
+              Мої кролики
+            </NavLink>
+          ) : (
+            <NavLink to="/auth" className="header-accent-pill">
+              <LogIn size={14} strokeWidth={2.5} />
+              Увійти
+            </NavLink>
+          )}
+
+          {/* Аватар — тільки для залогінених, дає доступ до Адмін/Вийти */}
+          {session && (
+            <div className="header-user" ref={userMenuRef}>
+              <button
+                className="header-avatar"
+                onClick={toggleUserMenu}
+                aria-label="Меню користувача"
+                aria-expanded={showUserMenu}
+              >
+                {userInitial}
+              </button>
+
+              {showUserMenu && (
+                <div className="header-user-dropdown">
+                  {isAdmin && (
+                    <NavLink to="/admin" onClick={() => setShowUserMenu(false)}>
+                      <ShieldCheck size={16} />
+                      Адмін
+                    </NavLink>
+                  )}
+                  <button
+                    className="header-user-dropdown-logout"
+                    onClick={handleLogout}
+                  >
+                    <LogOut size={16} />
+                    Вийти
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </nav>
 
         {/* МОБІЛЬНИЙ рядок праворуч */}
@@ -225,7 +324,7 @@ const Header = ({ session }: Props) => {
         aria-hidden="true"
       />
 
-      {/* DRAWER */}
+      {/* DRAWER — без змін відносно попередньої версії, тут усі пункти видно завжди */}
       <nav
         className={`drawer ${menuOpen ? "drawer--open" : ""}`}
         aria-label="Мобільне меню"
