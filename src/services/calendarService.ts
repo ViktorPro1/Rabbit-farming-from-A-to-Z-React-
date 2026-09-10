@@ -214,12 +214,29 @@ function makeEvent(
     };
 }
 
-/** Додає задану кількість днів до дати у форматі YYYY-MM-DD. */
+/**
+ * Додає задану кількість днів до дати у форматі YYYY-MM-DD.
+ *
+ * ФІКС: попередня версія форматувала результат через
+ * `d.toISOString().slice(0, 10)`. toISOString() завжди повертає час у UTC,
+ * тоді як `d` тут будується й змінюється в ЛОКАЛЬНОМУ часовому поясі
+ * браузера. Для користувачів у поясі попереду UTC (Київ, влітку UTC+3)
+ * північ за місцевим часом — це ще ~21:00 попередньої доби за UTC, тому
+ * toISOString() систематично зсував дату на -1 день (підтверджено
+ * розбіжністю з бекендом: реальна ціль зважування виходила 2026-09-12,
+ * а календар показував 2026-09-11). Тепер результат формується виключно
+ * з локальних компонентів дати (getFullYear/getMonth/getDate), без
+ * переходу через UTC — зсуву більше немає.
+ */
 function addDays(dateStr: string | null | undefined, days: number): string | null {
     if (!dateStr) return null;
     const d = new Date(dateStr + "T00:00:00");
     d.setDate(d.getDate() + days);
-    return d.toISOString().slice(0, 10);
+
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
 }
 
 /**
