@@ -751,6 +751,13 @@ export default function Matings({ session }: Props) {
     return { text, className };
   }
 
+  function isWithin24hOfControl(controlDate?: string | null) {
+    if (!controlDate) return true;
+    // eslint-disable-next-line react-hooks/purity -- умисне порівняння з поточним часом для авто-приховування кнопки
+    const diff = Date.now() - new Date(controlDate).getTime();
+    return diff < 24 * 60 * 60 * 1000; // менше доби минуло
+  }
+
   function renderParentSelects(
     maleValue: string,
     femaleValue: string,
@@ -1379,15 +1386,19 @@ export default function Matings({ session }: Props) {
                                       ).toLocaleDateString("uk-UA")}
                                     </strong>
                                   </span>
-                                  {!hasBirth && l.litter_mating_date && (
-                                    <button
-                                      className="nestbox-done-btn"
-                                      onClick={() => handleRemating(l)}
-                                      title="Кролиця підпустила самця під час контрольної — оновити дати"
-                                    >
-                                      🔁 Покрилась повторно
-                                    </button>
-                                  )}
+                                  {!hasBirth &&
+                                    l.litter_mating_date &&
+                                    isWithin24hOfControl(
+                                      l.litter_control_date,
+                                    ) && (
+                                      <button
+                                        className="nestbox-done-btn"
+                                        onClick={() => handleRemating(l)}
+                                        title="Кролиця підпустила самця під час контрольної — оновити дати"
+                                      >
+                                        🔁 Покрилась повторно
+                                      </button>
+                                    )}
                                 </div>
                               )}
 
