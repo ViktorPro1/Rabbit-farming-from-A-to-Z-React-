@@ -151,6 +151,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/treatment-log": "Журнал лікувань",
   "/rhdv-strains": "Штами RHDV",
   "/palliative-care": "Паліативний догляд",
+  "/med-storage": "Зберігання ліків",
 
   // ВЕТЕРИНАРНІ МАНІПУЛЯЦІЇ
   "/vet-injections": "Ін'єкції",

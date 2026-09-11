@@ -74,6 +74,7 @@ const VetFecalSample = lazy(
 const BloodTestReference = lazy(
   () => import("../../pages/BloodTestReference/BloodTestReference"),
 );
+const MedStorage = lazy(() => import("../../pages/MedStorage/MedStorage"));
 
 /**
  * Лікування, сезонні загрози та ветеринарні маніпуляції.
@@ -113,5 +114,6 @@ export const treatmentRoutes = (
     <Route path="/vet-temperature" element={<VetTemperature />} />
     <Route path="/vet-fecal-sample" element={<VetFecalSample />} />
     <Route path="/blood-test-reference" element={<BloodTestReference />} />
+    <Route path="/med-storage" element={<MedStorage />} />
   </>
 );

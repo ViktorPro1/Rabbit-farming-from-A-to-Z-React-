@@ -133,6 +133,7 @@ export const prerenderRoutes = [
     "/treatment-log",
     "/rhdv-strains",
     "/palliative-care",
+    "/med-storage",
 
     // Сезонні загрози
     "/seasonal-summer",

@@ -116,6 +116,7 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/bite-wound-care": "Лікування та ветеринарна допомога",
   "/palliative-care": "Лікування та ветеринарна допомога",
   "/rhdv-strains": "Лікування та ветеринарна допомога",
+  "/med-storage": "Лікування та ветеринарна допомога",
   "/seasonal-spring": "Сезонні загрози",
   "/seasonal-summer": "Сезонні загрози",
   "/heat-stroke": "Сезонні загрози",

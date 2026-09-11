@@ -1,0 +1,448 @@
+.medstorage-page {
+    min-height: 100vh;
+}
+
+.medstorage-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.medstorage-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.medstorage-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.medstorage-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.medstorage-notice {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--brown);
+    margin-bottom: 1.2rem;
+}
+
+/* ── Базові принципи (дві плашки) ── */
+.medstorage-basics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.2rem;
+}
+
+.medstorage-basics-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 12px;
+    border: 0.5px solid var(--gray-light);
+}
+
+.medstorage-basics-item.fridge {
+    border-left: 3px solid #1565c0;
+}
+
+.medstorage-basics-item.room {
+    border-left: 3px solid var(--amber);
+}
+
+.medstorage-basics-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.medstorage-basics-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.medstorage-basics-item strong {
+    font-size: 13px;
+    color: var(--green-dark);
+}
+
+.medstorage-basics-item span {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+}
+
+.medstorage-search-row {
+    margin-bottom: 1rem;
+}
+
+.medstorage-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--gray-light);
+    border-radius: 999px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--cream);
+    color: var(--green-dark);
+}
+
+.medstorage-search:focus {
+    border-color: var(--green-mid);
+}
+
+.medstorage-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.2rem;
+}
+
+.medstorage-cat-btn {
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: var(--cream);
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--gray);
+    transition: all 0.2s;
+}
+
+.medstorage-cat-btn.active,
+.medstorage-cat-btn:hover {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+.medstorage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.medstorage-empty {
+    text-align: center;
+    color: var(--gray);
+    font-size: 14px;
+    margin-top: 2rem;
+}
+
+.medstorage-card {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.medstorage-card:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.medstorage-card.fridge {
+    border-color: #bbdefb;
+}
+
+.medstorage-card.fridge .medstorage-card-name {
+    color: var(--green-dark);
+}
+
+.medstorage-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.medstorage-card-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.medstorage-card-info {
+    flex: 1;
+    min-width: 160px;
+}
+
+.medstorage-card-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 2px;
+}
+
+.medstorage-card-alt {
+    font-size: 12px;
+    color: var(--gray);
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+.medstorage-card-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+}
+
+.medstorage-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.medstorage-badge.fridge {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.medstorage-badge.room {
+    background: var(--amber-light);
+    color: var(--brown);
+}
+
+.medstorage-badge.either {
+    background: var(--green-pale);
+    color: var(--green-dark);
+}
+
+.medstorage-chevron {
+    font-size: 11px;
+    color: var(--gray);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.medstorage-card-body {
+    border-top: 0.5px solid var(--gray-light);
+    padding: 1rem;
+    background: var(--green-light);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.medstorage-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 13px;
+    color: var(--green-dark);
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--green-pale);
+}
+
+.medstorage-row:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.medstorage-row-label {
+    font-weight: 500;
+    color: var(--green-dark);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.medstorage-flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.medstorage-flag {
+    font-size: 12px;
+    background: var(--cream);
+    color: var(--green-dark);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 0.5px solid var(--green-pale);
+}
+
+.medstorage-flag.danger {
+    background: #fdecea;
+    color: #c0392b;
+    border-color: #f5c6c0;
+}
+
+.medstorage-warning {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--brown);
+    margin-top: 4px;
+}
+
+/* ── Аптечка мінімум ── */
+.medstorage-tip {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--green-pale);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.medstorage-tip-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.medstorage-tip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.medstorage-tip-card {
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 1rem;
+    border: 0.5px solid var(--green-pale);
+}
+
+.medstorage-tip-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+}
+
+.medstorage-tip-card p {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Читайте також / назад ── */
+.medstorage-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.medstorage-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .medstorage-related-title {
+    color: var(--green-light);
+}
+
+.medstorage-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.medstorage-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.medstorage-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .medstorage-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .medstorage-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.medstorage-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.medstorage-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.medstorage-back-btn:hover {
+    background: var(--green-mid);
+}
+
+@media (max-width: 640px) {
+    .medstorage-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+
+    .medstorage-tip-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .medstorage-basics {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .medstorage-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .medstorage-card-top {
+        padding: 0.9rem;
+    }
+
+    .medstorage-card-body {
+        padding: 0.9rem;
+    }
+
+    .medstorage-tip {
+        padding: 1rem;
+    }
+}
