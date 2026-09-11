@@ -39,6 +39,9 @@ const CalendarPage = lazy(
 const FinancesPage = lazy(
   () => import("../../pages/FinancesPage/FinancesPage"),
 );
+const AptechkaPage = lazy(
+  () => import("../../pages/AptechkaPage/AptechkaPage"),
+);
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -253,6 +256,19 @@ export function getCabinetRoutes(session: Session | null) {
             withCabinetBoundary(
               "FinancesPage",
               <FinancesPage session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
+      />
+      <Route
+        path="/aptechka"
+        element={
+          session ? (
+            withCabinetBoundary(
+              "AptechkaPage",
+              <AptechkaPage session={session} />,
             )
           ) : (
             <Auth />

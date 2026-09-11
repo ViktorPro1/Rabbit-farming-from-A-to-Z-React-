@@ -245,6 +245,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/pedigree": "Родовід",
   "/my-calendar": "Календар",
   "/finances": "Фінанси",
+  "/aptechka": "Аптечка",
 
   // АДМІН
   "/admin": "Адмін",

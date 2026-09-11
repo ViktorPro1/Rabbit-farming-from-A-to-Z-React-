@@ -1,0 +1,527 @@
+.aptechka-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+/* ── HEADER ── */
+.aptechka-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.aptechka-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.aptechka-back-btn {
+    background: none;
+    border: 1.5px solid var(--green-mid);
+    color: var(--green-dark);
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-back-btn:hover {
+    background: var(--green-pale);
+}
+
+.aptechka-add-btn {
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-add-btn:hover {
+    background: var(--green-mid);
+}
+
+/* ── ФОРМА (ручне додавання) ── */
+.aptechka-form {
+    background: var(--cream, #faf8f2);
+    border: 1.5px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.aptechka-form h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0 0 0.4rem;
+}
+
+.aptechka-form-hint {
+    font-size: 0.82rem;
+    color: var(--gray);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.aptechka-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+}
+
+.aptechka-form-grid input,
+.aptechka-form-grid select {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: 1.5px solid var(--green-light);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: #fff;
+    color: #222;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.aptechka-form-grid input:focus,
+.aptechka-form-grid select:focus {
+    outline: none;
+    border-color: var(--green-accent);
+}
+
+.aptechka-field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.aptechka-field-wrap label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.aptechka-error {
+    color: #c62828;
+    font-size: 0.85rem;
+    margin: 0.3rem 0 0.5rem;
+}
+
+.aptechka-save-btn {
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-save-btn:hover:not(:disabled) {
+    background: var(--green-mid);
+}
+
+.aptechka-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.aptechka-save-btn.small,
+.aptechka-cancel-btn.small {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.82rem;
+}
+
+.aptechka-cancel-btn {
+    background: none;
+    border: 1.5px solid var(--gray-light, #e0e0e0);
+    color: #555;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-cancel-btn:hover {
+    background: #f5f5f5;
+}
+
+/* ── ПОТРЕБУЄ УТОЧНЕННЯ ── */
+.aptechka-needs-block {
+    background: #fffde7;
+    border: 2px solid var(--amber, #f59e0b);
+    border-radius: 12px;
+    padding: 1rem 1.2rem 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.aptechka-needs-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #7c4a00;
+    margin: 0 0 0.4rem;
+}
+
+.aptechka-needs-hint {
+    font-size: 0.82rem;
+    color: #8a6100;
+    margin: 0 0 0.85rem;
+    line-height: 1.5;
+}
+
+/* ── СІТКА КАРТОК ── */
+.aptechka-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.aptechka-card {
+    background: #fff;
+    border: 1.5px solid var(--gray-light, #e0e0e0);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    position: relative;
+    transition: box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.aptechka-card:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.aptechka-card.needs {
+    border-color: var(--amber, #f59e0b);
+    background: #fffbeb;
+}
+
+.aptechka-card.expired {
+    border-color: #e57373;
+    background: #fff5f5;
+}
+
+.aptechka-card.expiring {
+    border-color: var(--amber, #f59e0b);
+    background: #fffbeb;
+}
+
+.aptechka-card.used {
+    opacity: 0.65;
+}
+
+.aptechka-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.aptechka-name {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 0.92rem;
+}
+
+.badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 0.15rem 0.5rem;
+    white-space: nowrap;
+}
+
+.badge-expired {
+    background: #e57373;
+    color: #fff;
+}
+
+.badge-expiring {
+    background: var(--amber, #f59e0b);
+    color: #fff;
+}
+
+.aptechka-date,
+.aptechka-expiry {
+    font-size: 0.82rem;
+    color: #555;
+    margin: 0;
+}
+
+.aptechka-remaining-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--green-dark);
+    text-align: left;
+    cursor: pointer;
+}
+
+.aptechka-remaining-btn:hover {
+    text-decoration: underline;
+}
+
+.aptechka-fill-btn {
+    background: none;
+    border: 1.5px dashed var(--amber, #f59e0b);
+    color: #7c4a00;
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-fill-btn:hover {
+    background: #fff3cd;
+}
+
+.aptechka-inline-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.aptechka-inline-form.row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.aptechka-inline-form input,
+.aptechka-inline-form select {
+    padding: 0.35rem 0.5rem;
+    border: 1.5px solid var(--green-light);
+    border-radius: 7px;
+    font-size: 0.85rem;
+}
+
+.aptechka-inline-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.aptechka-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.aptechka-usedup-btn {
+    flex: 1;
+    background: none;
+    border: 1px solid var(--green-mid);
+    color: var(--green-dark);
+    padding: 0.3rem 0.6rem;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-usedup-btn:hover {
+    background: var(--green-pale);
+}
+
+.aptechka-delete-btn {
+    flex: 1;
+    background: none;
+    border: 1px solid #e57373;
+    color: #c62828;
+    padding: 0.3rem 0.6rem;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aptechka-delete-btn:hover {
+    background: #ffebee;
+}
+
+.aptechka-delete-link {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: #c62828;
+    font-size: 0.78rem;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ── ВИКОРИСТАНІ (архів) ── */
+.aptechka-usedup-block {
+    margin-top: 1.5rem;
+}
+
+.aptechka-usedup-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--gray-light);
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.aptechka-usedup-toggle:hover {
+    opacity: 0.9;
+}
+
+/* ── ЗАГОЛОВОК / СТАН ЗАВАНТАЖЕННЯ ── */
+.aptechka-all-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0 0 0.85rem;
+}
+
+.aptechka-loading {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+}
+
+/* ── ПОРОЖНІЙ СТАН ── */
+.aptechka-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.aptechka-empty-illustration {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.aptechka-empty-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.aptechka-empty-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    max-width: 320px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+    .aptechka-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .aptechka-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aptechka-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .aptechka-header h1 {
+        flex-basis: 100%;
+    }
+
+    .aptechka-back-btn,
+    .aptechka-add-btn {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}
+
+/* ── ЗНОСКА: звідки беруться записи ── */
+.aptechka-note {
+    margin-top: 2rem;
+    background: var(--cream, #faf8f2);
+    border: 1.5px solid var(--green-light);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+}
+
+.aptechka-note-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    cursor: pointer;
+    padding: 0;
+}
+
+.aptechka-note>p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0.75rem 0;
+    line-height: 1.5;
+}
+
+.aptechka-note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.aptechka-note-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+}
+
+.aptechka-note-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.aptechka-note-item strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--green-dark);
+    margin-bottom: 0.2rem;
+}
+
+.aptechka-note-item span {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.5;
+}

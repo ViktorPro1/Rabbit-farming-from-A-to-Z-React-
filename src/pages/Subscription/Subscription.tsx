@@ -102,6 +102,17 @@ const features = [
     ],
   },
   {
+    icon: "🧰",
+    title: "Аптечка",
+    desc: "Облік ветпрепаратів по кожній партії. Витрати категорії «Ветеринарія» з Фінансів потрапляють сюди автоматично — залишається вказати кількість і термін придатності.",
+    details: [
+      "Автоматичне створення запису з витрати «Ветеринарія»",
+      "Контроль залишку та терміну придатності кожного препарату",
+      "Позначка «Використано все» одним кліком",
+      "Ручне додавання препаратів без запису витрати",
+    ],
+  },
+  {
     icon: "⚖️",
     title: "Зважування",
     desc: "Контроль ваги показового кролика з гнізда чи кролятника. Раз на місяць вносиш вагу — система рахує приріст у грамах на добу між зважуваннями.",
@@ -257,8 +268,8 @@ const Subscription = () => {
           </div>
           <div className="sub-hero-stats">
             <div className="sub-stat">
-              <span className="sub-stat-num">20</span>
-              <span className="sub-stat-label">розділів обліку</span>
+              <span className="sub-stat-num">21</span>
+              <span className="sub-stat-label">розділ обліку</span>
             </div>
             <div className="sub-stat">
               <span className="sub-stat-num">∞</span>
@@ -266,7 +277,9 @@ const Subscription = () => {
             </div>
             <div className="sub-stat">
               <span className="sub-stat-num">24/7</span>
-              <span className="sub-stat-label">доступ з телефону</span>
+              <span className="sub-stat-label">
+                доступ з телефону, комп'ютера
+              </span>
             </div>
           </div>
         </div>
