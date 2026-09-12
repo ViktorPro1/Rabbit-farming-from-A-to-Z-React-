@@ -96,6 +96,9 @@ const DB_LIMIT_BYTES = 500 * 1024 * 1024;
 const MAU_LIMIT = 50000;
 const PRESENCE_CHANNEL = "public-site-presence";
 
+// Замінив існуючий масив TABLE_LIST у Admin.tsx на цей.
+// Відповідає оновленій get_table_counts() у базі (weight_log -> weighings,
+// плюс усі таблиці, яких раніше не було в підрахунку).
 const TABLE_LIST: { name: string; label: string }[] = [
   { name: "rabbits", label: "Кролики" },
   { name: "matings", label: "Парування" },
@@ -103,12 +106,19 @@ const TABLE_LIST: { name: string; label: string }[] = [
   { name: "fattening", label: "Відгодівля" },
   { name: "quarantine", label: "Карантин" },
   { name: "paddocks", label: "Вольєри" },
-  { name: "paddock_matings", label: "Вольєр. паруванні" },
+  { name: "paddock_matings", label: "Вольєр. парування" },
   { name: "paddock_litters", label: "Вольєр. окроли" },
-  { name: "weight_log", label: "Вага" },
+  { name: "paddock_females", label: "Вольєр. самки" },
+  { name: "weighings", label: "Вага" },
   { name: "health_log", label: "Здоров'я" },
   { name: "treatments", label: "Лікування" },
   { name: "vaccinations", label: "Вакцинації" },
+  { name: "medication_batches", label: "Аптечка" },
+  { name: "cage_disinfections", label: "Дезінфекція" },
+  { name: "sales", label: "Продажі" },
+  { name: "expenses", label: "Витрати" },
+  { name: "other_income", label: "Інші доходи" },
+  { name: "grain_recipes", label: "Рецепти гранул" },
   { name: "profiles", label: "Профілі" },
   { name: "invite_codes", label: "Інвайт коди" },
 ];
