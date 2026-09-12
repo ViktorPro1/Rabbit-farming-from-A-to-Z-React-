@@ -5,50 +5,155 @@ name: IndexNow Submit
 # тому цей workflow не запускається "наосліп" одразу після push —
 # він чекає, поки Vercel реально завершить білд і підтвердить успіх.
 on:
-    deployment_status:
+  deployment_status:
 
 jobs:
-    submit-to-indexnow:
-        # Запускаємо тільки якщо деплой успішний і це продакшн-оточення.
-        # Якщо у вашому Vercel-інтеграції оточення називається інакше
-        # (наприклад "production" з малої літери), перевірте назву
-        # в GitHub → вкладка "Environments" репозиторію і виправте рядок нижче.
-        if: >
-            github.event.deployment_status.state == 'success' &&
-            github.event.deployment_status.environment == 'Production'
-        runs-on: ubuntu-latest
+  submit-to-indexnow:
+    # Запускаємо тільки якщо деплой успішний і це продакшн-оточення.
+    # Якщо у вашому Vercel-інтеграції оточення називається інакше
+    # (наприклад "production" з малої літери), перевірте назву
+    # в GitHub → вкладка "Environments" репозиторію і виправте рядок нижче.
+    if: >
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment_status.environment == 'Production'
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Завантажити sitemap.xml з живого сайту
-              run: |
-                  SITE_URL="https://rabbit-farming-from-a-to-z-react.vercel.app"
-                  curl -s "$SITE_URL/sitemap.xml" -o sitemap.xml
-                  echo "Sitemap завантажено, розмір: $(wc -c < sitemap.xml) байт"
+    steps:
+      - name: Завантажити sitemap.xml з живого сайту
+        run: |
+          SITE_URL="https://rabbit-farming-from-a-to-z-react.vercel.app"
+          curl -s "$SITE_URL/sitemap.xml" -o sitemap.xml
+          echo "Sitemap завантажено, розмір: $(wc -c < sitemap.xml) байт"
 
-            - name: Витягти список URL із sitemap
-              run: |
-                  grep -oP '(?<=<loc>)[^<]+' sitemap.xml > urls.txt
-                  echo "Знайдено URL: $(wc -l < urls.txt)"
-                  if [ ! -s urls.txt ]; then
-                    echo "Список URL порожній — sitemap не розпарсився, перевірте формат."
-                    exit 1
-                  fi
+      # Замість grep парсимо через Python (xml.etree) — так надійніше
+      # обробляти теги loc/lastmod, навіть якщо lastmod відсутній
+      # у частині записів або порядок тегів трохи інший.
+      - name: Розпарсити sitemap у JSON (loc + lastmod)
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET, json
 
-            - name: Сформувати JSON-запит для IndexNow
-              run: |
-                  # jq попередньо встановлений на всіх ubuntu-runner'ах GitHub Actions
-                  jq -R -s -c 'split("\n") | map(select(length > 0))' urls.txt > urllist.json
+          tree = ET.parse("sitemap.xml")
+          root = tree.getroot()
+          # namespace може бути порожнім або стандартним sitemap-namespace
+          ns = ""
+          if root.tag.startswith("{"):
+              ns = root.tag.split("}")[0] + "}"
 
-                  jq -n \
-                    --arg host "rabbit-farming-from-a-to-z-react.vercel.app" \
-                    --arg key "df415ffabd8e42d9b8b01b173c87739e" \
-                    --arg keyLocation "https://rabbit-farming-from-a-to-z-react.vercel.app/df415ffabd8e42d9b8b01b173c87739e.txt" \
-                    --argjson urlList "$(cat urllist.json)" \
-                    '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}' \
-                    > payload.json
+          urls = []
+          for url in root.findall(f"{ns}url"):
+              loc = url.find(f"{ns}loc")
+              lastmod = url.find(f"{ns}lastmod")
+              if loc is None or not loc.text:
+                  continue
+              urls.append({
+                  "loc": loc.text.strip(),
+                  "lastmod": (lastmod.text.strip() if lastmod is not None and lastmod.text else "")
+              })
 
-            - name: Відправити запит на IndexNow API
-              run: |
-                  curl -i -X POST "https://api.indexnow.org/indexnow" \
-                    -H "Content-Type: application/json" \
-                    -d @payload.json
+          with open("current-sitemap.json", "w", encoding="utf-8") as f:
+              json.dump(urls, f, ensure_ascii=False)
+
+          print(f"У поточному sitemap знайдено URL: {len(urls)}")
+          PY
+
+          if [ ! -s current-sitemap.json ] || [ "$(cat current-sitemap.json)" = "[]" ]; then
+            echo "Sitemap порожній або не розпарсився — перевірте формат."
+            exit 1
+          fi
+
+      # Ключовий момент: відновлюємо файл зі стану попереднього
+      # успішного запуску (previous-sitemap.json). Через унікальний
+      # ключ на запис (з run_id) і спільний префікс на відновлення
+      # GitHub Actions завжди підхоплює саме останній збережений стан.
+      # Якщо кешу ще нема (перший запуск) — файл просто не з'явиться,
+      # і скрипт нижче коректно це обробить як "усе нове".
+      - name: Відновити стан попереднього запуску
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: previous-sitemap.json
+          key: indexnow-state-${{ github.run_id }}
+          restore-keys: |
+            indexnow-state-
+
+      # Порівнюємо поточний sitemap з попереднім знімком:
+      # - URL, якого раніше не було → новий, потрібно відправити
+      # - URL є в обох, але lastmod відрізняється → змінився, відправити
+      # - якщо lastmod відсутній у sitemap взагалі (порожній рядок
+      #   з обох боків), зміни контенту такого URL ми не побачимо —
+      #   лише появу нових сторінок. Якщо потрібне й це, додайте
+      #   <lastmod> у скрипт генерації sitemap.
+      - name: Визначити нові/змінені URL
+        run: |
+          python3 - <<'PY'
+          import json, os
+
+          with open("current-sitemap.json", encoding="utf-8") as f:
+              current = json.load(f)
+
+          previous = []
+          if os.path.exists("previous-sitemap.json"):
+              try:
+                  with open("previous-sitemap.json", encoding="utf-8") as f:
+                      previous = json.load(f)
+              except json.JSONDecodeError:
+                  previous = []
+
+          prev_map = {item["loc"]: item.get("lastmod", "") for item in previous}
+
+          changed = []
+          for item in current:
+              loc = item["loc"]
+              lastmod = item.get("lastmod", "")
+              if loc not in prev_map:
+                  changed.append(loc)
+              elif lastmod and lastmod != prev_map[loc]:
+                  changed.append(loc)
+
+          with open("changed-urls.json", "w", encoding="utf-8") as f:
+              json.dump(changed, f, ensure_ascii=False)
+
+          print(f"Нових/змінених URL: {len(changed)} з {len(current)} загалом")
+          PY
+
+      - name: Сформувати JSON-запит для IndexNow
+        id: build-payload
+        if: ${{ !cancelled() }}
+        run: |
+          COUNT=$(jq 'length' changed-urls.json)
+          echo "changed_count=$COUNT" >> "$GITHUB_OUTPUT"
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "Немає нових або змінених сторінок — запит до IndexNow не потрібен."
+            exit 0
+          fi
+
+          jq -n \
+            --arg host "rabbit-farming-from-a-to-z-react.vercel.app" \
+            --arg key "df415ffabd8e42d9b8b01b173c87739e" \
+            --arg keyLocation "https://rabbit-farming-from-a-to-z-react.vercel.app/df415ffabd8e42d9b8b01b173c87739e.txt" \
+            --argjson urlList "$(cat changed-urls.json)" \
+            '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}' \
+            > payload.json
+
+      - name: Відправити запит на IndexNow API
+        if: ${{ steps.build-payload.outputs.changed_count != '0' }}
+        run: |
+          curl -i -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json" \
+            -d @payload.json
+
+      # Зберігаємо поточний sitemap як стан для наступного запуску.
+      # Робимо це завжди в кінці (навіть якщо змін не було), інакше
+      # порівняння на наступному деплої буде некоректним.
+      - name: Зберегти поточний стан для наступного запуску
+        if: ${{ !cancelled() }}
+        run: cp current-sitemap.json previous-sitemap.json
+
+      - name: Оновити кеш стану
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@v4
+        with:
+          path: previous-sitemap.json
+          key: indexnow-state-${{ github.run_id }}
