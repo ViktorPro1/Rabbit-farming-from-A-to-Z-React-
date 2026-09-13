@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import type { Session } from "@supabase/supabase-js";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { CHANGELOG } from "../../data/changelog";
+import FontSizeToggle from "../../features/font-size/FontSizeToggle";
 import {
   Calculator,
   Users,
@@ -250,6 +251,7 @@ const Header = ({ session }: Props) => {
           </div>
 
           <ThemeToggle />
+          <FontSizeToggle />
 
           {/* Акцентна пігулка: "Увійти" для гостя, "Мої кролики" після входу */}
           {session ? (
@@ -300,6 +302,7 @@ const Header = ({ session }: Props) => {
         {/* МОБІЛЬНИЙ рядок праворуч */}
         <div className="header-mobile-right">
           <ThemeToggle />
+          <FontSizeToggle />
           <button
             className="burger-btn"
             onClick={() => setMenuOpen((prev) => !prev)}

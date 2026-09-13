@@ -22,6 +22,7 @@ const AssistantPromo = lazy(
 );
 import "./print.css";
 import "./App-states.css";
+import { FontSizeProvider } from "./features/font-size/FontSizeProvider";
 import { useTVNavigation } from "./hooks/useTVNavigation";
 import DonationPopup from "./components/DonationPopup/DonationPopup";
 
@@ -222,7 +223,7 @@ function App() {
   if (session && !hasProfile) return <SubscriptionExpired />;
 
   return (
-    <>
+    <FontSizeProvider>
       <ErrorBoundary>
         <DonationPopup />
         <CopyProtection />
@@ -251,7 +252,7 @@ function App() {
           <UpdatePrompt />
         </BrowserRouter>
       </ErrorBoundary>
-    </>
+    </FontSizeProvider>
   );
 }
 

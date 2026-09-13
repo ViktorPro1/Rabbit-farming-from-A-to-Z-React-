@@ -1,0 +1,44 @@
+/* Кругла іконка-кнопка у тому ж стилі, що й .changelog-icon-trigger
+   та .header-avatar у Header.css — щоб виглядало як рідний елемент
+   хедера, а не стороння вставка. */
+
+.font-size-icon-trigger {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: var(--green-pale);
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s, font-size 0.15s ease;
+  flex-shrink: 0;
+}
+
+.font-size-icon-trigger:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Розмір самого напису "Aa" візуально показує поточний рівень —
+   кнопка одночасно є і перемикачем, і індикатором стану. */
+.font-size-icon-trigger--1 {
+  font-size: 12px;
+}
+
+.font-size-icon-trigger--2 {
+  font-size: 15px;
+}
+
+.font-size-icon-trigger--3 {
+  font-size: 18px;
+}
+
+.font-size-icon-trigger:focus-visible {
+  outline: 3px solid var(--green-accent);
+  outline-offset: 2px;
+}
