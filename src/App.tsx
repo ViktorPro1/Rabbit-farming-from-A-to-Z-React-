@@ -25,6 +25,7 @@ import "./App-states.css";
 import { FontSizeProvider } from "./features/font-size/FontSizeProvider";
 import { useTVNavigation } from "./hooks/useTVNavigation";
 import DonationPopup from "./components/DonationPopup/DonationPopup";
+import MetaPixelTracker from "./components/MetaPixelTracker/MetaPixelTracker";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -229,6 +230,7 @@ function App() {
         <CopyProtection />
         <CookieConsentBanner />
         <BrowserRouter>
+          <MetaPixelTracker />
           {isOffline && (
             <div className="offline-banner" role="status">
               Немає з'єднання з інтернетом — показано збережену версію платформи
