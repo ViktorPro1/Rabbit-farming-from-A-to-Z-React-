@@ -256,6 +256,12 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - GitHub Actions (щоденний cron)
 - Sentry (error tracking)
 
+## Аналітика та трекінг
+
+- Google Analytics 4
+- Google Tag Manager
+- Meta Pixel (Facebook Pixel)
+
 ## Оптимізація
 
 - PWA
