@@ -241,10 +241,10 @@ export default function RabbitRegistry({ session }: Props) {
           .from("paddock_litters")
           .select("alive, weaned_males, weaned_females, weaned_date")
           .eq("user_id", session.user.id),
+        // paddock_females has no user_id column — RLS scopes it to the owner via paddocks
         supabase
           .from("paddock_females")
           .select("id")
-          .eq("user_id", session.user.id)
           .not("paddock_id", "is", null),
         supabase
           .from("fattening")
