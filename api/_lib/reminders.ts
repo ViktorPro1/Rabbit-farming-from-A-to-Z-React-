@@ -52,7 +52,7 @@ export async function checkExpectedBirths(tomorrow: string): Promise<CheckResult
         await sendToUser(
             m.user_id,
             '🐰 Очікуваний окріл завтра',
-            `Клітка ${m.female_cage || '?'} — готуй гніздо.`,
+            `Клітка ${m.female_cage || '?'} — завтра очікується окріл.`,
             '/matings'
         );
     }
@@ -74,7 +74,7 @@ export async function checkRepeatControls(tomorrow: string): Promise<CheckResult
     for (const l of data ?? []) {
         await sendToUser(
             l.user_id,
-            '🐇 Контрольна злучка завтра (повторна)',
+            '🐇 Контрольна злучка завтра',
             'Перевір самку — контрольна дата повторної злучки.',
             '/matings'
         );
@@ -86,8 +86,9 @@ export async function checkRepeatControls(tomorrow: string): Promise<CheckResult
 export async function checkRepeatBirths(tomorrow: string): Promise<CheckResult> {
     const { data, error } = await supabase
         .from('litters')
-        .select('user_id')
-        .eq('litter_expected_birth', tomorrow);
+        .select('user_id, rabbits!litters_mother_id_fkey(cage_number)')
+        .eq('litter_expected_birth', tomorrow)
+        .overrideTypes<{ user_id: string; rabbits: { cage_number: string | null } | null }[]>();
 
     if (error) {
         console.error('[daily-reminders] repeatBirths query failed:', error);
@@ -95,10 +96,11 @@ export async function checkRepeatBirths(tomorrow: string): Promise<CheckResult> 
     }
 
     for (const l of data ?? []) {
+        const cage = l.rabbits?.cage_number;
         await sendToUser(
             l.user_id,
-            '🐰 Очікуваний окріл завтра (повторний)',
-            'Готуй гніздо — очікується повторний окріл.',
+            '🐰 Очікуваний окріл завтра',
+            `Клітка ${cage || '?'} — завтра очікується окріл.`,
             '/matings'
         );
     }
@@ -174,7 +176,7 @@ export async function checkWeaning(tomorrow: string): Promise<CheckResult> {
             await sendToUser(
                 l.user_id,
                 '✂️ Відлучення завтра',
-                'Крільченята готові до відлучення від матки.',
+                'Крільченята готові до відлучення від Крольчихи.',
                 '/matings'
             );
             sent++;
