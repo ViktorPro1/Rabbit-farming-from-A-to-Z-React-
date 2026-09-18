@@ -771,6 +771,23 @@ button.registry-email:hover {
     background: rgba(0, 0, 0, 0.06);
 }
 
+button.registry-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.registry-settings-gear {
+    font-size: 0.85rem;
+    opacity: 0.65;
+    transition: opacity 0.2s, transform 0.3s;
+}
+
+button.registry-email:hover .registry-settings-gear {
+    opacity: 1;
+    transform: rotate(60deg);
+}
+
 /* ===== SKELETON LOADER ===== */
 @keyframes shimmer {
     0% {
