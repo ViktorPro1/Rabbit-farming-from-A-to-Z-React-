@@ -1,12 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendEmail } from './_lib/email.js';
 import { renderTemplate } from './_lib/email-templates.js';
+import { isAuthorized } from './_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
 
-    const authHeader = req.headers['x-webhook-secret'];
-    if (authHeader !== process.env.SUPABASE_WEBHOOK_SECRET) return res.status(401).end();
+    if (!isAuthorized(req, 'x-webhook-secret', process.env.SUPABASE_WEBHOOK_SECRET)) return res.status(401).end();
 
     const email = req.body?.record?.email;
     if (!email) return res.status(400).json({ error: 'Missing email in record' });

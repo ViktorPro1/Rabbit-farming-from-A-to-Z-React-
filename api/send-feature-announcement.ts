@@ -2,14 +2,14 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabase } from './_lib/push.js';
 import { sendEmail } from './_lib/email.js';
 import { renderTemplate } from './_lib/email-templates.js';
+import { isAuthorized } from './_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
 
-    const authHeader = req.headers['x-send-secret'];
-    if (authHeader !== process.env.SEND_EMAIL_SECRET) return res.status(401).end();
+    if (!isAuthorized(req, 'x-send-secret', process.env.SEND_EMAIL_SECRET)) return res.status(401).end();
 
-    const { description } = req.body;
+    const { description } = req.body ?? {};
     if (!description) return res.status(400).json({ error: 'Missing description' });
 
     const { data, error } = await supabase.from('profiles').select('email');

@@ -66,6 +66,26 @@ function mockNoSession() {
   } as never);
 }
 
+// Змінено: додано спільні хелпери для сценаріїв із сесією. App тепер
+// перевіряє профіль через .maybeSingle() (раніше .single()), тому мок
+// має надавати саме цей метод.
+function mockSession() {
+  vi.mocked(supabase.auth.getSession).mockResolvedValue({
+    data: { session: { user: { id: "user-1" } } },
+  } as never);
+  vi.mocked(supabase.auth.onAuthStateChange).mockReturnValue({
+    data: { subscription: { unsubscribe: vi.fn() } },
+  } as never);
+}
+
+function mockProfileQuery(maybeSingle: ReturnType<typeof vi.fn>) {
+  vi.mocked(supabase.from).mockReturnValue({
+    select: vi.fn().mockReturnThis(),
+    eq: vi.fn().mockReturnThis(),
+    maybeSingle,
+  } as never);
+}
+
 function setOnline(value: boolean) {
   Object.defineProperty(navigator, "onLine", { value, configurable: true });
 }
@@ -111,21 +131,26 @@ describe("App", () => {
   });
 
   it('показує екран "Підписка закінчилась", якщо сесія є, але профілю немає', async () => {
-    vi.mocked(supabase.auth.getSession).mockResolvedValue({
-      data: { session: { user: { id: "user-1" } } },
-    } as never);
-    vi.mocked(supabase.auth.onAuthStateChange).mockReturnValue({
-      data: { subscription: { unsubscribe: vi.fn() } },
-    } as never);
-    vi.mocked(supabase.from).mockReturnValue({
-      select: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockResolvedValue({ data: null }),
-    } as never);
+    mockSession();
+    // maybeSingle: відсутній профіль = data null без помилки
+    mockProfileQuery(vi.fn().mockResolvedValue({ data: null, error: null }));
 
     render(<App />);
 
     expect(await screen.findByText("Підписка закінчилась")).toBeInTheDocument();
+  });
+
+  it("рендерить застосунок, якщо сесія є і профіль знайдено", async () => {
+    // Додано: позитивний сценарій, якого раніше не було
+    mockSession();
+    mockProfileQuery(
+      vi.fn().mockResolvedValue({ data: { id: "user-1" }, error: null }),
+    );
+
+    render(<App />);
+
+    expect(await screen.findByTestId("app-routes")).toBeInTheDocument();
+    expect(screen.queryByText("Підписка закінчилась")).not.toBeInTheDocument();
   });
 
   it("очищує невидимі юнікод-символи зі шляху при монтуванні", async () => {
@@ -150,17 +175,23 @@ describe("App", () => {
   });
 
   it("не показує SubscriptionExpired при технічній помилці запиту профілю", async () => {
-    vi.mocked(supabase.auth.getSession).mockResolvedValue({
-      data: { session: { user: { id: "user-1" } } },
-    } as never);
-    vi.mocked(supabase.auth.onAuthStateChange).mockReturnValue({
-      data: { subscription: { unsubscribe: vi.fn() } },
-    } as never);
-    vi.mocked(supabase.from).mockReturnValue({
-      select: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockRejectedValue(new Error("Network error")),
-    } as never);
+    mockSession();
+    mockProfileQuery(vi.fn().mockRejectedValue(new Error("Network error")));
+
+    render(<App />);
+
+    expect(await screen.findByTestId("app-routes")).toBeInTheDocument();
+    expect(screen.queryByText("Підписка закінчилась")).not.toBeInTheDocument();
+  });
+
+  it("не показує SubscriptionExpired, якщо Supabase повернув помилку в полі error", async () => {
+    // Додано: supabase-js зазвичай не кидає виняток, а повертає { error }
+    mockSession();
+    mockProfileQuery(
+      vi
+        .fn()
+        .mockResolvedValue({ data: null, error: { message: "Server error" } }),
+    );
 
     render(<App />);
 

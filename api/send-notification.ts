@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabase, webpush, WebPushError, removeExpiredSubscription } from './_lib/push.js';
+import { isAuthorized } from './_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
 
-    const authHeader = req.headers['x-push-secret'];
-    if (authHeader !== process.env.PUSH_SEND_SECRET) return res.status(401).end();
+    if (!isAuthorized(req, 'x-push-secret', process.env.PUSH_SEND_SECRET)) return res.status(401).end();
 
-    const { title, body, url, userId } = req.body;
+    const { title, body, url, userId } = req.body ?? {};
 
     let query = supabase.from('push_subscriptions').select('*');
     if (userId) query = query.eq('user_id', userId);

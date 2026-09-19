@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, lazy, Suspense } from "react";
+import { useEffect, useState, useCallback, useRef, lazy, Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { supabase } from "./lib/supabase";
 import { logError } from "./lib/logError";
@@ -105,26 +105,33 @@ function App() {
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
 
+  // Лічильник запитів: getSession і onAuthStateChange можуть викликати
+  // checkProfile майже одночасно, застарілу відповідь ігноруємо.
+  const profileRequestRef = useRef(0);
+
   const checkProfile = useCallback(async (userId: string) => {
+    const requestId = ++profileRequestRef.current;
     try {
+      // maybeSingle: відсутній профіль — це data = null без помилки,
+      // а не виняток, тому його можна відрізнити від технічного збою.
       const { data, error } = await supabase
         .from("profiles")
         .select("id")
         .eq("id", userId)
-        .single();
+        .maybeSingle();
 
+      if (requestId !== profileRequestRef.current) return;
       if (error) throw error;
 
       setHasProfile(!!data);
     } catch (error) {
+      if (requestId !== profileRequestRef.current) return;
       logError("App.checkProfile", error);
-      // Не блокуємо доступ через технічну помилку запиту —
-      // трактуємо як "профіль є", щоб не показати хибний
-      // SubscriptionExpired через збій мережі/супабейзу.
-      setHasProfile(true);
-    } finally {
-      setLoading(false);
+      // Технічний збій (мережа, супабейз) не змінює попередній стан:
+      // не показуємо хибний SubscriptionExpired і не відкриваємо
+      // доступ, якщо профіль уже було визнано відсутнім.
     }
+    setLoading(false);
   }, []);
 
   usePublicPresence();
@@ -181,8 +188,14 @@ function App() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session) checkProfile(session.user.id);
-      else setHasProfile(true);
+      if (session) {
+        checkProfile(session.user.id);
+      } else {
+        // Вихід із акаунта: скасовуємо запит, що ще виконується
+        profileRequestRef.current++;
+        setHasProfile(true);
+        setLoading(false);
+      }
     });
 
     return () => {

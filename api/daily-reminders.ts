@@ -1,12 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { tomorrowDate } from './_lib/dates.js';
 import { ALL_CHECKS } from './_lib/reminders.js';
+import { isAuthorized } from './_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
 
-    const authHeader = req.headers['x-push-secret'];
-    if (authHeader !== process.env.PUSH_SEND_SECRET) return res.status(401).end();
+    if (!isAuthorized(req, 'x-push-secret', process.env.PUSH_SEND_SECRET)) return res.status(401).end();
 
     const tomorrow = tomorrowDate();
     let sentCount = 0;
