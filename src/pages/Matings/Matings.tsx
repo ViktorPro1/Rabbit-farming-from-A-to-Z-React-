@@ -41,6 +41,7 @@ interface Litter {
   actual_female_id: string | null;
   nestbox_date: string | null;
   previous_mating_date: string | null;
+  failure_type: FailureType | null;
 }
 
 interface Mating {
@@ -94,6 +95,7 @@ const emptyLitterForm = {
   actual_male_id: "",
   actual_female_id: "",
   nestbox_date: "",
+  failure_type: "",
 };
 
 function calcSlaughterDate(birthDate: string): string {
@@ -109,6 +111,13 @@ const WEANING_SCHEME: Record<string, { min: number; target: number }> = {
   extensive: { min: 45, target: 60 },
 };
 
+type FailureType = "empty" | "lost";
+
+const FAILURE_LABELS: Record<FailureType, string> = {
+  empty: "Не окотилась",
+  lost: "Окотилась, розкидала: малюки завмерли",
+};
+
 function schemeLabel(scheme?: string): string {
   switch (scheme) {
     case "intensive":
@@ -121,7 +130,9 @@ function schemeLabel(scheme?: string): string {
 }
 
 function getUpcomingInfo(m: Mating): { label: string; date: string } | null {
-  const pendingLitter = (m.litters || []).find((l) => !l.birth_date);
+  const pendingLitter = (m.litters || []).find(
+    (l) => !l.birth_date && !l.failure_type,
+  );
   if (pendingLitter?.litter_expected_birth) {
     return {
       label: "🗓 Очік. окріл",
@@ -536,6 +547,7 @@ export default function Matings({ session }: Props) {
         actual_male_id: editingLitterData.actual_male_id || null,
         actual_female_id: editingLitterData.actual_female_id || null,
         nestbox_date: editingLitterData.nestbox_date || null,
+        failure_type: editingLitterData.failure_type || null,
       })
       .eq("id", editingLitterData.id);
 
@@ -590,6 +602,7 @@ export default function Matings({ session }: Props) {
       actual_male_id: form.actual_male_id || null,
       actual_female_id: form.actual_female_id || null,
       nestbox_date: form.nestbox_date || null,
+      failure_type: form.failure_type || null,
     });
     if (error) {
       setError("Помилка збереження");
@@ -756,6 +769,35 @@ export default function Matings({ session }: Props) {
     // eslint-disable-next-line react-hooks/purity -- умисне порівняння з поточним часом для авто-приховування кнопки
     const diff = Date.now() - new Date(controlDate).getTime();
     return diff < 24 * 60 * 60 * 1000; // менше доби минуло
+  }
+
+  function renderFailureChecks(
+    value: string,
+    onChange: (v: string) => void,
+    idPrefix: string,
+  ) {
+    return (
+      <div className="matings-form-full litter-failure-checks">
+        <label htmlFor={`${idPrefix}-failure-empty`}>
+          <input
+            id={`${idPrefix}-failure-empty`}
+            type="checkbox"
+            checked={value === "empty"}
+            onChange={(e) => onChange(e.target.checked ? "empty" : "")}
+          />
+          {FAILURE_LABELS.empty}
+        </label>
+        <label htmlFor={`${idPrefix}-failure-lost`}>
+          <input
+            id={`${idPrefix}-failure-lost`}
+            type="checkbox"
+            checked={value === "lost"}
+            onChange={(e) => onChange(e.target.checked ? "lost" : "")}
+          />
+          {FAILURE_LABELS.lost}
+        </label>
+      </div>
+    );
   }
 
   function renderParentSelects(
@@ -1291,6 +1333,7 @@ export default function Matings({ session }: Props) {
 
                     {(m.litters || []).map((l) => {
                       const hasBirth = !!l.birth_date;
+                      const isFailed = !!l.failure_type;
                       const weanInfo = hasBirth
                         ? getWeaningInfo(l.birth_date, m.breeding_scheme)
                         : null;
@@ -1304,7 +1347,9 @@ export default function Matings({ session }: Props) {
                                   ? new Date(l.birth_date).toLocaleDateString(
                                       "uk-UA",
                                     )
-                                  : "очікується"}
+                                  : isFailed
+                                    ? "не відбувся"
+                                    : "очікується"}
                               </strong>
                             </span>
                             <div className="litter-block-btns">
@@ -1336,6 +1381,12 @@ export default function Matings({ session }: Props) {
                               </button>
                             </div>
                           </div>
+
+                          {isFailed && l.failure_type && (
+                            <div className="litter-failed-badge">
+                              {FAILURE_LABELS[l.failure_type]}
+                            </div>
+                          )}
 
                           {/* Фактичні батьки якщо відрізняються від злучки */}
                           {(l.actual_male_id || l.actual_female_id) && (
@@ -1667,6 +1718,16 @@ export default function Matings({ session }: Props) {
                                     }
                                   />
                                 </div>
+                                {renderFailureChecks(
+                                  editingLitterData.failure_type || "",
+                                  (v) =>
+                                    setEditingLitterData({
+                                      ...editingLitterData,
+                                      failure_type: (v ||
+                                        null) as Litter["failure_type"],
+                                    }),
+                                  `litter-edit-${l.id}`,
+                                )}
                                 <input
                                   id={`litter-edit-${l.id}-total-born`}
                                   aria-label="Народилось всього"
@@ -2039,6 +2100,18 @@ export default function Matings({ session }: Props) {
                           }
                         />
                       </div>
+                      {renderFailureChecks(
+                        litterForms[m.id]?.failure_type || "",
+                        (v) =>
+                          setLitterForms({
+                            ...litterForms,
+                            [m.id]: {
+                              ...(litterForms[m.id] || emptyLitterForm),
+                              failure_type: v,
+                            },
+                          }),
+                        `litter-add-${m.id}`,
+                      )}
                       <input
                         id={`litter-add-${m.id}-total-born`}
                         aria-label="Народилось всього"

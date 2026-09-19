@@ -94,6 +94,25 @@ interface SaleRecord {
   sold_at: string;
 }
 
+interface FailureEntry {
+  litterId: string;
+  type: "empty" | "lost";
+  matingDate: string;
+  failureDate: string;
+  maleName: string;
+}
+
+interface FemaleFailureStat {
+  femaleId: string;
+  femaleName: string;
+  femaleBreed: string;
+  femaleCage: string;
+  entries: FailureEntry[];
+  emptyCount: number;
+  lostCount: number;
+  littersCount: number;
+}
+
 interface MonthlyStat {
   month: string; // "2026-06"
   totalBorn: number;
@@ -446,6 +465,121 @@ function AccuracyCard({
         })}
       </div>
     </div>
+  );
+}
+
+const FAILURE_LABELS: Record<FailureEntry["type"], string> = {
+  empty: "Не окотилась",
+  lost: "Розкидала, малюки завмерли",
+};
+
+function FailureCard({ stat }: { stat: FemaleFailureStat }) {
+  const failures = stat.entries.length;
+  const attempts = stat.littersCount + failures;
+  const successRate =
+    attempts > 0 ? Math.round((stat.littersCount / attempts) * 100) : 0;
+
+  return (
+    <div className="stat-card">
+      <div className="stat-card-header">
+        <div className="stat-card-title">
+          <span className="stat-name">
+            ♀ {stat.femaleName}
+            {stat.femaleCage ? ` (кл.${stat.femaleCage})` : ""}
+          </span>
+          {stat.femaleBreed && (
+            <span className="stat-breed">{stat.femaleBreed}</span>
+          )}
+        </div>
+      </div>
+      <div className="stat-metrics">
+        <div className="stat-metric">
+          <span className="stat-metric-label">Без окролу</span>
+          <span className="stat-metric-val" style={{ color: "#b71c1c" }}>
+            {failures}
+          </span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Не окотилась</span>
+          <span className="stat-metric-val">{stat.emptyCount}</span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Розкидала, завмерли</span>
+          <span className="stat-metric-val">{stat.lostCount}</span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Успішних окролів</span>
+          <span className="stat-metric-val">{stat.littersCount}</span>
+        </div>
+        <div className="stat-metric">
+          <span className="stat-metric-label">Успішність злучок</span>
+          <span className="stat-metric-val">{successRate}%</span>
+        </div>
+      </div>
+      <div className="accuracy-entries">
+        {stat.entries.map((e) => (
+          <div key={e.litterId} className="accuracy-entry-row">
+            <span className="accuracy-entry-dates">
+              Злучка:{" "}
+              {e.matingDate
+                ? new Date(e.matingDate).toLocaleDateString("uk-UA")
+                : "—"}
+              {e.maleName ? ` · ♂ ${e.maleName}` : ""}
+            </span>
+            <span className="accuracy-entry-diff diff-late">
+              {FAILURE_LABELS[e.type]}
+              {e.failureDate
+                ? ` · ${new Date(e.failureDate).toLocaleDateString("uk-UA")}`
+                : ""}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FailuresTab({ stats }: { stats: FemaleFailureStat[] }) {
+  if (stats.length === 0) {
+    return (
+      <div className="stats-empty-state">
+        <div className="stats-empty-illustration">—</div>
+        <h3 className="stats-empty-title">Невдалих злучок ще немає</h3>
+        <p className="stats-empty-desc">
+          У розділі Парування відкрийте окріл кнопкою «Редагувати» і поставте
+          відмітку «Не окотилась» або «Окотилась, розкидала». Дані з'являться
+          тут автоматично.
+        </p>
+      </div>
+    );
+  }
+
+  const totalFailures = stats.reduce((s, f) => s + f.entries.length, 0);
+  const totalEmpty = stats.reduce((s, f) => s + f.emptyCount, 0);
+  const totalLost = stats.reduce((s, f) => s + f.lostCount, 0);
+
+  return (
+    <>
+      <div className="slaughter-tab">
+        <div className="slaughter-summary">
+          <div className="slaughter-summary-item">
+            <span className="slaughter-summary-val">{totalFailures}</span>
+            <span className="slaughter-summary-label">Без окролу всього</span>
+          </div>
+          <div className="slaughter-summary-item">
+            <span className="slaughter-summary-val">{totalEmpty}</span>
+            <span className="slaughter-summary-label">Не окотилась</span>
+          </div>
+          <div className="slaughter-summary-item">
+            <span className="slaughter-summary-val">{totalLost}</span>
+            <span className="slaughter-summary-label">Розкидала, завмерли</span>
+          </div>
+        </div>
+      </div>
+      {stats.map((s) => (
+        <FailureCard key={s.femaleId} stat={s} />
+      ))}
+    </>
   );
 }
 
@@ -893,6 +1027,7 @@ export default function Statistics({ session }: Props) {
     [],
   );
   const [salesData, setSalesData] = useState<SaleRecord[]>([]);
+  const [failureStats, setFailureStats] = useState<FemaleFailureStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
     | "females"
@@ -903,6 +1038,7 @@ export default function Statistics({ session }: Props) {
     | "slaughter"
     | "sales"
     | "overview"
+    | "failures"
   >("females");
   const navigate = useNavigate();
   const location = useLocation();
@@ -1057,6 +1193,59 @@ export default function Statistics({ session }: Props) {
         litterMatingCounts[l.mating_id] =
           (litterMatingCounts[l.mating_id] || 0) + 1;
       });
+
+      // Невдалі окроли: не окотилась / окотилась, але малюки загинули
+      const birthsByFemale: Record<string, number> = {};
+      matings.forEach((m) => {
+        birthsByFemale[m.female_id] =
+          (birthsByFemale[m.female_id] || 0) + (littersMap[m.id] || []).length;
+      });
+
+      const failureMap: Record<string, FemaleFailureStat> = {};
+      (litters || []).forEach((l) => {
+        if (!l.failure_type) return;
+        const m = matings.find((mm) => mm.id === l.mating_id);
+        if (!m || !m.female) return;
+        const fid = m.female_id;
+        if (!failureMap[fid]) {
+          failureMap[fid] = {
+            femaleId: fid,
+            femaleName: m.female.name,
+            femaleBreed: m.female.breed || "",
+            femaleCage: m.female.cage_number || m.female_cage || "",
+            entries: [],
+            emptyCount: 0,
+            lostCount: 0,
+            littersCount: 0,
+          };
+        }
+        const stat = failureMap[fid];
+        stat.entries.push({
+          litterId: l.id,
+          type: l.failure_type === "lost" ? "lost" : "empty",
+          matingDate: l.litter_mating_date || m.mating_date || "",
+          failureDate:
+            (l.failure_type === "lost"
+              ? l.birth_date
+              : l.litter_expected_birth) || "",
+          maleName: m.male?.name || "",
+        });
+        if (l.failure_type === "lost") stat.lostCount += 1;
+        else stat.emptyCount += 1;
+      });
+      setFailureStats(
+        Object.values(failureMap)
+          .map((s) => ({
+            ...s,
+            littersCount: birthsByFemale[s.femaleId] || 0,
+            entries: [...s.entries].sort((a, b) =>
+              (b.failureDate || b.matingDate).localeCompare(
+                a.failureDate || a.matingDate,
+              ),
+            ),
+          }))
+          .sort((a, b) => b.entries.length - a.entries.length),
+      );
 
       // Огляд: додаємо народжено по місяцях
       (litters || []).forEach((l) => {
@@ -1473,6 +1662,12 @@ export default function Statistics({ session }: Props) {
             >
               📈 Огляд
             </button>
+            <button
+              className={`stats-tab ${activeTab === "failures" ? "active" : ""}`}
+              onClick={() => setActiveTab("failures")}
+            >
+              Невдалі окроли
+            </button>
           </div>
 
           {activeTab !== "pairs" &&
@@ -1648,6 +1843,8 @@ export default function Statistics({ session }: Props) {
             )}
 
             {activeTab === "sales" && <SalesTab sales={salesData} />}
+
+            {activeTab === "failures" && <FailuresTab stats={failureStats} />}
 
             {activeTab === "overview" && (
               <OverviewTab

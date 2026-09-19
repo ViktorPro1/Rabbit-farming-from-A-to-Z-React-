@@ -712,6 +712,34 @@
     width: fit-content;
 }
 
+.litter-failure-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.litter-failure-checks label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.litter-failure-checks input[type="checkbox"] {
+    width: auto;
+    flex: none;
+}
+
+.litter-failed-badge {
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-left: 3px solid #b71c1c;
+    border-radius: 8px;
+    background: rgba(183, 28, 28, 0.1);
+    color: #b71c1c;
+    font-weight: 600;
+}
+
 @media (max-width: 640px) {
     .matings-info-grid {
         grid-template-columns: 1fr;
