@@ -1,4 +1,11 @@
-import { useEffect, useState, useCallback, useRef, lazy, Suspense } from "react";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  lazy,
+  Suspense,
+} from "react";
 import { BrowserRouter } from "react-router-dom";
 import { supabase } from "./lib/supabase";
 import { logError } from "./lib/logError";
@@ -70,17 +77,17 @@ function SubscriptionExpired() {
         <p className="app-state-link-row">
           📧{" "}
           <a
-            href="mailto:webstartstudio978@gmail.com"
+            href="mailto:rabbit.farming.ua@gmail.com"
             className="app-state-link"
           >
-            webstartstudio978@gmail.com
+            rabbit.farming.ua@gmail.com
           </a>
         </p>
 
         <p className="app-state-link-row app-state-link-row--last">
           ✈️{" "}
           <a
-            href="https://t.me/Viktor_freelancer_recruiting_pit"
+            href="https://t.me/Dima_freelancer_recruiting_pit"
             target="_blank"
             rel="noreferrer"
             className="app-state-link"
