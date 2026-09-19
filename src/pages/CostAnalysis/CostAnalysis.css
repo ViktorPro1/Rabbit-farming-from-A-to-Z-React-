@@ -1,0 +1,285 @@
+.costan-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.costan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.costan-header h1 {
+    color: var(--green-dark);
+    font-size: 1.8rem;
+}
+
+.costan-back-btn {
+    padding: 0.6rem 1.2rem;
+    background: none;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.costan-back-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.costan-loading,
+.costan-empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 2rem;
+}
+
+.costan-error {
+    text-align: center;
+    color: #b71c1c;
+    padding: 2rem;
+}
+
+.costan-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.costan-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.costan-tab {
+    padding: 0.55rem 1.1rem;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.costan-tab-active {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    color: white;
+}
+
+.costan-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.costan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.costan-card {
+    background: var(--cream);
+    border-radius: 12px;
+    border-top: 3px solid var(--brown);
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.costan-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
+}
+
+.costan-card-title {
+    color: var(--green-dark);
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+.costan-card-sub {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+}
+
+.costan-badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.costan-badge-active {
+    background: var(--green-pale);
+    color: var(--green-dark);
+}
+
+.costan-badge-done {
+    background: var(--gray-light);
+    color: var(--brown);
+}
+
+.costan-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed var(--gray-light);
+    font-size: 0.95rem;
+}
+
+.costan-row-label {
+    color: var(--gray);
+}
+
+.costan-row-value {
+    color: var(--green-dark);
+    text-align: right;
+}
+
+.costan-row-strong .costan-row-label {
+    color: var(--green-dark);
+    font-weight: 600;
+}
+
+.costan-row-strong .costan-row-value {
+    font-weight: 700;
+}
+
+.costan-missing {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+.costan-hint {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}
+
+.costan-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.costan-section h2 {
+    color: var(--green-dark);
+    font-size: 1.3rem;
+}
+
+.costan-table-wrap {
+    overflow-x: auto;
+}
+
+.costan-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.costan-table th,
+.costan-table td {
+    padding: 0.55rem 0.7rem;
+    text-align: right;
+    border-bottom: 1px solid var(--gray-light);
+    white-space: nowrap;
+}
+
+.costan-table th:first-child,
+.costan-table td:first-child {
+    text-align: left;
+}
+
+.costan-table th {
+    color: var(--green-dark);
+    background: var(--cream);
+}
+
+.costan-table td {
+    color: var(--green-dark);
+}
+
+.costan-details {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 0.8rem 1.25rem;
+}
+
+.costan-details summary {
+    color: var(--green-dark);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.costan-details-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+    color: var(--gray);
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.costan-details-body p {
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .costan-page {
+        padding: 1.25rem 1rem;
+    }
+
+    .costan-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .costan-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .costan-page {
+        padding: 1rem 0.75rem;
+    }
+
+    .costan-tab {
+        flex: 1;
+        text-align: center;
+    }
+
+    .costan-row {
+        font-size: 0.9rem;
+    }
+}
