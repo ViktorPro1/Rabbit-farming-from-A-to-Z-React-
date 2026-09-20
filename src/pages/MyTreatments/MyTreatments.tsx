@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { todayKyiv, addDaysISO } from "../../utils/kyivDate";
 import "./MyTreatments.css";
 
 interface Props {
@@ -317,14 +318,15 @@ const emptyForm = {
   notes: "",
 };
 
+// Змінено: сьогодні за Києвом і календарна арифметика через kyivDate
+// (раніше Date + toISOString давали UTC-дату, а при переході на літній
+// час результат міг бути на день менший).
 function todayStr() {
-  return new Date().toISOString().split("T")[0];
+  return todayKyiv();
 }
 
 function addDays(dateStr: string, days: number): string {
-  const d = new Date(dateStr);
-  d.setDate(d.getDate() + days);
-  return d.toISOString().split("T")[0];
+  return addDaysISO(dateStr, days);
 }
 
 function isOverdue(next_date: string | null) {

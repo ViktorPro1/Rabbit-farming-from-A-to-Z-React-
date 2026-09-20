@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { todayKyiv } from "../../utils/kyivDate";
 import "./FinancesPage.css";
 
 interface Props {
@@ -117,14 +118,14 @@ function formatUAH(value: number) {
 const emptyExpenseForm = {
   category: "feed" as ExpenseCategory,
   amount: "",
-  expense_date: new Date().toISOString().split("T")[0],
+  expense_date: todayKyiv(), // Змінено: сьогодні за Києвом, не UTC
   description: "",
 };
 
 const emptyOtherIncomeForm = {
   category: "hides" as OtherIncomeCategory,
   amount: "",
-  income_date: new Date().toISOString().split("T")[0],
+  income_date: todayKyiv(), // Змінено: сьогодні за Києвом, не UTC
   description: "",
 };
 

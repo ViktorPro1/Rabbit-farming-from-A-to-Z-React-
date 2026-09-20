@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { addDaysISO } from "../../utils/kyivDate";
 import "./Weighing.css";
 
 interface Props {
@@ -677,7 +678,9 @@ function computeReminderInfo(
     entityType,
     entityId,
     reminderDays,
-    dueDate: due.toISOString().slice(0, 10),
+    // Змінено: раніше due.toISOString() — due тут локальна північ, тож у Києві
+    // дата зсувалась на день назад. Тепер від дати останнього зважування.
+    dueDate: addDaysISO(last.weighing_date, reminderDays),
     daysUntil,
     zone,
   };

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { QRCodeCanvas } from "qrcode.react";
 import { supabase } from "../../lib/supabase";
+import { todayKyiv, addDaysISO } from "../../utils/kyivDate";
 import "./Fattening.css";
 
 interface Props {
@@ -34,15 +35,15 @@ const emptyForm = {
   notes: "",
 };
 
+// Змінено: календарна арифметика й "сьогодні" за Києвом через kyivDate
+// (раніше Date + toISOString давали UTC-дату).
 function calcSlaughterDate(birthDate: string): string {
   if (!birthDate) return "";
-  const d = new Date(birthDate);
-  d.setDate(d.getDate() + 110);
-  return d.toISOString().split("T")[0];
+  return addDaysISO(birthDate, 110);
 }
 
 function todayIso(): string {
-  return new Date().toISOString().split("T")[0];
+  return todayKyiv();
 }
 
 export default function Fattening({ session }: Props) {

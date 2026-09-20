@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { todayKyiv } from "../../utils/kyivDate";
 import "./AptechkaPage.css";
 
 interface Props {
@@ -23,8 +24,9 @@ interface MedicationBatch {
 
 const UNIT_OPTIONS = ["мл", "г", "кг", "табл.", "доз", "уп.", "од."];
 
+// Змінено: сьогодні за Києвом (раніше UTC)
 function todayStr() {
-  return new Date().toISOString().split("T")[0];
+  return todayKyiv();
 }
 
 function isExpired(expiry_date: string | null) {

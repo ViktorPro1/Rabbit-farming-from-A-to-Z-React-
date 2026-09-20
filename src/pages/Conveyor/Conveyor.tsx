@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./Conveyor.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
+import { todayKyiv } from "../../utils/kyivDate";
 
 // ==== СХЕМИ ЗЛУЧУВАННЯ (дні) ====
 const PREGNANCY_DAYS = 31;
@@ -51,9 +52,8 @@ const Conveyor = () => {
   const rabbitsCount = Number(rabbitsCountInput) || 0;
   const groupSize = Number(groupSizeInput) || 0;
   const [scheme, setScheme] = useState<string>("extensive");
-  const [startDate, setStartDate] = useState<string>(
-    new Date().toISOString().split("T")[0],
-  );
+  // Змінено: початкова дата — сьогодні за Києвом (раніше UTC)
+  const [startDate, setStartDate] = useState<string>(() => todayKyiv());
 
   const cycleDays = PREGNANCY_DAYS + (WEANING_DAYS[scheme] || 60);
 

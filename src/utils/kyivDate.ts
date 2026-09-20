@@ -51,7 +51,9 @@ export function todayKyiv(): string {
  * рядок розбирається як UTC і повертається як UTC, часовий пояс не впливає.
  */
 export function addDaysISO(isoDate: string, days: number): string {
-  const d = new Date(`${isoDate}T00:00:00Z`);
+  // slice(0, 10): якщо з бази прийшов повний timestamp, беремо лише календарну
+  // дату (YYYY-MM-DD), щоб не отримати Invalid Date
+  const d = new Date(`${isoDate.slice(0, 10)}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().slice(0, 10);
 }

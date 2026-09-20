@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import { createClient } from "@supabase/supabase-js";
+import { todayKyiv } from "../../utils/kyivDate";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -312,8 +313,10 @@ export default function Admin({ session }: Props) {
 
   // Швидка кнопка: +1 місяць від сьогодні
   async function handleGrantOneMonth(userId: string) {
-    const until = new Date();
-    until.setMonth(until.getMonth() + 1);
+    // Змінено: "сьогодні" за Києвом (раніше UTC: вночі виходила дата на день
+    // менша). Місяць додається до дати без часу в UTC, пояс пристрою не впливає.
+    const until = new Date(`${todayKyiv()}T00:00:00Z`);
+    until.setUTCMonth(until.getUTCMonth() + 1);
     await handleSetAccessUntil(userId, until.toISOString().slice(0, 10));
   }
 

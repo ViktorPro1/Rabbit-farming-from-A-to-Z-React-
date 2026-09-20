@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { todayKyiv } from "../../utils/kyivDate";
 import "./DisinfectionLog.css";
 
 interface Props {
@@ -23,8 +24,9 @@ const emptyForm = {
   notes: "",
 };
 
+// Змінено: сьогодні за Києвом (раніше UTC)
 function todayIso(): string {
-  return new Date().toISOString().split("T")[0];
+  return todayKyiv();
 }
 
 export default function DisinfectionLog({ session }: Props) {

@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { todayKyiv, addDaysISO } from "../../utils/kyivDate";
 import "./Matings.css";
 
 interface Props {
@@ -98,11 +99,12 @@ const emptyLitterForm = {
   failure_type: "",
 };
 
+// Змінено: раніше дата парсилась як UTC, зсувалась за локальним часом і
+// форматувалась через toISOString() — при переході на літній час результат
+// міг бути на день менший. Тепер чиста календарна арифметика (kyivDate).
 function calcSlaughterDate(birthDate: string): string {
   if (!birthDate) return "";
-  const d = new Date(birthDate);
-  d.setDate(d.getDate() + 110);
-  return d.toISOString().split("T")[0];
+  return addDaysISO(birthDate, 110);
 }
 
 const WEANING_SCHEME: Record<string, { min: number; target: number }> = {
@@ -307,12 +309,11 @@ export default function Matings({ session }: Props) {
       setMatingForm({ ...matingForm, mating_date: date, control_date: "" });
       return;
     }
-    const d = new Date(date);
-    d.setDate(d.getDate() + 7);
+    // Змінено: додавання днів через kyivDate замість Date + toISOString (UTC)
     setMatingForm({
       ...matingForm,
       mating_date: date,
-      control_date: d.toISOString().split("T")[0],
+      control_date: addDaysISO(date, 7),
     });
   }
 
@@ -329,17 +330,14 @@ export default function Matings({ session }: Props) {
       });
       return;
     }
-    const control = new Date(date);
-    control.setDate(control.getDate() + 7);
-    const expected = new Date(date);
-    expected.setDate(expected.getDate() + 31);
+    // Змінено: додавання днів через kyivDate замість Date + toISOString (UTC)
     setLitterForms({
       ...litterForms,
       [matingId]: {
         ...(litterForms[matingId] || emptyLitterForm),
         litter_mating_date: date,
-        litter_control_date: control.toISOString().split("T")[0],
-        litter_expected_birth: expected.toISOString().split("T")[0],
+        litter_control_date: addDaysISO(date, 7),
+        litter_expected_birth: addDaysISO(date, 31),
       },
     });
   }
@@ -658,18 +656,16 @@ export default function Matings({ session }: Props) {
     )
       return;
 
-    const today = new Date().toISOString().split("T")[0];
-    const control = new Date();
-    control.setDate(control.getDate() + 7);
-    const expected = new Date();
-    expected.setDate(expected.getDate() + 31);
+    // Змінено: "сьогодні" за Києвом (раніше UTC: з 00:00 до ~03:00 писалась
+    // вчорашня дата), контрольна й очікувана дати від нього через kyivDate
+    const today = todayKyiv();
 
     const { error } = await supabase
       .from("litters")
       .update({
         litter_mating_date: today,
-        litter_control_date: control.toISOString().split("T")[0],
-        litter_expected_birth: expected.toISOString().split("T")[0],
+        litter_control_date: addDaysISO(today, 7),
+        litter_expected_birth: addDaysISO(today, 31),
         nestbox_date: null,
         previous_mating_date: l.litter_mating_date || null,
       })
@@ -1472,9 +1468,8 @@ export default function Matings({ session }: Props) {
                                         <button
                                           className="nestbox-done-btn"
                                           onClick={async () => {
-                                            const today = new Date()
-                                              .toISOString()
-                                              .split("T")[0];
+                                            // Змінено: сьогодні за Києвом, не UTC
+                                            const today = todayKyiv();
                                             await supabase
                                               .from("litters")
                                               .update({ nestbox_date: today })

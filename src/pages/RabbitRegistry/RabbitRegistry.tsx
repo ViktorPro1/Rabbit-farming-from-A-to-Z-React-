@@ -12,6 +12,7 @@ import {
   getPushSubscriptionStatus,
 } from "../../utils/pushNotifications";
 import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
+import { todayKyiv } from "../../utils/kyivDate";
 
 interface Props {
   session: Session;
@@ -379,7 +380,7 @@ export default function RabbitRegistry({ session }: Props) {
       .update({
         is_active: false,
         archive_reason: selectedReason,
-        archive_date: new Date().toISOString().slice(0, 10),
+        archive_date: todayKyiv(), // Змінено: дата за Києвом, не UTC
       })
       .eq("id", confirmArchiveId);
     if (error) {
