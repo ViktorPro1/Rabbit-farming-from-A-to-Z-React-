@@ -63,6 +63,12 @@ export default function Fattening({ session }: Props) {
   );
   const [slaughterDate, setSlaughterDate] = useState(todayIso());
   const [slaughterSaving, setSlaughterSaving] = useState(false);
+  const [slaughterError, setSlaughterError] = useState("");
+
+  // Змінено: загальне повідомлення про помилку операцій поза формами
+  // (завантаження, видалення, часткове збереження продажу чи переведення).
+  // Раніше такі помилки ігнорувались, і користувач бачив хибний стан.
+  const [pageError, setPageError] = useState("");
 
   // Модалка продажу
   const [sellCage, setSellCage] = useState<FatteningCage | null>(null);
@@ -91,8 +97,16 @@ export default function Fattening({ session }: Props) {
       .eq("is_active", true)
       .order("cage_number", { ascending: true })
       .then(
-        ({ data }) => {
-          setCages(data || []);
+        ({ data, error }) => {
+          if (error) {
+            // Змінено: помилка запиту більше не видається за порожній список
+            console.error("Не вдалося завантажити клітки відгодівлі:", error);
+            setPageError(
+              "Не вдалося завантажити клітки відгодівлі. Оновіть сторінку",
+            );
+          } else {
+            setCages(data || []);
+          }
           setLoading(false);
         },
         (err) => {
@@ -103,18 +117,28 @@ export default function Fattening({ session }: Props) {
   }, [session.user.id]);
 
   async function fetchCages() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("fattening")
       .select("*")
       .eq("user_id", session.user.id)
       .eq("is_active", true)
       .order("cage_number", { ascending: true });
+    if (error) {
+      // Змінено: при помилці лишаємо поточний список (раніше він
+      // очищався до порожнього, ніби клітки зникли)
+      console.error("Не вдалося оновити список кліток відгодівлі:", error);
+      setPageError(
+        "Не вдалося оновити список кліток. Оновіть сторінку, щоб побачити актуальні дані",
+      );
+      return;
+    }
     setCages(data || []);
   }
 
   async function handleAdd() {
     setSaving(true);
     setError("");
+    setPageError("");
     const { error } = await supabase.from("fattening").insert({
       user_id: session.user.id,
       cage_number: form.cage_number,
@@ -141,6 +165,7 @@ export default function Fattening({ session }: Props) {
     if (!editingCage) return;
     setSaving(true);
     setError("");
+    setPageError("");
     const { error } = await supabase
       .from("fattening")
       .update({
@@ -166,17 +191,30 @@ export default function Fattening({ session }: Props) {
 
   async function handleDelete(id: string) {
     if (!confirm("Видалити клітку?")) return;
-    await supabase.from("fattening").update({ is_active: false }).eq("id", id);
+    setPageError("");
+    const { error } = await supabase
+      .from("fattening")
+      .update({ is_active: false })
+      .eq("id", id);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, і клітка мовчки лишалась
+      console.error("Не вдалося видалити клітку відгодівлі:", error);
+      setPageError("Не вдалося видалити клітку. Спробуйте ще раз");
+      return;
+    }
     fetchCages();
   }
 
   function openSlaughterModal(cage: FatteningCage) {
     setSlaughterCage(cage);
     setSlaughterDate(todayIso());
+    setSlaughterError("");
+    setPageError("");
   }
 
   function openSellModal(cage: FatteningCage) {
     setSellCage(cage);
+    setPageError("");
     setSellMales("");
     setSellFemales("");
     setSellUnknown("");
@@ -224,20 +262,22 @@ export default function Fattening({ session }: Props) {
     const newUnknown = sellCage.unknown - u;
     const allSold = newMales === 0 && newFemales === 0 && newUnknown === 0;
 
-    if (allSold) {
-      await supabase
-        .from("fattening")
-        .update({ is_active: false })
-        .eq("id", sellCage.id);
-    } else {
-      await supabase
-        .from("fattening")
-        .update({
-          males: newMales,
-          females: newFemales,
-          unknown: newUnknown,
-        })
-        .eq("id", sellCage.id);
+    const cageUpdate = allSold
+      ? { is_active: false }
+      : { males: newMales, females: newFemales, unknown: newUnknown };
+    const { error: cageError } = await supabase
+      .from("fattening")
+      .update(cageUpdate)
+      .eq("id", sellCage.id);
+
+    if (cageError) {
+      // Змінено: раніше помилка ігнорувалась — продаж був записаний, а
+      // клітка лишалась незмінною, і користувач про це не знав. Модалку
+      // закриваємо, щоб повторне підтвердження не задублювало продаж.
+      console.error("Не вдалося оновити залишок у клітці:", cageError);
+      setPageError(
+        "Продаж записано, але залишок у клітці не оновлено. Відредагуйте клітку вручну, щоб кількість збігалась",
+      );
     }
 
     setSellCage(null);
@@ -248,10 +288,18 @@ export default function Fattening({ session }: Props) {
   async function handleSlaughter() {
     if (!slaughterCage) return;
     setSlaughterSaving(true);
-    await supabase
+    setSlaughterError("");
+    const { error } = await supabase
       .from("fattening")
       .update({ is_active: false, slaughtered_at: slaughterDate })
       .eq("id", slaughterCage.id);
+    if (error) {
+      // Змінено: раніше модалка закривалась навіть при помилці збереження
+      console.error("Не вдалося зберегти забій:", error);
+      setSlaughterError("Помилка збереження забою. Спробуйте ще раз");
+      setSlaughterSaving(false);
+      return;
+    }
     setSlaughterCage(null);
     setSlaughterSaving(false);
     fetchCages();
@@ -259,6 +307,7 @@ export default function Fattening({ session }: Props) {
 
   function openBreedModal(cage: FatteningCage) {
     setBreedCage(cage);
+    setPageError("");
     setBreedName("");
     setBreedCageNumber(cage.cage_number);
     setBreedNotes("");
@@ -309,16 +358,22 @@ export default function Fattening({ session }: Props) {
     const allGone =
       newMales === 0 && newFemales === 0 && breedCage.unknown === 0;
 
-    if (allGone) {
-      await supabase
-        .from("fattening")
-        .update({ is_active: false })
-        .eq("id", breedCage.id);
-    } else {
-      await supabase
-        .from("fattening")
-        .update({ males: newMales, females: newFemales })
-        .eq("id", breedCage.id);
+    const cageUpdate = allGone
+      ? { is_active: false }
+      : { males: newMales, females: newFemales };
+    const { error: cageError } = await supabase
+      .from("fattening")
+      .update(cageUpdate)
+      .eq("id", breedCage.id);
+
+    if (cageError) {
+      // Змінено: раніше помилка ігнорувалась — кролика вже додано в реєстр,
+      // а клітка лишалась незмінною. Модалку закриваємо, щоб повторне
+      // підтвердження не додало кролика вдруге.
+      console.error("Не вдалося оновити залишок у клітці:", cageError);
+      setPageError(
+        "Кролика додано в реєстр, але залишок у клітці не оновлено. Відредагуйте клітку вручну, щоб кількість збігалась",
+      );
     }
 
     setBreedCage(null);
@@ -354,6 +409,8 @@ export default function Fattening({ session }: Props) {
           ⬅ Мої кролики
         </button>
       </div>
+
+      {pageError && <p className="fattening-error">{pageError}</p>}
 
       {/* МОДАЛКА ЗАБОЮ */}
       {slaughterCage && (
@@ -395,6 +452,9 @@ export default function Fattening({ session }: Props) {
                 onChange={(e) => setSlaughterDate(e.target.value)}
               />
             </div>
+            {slaughterError && (
+              <p className="fattening-error">{slaughterError}</p>
+            )}
             <div className="fattening-edit-actions">
               <button
                 className="fattening-cancel-btn"
@@ -928,7 +988,8 @@ export default function Fattening({ session }: Props) {
       {/* ── Список кліток ── */}
       {loading ? (
         <p className="fattening-loading">Завантаження...</p>
-      ) : cages.length === 0 ? (
+      ) : cages.length === 0 && !pageError ? (
+        // Змінено: при помилці завантаження не показуємо "кліток ще немає"
         <div className="fattening-empty-state">
           <div className="fattening-empty-illustration">🥩</div>
           <h3 className="fattening-empty-title">Кліток відгодівлі ще немає</h3>
