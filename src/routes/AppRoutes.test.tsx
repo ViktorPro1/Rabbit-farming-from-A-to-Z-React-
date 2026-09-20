@@ -3,8 +3,21 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import AppRoutes from "./AppRoutes";
+import { supabase } from "../lib/supabase";
 
 vi.mock("../seo/usePageMeta", () => ({ usePageMeta: vi.fn() }));
+
+// Додано: AccessGuard (обгортка кабінетних маршрутів) викликає supabase.rpc.
+// Раніше тест покладався на те, що при збої перевірки кабінет відкривається;
+// тепер збій блокує кабінет, тому явно мокаємо успішну відповідь.
+vi.mock("../lib/supabase", () => ({
+  supabase: {
+    rpc: vi.fn().mockResolvedValue({
+      data: [{ is_expired: false }],
+      error: null,
+    }),
+  },
+}));
 
 vi.mock("../pages/Auth/Auth", () => ({
   default: ({ returnTo }: { returnTo?: string }) => (
@@ -83,6 +96,44 @@ describe("AppRoutes — auth-гейтинг захищених маршруті�
     expect(
       await screen.findByTestId("registry-page", {}, { timeout: 3000 }),
     ).toHaveTextContent("user-1");
+  });
+
+  it("/registry з простроченим доступом показує екран блокування", async () => {
+    // Додано: перевірка, що кабінет не відкривається при простроченому доступі
+    vi.mocked(supabase.rpc).mockResolvedValueOnce({
+      data: [{ is_expired: true }],
+      error: null,
+    } as never);
+
+    renderAt("/registry", mockSession);
+
+    expect(
+      await screen.findByText(
+        /Термін доступу закінчився/,
+        {},
+        { timeout: 3000 },
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("registry-page")).not.toBeInTheDocument();
+  });
+
+  it("/registry при збої перевірки доступу не відкриває кабінет", async () => {
+    // Додано: збій перевірки більше не пропускає користувача (fail-closed)
+    vi.mocked(supabase.rpc).mockResolvedValueOnce({
+      data: null,
+      error: { message: "Server error" },
+    } as never);
+
+    renderAt("/registry", mockSession);
+
+    expect(
+      await screen.findByText(
+        "Не вдалося перевірити термін доступу",
+        {},
+        { timeout: 3000 },
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("registry-page")).not.toBeInTheDocument();
   });
 
   it('"/" рендерить Home незалежно від сесії', async () => {
