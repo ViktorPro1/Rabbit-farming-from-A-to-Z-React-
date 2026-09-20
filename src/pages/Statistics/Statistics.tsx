@@ -121,6 +121,53 @@ interface MonthlyStat {
   totalSold: number;
 }
 
+// ── Типи для розрахунку статистики з урахуванням фактичних батьків окролу ──
+
+interface RabbitRef {
+  id?: string;
+  name: string;
+  breed?: string | null;
+  cage_number?: string | null;
+}
+
+interface MatingRow {
+  id: string;
+  female_id: string;
+  male_id: string;
+  mating_date: string | null;
+  female_cage: string | null;
+  male_cage: string | null;
+  female: RabbitRef | null;
+  male: RabbitRef | null;
+}
+
+interface LitterRow {
+  id: string;
+  mating_id: string;
+  birth_date: string | null;
+  total_born: number | null;
+  alive: number | null;
+  litter_mating_date: string | null;
+  litter_expected_birth: string | null;
+  failure_type: "empty" | "lost" | null;
+  actual_male_id: string | null;
+  actual_female_id: string | null;
+}
+
+interface Person {
+  id: string;
+  name: string;
+  breed: string;
+  cage: string;
+}
+
+interface Delta {
+  matings: number;
+  litters: number;
+  born: number;
+  alive: number;
+}
+
 function MiniBar({
   value,
   max,
@@ -1151,14 +1198,14 @@ export default function Statistics({ session }: Props) {
         .is("rabbit_id", null);
       setQuarantineDeaths(registryDied + (quarantineDied || []).length);
 
-      const { data: matings } = await supabase
+      const { data: matingsData } = await supabase
         .from("matings")
         .select(
           "*, female:female_id(id, name, breed, cage_number), male:male_id(id, name, breed)",
         )
         .eq("user_id", session.user.id);
 
-      if (!matings || matings.length === 0) {
+      if (!matingsData || matingsData.length === 0) {
         setMonthlyStats(
           Object.values(monthlyMap).sort((a, b) =>
             a.month.localeCompare(b.month),
@@ -1168,51 +1215,91 @@ export default function Statistics({ session }: Props) {
         return;
       }
 
+      const matings: MatingRow[] = matingsData;
       const matingIds = matings.map((m) => m.id);
-      const { data: litters } = await supabase
+      const { data: littersData } = await supabase
         .from("litters")
         .select("*")
         .in("mating_id", matingIds);
+      const litters: LitterRow[] = littersData || [];
 
-      const littersMap: Record<
-        string,
-        { total_born: number; alive: number }[]
-      > = {};
-      (litters || []).forEach((l) => {
-        if (!l.birth_date) return;
-        if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
-        littersMap[l.mating_id].push({
-          total_born: l.total_born,
-          alive: l.alive,
-        });
+      // Усі кролики користувача (включно з архівними) — щоб знайти ім'я
+      // фактичного самця/самки окролу (actual_male_id / actual_female_id)
+      const { data: rabbitsData } = await supabase
+        .from("rabbits")
+        .select("id, name, breed, cage_number")
+        .eq("user_id", session.user.id);
+      const rabbitById = new Map<string, RabbitRef>(
+        (rabbitsData || []).map((r) => [r.id as string, r as RabbitRef]),
+      );
+
+      const matingById = new Map<string, MatingRow>(
+        matings.map((m) => [m.id, m]),
+      );
+
+      const littersByMating: Record<string, LitterRow[]> = {};
+      litters.forEach((l) => {
+        if (!littersByMating[l.mating_id]) littersByMating[l.mating_id] = [];
+        littersByMating[l.mating_id].push(l);
       });
 
-      const litterMatingCounts: Record<string, number> = {};
-      (litters || []).forEach((l) => {
-        if (!l.litter_mating_date) return;
-        litterMatingCounts[l.mating_id] =
-          (litterMatingCounts[l.mating_id] || 0) + 1;
-      });
+      function toPerson(
+        id: string,
+        fallback: RabbitRef | null | undefined,
+      ): Person | null {
+        const r =
+          rabbitById.get(id) ||
+          (fallback && fallback.id === id ? fallback : null);
+        if (!r) return null;
+        return {
+          id,
+          name: r.name,
+          breed: r.breed || "",
+          cage: r.cage_number || "",
+        };
+      }
+
+      // Самець/самка окролу: фактичний (actual_*), а якщо не вказаний —
+      // той, що у злучці
+      function maleOf(m: MatingRow, l?: LitterRow): Person | null {
+        return toPerson((l && l.actual_male_id) || m.male_id, m.male);
+      }
+      function femaleOf(m: MatingRow, l?: LitterRow): Person | null {
+        return toPerson((l && l.actual_female_id) || m.female_id, m.female);
+      }
+
+      // Клітка самки для картки: клітка з реєстру, а для самки зі злучки —
+      // ще й female_cage самої злучки
+      function femaleCageOf(m: MatingRow, f: Person): string {
+        return f.cage || (f.id === m.female_id ? m.female_cage || "" : "");
+      }
 
       // Невдалі окроли: не окотилась / окотилась, але малюки загинули
       const birthsByFemale: Record<string, number> = {};
-      matings.forEach((m) => {
-        birthsByFemale[m.female_id] =
-          (birthsByFemale[m.female_id] || 0) + (littersMap[m.id] || []).length;
+      litters.forEach((l) => {
+        if (!l.birth_date) return;
+        const m = matingById.get(l.mating_id);
+        if (!m) return;
+        const f = femaleOf(m, l);
+        if (!f) return;
+        birthsByFemale[f.id] = (birthsByFemale[f.id] || 0) + 1;
       });
 
       const failureMap: Record<string, FemaleFailureStat> = {};
-      (litters || []).forEach((l) => {
+      litters.forEach((l) => {
         if (!l.failure_type) return;
-        const m = matings.find((mm) => mm.id === l.mating_id);
-        if (!m || !m.female) return;
-        const fid = m.female_id;
+        const m = matingById.get(l.mating_id);
+        if (!m) return;
+        const female = femaleOf(m, l);
+        if (!female) return;
+        const male = maleOf(m, l);
+        const fid = female.id;
         if (!failureMap[fid]) {
           failureMap[fid] = {
             femaleId: fid,
-            femaleName: m.female.name,
-            femaleBreed: m.female.breed || "",
-            femaleCage: m.female.cage_number || m.female_cage || "",
+            femaleName: female.name,
+            femaleBreed: female.breed,
+            femaleCage: femaleCageOf(m, female),
             entries: [],
             emptyCount: 0,
             lostCount: 0,
@@ -1228,7 +1315,7 @@ export default function Statistics({ session }: Props) {
             (l.failure_type === "lost"
               ? l.birth_date
               : l.litter_expected_birth) || "",
-          maleName: m.male?.name || "",
+          maleName: male?.name || "",
         });
         if (l.failure_type === "lost") stat.lostCount += 1;
         else stat.emptyCount += 1;
@@ -1248,7 +1335,7 @@ export default function Statistics({ session }: Props) {
       );
 
       // Огляд: додаємо народжено по місяцях
-      (litters || []).forEach((l) => {
+      litters.forEach((l) => {
         if (!l.birth_date) return;
         const key = l.birth_date.slice(0, 7);
         const stat = ensureMonth(key);
@@ -1261,77 +1348,26 @@ export default function Statistics({ session }: Props) {
         ),
       );
 
-      // Female stats
+      // ── Статистика самок / самців / пар / кліток ──
+      // Кожна злучка рахується за кроликами зі злучки (1 злучка), а кожен
+      // окріл — за його ФАКТИЧНИМИ батьками. Повторні злучки окролу
+      // (litter_mating_date) також зараховуються фактичній парі.
       const femaleMap: Record<string, RabbitStat> = {};
-      matings.forEach((m) => {
-        if (!m.female) return;
-        const fid = m.female_id;
-        if (!femaleMap[fid]) {
-          femaleMap[fid] = {
-            id: fid,
-            name: m.female.name,
-            breed: m.female.breed || "",
-            gender: "female",
-            matingsCount: 0,
-            littersCount: 0,
-            totalBorn: 0,
-            totalAlive: 0,
-            avgAlive: 0,
-            survivalRate: 0,
-            pairs: [],
-          };
-        }
-        const stat = femaleMap[fid];
-        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
-        const mLitters = littersMap[m.id] || [];
-        stat.littersCount += mLitters.length;
-        mLitters.forEach((l) => {
-          stat.totalBorn += l.total_born || 0;
-          stat.totalAlive += l.alive || 0;
-        });
-        const existingPair = stat.pairs.find((p) => p.partnerId === m.male_id);
-        if (existingPair) {
-          existingPair.littersCount += mLitters.length;
-          existingPair.totalAlive += mLitters.reduce(
-            (s, l) => s + (l.alive || 0),
-            0,
-          );
-        } else {
-          stat.pairs.push({
-            partnerId: m.male_id,
-            partnerName: m.male?.name || "—",
-            littersCount: mLitters.length,
-            totalAlive: mLitters.reduce((s, l) => s + (l.alive || 0), 0),
-          });
-        }
-      });
-      setFemaleStats(
-        Object.values(femaleMap)
-          .map((s) => ({
-            ...s,
-            avgAlive:
-              s.littersCount > 0
-                ? Math.round((s.totalAlive / s.littersCount) * 10) / 10
-                : 0,
-            survivalRate:
-              s.totalBorn > 0
-                ? Math.round((s.totalAlive / s.totalBorn) * 100)
-                : 0,
-          }))
-          .sort((a, b) => b.totalAlive - a.totalAlive),
-      );
-
-      // Male stats
       const maleMap: Record<string, RabbitStat> = {};
-      matings.forEach((m) => {
-        if (!m.male) return;
-        const mid = m.male_id;
-        if (!maleMap[mid]) {
-          maleMap[mid] = {
-            id: mid,
-            name: m.male.name,
-            breed: m.male.breed || "",
-            gender: "male",
+      const pairMap: Record<string, PairStat> = {};
+      const cageMap: Record<string, CageStat> = {};
+
+      function getRabbitStat(
+        map: Record<string, RabbitStat>,
+        p: Person,
+        gender: "male" | "female",
+      ): RabbitStat {
+        if (!map[p.id]) {
+          map[p.id] = {
+            id: p.id,
+            name: p.name,
+            breed: p.breed,
+            gender,
             matingsCount: 0,
             littersCount: 0,
             totalBorn: 0,
@@ -1341,61 +1377,19 @@ export default function Statistics({ session }: Props) {
             pairs: [],
           };
         }
-        const stat = maleMap[mid];
-        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
-        const mLitters = littersMap[m.id] || [];
-        stat.littersCount += mLitters.length;
-        mLitters.forEach((l) => {
-          stat.totalBorn += l.total_born || 0;
-          stat.totalAlive += l.alive || 0;
-        });
-        const existingPair = stat.pairs.find(
-          (p) => p.partnerId === m.female_id,
-        );
-        if (existingPair) {
-          existingPair.littersCount += mLitters.length;
-          existingPair.totalAlive += mLitters.reduce(
-            (s, l) => s + (l.alive || 0),
-            0,
-          );
-        } else {
-          stat.pairs.push({
-            partnerId: m.female_id,
-            partnerName: m.female?.name || "—",
-            littersCount: mLitters.length,
-            totalAlive: mLitters.reduce((s, l) => s + (l.alive || 0), 0),
-          });
-        }
-      });
-      setMaleStats(
-        Object.values(maleMap)
-          .map((s) => ({
-            ...s,
-            avgAlive:
-              s.littersCount > 0
-                ? Math.round((s.totalAlive / s.littersCount) * 10) / 10
-                : 0,
-            survivalRate:
-              s.totalBorn > 0
-                ? Math.round((s.totalAlive / s.totalBorn) * 100)
-                : 0,
-          }))
-          .sort((a, b) => b.totalAlive - a.totalAlive),
-      );
+        return map[p.id];
+      }
 
-      // Pair stats
-      const pairMap: Record<string, PairStat> = {};
-      matings.forEach((m) => {
-        if (!m.male || !m.female) return;
-        const key = `${m.male_id}_${m.female_id}`;
+      function getPairStat(male: Person, female: Person): PairStat {
+        const key = `${male.id}_${female.id}`;
         if (!pairMap[key]) {
           pairMap[key] = {
-            maleId: m.male_id,
-            maleName: m.male.name,
-            maleBreed: m.male.breed || "",
-            femaleId: m.female_id,
-            femaleName: m.female.name,
-            femaleBreed: m.female.breed || "",
+            maleId: male.id,
+            maleName: male.name,
+            maleBreed: male.breed,
+            femaleId: female.id,
+            femaleName: female.name,
+            femaleBreed: female.breed,
             matingsCount: 0,
             littersCount: 0,
             totalBorn: 0,
@@ -1403,32 +1397,10 @@ export default function Statistics({ session }: Props) {
             avgAlive: 0,
           };
         }
-        const stat = pairMap[key];
-        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
-        const mLitters = littersMap[m.id] || [];
-        stat.littersCount += mLitters.length;
-        mLitters.forEach((l) => {
-          stat.totalBorn += l.total_born || 0;
-          stat.totalAlive += l.alive || 0;
-        });
-      });
-      setPairStats(
-        Object.values(pairMap)
-          .map((s) => ({
-            ...s,
-            avgAlive:
-              s.littersCount > 0
-                ? Math.round((s.totalAlive / s.littersCount) * 10) / 10
-                : 0,
-          }))
-          .sort((a, b) => b.totalAlive - a.totalAlive),
-      );
+        return pairMap[key];
+      }
 
-      // Cage stats
-      const cageMap: Record<string, CageStat> = {};
-      matings.forEach((m) => {
-        const cage = m.female_cage || m.male_cage;
-        if (!cage) return;
+      function getCageStat(cage: string): CageStat {
         if (!cageMap[cage]) {
           cageMap[cage] = {
             cage,
@@ -1440,19 +1412,126 @@ export default function Statistics({ session }: Props) {
             rabbits: [],
           };
         }
-        const stat = cageMap[cage];
-        stat.matingsCount += 1 + (litterMatingCounts[m.id] || 0);
-        const mLitters = littersMap[m.id] || [];
-        stat.littersCount += mLitters.length;
-        mLitters.forEach((l) => {
-          stat.totalBorn += l.total_born || 0;
-          stat.totalAlive += l.alive || 0;
+        return cageMap[cage];
+      }
+
+      function applyDelta(
+        s: {
+          matingsCount: number;
+          littersCount: number;
+          totalBorn: number;
+          totalAlive: number;
+        },
+        d: Delta,
+      ) {
+        s.matingsCount += d.matings;
+        s.littersCount += d.litters;
+        s.totalBorn += d.born;
+        s.totalAlive += d.alive;
+      }
+
+      function addPartner(stat: RabbitStat, partner: Person, d: Delta) {
+        let p = stat.pairs.find((x) => x.partnerId === partner.id);
+        if (!p) {
+          p = {
+            partnerId: partner.id,
+            partnerName: partner.name,
+            littersCount: 0,
+            totalAlive: 0,
+          };
+          stat.pairs.push(p);
+        }
+        p.littersCount += d.litters;
+        p.totalAlive += d.alive;
+      }
+
+      function record(male: Person | null, female: Person | null, d: Delta) {
+        if (female) {
+          const s = getRabbitStat(femaleMap, female, "female");
+          applyDelta(s, d);
+          if (male) addPartner(s, male, d);
+        }
+        if (male) {
+          const s = getRabbitStat(maleMap, male, "male");
+          applyDelta(s, d);
+          if (female) addPartner(s, female, d);
+        }
+        if (male && female) {
+          applyDelta(getPairStat(male, female), d);
+        }
+      }
+
+      function addCageName(stat: CageStat, p: Person | null) {
+        if (p?.name && !stat.rabbits.includes(p.name))
+          stat.rabbits.push(p.name);
+      }
+
+      matings.forEach((m) => {
+        const baseMale = maleOf(m);
+        const baseFemale = femaleOf(m);
+        const cage = m.female_cage || m.male_cage;
+        const cageStat = cage ? getCageStat(cage) : null;
+
+        // Сама злучка — кроликам зі злучки
+        const base: Delta = { matings: 1, litters: 0, born: 0, alive: 0 };
+        record(baseMale, baseFemale, base);
+        if (cageStat) {
+          applyDelta(cageStat, base);
+          addCageName(cageStat, baseFemale);
+          addCageName(cageStat, baseMale);
+        }
+
+        // Окроли — фактичним батькам
+        (littersByMating[m.id] || []).forEach((l) => {
+          const male = maleOf(m, l);
+          const female = femaleOf(m, l);
+          const born = !!l.birth_date;
+          const d: Delta = {
+            matings: l.litter_mating_date ? 1 : 0,
+            litters: born ? 1 : 0,
+            born: born ? l.total_born || 0 : 0,
+            alive: born ? l.alive || 0 : 0,
+          };
+          record(male, female, d);
+          if (cageStat) {
+            applyDelta(cageStat, d);
+            addCageName(cageStat, female);
+            addCageName(cageStat, male);
+          }
         });
-        if (m.female?.name && !stat.rabbits.includes(m.female.name))
-          stat.rabbits.push(m.female.name);
-        if (m.male?.name && !stat.rabbits.includes(m.male.name))
-          stat.rabbits.push(m.male.name);
       });
+
+      const finalizeRabbit = (s: RabbitStat): RabbitStat => ({
+        ...s,
+        avgAlive:
+          s.littersCount > 0
+            ? Math.round((s.totalAlive / s.littersCount) * 10) / 10
+            : 0,
+        survivalRate:
+          s.totalBorn > 0 ? Math.round((s.totalAlive / s.totalBorn) * 100) : 0,
+      });
+
+      setFemaleStats(
+        Object.values(femaleMap)
+          .map(finalizeRabbit)
+          .sort((a, b) => b.totalAlive - a.totalAlive),
+      );
+      setMaleStats(
+        Object.values(maleMap)
+          .map(finalizeRabbit)
+          .sort((a, b) => b.totalAlive - a.totalAlive),
+      );
+      setPairStats(
+        Object.values(pairMap)
+          .map((s) => ({
+            ...s,
+            avgAlive:
+              s.littersCount > 0
+                ? Math.round((s.totalAlive / s.littersCount) * 10) / 10
+                : 0,
+          }))
+          .sort((a, b) => b.totalAlive - a.totalAlive),
+      );
       setCageStats(
         Object.values(cageMap)
           .map((s) => ({
@@ -1465,46 +1544,46 @@ export default function Statistics({ session }: Props) {
           .sort((a, b) => b.totalAlive - a.totalAlive),
       );
 
-      // Accuracy stats
+      // Accuracy stats (по фактичній самці окролу)
       const accuracyMap: Record<string, FemaleAccuracyStat> = {};
-      matings.forEach((m) => {
-        if (!m.female) return;
-        const mLittersRaw = (litters || []).filter((l) => l.mating_id === m.id);
-        const resolvedFemaleCage = m.female?.cage_number || m.female_cage || "";
-        mLittersRaw.forEach((l) => {
-          if (!l.birth_date || !l.litter_expected_birth) return;
-          const expected = new Date(l.litter_expected_birth);
-          const actual = new Date(l.birth_date);
-          const diffDays = Math.round(
-            (actual.getTime() - expected.getTime()) / (1000 * 60 * 60 * 24),
-          );
-          const fid = m.female_id;
-          if (!accuracyMap[fid]) {
-            accuracyMap[fid] = {
-              femaleId: fid,
-              femaleName: m.female.name,
-              femaleBreed: m.female.breed || "",
-              femaleCage: resolvedFemaleCage,
-              entries: [],
-              avgDiff: 0,
-              onTimeCount: 0,
-              lateCount: 0,
-              earlyCount: 0,
-            };
-          }
-          if (!accuracyMap[fid].femaleCage && resolvedFemaleCage) {
-            accuracyMap[fid].femaleCage = resolvedFemaleCage;
-          }
-          accuracyMap[fid].entries.push({
-            litterId: l.id,
+      litters.forEach((l) => {
+        if (!l.birth_date || !l.litter_expected_birth) return;
+        const m = matingById.get(l.mating_id);
+        if (!m) return;
+        const female = femaleOf(m, l);
+        if (!female) return;
+        const resolvedFemaleCage = femaleCageOf(m, female);
+        const expected = new Date(l.litter_expected_birth);
+        const actual = new Date(l.birth_date);
+        const diffDays = Math.round(
+          (actual.getTime() - expected.getTime()) / (1000 * 60 * 60 * 24),
+        );
+        const fid = female.id;
+        if (!accuracyMap[fid]) {
+          accuracyMap[fid] = {
             femaleId: fid,
-            femaleName: m.female.name,
-            femaleBreed: m.female.breed || "",
+            femaleName: female.name,
+            femaleBreed: female.breed,
             femaleCage: resolvedFemaleCage,
-            expectedDate: l.litter_expected_birth,
-            actualDate: l.birth_date,
-            diffDays,
-          });
+            entries: [],
+            avgDiff: 0,
+            onTimeCount: 0,
+            lateCount: 0,
+            earlyCount: 0,
+          };
+        }
+        if (!accuracyMap[fid].femaleCage && resolvedFemaleCage) {
+          accuracyMap[fid].femaleCage = resolvedFemaleCage;
+        }
+        accuracyMap[fid].entries.push({
+          litterId: l.id,
+          femaleId: fid,
+          femaleName: female.name,
+          femaleBreed: female.breed,
+          femaleCage: resolvedFemaleCage,
+          expectedDate: l.litter_expected_birth,
+          actualDate: l.birth_date,
+          diffDays,
         });
       });
       setAccuracyStats(
