@@ -42,16 +42,27 @@ export async function subscribeToPush(userId: string): Promise<boolean> {
     }
 }
 
+// Змінено: раніше помилки (зокрема видалення запису в базі) лише логувались,
+// а функція завершувалась "успішно", тож інтерфейс показував "сповіщення
+// вимкнено", хоча вони лишались увімкненими. Тепер помилка передається
+// викликачу (handleTogglePush показує повідомлення). Підписку в браузері
+// скасовуємо лише після успішного видалення запису в базі.
 export async function unsubscribeFromPush(): Promise<void> {
     try {
         const registration = await navigator.serviceWorker.ready;
         const subscription = await registration.pushManager.getSubscription();
         if (!subscription) return;
 
-        await supabase.from('push_subscriptions').delete().eq('endpoint', subscription.endpoint);
+        const { error } = await supabase
+            .from('push_subscriptions')
+            .delete()
+            .eq('endpoint', subscription.endpoint);
+        if (error) throw error;
+
         await subscription.unsubscribe();
     } catch (err) {
         logError('unsubscribeFromPush', err);
+        throw err;
     }
 }
 

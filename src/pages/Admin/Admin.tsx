@@ -171,6 +171,11 @@ export default function Admin({ session }: Props) {
   const [newCode, setNewCode] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  // Змінено: повідомлення про помилки завантаження й дій над користувачами
+  // показується угорі сторінки (а не лише біля поля коду, далеко від кнопок,
+  // які його викликали). Раніше ці помилки ігнорувались.
+  const [pageError, setPageError] = useState("");
+  const [adminCheckFailed, setAdminCheckFailed] = useState(false);
   const [stats, setStats] = useState<BackendStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
   const [onlineVisitors, setOnlineVisitors] = useState<OnlineVisitor[]>([]);
@@ -182,18 +187,33 @@ export default function Admin({ session }: Props) {
   > | null>(null);
 
   async function fetchCodes() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("invite_codes")
       .select("*")
       .order("created_at", { ascending: false });
+    if (error) {
+      // Змінено: при помилці лишаємо поточний список (раніше він
+      // очищався до порожнього без жодного повідомлення). Повертаємо null,
+      // щоб виклики не оновлювали користувачів за неактуальними кодами.
+      console.error("Не вдалося завантажити коди запрошень:", error);
+      setPageError("Не вдалося завантажити коди запрошень");
+      return null;
+    }
     setCodes(data || []);
     return data || [];
   }
 
   async function fetchUsers(allCodes: InviteCode[]) {
-    const { data: profiles } = await supabase
+    const { data: profiles, error: profilesError } = await supabase
       .from("profiles")
       .select("id, email, created_at, access_until, plan_type");
+
+    if (profilesError) {
+      // Змінено: при помилці лишаємо поточний список користувачів
+      console.error("Не вдалося завантажити користувачів:", profilesError);
+      setPageError("Не вдалося завантажити список користувачів");
+      return;
+    }
 
     if (profiles && profiles.length > 0) {
       const usedCodes = allCodes.filter((c) => c.is_used);
@@ -224,13 +244,14 @@ export default function Admin({ session }: Props) {
     const target = users.find((u) => u.id === userId);
     const previousPlanType = target?.plan_type;
 
+    setPageError("");
     const { error } = await supabase
       .from("profiles")
       .update({ plan_type: planType })
       .eq("id", userId);
     if (error) {
       console.error("Не вдалося оновити тип плану:", error);
-      setError("Не вдалося оновити тип плану");
+      setPageError("Не вдалося оновити тип плану");
       return;
     }
 
@@ -292,23 +313,24 @@ export default function Admin({ session }: Props) {
     }
 
     const allCodes = await fetchCodes();
-    await fetchUsers(allCodes);
+    if (allCodes) await fetchUsers(allCodes);
   }
 
   // Оновити дату доступу (порожньо/null = безстроково)
   async function handleSetAccessUntil(userId: string, dateValue: string) {
     const isoValue = dateValue ? new Date(dateValue).toISOString() : null;
+    setPageError("");
     const { error } = await supabase
       .from("profiles")
       .update({ access_until: isoValue })
       .eq("id", userId);
     if (error) {
       console.error("Не вдалося оновити термін доступу:", error);
-      setError("Не вдалося оновити термін доступу");
+      setPageError("Не вдалося оновити термін доступу");
       return;
     }
     const allCodes = await fetchCodes();
-    await fetchUsers(allCodes);
+    if (allCodes) await fetchUsers(allCodes);
   }
 
   // Швидка кнопка: +1 місяць від сьогодні
@@ -326,15 +348,28 @@ export default function Admin({ session }: Props) {
   }
 
   async function fetchDeactivated() {
-    const { data } = await supabase.rpc("get_deactivated_users");
+    const { data, error } = await supabase.rpc("get_deactivated_users");
+    if (error) {
+      console.error(
+        "Не вдалося завантажити деактивованих користувачів:",
+        error,
+      );
+      setPageError("Не вдалося завантажити список деактивованих користувачів");
+      return;
+    }
     setDeactivated(data || []);
   }
 
   async function fetchLeads() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("leads")
       .select("*")
       .order("created_at", { ascending: false });
+    if (error) {
+      console.error("Не вдалося завантажити заявки:", error);
+      setPageError("Не вдалося завантажити заявки");
+      return;
+    }
     setLeads(data || []);
   }
 
@@ -421,12 +456,23 @@ export default function Admin({ session }: Props) {
       .from("admins")
       .select("user_id")
       .eq("user_id", session.user.id)
-      .single()
+      // Змінено: maybeSingle замість single — відсутній рядок (звичайний
+      // користувач) це не помилка, а справжні збої тепер відрізняються від
+      // "доступ заборонено"
+      .maybeSingle()
       .then(
-        async ({ data }) => {
+        async ({ data, error }) => {
+          if (error) {
+            console.error("Не вдалося перевірити права адміністратора:", error);
+            setAdminCheckFailed(true);
+            setLoading(false);
+            return;
+          }
           if (data) {
             setIsAdmin(true);
-            const allCodes = await fetchCodes();
+            // Якщо коди не завантажились, користувачів усе одно показуємо
+            // (без прив'язаного коду), а помилка видна в повідомленні угорі
+            const allCodes = (await fetchCodes()) ?? [];
             await fetchUsers(allCodes);
             await fetchDeactivated();
             await fetchLeads();
@@ -441,6 +487,7 @@ export default function Admin({ session }: Props) {
         },
         (err) => {
           console.error("Не вдалося завантажити дані адмін-панелі:", err);
+          setAdminCheckFailed(true);
           setLoading(false);
         },
       );
@@ -477,14 +524,21 @@ export default function Admin({ session }: Props) {
     } else {
       setNewCode("");
       const allCodes = await fetchCodes();
-      await fetchUsers(allCodes);
+      if (allCodes) await fetchUsers(allCodes);
     }
   }
 
   async function handleDelete(id: string) {
-    await supabase.from("invite_codes").delete().eq("id", id);
+    setError("");
+    const { error } = await supabase.from("invite_codes").delete().eq("id", id);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, код мовчки лишався
+      console.error("Не вдалося видалити код запрошення:", error);
+      setError("Не вдалося видалити код");
+      return;
+    }
     const allCodes = await fetchCodes();
-    await fetchUsers(allCodes);
+    if (allCodes) await fetchUsers(allCodes);
   }
 
   async function handleDeleteUser(user: RegisteredUser) {
@@ -493,17 +547,42 @@ export default function Admin({ session }: Props) {
     );
     if (!confirm) return;
 
-    await supabase.from("profiles").delete().eq("id", user.id);
+    setPageError("");
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", user.id);
+    if (profileError) {
+      // Змінено: раніше помилка ігнорувалась, і далі код запрошення
+      // звільнявся, хоча профіль користувача лишався
+      console.error("Не вдалося видалити профіль користувача:", profileError);
+      setPageError("Не вдалося видалити користувача");
+      return;
+    }
 
     if (user.invite_code_id) {
-      await supabase
+      // .select("id"): оновлення, заблоковане політикою RLS, не повертає
+      // помилки, лише 0 рядків. Зараз для invite_codes немає політики UPDATE
+      // для адміністраторів, тому код фактично лишається використаним.
+      const { data: released, error: codeError } = await supabase
         .from("invite_codes")
         .update({ is_used: false, used_by: null })
-        .eq("id", user.invite_code_id);
+        .eq("id", user.invite_code_id)
+        .select("id");
+      if (codeError) {
+        console.error("Не вдалося звільнити код запрошення:", codeError);
+        setPageError(
+          "Користувача видалено, але не вдалося звільнити код запрошення",
+        );
+      } else if (!released || released.length === 0) {
+        setPageError(
+          "Користувача видалено. Код запрошення не вдалося звільнити: він лишається використаним",
+        );
+      }
     }
 
     const allCodes = await fetchCodes();
-    await fetchUsers(allCodes);
+    if (allCodes) await fetchUsers(allCodes);
     await fetchDeactivated();
   }
 
@@ -511,10 +590,19 @@ export default function Admin({ session }: Props) {
     const confirm = window.confirm(`Відновити доступ для ${user.email}?`);
     if (!confirm) return;
 
-    await supabase.from("profiles").insert({ id: user.id, email: user.email });
+    setPageError("");
+    const { error } = await supabase
+      .from("profiles")
+      .insert({ id: user.id, email: user.email });
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, доступ не відновлювався мовчки
+      console.error("Не вдалося відновити доступ користувача:", error);
+      setPageError("Не вдалося відновити доступ");
+      return;
+    }
 
     const allCodes = await fetchCodes();
-    await fetchUsers(allCodes);
+    if (allCodes) await fetchUsers(allCodes);
     await fetchDeactivated();
   }
 
@@ -528,7 +616,15 @@ export default function Admin({ session }: Props) {
   }
 
   if (loading) return <p style={{ padding: "2rem" }}>Завантаження...</p>;
-  if (!isAdmin) return <p style={{ padding: "2rem" }}>Доступ заборонено.</p>;
+  if (!isAdmin) {
+    return (
+      <p style={{ padding: "2rem" }}>
+        {adminCheckFailed
+          ? "Не вдалося перевірити права доступу. Оновіть сторінку."
+          : "Доступ заборонено."}
+      </p>
+    );
+  }
 
   const npsTotal = npsFeedback.length;
   const npsPromoters = npsFeedback.filter(
@@ -554,6 +650,8 @@ export default function Admin({ session }: Props) {
       <div className="admin-header">
         <h1>⚙️ Адмін панель</h1>
       </div>
+
+      {pageError && <p className="admin-error">{pageError}</p>}
 
       {/* Онлайн відвідувачі довідника */}
       <div className="admin-section">
