@@ -19,125 +19,130 @@ export default function Auth({ returnTo = "/registry" }: Props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Змінено: try/catch/finally — раніше виняток (напр. збій мережі) лишав
+  // кнопку в стані "Завантаження..." назавжди.
   async function handleLogin() {
     setLoading(true);
     setError("");
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      if (error.message.toLowerCase().includes("email not confirmed")) {
-        setError(
-          "Пошта ще не підтверджена. Перевірте вхідні (і папку Спам) та перейдіть за посиланням з листа",
-        );
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        if (error.message.toLowerCase().includes("email not confirmed")) {
+          setError(
+            "Пошта ще не підтверджена. Перевірте вхідні (і папку Спам) та перейдіть за посиланням з листа",
+          );
+        } else {
+          setError("Невірний email або пароль");
+        }
       } else {
-        setError("Невірний email або пароль");
+        navigate(returnTo);
       }
+    } catch (err) {
+      console.error("Помилка входу:", err);
+      setError("Не вдалося увійти. Перевірте з'єднання й спробуйте ще раз");
+    } finally {
       setLoading(false);
-    } else {
-      navigate(returnTo);
     }
   }
 
+  // Змінено: інвайт-код тепер перевіряється й погашається в базі в момент
+  // створення користувача (тригер handle_new_user читає його з метаданих
+  // реєстрації). Раніше код перевірявся лише тут, у браузері, тому реєстрація
+  // напряму через API обходила його, а збій mark_invite_code_used ігнорувався.
+  // Перевірка validate_invite_code нижче лишилась лише для зрозумілих
+  // повідомлень користувачу, захист забезпечує база.
   async function handleRegister() {
     setLoading(true);
     setError("");
 
-    const cleanCode = inviteCode.trim().toUpperCase();
+    try {
+      const cleanCode = inviteCode.trim().toUpperCase();
 
-    if (!cleanCode) {
-      setError("Введіть інвайт код");
-      setLoading(false);
-      return;
-    }
+      if (!cleanCode) {
+        setError("Введіть інвайт код");
+        return;
+      }
 
-    // Крок 1: перевіряємо код через RPC-функцію (SECURITY DEFINER),
-    // а не прямим SELECT — до логіну користувач анонімний, і прямий
-    // SELECT з таблиці invite_codes блокується RLS, через що коди
-    // завжди виглядали "неіснуючими", навіть коли існували.
-    // SQL для створення функції: validate_invite_code.sql
-    const { data: rpcData, error: codeError } = await supabase.rpc(
-      "validate_invite_code",
-      { code_input: cleanCode },
-    );
+      // Крок 1: перевіряємо код через RPC-функцію (SECURITY DEFINER),
+      // а не прямим SELECT — до логіну користувач анонімний, і прямий
+      // SELECT з таблиці invite_codes блокується RLS, через що коди
+      // завжди виглядали "неіснуючими", навіть коли існували.
+      const { data: rpcData, error: codeError } = await supabase.rpc(
+        "validate_invite_code",
+        { code_input: cleanCode },
+      );
 
-    if (codeError) {
-      setError("Помилка перевірки коду: " + codeError.message);
-      setLoading(false);
-      return;
-    }
+      if (codeError) {
+        setError("Помилка перевірки коду: " + codeError.message);
+        return;
+      }
 
-    const codeResult = rpcData?.[0];
+      const codeResult = rpcData?.[0];
 
-    if (!codeResult || !codeResult.code_exists) {
-      setError("Такого інвайт коду не існує. Перевірте правильність введення");
-      setLoading(false);
-      return;
-    }
+      if (!codeResult || !codeResult.code_exists) {
+        setError(
+          "Такого інвайт коду не існує. Перевірте правильність введення",
+        );
+        return;
+      }
 
-    if (codeResult.code_used) {
-      setError("Цей інвайт код уже використаний");
-      setLoading(false);
-      return;
-    }
+      if (codeResult.code_used) {
+        setError("Цей інвайт код уже використаний");
+        return;
+      }
 
-    const code = { id: codeResult.code_id };
+      // Крок 2: реєстрація. Код передається в метаданих: база перевіряє його
+      // і позначає використаним атомарно разом зі створенням користувача.
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { invite_code: cleanCode } },
+      });
 
-    // Крок 2: реєстрація користувача
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+      if (authError) {
+        if (authError.message.toLowerCase().includes("database error")) {
+          // База відхилила реєстрацію: код став недійсним (напр. його щойно
+          // використав хтось інший) або інша помилка збереження
+          setError(
+            "Не вдалося зареєструватись. Можливо, інвайт код щойно використано. Спробуйте ще раз або зверніться до адміністратора",
+          );
+        } else {
+          setError("Помилка реєстрації: " + authError.message);
+        }
+        return;
+      }
 
-    if (authError) {
-      setError("Помилка реєстрації: " + authError.message);
-      setLoading(false);
-      return;
-    }
+      // Користувач створюється завжди (навіть коли потрібне підтвердження
+      // пошти), тож відсутність id означає збій, а не "очікування підтвердження"
+      if (!authData.user?.id) {
+        setError("Не вдалося завершити реєстрацію. Спробуйте ще раз");
+        return;
+      }
 
-    const userId = authData.user?.id;
+      // Входимо одразу після реєстрації
+      const { error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (!userId) {
-      // Потрібне підтвердження email — код НЕ позначаємо використаним,
-      // інакше людина підтвердить пошту, а код вже "згорить" ні на що.
+      if (loginError) {
+        setError("Зареєстровано! Тепер увійдіть вручну.");
+        setMode("login");
+        return;
+      }
+
+      navigate(returnTo);
+    } catch (err) {
+      console.error("Помилка реєстрації:", err);
       setError(
-        "✅ Перевірте email для підтвердження реєстрації. Після підтвердження увійдіть — код активується автоматично при першому вході",
+        "Не вдалося зареєструватись. Перевірте з'єднання й спробуйте ще раз",
       );
+    } finally {
       setLoading(false);
-      return;
     }
-
-    // Крок 3: позначаємо код використаним через RPC-функцію (SECURITY
-    // DEFINER) — пряме invite_codes.update() блокувалось RLS (немає
-    // політики на UPDATE), тому код завжди лишався "вільним" в базі,
-    // навіть коли фактично його вже хтось використав.
-    const { data: markUsedResult, error: markUsedError } = await supabase.rpc(
-      "mark_invite_code_used",
-      { code_id_input: code.id, user_id_input: userId },
-    );
-
-    if (markUsedError || markUsedResult !== true) {
-      console.error(
-        "Не вдалося позначити інвайт код використаним:",
-        markUsedError,
-      );
-    }
-
-    // Входимо одразу після реєстрації
-    const { error: loginError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (loginError) {
-      setError("Зареєстровано! Тепер увійдіть вручну.");
-      setMode("login");
-      setLoading(false);
-      return;
-    }
-
-    navigate(returnTo);
   }
 
   return (
