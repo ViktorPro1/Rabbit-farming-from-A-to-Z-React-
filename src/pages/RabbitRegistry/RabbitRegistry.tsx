@@ -198,6 +198,10 @@ export default function RabbitRegistry({ session }: Props) {
 
   const [confirmArchiveId, setConfirmArchiveId] = useState<string | null>(null);
   const [selectedReason, setSelectedReason] = useState("");
+  // Змінено: повідомлення про помилку архівування (у модалці) і про помилку
+  // завантаження даних. Раніше обидві помилки ігнорувались.
+  const [archiveError, setArchiveError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -270,12 +274,35 @@ export default function RabbitRegistry({ session }: Props) {
       ])
         .then(
           ([
-            { data: littersData },
-            { data: paddockLittersData },
-            { data: paddockFemalesData },
-            { data: fatteningData },
-            { data: quarantineData },
+            littersRes,
+            paddockLittersRes,
+            paddockFemalesRes,
+            fatteningRes,
+            quarantineRes,
           ]) => {
+            // Змінено: раніше помилки запитів ігнорувались, і статистика
+            // рахувалась з порожніх даних (нулі без жодного попередження).
+            const failedQuery = [
+              littersRes,
+              paddockLittersRes,
+              paddockFemalesRes,
+              fatteningRes,
+              quarantineRes,
+            ].find((r) => r.error);
+            if (failedQuery?.error) {
+              logError("RabbitRegistry.loadStats", failedQuery.error);
+              setLoadError(
+                "Не вдалося завантажити статистику господарства. Оновіть сторінку",
+              );
+              setLoading(false);
+              return;
+            }
+            const littersData = littersRes.data;
+            const paddockLittersData = paddockLittersRes.data;
+            const paddockFemalesData = paddockFemalesRes.data;
+            const fatteningData = fatteningRes.data;
+            const quarantineData = quarantineRes.data;
+
             let youngFromCages = 0,
               youngFromPaddocks = 0,
               youngTotal = 0;
@@ -357,7 +384,18 @@ export default function RabbitRegistry({ session }: Props) {
       .eq("is_active", true)
       .order("cage_number", { ascending: true })
       .then(
-        ({ data: rabbitsData }) => {
+        ({ data: rabbitsData, error }) => {
+          if (error) {
+            // Змінено: помилка запиту більше не видається за порожній
+            // реєстр; поточний список лишається без змін
+            logError("RabbitRegistry.loadData", error);
+            setLoadError(
+              "Не вдалося завантажити список кроликів. Оновіть сторінку",
+            );
+            setLoading(false);
+            return;
+          }
+          setLoadError("");
           const list = rabbitsData || [];
           setRabbits(list);
           loadStats(list);
@@ -375,6 +413,7 @@ export default function RabbitRegistry({ session }: Props) {
 
   async function confirmArchive() {
     if (!confirmArchiveId || !selectedReason) return;
+    setArchiveError("");
     const { error } = await supabase
       .from("rabbits")
       .update({
@@ -384,7 +423,11 @@ export default function RabbitRegistry({ session }: Props) {
       })
       .eq("id", confirmArchiveId);
     if (error) {
+      // Змінено: раніше модалка закривалась і список оновлювався, ніби
+      // кролика архівовано, хоча запис не збережено
       logError("RabbitRegistry.confirmArchive", error);
+      setArchiveError("Не вдалося архівувати кролика. Спробуйте ще раз");
+      return;
     }
     setConfirmArchiveId(null);
     setSelectedReason("");
@@ -1403,13 +1446,16 @@ export default function RabbitRegistry({ session }: Props) {
         </div>
       )}
 
+      {loadError && <p className="registry-error">{loadError}</p>}
+
       {loading ? (
         <div className="registry-grid">
           {Array.from({ length: 6 }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}
         </div>
-      ) : rabbits.length === 0 ? (
+      ) : rabbits.length === 0 && !loadError ? (
+        // Змінено: при помилці завантаження не показуємо "кроликів немає"
         <div className="registry-empty-state">
           <div className="registry-empty-illustration">🐇</div>
           <h3 className="registry-empty-title">Поки що кроликів немає</h3>
@@ -1482,7 +1528,10 @@ export default function RabbitRegistry({ session }: Props) {
                 </button>
                 <button
                   className="rabbit-archive-btn"
-                  onClick={() => setConfirmArchiveId(rabbit.id)}
+                  onClick={() => {
+                    setArchiveError("");
+                    setConfirmArchiveId(rabbit.id);
+                  }}
                 >
                   Архівувати
                 </button>
@@ -1685,6 +1734,7 @@ export default function RabbitRegistry({ session }: Props) {
           onClick={() => {
             setConfirmArchiveId(null);
             setSelectedReason("");
+            setArchiveError("");
           }}
           role="presentation"
         >
@@ -1705,12 +1755,14 @@ export default function RabbitRegistry({ session }: Props) {
                 </button>
               ))}
             </div>
+            {archiveError && <p className="registry-error">{archiveError}</p>}
             <div className="confirm-actions">
               <button
                 className="confirm-cancel"
                 onClick={() => {
                   setConfirmArchiveId(null);
                   setSelectedReason("");
+                  setArchiveError("");
                 }}
               >
                 Скасувати
