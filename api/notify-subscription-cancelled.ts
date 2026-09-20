@@ -21,7 +21,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .maybeSingle();
     if (!admin) return res.status(403).end();
 
-    const { email } = req.body;
+    // Змінено: req.body ?? {} — порожнє тіло запиту давало необроблену помилку 500
+    const { email } = req.body ?? {};
     if (!email) return res.status(400).json({ error: 'Missing email' });
 
     try {

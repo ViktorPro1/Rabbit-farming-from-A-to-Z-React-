@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabase } from './_lib/push.js';
 import { sendEmail } from './_lib/email.js';
 import { renderTemplate } from './_lib/email-templates.js';
+import { todayKyiv } from './_lib/dates.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
@@ -21,12 +22,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .maybeSingle();
     if (!admin) return res.status(403).end();
 
-    const { email } = req.body;
+    // Змінено: req.body ?? {} — порожнє тіло запиту давало необроблену помилку 500
+    const { email } = req.body ?? {};
     if (!email) return res.status(400).json({ error: 'Missing email' });
 
     try {
-        const today = new Date();
-        const formattedDate = `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth() + 1).padStart(2, '0')}.${today.getFullYear()}`;
+        // Змінено: дата за Києвом. Vercel працює в UTC, тому getDate() вночі
+        // (з 00:00 до ~03:00 за Києвом) давав вчорашню дату в квитанції.
+        const [year, month, day] = todayKyiv().split('-');
+        const formattedDate = `${day}.${month}.${year}`;
 
         const html = renderTemplate('lyst-kvytantsiya_pro_oplatu.html', {
             SUMA: process.env.SUBSCRIPTION_PRICE ?? 'уточнюйте у адміністратора',
