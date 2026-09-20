@@ -1,0 +1,74 @@
+import { describe, it, expect } from "vitest";
+import { toKyivISODate, todayKyiv, addDaysISO } from "./kyivDate";
+
+describe("toKyivISODate", () => {
+  it("літо (UTC+3): 00:30 за Києвом уже наступний день, хоча в UTC ще вчора", () => {
+    // 21:30 UTC 19 вересня = 00:30 20 вересня за Києвом
+    expect(toKyivISODate(new Date("2026-09-19T21:30:00Z"))).toBe("2026-09-20");
+  });
+
+  it("літо (UTC+3): 23:59:59 за Києвом — ще той самий день", () => {
+    expect(toKyivISODate(new Date("2026-09-19T20:59:59Z"))).toBe("2026-09-19");
+  });
+
+  it("зима (UTC+2): 00:30 за Києвом уже наступний день", () => {
+    // 22:30 UTC 15 січня = 00:30 16 січня за Києвом
+    expect(toKyivISODate(new Date("2026-01-15T22:30:00Z"))).toBe("2026-01-16");
+  });
+
+  it("зима (UTC+2): 23:59:59 за Києвом — ще той самий день", () => {
+    expect(toKyivISODate(new Date("2026-01-15T21:59:59Z"))).toBe("2026-01-15");
+  });
+
+  it("перехід на зимовий час (25 жовтня 2026): північ за Києвом", () => {
+    // 21:00 UTC 24 жовтня = 00:00 25 жовтня за Києвом (ще UTC+3)
+    expect(toKyivISODate(new Date("2026-10-24T21:00:00Z"))).toBe("2026-10-25");
+    expect(toKyivISODate(new Date("2026-10-24T20:59:59Z"))).toBe("2026-10-24");
+  });
+
+  it("межа року: 00:30 за Києвом 1 січня, хоча в UTC ще 31 грудня", () => {
+    expect(toKyivISODate(new Date("2026-12-31T22:30:00Z"))).toBe("2027-01-01");
+  });
+
+  it("результат завжди у форматі YYYY-MM-DD", () => {
+    expect(toKyivISODate(new Date("2026-03-05T10:00:00Z"))).toMatch(
+      /^\d{4}-\d{2}-\d{2}$/,
+    );
+  });
+});
+
+describe("todayKyiv", () => {
+  it("повертає дату у форматі YYYY-MM-DD", () => {
+    expect(todayKyiv()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+});
+
+describe("addDaysISO", () => {
+  it("додає день через межу місяця", () => {
+    expect(addDaysISO("2026-02-28", 1)).toBe("2026-03-01");
+  });
+
+  it("враховує високосний рік", () => {
+    expect(addDaysISO("2028-02-28", 1)).toBe("2028-02-29");
+    expect(addDaysISO("2028-02-28", 2)).toBe("2028-03-01");
+  });
+
+  it("віднімає дні через межу місяця", () => {
+    expect(addDaysISO("2026-03-01", -3)).toBe("2026-02-26");
+  });
+
+  it("додає дні через межу року", () => {
+    expect(addDaysISO("2026-12-30", 3)).toBe("2027-01-02");
+  });
+
+  it("нуль днів не змінює дату", () => {
+    expect(addDaysISO("2026-09-20", 0)).toBe("2026-09-20");
+  });
+
+  it("не залежить від переходу на літній/зимовий час", () => {
+    expect(addDaysISO("2026-10-24", 1)).toBe("2026-10-25");
+    expect(addDaysISO("2026-10-25", 1)).toBe("2026-10-26");
+    expect(addDaysISO("2026-03-28", 1)).toBe("2026-03-29");
+    expect(addDaysISO("2026-03-29", 1)).toBe("2026-03-30");
+  });
+});

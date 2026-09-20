@@ -7,6 +7,7 @@ import {
   type CalendarEvent,
 } from "../../services/calendarService";
 import { logError } from "../../lib/logError";
+import { todayKyiv, addDaysISO } from "../../utils/kyivDate";
 import "./CalendarPage.css";
 
 interface Props {
@@ -46,14 +47,14 @@ const MONTHS_UA = [
   "грудня",
 ];
 
-function toISODate(d: Date): string {
-  return d.toISOString().slice(0, 10);
-}
+// Прибрано toISODate: toISOString() дає UTC, і з 00:00 до ~03:00 за Києвом
+// "сьогодні" було вчорашньою датою. Тепер усі дати рахуються за Києвом
+// через утиліти з src/utils/kyivDate.ts.
 
 function formatDayHeader(isoDate: string): string {
   const d = new Date(isoDate + "T00:00:00");
-  const today = toISODate(new Date());
-  const tomorrow = toISODate(new Date(Date.now() + 86400000));
+  const today = todayKyiv();
+  const tomorrow = addDaysISO(today, 1);
   const day = d.getDate();
   const month = MONTHS_UA[d.getMonth()];
   const weekday = WEEKDAYS_UA[d.getDay()];
@@ -72,11 +73,9 @@ export default function CalendarPage({ session }: Props) {
 
   const load = useCallback(() => {
     setLoading(true);
-    const today = new Date();
-    const from = toISODate(new Date(today.getTime() - 3 * 86400000));
-    const to = toISODate(
-      new Date(today.getTime() + RANGE_DAYS[range] * 86400000),
-    );
+    const today = todayKyiv();
+    const from = addDaysISO(today, -3);
+    const to = addDaysISO(today, RANGE_DAYS[range]);
     loadCalendarEvents(session.user.id, from, to)
       .then(setEvents)
       .catch((err) => logError("CalendarPage.load", err))
