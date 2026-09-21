@@ -34,6 +34,9 @@ export default function MyVaccinations({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Змінено: повідомлення про помилки завантаження й видалення (раніше
+  // ігнорувались, і при збої користувач бачив порожній список)
+  const [pageError, setPageError] = useState("");
   const [showVacInfo, setShowVacInfo] = useState(false);
   const navigate = useNavigate();
 
@@ -44,12 +47,22 @@ export default function MyVaccinations({ session }: Props) {
       .eq("user_id", session.user.id)
       .order("date", { ascending: false })
       .then(
-        ({ data }) => {
-          setRecords(data || []);
+        ({ data, error }) => {
+          if (error) {
+            console.error("Не вдалося завантажити вакцинації:", error);
+            setPageError(
+              "Не вдалося завантажити записи вакцинації. Оновіть сторінку",
+            );
+          } else {
+            setRecords(data || []);
+          }
           setLoading(false);
         },
         (err) => {
           console.error("Не вдалося завантажити вакцинації:", err);
+          setPageError(
+            "Не вдалося завантажити записи вакцинації. Оновіть сторінку",
+          );
           setLoading(false);
         },
       );
@@ -62,6 +75,7 @@ export default function MyVaccinations({ session }: Props) {
   async function handleAdd() {
     setSaving(true);
     setError("");
+    setPageError("");
     const { error } = await supabase.from("vaccinations").insert({
       ...form,
       next_date: form.next_date || null,
@@ -80,7 +94,14 @@ export default function MyVaccinations({ session }: Props) {
 
   async function handleDelete(id: string) {
     if (!confirm("Видалити запис?")) return;
-    await supabase.from("vaccinations").delete().eq("id", id);
+    setPageError("");
+    const { error } = await supabase.from("vaccinations").delete().eq("id", id);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, запис мовчки лишався
+      console.error("Не вдалося видалити вакцинацію:", error);
+      setPageError("Не вдалося видалити запис. Спробуйте ще раз");
+      return;
+    }
     loadData();
   }
 
@@ -117,6 +138,8 @@ export default function MyVaccinations({ session }: Props) {
           {showForm ? "✕ Скасувати" : "+ Додати запис"}
         </button>
       </div>
+
+      {pageError && <p className="myvac-error">{pageError}</p>}
 
       {showForm && (
         <div className="myvac-form">
@@ -199,7 +222,8 @@ export default function MyVaccinations({ session }: Props) {
 
       {loading ? (
         <p className="myvac-loading">Завантаження...</p>
-      ) : records.length === 0 ? (
+      ) : records.length === 0 && !pageError ? (
+        // Змінено: при помилці завантаження не показуємо "записів немає"
         <div className="myvac-empty-state">
           <div className="myvac-empty-illustration">💉</div>
           <h3 className="myvac-empty-title">Записів вакцинації ще немає</h3>

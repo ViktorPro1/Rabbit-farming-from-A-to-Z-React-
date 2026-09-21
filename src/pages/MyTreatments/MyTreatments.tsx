@@ -364,6 +364,9 @@ export default function MyTreatments({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Змінено: повідомлення про помилки завантаження й видалення (раніше
+  // ігнорувались, і при збої не було видно ні записів, ні нагадувань)
+  const [pageError, setPageError] = useState("");
   const [infoKey, setInfoKey] = useState<string | null>(null);
   const [editRecord, setEditRecord] = useState<TreatmentRecord | null>(null);
   const [editSaving, setEditSaving] = useState(false);
@@ -425,12 +428,22 @@ export default function MyTreatments({ session }: Props) {
       .eq("user_id", session.user.id)
       .order("date", { ascending: false })
       .then(
-        ({ data }) => {
-          setRecords(data || []);
+        ({ data, error }) => {
+          if (error) {
+            console.error("Не вдалося завантажити лікування:", error);
+            setPageError(
+              "Не вдалося завантажити записи лікування. Оновіть сторінку",
+            );
+          } else {
+            setRecords(data || []);
+          }
           setLoading(false);
         },
         (err) => {
           console.error("Не вдалося завантажити лікування:", err);
+          setPageError(
+            "Не вдалося завантажити записи лікування. Оновіть сторінку",
+          );
           setLoading(false);
         },
       );
@@ -473,6 +486,7 @@ export default function MyTreatments({ session }: Props) {
   async function handleAdd() {
     setSaving(true);
     setError("");
+    setPageError("");
     const { error: dbErr } = await supabase.from("treatments").insert({
       cage_number: form.cage_number,
       drug_name:
@@ -499,7 +513,17 @@ export default function MyTreatments({ session }: Props) {
 
   async function handleDelete(id: string) {
     if (!confirm("Видалити запис?")) return;
-    await supabase.from("treatments").delete().eq("id", id);
+    setPageError("");
+    const { error: dbErr } = await supabase
+      .from("treatments")
+      .delete()
+      .eq("id", id);
+    if (dbErr) {
+      // Змінено: раніше помилка ігнорувалась, запис мовчки лишався
+      console.error("Не вдалося видалити запис лікування:", dbErr);
+      setPageError("Не вдалося видалити запис. Спробуйте ще раз");
+      return;
+    }
     loadData();
   }
 
@@ -534,6 +558,8 @@ export default function MyTreatments({ session }: Props) {
           {showForm ? "\u2715 Скасувати" : "+ Додати запис"}
         </button>
       </div>
+
+      {pageError && <p className="mytreat-error">{pageError}</p>}
 
       {/* ── СЬОГОДНІ ── */}
       {todayRecords.length > 0 && (
@@ -776,7 +802,8 @@ export default function MyTreatments({ session }: Props) {
       {/* ── ВСІ ЗАПИСИ ── */}
       {loading ? (
         <p className="mytreat-loading">Завантаження...</p>
-      ) : records.length === 0 ? (
+      ) : records.length === 0 && !pageError ? (
+        // Змінено: при помилці завантаження не показуємо "записів немає"
         <div className="mytreat-empty-state">
           <div className="mytreat-empty-illustration">💊</div>
           <h3 className="mytreat-empty-title">Записів лікування ще немає</h3>

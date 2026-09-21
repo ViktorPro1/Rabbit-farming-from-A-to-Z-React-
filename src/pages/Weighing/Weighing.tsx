@@ -790,6 +790,9 @@ export default function Weighing({ session }: Props) {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Змінено: повідомлення про помилки завантаження й видалення (раніше
+  // ігнорувались: при збої список записів виглядав порожнім)
+  const [pageError, setPageError] = useState("");
   const [showWeightChart, setShowWeightChart] = useState(false);
   const [showCycleInfo, setShowCycleInfo] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
@@ -812,17 +815,26 @@ export default function Weighing({ session }: Props) {
 
   async function fetchRecords() {
     setLoading(true);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("weighings")
       .select("*")
       .eq("user_id", session.user.id)
       .order("weighing_date", { ascending: true });
-    setRecords(data || []);
+    if (error) {
+      // Змінено: при помилці лишаємо поточний список (раніше він
+      // очищався до порожнього без жодного повідомлення)
+      console.error("Не вдалося завантажити зважування:", error);
+      setPageError(
+        "Не вдалося завантажити записи зважування. Оновіть сторінку",
+      );
+    } else {
+      setRecords(data || []);
+    }
     setLoading(false);
   }
 
   async function fetchOptions() {
-    const [{ data: rabbitsData }, { data: fatteningData }] = await Promise.all([
+    const [rabbitsRes, fatteningRes] = await Promise.all([
       supabase
         .from("rabbits")
         .select("id, name, birth_date, cage_number, reminder_days")
@@ -836,8 +848,20 @@ export default function Weighing({ session }: Props) {
         .eq("is_active", true)
         .order("cage_number", { ascending: true }),
     ]);
-    setRabbitOptions(rabbitsData || []);
-    setFatteningOptions(fatteningData || []);
+    if (rabbitsRes.error || fatteningRes.error) {
+      // Змінено: раніше помилка ігнорувалась, і списки для вибору кролика
+      // чи клітки були порожніми без пояснення
+      console.error(
+        "Не вдалося завантажити кроликів і клітки для зважування:",
+        rabbitsRes.error || fatteningRes.error,
+      );
+      setPageError(
+        "Не вдалося завантажити списки кроликів і кліток. Оновіть сторінку",
+      );
+      return;
+    }
+    setRabbitOptions(rabbitsRes.data || []);
+    setFatteningOptions(fatteningRes.data || []);
   }
 
   const rabbitById = useMemo(
@@ -859,9 +883,15 @@ export default function Weighing({ session }: Props) {
       .from(table)
       .update({ reminder_days: days })
       .eq("id", entityId);
-    if (!updateError) {
-      fetchOptions();
+    if (updateError) {
+      // Змінено: раніше помилка ігнорувалась, нагадування не зберігалось мовчки
+      console.error("Не вдалося зберегти інтервал нагадування:", updateError);
+      setPageError(
+        "Не вдалося зберегти інтервал нагадування. Спробуйте ще раз",
+      );
+      return;
     }
+    fetchOptions();
   }
 
   async function handleAdd() {
@@ -965,7 +995,14 @@ export default function Weighing({ session }: Props) {
 
   async function handleDelete(id: string) {
     if (!confirm("Видалити запис?")) return;
-    await supabase.from("weighings").delete().eq("id", id);
+    setPageError("");
+    const { error } = await supabase.from("weighings").delete().eq("id", id);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, запис мовчки лишався
+      console.error("Не вдалося видалити зважування:", error);
+      setPageError("Не вдалося видалити запис. Спробуйте ще раз");
+      return;
+    }
     fetchRecords();
   }
 
@@ -1330,6 +1367,7 @@ export default function Weighing({ session }: Props) {
           ⬅ Мої кролики
         </button>
       </div>
+      {pageError && <p className="weighing-error">{pageError}</p>}
       <div className="weighing-stats">
         <div className="weighing-stat">
           <span className="weighing-stat-value">{records.length}</span>
@@ -1522,7 +1560,8 @@ export default function Weighing({ session }: Props) {
       )}
       {loading ? (
         <p className="weighing-loading">Завантаження...</p>
-      ) : records.length === 0 ? (
+      ) : records.length === 0 && !pageError ? (
+        // Змінено: при помилці завантаження не показуємо "записів немає"
         <div className="weighing-empty-state">
           <div className="weighing-empty-illustration">⚖️</div>
           <h3 className="weighing-empty-title">Записів зважування ще немає</h3>

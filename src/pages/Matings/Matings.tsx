@@ -155,6 +155,9 @@ function getUpcomingInfo(m: Mating): { label: string; date: string } | null {
   return null;
 }
 
+const FATTENING_NOT_SAVED_MESSAGE =
+  "Окріл збережено, але клітки відгодівлі створено не повністю. Перевірте сторінку «Відгодівля» і додайте їх вручну";
+
 export default function Matings({ session }: Props) {
   const [rabbits, setRabbits] = useState<Rabbit[]>([]);
   const [allRabbits, setAllRabbits] = useState<Rabbit[]>([]);
@@ -186,6 +189,12 @@ export default function Matings({ session }: Props) {
   const [editSplitFemale, setEditSplitFemale] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Змінено: loadError — збій завантаження злучок/кроликів; pageError —
+  // збій дій поза формами (видалення, архів, клітки відгодівлі). Раніше
+  // ці помилки ігнорувались, і при збої список злучок і окролів виглядав
+  // порожнім чи неповним без жодного повідомлення.
+  const [loadError, setLoadError] = useState("");
+  const [pageError, setPageError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const [showInfo, setShowInfo] = useState(false);
   const [showArchive, setShowArchive] = useState(false);
@@ -204,20 +213,43 @@ export default function Matings({ session }: Props) {
 
   useEffect(() => {
     let cancelled = false;
+    // Стан завантаження двох незалежних запитів: підсумкове повідомлення
+    // залежить від обох, тож рахуємо його в одному місці
+    let rabbitsFailed = false;
+    let matingsFailed = false;
+    const reportLoadState = () => {
+      if (cancelled) return;
+      setLoadError(
+        rabbitsFailed || matingsFailed
+          ? "Не вдалося завантажити дані парувань. Оновіть сторінку"
+          : "",
+      );
+    };
 
     supabase
       .from("rabbits")
       .select("id, name, breed, gender, cage_number, is_active")
       .eq("user_id", session.user.id)
       .then(
-        ({ data }) => {
-          if (!cancelled) {
-            setAllRabbits(data || []);
-            setRabbits((data || []).filter((r) => r.is_active));
+        ({ data, error }) => {
+          if (cancelled) return;
+          if (error) {
+            console.error(
+              "Не вдалося завантажити кроликів для парувань:",
+              error,
+            );
+            rabbitsFailed = true;
+            reportLoadState();
+            return;
           }
+          setAllRabbits(data || []);
+          setRabbits((data || []).filter((r) => r.is_active));
+          reportLoadState();
         },
         (err) => {
           console.error("Не вдалося завантажити кроликів для парувань:", err);
+          rabbitsFailed = true;
+          reportLoadState();
         },
       );
 
@@ -228,14 +260,30 @@ export default function Matings({ session }: Props) {
       )
       .eq("user_id", session.user.id)
       .then(
-        async ({ data }) => {
-          if (cancelled || !data) return;
+        async ({ data, error }) => {
+          if (cancelled) return;
+          if (error || !data) {
+            // Змінено: помилка запиту більше не ігнорується; поточний
+            // список лишається без змін
+            console.error("Не вдалося завантажити парування:", error);
+            matingsFailed = true;
+            reportLoadState();
+            return;
+          }
           const ids = data.map((m) => m.id);
-          const { data: littersData } = await supabase
+          const { data: littersData, error: littersError } = await supabase
             .from("litters")
             .select("*")
             .in("mating_id", ids);
           if (cancelled) return;
+          if (littersError) {
+            // Змінено: без цієї перевірки парування показувались би без
+            // окролів, ніби їх немає
+            console.error("Не вдалося завантажити окроли:", littersError);
+            matingsFailed = true;
+            reportLoadState();
+            return;
+          }
           const littersMap: Record<string, Litter[]> = {};
           (littersData || []).forEach((l) => {
             if (!littersMap[l.mating_id]) littersMap[l.mating_id] = [];
@@ -259,9 +307,12 @@ export default function Matings({ session }: Props) {
           setMatings(
             data.map((m) => ({ ...m, litters: littersMap[m.id] || [] })),
           );
+          reportLoadState();
         },
         (err) => {
           console.error("Не вдалося завантажити паруванн та посліди:", err);
+          matingsFailed = true;
+          reportLoadState();
         },
       );
 
@@ -365,11 +416,15 @@ export default function Matings({ session }: Props) {
     return mating.female?.breed || mating.male?.breed || "";
   }
 
+  // Змінено: повертає true, лише якщо всі клітки відгодівлі збережено. Раніше
+  // помилки ігнорувались: окріл уже був позначений відлученим, а клітки
+  // відгодівлі не створювались, і повторити це було неможливо.
   async function createFatteningRecords(
     birthDate: string,
     breed: string,
     entries: { cage: string; males: number; females: number }[],
-  ) {
+  ): Promise<boolean> {
+    let allSaved = true;
     // Групуємо за номером клітки, щоб не плодити дублікати однієї й тієї ж клітки
     const cageTotals: Record<string, { males: number; females: number }> = {};
 
@@ -385,7 +440,7 @@ export default function Matings({ session }: Props) {
     }
 
     for (const [cageNumber, counts] of Object.entries(cageTotals)) {
-      const { data: existingRows } = await supabase
+      const { data: existingRows, error: lookupError } = await supabase
         .from("fattening")
         .select("id, males, females")
         .eq("user_id", session.user.id)
@@ -393,18 +448,30 @@ export default function Matings({ session }: Props) {
         .eq("is_active", true)
         .limit(1);
 
+      if (lookupError) {
+        // Без перевірки існуючої клітки не можна безпечно додавати: вийшов би
+        // дублікат тієї самої клітки
+        console.error("Не вдалося перевірити клітку відгодівлі:", lookupError);
+        allSaved = false;
+        continue;
+      }
+
       const existing = existingRows && existingRows[0];
 
       if (existing) {
-        await supabase
+        const { error: updateError } = await supabase
           .from("fattening")
           .update({
             males: (existing.males || 0) + counts.males,
             females: (existing.females || 0) + counts.females,
           })
           .eq("id", existing.id);
+        if (updateError) {
+          console.error("Не вдалося оновити клітку відгодівлі:", updateError);
+          allSaved = false;
+        }
       } else {
-        await supabase.from("fattening").insert({
+        const { error: insertError } = await supabase.from("fattening").insert({
           user_id: session.user.id,
           cage_number: cageNumber,
           males: counts.males,
@@ -415,8 +482,14 @@ export default function Matings({ session }: Props) {
           slaughter_date: birthDate ? calcSlaughterDate(birthDate) : null,
           is_active: true,
         });
+        if (insertError) {
+          console.error("Не вдалося створити клітку відгодівлі:", insertError);
+          allSaved = false;
+        }
       }
     }
+
+    return allSaved;
   }
 
   function buildFatteningEntries(form: {
@@ -515,6 +588,7 @@ export default function Matings({ session }: Props) {
     if (!editingLitterData) return;
     setSaving(true);
     setError("");
+    setPageError("");
 
     const originalLitter = (mating.litters || []).find(
       (l) => l.id === editingLitterData.id,
@@ -558,11 +632,14 @@ export default function Matings({ session }: Props) {
           editingLitterData.actual_male_id || "",
           editingLitterData.actual_female_id || "",
         );
-        await createFatteningRecords(
+        const fatteningSaved = await createFatteningRecords(
           editingLitterData.birth_date,
           breed,
           buildFatteningEntries(editingLitterData),
         );
+        if (!fatteningSaved) {
+          setPageError(FATTENING_NOT_SAVED_MESSAGE);
+        }
       }
       setEditingLitterId(null);
       setEditingLitterData(null);
@@ -576,6 +653,7 @@ export default function Matings({ session }: Props) {
   async function handleAddLitter(matingId: string, mating: Mating) {
     setSaving(true);
     setError("");
+    setPageError("");
     const form = litterForms[matingId] || emptyLitterForm;
     const { error } = await supabase.from("litters").insert({
       user_id: session.user.id,
@@ -611,11 +689,14 @@ export default function Matings({ session }: Props) {
           form.actual_male_id,
           form.actual_female_id,
         );
-        await createFatteningRecords(
+        const fatteningSaved = await createFatteningRecords(
           form.birth_date,
           breed,
           buildFatteningEntries(form),
         );
+        if (!fatteningSaved) {
+          setPageError(FATTENING_NOT_SAVED_MESSAGE);
+        }
       }
       setLitterForms({ ...litterForms, [matingId]: emptyLitterForm });
       setShowLitterForm({ ...showLitterForm, [matingId]: false });
@@ -628,23 +709,55 @@ export default function Matings({ session }: Props) {
 
   async function handleDeleteMating(id: string) {
     if (!confirm("Видалити злучку? Окроли залишаться в базі.")) return;
-    await supabase.from("matings").delete().eq("id", id);
+    setPageError("");
+    const { error } = await supabase.from("matings").delete().eq("id", id);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, злучка мовчки лишалась
+      console.error("Не вдалося видалити злучку:", error);
+      setPageError("Не вдалося видалити злучку. Спробуйте ще раз");
+      return;
+    }
     fetchMatings();
   }
 
   async function handleArchiveMating(id: string) {
-    await supabase.from("matings").update({ is_archived: true }).eq("id", id);
+    setPageError("");
+    const { error } = await supabase
+      .from("matings")
+      .update({ is_archived: true })
+      .eq("id", id);
+    if (error) {
+      console.error("Не вдалося архівувати злучку:", error);
+      setPageError("Не вдалося архівувати злучку. Спробуйте ще раз");
+      return;
+    }
     fetchMatings();
   }
 
   async function handleUnarchiveMating(id: string) {
-    await supabase.from("matings").update({ is_archived: false }).eq("id", id);
+    setPageError("");
+    const { error } = await supabase
+      .from("matings")
+      .update({ is_archived: false })
+      .eq("id", id);
+    if (error) {
+      console.error("Не вдалося повернути злучку з архіву:", error);
+      setPageError("Не вдалося повернути злучку з архіву. Спробуйте ще раз");
+      return;
+    }
     fetchMatings();
   }
 
   async function handleDeleteLitter(id: string) {
     if (!confirm("Видалити окріл?")) return;
-    await supabase.from("litters").delete().eq("id", id);
+    setPageError("");
+    const { error } = await supabase.from("litters").delete().eq("id", id);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, окріл мовчки лишався
+      console.error("Не вдалося видалити окріл:", error);
+      setPageError("Не вдалося видалити окріл. Спробуйте ще раз");
+      return;
+    }
     fetchMatings();
   }
 
@@ -864,6 +977,9 @@ export default function Matings({ session }: Props) {
         </button>
       </div>
 
+      {loadError && <p className="matings-error">{loadError}</p>}
+      {pageError && <p className="matings-error">{pageError}</p>}
+
       <button
         className="matings-add-btn"
         onClick={() => setShowMatingForm(!showMatingForm)}
@@ -1027,7 +1143,8 @@ export default function Matings({ session }: Props) {
       </div>
 
       <div className="matings-list">
-        {sortedMatings.length === 0 ? (
+        {sortedMatings.length === 0 && !loadError ? (
+          // Змінено: при помилці завантаження не показуємо "злучок ще немає"
           <div className="matings-empty-state">
             <div className="matings-empty-illustration">🐇</div>
             <h3 className="matings-empty-title">Злучок ще немає</h3>
@@ -1470,10 +1587,23 @@ export default function Matings({ session }: Props) {
                                           onClick={async () => {
                                             // Змінено: сьогодні за Києвом, не UTC
                                             const today = todayKyiv();
-                                            await supabase
-                                              .from("litters")
-                                              .update({ nestbox_date: today })
-                                              .eq("id", l.id);
+                                            setPageError("");
+                                            const { error: nestboxError } =
+                                              await supabase
+                                                .from("litters")
+                                                .update({ nestbox_date: today })
+                                                .eq("id", l.id);
+                                            if (nestboxError) {
+                                              // Змінено: раніше помилка ігнорувалась
+                                              console.error(
+                                                "Не вдалося зберегти дату маточника:",
+                                                nestboxError,
+                                              );
+                                              setPageError(
+                                                "Не вдалося зберегти дату маточника. Спробуйте ще раз",
+                                              );
+                                              return;
+                                            }
                                             fetchMatings();
                                           }}
                                         >

@@ -29,6 +29,9 @@ export default function Pedigree({ session }: Props) {
   const [expandedId, setExpandedId] = useState<string>("");
   const [generations, setGenerations] = useState<3 | 4>(3);
   const [showInfo, setShowInfo] = useState(false);
+  // Змінено: повідомлення про помилки завантаження й збереження предка
+  // (раніше ігнорувались)
+  const [pageError, setPageError] = useState("");
 
   const loadData = useCallback(() => {
     supabase
@@ -38,10 +41,26 @@ export default function Pedigree({ session }: Props) {
       )
       .eq("user_id", session.user.id)
       .order("name", { ascending: true })
-      .then(({ data }) => {
-        setRabbits(data || []);
-        setLoading(false);
-      });
+      .then(
+        ({ data, error }) => {
+          if (error) {
+            // Змінено: помилка запиту більше не видається за порожній реєстр
+            console.error(
+              "Не вдалося завантажити кроликів для родоводу:",
+              error,
+            );
+            setPageError("Не вдалося завантажити кроликів. Оновіть сторінку");
+          } else {
+            setRabbits(data || []);
+          }
+          setLoading(false);
+        },
+        (err) => {
+          console.error("Не вдалося завантажити кроликів для родоводу:", err);
+          setPageError("Не вдалося завантажити кроликів. Оновіть сторінку");
+          setLoading(false);
+        },
+      );
   }, [session.user.id]);
 
   useEffect(() => {
@@ -53,10 +72,18 @@ export default function Pedigree({ session }: Props) {
 
   async function handleAssign(childId: string, role: Role, parentId: string) {
     const field = role === "father" ? "father_id" : "mother_id";
-    await supabase
+    setPageError("");
+    const { error } = await supabase
       .from("rabbits")
       .update({ [field]: parentId || null })
       .eq("id", childId);
+    if (error) {
+      // Змінено: раніше помилка ігнорувалась, і вибраний предок виглядав
+      // збереженим, хоча запис не змінився
+      console.error("Не вдалося зберегти предка:", error);
+      setPageError("Не вдалося зберегти предка. Спробуйте ще раз");
+      return;
+    }
     loadData();
   }
 
@@ -87,6 +114,16 @@ export default function Pedigree({ session }: Props) {
           ← Мої кролики
         </button>
       </div>
+
+      {pageError && (
+        <p
+          className="pedigree-error"
+          role="alert"
+          style={{ color: "#c0392b", margin: "0.5rem 0" }}
+        >
+          {pageError}
+        </p>
+      )}
 
       {loading ? (
         <p className="pedigree-loading">Завантаження...</p>
@@ -312,7 +349,10 @@ function PedigreeNode({
             id={`pedigree-assign-${role}-${childId}`}
             name={`assign-${role}-${childId}`}
             className="pedigree-assign-select no-print"
-            defaultValue=""
+            // Змінено: value="" замість defaultValue — якщо збереження не
+            // вдалось, список повертається до "+ Батько"/"+ Мати" і не
+            // показує вибраного, але не збереженого предка
+            value=""
             onChange={(e) =>
               e.target.value && onAssign(childId, role, e.target.value)
             }

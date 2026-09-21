@@ -63,6 +63,9 @@ export default function AptechkaPage({ session }: Props) {
   const [manualForm, setManualForm] = useState(emptyManualForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Змінено: повідомлення про помилки завантаження й змін у аптечці
+  // (раніше ігнорувались: форма закривалась, ніби все збережено)
+  const [pageError, setPageError] = useState("");
 
   const [detailsEditId, setDetailsEditId] = useState<string | null>(null);
   const [detailsForm, setDetailsForm] = useState(emptyDetailsForm);
@@ -82,12 +85,18 @@ export default function AptechkaPage({ session }: Props) {
       .eq("user_id", session.user.id)
       .order("purchase_date", { ascending: false })
       .then(
-        ({ data }) => {
-          setBatches(data || []);
+        ({ data, error }) => {
+          if (error) {
+            console.error("Не вдалося завантажити аптечку:", error);
+            setPageError("Не вдалося завантажити аптечку. Оновіть сторінку");
+          } else {
+            setBatches(data || []);
+          }
           setLoading(false);
         },
         (err) => {
           console.error("Не вдалося завантажити аптечку:", err);
+          setPageError("Не вдалося завантажити аптечку. Оновіть сторінку");
           setLoading(false);
         },
       );
@@ -100,6 +109,7 @@ export default function AptechkaPage({ session }: Props) {
   async function handleAddManual() {
     setSaving(true);
     setError("");
+    setPageError("");
     const hasDetails = Boolean(
       manualForm.quantity_purchased && manualForm.expiry_date,
     );
@@ -140,7 +150,8 @@ export default function AptechkaPage({ session }: Props) {
 
   async function handleSaveDetails(id: string) {
     if (!detailsForm.quantity_purchased || !detailsForm.expiry_date) return;
-    await supabase
+    setPageError("");
+    const { error: dbErr } = await supabase
       .from("medication_batches")
       .update({
         quantity_purchased: Number(detailsForm.quantity_purchased),
@@ -149,16 +160,32 @@ export default function AptechkaPage({ session }: Props) {
         expiry_date: detailsForm.expiry_date,
       })
       .eq("id", id);
+    if (dbErr) {
+      // Змінено: раніше форма закривалась і при помилці. Тепер лишається
+      // відкритою, щоб введені дані не пропали
+      console.error("Не вдалося зберегти уточнення препарату:", dbErr);
+      setPageError("Не вдалося зберегти дані препарату. Спробуйте ще раз");
+      return;
+    }
     setDetailsEditId(null);
     loadData();
   }
 
   async function handleMarkUsedUp(id: string) {
     if (!confirm("Позначити препарат як повністю використаний?")) return;
-    await supabase
+    setPageError("");
+    const { error: dbErr } = await supabase
       .from("medication_batches")
       .update({ used_up: true })
       .eq("id", id);
+    if (dbErr) {
+      // Змінено: раніше помилка ігнорувалась
+      console.error("Не вдалося позначити препарат використаним:", dbErr);
+      setPageError(
+        "Не вдалося позначити препарат використаним. Спробуйте ще раз",
+      );
+      return;
+    }
     loadData();
   }
 
@@ -172,17 +199,35 @@ export default function AptechkaPage({ session }: Props) {
   async function handleSaveRemaining(id: string) {
     const value = Number(remainingValue);
     if (Number.isNaN(value) || value < 0) return;
-    await supabase
+    setPageError("");
+    const { error: dbErr } = await supabase
       .from("medication_batches")
       .update({ quantity_remaining: value, used_up: value === 0 })
       .eq("id", id);
+    if (dbErr) {
+      // Змінено: раніше форма закривалась і при помилці. Тепер лишається
+      // відкритою, щоб введене значення не пропало
+      console.error("Не вдалося зберегти залишок препарату:", dbErr);
+      setPageError("Не вдалося зберегти залишок. Спробуйте ще раз");
+      return;
+    }
     setRemainingEditId(null);
     loadData();
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Видалити запис з аптечки?")) return;
-    await supabase.from("medication_batches").delete().eq("id", id);
+    setPageError("");
+    const { error: dbErr } = await supabase
+      .from("medication_batches")
+      .delete()
+      .eq("id", id);
+    if (dbErr) {
+      // Змінено: раніше помилка ігнорувалась, запис мовчки лишався
+      console.error("Не вдалося видалити запис аптечки:", dbErr);
+      setPageError("Не вдалося видалити запис. Спробуйте ще раз");
+      return;
+    }
     loadData();
   }
 
@@ -207,6 +252,8 @@ export default function AptechkaPage({ session }: Props) {
           {showManualForm ? "\u2715 Скасувати" : "+ Додати вручну"}
         </button>
       </div>
+
+      {pageError && <p className="aptechka-error">{pageError}</p>}
 
       {showManualForm && (
         <div className="aptechka-form">
