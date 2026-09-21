@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
 import type { Session } from "@supabase/supabase-js";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { CHANGELOG } from "../../data/changelog";
@@ -51,13 +52,20 @@ const Header = ({ session }: Props) => {
       .from("admins")
       .select("user_id")
       .eq("user_id", session.user.id)
-      .single()
+      // Змінено: maybeSingle замість single — відсутній рядок (звичайний
+      // користувач) це не помилка, а справжні збої тепер логуються
+      .maybeSingle()
       .then(
-        ({ data }) => {
-          if (!cancelled) setIsAdmin(!!data);
+        ({ data, error }) => {
+          if (cancelled) return;
+          if (error) {
+            logError("Header.checkAdmin", error);
+            return;
+          }
+          setIsAdmin(!!data);
         },
         (err) => {
-          console.error("Не вдалося перевірити права адміністратора:", err);
+          logError("Header.checkAdmin", err);
         },
       );
     return () => {
@@ -125,10 +133,25 @@ const Header = ({ session }: Props) => {
     });
   }
 
+  // Змінено: раніше помилка виходу не оброблялась. signOut повертає помилку
+  // (а не кидає виняток), напр. при відсутності мережі, і тоді сесія лишалась
+  // активною без жодного повідомлення. Тепер помилку логуємо й виходимо хоча б
+  // у цьому браузері (scope: "local" не потребує запиту до сервера).
   async function handleLogout() {
-    await supabase.auth.signOut();
-    setShowUserMenu(false);
-    setMenuOpen(false);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (err) {
+      logError("Header.handleLogout", err);
+      try {
+        await supabase.auth.signOut({ scope: "local" });
+      } catch (localErr) {
+        logError("Header.handleLogout.local", localErr);
+      }
+    } finally {
+      setShowUserMenu(false);
+      setMenuOpen(false);
+    }
   }
 
   const closeMenu = () => setMenuOpen(false);

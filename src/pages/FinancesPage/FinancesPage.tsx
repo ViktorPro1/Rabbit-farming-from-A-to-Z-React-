@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
 import { todayKyiv } from "../../utils/kyivDate";
 import "./FinancesPage.css";
 
@@ -259,6 +260,11 @@ export default function FinancesPage({ session }: Props) {
   const [otherIncomeForm, setOtherIncomeForm] = useState(emptyOtherIncomeForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Змінено: повідомлення про помилки завантаження й дій поза формами.
+  // Раніше вони ігнорувались: при збої запиту суми рахувались з порожніх
+  // даних (хибний нульовий дохід і збиток), а збій самого Promise.all
+  // лишав сторінку на "Завантаження..." назавжди.
+  const [pageError, setPageError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const [editingPriceId, setEditingPriceId] = useState<string | null>(null);
   const [editingPriceValue, setEditingPriceValue] = useState("");
@@ -307,14 +313,37 @@ export default function FinancesPage({ session }: Props) {
         .select("id, category, amount, income_date, description")
         .eq("user_id", session.user.id)
         .order("income_date", { ascending: false }),
-    ]).then(([expensesRes, salesRes, slaughteredRes, otherIncomeRes]) => {
-      if (cancelled) return;
-      setExpenses(expensesRes.data || []);
-      setSales(salesRes.data || []);
-      setSelfConsumption(slaughteredRes.data || []);
-      setOtherIncome(otherIncomeRes.data || []);
-      setLoading(false);
-    });
+    ])
+      .then(([expensesRes, salesRes, slaughteredRes, otherIncomeRes]) => {
+        if (cancelled) return;
+        const failed = [
+          expensesRes,
+          salesRes,
+          slaughteredRes,
+          otherIncomeRes,
+        ].find((res) => res.error);
+        if (failed?.error) {
+          // Списки не оновлюємо: неповні дані дали б хибні суми
+          logError("FinancesPage.load", failed.error);
+          setPageError(
+            "Не вдалося завантажити фінансові дані. Оновіть сторінку",
+          );
+          setLoading(false);
+          return;
+        }
+        setPageError("");
+        setExpenses(expensesRes.data || []);
+        setSales(salesRes.data || []);
+        setSelfConsumption(slaughteredRes.data || []);
+        setOtherIncome(otherIncomeRes.data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        logError("FinancesPage.load", err);
+        setPageError("Не вдалося завантажити фінансові дані. Оновіть сторінку");
+        setLoading(false);
+      });
 
     return () => {
       cancelled = true;
@@ -344,7 +373,17 @@ export default function FinancesPage({ session }: Props) {
 
   async function handleDeleteExpense(id: string) {
     if (!confirm("Видалити витрату?")) return;
-    await supabase.from("expenses").delete().eq("id", id);
+    setPageError("");
+    const { error: deleteError } = await supabase
+      .from("expenses")
+      .delete()
+      .eq("id", id);
+    if (deleteError) {
+      // Змінено: раніше помилка ігнорувалась, витрата мовчки лишалась
+      logError("FinancesPage.handleDeleteExpense", deleteError);
+      setPageError("Не вдалося видалити витрату. Спробуйте ще раз");
+      return;
+    }
     setLoading(true);
     setRefreshKey((k) => k + 1);
   }
@@ -372,7 +411,17 @@ export default function FinancesPage({ session }: Props) {
 
   async function handleDeleteOtherIncome(id: string) {
     if (!confirm("Видалити запис доходу?")) return;
-    await supabase.from("other_income").delete().eq("id", id);
+    setPageError("");
+    const { error: deleteError } = await supabase
+      .from("other_income")
+      .delete()
+      .eq("id", id);
+    if (deleteError) {
+      // Змінено: раніше помилка ігнорувалась, запис мовчки лишався
+      logError("FinancesPage.handleDeleteOtherIncome", deleteError);
+      setPageError("Не вдалося видалити запис доходу. Спробуйте ще раз");
+      return;
+    }
     setLoading(true);
     setRefreshKey((k) => k + 1);
   }
@@ -385,7 +434,18 @@ export default function FinancesPage({ session }: Props) {
   async function handleSavePrice(id: string) {
     const value = Number(editingPriceValue);
     if (!value || value <= 0) return;
-    await supabase.from("sales").update({ price: value }).eq("id", id);
+    setPageError("");
+    const { error: updateError } = await supabase
+      .from("sales")
+      .update({ price: value })
+      .eq("id", id);
+    if (updateError) {
+      // Змінено: раніше форма закривалась і при помилці. Тепер лишається
+      // відкритою, щоб введена ціна не пропала
+      logError("FinancesPage.handleSavePrice", updateError);
+      setPageError("Не вдалося зберегти ціну. Спробуйте ще раз");
+      return;
+    }
     setEditingPriceId(null);
     setEditingPriceValue("");
     setLoading(true);
@@ -407,10 +467,17 @@ export default function FinancesPage({ session }: Props) {
     const weight = Number(editingWeightValue);
     const price = Number(editingPriceKgValue);
     if (!weight || weight <= 0 || !price || price <= 0) return;
-    await supabase
+    setPageError("");
+    const { error: updateError } = await supabase
       .from("fattening")
       .update({ carcass_weight_kg: weight, carcass_price_per_kg: price })
       .eq("id", id);
+    if (updateError) {
+      // Змінено: раніше форма закривалась і при помилці
+      logError("FinancesPage.handleSaveCarcass", updateError);
+      setPageError("Не вдалося зберегти вагу туші. Спробуйте ще раз");
+      return;
+    }
     setEditingCarcassId(null);
     setLoading(true);
     setRefreshKey((k) => k + 1);
@@ -527,6 +594,15 @@ export default function FinancesPage({ session }: Props) {
     b.localeCompare(a),
   );
 
+  // Якщо дані не завантажились і показувати нічого, замість нульових сум
+  // (хибний нульовий дохід) лишаємо тільки повідомлення про помилку
+  const hasAnyData =
+    expenses.length +
+      sales.length +
+      selfConsumption.length +
+      otherIncome.length >
+    0;
+
   return (
     <div className="finances-page">
       <div className="finances-header">
@@ -539,9 +615,11 @@ export default function FinancesPage({ session }: Props) {
         </button>
       </div>
 
+      {pageError && <p className="finances-error">{pageError}</p>}
+
       {loading ? (
         <div className="finances-loading">Завантаження...</div>
-      ) : (
+      ) : pageError && !hasAnyData ? null : (
         <>
           <div className="finances-summary">
             <div className="finances-summary-card income">
