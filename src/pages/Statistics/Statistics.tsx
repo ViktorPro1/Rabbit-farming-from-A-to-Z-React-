@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
 import "./Statistics.css";
 
 interface Props {
@@ -1076,6 +1077,8 @@ export default function Statistics({ session }: Props) {
   const [salesData, setSalesData] = useState<SaleRecord[]>([]);
   const [failureStats, setFailureStats] = useState<FemaleFailureStat[]>([]);
   const [loading, setLoading] = useState(true);
+  // Змінено: повідомлення про помилку завантаження статистики
+  const [pageError, setPageError] = useState("");
   const [activeTab, setActiveTab] = useState<
     | "females"
     | "males"
@@ -1093,27 +1096,127 @@ export default function Statistics({ session }: Props) {
   const [quarantineDeaths, setQuarantineDeaths] = useState(0);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function loadStats() {
       setLoading(true);
+      setPageError("");
 
-      // Забої
-      const { data: slaughtered } = await supabase
-        .from("fattening")
-        .select(
-          "id, cage_number, breed, males, females, unknown, birth_date, slaughtered_at, notes",
-        )
-        .eq("user_id", session.user.id)
-        .eq("is_active", false)
-        .not("slaughtered_at", "is", null)
-        .order("slaughtered_at", { ascending: false });
+      // Змінено: сім незалежних запитів ішли послідовно (сім оборотів мережі
+      // замість одного) і жоден не перевіряв error чи мав .range() — за
+      // замовчуванням PostgREST повертає не більше 1000 рядків, тож на
+      // великому господарстві старіші записи тихо випадали зі статистики.
+      // Тепер запити йдуть паралельно (Promise.all), з явним .range(0, 9999)
+      // і перевіркою помилок.
+      const PAGE_END = 9999; // до 10 000 рядків на таблицю — з великим запасом
+
+      const [
+        slaughteredRes,
+        salesRes,
+        paddockLittersRes,
+        registryExitsRes,
+        quarantineDiedRes,
+        matingsRes,
+        rabbitsRes,
+      ] = await Promise.all([
+        // Забої
+        supabase
+          .from("fattening")
+          .select(
+            "id, cage_number, breed, males, females, unknown, birth_date, slaughtered_at, notes",
+          )
+          .eq("user_id", session.user.id)
+          .eq("is_active", false)
+          .not("slaughtered_at", "is", null)
+          .order("slaughtered_at", { ascending: false })
+          .range(0, PAGE_END),
+
+        // Продажі
+        supabase
+          .from("sales")
+          .select("id, males, females, unknown, sold_at")
+          .eq("user_id", session.user.id)
+          .order("sold_at", { ascending: false })
+          .range(0, PAGE_END),
+
+        // Окроли з вольєрів (підлогове утримання) — окрема таблиця, не входить
+        // у "litters", тому без цього блоку народжений там молодняк випадав
+        // з "Народжено/Живих" в огляді
+        supabase
+          .from("paddock_litters")
+          .select("birth_date, total_born, alive")
+          .eq("user_id", session.user.id)
+          .range(0, PAGE_END),
+
+        // Втрати і вибуття серед іменованих кроликів реєстру (не групові партії
+        // Відгодівлі/Продажів, а конкретні тварини, архівовані напряму з
+        // "Моїх кроликів" або через результат карантину)
+        supabase
+          .from("rabbits")
+          .select("archive_reason, archive_date")
+          .eq("user_id", session.user.id)
+          .eq("is_active", false)
+          .not("archive_reason", "is", null)
+          .range(0, PAGE_END),
+
+        // Загиблі в карантині БЕЗ прив'язки до конкретного кролика реєстру
+        // (rabbit_id = null, вписані вручну). Ті, що прив'язані до rabbit_id,
+        // вже пораховані вище через rabbits.archive_reason — інакше було б
+        // подвійне рахування однієї й тієї ж тварини
+        supabase
+          .from("quarantine")
+          .select("id")
+          .eq("user_id", session.user.id)
+          .eq("result", "died")
+          .is("rabbit_id", null)
+          .range(0, PAGE_END),
+
+        supabase
+          .from("matings")
+          .select(
+            "*, female:female_id(id, name, breed, cage_number), male:male_id(id, name, breed)",
+          )
+          .eq("user_id", session.user.id)
+          .range(0, PAGE_END),
+
+        // Усі кролики користувача (включно з архівними) — щоб знайти ім'я
+        // фактичного самця/самки окролу (actual_male_id / actual_female_id).
+        // Не залежить від matings, тому раніше не було причини чекати на
+        // нього — переміщено сюди й виконується паралельно з рештою.
+        supabase
+          .from("rabbits")
+          .select("id, name, breed, cage_number")
+          .eq("user_id", session.user.id)
+          .range(0, PAGE_END),
+      ]);
+
+      if (cancelled) return;
+
+      const failedQuery = [
+        slaughteredRes,
+        salesRes,
+        paddockLittersRes,
+        registryExitsRes,
+        quarantineDiedRes,
+        matingsRes,
+        rabbitsRes,
+      ].find((r) => r.error);
+      if (failedQuery?.error) {
+        logError("Statistics.loadStats", failedQuery.error);
+        setPageError("Не вдалося завантажити статистику. Оновіть сторінку");
+        setLoading(false);
+        return;
+      }
+
+      const slaughtered = slaughteredRes.data;
+      const sales = salesRes.data;
+      const paddockLitters = paddockLittersRes.data;
+      const registryExits = registryExitsRes.data;
+      const quarantineDied = quarantineDiedRes.data;
+      const matingsData = matingsRes.data;
+      const rabbitsData = rabbitsRes.data;
+
       setSlaughteredCages(slaughtered || []);
-
-      // Продажі
-      const { data: sales } = await supabase
-        .from("sales")
-        .select("id, males, females, unknown, sold_at")
-        .eq("user_id", session.user.id)
-        .order("sold_at", { ascending: false });
       setSalesData(sales || []);
 
       // Огляд: народжено / забито / продано по місяцях
@@ -1146,14 +1249,6 @@ export default function Statistics({ session }: Props) {
           (s.males || 0) + (s.females || 0) + (s.unknown || 0);
       });
 
-      // Окроли з вольєрів (підлогове утримання) — окрема таблиця, не входить
-      // у "litters", тому без цього блоку народжений там молодняк випадав
-      // з "Народжено/Живих" в огляді
-      const { data: paddockLitters } = await supabase
-        .from("paddock_litters")
-        .select("birth_date, total_born, alive")
-        .eq("user_id", session.user.id);
-
       (paddockLitters || []).forEach((l) => {
         if (!l.birth_date) return;
         const key = l.birth_date.slice(0, 7);
@@ -1161,16 +1256,6 @@ export default function Statistics({ session }: Props) {
         stat.totalBorn += l.total_born || 0;
         stat.totalAlive += l.alive || 0;
       });
-
-      // Втрати і вибуття серед іменованих кроликів реєстру (не групові партії
-      // Відгодівлі/Продажів, а конкретні тварини, архівовані напряму з
-      // "Моїх кроликів" або через результат карантину)
-      const { data: registryExits } = await supabase
-        .from("rabbits")
-        .select("archive_reason, archive_date")
-        .eq("user_id", session.user.id)
-        .eq("is_active", false)
-        .not("archive_reason", "is", null);
 
       let registryDied = 0;
       (registryExits || []).forEach((r) => {
@@ -1186,24 +1271,7 @@ export default function Statistics({ session }: Props) {
         // незрозуміло, чи тварина справді вибула з господарства
       });
 
-      // Загиблі в карантині БЕЗ прив'язки до конкретного кролика реєстру
-      // (rabbit_id = null, вписані вручну). Ті, що прив'язані до rabbit_id,
-      // вже пораховані вище через rabbits.archive_reason — інакше було б
-      // подвійне рахування однієї й тієї ж тварини
-      const { data: quarantineDied } = await supabase
-        .from("quarantine")
-        .select("id")
-        .eq("user_id", session.user.id)
-        .eq("result", "died")
-        .is("rabbit_id", null);
       setQuarantineDeaths(registryDied + (quarantineDied || []).length);
-
-      const { data: matingsData } = await supabase
-        .from("matings")
-        .select(
-          "*, female:female_id(id, name, breed, cage_number), male:male_id(id, name, breed)",
-        )
-        .eq("user_id", session.user.id);
 
       if (!matingsData || matingsData.length === 0) {
         setMonthlyStats(
@@ -1217,18 +1285,22 @@ export default function Statistics({ session }: Props) {
 
       const matings: MatingRow[] = matingsData;
       const matingIds = matings.map((m) => m.id);
-      const { data: littersData } = await supabase
+      const { data: littersData, error: littersError } = await supabase
         .from("litters")
         .select("*")
-        .in("mating_id", matingIds);
+        .in("mating_id", matingIds)
+        .range(0, PAGE_END);
+
+      if (cancelled) return;
+      if (littersError) {
+        logError("Statistics.loadStats", littersError);
+        setPageError("Не вдалося завантажити статистику. Оновіть сторінку");
+        setLoading(false);
+        return;
+      }
       const litters: LitterRow[] = littersData || [];
 
-      // Усі кролики користувача (включно з архівними) — щоб знайти ім'я
-      // фактичного самця/самки окролу (actual_male_id / actual_female_id)
-      const { data: rabbitsData } = await supabase
-        .from("rabbits")
-        .select("id, name, breed, cage_number")
-        .eq("user_id", session.user.id);
+      // Усі кролики користувача вже завантажені паралельно вище
       const rabbitById = new Map<string, RabbitRef>(
         (rabbitsData || []).map((r) => [r.id as string, r as RabbitRef]),
       );
@@ -1611,6 +1683,10 @@ export default function Statistics({ session }: Props) {
       setLoading(false);
     }
     loadStats();
+
+    return () => {
+      cancelled = true;
+    };
   }, [session.user.id, location.key]);
 
   const currentStats =
@@ -1641,9 +1717,11 @@ export default function Statistics({ session }: Props) {
         </button>
       </div>
 
+      {pageError && <p className="stats-error">{pageError}</p>}
+
       {loading ? (
         <div className="stats-loading">Завантаження...</div>
-      ) : (
+      ) : pageError ? null : (
         <>
           <div className="stats-summary">
             <div className="summary-card">

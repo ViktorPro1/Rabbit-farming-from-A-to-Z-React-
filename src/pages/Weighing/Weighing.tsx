@@ -815,11 +815,15 @@ export default function Weighing({ session }: Props) {
 
   async function fetchRecords() {
     setLoading(true);
+    // Змінено: .range(0, 9999) — без нього PostgREST за замовчуванням
+    // повертає не більше 1000 рядків, і старіші зважування тихо випадали б
+    // зі списку на великому господарстві.
     const { data, error } = await supabase
       .from("weighings")
       .select("*")
       .eq("user_id", session.user.id)
-      .order("weighing_date", { ascending: true });
+      .order("weighing_date", { ascending: true })
+      .range(0, 9999);
     if (error) {
       // Змінено: при помилці лишаємо поточний список (раніше він
       // очищався до порожнього без жодного повідомлення)
@@ -835,18 +839,21 @@ export default function Weighing({ session }: Props) {
 
   async function fetchOptions() {
     const [rabbitsRes, fatteningRes] = await Promise.all([
+      // Змінено: .range(0, 9999) з тієї ж причини, що й вище
       supabase
         .from("rabbits")
         .select("id, name, birth_date, cage_number, reminder_days")
         .eq("user_id", session.user.id)
         .eq("is_active", true)
-        .order("cage_number", { ascending: true }),
+        .order("cage_number", { ascending: true })
+        .range(0, 9999),
       supabase
         .from("fattening")
         .select("id, cage_number, birth_date, reminder_days")
         .eq("user_id", session.user.id)
         .eq("is_active", true)
-        .order("cage_number", { ascending: true }),
+        .order("cage_number", { ascending: true })
+        .range(0, 9999),
     ]);
     if (rabbitsRes.error || fatteningRes.error) {
       // Змінено: раніше помилка ігнорувалась, і списки для вибору кролика
