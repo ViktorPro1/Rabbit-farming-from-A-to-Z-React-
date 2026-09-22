@@ -15,7 +15,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://api.open-meteo.com https://www.facebook.com https://m6-211026f8a25b42c08fc190458268b30e.ecs.us-east-2.on.aws https://bded8a3c6ae-1-1053047382554.us-central1.run.app; frame-src 'self' https://www.facebook.com; frame-ancestors 'none'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://api.open-meteo.com https://www.facebook.com https://m6-211026f8a25b42c08fc190458268b30e.ecs.us-east-2.on.aws https://bded8a3c6ae-1-1053047382554.us-central1.run.app https://o4511969546862592.ingest.de.sentry.io; frame-src 'self' https://www.facebook.com; frame-ancestors 'none'"
         }
       ]
     }
