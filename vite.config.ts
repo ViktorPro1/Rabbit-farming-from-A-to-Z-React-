@@ -115,39 +115,10 @@ export default defineConfig({
           }
         ]
       },
-      workbox: {
-        skipWaiting: true,
-        clientsClaim: true,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg,woff2}'],
-        globIgnores: ['**/og-image.webp'],
-        navigateFallbackDenylist: [/^\/sitemap\.xml$/, /^\/robots\.txt$/, /^\/llms(-full)?\.txt$/],
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365,
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/(www\.)?googletagmanager\.com\/.*/i,
-            handler: 'NetworkOnly',
-          },
-          {
-            urlPattern: /^https:\/\/(www\.|region\d\.)?google-analytics\.com\/.*/i,
-            handler: 'NetworkOnly',
-          },
-          {
-            urlPattern: /^https:\/\/analytics\.google\.com\/.*/i,
-            handler: 'NetworkOnly',
-          },
-        ],
-      },
+      // Змінено: блок workbox прибрано. VitePWA зі strategies: 'injectManifest'
+      // (див. вище) використовує лише опцію injectManifest нижче — цей блок
+      // з runtimeCaching і кешуванням Google Fonts повністю ігнорувався,
+      // а самі кешування вже реалізовані вручну в src/sw.ts.
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg,woff2}'],
         globIgnores: ['**/og-image.webp'],
