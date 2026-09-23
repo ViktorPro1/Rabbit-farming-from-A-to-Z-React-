@@ -470,18 +470,41 @@ export default function Admin({ session }: Props) {
           }
           if (data) {
             setIsAdmin(true);
-            // Якщо коди не завантажились, користувачів усе одно показуємо
-            // (без прив'язаного коду), а помилка видна в повідомленні угорі
-            const allCodes = (await fetchCodes()) ?? [];
-            await fetchUsers(allCodes);
-            await fetchDeactivated();
-            await fetchLeads();
-            await fetchNpsFeedback();
-            const { count: profileCount } = await supabase
-              .from("profiles")
-              .select("*", { count: "exact", head: true });
-            await fetchStats(allCodes, profileCount ?? 0);
-            await fetchUserUsage();
+            try {
+              // Змінено: 8 незалежних запитів ішли по черзі (8 обертів
+              // мережі замість щонайбільше 2). fetchUsers і fetchStats
+              // потребують allCodes/profileCount, тому лишаються другим
+              // кроком; решта не залежить одне від одного і йде паралельно
+              // (Promise.all).
+              const [allCodesResult, , , , profilesCountRes] =
+                await Promise.all([
+                  fetchCodes(),
+                  fetchDeactivated(),
+                  fetchLeads(),
+                  fetchNpsFeedback(),
+                  supabase
+                    .from("profiles")
+                    .select("*", { count: "exact", head: true }),
+                  fetchUserUsage(),
+                ]);
+              // Якщо коди не завантажились, користувачів усе одно показуємо
+              // (без прив'язаного коду), а помилка видна в повідомленні угорі
+              const allCodes = allCodesResult ?? [];
+              const profileCount = profilesCountRes.count ?? 0;
+              await Promise.all([
+                fetchUsers(allCodes),
+                fetchStats(allCodes, profileCount),
+              ]);
+            } catch (err) {
+              // Змінено: раніше неочікуваний виняток під час завантаження
+              // (напр. збій мережі) лишав панель на "Завантаження..."
+              // назавжди, бо setLoading(false) нижче не встигав
+              // виконатись
+              console.error("Не вдалося завантажити дані адмін-панелі:", err);
+              setPageError(
+                "Не вдалося завантажити дані адмін-панелі. Оновіть сторінку",
+              );
+            }
           }
           setLoading(false);
         },

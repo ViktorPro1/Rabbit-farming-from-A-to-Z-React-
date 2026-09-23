@@ -446,21 +446,35 @@ export async function checkInactiveReactivation(tomorrow: string): Promise<Check
     const rangeStart = `${targetDate}T00:00:00.000Z`;
     const rangeEnd = `${addDays(targetDate, 1)}T00:00:00.000Z`;
 
-    const { data, error } = await supabase.auth.admin.listUsers({ perPage: 1000 });
-    if (error) {
-        console.error('[daily-reminders] inactiveReactivation listUsers failed:', error);
-        return { sent: 0, error: 'inactiveReactivation' };
+    // Змінено: раніше бралась лише перша сторінка (1000 користувачів).
+    // На господарствах із більшою кількістю акаунтів частина користувачів
+    // ніколи не потрапляла під цю перевірку. Тепер проходимо сторінки, поки
+    // Supabase не поверне порожню.
+    const perPage = 1000;
+    let page = 1;
+    let sent = 0;
+
+    for (; ;) {
+        const { data, error } = await supabase.auth.admin.listUsers({ page, perPage });
+        if (error) {
+            console.error('[daily-reminders] inactiveReactivation listUsers failed:', error);
+            return { sent, error: 'inactiveReactivation' };
+        }
+        if (data.users.length === 0) break;
+
+        for (const u of data.users) {
+            if (!u.email || !u.last_sign_in_at) continue;
+            if (u.last_sign_in_at >= rangeStart && u.last_sign_in_at < rangeEnd) {
+                const html = renderTemplate('lyst-reaktyvatsiya_neaktyvnykh.html');
+                const ok = await sendEmail(u.email, 'Давно вас не бачили', html);
+                if (ok) sent++;
+            }
+        }
+
+        if (data.users.length < perPage) break;
+        page++;
     }
 
-    let sent = 0;
-    for (const u of data.users) {
-        if (!u.email || !u.last_sign_in_at) continue;
-        if (u.last_sign_in_at >= rangeStart && u.last_sign_in_at < rangeEnd) {
-            const html = renderTemplate('lyst-reaktyvatsiya_neaktyvnykh.html');
-            const ok = await sendEmail(u.email, 'Давно вас не бачили', html);
-            if (ok) sent++;
-        }
-    }
     return { sent };
 }
 

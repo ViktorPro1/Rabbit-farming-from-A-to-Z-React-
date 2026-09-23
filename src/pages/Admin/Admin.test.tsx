@@ -174,6 +174,97 @@ async function userRow() {
   return cell.closest("tr") as HTMLElement;
 }
 
+describe("Admin: паралельне завантаження після перевірки прав", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  it("незалежні запити (коди, деактивовані, заявки, оцінки, кількість профілів, використання) запускаються одночасно, а не по черзі", async () => {
+    const started: string[] = [];
+    const gateBox: { release?: () => void } = {};
+    const gate = new Promise<void>((resolve) => {
+      gateBox.release = resolve;
+    });
+
+    vi.mocked(supabase.from).mockImplementation(((table: string) => {
+      if (table === "admins")
+        return { select: () => chain({ data: { user_id: "admin-1" } }) };
+      if (table === "leads") {
+        // "leads" навмисно затримуємо, щоб перевірити: решта незалежних
+        // запитів уже стартувала, не чекаючи на нього
+        return {
+          select: () => {
+            const c: Record<string, unknown> = {};
+            c.order = () => c;
+            c.then = (resolve: (v: unknown) => unknown) =>
+              gate.then(() => resolve({ data: [], error: null }));
+            return c;
+          },
+        };
+      }
+      started.push("from:" + table);
+      return {
+        select: (_cols?: string, opts?: { head?: boolean }) =>
+          chain(opts?.head ? { count: 0 } : { data: [] }),
+      };
+    }) as never);
+
+    vi.mocked(supabase.rpc).mockImplementation(((name: string) => {
+      started.push("rpc:" + name);
+      return Promise.resolve({
+        data: name === "get_table_counts" ? {} : [],
+        error: null,
+      }) as never;
+    }) as never);
+
+    render(<Admin session={session} />);
+
+    await waitFor(() => {
+      expect(started).toContain("from:invite_codes");
+      expect(started).toContain("from:nps_feedback");
+      expect(started).toContain("from:profiles");
+      expect(started).toContain("rpc:get_deactivated_users");
+      expect(started).toContain("rpc:get_user_data_usage");
+    });
+    // "leads" ще не відповів — до цього моменту тест довів, що решта
+    // не чекала на нього послідовно
+    gateBox.release?.();
+    await waitFor(() =>
+      expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument(),
+    );
+  });
+});
+
+it("виняток під час паралельного завантаження не залишає панель на 'Завантаження...' назавжди", async () => {
+  vi.mocked(supabase.from).mockImplementation(((table: string) => {
+    if (table === "admins")
+      return { select: () => chain({ data: { user_id: "admin-1" } }) };
+    if (table === "leads") {
+      return {
+        select: () => ({ order: () => Promise.reject(new Error("network")) }),
+      };
+    }
+    return {
+      select: (_cols?: string, opts?: { head?: boolean }) =>
+        chain(opts?.head ? { count: 0 } : { data: [] }),
+    };
+  }) as never);
+  vi.mocked(supabase.rpc).mockImplementation((() =>
+    Promise.resolve({ data: [], error: null })) as never);
+
+  render(<Admin session={session} />);
+
+  expect(
+    await screen.findByText(
+      "Не вдалося завантажити дані адмін-панелі. Оновіть сторінку",
+    ),
+  ).toBeInTheDocument();
+  await waitFor(() =>
+    expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument(),
+  );
+});
+
 describe("Admin: перевірка прав", () => {
   beforeEach(() => {
     vi.clearAllMocks();
