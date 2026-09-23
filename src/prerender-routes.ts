@@ -85,6 +85,15 @@ export const prerenderRoutes = [
     "/half-siblings",
     "/conveyor",
 
+    // Помісь
+    "/verified-crosses",
+    "/meat-crosses",
+    "/outdoor-crosses",
+    "/home-crosses",
+    "/incompatible-crosses",
+    "/breed-signs",
+    "/owner-experience",
+
     // Здоров'я
     "/symptoms",
     "/diseases",

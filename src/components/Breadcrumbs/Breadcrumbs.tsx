@@ -104,6 +104,16 @@ const ROUTE_LABELS: Record<string, string> = {
   "/half-siblings": "Напівсибси",
   "/conveyor": "Конвеєр окролів",
 
+  // ПОМІСЬ
+
+  "/verified-crosses": "Перевірені помісі",
+  "/meat-crosses": "Помісі для м'яса",
+  "/outdoor-crosses": "Помісі для вуличного утримання",
+  "/home-crosses": "Помісі для домашнього утримання",
+  "/incompatible-crosses": "Несумісні поєднання",
+  "/breed-signs": "Визначення породи",
+  "/owner-experience": "Досвід власників",
+
   // ЗДОРОВ'Я
   "/symptoms": "Симптоматичний пошук",
   "/diseases": "Хвороби",

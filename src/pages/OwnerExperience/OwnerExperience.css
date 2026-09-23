@@ -1,0 +1,244 @@
+.oe-page {
+    min-height: 100vh;
+    background: #fbf8f2;
+}
+
+[data-theme="dark"] .oe-page {
+    background: transparent;
+}
+
+.oe-header {
+    background: var(--green-dark);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.oe-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 10px;
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--green-dark),
+        var(--green-dark) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+}
+
+.oe-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.oe-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.oe-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem 3rem;
+}
+
+.oe-notice {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: var(--brown);
+    margin-bottom: 1.6rem;
+    line-height: 1.6;
+}
+
+/* ── Фільтри ── */
+.oe-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.6rem;
+}
+
+.oe-filter {
+    padding: 7px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    font-size: 12.5px;
+    cursor: pointer;
+    color: var(--gray);
+    transition: all 0.2s;
+}
+
+[data-theme="dark"] .oe-filter {
+    background: rgba(255,255,255,0.04);
+}
+
+.oe-filter.active {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+/* ── Стрічка нотаток ── */
+.oe-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.oe-note {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1.1rem 1.3rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative;
+}
+
+[data-theme="dark"] .oe-note {
+    background: rgba(255,255,255,0.03);
+}
+
+.oe-note::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    background: var(--amber);
+    border-radius: 2px;
+}
+
+.oe-note-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.oe-note-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.oe-note-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.oe-note-role {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.oe-note-tag {
+    font-size: 11px;
+    color: var(--gray);
+}
+
+.oe-note-text {
+    font-size: 13.5px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin: 0;
+    font-style: italic;
+}
+
+/* ── Кнопка назад ── */
+.oe-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.oe-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.oe-back-btn:hover {
+    background: var(--green-mid);
+}
+
+.oe-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.oe-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .oe-related-title {
+    color: var(--green-light);
+}
+
+.oe-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.oe-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.oe-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .oe-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .oe-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .oe-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .oe-note {
+        padding: 1rem;
+    }
+}

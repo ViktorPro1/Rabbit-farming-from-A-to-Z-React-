@@ -73,6 +73,13 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/telegony": "Розведення",
   "/buck-management": "Розведення",
   "/half-siblings": "Розведення",
+  "/verified-crosses": "Помісь",
+  "/meat-crosses": "Помісь",
+  "/outdoor-crosses": "Помісь",
+  "/home-crosses": "Помісь",
+  "/incompatible-crosses": "Помісь",
+  "/breed-signs": "Помісь",
+  "/owner-experience": "Помісь",
   "/symptoms": "Здоров'я",
   "/diseases": "Здоров'я",
   "/parasites": "Здоров'я",
@@ -1026,5 +1033,9 @@ export const LIGHT_CARDS: LightCard[] = [
     "icon": "🕰️",
     "title": "Кролик похилого віку",
     "path": "/senior-rabbit"
-  }
+  },
+  { "icon": "🐇", "title": "Перевірені поєднання порід", "path": "/verified-crosses" },
+  { "icon": "🍖", "title": "Помісі для м'яса", "path": "/meat-crosses" },
+  { "icon": "❄️", "title": "Помісі для вуличного утримання", "path": "/outdoor-crosses" },
+  { "icon": "🏠", "title": "Помісі для домашнього утримання", "path": "/home-crosses" },
 ];

@@ -1,0 +1,338 @@
+.mc-page {
+    min-height: 100vh;
+}
+
+.mc-header {
+    background: linear-gradient(135deg, var(--brown), var(--amber));
+    color: white;
+    padding: 2.2rem 2rem;
+    text-align: center;
+}
+
+.mc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.mc-header p {
+    opacity: 0.92;
+    font-size: 15px;
+}
+
+.mc-wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.mc-notice {
+    background: #fff3e0;
+    border-left: 3px solid var(--amber);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--brown);
+    margin-bottom: 1.5rem;
+}
+
+/* ── Таймлайн-навігація (горизонтальна, з номерами) ── */
+.mc-timeline-nav {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 1.8rem;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.mc-tl-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    min-width: 84px;
+    padding: 4px;
+}
+
+.mc-tl-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+}
+
+.mc-tl-item.active .mc-tl-dot {
+    border-color: var(--amber);
+    background: #fff3e0;
+    transform: scale(1.1);
+}
+
+.mc-tl-item.done .mc-tl-dot {
+    border-color: var(--brown);
+    background: var(--brown);
+}
+
+.mc-tl-label {
+    font-size: 11px;
+    text-align: center;
+    color: var(--gray);
+    line-height: 1.3;
+}
+
+.mc-tl-item.active .mc-tl-label {
+    color: var(--brown);
+    font-weight: 600;
+}
+
+/* ── Заголовок розділу ── */
+.mc-section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1.2rem;
+}
+
+.mc-section-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    background: var(--amber);
+    border-radius: 999px;
+    padding: 4px 12px;
+    flex-shrink: 0;
+}
+
+.mc-section-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--brown);
+    margin: 0 0 3px;
+}
+
+.mc-section-desc {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* ── Вертикальний таймлайн кроків ── */
+.mc-timeline {
+    margin-bottom: 1.8rem;
+}
+
+.mc-tl-step {
+    display: flex;
+    gap: 14px;
+}
+
+.mc-tl-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mc-tl-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--amber-light);
+    border: 2px solid var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.mc-tl-connector {
+    width: 2px;
+    flex: 1;
+    background: var(--gray-light);
+    min-height: 24px;
+}
+
+.mc-tl-card {
+    background: var(--cream);
+    border: 0.5px solid var(--gray-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 14px 14px 0;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.mc-tl-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--brown);
+    margin: 0 0 6px;
+}
+
+.mc-tl-text {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin: 0 0 8px;
+}
+
+.mc-warning {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #7c3b00;
+    margin-top: 8px;
+}
+
+.mc-tip {
+    background: var(--green-light);
+    border-left: 3px solid var(--green-mid);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--green-dark);
+    margin-top: 8px;
+}
+
+/* ── Шпаргалка — горизонтальна стрічка пігулок ── */
+.mc-cheatsheet {
+    margin-top: 0.5rem;
+}
+
+.mc-cheat-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--brown);
+    margin-bottom: 0.8rem;
+}
+
+.mc-cheat-strip {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.mc-cheat-pill {
+    flex-shrink: 0;
+    min-width: 150px;
+    background: linear-gradient(135deg, var(--amber-light), var(--cream));
+    border: 1px solid var(--amber);
+    border-radius: 999px;
+    padding: 10px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mc-cheat-label {
+    font-size: 11px;
+    color: var(--brown);
+    opacity: 0.75;
+}
+
+.mc-cheat-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown);
+}
+
+/* ── Кнопка назад ── */
+.mc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 10px;
+}
+
+.mc-back-btn {
+    background: var(--brown);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.mc-back-btn:hover {
+    background: var(--amber);
+}
+
+.mc-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.mc-related-title {
+    font-size: 1.1rem;
+    color: var(--brown);
+    margin-bottom: 12px;
+}
+
+.mc-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mc-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--amber-light);
+    color: var(--brown);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.mc-related-link:hover {
+    background: #ffe0b2;
+}
+
+[data-theme="dark"] .mc-related-title {
+    color: var(--amber);
+}
+
+[data-theme="dark"] .mc-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--amber);
+}
+
+[data-theme="dark"] .mc-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .mc-tl-label {
+        display: none;
+    }
+
+    .mc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .mc-cheat-pill {
+        min-width: 130px;
+    }
+}

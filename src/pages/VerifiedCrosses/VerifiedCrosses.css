@@ -1,0 +1,370 @@
+.vc-page {
+    min-height: 100vh;
+}
+
+.vc-header {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.vc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.vc-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.vc-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.vc-notice {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--brown);
+    margin-bottom: 1.5rem;
+}
+
+/* ── Навігація ── */
+.vc-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.vc-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: var(--cream);
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--green-dark);
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.vc-nav-btn.active,
+.vc-nav-btn:hover {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+}
+
+.vc-nav-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.vc-nav-label {
+    line-height: 1.3;
+}
+
+/* ── Заголовок розділу ── */
+.vc-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.vc-section-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.vc-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin: 0 0 4px;
+}
+
+.vc-section-desc {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* ── Кроки ── */
+.vc-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.vc-step {
+    background: var(--cream);
+    border-radius: 14px;
+    border: 0.5px solid var(--gray-light);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.vc-step:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.vc-step-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 1rem;
+}
+
+.vc-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vc-step-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.vc-step-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    line-height: 1.4;
+}
+
+.vc-chevron {
+    font-size: 11px;
+    color: var(--gray);
+    flex-shrink: 0;
+}
+
+.vc-step-body {
+    border-top: 0.5px solid var(--gray-light);
+    padding: 1rem 1.2rem;
+    background: var(--green-light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vc-step-text {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.vc-warning {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #7c3b00;
+}
+
+.vc-tip {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--brown);
+}
+
+/* ── Шпаргалка ── */
+.vc-cheatsheet {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.vc-cheat-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.vc-cheat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.vc-cheat-card {
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 12px 14px;
+    border: 0.5px solid var(--gray-light);
+}
+
+.vc-cheat-label {
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.vc-cheat-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+/* ── Кнопка назад ── */
+.vc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.vc-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.vc-back-btn:hover {
+    background: var(--green-mid);
+}
+
+.vc-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.vc-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .vc-related-title {
+    color: var(--green-light);
+}
+
+.vc-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.vc-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.vc-related-link:hover {
+    background: var(--green-light);
+}
+
+[data-theme="dark"] .vc-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--green-light);
+}
+
+[data-theme="dark"] .vc-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .vc-related-link {
+        font-size: 0.85rem;
+        padding: 7px 12px;
+    }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .vc-cheat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .vc-nav-btn {
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+
+    .vc-cheat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .vc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .vc-nav {
+        gap: 6px;
+    }
+
+    .vc-nav-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .vc-step-top {
+        padding: 0.9rem;
+    }
+
+    .vc-step-body {
+        padding: 0.9rem;
+    }
+
+    .vc-cheat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vc-section-header {
+        padding: 1rem;
+    }
+}

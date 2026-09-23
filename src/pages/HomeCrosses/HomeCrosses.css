@@ -1,0 +1,267 @@
+.hc-page {
+    min-height: 100vh;
+}
+
+.hc-header {
+    background: linear-gradient(135deg, #f8a5c2, #f6cd61, var(--green-mid));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.hc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+}
+
+.hc-header p {
+    opacity: 0.95;
+    font-size: 15px;
+}
+
+.hc-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.hc-notice {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--brown);
+    margin-bottom: 1.5rem;
+}
+
+/* ── Фільтр-чіпси ── */
+.hc-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.hc-chip {
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background: #fdf0f5;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #c2185b;
+    transition: all 0.2s;
+}
+
+[data-theme="dark"] .hc-chip {
+    background: rgba(255, 255, 255, 0.05);
+    color: #f48fb1;
+}
+
+.hc-chip.active {
+    background: #f06292;
+    color: white;
+}
+
+/* ── Галерея карток ── */
+.hc-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 2rem;
+}
+
+.hc-card {
+    position: relative;
+    background: var(--cream);
+    border-radius: 22px;
+    border: 1px solid var(--gray-light);
+    padding: 1.4rem 1.2rem 1.2rem;
+    box-shadow: 0 3px 14px rgba(240, 98, 146, 0.08);
+    transition: transform 0.15s;
+}
+
+.hc-card:hover {
+    transform: translateY(-3px);
+}
+
+.hc-card-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fce4ec, #fff8e1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.hc-card-tag {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #f06292;
+    background: #fdf0f5;
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+}
+
+[data-theme="dark"] .hc-card-tag {
+    background: rgba(240, 98, 146, 0.15);
+}
+
+.hc-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0 0 6px;
+    line-height: 1.35;
+}
+
+.hc-card-text {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.65;
+    margin: 0 0 8px;
+}
+
+.hc-warning {
+    background: #fff3e0;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    color: #7c3b00;
+    margin-top: 8px;
+}
+
+.hc-tip {
+    background: #fff8e1;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    color: var(--brown);
+    margin-top: 8px;
+}
+
+/* ── Шпаргалка — бейджі ── */
+.hc-cheatsheet {
+    background: var(--cream);
+    border-radius: 22px;
+    border: 1px solid var(--gray-light);
+    padding: 1.4rem;
+}
+
+.hc-cheat-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.hc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hc-badge {
+    font-size: 12.5px;
+    background: linear-gradient(135deg, #fce4ec, #fff8e1);
+    color: #ad1457;
+    border-radius: 999px;
+    padding: 7px 14px;
+}
+
+[data-theme="dark"] .hc-badge {
+    background: rgba(240, 98, 146, 0.12);
+    color: #f48fb1;
+}
+
+/* ── Кнопка назад ── */
+.hc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.hc-back-btn {
+    background: #f06292;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.hc-back-btn:hover {
+    background: #ec407a;
+}
+
+.hc-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.hc-related-title {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .hc-related-title {
+    color: var(--green-light);
+}
+
+.hc-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hc-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #fdf0f5;
+    color: #c2185b;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.hc-related-link:hover {
+    background: #fce4ec;
+}
+
+[data-theme="dark"] .hc-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: #f48fb1;
+}
+
+[data-theme="dark"] .hc-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .hc-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .hc-header {
+        padding: 1.5rem 1rem;
+    }
+}

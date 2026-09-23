@@ -19,6 +19,7 @@ import { managementGroup } from "./groups/managementGroup";
 import { technologyGroup } from "./groups/technologyGroup";
 import { petGroup } from "./groups/petGroup";
 import { articlesGroup } from "./groups/articlesGroup";
+import { crossbreedGroup } from "./groups/crossbreedGroup";
 
 export type { Card, Group };
 
@@ -31,6 +32,7 @@ export const groups: Group[] = [
   feedingGroup,
   careGroup,
   breedingReproductionGroup,
+  crossbreedGroup,
   healthGroup,
   treatmentGroup,
   seasonalGroup,

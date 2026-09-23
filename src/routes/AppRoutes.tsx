@@ -8,6 +8,7 @@ import { animalBasicsRoutes } from "./groups/animalBasicsRoutes";
 import { housingFeedingRoutes } from "./groups/housingFeedingRoutes";
 import { careRoutes } from "./groups/careRoutes";
 import { breedingRoutes } from "./groups/breedingRoutes";
+import { crossbreedRoutes } from "./groups/crossbreedRoutes";
 import { healthRoutes } from "./groups/healthRoutes";
 import { treatmentRoutes } from "./groups/treatmentRoutes";
 import { getPlanningToolsRoutes } from "./groups/planningToolsRoutes";
@@ -54,6 +55,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         {treatmentRoutes}
         {getPlanningToolsRoutes(session)}
         {getCabinetRoutes(session)}
+        {crossbreedRoutes}
         {showsAndManagementRoutes}
         {petAndInfoRoutes}
         {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
