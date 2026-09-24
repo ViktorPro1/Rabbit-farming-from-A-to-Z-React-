@@ -1,0 +1,369 @@
+.cs-page {
+    min-height: 100vh;
+}
+
+.cs-header {
+    background: linear-gradient(90deg, #37474f, #546e7a);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.cs-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.cs-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.cs-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.cs-notice {
+    background: #eceff1;
+    border-left: 3px solid #546e7a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #37474f;
+    margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .cs-notice {
+    background: rgba(84,110,122,0.15);
+    color: #b0bec5;
+}
+
+/* ── Навігація ── */
+.cs-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.cs-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--gray-light);
+    background: var(--cream);
+    font-size: 13px;
+    cursor: pointer;
+    color: #37474f;
+    transition: all 0.2s;
+}
+
+[data-theme="dark"] .cs-nav-btn {
+    color: #b0bec5;
+}
+
+.cs-nav-btn.active {
+    background: #37474f;
+    color: white;
+    border-color: #37474f;
+}
+
+/* ── Заголовок розділу ── */
+.cs-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 1.2rem;
+}
+
+.cs-section-icon {
+    font-size: 30px;
+}
+
+.cs-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #37474f;
+    margin: 0 0 4px;
+}
+
+[data-theme="dark"] .cs-section-title {
+    color: #cfd8dc;
+}
+
+.cs-section-desc {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* ── Діаграма схеми ── */
+.cs-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: #fafafa;
+    border: 1px dashed #b0bec5;
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .cs-diagram {
+    background: rgba(255,255,255,0.02);
+    border-color: rgba(176,190,197,0.3);
+}
+
+.cs-diagram-stack {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.cs-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cs-row:not(:last-child) {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #cfd8dc;
+}
+
+[data-theme="dark"] .cs-row:not(:last-child) {
+    border-color: rgba(176,190,197,0.2);
+}
+
+.cs-box {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 120px;
+    border: 1.5px solid;
+}
+
+.cs-box.breed-a {
+    background: #e3f2fd;
+    border-color: #1976d2;
+    color: #0d47a1;
+}
+
+.cs-box.breed-b {
+    background: #fce4ec;
+    border-color: #d81b60;
+    color: #880e4f;
+}
+
+.cs-box.breed-c {
+    background: #fff3e0;
+    border-color: #ef6c00;
+    color: #7c3b00;
+}
+
+.cs-box.result {
+    background: #e8f5e9;
+    border-color: #43a047;
+    color: #1b5e20;
+}
+
+.cs-box.result.final {
+    background: #37474f;
+    border-color: #37474f;
+    color: white;
+}
+
+.cs-box.small {
+    font-size: 11.5px;
+    min-width: 100px;
+    padding: 8px 12px;
+}
+
+[data-theme="dark"] .cs-box.breed-a {
+    background: rgba(25,118,210,0.15);
+    color: #90caf9;
+}
+
+[data-theme="dark"] .cs-box.breed-b {
+    background: rgba(216,27,96,0.15);
+    color: #f48fb1;
+}
+
+[data-theme="dark"] .cs-box.breed-c {
+    background: rgba(239,108,0,0.15);
+    color: #ffb74d;
+}
+
+[data-theme="dark"] .cs-box.result {
+    background: rgba(67,160,71,0.15);
+    color: #a5d6a7;
+}
+
+.cs-plus,
+.cs-arrow {
+    font-size: 16px;
+    font-weight: 700;
+    color: #78909c;
+    flex-shrink: 0;
+}
+
+/* ── Кроки ── */
+.cs-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.cs-step {
+    background: var(--cream);
+    border-radius: 10px;
+    border: 1px solid var(--gray-light);
+    padding: 1rem 1.2rem;
+}
+
+.cs-step-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.cs-step-icon {
+    font-size: 18px;
+}
+
+.cs-step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
+.cs-step-text {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.cs-warning {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #7c3b00;
+    margin-top: 8px;
+}
+
+.cs-tip {
+    background: #eceff1;
+    border-left: 3px solid #546e7a;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #37474f;
+    margin-top: 8px;
+}
+
+[data-theme="dark"] .cs-tip {
+    background: rgba(84,110,122,0.15);
+    color: #b0bec5;
+}
+
+/* ── Кнопка назад ── */
+.cs-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.cs-back-btn {
+    background: #37474f;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.cs-back-btn:hover {
+    background: #546e7a;
+}
+
+.cs-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.cs-related-title {
+    font-size: 1.1rem;
+    color: #37474f;
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .cs-related-title {
+    color: #cfd8dc;
+}
+
+.cs-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cs-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #eceff1;
+    color: #37474f;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.cs-related-link:hover {
+    background: #cfd8dc;
+}
+
+[data-theme="dark"] .cs-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: #cfd8dc;
+}
+
+[data-theme="dark"] .cs-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .cs-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .cs-box {
+        min-width: 100px;
+        font-size: 11.5px;
+    }
+
+    .cs-nav-label {
+        display: none;
+    }
+}

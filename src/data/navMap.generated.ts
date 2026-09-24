@@ -80,6 +80,8 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/incompatible-crosses": "Помісь",
   "/breed-signs": "Помісь",
   "/owner-experience": "Помісь",
+  "/crossbreeding-schemes": "Помісь",
+  "/first-cross-plan": "Помісь",
   "/symptoms": "Здоров'я",
   "/diseases": "Здоров'я",
   "/parasites": "Здоров'я",

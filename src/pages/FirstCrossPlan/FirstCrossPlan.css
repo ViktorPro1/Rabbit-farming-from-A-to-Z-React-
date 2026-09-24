@@ -1,0 +1,281 @@
+.fp-page {
+    min-height: 100vh;
+}
+
+.fp-header {
+    background: linear-gradient(90deg, #4527a0, #7b1fa2);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.fp-header h1 {
+    font-size: clamp(21px, 3.4vw, 34px);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.fp-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.fp-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.fp-notice {
+    background: #f3e5f5;
+    border-left: 3px solid #7b1fa2;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #4a148c;
+    margin-bottom: 1.4rem;
+}
+
+[data-theme="dark"] .fp-notice {
+    background: rgba(123,31,162,0.12);
+    color: #ce93d8;
+}
+
+/* ── Прогрес-бар ── */
+.fp-progress-wrap {
+    margin-bottom: 1.8rem;
+}
+
+.fp-progress-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4527a0;
+    margin-bottom: 6px;
+}
+
+[data-theme="dark"] .fp-progress-label {
+    color: #b39ddb;
+}
+
+.fp-progress-bar {
+    height: 10px;
+    border-radius: 999px;
+    background: #ede7f6;
+    overflow: hidden;
+}
+
+[data-theme="dark"] .fp-progress-bar {
+    background: rgba(255,255,255,0.06);
+}
+
+.fp-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7b1fa2, #4527a0);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+/* ── Кроки плану ── */
+.fp-plan {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1.6rem;
+}
+
+.fp-plan-step {
+    display: flex;
+    gap: 14px;
+    background: var(--cream);
+    border-radius: 14px;
+    border: 1px solid var(--gray-light);
+    padding: 1rem 1.2rem;
+    transition: opacity 0.2s;
+}
+
+.fp-plan-step.done {
+    opacity: 0.55;
+}
+
+.fp-checkbox {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #7b1fa2;
+    background: white;
+    color: #7b1fa2;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+[data-theme="dark"] .fp-checkbox {
+    background: transparent;
+}
+
+.fp-plan-step.done .fp-checkbox {
+    background: #7b1fa2;
+    color: white;
+}
+
+.fp-plan-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.fp-plan-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.fp-plan-icon {
+    font-size: 17px;
+}
+
+.fp-plan-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+.fp-plan-step.done .fp-plan-title {
+    text-decoration: line-through;
+}
+
+.fp-plan-text {
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.fp-warning {
+    background: #fff3e0;
+    border-left: 3px solid #ef6c00;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    color: #7c3b00;
+    margin-top: 8px;
+}
+
+.fp-tip {
+    background: #f3e5f5;
+    border-left: 3px solid #7b1fa2;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    color: #4a148c;
+    margin-top: 8px;
+}
+
+[data-theme="dark"] .fp-tip {
+    background: rgba(123,31,162,0.1);
+    color: #ce93d8;
+}
+
+/* ── Завершення ── */
+.fp-complete {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: #1b5e20;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .fp-complete {
+    background: rgba(67,160,71,0.12);
+    color: #a5d6a7;
+}
+
+/* ── Кнопка назад ── */
+.fp-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.fp-back-btn {
+    background: #4527a0;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.fp-back-btn:hover {
+    background: #7b1fa2;
+}
+
+.fp-related {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.fp-related-title {
+    font-size: 1.1rem;
+    color: #4527a0;
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .fp-related-title {
+    color: #b39ddb;
+}
+
+.fp-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.fp-related-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #f3e5f5;
+    color: #4527a0;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.fp-related-link:hover {
+    background: #e1bee7;
+}
+
+[data-theme="dark"] .fp-related-link {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ce93d8;
+}
+
+[data-theme="dark"] .fp-related-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .fp-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .fp-plan-step {
+        padding: 0.9rem;
+    }
+}

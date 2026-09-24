@@ -113,6 +113,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/incompatible-crosses": "Несумісні поєднання",
   "/breed-signs": "Визначення породи",
   "/owner-experience": "Досвід власників",
+  "/crossbreeding-schemes": "Схеми поєднання порід",
+  "/first-cross-plan": "План першого поєднання порід",
 
   // ЗДОРОВ'Я
   "/symptoms": "Симптоматичний пошук",

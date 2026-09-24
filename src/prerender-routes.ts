@@ -93,6 +93,8 @@ export const prerenderRoutes = [
     "/incompatible-crosses",
     "/breed-signs",
     "/owner-experience",
+    "/crossbreeding-schemes",
+    "/first-cross-plan",
 
     // Здоров'я
     "/symptoms",

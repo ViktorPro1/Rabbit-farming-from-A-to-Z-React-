@@ -16,6 +16,12 @@ const BreedSigns = lazy(() => import("../../pages/BreedSigns/BreedSigns"));
 const OwnerExperience = lazy(
   () => import("../../pages/OwnerExperience/OwnerExperience"),
 );
+const CrossbreedingSchemes = lazy(
+  () => import("../../pages/CrossbreedingSchemes/CrossbreedingSchemes"),
+);
+const FirstCrossPlan = lazy(
+  () => import("../../pages/FirstCrossPlan/FirstCrossPlan"),
+);
 
 /**
  * Помісні кролі: перевірені поєднання порід та спеціалізовані схеми схрещування.
@@ -31,5 +37,7 @@ export const crossbreedRoutes = (
     <Route path="/incompatible-crosses" element={<IncompatibleCrosses />} />
     <Route path="/breed-signs" element={<BreedSigns />} />
     <Route path="/owner-experience" element={<OwnerExperience />} />
+    <Route path="/crossbreeding-schemes" element={<CrossbreedingSchemes />} />
+    <Route path="/first-cross-plan" element={<FirstCrossPlan />} />
   </>
 );
