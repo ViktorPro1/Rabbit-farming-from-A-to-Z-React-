@@ -1,7 +1,5 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-// TODO: adjust this import to match where your Supabase client actually lives
-// in the project (e.g. "../../supabaseClient" or "@/lib/supabase").
 import { supabase } from "../../lib/supabase";
 import "./NpsSurvey.css";
 
