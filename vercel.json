@@ -22,7 +22,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!sitemap\\.xml|robots\\.txt|llms\\.txt|llms-full\\.txt|og-image\\.webp|\\.well-known/assetlinks\\.json).*)",
+      "source": "/((?!sitemap\\.xml|robots\\.txt|llms\\.txt|llms-full\\.txt|og-image\\.webp|ai-catalog\\.json|\\.well-known/assetlinks\\.json|\\.well-known/ard\\.json|\\.well-known/ai-catalog\\.json).*)",
       "destination": "/index.html"
     }
   ]
