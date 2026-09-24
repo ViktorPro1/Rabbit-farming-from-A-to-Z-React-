@@ -28,12 +28,15 @@ interface InviteCode {
   created_at: string;
 }
 
+// Додано: єдиний тип плану, щоб не дублювати об'єднання в кількох місцях
+type PlanType = "trial" | "paid" | "founder" | "vip";
+
 interface Profile {
   id: string;
   email: string | null;
   created_at: string;
   access_until: string | null;
-  plan_type: "trial" | "paid" | "founder";
+  plan_type: PlanType;
 }
 
 interface RegisteredUser {
@@ -43,7 +46,7 @@ interface RegisteredUser {
   invite_code: string | null;
   invite_code_id: string | null;
   access_until: string | null;
-  plan_type: "trial" | "paid" | "founder";
+  plan_type: PlanType;
 }
 
 interface DeactivatedUser {
@@ -236,18 +239,22 @@ export default function Admin({ session }: Props) {
   }
 
   // Позначити користувача як пробного/платного (лише мітка для адмінки,
-  // на блокування доступу не впливає — те регулюється access_until)
-  async function handleSetPlanType(
-    userId: string,
-    planType: "trial" | "paid" | "founder",
-  ) {
+  // на блокування доступу не впливає — те регулюється access_until).
+  // Виняток — "VIP": він завжди безстроковий, тому разом із міткою
+  // скидається і access_until.
+  async function handleSetPlanType(userId: string, planType: PlanType) {
     const target = users.find((u) => u.id === userId);
     const previousPlanType = target?.plan_type;
 
     setPageError("");
+    // Додано: VIP завжди безстроковий — разом із типом скидаємо access_until
+    const planUpdate: { plan_type: PlanType; access_until?: null } = {
+      plan_type: planType,
+    };
+    if (planType === "vip") planUpdate.access_until = null;
     const { error } = await supabase
       .from("profiles")
-      .update({ plan_type: planType })
+      .update(planUpdate)
       .eq("id", userId);
     if (error) {
       console.error("Не вдалося оновити тип плану:", error);
@@ -289,11 +296,14 @@ export default function Admin({ session }: Props) {
 
     // Додано: лист про скасування підписки — лише якщо реально був перехід
     // з платного/засновницького типу назад на пробний, а не повторний вибір
-    // "Пробний" для того, хто вже й так пробний
+    // "Пробний" для того, хто вже й так пробний.
+    // Змінено: VIP -> "Пробний" не вважається скасуванням підписки,
+    // лист другу не надсилаємо
     if (
       planType === "trial" &&
       previousPlanType &&
-      previousPlanType !== "trial"
+      previousPlanType !== "trial" &&
+      previousPlanType !== "vip"
     ) {
       if (target?.email && target.email !== "—") {
         fetch("/api/notify-subscription-cancelled", {
@@ -1031,13 +1041,14 @@ export default function Admin({ session }: Props) {
                           onChange={(e) =>
                             handleSetPlanType(
                               user.id,
-                              e.target.value as "trial" | "paid" | "founder",
+                              e.target.value as PlanType,
                             )
                           }
                         >
                           <option value="trial">Пробний</option>
                           <option value="paid">Платний</option>
                           <option value="founder">Засновник</option>
+                          <option value="vip">VIP</option>
                         </select>
                       </td>
                       <td>
@@ -1275,6 +1286,11 @@ export default function Admin({ session }: Props) {
                 При поверненні типу назад на <strong>"Пробний"</strong> (з
                 "Платного" чи "Засновника") — тим самим кліком іде лист про
                 скасування підписки.
+              </li>
+              <li>
+                Тип <strong>"VIP"</strong> — для друзів і близьких. При виборі
+                доступ автоматично стає безстроковим, листи не надсилаються.
+                Повернення з VIP на "Пробний" листа про скасування не шле.
               </li>
             </ul>
 
