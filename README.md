@@ -21,7 +21,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 # Основні можливості
 
 - Великий довідник із кролівництва
-- Понад 200 тематичних сторінок
+- Понад 180 тематичних сторінок
 - Симптоматичний пошук
 - Довідник хвороб
 - Практичні рекомендації
@@ -208,8 +208,8 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 | Сторінок (`src/pages`)   |                      406 |
 | React-компонентів        |                       54 |
 | Data-модулів             |                       26 |
-| Unit-тестів              |                       41 |
-| Test Suites              |                        7 |
+| Unit-тестів              |                      186 |
+| Test Suites              |                       25 |
 | E2E сценаріїв            |                       10 |
 | TypeScript               |                      Так |
 | PWA                      |                      Так |
@@ -259,7 +259,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 ## Аналітика та трекінг
 
 - Google Analytics 4
-- Google Tag Manager
+- Google Search Console
 - Meta Pixel (Facebook Pixel)
 
 ## Оптимізація
@@ -333,10 +333,10 @@ api/
 
 | Метрика    | Покриття |
 | ---------- | -------: |
-| Statements |   88.15% |
-| Branches   |   85.00% |
-| Functions  |   80.43% |
-| Lines      |   89.20% |
+| Statements |   52.38% |
+| Branches   |   34.29% |
+| Functions  |   37.84% |
+| Lines      |   53.64% |
 
 ---
 
