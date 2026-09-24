@@ -1,14 +1,12 @@
 {
-  "specVersion": "0.91",
-  "publisher": "rabbit-farming-from-a-to-z-react.vercel.app",
-  "name": "Кролівництво — довідковий каталог",
-  "description": "Повний каталог розділів сайту про кролівництво: догляд, годування, розведення, здоров'я, племінна робота, господарство. Призначений для AI-агентів/чат-ботів, щоб точно направляти користувача на потрібний розділ сайту.",
-  "language": "uk",
-  "version": "1.0.0",
-  "generatedAt": "2026-09-24T09:37:40.348Z",
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Кролівництво — довідковий каталог",
+    "identifier": "did:web:rabbit-farming-from-a-to-z-react.vercel.app",
+    "documentationUrl": "https://rabbit-farming-from-a-to-z-react.vercel.app"
+  },
   "entries": [
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:biology",
       "displayName": "Біологія та анатомія",
       "type": "text/html",
@@ -23,7 +21,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breeds",
       "displayName": "Породи",
       "type": "text/html",
@@ -38,7 +35,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breeding",
       "displayName": "Схрещування",
       "type": "text/html",
@@ -53,7 +49,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:artificial-insemination",
       "displayName": "Штучне осіменіння",
       "type": "text/html",
@@ -68,7 +63,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:selection",
       "displayName": "Селекція",
       "type": "text/html",
@@ -83,7 +77,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:genetics",
       "displayName": "Генетика забарвлення",
       "type": "text/html",
@@ -98,7 +91,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:color-genetics-example",
       "displayName": "Практичний калькулятор кольору",
       "type": "text/html",
@@ -113,7 +105,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-whiskers",
       "displayName": "Вуса (вібриси)",
       "type": "text/html",
@@ -128,7 +119,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:lethal-color-genes",
       "displayName": "Небезпечні поєднання генів",
       "type": "text/html",
@@ -143,7 +133,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:from-newbie-to-farmer-netlify-app",
       "displayName": "Від новачка до фермера",
       "type": "text/html",
@@ -152,7 +141,6 @@
       "representativeQueries": ["новачок", "фермер", "стаття"]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:iodine-in-kingdom-from-a-to-i-netlify-app",
       "displayName": "Йод у кролівництві",
       "type": "text/html",
@@ -161,7 +149,6 @@
       "representativeQueries": ["йод", "дозування йоду", "стаття"]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:polyn-dlya-krolykiv-netlify-app",
       "displayName": "Полин для кролів",
       "type": "text/html",
@@ -176,7 +163,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-round-lines-netlify-app",
       "displayName": "Строки окролу",
       "type": "text/html",
@@ -191,7 +177,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:mint-and-melissa-in-the-diet-netlify-app",
       "displayName": "М'ята та меліса для кролів",
       "type": "text/html",
@@ -206,7 +191,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:everything-that-trezants-say-about-vercel-app",
       "displayName": "Все про сіно для кролів",
       "type": "text/html",
@@ -215,7 +199,6 @@
       "representativeQueries": ["сіно", "кролі", "годівля", "раціон", "корм"]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pododermatitis-in-a-rabbit-vercel-app",
       "displayName": "Пододерматит у кролів",
       "type": "text/html",
@@ -230,7 +213,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:nest-box-in-the-rabbit-hutch-vercel-app",
       "displayName": "Маточник у клітці: коли ставити, коли забирати",
       "type": "text/html",
@@ -245,7 +227,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:chy-sypaty-popil-v-klitkakh-netlify-app",
       "displayName": "Попіл у клітці кролів — користь чи ризик",
       "type": "text/html",
@@ -260,7 +241,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:your-deploy-url-here-vercel-app",
       "displayName": "Свіжа чи прив'яла трава для кролів",
       "type": "text/html",
@@ -275,7 +255,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:chy-mozhna-davaty-svizho-zibrane-zern-netlify-app",
       "displayName": "Чи можна давати кролям свіжозібране зерно",
       "type": "text/html",
@@ -290,7 +269,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:yak-my-robymo-hranulu-netlify-app",
       "displayName": "Як ми виготовляємо гранулу для кроликів",
       "type": "text/html",
@@ -305,7 +283,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:buying-rabbit",
       "displayName": "Купівля кроля",
       "type": "text/html",
@@ -320,7 +297,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-allergy",
       "displayName": "Алергія на кролів у людей",
       "type": "text/html",
@@ -335,7 +311,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-handling",
       "displayName": "Правильне утримання кроля на руках",
       "type": "text/html",
@@ -350,7 +325,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:beginner-guide",
       "displayName": "Маршрут новачка",
       "type": "text/html",
@@ -365,7 +339,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:beginner-mistakes",
       "displayName": "Типові помилки новачків",
       "type": "text/html",
@@ -380,7 +353,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-myths",
       "displayName": "Міфи про кролів",
       "type": "text/html",
@@ -395,7 +367,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:glossary",
       "displayName": "Словник кролівника",
       "type": "text/html",
@@ -410,7 +381,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:history",
       "displayName": "Історія обліку кролів",
       "type": "text/html",
@@ -425,7 +395,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:faq",
       "displayName": "Часті запитання",
       "type": "text/html",
@@ -440,7 +409,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-sounds",
       "displayName": "Звуки кролів",
       "type": "text/html",
@@ -455,7 +423,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-behavior-problems",
       "displayName": "Проблемна поведінка",
       "type": "text/html",
@@ -470,7 +437,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-body-language",
       "displayName": "Мова тіла кроля",
       "type": "text/html",
@@ -485,7 +451,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-stress",
       "displayName": "Стрес та переляк",
       "type": "text/html",
@@ -500,7 +465,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:group-housing",
       "displayName": "Групове утримання та ієрархія",
       "type": "text/html",
@@ -515,7 +479,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:mating-frequency",
       "displayName": "Частота злучування",
       "type": "text/html",
@@ -530,7 +493,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:doe-preparation",
       "displayName": "Підготовка самки до злучки",
       "type": "text/html",
@@ -545,7 +507,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-body-condition",
       "displayName": "Кондиція тіла (BCS)",
       "type": "text/html",
@@ -560,7 +521,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:mating-behavior",
       "displayName": "Поведінка при злучці",
       "type": "text/html",
@@ -575,7 +535,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pregnancy-toxemia",
       "displayName": "Токсикоз тільності (кетоз)",
       "type": "text/html",
@@ -590,7 +549,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:okril",
       "displayName": "Окріл",
       "type": "text/html",
@@ -605,7 +563,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:winter-litter",
       "displayName": "Зимовий окріл",
       "type": "text/html",
@@ -620,7 +577,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:conveyor",
       "displayName": "Конвеєр окролів",
       "type": "text/html",
@@ -635,7 +591,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:postpartum-care",
       "displayName": "Догляд за самкою після окролу",
       "type": "text/html",
@@ -648,7 +603,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:dystocia",
       "displayName": "Дистоція (важкі пологи)",
       "type": "text/html",
@@ -663,7 +617,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:false-pregnancy",
       "displayName": "Хибна вагітність",
       "type": "text/html",
@@ -678,7 +631,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:okril-control",
       "displayName": "Контроль дат",
       "type": "text/html",
@@ -693,7 +645,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:splay-leg",
       "displayName": "Розведені лапки у кроленят",
       "type": "text/html",
@@ -708,7 +659,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:artificial-feeding",
       "displayName": "Штучне вигодовування",
       "type": "text/html",
@@ -723,7 +673,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:fostering",
       "displayName": "Фостеринг",
       "type": "text/html",
@@ -738,7 +687,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:mastitis",
       "displayName": "Мастит у кролиць",
       "type": "text/html",
@@ -753,7 +701,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:weaning",
       "displayName": "Відлучення та дорощування",
       "type": "text/html",
@@ -768,7 +715,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:telegony",
       "displayName": "Телегонія",
       "type": "text/html",
@@ -783,7 +729,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:half-siblings",
       "displayName": "Напівсибси",
       "type": "text/html",
@@ -798,7 +743,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:buck-management",
       "displayName": "Утримання плідника",
       "type": "text/html",
@@ -813,7 +757,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:care",
       "displayName": "Догляд",
       "type": "text/html",
@@ -828,7 +771,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:grooming",
       "displayName": "Кігті та зуби",
       "type": "text/html",
@@ -843,7 +785,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:seasonal-molting",
       "displayName": "Линька: норма та патологія",
       "type": "text/html",
@@ -858,7 +799,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:wool-block",
       "displayName": "Вовняна пробка в ангорських порід",
       "type": "text/html",
@@ -873,7 +813,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:disinfection",
       "displayName": "Дезінфекція",
       "type": "text/html",
@@ -888,7 +827,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:biosecurity",
       "displayName": "Біобезпека та карантин",
       "type": "text/html",
@@ -903,7 +841,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:predators",
       "displayName": "Хижаки та шкідники",
       "type": "text/html",
@@ -918,7 +855,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:transport",
       "displayName": "Транспортування",
       "type": "text/html",
@@ -933,7 +869,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbits-and-children",
       "displayName": "Кролі та діти",
       "type": "text/html",
@@ -948,7 +883,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-vs-hare",
       "displayName": "Кролик vs Заєць",
       "type": "text/html",
@@ -963,7 +897,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbits-and-guinea-pigs",
       "displayName": "Кролі та морські свинки",
       "type": "text/html",
@@ -978,7 +911,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbits-and-predators",
       "displayName": "Кролі, коти та собаки",
       "type": "text/html",
@@ -993,7 +925,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbits-and-chickens",
       "displayName": "Кролі та кури",
       "type": "text/html",
@@ -1008,7 +939,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:verified-crosses",
       "displayName": "Перевірені поєднання порід",
       "type": "text/html",
@@ -1023,7 +953,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:meat-crosses",
       "displayName": "Помісі для м'яса",
       "type": "text/html",
@@ -1038,7 +967,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:outdoor-crosses",
       "displayName": "Помісі для вуличного утримання",
       "type": "text/html",
@@ -1053,7 +981,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:home-crosses",
       "displayName": "Помісі для домашнього утримання",
       "type": "text/html",
@@ -1068,7 +995,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:incompatible-crosses",
       "displayName": "Несумісні поєднання",
       "type": "text/html",
@@ -1083,7 +1009,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breed-signs",
       "displayName": "Визначення породи за зовнішніми ознаками",
       "type": "text/html",
@@ -1098,7 +1023,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:crossbreeding-schemes",
       "displayName": "Схеми поєднання порід",
       "type": "text/html",
@@ -1113,7 +1037,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:first-cross-plan",
       "displayName": "План першого поєднання порід",
       "type": "text/html",
@@ -1128,7 +1051,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:owner-experience",
       "displayName": "Досвід власників",
       "type": "text/html",
@@ -1143,7 +1065,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:feeding",
       "displayName": "Годування",
       "type": "text/html",
@@ -1158,7 +1079,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:special-feeds",
       "displayName": "Соковиті корми",
       "type": "text/html",
@@ -1173,7 +1093,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:new-food",
       "displayName": "Введення нового корму",
       "type": "text/html",
@@ -1188,7 +1107,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:compound-feed",
       "displayName": "Комбікорм для кролів",
       "type": "text/html",
@@ -1203,7 +1121,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pelleting-problems",
       "displayName": "Проблеми з грануляцією",
       "type": "text/html",
@@ -1218,7 +1135,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:water",
       "displayName": "Водопостачання",
       "type": "text/html",
@@ -1233,7 +1149,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:leaves",
       "displayName": "Листя та гілки",
       "type": "text/html",
@@ -1248,7 +1163,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:crops",
       "displayName": "Кормові культури",
       "type": "text/html",
@@ -1263,7 +1177,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:feeders",
       "displayName": "Годівниці та сінники",
       "type": "text/html",
@@ -1278,7 +1191,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:droppings",
       "displayName": "Послід: норма та відхилення",
       "type": "text/html",
@@ -1293,7 +1205,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:weight-control",
       "displayName": "Контроль ваги",
       "type": "text/html",
@@ -1308,7 +1219,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-obesity",
       "displayName": "Ожиріння у кролів",
       "type": "text/html",
@@ -1322,7 +1232,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:symptoms",
       "displayName": "Симптоматичний пошук",
       "type": "text/html",
@@ -1337,7 +1246,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:diseases",
       "displayName": "Хвороби",
       "type": "text/html",
@@ -1352,7 +1260,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:parasites",
       "displayName": "Паразити",
       "type": "text/html",
@@ -1367,7 +1274,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:poisoning",
       "displayName": "Отруєння кролів",
       "type": "text/html",
@@ -1382,7 +1288,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:zoonoses",
       "displayName": "Зоонози",
       "type": "text/html",
@@ -1397,7 +1302,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-abscesses",
       "displayName": "Абсцеси у кролів",
       "type": "text/html",
@@ -1412,7 +1316,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-eye-diseases",
       "displayName": "Хвороби очей",
       "type": "text/html",
@@ -1427,7 +1330,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-urolithiasis",
       "displayName": "Сечокам'яна хвороба / пісок у сечі",
       "type": "text/html",
@@ -1442,7 +1344,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:urine-scald",
       "displayName": "Опік сечею",
       "type": "text/html",
@@ -1457,7 +1358,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:encephalitozoon-cuniculi",
       "displayName": "Енцефалітозооноз (E. cuniculi)",
       "type": "text/html",
@@ -1472,7 +1372,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:uterine-adenocarcinoma",
       "displayName": "Аденокарцинома матки",
       "type": "text/html",
@@ -1487,7 +1386,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:chronic-kidney-disease",
       "displayName": "Хронічна ниркова недостатність",
       "type": "text/html",
@@ -1501,7 +1399,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:treponematosis",
       "displayName": "Трепонематоз (сифіліс кролів)",
       "type": "text/html",
@@ -1515,7 +1412,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:otitis-media-interna",
       "displayName": "Отит середнього та внутрішнього вуха",
       "type": "text/html",
@@ -1529,7 +1425,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:umbilical-hernia",
       "displayName": "Пупкова грижа у кроленят",
       "type": "text/html",
@@ -1542,7 +1437,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:cryptorchidism",
       "displayName": "Крипторхізм у кролів",
       "type": "text/html",
@@ -1555,7 +1449,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:senior-sensory-loss",
       "displayName": "Втрата зору й слуху у старих кролів",
       "type": "text/html",
@@ -1568,7 +1461,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pyometra",
       "displayName": "Пієметра",
       "type": "text/html",
@@ -1582,7 +1474,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:megaesophagus",
       "displayName": "Мегаезофагус",
       "type": "text/html",
@@ -1595,7 +1486,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pyoderma",
       "displayName": "Піодермія",
       "type": "text/html",
@@ -1609,7 +1499,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:secondary-hyperparathyroidism",
       "displayName": "Вторинний гіперпаратиреоз",
       "type": "text/html",
@@ -1623,7 +1512,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:ringworm",
       "displayName": "Стригучий лишай (дерматофітоз)",
       "type": "text/html",
@@ -1637,7 +1525,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:heart-disease",
       "displayName": "Кардіоміопатія та хвороби серця",
       "type": "text/html",
@@ -1651,7 +1538,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:thymoma",
       "displayName": "Тимома",
       "type": "text/html",
@@ -1664,7 +1550,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:enclosure",
       "displayName": "Клітки",
       "type": "text/html",
@@ -1679,7 +1564,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:floor-care",
       "displayName": "Підлогове утримання",
       "type": "text/html",
@@ -1694,7 +1578,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pit-keeping",
       "displayName": "Ямове утримання",
       "type": "text/html",
@@ -1709,7 +1592,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:microclimate",
       "displayName": "Мікроклімат",
       "type": "text/html",
@@ -1724,7 +1606,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-housing-diy",
       "displayName": "Клітки своїми руками",
       "type": "text/html",
@@ -1739,7 +1620,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:economics",
       "displayName": "Економіка господарства",
       "type": "text/html",
@@ -1754,7 +1634,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:insurance-grants",
       "displayName": "Страхування та грантова підтримка ОСГ",
       "type": "text/html",
@@ -1769,7 +1648,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:legal",
       "displayName": "Юридичний куточок",
       "type": "text/html",
@@ -1784,7 +1662,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-cooperatives",
       "displayName": "Кооперативи та об'єднання кролівників",
       "type": "text/html",
@@ -1799,7 +1676,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:import-export-rabbits",
       "displayName": "Імпорт та експорт племінних кролів",
       "type": "text/html",
@@ -1814,7 +1690,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:sales",
       "displayName": "Збут кролятини",
       "type": "text/html",
@@ -1829,7 +1704,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:profit-calculator",
       "displayName": "Калькулятор рентабельності",
       "type": "text/html",
@@ -1844,7 +1718,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:culling",
       "displayName": "Вибраковка",
       "type": "text/html",
@@ -1859,7 +1732,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:composting",
       "displayName": "Переробка гною",
       "type": "text/html",
@@ -1874,7 +1746,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:apartment-proofing",
       "displayName": "Кролик-пруфінг квартири",
       "type": "text/html",
@@ -1889,7 +1760,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:litter-training",
       "displayName": "Привчання до лотка",
       "type": "text/html",
@@ -1904,7 +1774,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:enrichment",
       "displayName": "Збагачення середовища",
       "type": "text/html",
@@ -1919,7 +1788,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:companion-bonding",
       "displayName": "Один чи два кролики",
       "type": "text/html",
@@ -1934,7 +1802,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pet-travel",
       "displayName": "Кролик у подорожі",
       "type": "text/html",
@@ -1949,7 +1816,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:senior-rabbit",
       "displayName": "Кролик похилого віку",
       "type": "text/html",
@@ -1964,7 +1830,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:calendar",
       "displayName": "Сезонний календар",
       "type": "text/html",
@@ -1979,7 +1844,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:tips",
       "displayName": "Поради",
       "type": "text/html",
@@ -1994,7 +1858,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breeding-herd",
       "displayName": "Маточне поголів'я",
       "type": "text/html",
@@ -2009,7 +1872,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:seasonal-spring",
       "displayName": "Весна: кокцидіоз",
       "type": "text/html",
@@ -2024,7 +1886,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:seasonal-summer",
       "displayName": "Літо: міаз (личинки мух)",
       "type": "text/html",
@@ -2039,7 +1900,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:heat-stroke",
       "displayName": "Спека",
       "type": "text/html",
@@ -2054,7 +1914,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:sun-protection",
       "displayName": "Захист від сонця та затінення",
       "type": "text/html",
@@ -2069,7 +1928,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:seasonal-autumn",
       "displayName": "Осінь: підготовка до зими",
       "type": "text/html",
@@ -2084,7 +1942,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:ear-frostbite",
       "displayName": "Обмороження вух",
       "type": "text/html",
@@ -2099,7 +1956,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breed-standards",
       "displayName": "Стандарти порід",
       "type": "text/html",
@@ -2114,7 +1970,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-conformation",
       "displayName": "Екстер'єр кроля",
       "type": "text/html",
@@ -2129,7 +1984,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breeding-evaluation",
       "displayName": "Племінна оцінка",
       "type": "text/html",
@@ -2144,7 +1998,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:coat-colors-evaluation",
       "displayName": "Оцінка забарвлення",
       "type": "text/html",
@@ -2159,7 +2012,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:fur-evaluation",
       "displayName": "Оцінка хутра",
       "type": "text/html",
@@ -2174,7 +2026,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:replacement-stock",
       "displayName": "Відбір ремонтного молодняку",
       "type": "text/html",
@@ -2189,7 +2040,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:dna-testing",
       "displayName": "ДНК-тест на породність і батьківство",
       "type": "text/html",
@@ -2204,7 +2054,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:disqualifying-faults",
       "displayName": "Дискваліфікаційні вади",
       "type": "text/html",
@@ -2219,7 +2068,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pedigree-records",
       "displayName": "Родоводи та племінний облік",
       "type": "text/html",
@@ -2234,7 +2082,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:select-buck",
       "displayName": "Вибір племінного самця",
       "type": "text/html",
@@ -2249,7 +2096,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:select-doe",
       "displayName": "Вибір племінної самки",
       "type": "text/html",
@@ -2264,7 +2110,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:show-preparation",
       "displayName": "Підготовка до виставки",
       "type": "text/html",
@@ -2279,7 +2124,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:show-scoring",
       "displayName": "Система оцінювання",
       "type": "text/html",
@@ -2294,7 +2138,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:show-judging",
       "displayName": "Суддівство на виставках",
       "type": "text/html",
@@ -2309,7 +2152,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:slaughter",
       "displayName": "Забій та переробка",
       "type": "text/html",
@@ -2324,7 +2166,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:fur-processing",
       "displayName": "Шкура та пух",
       "type": "text/html",
@@ -2339,7 +2180,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:recipes",
       "displayName": "Рецепти",
       "type": "text/html",
@@ -2354,7 +2194,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:feeding-automation",
       "displayName": "Автоматизація годівлі та напування",
       "type": "text/html",
@@ -2369,7 +2208,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:climate-automation",
       "displayName": "Автоматичний контроль мікроклімату",
       "type": "text/html",
@@ -2384,7 +2222,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:farm-management-software",
       "displayName": "Програми обліку господарства",
       "type": "text/html",
@@ -2399,7 +2236,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:farm-monitoring",
       "displayName": "Відеоспостереження та моніторинг",
       "type": "text/html",
@@ -2414,7 +2250,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:smart-farm",
       "displayName": "Смарт-ферма: інтеграція систем",
       "type": "text/html",
@@ -2429,7 +2264,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:calculator",
       "displayName": "Калькулятор",
       "type": "text/html",
@@ -2444,7 +2278,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:equipment",
       "displayName": "Обладнання",
       "type": "text/html",
@@ -2459,7 +2292,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:tools",
       "displayName": "Інструменти",
       "type": "text/html",
@@ -2474,7 +2306,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rabbit-identification",
       "displayName": "Ідентифікація: татуювання чи мікрочіп",
       "type": "text/html",
@@ -2488,7 +2319,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:vaccinations",
       "displayName": "Вакцинація",
       "type": "text/html",
@@ -2503,7 +2333,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:water-medication",
       "displayName": "Пропойка",
       "type": "text/html",
@@ -2518,7 +2347,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:medicines",
       "displayName": "Препарати",
       "type": "text/html",
@@ -2533,7 +2361,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:med-storage",
       "displayName": "Зберігання ліків",
       "type": "text/html",
@@ -2548,7 +2375,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:drug-compatibility",
       "displayName": "Сумісність препаратів",
       "type": "text/html",
@@ -2563,7 +2389,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:pain-management",
       "displayName": "Знеболення та аналгезія",
       "type": "text/html",
@@ -2578,7 +2403,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:dosage-calculator",
       "displayName": "Калькулятор дозування",
       "type": "text/html",
@@ -2593,7 +2417,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:treatment",
       "displayName": "Схеми лікування",
       "type": "text/html",
@@ -2608,7 +2431,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:first-aid",
       "displayName": "Перша допомога",
       "type": "text/html",
@@ -2623,7 +2445,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:diet-therapy",
       "displayName": "Дієтична терапія",
       "type": "text/html",
@@ -2638,7 +2459,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:anesthesia-care",
       "displayName": "Премедикація, анестезія, післяопераційний догляд",
       "type": "text/html",
@@ -2653,7 +2473,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:antibiotic-therapy",
       "displayName": "Антибіотикотерапія",
       "type": "text/html",
@@ -2668,7 +2487,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:necropsy",
       "displayName": "Некропсія / розтин",
       "type": "text/html",
@@ -2683,7 +2501,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:neutering",
       "displayName": "Кастрація та стерилізація",
       "type": "text/html",
@@ -2698,7 +2515,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:lab-diagnostics",
       "displayName": "Лабораторна діагностика",
       "type": "text/html",
@@ -2713,7 +2529,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:treatment-log",
       "displayName": "Журнал лікувань та документація",
       "type": "text/html",
@@ -2728,7 +2543,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:vaccine-reactions",
       "displayName": "Побічні реакції на вакцинацію",
       "type": "text/html",
@@ -2742,7 +2556,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:bite-wound-care",
       "displayName": "Перша допомога при укушених ранах",
       "type": "text/html",
@@ -2755,7 +2568,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:palliative-care",
       "displayName": "Паліативний догляд і хронічний біль",
       "type": "text/html",
@@ -2768,7 +2580,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:rhdv-strains",
       "displayName": "RHDV1 проти RHDV2",
       "type": "text/html",
@@ -2782,7 +2593,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:sexing",
       "displayName": "Визначення статі",
       "type": "text/html",
@@ -2797,7 +2607,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:vet-injections",
       "displayName": "Ін'єкції",
       "type": "text/html",
@@ -2812,7 +2621,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:vet-oral-meds",
       "displayName": "Таблетки та суспензії",
       "type": "text/html",
@@ -2827,7 +2635,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:vet-temperature",
       "displayName": "Вимірювання температури",
       "type": "text/html",
@@ -2842,7 +2649,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:vet-fecal-sample",
       "displayName": "Збір калу на аналіз",
       "type": "text/html",
@@ -2857,7 +2663,6 @@
       ]
     },
     {
-      "@context": "https://agenticresourcediscovery.org/context/v1",
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:blood-test-reference",
       "displayName": "Аналіз крові кролика",
       "type": "text/html",
