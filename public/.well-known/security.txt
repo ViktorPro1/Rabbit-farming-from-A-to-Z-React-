@@ -1,0 +1,4 @@
+Contact: mailto:rabbit.farming.ua@gmail.com
+Expires: 2027-09-25T00:00:00.000Z
+Preferred-Languages: uk, en
+Canonical: https://rabbit-farming-from-a-to-z-react.vercel.app/.well-known/security.txt
