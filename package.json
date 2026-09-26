@@ -16,6 +16,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@mcp-b/global": "^5.1.0",
     "@sentry/react": "^10.71.0",
     "@supabase/supabase-js": "^2.103.0",
     "lucide-react": "^1.25.0",
@@ -26,6 +27,7 @@
     "react-helmet-async": "^3.0.0",
     "react-router-dom": "^7.18.1",
     "react-share": "^5.3.0",
+    "use-webmcp-tool": "^0.3.0",
     "vanilla-cookieconsent": "^3.1.0",
     "web-push": "^3.6.7"
   },

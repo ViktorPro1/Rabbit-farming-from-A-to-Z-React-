@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { registerSW } from "virtual:pwa-register";
 import { HelmetProvider } from "react-helmet-async";
+import "@mcp-b/global";
 
 if (import.meta.env.PROD) {
   Sentry.init({
