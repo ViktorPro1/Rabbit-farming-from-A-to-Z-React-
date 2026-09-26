@@ -5,7 +5,6 @@ import ShareButton from "../../components/ShareButton/ShareButton";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import { logError } from "../../lib/logError";
-import { useWebMCP } from "use-webmcp-tool";
 
 // ===== ЗЕРНОВА СУМІШ =====
 interface Grain {
@@ -368,45 +367,6 @@ const addDays = (d: Date, n: number) => {
   return r;
 };
 
-// ===== ДАТИ РОЗВЕДЕННЯ (pure-функції, винесені для UI та WebMCP tools) =====
-interface FemaleDatesResult {
-  firstMating: string | null;
-  controlMating: string;
-  expectedBirth: string;
-  weaning: string;
-  nextMating: string;
-}
-
-function calcFemaleDates(
-  dateStr: string,
-  calcType: "birth" | "mating",
-): FemaleDatesResult {
-  const d = new Date(dateStr);
-  const firstMating = calcType === "birth" ? addDays(d, 150) : d;
-  const birth = addDays(firstMating, 31);
-  const weaning = addDays(birth, 60);
-  return {
-    firstMating: calcType === "birth" ? fmt(firstMating) : null,
-    controlMating: fmt(addDays(firstMating, 7)),
-    expectedBirth: fmt(birth),
-    weaning: fmt(weaning),
-    nextMating: fmt(addDays(weaning, 14)),
-  };
-}
-
-interface MaleDatesResult {
-  matingStart: string;
-  matingEnd: string;
-}
-
-function calcMaleDates(dateStr: string): MaleDatesResult {
-  const d = new Date(dateStr);
-  return {
-    matingStart: fmt(addDays(d, 150)),
-    matingEnd: fmt(addDays(d, 1095)),
-  };
-}
-
 // ===== КОМПОНЕНТ =====
 type Tab = "grain" | "dates";
 type GrainMode = "breeding" | "fattening";
@@ -547,7 +507,17 @@ export default function Calculator({ session }: CalculatorProps) {
       setFemaleResult(<p className="calc-error">Введіть дату.</p>);
       return;
     }
-    const dates = calcFemaleDates(femaleDate, calcType);
+    const d = new Date(femaleDate);
+    let firstMating: Date;
+    if (calcType === "birth") {
+      firstMating = addDays(d, 150);
+    } else {
+      firstMating = d;
+    }
+    const control = addDays(firstMating, 7);
+    const birth = addDays(firstMating, 31);
+    const weaning = addDays(birth, 60);
+    const next = addDays(weaning, 14);
     setFemaleResult(
       <div className="calc-result">
         {calcType === "mating" && (
@@ -555,27 +525,27 @@ export default function Calculator({ session }: CalculatorProps) {
             ⚠️ Кроличці має бути мінімум 4 місяці від дня народження.
           </div>
         )}
-        {calcType === "birth" && dates.firstMating && (
+        {calcType === "birth" && (
           <div className="calc-row">
             <span>Дата готовності до першої злучки:</span>
-            <strong>{dates.firstMating}</strong>
+            <strong>{fmt(firstMating)}</strong>
           </div>
         )}
         <div className="calc-row">
           <span>Контрольна злучка:</span>
-          <strong>{dates.controlMating}</strong>
+          <strong>{fmt(control)}</strong>
         </div>
         <div className="calc-row">
           <span>Очікувана дата окролу:</span>
-          <strong>{dates.expectedBirth}</strong>
+          <strong>{fmt(birth)}</strong>
         </div>
         <div className="calc-row">
           <span>Дата відлучення малюків:</span>
-          <strong>{dates.weaning}</strong>
+          <strong>{fmt(weaning)}</strong>
         </div>
         <div className="calc-row">
           <span>Наступна злучка після відлучення:</span>
-          <strong>{dates.nextMating}</strong>
+          <strong>{fmt(next)}</strong>
         </div>
         <div className="calc-alert ok">
           ✅ Забезпечте відпочинок та перевірку здоров'я після кожного окролу.
@@ -589,16 +559,18 @@ export default function Calculator({ session }: CalculatorProps) {
       setMaleResult(<p className="calc-error">Введіть дату народження.</p>);
       return;
     }
-    const dates = calcMaleDates(maleDate);
+    const d = new Date(maleDate);
+    const start = addDays(d, 150);
+    const end = addDays(d, 1095);
     setMaleResult(
       <div className="calc-result">
         <div className="calc-row">
           <span>Вік для початку спаровування:</span>
-          <strong>{dates.matingStart}</strong>
+          <strong>{fmt(start)}</strong>
         </div>
         <div className="calc-row">
           <span>Рекомендований період до:</span>
-          <strong>{dates.matingEnd}</strong>
+          <strong>{fmt(end)}</strong>
         </div>
         <div className="calc-alert ok">
           ✅ Перевіряйте здоров'я та стан самця перед кожною злучкою.
@@ -610,95 +582,6 @@ export default function Calculator({ session }: CalculatorProps) {
   const maxPct = grainResults.length
     ? Math.max(...grainResults.map((r) => r.pct))
     : 1;
-
-  // ===== WEBMCP TOOLS =====
-  // Реєструються тільки поки цей компонент змонтований — тобто тільки для
-  // залогінених користувачів кабінету (Calculator рендериться під AccessGuard).
-  interface GrainMixToolInput {
-    mode: "breeding" | "fattening";
-    grainIds: string[];
-    totalKg: number;
-    hasGranulator?: boolean;
-  }
-
-  useWebMCP({
-    name: "calculate_grain_mix",
-    description:
-      "Розраховує пропорції зернової суміші для кроликів (племінне стадо або відгодівля) за загальною вагою суміші",
-    inputSchema: {
-      type: "object",
-      properties: {
-        mode: {
-          type: "string",
-          enum: ["breeding", "fattening"],
-          description: "Плем. стадо чи відгодівля",
-        },
-        grainIds: {
-          type: "array",
-          items: { type: "string" },
-          description:
-            "ID вибраних зернових: oat, barley, wheat, bran, corn, pea, rye, buck, soy, sunflower",
-        },
-        totalKg: {
-          type: "number",
-          description: "Загальна вага суміші, кг",
-        },
-        hasGranulator: {
-          type: "boolean",
-          description: "Чи є гранулятор (для розрахунку добавок)",
-        },
-      },
-      required: ["mode", "grainIds", "totalKg"],
-    } as const,
-    execute: async ({
-      mode,
-      grainIds,
-      totalKg,
-      hasGranulator: hg,
-    }: GrainMixToolInput) => {
-      const grains = mode === "breeding" ? breedingGrains : fatteningGrains;
-      const recipe = calcGrains(grains, grainIds, totalKg);
-      const additives = hg ? calcGranulatorAdditives(totalKg) : null;
-      return { recipe, additives };
-    },
-  });
-
-  interface BreedingDatesToolInput {
-    subject: "female" | "male";
-    date: string;
-    calcType?: "birth" | "mating";
-  }
-
-  useWebMCP({
-    name: "calculate_breeding_dates",
-    description:
-      "Розраховує дати злучки, окролу та відлучення для кролиці (за датою народження або злучки), або період спаровування для кроля (за датою народження)",
-    inputSchema: {
-      type: "object",
-      properties: {
-        subject: {
-          type: "string",
-          enum: ["female", "male"],
-          description: "Кроличка (самка) чи кролик (самець)",
-        },
-        date: {
-          type: "string",
-          description: "Дата у форматі YYYY-MM-DD",
-        },
-        calcType: {
-          type: "string",
-          enum: ["birth", "mating"],
-          description:
-            "Тільки для subject=female: розрахунок від дати народження чи від дати злучки",
-        },
-      },
-      required: ["subject", "date"],
-    } as const,
-    execute: async ({ subject, date, calcType: ct }: BreedingDatesToolInput) =>
-      subject === "female"
-        ? calcFemaleDates(date, ct ?? "birth")
-        : calcMaleDates(date),
-  });
 
   return (
     <main className="calc-page">

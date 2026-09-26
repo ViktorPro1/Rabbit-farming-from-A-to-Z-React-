@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./ProfitCalc.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
+import { useWebMCP } from "use-webmcp-tool";
 
 type SaleType = "carcass" | "live" | "breeding";
 type FeedType = "own" | "partial" | "bought";
@@ -240,6 +241,66 @@ const ProfitCalc = () => {
 
   const profitClass =
     result.profit > 0 ? "positive" : result.profit < 0 ? "negative" : "";
+
+  // ===== WEBMCP TOOL =====
+  // Публічна сторінка (без AccessGuard) — tool видимий для будь-якого
+  // агента, який відкриє цю сторінку, залогінений користувач не потрібен.
+  useWebMCP({
+    name: "calculate_rabbit_farm_profitability",
+    description:
+      "Розраховує прогноз прибутку кролівницького господарства за рік: кількість молодняку, виручку, витрати та чистий прибуток на основі кількості самок, схеми розведення, типу продажу та типу корму",
+    inputSchema: {
+      type: "object",
+      properties: {
+        females: {
+          type: "number",
+          description: "Кількість самок для розведення (1–100)",
+        },
+        scheme: {
+          type: "string",
+          enum: ["intensive", "semi", "extensive"],
+          description:
+            "Схема розведення: intensive (8 окролів/рік), semi (5 окролів/рік), extensive (3 окроли/рік)",
+        },
+        saleType: {
+          type: "string",
+          enum: ["carcass", "live", "breeding"],
+          description:
+            "Тип продажу: carcass (тушки, грн/кг), live (жива маса, грн/кг), breeding (плем. молодняк, грн/гол)",
+        },
+        feedType: {
+          type: "string",
+          enum: ["own", "partial", "bought"],
+          description:
+            "Тип корму: власний, частково куплений, повністю куплений",
+        },
+        salePrice: {
+          type: "number",
+          description:
+            "Ціна продажу (грн/кг для carcass/live, грн/гол для breeding)",
+        },
+        survivalRate: {
+          type: "number",
+          description: "Виживаність молодняку до продажу, % (50–95)",
+        },
+        startupCost: {
+          type: "number",
+          description:
+            "Стартові витрати на клітки, обладнання, тварин, приміщення, грн",
+        },
+      },
+      required: [
+        "females",
+        "scheme",
+        "saleType",
+        "feedType",
+        "salePrice",
+        "survivalRate",
+        "startupCost",
+      ],
+    } as const,
+    execute: async (params: CalcInputs) => calcResults(params),
+  });
 
   return (
     <main className="pc-page">

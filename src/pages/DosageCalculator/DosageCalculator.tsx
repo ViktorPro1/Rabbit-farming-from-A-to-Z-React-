@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import "./DosageCalculator.css";
 import ShareButton from "../../components/ShareButton/ShareButton";
 import { Link } from "react-router-dom";
+import { useWebMCP } from "use-webmcp-tool";
 
 interface Drug {
   id: string;
@@ -315,6 +316,51 @@ const CATEGORIES = [
   "Шлунково-кишкові",
 ];
 
+// ===== PURE-ФУНКЦІЯ РОЗРАХУНКУ ДОЗУВАННЯ (для UI та WebMCP tool) =====
+interface DosageResult {
+  drugName: string;
+  tradeName: string | null;
+  doseMinMl: number;
+  doseMaxMl: number;
+  doseMinMg: number;
+  doseMaxMg: number;
+  route: string;
+  frequency: string;
+  duration: string;
+  note: string | null;
+  warning: string | null;
+}
+
+function calcDosage(
+  drugId: string,
+  weightKg: number,
+): DosageResult | { error: string } {
+  const drug = DRUGS.find((d) => d.id === drugId);
+  if (!drug) {
+    return { error: `Препарат з id "${drugId}" не знайдено` };
+  }
+  if (!(weightKg > 0 && weightKg <= 15)) {
+    return { error: "Вага кроля має бути в межах 0.1–15 кг" };
+  }
+
+  const doseMinMl = (weightKg * drug.doseMin) / drug.concentration;
+  const doseMaxMl = (weightKg * drug.doseMax) / drug.concentration;
+
+  return {
+    drugName: drug.name,
+    tradeName: drug.tradeName ?? null,
+    doseMinMl: +doseMinMl.toFixed(2),
+    doseMaxMl: +doseMaxMl.toFixed(2),
+    doseMinMg: +(weightKg * drug.doseMin).toFixed(1),
+    doseMaxMg: +(weightKg * drug.doseMax).toFixed(1),
+    route: drug.route,
+    frequency: drug.frequency,
+    duration: drug.duration,
+    note: drug.note ?? null,
+    warning: drug.warning ?? null,
+  };
+}
+
 const DosageCalculator = () => {
   const [weight, setWeight] = useState<string>("");
   const [selectedDrug, setSelectedDrug] = useState<string>("");
@@ -353,6 +399,38 @@ const DosageCalculator = () => {
     setActiveCategory(cat);
     setSelectedDrug("");
   };
+
+  // ===== WEBMCP TOOL =====
+  // Публічна довідкова сторінка — tool доступний без входу в кабінет.
+  // Опис навмисно включає застереження про консультацію з ветеринаром,
+  // так само як DC-disclaimer в UI, щоб агент передавав це користувачу.
+  useWebMCP({
+    name: "calculate_rabbit_medication_dosage",
+    description:
+      "Розраховує дозу ветеринарного препарату для кроля за вагою тварини та обраним препаратом. Довідковий інструмент — при серйозних хворобах рекомендується консультація з ветеринаром, а не самолікування на основі цього розрахунку",
+    inputSchema: {
+      type: "object",
+      properties: {
+        drugId: {
+          type: "string",
+          description:
+            "ID препарату, напр.: solikoks, baykoks25, baykoks50, baytril10, baytril25, oxytetra, chloramphenicol, ditrim, panakyur, ivermektin, stronghold, meloksykam05, meloksykam15, chiktonik, eselenium, gamavit, espumizan, metoklopramid, regidron",
+        },
+        weightKg: {
+          type: "number",
+          description: "Вага кроля в кг (0.1–15)",
+        },
+      },
+      required: ["drugId", "weightKg"],
+    } as const,
+    execute: async ({
+      drugId,
+      weightKg,
+    }: {
+      drugId: string;
+      weightKg: number;
+    }) => calcDosage(drugId, weightKg),
+  });
 
   return (
     <div className="DC-page">
