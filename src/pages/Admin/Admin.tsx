@@ -185,6 +185,8 @@ export default function Admin({ session }: Props) {
   const [userUsage, setUserUsage] = useState<UserDataUsage[]>([]);
   const [userUsageLoading, setUserUsageLoading] = useState(false);
   const [tablesOpen, setTablesOpen] = useState(false);
+  // Додано: лічильник завантажень візитки для блоку в адмінці
+  const [vizytkaDownloads, setVizytkaDownloads] = useState<number | null>(null);
   const presenceChannelRef = useRef<ReturnType<
     typeof adminSupabase.channel
   > | null>(null);
@@ -398,6 +400,18 @@ export default function Admin({ session }: Props) {
     setNpsLoading(false);
   }
 
+  // Додано: кількість завантажень візитки (рахує рядки в vizytka_downloads)
+  async function fetchVizytkaDownloads() {
+    const { count, error } = await supabase
+      .from("vizytka_downloads")
+      .select("*", { count: "exact", head: true });
+    if (error) {
+      console.error("Не вдалося завантажити лічильник візитки:", error);
+      return;
+    }
+    setVizytkaDownloads(count ?? 0);
+  }
+
   async function fetchStats(allCodes: InviteCode[], userCount: number) {
     setStatsLoading(true);
 
@@ -496,6 +510,8 @@ export default function Admin({ session }: Props) {
                     .from("profiles")
                     .select("*", { count: "exact", head: true }),
                   fetchUserUsage(),
+                  // Додано: лічильник завантажень візитки паралельно з рештою
+                  fetchVizytkaDownloads(),
                 ]);
               // Якщо коди не завантажились, користувачів усе одно показуємо
               // (без прив'язаного коду), а помилка видна в повідомленні угорі
@@ -866,6 +882,16 @@ export default function Admin({ session }: Props) {
             </table>
           </div>
         )}
+      </div>
+
+      {/* Додано: блок з лічильником завантажень візитки */}
+      <div className="admin-section">
+        <h2>🖼️ Візитка</h2>
+        <div className="stats-codes-row">
+          <div className="stats-code-badge total">
+            Завантажено разів: <strong>{vizytkaDownloads ?? "…"}</strong>
+          </div>
+        </div>
       </div>
 
       {/* Опитування NPS */}

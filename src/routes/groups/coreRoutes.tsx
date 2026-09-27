@@ -40,6 +40,7 @@ const FatteningPublic = lazy(
 const Partnership = lazy(() => import("../../pages/Partnership/Partnership"));
 const Reviews = lazy(() => import("../../pages/Reviews/Reviews"));
 const NpsSurvey = lazy(() => import("../../pages/NpsSurvey/NpsSurvey"));
+const Vizytka = lazy(() => import("../../pages/Vizytka/Vizytka"));
 
 /**
  * Адмінка, розділ "З чого почати" та головні сторінки.
@@ -86,6 +87,7 @@ export function getCoreRoutes(session: Session | null) {
       <Route path="/partnership" element={<Partnership />} />
       <Route path="/reviews" element={<Reviews />} />
       <Route path="/nps-survey" element={<NpsSurvey />} />
+      <Route path="/vizytka" element={<Vizytka />} />
     </>
   );
 }

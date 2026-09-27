@@ -20,6 +20,7 @@ import {
   Star,
   MessageSquareHeart,
   ChevronDown,
+  Image, // Додано: іконка для пункту "Візитка"
 } from "lucide-react";
 import "./Header.css";
 
@@ -207,6 +208,11 @@ const Header = ({ session }: Props) => {
                   <Star size={16} />
                   Відгуки
                 </NavLink>
+                {/* Додано: пункт "Візитка" в дропдаун "Ще" */}
+                <NavLink to="/vizytka" onClick={() => setShowMore(false)}>
+                  <Image size={16} />
+                  Візитка
+                </NavLink>
               </div>
             )}
           </div>
@@ -391,6 +397,11 @@ const Header = ({ session }: Props) => {
           <NavLink to="/reviews" onClick={closeMenu}>
             <Star size={18} />
             Відгуки
+          </NavLink>
+          {/* Додано: пункт "Візитка" в мобільний drawer */}
+          <NavLink to="/vizytka" onClick={closeMenu}>
+            <Image size={18} />
+            Візитка
           </NavLink>
           <NavLink to="/nps-survey" onClick={closeMenu}>
             <MessageSquareHeart size={18} />

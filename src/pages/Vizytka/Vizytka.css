@@ -1,0 +1,60 @@
+.vizytka-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    padding: 16px 0;
+}
+
+.vizytka-intro {
+    max-width: 640px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary, #4b5563);
+}
+
+.vizytka-card {
+    width: 100%;
+    max-width: 640px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.vizytka-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 619 / 414;
+}
+
+.vizytka-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #2f7a3d;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.vizytka-download-btn:hover {
+    background-color: #256130;
+    transform: translateY(-1px);
+}
+
+/* Тест на телефоні з екраном 420px — не прибирати цей брейкпоінт */
+@media (max-width: 420px) {
+    .vizytka-intro {
+        font-size: 14px;
+    }
+
+    .vizytka-download-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

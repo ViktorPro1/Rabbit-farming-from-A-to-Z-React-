@@ -25,6 +25,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/partnership": "Партнерство",
   "/reviews": "Відгуки",
   "/nps-survey": "Опитування",
+  "/vizytka": "Візитка",
 
   // ПОЧАТОК — знайомство з твариною
   "/biology": "Біологія та анатомія",
