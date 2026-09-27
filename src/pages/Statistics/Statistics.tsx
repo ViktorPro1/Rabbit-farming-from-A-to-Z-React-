@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
@@ -120,6 +120,44 @@ interface MonthlyStat {
   totalAlive: number;
   totalSlaughtered: number;
   totalSold: number;
+}
+
+// ── Дані для вкладки «Зважування»: агреговано по всіх клітках відгодівлі ──
+
+interface FatteningRow {
+  id: string;
+  cage_number: string;
+  birth_date: string | null;
+  is_active: boolean;
+  slaughtered_at: string | null;
+  males: number | null;
+  females: number | null;
+  unknown: number | null;
+}
+
+interface WeighingRow {
+  id: string;
+  fattening_id: string | null;
+  weighing_date: string;
+  weight_g: number;
+  is_final: boolean;
+}
+
+interface ClosedCycle {
+  cage: string;
+  startDate: string;
+  endDate: string;
+  durationDays: number;
+  finalAvgWeight: number;
+  monthKey: string; // за датою забою, напр. "2026-06"
+}
+
+interface ActiveCageStat {
+  cage: string;
+  heads: number;
+  latestWeight: number | null;
+  latestDate: string | null;
+  daysInCycle: number | null;
 }
 
 // ── Типи для розрахунку статистики з урахуванням фактичних батьків окролу ──
@@ -926,6 +964,243 @@ function monthLabelShort(key: string) {
   return `${names[parseInt(m) - 1]} ${y.slice(2)}`;
 }
 
+// ── Утиліти для вкладки «Зважування» (агреговано по всіх клітках) ──
+
+function headsOf(f: FatteningRow): number {
+  return (f.males || 0) + (f.females || 0) + (f.unknown || 0);
+}
+
+function formatWeighingKg(g: number): string {
+  return `${(g / 1000).toLocaleString("uk-UA", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })} кг`;
+}
+
+// Цикл — серія зважувань клітки від заселення до фінального (is_final)
+// перед забоєм. Та сама логіка, що й у Weighing.tsx, але зібрана одразу
+// по всіх клітках відгодівлі, а не по одній.
+function buildClosedCyclesForCage(
+  cage: string,
+  sorted: WeighingRow[],
+): ClosedCycle[] {
+  const cycles: ClosedCycle[] = [];
+  let current: WeighingRow[] = [];
+
+  sorted.forEach((r) => {
+    current.push(r);
+    if (r.is_final) {
+      const start = current[0].weighing_date;
+      const end = current[current.length - 1].weighing_date;
+      const durationDays = Math.round(
+        (new Date(end).getTime() - new Date(start).getTime()) /
+          (1000 * 60 * 60 * 24),
+      );
+      const finals = current.filter((x) => x.is_final);
+      const finalAvgWeight = Math.round(
+        finals.reduce((s, x) => s + x.weight_g, 0) / finals.length,
+      );
+      cycles.push({
+        cage,
+        startDate: start,
+        endDate: end,
+        durationDays,
+        finalAvgWeight,
+        monthKey: end.slice(0, 7),
+      });
+      current = [];
+    }
+  });
+
+  return cycles;
+}
+
+function WeighingTab({
+  activeCages,
+  farmTotals,
+  monthlyAvgAll,
+  monthlyComparison,
+  closedCycles,
+}: {
+  activeCages: ActiveCageStat[];
+  farmTotals: {
+    heads: number;
+    estimatedWeightG: number;
+    cagesWithWeight: number;
+    cageCount: number;
+  };
+  monthlyAvgAll: { monthKey: string; avgWeight: number; count: number }[];
+  monthlyComparison: {
+    monthKey: string;
+    avgWeight: number;
+    avgDuration: number;
+  }[];
+  closedCycles: ClosedCycle[];
+}) {
+  const byMonth: Record<string, ClosedCycle[]> = {};
+  closedCycles.forEach((c) => {
+    if (!byMonth[c.monthKey]) byMonth[c.monthKey] = [];
+    byMonth[c.monthKey].push(c);
+  });
+  const months = Object.keys(byMonth).sort((a, b) => b.localeCompare(a));
+
+  return (
+    <div className="slaughter-tab">
+      <div className="slaughter-summary">
+        <div className="slaughter-summary-item">
+          <span className="slaughter-summary-val">{farmTotals.cageCount}</span>
+          <span className="slaughter-summary-label">Активних кліток</span>
+        </div>
+        <div className="slaughter-summary-item">
+          <span className="slaughter-summary-val">{farmTotals.heads}</span>
+          <span className="slaughter-summary-label">Голів разом</span>
+        </div>
+        <div className="slaughter-summary-item">
+          <span className="slaughter-summary-val">
+            {farmTotals.estimatedWeightG > 0
+              ? formatWeighingKg(farmTotals.estimatedWeightG)
+              : "—"}
+          </span>
+          <span className="slaughter-summary-label">Орієнтовна вага зараз</span>
+        </div>
+      </div>
+
+      {activeCages.length === 0 ? (
+        <div className="stats-empty-state">
+          <div className="stats-empty-illustration">⚖️</div>
+          <h3 className="stats-empty-title">
+            Активних кліток відгодівлі немає
+          </h3>
+          <p className="stats-empty-desc">
+            Дані з'являться тут, щойно буде заселено клітку відгодівлі й додано
+            перше зважування.
+          </p>
+        </div>
+      ) : (
+        <div className="slaughter-list">
+          {activeCages.map((c) => (
+            <div key={c.cage} className="slaughter-row">
+              <div className="slaughter-row-left">
+                <span className="slaughter-cage">Клітка {c.cage}</span>
+                <span className="slaughter-breed">{c.heads} гол.</span>
+              </div>
+              <div className="slaughter-row-right">
+                {c.latestWeight !== null ? (
+                  <>
+                    <span className="slaughter-date">
+                      1 кролик: {c.latestWeight} г
+                      {c.latestDate
+                        ? ` · ${new Date(c.latestDate).toLocaleDateString(
+                            "uk-UA",
+                          )}`
+                        : ""}
+                    </span>
+                    <span className="slaughter-count">
+                      Разом по клітці:{" "}
+                      {formatWeighingKg(c.latestWeight * c.heads)}
+                    </span>
+                  </>
+                ) : (
+                  <span className="slaughter-date">немає зважувань</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {monthlyAvgAll.length > 0 && (
+        <div className="stats-chart-block">
+          <h3 className="chart-title">
+            Динаміка ваги за рік (усі зважування, по місяцях)
+          </h3>
+          <BarChart
+            data={monthlyAvgAll.map((m) => ({
+              label: `${monthLabelShort(m.monthKey)} (${m.count})`,
+              value: m.avgWeight,
+            }))}
+            color="#5b9bd5"
+          />
+          <p className="stats-empty-desc" style={{ marginTop: 4 }}>
+            Середня вага показового кролика за місяць. У дужках — скільки
+            зважувань враховано. Показує тренд навіть поки партії ще тривають.
+          </p>
+        </div>
+      )}
+
+      {monthlyComparison.length > 0 && (
+        <div className="stats-chart-block">
+          <h3 className="chart-title">
+            Середня вага на забій, г (по місяцях завершення партії)
+          </h3>
+          <BarChart
+            data={monthlyComparison.map((m) => ({
+              label: monthLabelShort(m.monthKey),
+              value: m.avgWeight,
+            }))}
+            color="#c9a227"
+          />
+          <h3 className="chart-title" style={{ marginTop: 16 }}>
+            Середня тривалість циклу, дн. (по місяцях)
+          </h3>
+          <BarChart
+            data={monthlyComparison.map((m) => ({
+              label: monthLabelShort(m.monthKey),
+              value: m.avgDuration,
+            }))}
+            color="#5b9bd5"
+          />
+        </div>
+      )}
+
+      {months.length > 0 && (
+        <>
+          <h3 className="chart-title" style={{ marginTop: 8 }}>
+            Усі завершені цикли ({closedCycles.length})
+          </h3>
+          {months.map((month) => {
+            const group = byMonth[month];
+            return (
+              <div key={month} className="slaughter-month">
+                <div className="slaughter-month-header">
+                  <span className="slaughter-month-title">
+                    {monthLabelShort(month)}
+                  </span>
+                  <span className="slaughter-month-total">
+                    {group.length} цикл(ів)
+                  </span>
+                </div>
+                <div className="slaughter-list">
+                  {group.map((c, i) => (
+                    <div
+                      key={`${c.cage}-${c.endDate}-${i}`}
+                      className="slaughter-row"
+                    >
+                      <div className="slaughter-row-left">
+                        <span className="slaughter-cage">Клітка {c.cage}</span>
+                      </div>
+                      <div className="slaughter-row-right">
+                        <span className="slaughter-count">
+                          {c.finalAvgWeight} г
+                        </span>
+                        <span className="slaughter-date">
+                          {new Date(c.startDate).toLocaleDateString("uk-UA")} –{" "}
+                          {new Date(c.endDate).toLocaleDateString("uk-UA")} ·{" "}
+                          {c.durationDays} дн.
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </>
+      )}
+    </div>
+  );
+}
+
 function OverviewChart({ data }: { data: MonthlyStat[] }) {
   const max = Math.max(
     ...data.map((d) => Math.max(d.totalAlive, d.totalSlaughtered, d.totalSold)),
@@ -1131,11 +1406,21 @@ export default function Statistics({ session }: Props) {
     | "sales"
     | "overview"
     | "failures"
+    | "weighing"
   >("females");
   const navigate = useNavigate();
   const location = useLocation();
   const [monthlyStats, setMonthlyStats] = useState<MonthlyStat[]>([]);
   const [quarantineDeaths, setQuarantineDeaths] = useState(0);
+
+  // Дані для вкладки «Зважування» — завантажуються окремо від решти
+  // статистики (незалежний ефект), щоб збій тут не зачіпав інші вкладки.
+  const [weighingFattening, setWeighingFattening] = useState<FatteningRow[]>(
+    [],
+  );
+  const [weighingRecords, setWeighingRecords] = useState<WeighingRow[]>([]);
+  const [weighingTabLoading, setWeighingTabLoading] = useState(true);
+  const [weighingTabError, setWeighingTabError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -1731,6 +2016,176 @@ export default function Statistics({ session }: Props) {
     };
   }, [session.user.id, location.key]);
 
+  // Незалежний ефект для вкладки «Зважування» — своя помилка й свій
+  // індикатор завантаження, щоб збій тут не позначався на решті вкладок.
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadWeighingTab() {
+      setWeighingTabLoading(true);
+      setWeighingTabError("");
+      try {
+        const [fatteningRes, weighingsRes] = await Promise.all([
+          supabase
+            .from("fattening")
+            .select(
+              "id, cage_number, birth_date, is_active, slaughtered_at, males, females, unknown",
+            )
+            .eq("user_id", session.user.id)
+            .range(0, 9999),
+          supabase
+            .from("weighings")
+            .select("id, fattening_id, weighing_date, weight_g, is_final")
+            .eq("user_id", session.user.id)
+            .eq("weighing_type", "fattening")
+            .not("fattening_id", "is", null)
+            .order("weighing_date", { ascending: true })
+            .range(0, 9999),
+        ]);
+        if (cancelled) return;
+        if (fatteningRes.error || weighingsRes.error) {
+          logError(
+            "Statistics.loadWeighingTab",
+            fatteningRes.error || weighingsRes.error,
+          );
+          setWeighingTabError(
+            "Не вдалося завантажити дані зважування. Оновіть сторінку",
+          );
+          return;
+        }
+        setWeighingFattening((fatteningRes.data || []) as FatteningRow[]);
+        setWeighingRecords((weighingsRes.data || []) as WeighingRow[]);
+      } catch (e) {
+        if (!cancelled) {
+          logError("Statistics.loadWeighingTab", e);
+          setWeighingTabError(
+            "Не вдалося завантажити дані зважування. Оновіть сторінку",
+          );
+        }
+      } finally {
+        if (!cancelled) setWeighingTabLoading(false);
+      }
+    }
+
+    loadWeighingTab();
+    return () => {
+      cancelled = true;
+    };
+  }, [session.user.id]);
+
+  const weighingsByFattening = useMemo(() => {
+    const map: Record<string, WeighingRow[]> = {};
+    weighingRecords.forEach((w) => {
+      if (!w.fattening_id) return;
+      if (!map[w.fattening_id]) map[w.fattening_id] = [];
+      map[w.fattening_id].push(w);
+    });
+    return map;
+  }, [weighingRecords]);
+
+  const activeCages: ActiveCageStat[] = useMemo(() => {
+    return weighingFattening
+      .filter((f) => f.is_active)
+      .map((f) => {
+        const list = (weighingsByFattening[f.id] || [])
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(a.weighing_date).getTime() -
+              new Date(b.weighing_date).getTime(),
+          );
+        const last = list[list.length - 1] || null;
+        const daysInCycle = f.birth_date
+          ? Math.round(
+              (Date.now() - new Date(f.birth_date).getTime()) /
+                (1000 * 60 * 60 * 24),
+            )
+          : null;
+        return {
+          cage: f.cage_number,
+          heads: headsOf(f),
+          latestWeight: last ? last.weight_g : null,
+          latestDate: last ? last.weighing_date : null,
+          daysInCycle,
+        };
+      })
+      .sort((a, b) => a.cage.localeCompare(b.cage, "uk", { numeric: true }));
+  }, [weighingFattening, weighingsByFattening]);
+
+  const farmTotals = useMemo(() => {
+    let heads = 0;
+    let estimatedWeightG = 0;
+    let cagesWithWeight = 0;
+    activeCages.forEach((c) => {
+      heads += c.heads;
+      if (c.latestWeight !== null) {
+        estimatedWeightG += c.latestWeight * c.heads;
+        cagesWithWeight += 1;
+      }
+    });
+    return {
+      heads,
+      estimatedWeightG,
+      cagesWithWeight,
+      cageCount: activeCages.length,
+    };
+  }, [activeCages]);
+
+  const closedCycles: ClosedCycle[] = useMemo(() => {
+    const result: ClosedCycle[] = [];
+    weighingFattening.forEach((f) => {
+      const list = (weighingsByFattening[f.id] || [])
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(a.weighing_date).getTime() -
+            new Date(b.weighing_date).getTime(),
+        );
+      result.push(...buildClosedCyclesForCage(f.cage_number, list));
+    });
+    return result.sort(
+      (a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime(),
+    );
+  }, [weighingFattening, weighingsByFattening]);
+
+  const monthlyAvgAll = useMemo(() => {
+    const map: Record<string, number[]> = {};
+    weighingRecords.forEach((w) => {
+      const key = w.weighing_date.slice(0, 7);
+      if (!map[key]) map[key] = [];
+      map[key].push(w.weight_g);
+    });
+    return Object.entries(map)
+      .map(([monthKey, weights]) => ({
+        monthKey,
+        avgWeight: Math.round(
+          weights.reduce((s, x) => s + x, 0) / weights.length,
+        ),
+        count: weights.length,
+      }))
+      .sort((a, b) => a.monthKey.localeCompare(b.monthKey));
+  }, [weighingRecords]);
+
+  const monthlyComparison = useMemo(() => {
+    const map: Record<string, { weights: number[]; durations: number[] }> = {};
+    closedCycles.forEach((c) => {
+      if (!map[c.monthKey]) map[c.monthKey] = { weights: [], durations: [] };
+      map[c.monthKey].weights.push(c.finalAvgWeight);
+      map[c.monthKey].durations.push(c.durationDays);
+    });
+    return Object.entries(map)
+      .map(([monthKey, v]) => ({
+        monthKey,
+        avgWeight: Math.round(
+          v.weights.reduce((s, x) => s + x, 0) / v.weights.length,
+        ),
+        avgDuration: Math.round(
+          v.durations.reduce((s, x) => s + x, 0) / v.durations.length,
+        ),
+      }))
+      .sort((a, b) => a.monthKey.localeCompare(b.monthKey));
+  }, [closedCycles]);
+
   const currentStats =
     activeTab === "females"
       ? femaleStats
@@ -1866,6 +2321,12 @@ export default function Statistics({ session }: Props) {
               onClick={() => setActiveTab("failures")}
             >
               Невдалі окроли
+            </button>
+            <button
+              className={`stats-tab ${activeTab === "weighing" ? "active" : ""}`}
+              onClick={() => setActiveTab("weighing")}
+            >
+              ⚖️ Зважування
             </button>
           </div>
 
@@ -2051,6 +2512,21 @@ export default function Statistics({ session }: Props) {
                 quarantineDeaths={quarantineDeaths}
               />
             )}
+
+            {activeTab === "weighing" &&
+              (weighingTabLoading ? (
+                <div className="stats-loading">Завантаження...</div>
+              ) : weighingTabError ? (
+                <p className="stats-error">{weighingTabError}</p>
+              ) : (
+                <WeighingTab
+                  activeCages={activeCages}
+                  farmTotals={farmTotals}
+                  monthlyAvgAll={monthlyAvgAll}
+                  monthlyComparison={monthlyComparison}
+                  closedCycles={closedCycles}
+                />
+              ))}
           </div>
         </>
       )}
