@@ -367,6 +367,42 @@ const addDays = (d: Date, n: number) => {
   return r;
 };
 
+// ===== ДАТИ РОЗВЕДЕННЯ: конфіги =====
+type BreedSize = "small" | "medium_large" | "giant";
+
+const BREED_MATURITY_DAYS: Record<BreedSize, { label: string; days: number }> =
+  {
+    small: { label: "Дрібна (Польська, Голландська)", days: 120 },
+    medium_large: {
+      label: "Середня/велика (Новозеландська, Каліфорнійська)",
+      days: 135,
+    },
+    giant: { label: "Гігантська (Фландр)", days: 210 },
+  };
+
+type FemaleScheme = "intensive" | "semi_intensive" | "extensive";
+
+const FEMALE_SCHEMES: Record<
+  FemaleScheme,
+  { label: string; weaningDays: number; nextMatingAfterBirth: number | null }
+> = {
+  intensive: {
+    label: "Інтенсивна (1–2 день після окролу)",
+    weaningDays: 28,
+    nextMatingAfterBirth: 2,
+  },
+  semi_intensive: {
+    label: "Напівінтенсивна (10–14 день)",
+    weaningDays: 45,
+    nextMatingAfterBirth: 12,
+  },
+  extensive: {
+    label: "Екстенсивна (після відлучення)",
+    weaningDays: 60,
+    nextMatingAfterBirth: null,
+  },
+};
+
 // ===== КОМПОНЕНТ =====
 type Tab = "grain" | "dates";
 type GrainMode = "breeding" | "fattening";
@@ -493,6 +529,8 @@ export default function Calculator({ session }: CalculatorProps) {
 
   // --- Дати розведення ---
   const [calcType, setCalcType] = useState<CalcType>("");
+  const [breedSize, setBreedSize] = useState<BreedSize>("medium_large");
+  const [femaleScheme, setFemaleScheme] = useState<FemaleScheme>("extensive");
   const [femaleDate, setFemaleDate] = useState("");
   const [maleDate, setMaleDate] = useState("");
   const [femaleResult, setFemaleResult] = useState<React.ReactNode>(null);
@@ -510,19 +548,27 @@ export default function Calculator({ session }: CalculatorProps) {
     const d = new Date(femaleDate);
     let firstMating: Date;
     if (calcType === "birth") {
-      firstMating = addDays(d, 150);
+      firstMating = addDays(d, BREED_MATURITY_DAYS[breedSize].days);
     } else {
       firstMating = d;
     }
     const control = addDays(firstMating, 7);
     const birth = addDays(firstMating, 31);
-    const weaning = addDays(birth, 60);
-    const next = addDays(weaning, 14);
+
+    const schemeCfg = FEMALE_SCHEMES[femaleScheme];
+    const weaning = addDays(birth, schemeCfg.weaningDays);
+    const next =
+      schemeCfg.nextMatingAfterBirth !== null
+        ? addDays(birth, schemeCfg.nextMatingAfterBirth)
+        : addDays(weaning, 14);
+
     setFemaleResult(
       <div className="calc-result">
         {calcType === "mating" && (
           <div className="calc-alert warn">
-            ⚠️ Кроличці має бути мінімум 4 місяці від дня народження.
+            ⚠️ Мінімальний вік для злучки (
+            {BREED_MATURITY_DAYS[breedSize].label}):{" "}
+            {Math.round(BREED_MATURITY_DAYS[breedSize].days / 30)} міс.
           </div>
         )}
         {calcType === "birth" && (
@@ -918,6 +964,41 @@ export default function Calculator({ session }: CalculatorProps) {
                 <option value="birth">Від дати народження</option>
                 <option value="mating">Від дати злучки</option>
               </select>
+
+              <label className="calc-label" htmlFor="calc-breed-size">
+                Розмір породи:
+              </label>
+              <select
+                id="calc-breed-size"
+                className="calc-select"
+                value={breedSize}
+                onChange={(e) => setBreedSize(e.target.value as BreedSize)}
+              >
+                {Object.entries(BREED_MATURITY_DAYS).map(([key, cfg]) => (
+                  <option key={key} value={key}>
+                    {cfg.label}
+                  </option>
+                ))}
+              </select>
+
+              <label className="calc-label" htmlFor="calc-female-scheme">
+                Схема злучування:
+              </label>
+              <select
+                id="calc-female-scheme"
+                className="calc-select"
+                value={femaleScheme}
+                onChange={(e) =>
+                  setFemaleScheme(e.target.value as FemaleScheme)
+                }
+              >
+                {Object.entries(FEMALE_SCHEMES).map(([key, cfg]) => (
+                  <option key={key} value={key}>
+                    {cfg.label}
+                  </option>
+                ))}
+              </select>
+
               {calcType === "birth" && (
                 <>
                   <label
