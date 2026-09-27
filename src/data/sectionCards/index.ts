@@ -20,6 +20,7 @@ import { technologyGroup } from "./groups/technologyGroup";
 import { petGroup } from "./groups/petGroup";
 import { articlesGroup } from "./groups/articlesGroup";
 import { crossbreedGroup } from "./groups/crossbreedGroup";
+import { calculatorsGroup } from "./groups/calculatorsGroup";
 
 export type { Card, Group };
 
@@ -39,6 +40,7 @@ export const groups: Group[] = [
   vetProceduresGroup,
   planningGroup,
   toolsGroup,
+  calculatorsGroup,
   slaughterGroup,
   showsGroup,
   managementGroup,
