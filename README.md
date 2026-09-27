@@ -452,7 +452,7 @@ docs/
 
 **Rabbit Farming From A to Z** is a Ukrainian-language rabbit farming knowledge base and farm management platform built with React, TypeScript, Vite and Supabase.
 
-The platform includes **173 public knowledge-base pages** and a private farm management dashboard for registered users.
+The platform includes **189 public knowledge-base pages** and a private farm management dashboard for registered users.
 
 The primary audience is Ukrainian rabbit farmers.
 
