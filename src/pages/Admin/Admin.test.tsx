@@ -91,6 +91,7 @@ interface Config {
   codeDelete?: Result;
   codeRelease?: Result;
   profileInsert?: Result;
+  vizytkaDownloads?: Result;
 }
 
 function setupSupabase(config: Config = {}) {
@@ -141,6 +142,10 @@ function setupSupabase(config: Config = {}) {
       case "leads":
       case "nps_feedback":
         return { select: () => chain({ data: [] }) };
+      case "vizytka_downloads":
+        return {
+          select: () => chain(config.vizytkaDownloads ?? { count: 0 }),
+        };
       default:
         throw new Error("Неочікувана таблиця: " + table);
     }
