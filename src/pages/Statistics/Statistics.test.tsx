@@ -16,7 +16,10 @@ type Resolver = (table: string, cols: string) => Result | Promise<Result>;
 // Мок будує ланцюжок (select/eq/order/not/is/in/range) і записує кожен
 // виклик у calls, щоб перевірити, які саме методи (зокрема .range) і з
 // якими аргументами застосовано до кожної таблиці/вибірки.
-function makeSupabase(resolver: Resolver, calls: { table: string; cols: string; method: string; args: unknown[] }[]) {
+function makeSupabase(
+  resolver: Resolver,
+  calls: { table: string; cols: string; method: string; args: unknown[] }[],
+) {
   vi.mocked(supabase.from).mockImplementation(((table: string) => ({
     select: (cols: string) => {
       const c: Record<string, unknown> = {};
@@ -26,8 +29,10 @@ function makeSupabase(resolver: Resolver, calls: { table: string; cols: string; 
           return c;
         };
       }
-      c.then = (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
-        Promise.resolve(resolver(table, cols)).then(resolve, reject);
+      c.then = (
+        resolve: (v: unknown) => unknown,
+        reject: (e: unknown) => unknown,
+      ) => Promise.resolve(resolver(table, cols)).then(resolve, reject);
       return c;
     },
   })) as never);
@@ -52,7 +57,12 @@ describe("Statistics: паралельність і .range()", () => {
   });
 
   it("сім незалежних запитів запускаються одночасно (Promise.all), а не по черзі", async () => {
-    const calls: { table: string; cols: string; method: string; args: unknown[] }[] = [];
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
     const gateBox: { release?: () => void } = {};
     const gate = new Promise<void>((resolve) => {
       gateBox.release = resolve;
@@ -81,27 +91,50 @@ describe("Statistics: паралельність і .range()", () => {
     expect(calls.some((c) => c.table === "litters")).toBe(false);
 
     gateBox.release?.();
-    await waitFor(() => expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument(),
+    );
   });
 
   it("кожен із семи незалежних запитів і запит окролів мають .range(0, 9999)", async () => {
-    const calls: { table: string; cols: string; method: string; args: unknown[] }[] = [];
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
     makeSupabase((table) => {
-      if (table === "matings") return { data: [{ id: "m1", female_id: "f1", male_id: "m1r" }], error: null };
+      if (table === "matings")
+        return {
+          data: [{ id: "m1", female_id: "f1", male_id: "m1r" }],
+          error: null,
+        };
       if (table === "litters") return { data: [], error: null };
       return emptyOk();
     }, calls);
 
     renderPage();
-    await waitFor(() => expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument(),
+    );
 
     const rangedTables = new Set(
       calls.filter((c) => c.method === "range").map((c) => c.table),
     );
-    for (const table of ["fattening", "sales", "paddock_litters", "rabbits", "quarantine", "matings", "litters"]) {
+    for (const table of [
+      "fattening",
+      "sales",
+      "paddock_litters",
+      "rabbits",
+      "quarantine",
+      "matings",
+      "litters",
+    ]) {
       expect(rangedTables.has(table)).toBe(true);
     }
-    const badRange = calls.find((c) => c.method === "range" && JSON.stringify(c.args) !== "[0,9999]");
+    const badRange = calls.find(
+      (c) => c.method === "range" && JSON.stringify(c.args) !== "[0,9999]",
+    );
     expect(badRange).toBeUndefined();
   });
 });
@@ -113,7 +146,12 @@ describe("Statistics: обробка помилок", () => {
   });
 
   it("помилка одного з незалежних запитів показує повідомлення, а не нулі", async () => {
-    const calls: { table: string; cols: string; method: string; args: unknown[] }[] = [];
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
     makeSupabase((table) => {
       if (table === "sales") return { data: null, error: { message: "boom" } };
       return emptyOk();
@@ -122,7 +160,9 @@ describe("Statistics: обробка помилок", () => {
     renderPage();
 
     expect(
-      await screen.findByText("Не вдалося завантажити статистику. Оновіть сторінку"),
+      await screen.findByText(
+        "Не вдалося завантажити статистику. Оновіть сторінку",
+      ),
     ).toBeInTheDocument();
     expect(screen.queryByText("Плем. стадо")).not.toBeInTheDocument();
     // litters (залежний запит) не мав викликатись — matings ще навіть не дійшли
@@ -130,27 +170,96 @@ describe("Statistics: обробка помилок", () => {
   });
 
   it("помилка залежного запиту (litters) теж показує повідомлення", async () => {
-    const calls: { table: string; cols: string; method: string; args: unknown[] }[] = [];
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
     makeSupabase((table) => {
-      if (table === "matings") return { data: [{ id: "m1", female_id: "f1", male_id: "m1r" }], error: null };
-      if (table === "litters") return { data: null, error: { message: "boom" } };
+      if (table === "matings")
+        return {
+          data: [{ id: "m1", female_id: "f1", male_id: "m1r" }],
+          error: null,
+        };
+      if (table === "litters")
+        return { data: null, error: { message: "boom" } };
       return emptyOk();
     }, calls);
 
     renderPage();
 
     expect(
-      await screen.findByText("Не вдалося завантажити статистику. Оновіть сторінку"),
+      await screen.findByText(
+        "Не вдалося завантажити статистику. Оновіть сторінку",
+      ),
     ).toBeInTheDocument();
   });
 
+  it("відхилений запит (мережевий збій) показує повідомлення і знімає завантаження", async () => {
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
+    makeSupabase((table) => {
+      if (table === "sales") return Promise.reject(new Error("network"));
+      return emptyOk();
+    }, calls);
+
+    renderPage();
+
+    expect(
+      await screen.findByText(
+        "Не вдалося завантажити статистику. Оновіть сторінку",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument();
+    expect(calls.some((c) => c.table === "litters")).toBe(false);
+  });
+
+  it("відхилення залежного запиту (litters) теж показує повідомлення", async () => {
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
+    makeSupabase((table) => {
+      if (table === "matings")
+        return {
+          data: [{ id: "m1", female_id: "f1", male_id: "m1r" }],
+          error: null,
+        };
+      if (table === "litters") return Promise.reject(new Error("network"));
+      return emptyOk();
+    }, calls);
+
+    renderPage();
+
+    expect(
+      await screen.findByText(
+        "Не вдалося завантажити статистику. Оновіть сторінку",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument();
+  });
+
   it("без помилок і без злучок: порожня статистика без збоїв", async () => {
-    const calls: { table: string; cols: string; method: string; args: unknown[] }[] = [];
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
     makeSupabase(() => emptyOk(), calls);
 
     renderPage();
 
-    await waitFor(() => expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument(),
+    );
     expect(screen.queryByText(/Не вдалося/)).not.toBeInTheDocument();
   });
 });
@@ -162,7 +271,12 @@ describe("Statistics: розмонтування під час завантаж�
   });
 
   it("розмонтування до відповіді сервера не викликає оновлень стану після unmount", async () => {
-    const calls: { table: string; cols: string; method: string; args: unknown[] }[] = [];
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
     const gateBox: { release?: () => void } = {};
     const gate = new Promise<void>((resolve) => {
       gateBox.release = resolve;

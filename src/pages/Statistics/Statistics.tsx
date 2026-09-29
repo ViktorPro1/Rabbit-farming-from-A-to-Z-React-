@@ -2009,7 +2009,15 @@ export default function Statistics({ session }: Props) {
 
       setLoading(false);
     }
-    loadStats();
+    // Мережевий збій (відхилений Promise.all) або виняток під час обробки
+    // раніше залишали сторінку в стані «Завантаження...» і давали необроблене
+    // відхилення. Тепер знімаємо індикатор і показуємо повідомлення.
+    loadStats().catch((e) => {
+      if (cancelled) return;
+      logError("Statistics.loadStats", e);
+      setPageError("Не вдалося завантажити статистику. Оновіть сторінку");
+      setLoading(false);
+    });
 
     return () => {
       cancelled = true;
