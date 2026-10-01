@@ -43,6 +43,7 @@ interface Litter {
   nestbox_date: string | null;
   previous_mating_date: string | null;
   failure_type: FailureType | null;
+  nestbox_removed_date: string | null;
 }
 
 interface Mating {
@@ -119,6 +120,58 @@ const FAILURE_LABELS: Record<FailureType, string> = {
   empty: "Не окотилась",
   lost: "Окотилась, розкидала: малюки завмерли",
 };
+
+// На який день після окролу забирати маточник
+const NESTBOX_REMOVE_DAYS_AFTER_BIRTH = 20;
+
+function daysBetweenISO(from: string, to: string): number {
+  const [fy, fm, fd] = from.split("-").map(Number);
+  const [ty, tm, td] = to.split("-").map(Number);
+  return Math.round(
+    (Date.UTC(ty, tm - 1, td) - Date.UTC(fy, fm - 1, fd)) / 86400000,
+  );
+}
+
+function getNestboxRemovalStatus(
+  birthDate: string,
+  removedDate?: string | null,
+) {
+  if (removedDate) {
+    return {
+      text: `✅ Маточник забрано: ${new Date(removedDate).toLocaleDateString("uk-UA")}`,
+      className: "nestbox-done",
+    };
+  }
+
+  const target = addDaysISO(birthDate, NESTBOX_REMOVE_DAYS_AFTER_BIRTH);
+  const diffDays = daysBetweenISO(todayKyiv(), target);
+
+  if (diffDays > 2) {
+    return {
+      text: `📤 Забрати маточник: ${new Date(target).toLocaleDateString("uk-UA")}`,
+      className: "nestbox-normal",
+    };
+  }
+  if (diffDays === 2) {
+    return {
+      text: "🟡 Забрати маточник через 2 дні",
+      className: "nestbox-yellow",
+    };
+  }
+  if (diffDays === 1) {
+    return { text: "🔴 Забрати маточник завтра!", className: "nestbox-red" };
+  }
+  if (diffDays === 0) {
+    return {
+      text: "🚨 СЬОГОДНІ забрати маточник!",
+      className: "nestbox-red-alert",
+    };
+  }
+  return {
+    text: `⚠️ Маточник забрати пізно на ${Math.abs(diffDays)} дн.!`,
+    className: "nestbox-red-alert",
+  };
+}
 
 function schemeLabel(scheme?: string): string {
   switch (scheme) {
@@ -620,6 +673,7 @@ export default function Matings({ session }: Props) {
         actual_female_id: editingLitterData.actual_female_id || null,
         nestbox_date: editingLitterData.nestbox_date || null,
         failure_type: editingLitterData.failure_type || null,
+        nestbox_removed_date: editingLitterData.nestbox_removed_date || null,
       })
       .eq("id", editingLitterData.id);
 
@@ -756,6 +810,22 @@ export default function Matings({ session }: Props) {
       // Змінено: раніше помилка ігнорувалась, окріл мовчки лишався
       console.error("Не вдалося видалити окріл:", error);
       setPageError("Не вдалося видалити окріл. Спробуйте ще раз");
+      return;
+    }
+    fetchMatings();
+  }
+
+  async function handleNestboxRemoved(id: string) {
+    setPageError("");
+    const { error } = await supabase
+      .from("litters")
+      .update({ nestbox_removed_date: todayKyiv() })
+      .eq("id", id);
+    if (error) {
+      console.error("Не вдалося зберегти дату видалення маточника:", error);
+      setPageError(
+        "Не вдалося зберегти дату видалення маточника. Спробуйте ще раз",
+      );
       return;
     }
     fetchMatings();
@@ -1653,6 +1723,34 @@ export default function Matings({ session }: Props) {
                             </div>
                           )}
 
+                          {hasBirth &&
+                            !isFailed &&
+                            !l.weaned_date &&
+                            (() => {
+                              const { text, className } =
+                                getNestboxRemovalStatus(
+                                  l.birth_date,
+                                  l.nestbox_removed_date,
+                                );
+                              return (
+                                <div className="litter-mating-row">
+                                  <span
+                                    className={`nestbox-status ${className}`}
+                                  >
+                                    {text}
+                                  </span>
+                                  {!l.nestbox_removed_date && (
+                                    <button
+                                      className="nestbox-done-btn"
+                                      onClick={() => handleNestboxRemoved(l.id)}
+                                    >
+                                      ✅ Маточник забрано
+                                    </button>
+                                  )}
+                                </div>
+                              );
+                            })()}
+
                           {hasBirth && weanInfo && !l.weaned_date && (
                             <div className="litter-age-row">
                               <span className="litter-age">
@@ -1842,6 +1940,27 @@ export default function Matings({ session }: Props) {
                                       })
                                     }
                                   />
+                                  <div className="matings-form-field">
+                                    <label
+                                      htmlFor={`litter-edit-${l.id}-nestbox-removed`}
+                                    >
+                                      Маточник забрано
+                                    </label>
+                                    <input
+                                      id={`litter-edit-${l.id}-nestbox-removed`}
+                                      type="date"
+                                      value={
+                                        editingLitterData.nestbox_removed_date ||
+                                        ""
+                                      }
+                                      onChange={(e) =>
+                                        setEditingLitterData({
+                                          ...editingLitterData,
+                                          nestbox_removed_date: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  </div>
                                 </div>
                                 {renderFailureChecks(
                                   editingLitterData.failure_type || "",

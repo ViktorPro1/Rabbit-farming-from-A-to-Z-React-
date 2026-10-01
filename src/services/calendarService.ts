@@ -5,6 +5,7 @@ export type CalendarEventType =
     | "matingControl"
     | "expectedBirth"
     | "nestbox"
+    | "nestboxRemoval"
     | "paddockMating"
     | "paddockControl"
     | "paddockExpectedBirth"
@@ -48,6 +49,10 @@ interface EventDef {
 // на 31-й день вагітності — та сама логіка, що й getNestboxStatus у Matings.tsx)
 const NESTBOX_DAYS_AFTER_MATING = 26;
 
+// Скільки днів після окролу забирати маточник
+// (та сама логіка, що й NESTBOX_REMOVE_DAYS_AFTER_BIRTH у Matings.tsx)
+const NESTBOX_REMOVE_DAYS_AFTER_BIRTH = 20;
+
 // Цільовий день відлучення від народження, залежно від схеми злучування
 // (та сама логіка, що й WEANING_SCHEME у Matings.tsx)
 const WEANING_TARGET_DAYS: Record<string, number> = {
@@ -75,6 +80,12 @@ const EVENT_DEFS: Record<CalendarEventType, EventDef> = {
         type: "nestbox",
         icon: "🪺",
         title: "Підготувати маточник",
+        path: "/matings",
+    },
+    nestboxRemoval: {
+        type: "nestboxRemoval",
+        icon: "📤",
+        title: "Забрати маточник",
         path: "/matings",
     },
     paddockMating: {
@@ -280,7 +291,7 @@ export async function loadCalendarEvents(
         supabase
             .from("litters")
             .select(
-                "id, birth_date, weaned_date, mother_id, father_id, litter_mating_date, litter_control_date, litter_expected_birth, nestbox_date, mating_id",
+                "id, birth_date, weaned_date, mother_id, father_id, litter_mating_date, litter_control_date, litter_expected_birth, nestbox_date, nestbox_removed_date, failure_type, mating_id",
             )
             .eq("user_id", userId),
         supabase
@@ -336,8 +347,10 @@ export async function loadCalendarEvents(
     const events: CalendarEvent[] = [];
 
     const schemeByMatingId = new Map<string, string>();
+    const femaleCageByMatingId = new Map<string, string>();
     (matingsRes.data || []).forEach((m) => {
         if (m.breeding_scheme) schemeByMatingId.set(m.id, m.breeding_scheme);
+        if (m.female_cage) femaleCageByMatingId.set(m.id, m.female_cage);
     });
 
     (matingsRes.data || []).forEach((m) => {
@@ -384,6 +397,24 @@ export async function loadCalendarEvents(
                     subject,
                 )
                 : null;
+
+        // Забрати маточник: окріл + 20 днів — тільки якщо окріл вдалий,
+        // відлучення ще не було і маточник ще не позначений забраним
+        const nestboxRemovalEvent =
+            l.birth_date &&
+                !l.failure_type &&
+                !l.weaned_date &&
+                !l.nestbox_removed_date
+                ? makeEvent(
+                    `${l.id}-nestbox-removal`,
+                    addDays(l.birth_date, NESTBOX_REMOVE_DAYS_AFTER_BIRTH),
+                    "nestboxRemoval",
+                    femaleCageByMatingId.get(l.mating_id)
+                        ? `Клітка ${femaleCageByMatingId.get(l.mating_id)}`
+                        : subject,
+                )
+                : null;
+
         // Планове відлучення — тільки якщо окріл уже стався, а відлучення ще ні;
         // цільовий день залежить від схеми злучування батьківської злучки
         const weaningEvent =
@@ -417,6 +448,7 @@ export async function loadCalendarEvents(
                 subject,
             ),
             nestboxEvent,
+            nestboxRemovalEvent,
             weaningEvent,
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
