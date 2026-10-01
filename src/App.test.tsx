@@ -56,6 +56,10 @@ vi.mock("./components/PrintButton/PrintButton", () => ({
 vi.mock("./components/DonationPopup/DonationPopup", () => ({
   default: () => null,
 }));
+// Додано: WebMCPRegistrar не є предметом цих тестів (власні тести в webmcp.test.ts)
+vi.mock("./components/WebMCPRegistrar/WebMCPRegistrar", () => ({
+  default: () => null,
+}));
 
 function mockNoSession() {
   vi.mocked(supabase.auth.getSession).mockResolvedValue({

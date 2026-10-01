@@ -33,6 +33,9 @@ import { FontSizeProvider } from "./features/font-size/FontSizeProvider";
 import { useTVNavigation } from "./hooks/useTVNavigation";
 import DonationPopup from "./components/DonationPopup/DonationPopup";
 import MetaPixelTracker from "./components/MetaPixelTracker/MetaPixelTracker";
+// Додано: реєстрація WebMCP-інструментів для ШІ-агентів (прогресивне покращення,
+// без підтримки браузера нічого не робить).
+import WebMCPRegistrar from "./components/WebMCPRegistrar/WebMCPRegistrar";
 
 // ─────────────────────────────────────────────
 // Фікс бага: Facebook іноді додає невидимий юнікод-символ
@@ -251,6 +254,8 @@ function App() {
         <CookieConsentBanner />
         <BrowserRouter>
           <MetaPixelTracker />
+          {/* Додано: має бути всередині BrowserRouter (використовує useNavigate) */}
+          <WebMCPRegistrar />
           {isOffline && (
             <div className="offline-banner" role="status">
               Немає з'єднання з інтернетом — показано збережену версію платформи
