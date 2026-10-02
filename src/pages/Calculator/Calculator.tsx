@@ -265,9 +265,19 @@ interface GranulatorAdditives {
   waterMax: number;
 }
 
-function calcGranulatorAdditives(totalKg: number): GranulatorAdditives {
+// grainKg — вага зернової суміші. Люцерна (20%) рахується від зерна і
+// додається зверху. Сіль, премікс і вода рахуються від ВСІЄЇ маси гранули
+// (зерно + люцерна), бо відсоток внесення вказаний саме на неї.
+// Якщо люцерни немає (withLucerne = false) — від ваги зерна.
+function calcGranulatorAdditives(
+  grainKg: number,
+  withLucerne: boolean = true,
+): GranulatorAdditives {
+  const lucerne = withLucerne ? Math.round(grainKg * 0.2 * 10) / 10 : 0;
+  const totalKg = grainKg + lucerne;
+
   return {
-    lucerne: Math.round(totalKg * 0.2 * 10) / 10,
+    lucerne,
     salt: Math.round(totalKg * 0.005 * 10000) / 10,
     premix: Math.round(totalKg * 0.01 * 1000),
     waterMin: Math.round(totalKg * 0.08 * 10) / 10,
@@ -427,6 +437,7 @@ export default function Calculator({ session }: CalculatorProps) {
   const [grainResults, setGrainResults] = useState<GrainResult[]>([]);
   const [grainError, setGrainError] = useState("");
   const [hasGranulator, setHasGranulator] = useState(false);
+  const [hasLucerne, setHasLucerne] = useState(true);
   const [showGrainInfo, setShowGrainInfo] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
@@ -495,16 +506,18 @@ export default function Calculator({ session }: CalculatorProps) {
     let premixG: number | null = null;
 
     if (hasGranulator) {
-      const additives = calcGranulatorAdditives(grainWeight);
-      lucerneKg = additives.lucerne;
+      const additives = calcGranulatorAdditives(grainWeight, hasLucerne);
+      lucerneKg = hasLucerne ? additives.lucerne : null;
       saltG = additives.salt;
       premixG = additives.premix;
-      items.push({
-        name: "Люцерна подрібнена",
-        icon: "🌿",
-        kg: lucerneKg,
-        pct: null,
-      });
+      if (hasLucerne) {
+        items.push({
+          name: "Люцерна подрібнена",
+          icon: "🌿",
+          kg: additives.lucerne,
+          pct: null,
+        });
+      }
     }
 
     try {
@@ -772,7 +785,7 @@ export default function Calculator({ session }: CalculatorProps) {
                 {hasGranulator &&
                   (() => {
                     const { lucerne, salt, premix, waterMin, waterMax } =
-                      calcGranulatorAdditives(grainWeight);
+                      calcGranulatorAdditives(grainWeight, hasLucerne);
                     return (
                       <div className="granulator-block">
                         <div className="calc-alert warn">
@@ -801,7 +814,9 @@ export default function Calculator({ session }: CalculatorProps) {
                               <span className="result-name">
                                 Люцерна подрібнена
                               </span>
-                              <span className="result-pct">20%</span>
+                              <span className="result-pct">
+                                {hasLucerne ? "20%" : "0%"}
+                              </span>
                             </div>
                             <span className="granulator-note">
                               Клітковина та білок (15–18%). Подрібнити до 3–5 мм
@@ -811,8 +826,35 @@ export default function Calculator({ session }: CalculatorProps) {
                               клітковину, але білка в ній майже немає, тому
                               гранула буде менш поживною
                             </span>
+                            <label className="lucerne-switch">
+                              <input
+                                id="has-lucerne"
+                                name="hasLucerne"
+                                type="checkbox"
+                                checked={hasLucerne}
+                                onChange={(e) =>
+                                  setHasLucerne(e.target.checked)
+                                }
+                              />
+                              <span className="lucerne-switch-track" />
+                              <span>Є люцерна</span>
+                            </label>
+                            {!hasLucerne && (
+                              <span
+                                className="granulator-note"
+                                style={{ display: "block", marginTop: "6px" }}
+                              >
+                                Без люцерни (або її заміни) в гранулі мало
+                                клітковини. Залишайте сіно в клітці постійно,
+                                вільним доступом. Якщо замінюєте люцерну соломою
+                                чи сінним борошном у тій самій кількості —
+                                залиште повзунок увімкненим.
+                              </span>
+                            )}
                           </div>
-                          <span className="result-kg">{lucerne} кг</span>
+                          <span className="result-kg">
+                            {hasLucerne ? `${lucerne} кг` : "—"}
+                          </span>
                         </div>
 
                         <div className="result-row">
@@ -872,10 +914,9 @@ export default function Calculator({ session }: CalculatorProps) {
                           className="calc-alert ok"
                           style={{ marginTop: "14px" }}
                         >
-                          ✅ Після переходу на гранули окрема люцерна, зернова
-                          суміш і сіль-лизунець з клітки прибираються — все це
-                          вже в складі гранули. В клітці залишається тільки
-                          годівниця з гранулами і поїлка з чистою водою.
+                          {hasLucerne
+                            ? "✅ Після переходу на гранули окрема люцерна, зернова суміш і сіль-лизунець з клітки прибираються — все це вже в складі гранули. В клітці залишається тільки годівниця з гранулами і поїлка з чистою водою."
+                            : "✅ Зернова суміш і сіль-лизунець з клітки прибираються — вони вже в гранулі. Оскільки в гранулі немає люцерни, сіно в клітці залишається постійно, поряд з годівницею і поїлкою з чистою водою."}
                         </div>
                       </div>
                     );
