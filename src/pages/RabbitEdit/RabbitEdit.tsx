@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+// Додано: тип події вибору файлу
+import type { ChangeEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import Toast from "../../components/Toast/Toast";
 import { useToast } from "../../hooks/useToast";
+// Додано: фото кролика (стиснення, завантаження, видалення, мініатюри)
+import { logError } from "../../lib/logError";
+import {
+  uploadRabbitPhoto,
+  removeRabbitPhoto,
+  getThumbUrls,
+} from "../../utils/photoStorage";
 import "./RabbitEdit.css";
 
 interface Props {
@@ -19,6 +28,9 @@ const emptyForm = {
   notes: "",
 };
 
+// Додано: найбільший вихідний файл фото (до стиснення), МБ
+const MAX_PHOTO_SOURCE_MB = 20;
+
 export default function RabbitEdit({ session }: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -26,6 +38,19 @@ export default function RabbitEdit({ session }: Props) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { message, type, visible, showToast } = useToast();
+  // Додано: стан фото. Фото зберігається окремо від кнопки «Зберегти»:
+  // додавання, заміна і видалення одразу записуються в rabbits.photo_path.
+  const [photoPath, setPhotoPath] = useState<string | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<{
+    path: string;
+    url: string;
+  } | null>(null);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [confirmPhotoDelete, setConfirmPhotoDelete] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // Посилання діє лише для поточного шляху; після заміни старе не показуємо
+  const photoUrl =
+    photoPath && photoPreview?.path === photoPath ? photoPreview.url : null;
 
   useEffect(() => {
     if (!id) return;
@@ -46,6 +71,8 @@ export default function RabbitEdit({ session }: Props) {
               cage_number: data.cage_number || "",
               notes: data.notes || "",
             });
+            // Додано: шлях до фото (null, якщо фото немає)
+            setPhotoPath(data.photo_path ?? null);
           }
           setLoading(false);
         },
@@ -73,6 +100,89 @@ export default function RabbitEdit({ session }: Props) {
     setSaving(false);
   }
 
+  // Додано: отримання посилання на мініатюру для поточного фото
+  useEffect(() => {
+    if (!photoPath) return;
+    let cancelled = false;
+    getThumbUrls([photoPath])
+      .then((urls) => {
+        if (!cancelled && urls[photoPath]) {
+          setPhotoPreview({ path: photoPath, url: urls[photoPath] });
+        }
+      })
+      .catch((err) => logError("RabbitEdit.photoPreview", err));
+    return () => {
+      cancelled = true;
+    };
+  }, [photoPath]);
+
+  // Додано: додавання або заміна фото.
+  // Порядок: завантажити новий файл -> записати шлях у БД -> видалити старий.
+  // Якщо запис у БД не вдався, щойно завантажений файл прибирається,
+  // а старе фото лишається недоторканим.
+  async function handlePhotoChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // дозволяє обрати той самий файл повторно
+    if (!file || !id) return;
+    if (!file.type.startsWith("image/")) {
+      showToast("Оберіть файл із зображенням", "error");
+      return;
+    }
+    if (file.size > MAX_PHOTO_SOURCE_MB * 1024 * 1024) {
+      showToast(`Фото завелике (понад ${MAX_PHOTO_SOURCE_MB} МБ)`, "error");
+      return;
+    }
+
+    setPhotoBusy(true);
+    setConfirmPhotoDelete(false);
+    const oldPath = photoPath;
+    let newPath: string | null = null;
+    let saved = false;
+    try {
+      newPath = await uploadRabbitPhoto(session.user.id, id, file);
+      const { error } = await supabase
+        .from("rabbits")
+        .update({ photo_path: newPath })
+        .eq("id", id)
+        .eq("user_id", session.user.id);
+      if (error) throw error;
+      saved = true;
+      setPhotoPath(newPath);
+      if (oldPath) await removeRabbitPhoto(oldPath);
+      showToast("Фото збережено", "success");
+    } catch (err) {
+      logError("RabbitEdit.photoUpload", err);
+      if (newPath && !saved) await removeRabbitPhoto(newPath);
+      showToast("Не вдалося зберегти фото. Спробуйте ще раз", "error");
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
+
+  // Додано: видалення фото. Спершу очищаємо шлях у БД, і лише потім файли,
+  // щоб при збої не лишилось посилання на неіснуючий файл.
+  async function handlePhotoDelete() {
+    if (!photoPath || !id) return;
+    setPhotoBusy(true);
+    try {
+      const { error } = await supabase
+        .from("rabbits")
+        .update({ photo_path: null })
+        .eq("id", id)
+        .eq("user_id", session.user.id);
+      if (error) throw error;
+      await removeRabbitPhoto(photoPath);
+      setPhotoPath(null);
+      setConfirmPhotoDelete(false);
+      showToast("Фото видалено", "success");
+    } catch (err) {
+      logError("RabbitEdit.photoDelete", err);
+      showToast("Не вдалося видалити фото. Спробуйте ще раз", "error");
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
+
   if (loading) return <p style={{ padding: "2rem" }}>Завантаження...</p>;
 
   return (
@@ -84,6 +194,80 @@ export default function RabbitEdit({ session }: Props) {
       </div>
 
       <div className="edit-form">
+        {/* Додано: блок фото кролика */}
+        <div className="edit-photo">
+          <div className="edit-photo-frame">
+            {photoUrl ? (
+              <img
+                className="edit-photo-img"
+                src={photoUrl}
+                alt={`Фото: ${form.name}`}
+              />
+            ) : (
+              <span className="edit-photo-placeholder">
+                {photoPath ? "Завантаження фото..." : "Фото немає"}
+              </span>
+            )}
+          </div>
+          <div className="edit-photo-actions">
+            <input
+              ref={fileInputRef}
+              id="edit-photo-input"
+              type="file"
+              accept="image/*"
+              aria-label="Обрати файл фото"
+              hidden
+              onChange={handlePhotoChange}
+            />
+            <button
+              type="button"
+              className="edit-photo-btn"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={photoBusy}
+            >
+              {photoBusy
+                ? "Обробка..."
+                : photoPath
+                  ? "Замінити фото"
+                  : "Додати фото"}
+            </button>
+            {photoPath && !confirmPhotoDelete && (
+              <button
+                type="button"
+                className="edit-photo-btn edit-photo-btn--danger"
+                onClick={() => setConfirmPhotoDelete(true)}
+                disabled={photoBusy}
+              >
+                Видалити фото
+              </button>
+            )}
+            {photoPath && confirmPhotoDelete && (
+              <>
+                <button
+                  type="button"
+                  className="edit-photo-btn edit-photo-btn--confirm"
+                  onClick={handlePhotoDelete}
+                  disabled={photoBusy}
+                >
+                  Так, видалити
+                </button>
+                <button
+                  type="button"
+                  className="edit-photo-btn"
+                  onClick={() => setConfirmPhotoDelete(false)}
+                  disabled={photoBusy}
+                >
+                  Ні
+                </button>
+              </>
+            )}
+          </div>
+          <p className="edit-photo-hint">
+            Фото стискається автоматично перед завантаженням. Воно зберігається
+            одразу, без кнопки «Зберегти».
+          </p>
+        </div>
+
         <div className="edit-form-grid">
           <input
             id="edit-name"

@@ -13,6 +13,8 @@ import {
 } from "../../utils/pushNotifications";
 import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
 import { todayKyiv } from "../../utils/kyivDate";
+// Додано: мініатюри та повні фото кроликів зі сховища Supabase
+import { getThumbUrls, getFullUrl } from "../../utils/photoStorage";
 
 interface Props {
   session: Session;
@@ -27,6 +29,8 @@ interface Rabbit {
   cage_number: string;
   notes: string;
   is_active: boolean;
+  // Додано: шлях до фото у сховищі (null, якщо фото немає)
+  photo_path: string | null;
 }
 
 interface Stats {
@@ -202,6 +206,14 @@ export default function RabbitRegistry({ session }: Props) {
   // завантаження даних. Раніше обидві помилки ігнорувались.
   const [archiveError, setArchiveError] = useState("");
   const [loadError, setLoadError] = useState("");
+  // Додано: посилання на мініатюри (ключ — photo_path), відкрите повне фото
+  // і помилка відкриття фото
+  const [thumbUrls, setThumbUrls] = useState<Record<string, string>>({});
+  const [photoViewer, setPhotoViewer] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
+  const [photoError, setPhotoError] = useState("");
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -398,6 +410,16 @@ export default function RabbitRegistry({ session }: Props) {
           setLoadError("");
           const list = rabbitsData || [];
           setRabbits(list);
+          // Додано: один запит підписаних посилань на мініатюри всього списку.
+          // Збій не ламає реєстр: картки просто лишаються без фото.
+          const photoPaths = list
+            .map((r: Rabbit) => r.photo_path)
+            .filter((p: string | null): p is string => !!p);
+          if (photoPaths.length > 0) {
+            getThumbUrls(photoPaths)
+              .then(setThumbUrls)
+              .catch((err) => logError("RabbitRegistry.thumbUrls", err));
+          }
           loadStats(list);
         },
         (err) => {
@@ -432,6 +454,23 @@ export default function RabbitRegistry({ session }: Props) {
     setConfirmArchiveId(null);
     setSelectedReason("");
     loadData();
+  }
+
+  // Додано: відкриває повне фото кролика поверх сторінки
+  async function openPhoto(rabbit: Rabbit) {
+    if (!rabbit.photo_path) return;
+    setPhotoError("");
+    try {
+      const url = await getFullUrl(rabbit.photo_path);
+      if (!url) {
+        setPhotoError("Не вдалося відкрити фото. Спробуйте ще раз");
+        return;
+      }
+      setPhotoViewer({ url, name: rabbit.name });
+    } catch (err) {
+      logError("RabbitRegistry.openPhoto", err);
+      setPhotoError("Не вдалося відкрити фото. Спробуйте ще раз");
+    }
   }
 
   function downloadQr(rabbit: Rabbit) {
@@ -1126,6 +1165,34 @@ export default function RabbitRegistry({ session }: Props) {
         </div>
       )}
 
+      {/* Додано: ПЕРЕГЛЯД ПОВНОГО ФОТО */}
+      {photoViewer && (
+        <div
+          className="help-overlay"
+          onClick={() => setPhotoViewer(null)}
+          role="presentation"
+        >
+          <div
+            className="photo-viewer"
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
+            <button
+              className="help-close photo-viewer-close"
+              onClick={() => setPhotoViewer(null)}
+              aria-label="Закрити фото"
+            >
+              ✕
+            </button>
+            <img
+              className="photo-viewer-img"
+              src={photoViewer.url}
+              alt={`Фото: ${photoViewer.name}`}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="registry-header">
         <div className="registry-header-top">
           <h1>🐇 Мої кролики</h1>
@@ -1447,6 +1514,8 @@ export default function RabbitRegistry({ session }: Props) {
       )}
 
       {loadError && <p className="registry-error">{loadError}</p>}
+      {/* Додано: помилка відкриття фото */}
+      {photoError && <p className="registry-error">{photoError}</p>}
 
       {loading ? (
         <div className="registry-grid">
@@ -1479,6 +1548,25 @@ export default function RabbitRegistry({ session }: Props) {
                   </span>
                 )}
               </div>
+              {/* Додано: мініатюра племінного кролика, по кліку — повне фото.
+                  Показується лише коли посилання вже отримане. */}
+              {rabbit.photo_path && thumbUrls[rabbit.photo_path] && (
+                <button
+                  type="button"
+                  className="rabbit-photo-btn"
+                  onClick={() => openPhoto(rabbit)}
+                  aria-label={`Відкрити фото: ${rabbit.name}`}
+                >
+                  <img
+                    className="rabbit-photo"
+                    src={thumbUrls[rabbit.photo_path]}
+                    alt=""
+                    width={400}
+                    height={300}
+                    loading="lazy"
+                  />
+                </button>
+              )}
               <div className="rabbit-card-body">
                 {rabbit.breed && (
                   <p>
