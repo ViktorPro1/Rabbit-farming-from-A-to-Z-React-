@@ -6,6 +6,8 @@ import type { Session } from "@supabase/supabase-js";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { CHANGELOG } from "../../data/changelog";
 import FontSizeToggle from "../../features/font-size/FontSizeToggle";
+// Додано: фото особистого кабінету в аватарі (шлях у user_metadata.avatar_path)
+import { useAvatarUrl } from "../../hooks/useAvatarUrl";
 import {
   Calculator,
   Users,
@@ -163,6 +165,8 @@ const Header = ({ session }: Props) => {
 
   // Ініціал для аватара (перша літера email користувача)
   const userInitial = session?.user.email?.[0]?.toUpperCase() ?? "?";
+  // Додано: посилання на фото кабінету; без фото лишається літера
+  const avatarUrl = useAvatarUrl(session?.user.user_metadata?.avatar_path);
 
   return (
     <>
@@ -304,7 +308,12 @@ const Header = ({ session }: Props) => {
                 aria-label="Меню користувача"
                 aria-expanded={showUserMenu}
               >
-                {userInitial}
+                {/* Змінено: замість літери показуємо фото, якщо воно є */}
+                {avatarUrl ? (
+                  <img className="header-avatar-img" src={avatarUrl} alt="" />
+                ) : (
+                  userInitial
+                )}
               </button>
 
               {showUserMenu && (

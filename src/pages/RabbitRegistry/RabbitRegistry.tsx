@@ -14,7 +14,16 @@ import {
 import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
 import { todayKyiv } from "../../utils/kyivDate";
 // Додано: мініатюри та повні фото кроликів зі сховища Supabase
-import { getThumbUrls, getFullUrl } from "../../utils/photoStorage";
+// Змінено (етап 2): до імпорту додано uploadAvatar і removeAvatar
+import {
+  getThumbUrls,
+  getFullUrl,
+  uploadAvatar,
+  removeAvatar,
+} from "../../utils/photoStorage";
+// Додано (етап 2): посилання на аватар кабінету
+import { useAvatarUrl } from "../../hooks/useAvatarUrl";
+import type { ChangeEvent } from "react";
 
 interface Props {
   session: Session;
@@ -245,6 +254,16 @@ export default function RabbitRegistry({ session }: Props) {
   const [pushEnabled, setPushEnabled] = useState(false);
   const [pushLoading, setPushLoading] = useState(false);
   const [pushError, setPushError] = useState("");
+
+  // Додано (етап 2): фото особистого кабінету (аватар у шапці).
+  // Шлях зберігається в user_metadata.avatar_path, як і display_name.
+  const [avatarPath, setAvatarPath] = useState<string | null>(
+    session.user.user_metadata?.avatar_path ?? null,
+  );
+  const [avatarBusy, setAvatarBusy] = useState(false);
+  const [avatarError, setAvatarError] = useState("");
+  const avatarFileRef = useRef<HTMLInputElement | null>(null);
+  const avatarUrl = useAvatarUrl(avatarPath);
 
   const navigate = useNavigate();
 
@@ -506,6 +525,65 @@ export default function RabbitRegistry({ session }: Props) {
       );
     }
     setDisplayNameSaving(false);
+  }
+
+  // Додано (етап 2): додавання або заміна аватара.
+  // Порядок: завантажити файл -> записати шлях у метадані -> видалити старий.
+  // Якщо запис метаданих не вдався, новий файл прибирається.
+  async function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // дозволяє обрати той самий файл повторно
+    if (!file) return;
+    setAvatarError("");
+    if (!file.type.startsWith("image/")) {
+      setAvatarError("Оберіть файл із зображенням.");
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      setAvatarError("Фото завелике (понад 20 МБ).");
+      return;
+    }
+
+    setAvatarBusy(true);
+    const oldPath = avatarPath;
+    let newPath: string | null = null;
+    let saved = false;
+    try {
+      newPath = await uploadAvatar(session.user.id, file);
+      const { error } = await supabase.auth.updateUser({
+        data: { avatar_path: newPath },
+      });
+      if (error) throw error;
+      saved = true;
+      setAvatarPath(newPath);
+      if (oldPath) await removeAvatar(oldPath);
+    } catch (err) {
+      logError("RabbitRegistry.avatarUpload", err);
+      if (newPath && !saved) await removeAvatar(newPath);
+      setAvatarError("Не вдалося зберегти фото. Спробуй ще раз.");
+    } finally {
+      setAvatarBusy(false);
+    }
+  }
+
+  // Додано (етап 2): видалення аватара. Спершу метадані, потім файл.
+  async function handleAvatarDelete() {
+    if (!avatarPath) return;
+    setAvatarError("");
+    setAvatarBusy(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: { avatar_path: null },
+      });
+      if (error) throw error;
+      await removeAvatar(avatarPath);
+      setAvatarPath(null);
+    } catch (err) {
+      logError("RabbitRegistry.avatarDelete", err);
+      setAvatarError("Не вдалося видалити фото. Спробуй ще раз.");
+    } finally {
+      setAvatarBusy(false);
+    }
   }
 
   // ── Push-сповіщення: увімкнення/вимкнення ──
@@ -1751,6 +1829,61 @@ export default function RabbitRegistry({ session }: Props) {
               </button>
             </div>
             <div className="settings-body">
+              {/* Додано (етап 2): фото особистого кабінету */}
+              <div className="settings-avatar-block">
+                <div className="settings-avatar-circle">
+                  {avatarUrl ? (
+                    <img
+                      className="settings-avatar-img"
+                      src={avatarUrl}
+                      alt="Фото кабінету"
+                    />
+                  ) : (
+                    <span aria-hidden="true">
+                      {/* Змінено: літера з email, як в аватарі шапки (раніше
+                          бралась з відображуваного імені) */}
+                      {(session.user.email || "?").charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                <div className="settings-avatar-actions">
+                  {/* Змінено: додано id і name — вимога правила ESLint для
+                      полів форми (потрібно для автозаповнення браузера) */}
+                  <input
+                    ref={avatarFileRef}
+                    id="registry-avatar-input"
+                    name="avatar"
+                    type="file"
+                    accept="image/*"
+                    aria-label="Обрати файл фото кабінету"
+                    hidden
+                    onChange={handleAvatarChange}
+                  />
+                  <button
+                    type="button"
+                    className="registry-archive-link"
+                    onClick={() => avatarFileRef.current?.click()}
+                    disabled={avatarBusy}
+                  >
+                    {avatarBusy
+                      ? "Обробка..."
+                      : avatarPath
+                        ? "Замінити фото"
+                        : "Додати фото"}
+                  </button>
+                  {avatarPath && (
+                    <button
+                      type="button"
+                      className="registry-archive-link"
+                      onClick={handleAvatarDelete}
+                      disabled={avatarBusy}
+                    >
+                      Видалити фото
+                    </button>
+                  )}
+                </div>
+              </div>
+              {avatarError && <p className="settings-error">{avatarError}</p>}
               <label className="settings-label" htmlFor="registry-display-name">
                 Відображуване ім'я або назва господарства
               </label>

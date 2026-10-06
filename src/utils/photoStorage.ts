@@ -113,3 +113,33 @@ export async function getFullUrl(photoPath: string): Promise<string | null> {
   writeCache(photoPath, data.signedUrl);
   return data.signedUrl;
 }
+
+// ── Додано (етап 2): фото особистого кабінету (аватар) ──
+
+const AVATAR_OPTS = { maxSide: 256, quality: 0.8, square: true };
+
+/**
+ * Стискає фото до квадрата 256 px (обрізка по центру) і завантажує
+ * у ту саму папку користувача. Повертає шлях, який треба записати
+ * в user_metadata.avatar_path. Мітка часу в імені обходить кеш браузера.
+ */
+export async function uploadAvatar(
+  userId: string,
+  file: File,
+): Promise<string> {
+  const { blob, ext } = await compressImage(file, AVATAR_OPTS);
+  const path = `${userId}/avatar-${Date.now()}.${ext}`;
+  const { error } = await supabase.storage
+    .from(PHOTO_BUCKET)
+    .upload(path, blob, {
+      contentType: ext === "webp" ? "image/webp" : "image/jpeg",
+    });
+  if (error) throw error;
+  return path;
+}
+
+/** Видаляє файл аватара. Помилки не кидає: файл-сирота не критичний. */
+export async function removeAvatar(path: string): Promise<void> {
+  const { error } = await supabase.storage.from(PHOTO_BUCKET).remove([path]);
+  if (error) console.error("removeAvatar", error);
+}

@@ -213,6 +213,7 @@ export default function RabbitEdit({ session }: Props) {
             <input
               ref={fileInputRef}
               id="edit-photo-input"
+              name="photo"
               type="file"
               accept="image/*"
               aria-label="Обрати файл фото"
@@ -272,6 +273,9 @@ export default function RabbitEdit({ session }: Props) {
           <input
             id="edit-name"
             name="name"
+            // Додано: браузер сприймає name="name" як поле імені людини і
+            // пропонує автозаповнення; так само зроблено в реєстрі
+            autoComplete="off"
             placeholder="Кличка *"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}

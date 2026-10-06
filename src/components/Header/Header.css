@@ -623,3 +623,16 @@
     flex-shrink: 0;
     stroke-width: 2;
 }
+
+/* ===== Додано: ФОТО КАБІНЕТУ В АВАТАРІ ===== */
+.header-avatar {
+    overflow: hidden;
+    padding: 0;
+}
+
+.header-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}

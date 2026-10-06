@@ -5,15 +5,22 @@ import type { Session } from "@supabase/supabase-js";
 import Header from "./Header";
 import { supabase } from "../../lib/supabase";
 import { logError } from "../../lib/logError";
+import { getFullUrl } from "../../utils/photoStorage";
 
 vi.mock("../../lib/supabase", () => ({
   supabase: { from: vi.fn(), auth: { signOut: vi.fn() } },
 }));
 vi.mock("../../lib/logError", () => ({ logError: vi.fn() }));
+// Додано: сховище фото замоковане, мережі в тестах немає
+vi.mock("../../utils/photoStorage", () => ({ getFullUrl: vi.fn() }));
 vi.mock("../ThemeToggle/ThemeToggle", () => ({ default: () => null }));
-vi.mock("../../features/font-size/FontSizeToggle", () => ({ default: () => null }));
+vi.mock("../../features/font-size/FontSizeToggle", () => ({
+  default: () => null,
+}));
 
-const session = { user: { id: "user-1", email: "viktor@example.com" } } as Session;
+const session = {
+  user: { id: "user-1", email: "viktor@example.com" },
+} as Session;
 
 type Result = { data?: unknown; error?: { message: string } | null };
 
@@ -23,8 +30,14 @@ function mockAdminQuery(result: Result) {
   c.eq = () => c;
   c.maybeSingle = () => c;
   c.single = () => c;
-  c.then = (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
-    Promise.resolve({ data: null, error: null, ...result }).then(resolve, reject);
+  c.then = (
+    resolve: (v: unknown) => unknown,
+    reject: (e: unknown) => unknown,
+  ) =>
+    Promise.resolve({ data: null, error: null, ...result }).then(
+      resolve,
+      reject,
+    );
   vi.mocked(supabase.from).mockReturnValue(c as never);
 }
 
@@ -48,11 +61,15 @@ describe("Header: вихід", () => {
   });
 
   it("успішний вихід: одна спроба, без помилок, меню закривається", async () => {
-    vi.mocked(supabase.auth.signOut).mockResolvedValue({ error: null } as never);
+    vi.mocked(supabase.auth.signOut).mockResolvedValue({
+      error: null,
+    } as never);
     renderHeader();
     fireEvent.click(openUserMenu());
 
-    await waitFor(() => expect(document.querySelector(".header-user-dropdown")).toBeNull());
+    await waitFor(() =>
+      expect(document.querySelector(".header-user-dropdown")).toBeNull(),
+    );
     expect(supabase.auth.signOut).toHaveBeenCalledTimes(1);
     expect(logError).not.toHaveBeenCalled();
   });
@@ -66,8 +83,13 @@ describe("Header: вихід", () => {
 
     await waitFor(() => expect(supabase.auth.signOut).toHaveBeenCalledTimes(2));
     expect(supabase.auth.signOut).toHaveBeenLastCalledWith({ scope: "local" });
-    expect(logError).toHaveBeenCalledWith("Header.handleLogout", expect.anything());
-    await waitFor(() => expect(document.querySelector(".header-user-dropdown")).toBeNull());
+    expect(logError).toHaveBeenCalledWith(
+      "Header.handleLogout",
+      expect.anything(),
+    );
+    await waitFor(() =>
+      expect(document.querySelector(".header-user-dropdown")).toBeNull(),
+    );
   });
 
   it("signOut кинув виняток: обробляється, меню закривається", async () => {
@@ -77,7 +99,9 @@ describe("Header: вихід", () => {
     renderHeader();
     fireEvent.click(openUserMenu());
 
-    await waitFor(() => expect(document.querySelector(".header-user-dropdown")).toBeNull());
+    await waitFor(() =>
+      expect(document.querySelector(".header-user-dropdown")).toBeNull(),
+    );
     expect(supabase.auth.signOut).toHaveBeenLastCalledWith({ scope: "local" });
   });
 
@@ -87,9 +111,14 @@ describe("Header: вихід", () => {
     fireEvent.click(openUserMenu());
 
     await waitFor(() =>
-      expect(logError).toHaveBeenCalledWith("Header.handleLogout.local", expect.anything()),
+      expect(logError).toHaveBeenCalledWith(
+        "Header.handleLogout.local",
+        expect.anything(),
+      ),
     );
-    await waitFor(() => expect(document.querySelector(".header-user-dropdown")).toBeNull());
+    await waitFor(() =>
+      expect(document.querySelector(".header-user-dropdown")).toBeNull(),
+    );
   });
 });
 
@@ -118,7 +147,72 @@ describe("Header: права адміністратора", () => {
     mockAdminQuery({ data: null, error: { message: "boom" } });
     renderHeader();
     await waitFor(() =>
-      expect(logError).toHaveBeenCalledWith("Header.checkAdmin", expect.anything()),
+      expect(logError).toHaveBeenCalledWith(
+        "Header.checkAdmin",
+        expect.anything(),
+      ),
     );
+  });
+});
+
+// Додано: фото особистого кабінету в аватарі
+describe("Header: фото кабінету в аватарі", () => {
+  const AVATAR = "user-1/avatar-1.webp";
+  const withAvatar = {
+    user: {
+      id: "user-1",
+      email: "viktor@example.com",
+      user_metadata: { avatar_path: AVATAR },
+    },
+  } as unknown as Session;
+
+  function renderWith(s: Session) {
+    return render(
+      <MemoryRouter>
+        <Header session={s} />
+      </MemoryRouter>,
+    );
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockAdminQuery({ data: null });
+  });
+
+  it("без фото: літера з email, запит посилання не робиться", () => {
+    renderHeader();
+
+    expect(
+      screen.getByRole("button", { name: "Меню користувача" }),
+    ).toHaveTextContent("V");
+    expect(document.querySelector(".header-avatar-img")).toBeNull();
+    expect(getFullUrl).not.toHaveBeenCalled();
+  });
+
+  it("з фото: замість літери показується зображення", async () => {
+    vi.mocked(getFullUrl).mockResolvedValue("https://example.test/avatar.webp");
+    renderWith(withAvatar);
+
+    await waitFor(() =>
+      expect(document.querySelector(".header-avatar-img")).not.toBeNull(),
+    );
+    expect(
+      document.querySelector(".header-avatar-img")?.getAttribute("src"),
+    ).toBe("https://example.test/avatar.webp");
+    expect(getFullUrl).toHaveBeenCalledWith(AVATAR);
+    expect(
+      screen.getByRole("button", { name: "Меню користувача" }),
+    ).not.toHaveTextContent("V");
+  });
+
+  it("не вдалося отримати посилання: лишається літера", async () => {
+    vi.mocked(getFullUrl).mockResolvedValue(null);
+    renderWith(withAvatar);
+
+    await waitFor(() => expect(getFullUrl).toHaveBeenCalled());
+    expect(document.querySelector(".header-avatar-img")).toBeNull();
+    expect(
+      screen.getByRole("button", { name: "Меню користувача" }),
+    ).toHaveTextContent("V");
   });
 });
