@@ -216,3 +216,73 @@ describe("Header: фото кабінету в аватарі", () => {
     ).toHaveTextContent("V");
   });
 });
+
+// Додано: фото кабінету в мобільному меню (drawer)
+describe("Header: фото кабінету в мобільному меню", () => {
+  const AVATAR = "user-1/avatar-1.webp";
+  const withAvatar = {
+    user: {
+      id: "user-1",
+      email: "viktor@example.com",
+      user_metadata: { avatar_path: AVATAR },
+    },
+  } as unknown as Session;
+
+  function renderWith(s: Session | null) {
+    return render(
+      <MemoryRouter>
+        <Header session={s} />
+      </MemoryRouter>,
+    );
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockAdminQuery({ data: null });
+  });
+
+  it("без фото: у меню літера і email", () => {
+    renderHeader();
+
+    expect(document.querySelector(".drawer-user-avatar")).toHaveTextContent(
+      "V",
+    );
+    expect(document.querySelector(".drawer-user-img")).toBeNull();
+    expect(document.querySelector(".drawer-user-email")).toHaveTextContent(
+      "viktor@example.com",
+    );
+  });
+
+  it("з фото: у меню показується те саме зображення, запит посилання один", async () => {
+    vi.mocked(getFullUrl).mockResolvedValue("https://example.test/avatar.webp");
+    renderWith(withAvatar);
+
+    await waitFor(() =>
+      expect(document.querySelector(".drawer-user-img")).not.toBeNull(),
+    );
+    expect(
+      document.querySelector(".drawer-user-img")?.getAttribute("src"),
+    ).toBe("https://example.test/avatar.webp");
+    expect(getFullUrl).toHaveBeenCalledTimes(1);
+  });
+
+  it("є відображуване ім'я: у меню воно замість email", () => {
+    renderWith({
+      user: {
+        id: "user-1",
+        email: "viktor@example.com",
+        user_metadata: { display_name: "Вухані у Віктора" },
+      },
+    } as unknown as Session);
+
+    const label = document.querySelector(".drawer-user-email");
+    expect(label).toHaveTextContent("Вухані у Віктора");
+    expect(label).not.toHaveTextContent("viktor@example.com");
+  });
+
+  it("гість: блоку користувача в меню немає", () => {
+    renderWith(null);
+
+    expect(document.querySelector(".drawer-user")).toBeNull();
+  });
+});
