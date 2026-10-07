@@ -6,6 +6,8 @@ import type { Session } from "@supabase/supabase-js";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { CHANGELOG } from "../../data/changelog";
 import FontSizeToggle from "../../features/font-size/FontSizeToggle";
+// Додано: фото особистого кабінету в аватарі (шлях у user_metadata.avatar_path)
+import { useAvatarUrl } from "../../hooks/useAvatarUrl";
 import {
   Calculator,
   Users,
@@ -163,6 +165,12 @@ const Header = ({ session }: Props) => {
 
   // Ініціал для аватара (перша літера email користувача)
   const userInitial = session?.user.email?.[0]?.toUpperCase() ?? "?";
+  // Додано: посилання на фото кабінету; без фото лишається літера
+  const avatarUrl = useAvatarUrl(session?.user.user_metadata?.avatar_path);
+  // Додано: підпис у мобільному меню — відображуване ім'я з налаштувань
+  // кабінету (як у реєстрі), а якщо його не задано — email
+  const userLabel =
+    session?.user.user_metadata?.display_name || session?.user.email;
 
   return (
     <>
@@ -304,7 +312,12 @@ const Header = ({ session }: Props) => {
                 aria-label="Меню користувача"
                 aria-expanded={showUserMenu}
               >
-                {userInitial}
+                {/* Змінено: замість літери показуємо фото, якщо воно є */}
+                {avatarUrl ? (
+                  <img className="header-avatar-img" src={avatarUrl} alt="" />
+                ) : (
+                  userInitial
+                )}
               </button>
 
               {showUserMenu && (
@@ -380,6 +393,23 @@ const Header = ({ session }: Props) => {
             ✕
           </button>
         </div>
+
+        {/* Додано: фото (або літера) і email користувача у мобільному меню.
+            В мобільній шапці місця для аватара немає, тому він живе тут. */}
+        {session && (
+          <div className="drawer-user">
+            <span className="drawer-user-avatar">
+              {avatarUrl ? (
+                <img className="drawer-user-img" src={avatarUrl} alt="" />
+              ) : (
+                userInitial
+              )}
+            </span>
+            {/* Змінено: замість {session.user.email} — userLabel, тобто
+                відображуване ім'я з налаштувань, а без нього email */}
+            <span className="drawer-user-email">{userLabel}</span>
+          </div>
+        )}
 
         <div className="drawer-links">
           <NavLink to="/calculator" onClick={closeMenu}>

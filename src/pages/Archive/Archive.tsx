@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
+// Додано: видалення фото зі сховища разом із кроликом
+import { removeRabbitPhoto } from "../../utils/photoStorage";
 import "./Archive.css";
 
 interface Props {
@@ -18,6 +20,8 @@ interface Rabbit {
   notes: string;
   archive_reason: string | null;
   archive_date: string | null;
+  // Додано: шлях до фото у сховищі (null, якщо фото немає)
+  photo_path: string | null;
 }
 
 const archiveReasonLabels: Record<string, string> = {
@@ -79,6 +83,9 @@ export default function Archive({ session }: Props) {
   async function handleDelete(id: string) {
     if (!confirm("Видалити назавжди?")) return;
 
+    // Додано: шлях до фото беремо до видалення запису
+    const photoPath = rabbits.find((r) => r.id === id)?.photo_path ?? null;
+
     const { error } = await supabase
       .from("rabbits")
       .delete()
@@ -97,6 +104,11 @@ export default function Archive({ session }: Props) {
     }
 
     setRabbits((prev) => prev.filter((r) => r.id !== id));
+
+    // Додано: фото видаляємо лише після того, як запис справді видалено
+    // (при помилці зв'язків 23503 кролик лишається разом зі своїм фото).
+    // Збій видалення файлу не критичний і лише логується.
+    if (photoPath) await removeRabbitPhoto(photoPath);
   }
 
   if (loading) return <p style={{ padding: "2rem" }}>Завантаження...</p>;

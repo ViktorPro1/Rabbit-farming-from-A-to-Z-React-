@@ -13,6 +13,17 @@ import {
 } from "../../utils/pushNotifications";
 import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
 import { todayKyiv } from "../../utils/kyivDate";
+// Додано: мініатюри та повні фото кроликів зі сховища Supabase
+// Змінено (етап 2): до імпорту додано uploadAvatar і removeAvatar
+import {
+  getThumbUrls,
+  getFullUrl,
+  uploadAvatar,
+  removeAvatar,
+} from "../../utils/photoStorage";
+// Додано (етап 2): посилання на аватар кабінету
+import { useAvatarUrl } from "../../hooks/useAvatarUrl";
+import type { ChangeEvent } from "react";
 
 interface Props {
   session: Session;
@@ -27,6 +38,8 @@ interface Rabbit {
   cage_number: string;
   notes: string;
   is_active: boolean;
+  // Додано: шлях до фото у сховищі (null, якщо фото немає)
+  photo_path: string | null;
 }
 
 interface Stats {
@@ -202,6 +215,14 @@ export default function RabbitRegistry({ session }: Props) {
   // завантаження даних. Раніше обидві помилки ігнорувались.
   const [archiveError, setArchiveError] = useState("");
   const [loadError, setLoadError] = useState("");
+  // Додано: посилання на мініатюри (ключ — photo_path), відкрите повне фото
+  // і помилка відкриття фото
+  const [thumbUrls, setThumbUrls] = useState<Record<string, string>>({});
+  const [photoViewer, setPhotoViewer] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
+  const [photoError, setPhotoError] = useState("");
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -233,6 +254,16 @@ export default function RabbitRegistry({ session }: Props) {
   const [pushEnabled, setPushEnabled] = useState(false);
   const [pushLoading, setPushLoading] = useState(false);
   const [pushError, setPushError] = useState("");
+
+  // Додано (етап 2): фото особистого кабінету (аватар у шапці).
+  // Шлях зберігається в user_metadata.avatar_path, як і display_name.
+  const [avatarPath, setAvatarPath] = useState<string | null>(
+    session.user.user_metadata?.avatar_path ?? null,
+  );
+  const [avatarBusy, setAvatarBusy] = useState(false);
+  const [avatarError, setAvatarError] = useState("");
+  const avatarFileRef = useRef<HTMLInputElement | null>(null);
+  const avatarUrl = useAvatarUrl(avatarPath);
 
   const navigate = useNavigate();
 
@@ -398,6 +429,16 @@ export default function RabbitRegistry({ session }: Props) {
           setLoadError("");
           const list = rabbitsData || [];
           setRabbits(list);
+          // Додано: один запит підписаних посилань на мініатюри всього списку.
+          // Збій не ламає реєстр: картки просто лишаються без фото.
+          const photoPaths = list
+            .map((r: Rabbit) => r.photo_path)
+            .filter((p: string | null): p is string => !!p);
+          if (photoPaths.length > 0) {
+            getThumbUrls(photoPaths)
+              .then(setThumbUrls)
+              .catch((err) => logError("RabbitRegistry.thumbUrls", err));
+          }
           loadStats(list);
         },
         (err) => {
@@ -434,6 +475,23 @@ export default function RabbitRegistry({ session }: Props) {
     loadData();
   }
 
+  // Додано: відкриває повне фото кролика поверх сторінки
+  async function openPhoto(rabbit: Rabbit) {
+    if (!rabbit.photo_path) return;
+    setPhotoError("");
+    try {
+      const url = await getFullUrl(rabbit.photo_path);
+      if (!url) {
+        setPhotoError("Не вдалося відкрити фото. Спробуйте ще раз");
+        return;
+      }
+      setPhotoViewer({ url, name: rabbit.name });
+    } catch (err) {
+      logError("RabbitRegistry.openPhoto", err);
+      setPhotoError("Не вдалося відкрити фото. Спробуйте ще раз");
+    }
+  }
+
   function downloadQr(rabbit: Rabbit) {
     const canvas = document.getElementById(
       `qr-canvas-${rabbit.id}`,
@@ -467,6 +525,65 @@ export default function RabbitRegistry({ session }: Props) {
       );
     }
     setDisplayNameSaving(false);
+  }
+
+  // Додано (етап 2): додавання або заміна аватара.
+  // Порядок: завантажити файл -> записати шлях у метадані -> видалити старий.
+  // Якщо запис метаданих не вдався, новий файл прибирається.
+  async function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // дозволяє обрати той самий файл повторно
+    if (!file) return;
+    setAvatarError("");
+    if (!file.type.startsWith("image/")) {
+      setAvatarError("Оберіть файл із зображенням.");
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      setAvatarError("Фото завелике (понад 20 МБ).");
+      return;
+    }
+
+    setAvatarBusy(true);
+    const oldPath = avatarPath;
+    let newPath: string | null = null;
+    let saved = false;
+    try {
+      newPath = await uploadAvatar(session.user.id, file);
+      const { error } = await supabase.auth.updateUser({
+        data: { avatar_path: newPath },
+      });
+      if (error) throw error;
+      saved = true;
+      setAvatarPath(newPath);
+      if (oldPath) await removeAvatar(oldPath);
+    } catch (err) {
+      logError("RabbitRegistry.avatarUpload", err);
+      if (newPath && !saved) await removeAvatar(newPath);
+      setAvatarError("Не вдалося зберегти фото. Спробуй ще раз.");
+    } finally {
+      setAvatarBusy(false);
+    }
+  }
+
+  // Додано (етап 2): видалення аватара. Спершу метадані, потім файл.
+  async function handleAvatarDelete() {
+    if (!avatarPath) return;
+    setAvatarError("");
+    setAvatarBusy(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: { avatar_path: null },
+      });
+      if (error) throw error;
+      await removeAvatar(avatarPath);
+      setAvatarPath(null);
+    } catch (err) {
+      logError("RabbitRegistry.avatarDelete", err);
+      setAvatarError("Не вдалося видалити фото. Спробуй ще раз.");
+    } finally {
+      setAvatarBusy(false);
+    }
   }
 
   // ── Push-сповіщення: увімкнення/вимкнення ──
@@ -1126,6 +1243,34 @@ export default function RabbitRegistry({ session }: Props) {
         </div>
       )}
 
+      {/* Додано: ПЕРЕГЛЯД ПОВНОГО ФОТО */}
+      {photoViewer && (
+        <div
+          className="help-overlay"
+          onClick={() => setPhotoViewer(null)}
+          role="presentation"
+        >
+          <div
+            className="photo-viewer"
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
+            <button
+              className="help-close photo-viewer-close"
+              onClick={() => setPhotoViewer(null)}
+              aria-label="Закрити фото"
+            >
+              ✕
+            </button>
+            <img
+              className="photo-viewer-img"
+              src={photoViewer.url}
+              alt={`Фото: ${photoViewer.name}`}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="registry-header">
         <div className="registry-header-top">
           <h1>🐇 Мої кролики</h1>
@@ -1447,6 +1592,8 @@ export default function RabbitRegistry({ session }: Props) {
       )}
 
       {loadError && <p className="registry-error">{loadError}</p>}
+      {/* Додано: помилка відкриття фото */}
+      {photoError && <p className="registry-error">{photoError}</p>}
 
       {loading ? (
         <div className="registry-grid">
@@ -1479,6 +1626,25 @@ export default function RabbitRegistry({ session }: Props) {
                   </span>
                 )}
               </div>
+              {/* Додано: мініатюра племінного кролика, по кліку — повне фото.
+                  Показується лише коли посилання вже отримане. */}
+              {rabbit.photo_path && thumbUrls[rabbit.photo_path] && (
+                <button
+                  type="button"
+                  className="rabbit-photo-btn"
+                  onClick={() => openPhoto(rabbit)}
+                  aria-label={`Відкрити фото: ${rabbit.name}`}
+                >
+                  <img
+                    className="rabbit-photo"
+                    src={thumbUrls[rabbit.photo_path]}
+                    alt=""
+                    width={400}
+                    height={300}
+                    loading="lazy"
+                  />
+                </button>
+              )}
               <div className="rabbit-card-body">
                 {rabbit.breed && (
                   <p>
@@ -1663,6 +1829,61 @@ export default function RabbitRegistry({ session }: Props) {
               </button>
             </div>
             <div className="settings-body">
+              {/* Додано (етап 2): фото особистого кабінету */}
+              <div className="settings-avatar-block">
+                <div className="settings-avatar-circle">
+                  {avatarUrl ? (
+                    <img
+                      className="settings-avatar-img"
+                      src={avatarUrl}
+                      alt="Фото кабінету"
+                    />
+                  ) : (
+                    <span aria-hidden="true">
+                      {/* Змінено: літера з email, як в аватарі шапки (раніше
+                          бралась з відображуваного імені) */}
+                      {(session.user.email || "?").charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                <div className="settings-avatar-actions">
+                  {/* Змінено: додано id і name — вимога правила ESLint для
+                      полів форми (потрібно для автозаповнення браузера) */}
+                  <input
+                    ref={avatarFileRef}
+                    id="registry-avatar-input"
+                    name="avatar"
+                    type="file"
+                    accept="image/*"
+                    aria-label="Обрати файл фото кабінету"
+                    hidden
+                    onChange={handleAvatarChange}
+                  />
+                  <button
+                    type="button"
+                    className="registry-archive-link"
+                    onClick={() => avatarFileRef.current?.click()}
+                    disabled={avatarBusy}
+                  >
+                    {avatarBusy
+                      ? "Обробка..."
+                      : avatarPath
+                        ? "Замінити фото"
+                        : "Додати фото"}
+                  </button>
+                  {avatarPath && (
+                    <button
+                      type="button"
+                      className="registry-archive-link"
+                      onClick={handleAvatarDelete}
+                      disabled={avatarBusy}
+                    >
+                      Видалити фото
+                    </button>
+                  )}
+                </div>
+              </div>
+              {avatarError && <p className="settings-error">{avatarError}</p>}
               <label className="settings-label" htmlFor="registry-display-name">
                 Відображуване ім'я або назва господарства
               </label>
