@@ -12,6 +12,13 @@ export interface CompressOptions {
   square?: boolean;
 }
 
+interface DecodedImage {
+  source: CanvasImageSource;
+  width: number;
+  height: number;
+  close: () => void;
+}
+
 function canvasToBlob(
   canvas: HTMLCanvasElement,
   type: string,
@@ -21,37 +28,102 @@ function canvasToBlob(
 }
 
 /**
+ * Чи файл схожий на зображення. На iOS галерея часто віддає порожній
+ * MIME-тип; application/octet-stream теж трапляється у WebView.
+ * PDF і подібне відсікаємо тут, а остаточна перевірка — спроба декодувати.
+ */
+export function isLikelyImageFile(file: Blob): boolean {
+  if (!file.type || file.type === "application/octet-stream") return true;
+  return file.type.startsWith("image/");
+}
+
+function decodeViaImgElement(file: Blob): Promise<DecodedImage> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve({
+        source: img,
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+        close: () => {
+          img.src = "";
+        },
+      });
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(
+        new Error(
+          "Не вдалося прочитати зображення. Спробуйте формат JPG або PNG",
+        ),
+      );
+    };
+    img.src = url;
+  });
+}
+
+/**
+ * Декодує файл у джерело для canvas.
+ * from-image (EXIF) є не в усіх мобільних браузерах — тоді пробуємо без
+ * опцій, потім через <img> (типовий шлях для старого Safari / WebView).
+ */
+async function decodeImage(file: Blob): Promise<DecodedImage> {
+  if (typeof createImageBitmap === "function") {
+    try {
+      const bitmap = await createImageBitmap(file, {
+        imageOrientation: "from-image",
+      });
+      return {
+        source: bitmap,
+        width: bitmap.width,
+        height: bitmap.height,
+        close: () => bitmap.close(),
+      };
+    } catch {
+      try {
+        const bitmap = await createImageBitmap(file);
+        return {
+          source: bitmap,
+          width: bitmap.width,
+          height: bitmap.height,
+          close: () => bitmap.close(),
+        };
+      } catch {
+        // далі — <img>
+      }
+    }
+  }
+  return decodeViaImgElement(file);
+}
+
+/**
  * Зменшує зображення на клієнті й кодує у WebP.
  * Якщо браузер не вміє кодувати WebP, використовується JPEG.
- * Орієнтація з EXIF враховується (фото з телефона не буде перевернутим).
+ * Орієнтація з EXIF враховується там, де браузер це вміє
+ * (фото з телефона не буде перевернутим).
  */
 export async function compressImage(
   file: Blob,
   opts: CompressOptions,
 ): Promise<CompressedImage> {
-  if (!file.type.startsWith("image/")) {
+  if (!isLikelyImageFile(file)) {
     throw new Error("Обраний файл не є зображенням");
   }
 
-  let bitmap: ImageBitmap;
-  try {
-    bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
-  } catch {
-    throw new Error(
-      "Не вдалося прочитати зображення. Спробуйте формат JPG або PNG",
-    );
-  }
+  const decoded = await decodeImage(file);
 
   try {
     let sx = 0;
     let sy = 0;
-    let sw = bitmap.width;
-    let sh = bitmap.height;
+    let sw = decoded.width;
+    let sh = decoded.height;
 
     if (opts.square) {
-      const side = Math.min(bitmap.width, bitmap.height);
-      sx = (bitmap.width - side) / 2;
-      sy = (bitmap.height - side) / 2;
+      const side = Math.min(decoded.width, decoded.height);
+      sx = (decoded.width - side) / 2;
+      sy = (decoded.height - side) / 2;
       sw = side;
       sh = side;
     }
@@ -65,7 +137,7 @@ export async function compressImage(
     canvas.height = dh;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Браузер не підтримує обробку зображень");
-    ctx.drawImage(bitmap, sx, sy, sw, sh, 0, 0, dw, dh);
+    ctx.drawImage(decoded.source, sx, sy, sw, sh, 0, 0, dw, dh);
 
     const webp = await canvasToBlob(canvas, "image/webp", opts.quality);
     if (webp && webp.type === "image/webp") {
@@ -76,6 +148,6 @@ export async function compressImage(
     if (!jpeg) throw new Error("Не вдалося стиснути зображення");
     return { blob: jpeg, ext: "jpg" };
   } finally {
-    bitmap.close();
+    decoded.close();
   }
 }

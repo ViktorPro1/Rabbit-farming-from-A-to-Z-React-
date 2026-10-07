@@ -39,10 +39,10 @@ export async function uploadRabbitPhoto(
   rabbitId: string,
   file: File,
 ): Promise<string> {
-  const [full, thumb] = await Promise.all([
-    compressImage(file, FULL_OPTS),
-    compressImage(file, THUMB_OPTS),
-  ]);
+  // Змінено: стискаємо по черзі, не паралельно — на телефоні два canvas
+  // з камерним знімком легко вичерпують пам'ять.
+  const full = await compressImage(file, FULL_OPTS);
+  const thumb = await compressImage(file, THUMB_OPTS);
   // Обидві версії кодуються одним і тим самим способом
   const ext = full.ext;
   const photoPath = `${userId}/${rabbitId}-${Date.now()}.${ext}`;

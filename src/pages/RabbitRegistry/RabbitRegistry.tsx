@@ -24,6 +24,8 @@ import {
 // Додано (етап 2): посилання на аватар кабінету
 import { useAvatarUrl } from "../../hooks/useAvatarUrl";
 import type { ChangeEvent } from "react";
+// Додано: на iOS MIME-тип фото з галереї часто порожній — перевірка спільна
+import { isLikelyImageFile } from "../../utils/imageCompress";
 
 interface Props {
   session: Session;
@@ -535,7 +537,7 @@ export default function RabbitRegistry({ session }: Props) {
     e.target.value = ""; // дозволяє обрати той самий файл повторно
     if (!file) return;
     setAvatarError("");
-    if (!file.type.startsWith("image/")) {
+    if (!isLikelyImageFile(file)) {
       setAvatarError("Оберіть файл із зображенням.");
       return;
     }
@@ -1246,7 +1248,7 @@ export default function RabbitRegistry({ session }: Props) {
       {/* Додано: ПЕРЕГЛЯД ПОВНОГО ФОТО */}
       {photoViewer && (
         <div
-          className="help-overlay"
+          className="help-overlay photo-viewer-overlay"
           onClick={() => setPhotoViewer(null)}
           role="presentation"
         >
@@ -1856,7 +1858,7 @@ export default function RabbitRegistry({ session }: Props) {
                     type="file"
                     accept="image/*"
                     aria-label="Обрати файл фото кабінету"
-                    hidden
+                    className="photo-file-input"
                     onChange={handleAvatarChange}
                   />
                   <button

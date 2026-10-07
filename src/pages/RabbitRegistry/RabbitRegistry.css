@@ -1123,16 +1123,23 @@ button.registry-email:hover .registry-settings-gear {
     background: var(--gray-light);
 }
 
+/* Змінено: поверх липкої шапки (z-index 100) і drawer (150), як lightbox відгуків */
+.photo-viewer-overlay {
+    z-index: 1000;
+    cursor: pointer;
+}
+
 .photo-viewer {
     position: relative;
     max-width: min(92vw, 900px);
-    max-height: 90vh;
+    max-height: min(80vh, calc(100vh - 80px));
+    cursor: default;
 }
 
 .photo-viewer-img {
     display: block;
     max-width: 100%;
-    max-height: 90vh;
+    max-height: min(80vh, calc(100vh - 80px));
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
@@ -1184,4 +1191,19 @@ button.registry-email:hover .registry-settings-gear {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    position: relative;
+}
+
+/* Змінено: не hidden/display:none — на iOS програмний click() по такому
+   input часто не відкриває галерею. Поле лишається в розкладці, але зрізане. */
+.photo-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }

@@ -13,6 +13,8 @@ import {
   removeRabbitPhoto,
   getThumbUrls,
 } from "../../utils/photoStorage";
+// Додано: на iOS MIME-тип фото з галереї часто порожній — перевірка спільна
+import { isLikelyImageFile } from "../../utils/imageCompress";
 import "./RabbitEdit.css";
 
 interface Props {
@@ -124,7 +126,7 @@ export default function RabbitEdit({ session }: Props) {
     const file = e.target.files?.[0];
     e.target.value = ""; // дозволяє обрати той самий файл повторно
     if (!file || !id) return;
-    if (!file.type.startsWith("image/")) {
+    if (!isLikelyImageFile(file)) {
       showToast("Оберіть файл із зображенням", "error");
       return;
     }
@@ -217,7 +219,7 @@ export default function RabbitEdit({ session }: Props) {
               type="file"
               accept="image/*"
               aria-label="Обрати файл фото"
-              hidden
+              className="photo-file-input"
               onChange={handlePhotoChange}
             />
             <button
