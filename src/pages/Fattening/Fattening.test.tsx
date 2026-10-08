@@ -35,12 +35,14 @@ function setupSupabase(config: {
   fatteningUpdate?: Result;
   salesInsert?: Result;
   rabbitsInsert?: Result;
+  fatteningInsert?: Result; // Змінено: рядок забитих при частковому забої
 }) {
   const listResponses = [...(config.list ?? [{ data: [cage], error: null }])];
   const calls = {
     fatteningUpdate: [] as unknown[],
     salesInsert: [] as unknown[],
     rabbitsInsert: [] as unknown[],
+    fatteningInsert: [] as unknown[],
   };
 
   vi.mocked(supabase.from).mockImplementation(((table: string) => {
@@ -68,7 +70,15 @@ function setupSupabase(config: {
             });
           },
         }),
-        insert: () => Promise.resolve({ error: null }),
+        // Змінено: insert тепер записується (частковий забій створює
+        // окремий неактивний рядок для забитих)
+        insert: (payload: unknown) => {
+          calls.fatteningInsert.push(payload);
+          return Promise.resolve({
+            error: null,
+            ...(config.fatteningInsert ?? {}),
+          });
+        },
       };
     }
     if (table === "sales") {
@@ -188,7 +198,9 @@ describe("Fattening: помилки Supabase", () => {
     await openSellAndConfirm();
 
     expect(
-      await screen.findByText(/Продаж записано, але залишок у клітці не оновлено/),
+      await screen.findByText(
+        /Продаж записано, але залишок у клітці не оновлено/,
+      ),
     ).toBeInTheDocument();
     expect(calls.salesInsert).toHaveLength(1);
     // модалку закрито, щоб продаж не задублювали повторним підтвердженням
@@ -248,8 +260,139 @@ describe("Fattening: помилки Supabase", () => {
     fireEvent.click(screen.getByRole("button", { name: "Перевести" }));
 
     expect(
-      await screen.findByText(/Кролика додано в реєстр, але залишок у клітці не оновлено/),
+      await screen.findByText(
+        /Кролика додано в реєстр, але залишок у клітці не оновлено/,
+      ),
     ).toBeInTheDocument();
     expect(calls.rabbitsInsert).toHaveLength(1);
+  });
+
+  // Змінено: тести забою по штуках
+  it("одиночний забій: забитий іде окремим неактивним рядком, залишок зменшується", async () => {
+    const calls = setupSupabase({});
+
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "Забій" }));
+    fireEvent.change(screen.getByLabelText("Забито самців"), {
+      target: { value: "1" },
+    });
+    fireEvent.change(screen.getByLabelText("Забито самиць"), {
+      target: { value: "0" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Підтвердити/ }));
+
+    await waitFor(() => expect(calls.fatteningUpdate).toHaveLength(1));
+    expect(calls.fatteningInsert).toHaveLength(1);
+    expect(calls.fatteningInsert[0]).toMatchObject({
+      user_id: "user-1",
+      cage_number: "7",
+      males: 1,
+      females: 0,
+      unknown: 0,
+      is_active: false,
+      slaughtered_at: expect.any(String),
+    });
+    expect(calls.fatteningUpdate[0]).toEqual({
+      males: 1,
+      females: 3,
+      unknown: 0,
+    });
+  });
+
+  it("забій усіх: клітка деактивується зі slaughtered_at, нового рядка немає", async () => {
+    const calls = setupSupabase({});
+
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "Забій" }));
+    fireEvent.click(screen.getByRole("button", { name: /Підтвердити/ }));
+
+    await waitFor(() => expect(calls.fatteningUpdate).toHaveLength(1));
+    expect(calls.fatteningUpdate[0]).toMatchObject({ is_active: false });
+    expect(calls.fatteningUpdate[0]).toHaveProperty("slaughtered_at");
+    expect(calls.fatteningInsert).toHaveLength(0);
+  });
+
+  it("забій: більше, ніж є в клітці, не зберігається", async () => {
+    const calls = setupSupabase({});
+
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "Забій" }));
+    fireEvent.change(screen.getByLabelText("Забито самців"), {
+      target: { value: "5" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Підтвердити/ }));
+
+    expect(
+      await screen.findByText("Забито більше, ніж є в клітці"),
+    ).toBeInTheDocument();
+    expect(calls.fatteningUpdate).toHaveLength(0);
+    expect(calls.fatteningInsert).toHaveLength(0);
+  });
+
+  it("забій: нульова кількість не зберігається", async () => {
+    const calls = setupSupabase({});
+
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "Забій" }));
+    fireEvent.change(screen.getByLabelText("Забито самців"), {
+      target: { value: "0" },
+    });
+    fireEvent.change(screen.getByLabelText("Забито самиць"), {
+      target: { value: "0" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Підтвердити/ }));
+
+    expect(
+      await screen.findByText("Вкажіть кількість забитих"),
+    ).toBeInTheDocument();
+    expect(calls.fatteningInsert).toHaveLength(0);
+    expect(calls.fatteningUpdate).toHaveLength(0);
+  });
+
+  it("частковий забій: помилка запису забитих лишає модалку відкритою, клітку не чіпає", async () => {
+    const calls = setupSupabase({
+      fatteningInsert: { error: { message: "denied" } },
+    });
+
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "Забій" }));
+    fireEvent.change(screen.getByLabelText("Забито самців"), {
+      target: { value: "1" },
+    });
+    fireEvent.change(screen.getByLabelText("Забито самиць"), {
+      target: { value: "0" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Підтвердити/ }));
+
+    expect(
+      await screen.findByText("Помилка збереження забою. Спробуйте ще раз"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Підтвердити забій")).toBeInTheDocument();
+    expect(calls.fatteningUpdate).toHaveLength(0);
+  });
+
+  it("частковий забій: якщо залишок не оновився, користувач бачить попередження", async () => {
+    const calls = setupSupabase({
+      fatteningUpdate: { error: { message: "denied" } },
+    });
+
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "Забій" }));
+    fireEvent.change(screen.getByLabelText("Забито самців"), {
+      target: { value: "1" },
+    });
+    fireEvent.change(screen.getByLabelText("Забито самиць"), {
+      target: { value: "0" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Підтвердити/ }));
+
+    expect(
+      await screen.findByText(
+        /Забій записано, але залишок у клітці не оновлено/,
+      ),
+    ).toBeInTheDocument();
+    expect(calls.fatteningInsert).toHaveLength(1);
+    // модалку закрито, щоб забій не задублювали повторним підтвердженням
+    expect(screen.queryByText("Підтвердити забій")).not.toBeInTheDocument();
   });
 });

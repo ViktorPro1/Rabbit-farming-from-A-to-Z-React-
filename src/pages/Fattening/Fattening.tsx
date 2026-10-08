@@ -64,6 +64,13 @@ export default function Fattening({ session }: Props) {
   const [slaughterDate, setSlaughterDate] = useState(todayIso());
   const [slaughterSaving, setSlaughterSaving] = useState(false);
   const [slaughterError, setSlaughterError] = useState("");
+  // Змінено: забій тепер можна відмітити по штуках. Раніше модалка забою
+  // деактивувала всю клітку, і одиночний забій відмітити було неможливо.
+  // Поля заповнюються поточним складом клітки (повний забій — як і раніше
+  // одним натисканням), а для одиночного забою достатньо вказати 1.
+  const [slaughterMales, setSlaughterMales] = useState("");
+  const [slaughterFemales, setSlaughterFemales] = useState("");
+  const [slaughterUnknown, setSlaughterUnknown] = useState("");
 
   // Змінено: загальне повідомлення про помилку операцій поза формами
   // (завантаження, видалення, часткове збереження продажу чи переведення).
@@ -209,6 +216,11 @@ export default function Fattening({ session }: Props) {
     setSlaughterCage(cage);
     setSlaughterDate(todayIso());
     setSlaughterError("");
+    // Змінено: початкові значення — увесь склад клітки (поведінка "забити
+    // всю клітку" збережена за замовчуванням)
+    setSlaughterMales(String(cage.males));
+    setSlaughterFemales(String(cage.females));
+    setSlaughterUnknown(String(cage.unknown));
     setPageError("");
   }
 
@@ -285,21 +297,100 @@ export default function Fattening({ session }: Props) {
     fetchCages();
   }
 
+  // Змінено: handleSlaughter переписано під забій по штуках. Раніше він
+  // безумовно ставив is_active=false для всієї клітки (разом із
+  // slaughtered_at), тому одиночний забій не можна було відмітити.
+  // Тепер:
+  //  - забито всіх, хто лишився, — як і раніше: клітка деактивується
+  //    зі slaughtered_at;
+  //  - забито частину — забиті відокремлюються в НОВИЙ неактивний рядок
+  //    fattening зі slaughtered_at (саме такі рядки читає Statistics:
+  //    is_active=false + slaughtered_at), а в активній клітці зменшується
+  //    залишок. Нова таблиця і міграція не потрібні, Statistics.tsx
+  //    лишається без змін.
   async function handleSlaughter() {
     if (!slaughterCage) return;
-    setSlaughterSaving(true);
-    setSlaughterError("");
-    const { error } = await supabase
-      .from("fattening")
-      .update({ is_active: false, slaughtered_at: slaughterDate })
-      .eq("id", slaughterCage.id);
-    if (error) {
-      // Змінено: раніше модалка закривалась навіть при помилці збереження
-      console.error("Не вдалося зберегти забій:", error);
-      setSlaughterError("Помилка збереження забою. Спробуйте ще раз");
-      setSlaughterSaving(false);
+    const m = Number(slaughterMales) || 0;
+    const f = Number(slaughterFemales) || 0;
+    const u = Number(slaughterUnknown) || 0;
+
+    if ([m, f, u].some((n) => n < 0 || !Number.isInteger(n))) {
+      setSlaughterError("Кількість має бути цілим числом, не менше 0");
       return;
     }
+    if (m === 0 && f === 0 && u === 0) {
+      setSlaughterError("Вкажіть кількість забитих");
+      return;
+    }
+    if (
+      m > slaughterCage.males ||
+      f > slaughterCage.females ||
+      u > slaughterCage.unknown
+    ) {
+      setSlaughterError("Забито більше, ніж є в клітці");
+      return;
+    }
+
+    setSlaughterSaving(true);
+    setSlaughterError("");
+
+    const newMales = slaughterCage.males - m;
+    const newFemales = slaughterCage.females - f;
+    const newUnknown = slaughterCage.unknown - u;
+    const allGone = newMales === 0 && newFemales === 0 && newUnknown === 0;
+
+    if (allGone) {
+      // Забито всіх, хто лишився: поведінка як і раніше (одним оновленням)
+      const { error } = await supabase
+        .from("fattening")
+        .update({ is_active: false, slaughtered_at: slaughterDate })
+        .eq("id", slaughterCage.id);
+      if (error) {
+        // Змінено: раніше модалка закривалась навіть при помилці збереження
+        console.error("Не вдалося зберегти забій:", error);
+        setSlaughterError("Помилка збереження забою. Спробуйте ще раз");
+        setSlaughterSaving(false);
+        return;
+      }
+    } else {
+      // 1. Окремий неактивний рядок для забитих — його побачить Statistics.
+      // Робимо першим: якщо не вдалося, нічого не змінено і повтор безпечний.
+      const { error: splitError } = await supabase.from("fattening").insert({
+        user_id: session.user.id,
+        cage_number: slaughterCage.cage_number,
+        males: m,
+        females: f,
+        unknown: u,
+        breed: slaughterCage.breed || null,
+        birth_year: slaughterCage.birth_year || null,
+        birth_date: slaughterCage.birth_date || null,
+        slaughter_date: slaughterCage.slaughter_date || null,
+        notes: slaughterCage.notes || null,
+        is_active: false,
+        slaughtered_at: slaughterDate,
+      });
+      if (splitError) {
+        console.error("Не вдалося записати забій:", splitError);
+        setSlaughterError("Помилка збереження забою. Спробуйте ще раз");
+        setSlaughterSaving(false);
+        return;
+      }
+
+      // 2. Зменшуємо залишок в активній клітці
+      const { error: cageError } = await supabase
+        .from("fattening")
+        .update({ males: newMales, females: newFemales, unknown: newUnknown })
+        .eq("id", slaughterCage.id);
+      if (cageError) {
+        // Забій уже записано, тому модалку закриваємо: повторне
+        // підтвердження задублювало б забитих у статистиці.
+        console.error("Не вдалося оновити залишок у клітці:", cageError);
+        setPageError(
+          "Забій записано, але залишок у клітці не оновлено. Відредагуйте клітку вручну, щоб кількість збігалась",
+        );
+      }
+    }
+
     setSlaughterCage(null);
     setSlaughterSaving(false);
     fetchCages();
@@ -443,6 +534,63 @@ export default function Fattening({ session }: Props) {
               Клітка <strong>№ {slaughterCage.cage_number}</strong>
               {slaughterCage.breed ? ` · ${slaughterCage.breed}` : ""}
             </p>
+            {/* Змінено: додано вибір кількості забитих по статях (було: забій
+                лише всієї клітки). Для одиночного забою вкажіть 1. */}
+            <p
+              style={{
+                fontSize: "0.85rem",
+                color: "var(--gray)",
+                margin: "0 0 12px",
+              }}
+            >
+              В наявності: ♂ {slaughterCage.males} · ♀ {slaughterCage.females}
+              {slaughterCage.unknown > 0 ? ` · ? ${slaughterCage.unknown}` : ""}
+              . Для одиночного забою вкажіть 1.
+            </p>
+            <div
+              className="fattening-form-grid"
+              style={{ gridTemplateColumns: "1fr 1fr", marginBottom: 12 }}
+            >
+              <div className="fattening-form-field">
+                <label htmlFor="fattening-slaughter-males">Забито самців</label>
+                <input
+                  id="fattening-slaughter-males"
+                  type="number"
+                  min={0}
+                  max={slaughterCage.males}
+                  value={slaughterMales}
+                  onChange={(e) => setSlaughterMales(e.target.value)}
+                />
+              </div>
+              <div className="fattening-form-field">
+                <label htmlFor="fattening-slaughter-females">
+                  Забито самиць
+                </label>
+                <input
+                  id="fattening-slaughter-females"
+                  type="number"
+                  min={0}
+                  max={slaughterCage.females}
+                  value={slaughterFemales}
+                  onChange={(e) => setSlaughterFemales(e.target.value)}
+                />
+              </div>
+              {slaughterCage.unknown > 0 && (
+                <div className="fattening-form-field">
+                  <label htmlFor="fattening-slaughter-unknown">
+                    Забито (стать невід.)
+                  </label>
+                  <input
+                    id="fattening-slaughter-unknown"
+                    type="number"
+                    min={0}
+                    max={slaughterCage.unknown}
+                    value={slaughterUnknown}
+                    onChange={(e) => setSlaughterUnknown(e.target.value)}
+                  />
+                </div>
+              )}
+            </div>
             <div className="fattening-form-field" style={{ marginBottom: 16 }}>
               <label htmlFor="fattening-slaughter-date">Дата забою</label>
               <input
