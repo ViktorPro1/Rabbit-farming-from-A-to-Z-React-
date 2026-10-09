@@ -805,3 +805,27 @@
     padding: 0.5rem 0.6rem;
     font-size: 0.9rem;
 }
+
+/* ===== СПІЛЬНИЙ АРХІВ ЦИКЛІВ ВІДГОДІВЛІ (додати в кінець Weighing.css) ===== */
+.weighing-archive-body {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.weighing-archive-cage {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.weighing-archive-cage:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.weighing-archive-cage-title {
+    color: var(--green-dark);
+    font-size: 1.05rem;
+    margin: 0 0 0.25rem;
+}

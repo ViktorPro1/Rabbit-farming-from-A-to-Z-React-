@@ -161,6 +161,16 @@ function splitIntoCycles(sorted: WeighingRecord[]): WeighingCycle[] {
   return cycles;
 }
 
+// Інформація про одну групу (клітку) в поточному режимі: усі її цикли,
+// поточний (незакритий) цикл і закриті цикли, які йдуть в загальний архів.
+interface GroupInfo {
+  litter: string;
+  sorted: WeighingRecord[];
+  groupType: WeighingType;
+  activeCycle: WeighingCycle | undefined;
+  closedCycles: WeighingCycle[];
+}
+
 // ══════════════════════════════════════════════════════════════════════
 // ГЕЙДЖІ: мінімальна вага / приріст за добу / максимальна вага
 // Порівнюємо не з вигаданими числами, а з тією ж таблицею "Орієнтовна вага
@@ -331,11 +341,11 @@ interface GaugeMetric {
 }
 
 function buildGaugeMetrics(
-  list: WeighingRecord[],
+  allRecords: WeighingRecord[],
   rabbitById: Record<string, RabbitOption>,
   fatteningById: Record<string, FatteningOption>,
 ): { min: GaugeMetric; gain: GaugeMetric; max: GaugeMetric } | null {
-  if (list.length === 0) return null;
+  if (allRecords.length === 0) return null;
 
   function getAge(r: WeighingRecord): number | null {
     if (r.rabbit_id && rabbitById[r.rabbit_id]?.birth_date) {
@@ -356,6 +366,12 @@ function buildGaugeMetrics(
   function getCategory(r: WeighingRecord): SizeCategory {
     return r.size_category || "meat";
   }
+
+  // Змінено: гейджі рахуємо тільки по записах, для яких відомий вік
+  // (є пов'язаний кролик/клітка з датою народження). Старі записи без
+  // прив'язки не потрапляють у мін / макс / приріст і не псують показники.
+  const list = allRecords.filter((r) => getAge(r) != null);
+  if (list.length === 0) return null;
 
   const minRecord = list.reduce(
     (m, r) => (r.weight_g < m.weight_g ? r : m),
@@ -796,7 +812,8 @@ export default function Weighing({ session }: Props) {
   const [showWeightChart, setShowWeightChart] = useState(false);
   const [showCycleInfo, setShowCycleInfo] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
-  const [openArchives, setOpenArchives] = useState<Record<string, boolean>>({});
+  // Змінено: один спільний архів для всіх кліток замість архіву в кожній
+  const [showArchive, setShowArchive] = useState(false);
   const [gaugeMode, setGaugeMode] = useState<WeighingType>("fattening");
   const [pendingReminderPrompt, setPendingReminderPrompt] = useState<{
     entityType: ReminderEntityType;
@@ -1055,26 +1072,49 @@ export default function Weighing({ session }: Props) {
     [modeRecords, rabbitById, fatteningById],
   );
 
-  // Усі закриті цикли відгодівлі по всіх клітках — для порівняння за рік.
-  // Показуємо цей блок лише в режимі "Відгодівля".
-  const allClosedCycles: Array<{ litter: string; cycle: WeighingCycle }> = [];
-  if (gaugeMode === "fattening") {
-    Object.entries(modeGroups).forEach(([litter, list]) => {
+  // Інформація по кожній групі: поточний цикл і закриті цикли.
+  const groupInfos: GroupInfo[] = Object.entries(modeGroups).map(
+    ([litter, list]) => {
       const sorted = [...list].sort(
         (a, b) =>
           new Date(a.weighing_date).getTime() -
           new Date(b.weighing_date).getTime(),
       );
-      splitIntoCycles(sorted)
-        .filter((c) => c.isClosed)
-        .forEach((cycle) => allClosedCycles.push({ litter, cycle }));
-    });
-    allClosedCycles.sort(
-      (a, b) =>
-        new Date(a.cycle.endDate).getTime() -
-        new Date(b.cycle.endDate).getTime(),
-    );
-  }
+      const groupType: WeighingType = sorted[0]?.weighing_type || "breeding";
+      const cycles = groupType === "fattening" ? splitIntoCycles(sorted) : [];
+      return {
+        litter,
+        sorted,
+        groupType,
+        activeCycle: cycles.find((c) => !c.isClosed),
+        closedCycles: cycles.filter((c) => c.isClosed),
+      };
+    },
+  );
+
+  // Змінено: у списку відгодівлі лишаються тільки клітки з поточним циклом.
+  // Клітки, де всі цикли закриті галочкою «Фінальне зважування», йдуть
+  // тільки в спільний архів. Нова партія в такій клітці знову з'явиться тут.
+  const visibleGroupInfos = groupInfos.filter(
+    (g) => g.groupType !== "fattening" || g.activeCycle,
+  );
+
+  // Спільний архів: усі клітки, що мають хоч один закритий цикл.
+  const archiveInfos = groupInfos.filter((g) => g.closedCycles.length > 0);
+  const archiveCyclesCount = archiveInfos.reduce(
+    (s, g) => s + g.closedCycles.length,
+    0,
+  );
+
+  // Усі закриті цикли відгодівлі по всіх клітках — для порівняння за рік.
+  const allClosedCycles: Array<{ litter: string; cycle: WeighingCycle }> = [];
+  archiveInfos.forEach(({ litter, closedCycles }) => {
+    closedCycles.forEach((cycle) => allClosedCycles.push({ litter, cycle }));
+  });
+  allClosedCycles.sort(
+    (a, b) =>
+      new Date(a.cycle.endDate).getTime() - new Date(b.cycle.endDate).getTime(),
+  );
 
   function renderTypeSpecificFields(
     values: {
@@ -1419,7 +1459,9 @@ export default function Weighing({ session }: Props) {
           </div>
         ) : (
           <p className="weighing-gauge-empty">
-            Ще немає записів цього типу — додай перше зважування нижче.
+            {modeRecords.length === 0
+              ? "Ще немає записів цього типу — додай перше зважування нижче."
+              : "Немає записів з відомою датою народження — показники зʼявляться, коли клітка чи кролик матимуть дату народження."}
           </p>
         )}
       </div>
@@ -1577,7 +1619,7 @@ export default function Weighing({ session }: Props) {
             відстеження приросту по місяцях.
           </p>
         </div>
-      ) : Object.keys(modeGroups).length === 0 ? (
+      ) : groupInfos.length === 0 ? (
         <div className="weighing-empty-state">
           <div className="weighing-empty-illustration">
             {gaugeMode === "fattening" ? "🍖" : "🐇"}
@@ -1592,167 +1634,158 @@ export default function Weighing({ session }: Props) {
         </div>
       ) : (
         <div className="weighing-groups">
-          {Object.entries(modeGroups).map(([litter, list]) => {
-            const sorted = [...list].sort(
-              (a, b) =>
-                new Date(a.weighing_date).getTime() -
-                new Date(b.weighing_date).getTime(),
-            );
-            const groupType: WeighingType =
-              sorted[0]?.weighing_type || "breeding";
+          {visibleGroupInfos.length === 0 && (
+            <p className="weighing-info weighing-cycle-empty">
+              Поточних циклів немає — усі завершені цикли в архіві нижче.
+              Додайте зважування нової партії, і клітка з'явиться тут.
+            </p>
+          )}
+          {visibleGroupInfos.map(
+            ({ litter, sorted, groupType, activeCycle }) => {
+              const reminderInfo = computeReminderInfo(
+                sorted,
+                rabbitById,
+                fatteningById,
+              );
 
-            const cycles =
-              groupType === "fattening" ? splitIntoCycles(sorted) : [];
-            const activeCycle = cycles.find((c) => !c.isClosed);
-            const closedCycles = cycles.filter((c) => c.isClosed);
-            const archiveOpen = !!openArchives[litter];
-            const reminderInfo = computeReminderInfo(
-              sorted,
-              rabbitById,
-              fatteningById,
-            );
-
-            return (
-              <div key={litter} className="weighing-group">
-                <div className="weighing-group-header-row">
-                  <h2 className="weighing-group-title">
-                    {groupType === "fattening" ? "🍖" : "🐇"} {litter}
-                    <span className="weighing-group-badge">
-                      {groupType === "fattening" ? "Відгодівля" : "Племінне"}
-                    </span>
-                  </h2>
-                  <ReminderBadge
-                    info={reminderInfo}
-                    onChangeInterval={(days) => {
-                      if (reminderInfo.entityType && reminderInfo.entityId) {
-                        handleReminderIntervalChange(
-                          reminderInfo.entityType,
-                          reminderInfo.entityId,
-                          days,
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {groupType === "fattening" ? (
-                  <>
-                    {activeCycle ? (
-                      renderFatteningCycleBody(activeCycle)
-                    ) : (
-                      <p className="weighing-info weighing-cycle-empty">
-                        Поточний цикл ще не розпочато — додайте зважування нової
-                        партії в цю клітку.
-                      </p>
-                    )}
-
-                    {closedCycles.length > 0 && (
-                      <div className="weighing-cycle-archive">
-                        <button
-                          className="weighing-cycle-archive-toggle"
-                          onClick={() =>
-                            setOpenArchives((prev) => ({
-                              ...prev,
-                              [litter]: !prev[litter],
-                            }))
-                          }
-                        >
-                          <span>📦 Архів циклів ({closedCycles.length})</span>
-                          <span>{archiveOpen ? "▲" : "▼"}</span>
-                        </button>
-
-                        {archiveOpen &&
-                          closedCycles
-                            .slice()
-                            .reverse()
-                            .map((cycle) => (
-                              <div
-                                key={cycle.cycleIndex}
-                                className="weighing-cycle-block weighing-cycle-closed"
-                              >
-                                <p className="weighing-cycle-summary">
-                                  Цикл {cycle.cycleIndex}:{" "}
-                                  {new Date(cycle.startDate).toLocaleDateString(
-                                    "uk-UA",
-                                  )}{" "}
-                                  –{" "}
-                                  {new Date(cycle.endDate).toLocaleDateString(
-                                    "uk-UA",
-                                  )}{" "}
-                                  ({cycle.durationDays} дн.)
-                                  {cycle.finalAvgWeight !== null && (
-                                    <>
-                                      {" "}
-                                      · середня вага на забій:{" "}
-                                      <strong>{cycle.finalAvgWeight} г</strong>
-                                    </>
-                                  )}
-                                </p>
-                                {renderFatteningCycleBody(cycle)}
-                              </div>
-                            ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  // ── Племінне: приріст по добі між зважуваннями ──
-                  <div className="weighing-list">
-                    {sorted.map((r, idx) =>
-                      editingRecord?.id === r.id ? (
-                        <div key={r.id}>{renderInlineEditForm()}</div>
-                      ) : (
-                        <div key={r.id} className="weighing-card">
-                          <div className="weighing-card-top">
-                            <span className="weighing-name">
-                              {new Date(r.weighing_date).toLocaleDateString(
-                                "uk-UA",
-                              )}
-                              {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
-                            </span>
-                            <div className="weighing-card-btns">
-                              <button
-                                className="weighing-edit-btn"
-                                onClick={() => setEditingRecord(r)}
-                              >
-                                ✏️
-                              </button>
-                              <button
-                                className="weighing-delete-btn"
-                                onClick={() => handleDelete(r.id)}
-                              >
-                                ✕
-                              </button>
-                            </div>
-                          </div>
-                          <p className="weighing-info">
-                            Вага: <strong>{r.weight_g} г</strong>
-                            <RecordStatusBadge
-                              status={describeRecordStatus(
-                                r,
-                                rabbitById,
-                                fatteningById,
-                              )}
-                            />
-                            {idx > 0 && (
-                              <span className="weighing-gain">
-                                {" "}
-                                ({dailyGain(sorted[idx - 1], r)})
-                              </span>
-                            )}
-                          </p>
-                          {r.notes && (
-                            <p className="weighing-notes">{r.notes}</p>
-                          )}
-                        </div>
-                      ),
-                    )}
+              return (
+                <div key={litter} className="weighing-group">
+                  <div className="weighing-group-header-row">
+                    <h2 className="weighing-group-title">
+                      {groupType === "fattening" ? "🍖" : "🐇"} {litter}
+                      <span className="weighing-group-badge">
+                        {groupType === "fattening" ? "Відгодівля" : "Племінне"}
+                      </span>
+                    </h2>
+                    <ReminderBadge
+                      info={reminderInfo}
+                      onChangeInterval={(days) => {
+                        if (reminderInfo.entityType && reminderInfo.entityId) {
+                          handleReminderIntervalChange(
+                            reminderInfo.entityType,
+                            reminderInfo.entityId,
+                            days,
+                          );
+                        }
+                      }}
+                    />
                   </div>
-                )}
-              </div>
-            );
-          })}
+
+                  {groupType === "fattening" ? (
+                    // Змінено: тут тільки поточний цикл. Закриті цикли —
+                    // у спільному архіві внизу сторінки.
+                    activeCycle && renderFatteningCycleBody(activeCycle)
+                  ) : (
+                    // ── Племінне: приріст по добі між зважуваннями ──
+                    <div className="weighing-list">
+                      {sorted.map((r, idx) =>
+                        editingRecord?.id === r.id ? (
+                          <div key={r.id}>{renderInlineEditForm()}</div>
+                        ) : (
+                          <div key={r.id} className="weighing-card">
+                            <div className="weighing-card-top">
+                              <span className="weighing-name">
+                                {new Date(r.weighing_date).toLocaleDateString(
+                                  "uk-UA",
+                                )}
+                                {r.rabbit_name ? ` · ${r.rabbit_name}` : ""}
+                              </span>
+                              <div className="weighing-card-btns">
+                                <button
+                                  className="weighing-edit-btn"
+                                  onClick={() => setEditingRecord(r)}
+                                >
+                                  ✏️
+                                </button>
+                                <button
+                                  className="weighing-delete-btn"
+                                  onClick={() => handleDelete(r.id)}
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            </div>
+                            <p className="weighing-info">
+                              Вага: <strong>{r.weight_g} г</strong>
+                              <RecordStatusBadge
+                                status={describeRecordStatus(
+                                  r,
+                                  rabbitById,
+                                  fatteningById,
+                                )}
+                              />
+                              {idx > 0 && (
+                                <span className="weighing-gain">
+                                  {" "}
+                                  ({dailyGain(sorted[idx - 1], r)})
+                                </span>
+                              )}
+                            </p>
+                            {r.notes && (
+                              <p className="weighing-notes">{r.notes}</p>
+                            )}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            },
+          )}
         </div>
       )}
+
+      {/* ── Спільний архів: усі клітки із закритими циклами ── */}
+      {!loading && archiveInfos.length > 0 && (
+        <div className="registry-info weighing-archive">
+          <button
+            className="registry-info-toggle"
+            onClick={() => setShowArchive(!showArchive)}
+          >
+            <span>📦 Архів (циклів: {archiveCyclesCount})</span>
+            <span>{showArchive ? "▲" : "▼"}</span>
+          </button>
+
+          {showArchive && (
+            <div className="weighing-archive-body">
+              {archiveInfos.map(({ litter, closedCycles }) => (
+                <div key={litter} className="weighing-archive-cage">
+                  <h3 className="weighing-archive-cage-title">🍖 {litter}</h3>
+                  {closedCycles
+                    .slice()
+                    .reverse()
+                    .map((cycle) => (
+                      <div
+                        key={`${litter}-${cycle.cycleIndex}`}
+                        className="weighing-cycle-block weighing-cycle-closed"
+                      >
+                        <p className="weighing-cycle-summary">
+                          Цикл {cycle.cycleIndex}:{" "}
+                          {new Date(cycle.startDate).toLocaleDateString(
+                            "uk-UA",
+                          )}{" "}
+                          –{" "}
+                          {new Date(cycle.endDate).toLocaleDateString("uk-UA")}{" "}
+                          ({cycle.durationDays} дн.)
+                          {cycle.finalAvgWeight !== null && (
+                            <>
+                              {" "}
+                              · середня вага на забій:{" "}
+                              <strong>{cycle.finalAvgWeight} г</strong>
+                            </>
+                          )}
+                        </p>
+                        {renderFatteningCycleBody(cycle)}
+                      </div>
+                    ))}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── Порівняння циклів відгодівлі за рік ── */}
       {allClosedCycles.length > 0 && (
         <div className="registry-info">
@@ -1951,16 +1984,18 @@ export default function Weighing({ session }: Props) {
             <br />
             Коли додаєте зважування, познач чекбоксом "Фінальне зважування" той
             запис, що робиться перед забоєм. Після цього цикл вважається
-            завершеним і автоматично йде в архів.
+            завершеним, клітка зникає зі списку поточних і автоматично йде в
+            спільний архів.
             <br />
             <br />
             Наступне зважування в тій самій клітці (нова партія кроленят) почне
-            новий цикл сам, без ручного очищення чи перейменування клітки.
+            новий цикл сам, без ручного очищення чи перейменування клітки —
+            клітка знову з'явиться у списку поточних.
             <br />
-            <br />В архіві циклів по кожній клітці зберігається історія всіх
-            попередніх партій: дати заселення й забою, тривалість відгодівлі,
-            середня вага на забій — можна порівнювати цикли між собою протягом
-            року.
+            <br />У спільному архіві внизу сторінки всі клітки йдуть одна за
+            одною: по кожній зберігається історія всіх попередніх партій — дати
+            заселення й забою, тривалість відгодівлі, середня вага на забій.
+            Цикли можна порівнювати між собою протягом року.
           </p>
         )}
       </div>
