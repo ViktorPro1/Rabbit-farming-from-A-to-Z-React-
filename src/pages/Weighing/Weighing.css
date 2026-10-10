@@ -829,3 +829,85 @@
     font-size: 1.05rem;
     margin: 0 0 0.25rem;
 }
+
+/* ===== СПІЛЬНИЙ АРХІВ ЦИКЛІВ ВІДГОДІВЛІ (додати в кінець Weighing.css) ===== */
+.weighing-archive-body {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.weighing-archive-cage {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.weighing-archive-cage:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* ===== БЛОК "ВАГА ПАРТІЙ" ===== */
+.weighing-batches-card {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid var(--green-accent);
+}
+
+.weighing-batches-title {
+    color: var(--green-dark);
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem;
+}
+
+.weighing-batches-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.weighing-batches-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.1rem 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.weighing-batches-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.weighing-batches-period {
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.weighing-batches-live {
+    color: var(--gray);
+    font-weight: 400;
+}
+
+.weighing-batches-kg {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--green-dark);
+}
+
+.weighing-batches-meta {
+    font-size: 0.82rem;
+    color: var(--gray);
+}
+
+.weighing-archive-cage-title {
+    color: var(--green-dark);
+    font-size: 1.05rem;
+    margin: 0 0 0.25rem;
+}

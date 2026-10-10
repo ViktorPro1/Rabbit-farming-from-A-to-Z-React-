@@ -161,6 +161,66 @@ function splitIntoCycles(sorted: WeighingRecord[]): WeighingCycle[] {
   return cycles;
 }
 
+// ── Загальна маса партії ──
+// У записах зважування лежить вага ОДНОГО показового кролика, тому маса
+// всієї партії = вага показового × кількість голів у клітці відгодівлі
+// (самці + самиці + стать невідома). Для закритого циклу береться вага
+// фінального зважування, для поточного — останнього.
+// Кількість голів береться зі складу клітки відгодівлі (самці + самиці +
+// стать невідома) — база не змінюється. Клітка після забою деактивується зі
+// збереженим складом, тому маса завершених партій теж рахується.
+interface BatchMassPoint {
+  date: string;
+  heads: number;
+  weightG: number;
+  totalKg: number;
+}
+
+interface BatchMass {
+  first: BatchMassPoint | null;
+  last: BatchMassPoint | null;
+  isClosed: boolean;
+}
+
+function recordHeads(
+  r: WeighingRecord,
+  headsByFattening: Record<string, number>,
+): number | null {
+  if (r.fattening_id && headsByFattening[r.fattening_id] > 0) {
+    return headsByFattening[r.fattening_id];
+  }
+  return null;
+}
+
+function computeBatchMass(
+  cycle: WeighingCycle,
+  headsByFattening: Record<string, number>,
+): BatchMass {
+  const points: BatchMassPoint[] = [];
+  cycle.records.forEach((r) => {
+    const heads = recordHeads(r, headsByFattening);
+    if (!heads) return;
+    points.push({
+      date: r.weighing_date,
+      heads,
+      weightG: r.weight_g,
+      totalKg: (r.weight_g * heads) / 1000,
+    });
+  });
+  return {
+    first: points[0] ?? null,
+    last: points[points.length - 1] ?? null,
+    isClosed: cycle.isClosed,
+  };
+}
+
+function formatKg(kg: number): string {
+  return kg.toLocaleString("uk-UA", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+}
+
 // Інформація про одну групу (клітку) в поточному режимі: усі її цикли,
 // поточний (незакритий) цикл і закриті цикли, які йдуть в загальний архів.
 interface GroupInfo {
@@ -798,6 +858,11 @@ export default function Weighing({ session }: Props) {
   const [fatteningOptions, setFatteningOptions] = useState<FatteningOption[]>(
     [],
   );
+  // Кількість голів у кожній клітці відгодівлі (включно з неактивними,
+  // щоб маса закритих циклів у архіві теж рахувалась)
+  const [headsByFattening, setHeadsByFattening] = useState<
+    Record<string, number>
+  >({});
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingRecord, setEditingRecord] = useState<WeighingRecord | null>(
@@ -855,7 +920,7 @@ export default function Weighing({ session }: Props) {
   }
 
   async function fetchOptions() {
-    const [rabbitsRes, fatteningRes] = await Promise.all([
+    const [rabbitsRes, fatteningRes, headsRes] = await Promise.all([
       // Змінено: .range(0, 9999) з тієї ж причини, що й вище
       supabase
         .from("rabbits")
@@ -871,7 +936,53 @@ export default function Weighing({ session }: Props) {
         .eq("is_active", true)
         .order("cage_number", { ascending: true })
         .range(0, 9999),
+      // Без фільтра is_active: клітка після забою деактивується, але склад
+      // у ній лишається, і він потрібен для маси закритих циклів.
+      supabase
+        .from("fattening")
+        .select(
+          "id, cage_number, birth_date, slaughtered_at, males, females, unknown",
+        )
+        .eq("user_id", session.user.id)
+        .range(0, 9999),
     ]);
+    if (headsRes.error) {
+      console.error("Не вдалося завантажити склад кліток:", headsRes.error);
+    } else {
+      // Склад партії в клітці = залишок у самій клітці + голови, відокремлені
+      // від неї при частковому забої (окремі рядки з тим самим номером клітки
+      // й датою народження та заповненим slaughtered_at). Без цього забій
+      // однієї голови "зменшував" би партію, а не лишався в її складі.
+      type HeadsRow = {
+        id: string;
+        cage_number: string | null;
+        birth_date: string | null;
+        slaughtered_at: string | null;
+        males: number | null;
+        females: number | null;
+        unknown: number | null;
+      };
+      const rows = (headsRes.data || []) as HeadsRow[];
+      const own = (r: HeadsRow) =>
+        (r.males || 0) + (r.females || 0) + (r.unknown || 0);
+      const keyOf = (r: HeadsRow) => `${r.cage_number}|${r.birth_date}`;
+      const slaughteredSum: Record<string, number> = {};
+      rows.forEach((r) => {
+        if (r.slaughtered_at && r.birth_date) {
+          slaughteredSum[keyOf(r)] = (slaughteredSum[keyOf(r)] || 0) + own(r);
+        }
+      });
+      const map: Record<string, number> = {};
+      rows.forEach((r) => {
+        let total = own(r);
+        if (r.birth_date) {
+          total +=
+            (slaughteredSum[keyOf(r)] || 0) - (r.slaughtered_at ? own(r) : 0);
+        }
+        map[r.id] = total;
+      });
+      setHeadsByFattening(map);
+    }
     if (rabbitsRes.error || fatteningRes.error) {
       // Змінено: раніше помилка ігнорувалась, і списки для вибору кролика
       // чи клітки були порожніми без пояснення
@@ -1115,6 +1226,56 @@ export default function Weighing({ session }: Props) {
     (a, b) =>
       new Date(a.cycle.endDate).getTime() - new Date(b.cycle.endDate).getTime(),
   );
+
+  // Порівняння партій: закриті цикли + поточні (триваючі), за датою.
+  // Маса партії = остання відома маса в циклі (на забій або на останнє
+  // зважування). Зміна рахується відносно попередньої партії зі списку.
+  const batchRows = [
+    ...allClosedCycles,
+    ...groupInfos
+      .filter((g) => g.groupType === "fattening" && g.activeCycle)
+      .map((g) => ({
+        litter: g.litter,
+        cycle: g.activeCycle as WeighingCycle,
+      })),
+  ]
+    .sort(
+      (a, b) =>
+        new Date(a.cycle.endDate).getTime() -
+        new Date(b.cycle.endDate).getTime(),
+    )
+    .map((row) => ({
+      ...row,
+      mass: computeBatchMass(row.cycle, headsByFattening).last,
+    }));
+
+  // Партія = усі клітки, які відгодовувались одночасно. Цикли, періоди яких
+  // перетинаються в часі, об'єднуються в одну партію: від першого зважування
+  // до останнього забою. Голови й маса — сума по всіх клітках партії.
+  const batchGroups = (() => {
+    const rows = [...batchRows].sort((a, b) =>
+      a.cycle.startDate.localeCompare(b.cycle.startDate),
+    );
+    const groups: { rows: typeof rows; end: string }[] = [];
+    rows.forEach((row) => {
+      const g = groups[groups.length - 1];
+      if (g && row.cycle.startDate <= g.end) {
+        g.rows.push(row);
+        if (row.cycle.endDate > g.end) g.end = row.cycle.endDate;
+      } else {
+        groups.push({ rows: [row], end: row.cycle.endDate });
+      }
+    });
+    return groups.map((g) => ({
+      key: `${g.rows[0].cycle.startDate}-${g.end}`,
+      startDate: g.rows[0].cycle.startDate,
+      endDate: g.end,
+      heads: g.rows.reduce((s, r) => s + (r.mass ? r.mass.heads : 0), 0),
+      totalKg: g.rows.reduce((s, r) => s + (r.mass ? r.mass.totalKg : 0), 0),
+      missing: g.rows.filter((r) => !r.mass).length,
+      isClosed: g.rows.every((r) => r.cycle.isClosed),
+    }));
+  })();
 
   function renderTypeSpecificFields(
     values: {
@@ -1465,6 +1626,37 @@ export default function Weighing({ session }: Props) {
           </p>
         )}
       </div>
+
+      {/* ── Окремий блок: вага партій (нова зверху) ── */}
+      {!loading && gaugeMode === "fattening" && batchGroups.length > 0 && (
+        <div className="weighing-batches-card">
+          <h3 className="weighing-batches-title">Вага партій</h3>
+          <div className="weighing-batches-list">
+            {[...batchGroups].reverse().map((b) => (
+              <div key={b.key} className="weighing-batches-row">
+                <div className="weighing-batches-period">
+                  {new Date(b.startDate).toLocaleDateString("uk-UA")} –{" "}
+                  {new Date(b.endDate).toLocaleDateString("uk-UA")}
+                  {!b.isClosed && (
+                    <span className="weighing-batches-live"> · триває</span>
+                  )}
+                </div>
+                <div className="weighing-batches-kg">
+                  {b.heads > 0 ? `${formatKg(b.totalKg)} кг` : "—"}
+                </div>
+                <div className="weighing-batches-meta">
+                  {b.heads > 0
+                    ? `${b.heads} гол.`
+                    : "кількість голів не вказана"}
+                  {b.heads > 0 && b.missing > 0
+                    ? ` · не враховано кліток без кількості голів: ${b.missing}`
+                    : ""}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="weighing-actions">
         <button
