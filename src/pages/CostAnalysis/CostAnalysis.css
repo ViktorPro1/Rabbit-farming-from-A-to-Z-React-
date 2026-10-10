@@ -185,6 +185,49 @@
     margin-top: 0.3rem;
 }
 
+.costan-accordion {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.costan-accordion-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.25rem;
+    color: var(--green-dark);
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+}
+
+.costan-accordion-summary::-webkit-details-marker {
+    display: none;
+}
+
+.costan-accordion-summary::after {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid var(--green-dark);
+    border-bottom: 2px solid var(--green-dark);
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.costan-accordion[open]>.costan-accordion-summary::after {
+    transform: rotate(-135deg);
+}
+
+.costan-accordion-body {
+    padding: 0 1rem 1rem;
+}
+
 .costan-section {
     display: flex;
     flex-direction: column;

@@ -185,10 +185,7 @@ function RabbitCard({ item }: { item: CostResult }) {
           )}
           {item.weightKg !== null ? (
             <>
-              <CostRow
-                label="Остання вага"
-                value={formatKg(item.weightKg)}
-              />
+              <CostRow label="Остання вага" value={formatKg(item.weightKg)} />
               {item.costPerKg !== null && (
                 <CostRow
                   label="Собівартість 1 кг живої ваги"
@@ -237,7 +234,9 @@ export default function CostAnalysis({ session }: Props) {
               .eq("user_id", session.user.id),
             supabase
               .from("rabbits")
-              .select("id, name, cage_number, is_active, created_at, archive_date")
+              .select(
+                "id, name, cage_number, is_active, created_at, archive_date",
+              )
               .eq("user_id", session.user.id),
             supabase
               .from("weighings")
@@ -278,11 +277,17 @@ export default function CostAnalysis({ session }: Props) {
     today: localToday(),
   });
 
-  // Активні партії — першими, далі за датою внесення (новіші вище).
-  const batches = [...analysis.batches].sort((a, b) => {
-    if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
+  // Партії за номером клітки (1, 2, ... 9, 10, 11 — з натуральним порядком
+  // чисел). Якщо номер однаковий, новіша партія йде вище.
+  const byCage = (a: CostResult, b: CostResult) => {
+    const cmp = a.label.localeCompare(b.label, "uk", { numeric: true });
+    if (cmp !== 0) return cmp;
     return (b.start || "").localeCompare(a.start || "");
-  });
+  };
+  const activeBatches = analysis.batches.filter((b) => b.isActive).sort(byCage);
+  const finishedBatches = analysis.batches
+    .filter((b) => !b.isActive)
+    .sort(byCage);
   const rabbitList = [...analysis.rabbits].sort((a, b) => {
     if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
     return a.label.localeCompare(b.label, "uk");
@@ -293,7 +298,10 @@ export default function CostAnalysis({ session }: Props) {
     <div className="costan-page">
       <div className="costan-header">
         <h1>Аналіз собівартості</h1>
-        <button className="costan-back-btn" onClick={() => navigate("/registry")}>
+        <button
+          className="costan-back-btn"
+          onClick={() => navigate("/registry")}
+        >
           Мої кролики
         </button>
       </div>
@@ -308,7 +316,9 @@ export default function CostAnalysis({ session }: Props) {
             <div className="costan-tabs">
               <button
                 className={
-                  tab === "batches" ? "costan-tab costan-tab-active" : "costan-tab"
+                  tab === "batches"
+                    ? "costan-tab costan-tab-active"
+                    : "costan-tab"
                 }
                 onClick={() => setTab("batches")}
               >
@@ -316,7 +326,9 @@ export default function CostAnalysis({ session }: Props) {
               </button>
               <button
                 className={
-                  tab === "rabbits" ? "costan-tab costan-tab-active" : "costan-tab"
+                  tab === "rabbits"
+                    ? "costan-tab costan-tab-active"
+                    : "costan-tab"
                 }
                 onClick={() => setTab("rabbits")}
               >
@@ -336,21 +348,43 @@ export default function CostAnalysis({ session }: Props) {
           </div>
 
           {tab === "batches" ? (
-            batches.length === 0 ? (
+            activeBatches.length === 0 && finishedBatches.length === 0 ? (
               <div className="costan-empty">
                 Партій відгодівлі ще немає. Додайте їх у розділі «Відгодівля».
               </div>
             ) : (
-              <div className="costan-grid">
-                {batches.map((b) => (
-                  <BatchCard key={b.id} item={b} />
-                ))}
-              </div>
+              <>
+                <section className="costan-section">
+                  <h2>Тривають ({activeBatches.length})</h2>
+                  {activeBatches.length === 0 ? (
+                    <div className="costan-empty">
+                      Зараз немає партій, що тривають.
+                    </div>
+                  ) : (
+                    <div className="costan-grid">
+                      {activeBatches.map((b) => (
+                        <BatchCard key={b.id} item={b} />
+                      ))}
+                    </div>
+                  )}
+                </section>
+
+                {finishedBatches.length > 0 && (
+                  <details className="costan-accordion">
+                    <summary className="costan-accordion-summary">
+                      Завершені партії ({finishedBatches.length})
+                    </summary>
+                    <div className="costan-grid costan-accordion-body">
+                      {finishedBatches.map((b) => (
+                        <BatchCard key={b.id} item={b} />
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </>
             )
           ) : rabbitList.length === 0 ? (
-            <div className="costan-empty">
-              У реєстрі ще немає кролів.
-            </div>
+            <div className="costan-empty">У реєстрі ще немає кролів.</div>
           ) : (
             <div className="costan-grid">
               {rabbitList.map((r) => (
