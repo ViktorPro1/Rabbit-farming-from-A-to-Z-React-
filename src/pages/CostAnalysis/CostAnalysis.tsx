@@ -147,13 +147,14 @@ function BatchCard({ item }: { item: CostResult }) {
   );
 }
 
-function RabbitCard({ item }: { item: CostResult }) {
+function RabbitCard({ item, cage }: { item: CostResult; cage: string | null }) {
   return (
     <div className="costan-card">
       <div className="costan-card-head">
         <div>
           <h3 className="costan-card-title">{item.label}</h3>
           <div className="costan-card-sub">
+            {cage ? `Клітка ${cage} · ` : ""}
             На фермі з {formatDate(item.start)}
             {item.days !== null && ` · ${item.days} діб`}
           </div>
@@ -288,10 +289,28 @@ export default function CostAnalysis({ session }: Props) {
   const finishedBatches = analysis.batches
     .filter((b) => !b.isActive)
     .sort(byCage);
-  const rabbitList = [...analysis.rabbits].sort((a, b) => {
-    if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
+  // Кролі реєстру: так само за номером клітки (без клітки — в кінці),
+  // далі за іменем.
+  const cageById = new Map<string, string | null>(
+    rabbits.map((r) => [r.id, r.cage_number?.trim() || null]),
+  );
+  const byRabbitCage = (a: CostResult, b: CostResult) => {
+    const ca = cageById.get(a.id) ?? null;
+    const cb = cageById.get(b.id) ?? null;
+    if (ca !== cb) {
+      if (ca === null) return 1;
+      if (cb === null) return -1;
+      const cmp = ca.localeCompare(cb, "uk", { numeric: true });
+      if (cmp !== 0) return cmp;
+    }
     return a.label.localeCompare(b.label, "uk");
-  });
+  };
+  const activeRabbits = analysis.rabbits
+    .filter((r) => r.isActive)
+    .sort(byRabbitCage);
+  const archivedRabbits = analysis.rabbits
+    .filter((r) => !r.isActive)
+    .sort(byRabbitCage);
   const visibleGroups = analysis.groups.filter((g) => g.spent > 0);
 
   return (
@@ -383,14 +402,46 @@ export default function CostAnalysis({ session }: Props) {
                 )}
               </>
             )
-          ) : rabbitList.length === 0 ? (
+          ) : activeRabbits.length === 0 && archivedRabbits.length === 0 ? (
             <div className="costan-empty">У реєстрі ще немає кролів.</div>
           ) : (
-            <div className="costan-grid">
-              {rabbitList.map((r) => (
-                <RabbitCard key={r.id} item={r} />
-              ))}
-            </div>
+            <>
+              <section className="costan-section">
+                <h2>Активні ({activeRabbits.length})</h2>
+                {activeRabbits.length === 0 ? (
+                  <div className="costan-empty">
+                    Зараз немає активних кролів.
+                  </div>
+                ) : (
+                  <div className="costan-grid">
+                    {activeRabbits.map((r) => (
+                      <RabbitCard
+                        key={r.id}
+                        item={r}
+                        cage={cageById.get(r.id) ?? null}
+                      />
+                    ))}
+                  </div>
+                )}
+              </section>
+
+              {archivedRabbits.length > 0 && (
+                <details className="costan-accordion">
+                  <summary className="costan-accordion-summary">
+                    В архіві ({archivedRabbits.length})
+                  </summary>
+                  <div className="costan-grid costan-accordion-body">
+                    {archivedRabbits.map((r) => (
+                      <RabbitCard
+                        key={r.id}
+                        item={r}
+                        cage={cageById.get(r.id) ?? null}
+                      />
+                    ))}
+                  </div>
+                </details>
+              )}
+            </>
           )}
 
           <section className="costan-section">
