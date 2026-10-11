@@ -45,6 +45,9 @@ const AptechkaPage = lazy(
 const CostAnalysis = lazy(
   () => import("../../pages/CostAnalysis/CostAnalysis"),
 );
+const FeedStockPage = lazy(
+  () => import("../../pages/FeedStockPage/FeedStockPage"),
+);
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -285,6 +288,19 @@ export function getCabinetRoutes(session: Session | null) {
             withCabinetBoundary(
               "CostAnalysis",
               <CostAnalysis session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
+      />
+      <Route
+        path="/feed-stock"
+        element={
+          session ? (
+            withCabinetBoundary(
+              "FeedStockPage",
+              <FeedStockPage session={session} />,
             )
           ) : (
             <Auth />

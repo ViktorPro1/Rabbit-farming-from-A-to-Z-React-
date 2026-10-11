@@ -1,0 +1,339 @@
+.feedstock-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 5rem;
+}
+
+.feedstock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.feedstock-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2d5016;
+}
+
+.feedstock-back-btn {
+    background: none;
+    border: 1px solid var(--gray-light, #cfd8c8);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+
+.feedstock-loading {
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--gray, #6b6b6b);
+}
+
+.feedstock-error {
+    color: #b71c1c;
+    margin: 0.5rem 0;
+}
+
+.feedstock-hint {
+    color: var(--gray, #6b6b6b);
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0.75rem;
+}
+
+.feedstock-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.feedstock-summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.75rem 0.5rem;
+    border: 1px solid var(--gray-light, #cfd8c8);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.feedstock-summary-val {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d5016;
+}
+
+.feedstock-summary-label {
+    font-size: 0.78rem;
+    color: var(--gray, #6b6b6b);
+}
+
+.feedstock-add-btn,
+.feedstock-save-btn {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background: #2d5016;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.feedstock-save-btn.small {
+    width: auto;
+    padding: 0.45rem 0.9rem;
+}
+
+.feedstock-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.feedstock-form {
+    margin: 0.75rem 0 1rem;
+    padding: 1rem;
+    border: 1px solid var(--gray-light, #cfd8c8);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.feedstock-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.feedstock-form-field label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.feedstock-form-field input,
+.feedstock-row-actions input {
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--gray-light, #cfd8c8);
+    border-radius: 8px;
+    font: inherit;
+    background: transparent;
+    color: inherit;
+}
+
+/* Вибір одиниці (г / кг) поруч із полем кількості */
+.feedstock-unit-select {
+    padding: 0.5rem 0.4rem;
+    border: 1px solid var(--gray-light, #cfd8c8);
+    border-radius: 8px;
+    font: inherit;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.feedstock-qty-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.feedstock-qty-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+.feedstock-empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--gray, #6b6b6b);
+}
+
+.feedstock-section {
+    margin-top: 1.5rem;
+}
+
+.feedstock-section h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: #2d5016;
+}
+
+.feedstock-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.85rem 0.9rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid var(--gray-light, #cfd8c8);
+    border-left: 4px solid #4caf50;
+    border-radius: 10px;
+}
+
+.feedstock-row.attention {
+    border-left-color: #ffb300;
+}
+
+.feedstock-row.low {
+    border-left-color: #b71c1c;
+}
+
+.feedstock-row.used {
+    border-left-color: var(--gray-light, #cfd8c8);
+    opacity: 0.75;
+}
+
+.feedstock-row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.feedstock-row-name {
+    font-weight: 700;
+}
+
+.feedstock-row-meta {
+    font-size: 0.85rem;
+    color: var(--gray, #6b6b6b);
+}
+
+.feedstock-row-remaining {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.feedstock-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--gray-light, #e3e8de);
+    overflow: hidden;
+    margin-top: 0.2rem;
+}
+
+.feedstock-bar-fill {
+    height: 100%;
+    background: #4caf50;
+    border-radius: 4px;
+}
+
+.feedstock-row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feedstock-row-actions input {
+    width: 130px;
+}
+
+.feedstock-link-btn {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.4rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: #2d5016;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.feedstock-toggle {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.6rem 0.2rem;
+    margin-bottom: 0.5rem;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--gray-light, #cfd8c8);
+    font: inherit;
+    font-weight: 600;
+    color: inherit;
+    cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .feedstock-page {
+        padding: 1rem 0.75rem 5rem;
+    }
+
+    .feedstock-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .feedstock-summary {
+        gap: 0.4rem;
+    }
+
+    .feedstock-summary-card {
+        padding: 0.6rem 0.3rem;
+    }
+
+    .feedstock-summary-val {
+        font-size: 1rem;
+    }
+
+    .feedstock-summary-label {
+        font-size: 0.72rem;
+    }
+
+    .feedstock-form {
+        padding: 0.85rem;
+    }
+
+    .feedstock-row {
+        padding: 0.75rem;
+    }
+
+    .feedstock-row-name,
+    .feedstock-row-meta {
+        overflow-wrap: anywhere;
+    }
+
+    /* 16px, щоб iOS не наближав сторінку при фокусі в полі */
+    .feedstock-form-field input,
+    .feedstock-row-actions input,
+    .feedstock-unit-select {
+        font-size: 16px;
+    }
+
+    .feedstock-row-actions input {
+        flex: 1;
+        width: auto;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .feedstock-page {
+        padding: 1rem;
+    }
+
+    .feedstock-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .feedstock-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .feedstock-summary-card {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem 0.85rem;
+    }
+
+    .feedstock-save-btn.small {
+        flex: 1 1 100%;
+    }
+}
