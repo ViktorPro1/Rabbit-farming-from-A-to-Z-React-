@@ -1,37 +1,15 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import SkeletonCard from "./SkeletonCard";
 import "./RabbitRegistry.css";
 import { logError } from "../../lib/logError";
-import {
-  subscribeToPush,
-  unsubscribeFromPush,
-  getPushSubscriptionStatus,
-} from "../../utils/pushNotifications";
 import { todayKyiv } from "../../utils/kyivDate";
-// Додано: мініатюри та повні фото кроликів зі сховища Supabase
-// Змінено (етап 2): до імпорту додано uploadAvatar і removeAvatar
-// Змінено (етап 3): додано uploadRabbitPhoto і removeRabbitPhoto для фото
-// у формі «Новий кролик»
-import {
-  getThumbUrls,
-  getFullUrl,
-  uploadAvatar,
-  removeAvatar,
-  uploadRabbitPhoto,
-  removeRabbitPhoto,
-} from "../../utils/photoStorage";
-// Додано (етап 2): посилання на аватар кабінету
-import { useAvatarUrl } from "../../hooks/useAvatarUrl";
-import type { ChangeEvent } from "react";
-// Додано: на iOS MIME-тип фото з галереї часто порожній — перевірка спільна
-import { isLikelyImageFile } from "../../utils/imageCompress";
+// Мініатюри та повні фото кроликів зі сховища Supabase
+import { getThumbUrls, getFullUrl } from "../../utils/photoStorage";
 
-// Винесено з цього файлу (рефакторинг, етап 1)
 import type { Rabbit, Stats } from "./types";
-import { emptyForm, archiveReasons } from "./constants";
 import { exportAllCSV } from "./exportAllCSV";
 import HelpModal from "./components/HelpModal";
 import QrModal from "./components/QrModal";
@@ -40,6 +18,9 @@ import NavPanel from "./components/NavPanel";
 import StatsBar from "./components/StatsBar";
 import RabbitCard from "./components/RabbitCard";
 import BreedingAgeInfo from "./components/BreedingAgeInfo";
+import ArchiveModal from "./components/ArchiveModal";
+import SettingsModal from "./components/SettingsModal";
+import NewRabbitForm from "./components/NewRabbitForm";
 
 interface Props {
   session: Session;
@@ -51,26 +32,8 @@ export default function RabbitRegistry({ session }: Props) {
   const [showForm, setShowForm] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
-  const [form, setForm] = useState(emptyForm);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
   const [exportingAll, setExportingAll] = useState(false);
   const [exportError, setExportError] = useState("");
-  const displayNameSavedTimeoutRef = useRef<ReturnType<
-    typeof setTimeout
-  > | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (displayNameSavedTimeoutRef.current) {
-        clearTimeout(displayNameSavedTimeoutRef.current);
-      }
-      // Додано (етап 3): звільняємо посилання попереднього перегляду фото
-      if (newPhotoRef.current) {
-        URL.revokeObjectURL(newPhotoRef.current.url);
-      }
-    };
-  }, []);
 
   const [confirmArchiveId, setConfirmArchiveId] = useState<string | null>(null);
   const [selectedReason, setSelectedReason] = useState("");
@@ -86,15 +49,6 @@ export default function RabbitRegistry({ session }: Props) {
     name: string;
   } | null>(null);
   const [photoError, setPhotoError] = useState("");
-  // Додано (етап 3): фото, обране у формі «Новий кролик». Файл завантажується
-  // лише після того, як кролика створено (шлях у сховищі містить його id).
-  // Посилання для попереднього перегляду звільняється вручну, тому стан
-  // дублюється в ref (для прибирання при розмонтуванні).
-  const [newPhoto, setNewPhoto] = useState<{ file: File; url: string } | null>(
-    null,
-  );
-  const newPhotoRef = useRef<{ file: File; url: string } | null>(null);
-  const newPhotoInputRef = useRef<HTMLInputElement | null>(null);
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -115,38 +69,8 @@ export default function RabbitRegistry({ session }: Props) {
     quarantineTotal: 0,
   });
   const [showSettings, setShowSettings] = useState(false);
-  const [displayName, setDisplayName] = useState(
-    session.user.user_metadata?.display_name || "",
-  );
-  const [displayNameSaving, setDisplayNameSaving] = useState(false);
-  const [displayNameSaved, setDisplayNameSaved] = useState(false);
-  const [displayNameError, setDisplayNameError] = useState("");
-
-  // ── Push-сповіщення: стейти ──
-  const [pushEnabled, setPushEnabled] = useState(false);
-  const [pushLoading, setPushLoading] = useState(false);
-  const [pushError, setPushError] = useState("");
-
-  // Додано (етап 2): фото особистого кабінету (аватар у шапці).
-  // Шлях зберігається в user_metadata.avatar_path, як і display_name.
-  const [avatarPath, setAvatarPath] = useState<string | null>(
-    session.user.user_metadata?.avatar_path ?? null,
-  );
-  const [avatarBusy, setAvatarBusy] = useState(false);
-  const [avatarError, setAvatarError] = useState("");
-  const avatarFileRef = useRef<HTMLInputElement | null>(null);
-  const avatarUrl = useAvatarUrl(avatarPath);
 
   const navigate = useNavigate();
-
-  // ── Push-сповіщення: перевірка статусу підписки при відкритті налаштувань ──
-  // (розміщено після оголошення showSettings, від якого залежить)
-  useEffect(() => {
-    if (!showSettings) return;
-    getPushSubscriptionStatus()
-      .then(setPushEnabled)
-      .catch((err) => logError("RabbitRegistry.pushStatus", err));
-  }, [showSettings]);
 
   const loadStats = useCallback(
     (list: Rabbit[]) => {
@@ -364,193 +288,6 @@ export default function RabbitRegistry({ session }: Props) {
     }
   }
 
-  async function handleSaveDisplayName() {
-    setDisplayNameSaving(true);
-    setDisplayNameError("");
-    setDisplayNameSaved(false);
-    const { error } = await supabase.auth.updateUser({
-      data: { display_name: displayName.trim() },
-    });
-    if (error) {
-      setDisplayNameError("Помилка збереження. Спробуй ще раз.");
-    } else {
-      setDisplayNameSaved(true);
-      displayNameSavedTimeoutRef.current = setTimeout(
-        () => setDisplayNameSaved(false),
-        3000,
-      );
-    }
-    setDisplayNameSaving(false);
-  }
-
-  // Додано (етап 2): додавання або заміна аватара.
-  // Порядок: завантажити файл -> записати шлях у метадані -> видалити старий.
-  // Якщо запис метаданих не вдався, новий файл прибирається.
-  async function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = ""; // дозволяє обрати той самий файл повторно
-    if (!file) return;
-    setAvatarError("");
-    if (!isLikelyImageFile(file)) {
-      setAvatarError("Оберіть файл із зображенням.");
-      return;
-    }
-    if (file.size > 20 * 1024 * 1024) {
-      setAvatarError("Фото завелике (понад 20 МБ).");
-      return;
-    }
-
-    setAvatarBusy(true);
-    const oldPath = avatarPath;
-    let newPath: string | null = null;
-    let saved = false;
-    try {
-      newPath = await uploadAvatar(session.user.id, file);
-      const { error } = await supabase.auth.updateUser({
-        data: { avatar_path: newPath },
-      });
-      if (error) throw error;
-      saved = true;
-      setAvatarPath(newPath);
-      if (oldPath) await removeAvatar(oldPath);
-    } catch (err) {
-      logError("RabbitRegistry.avatarUpload", err);
-      if (newPath && !saved) await removeAvatar(newPath);
-      setAvatarError("Не вдалося зберегти фото. Спробуй ще раз.");
-    } finally {
-      setAvatarBusy(false);
-    }
-  }
-
-  // Додано (етап 2): видалення аватара. Спершу метадані, потім файл.
-  async function handleAvatarDelete() {
-    if (!avatarPath) return;
-    setAvatarError("");
-    setAvatarBusy(true);
-    try {
-      const { error } = await supabase.auth.updateUser({
-        data: { avatar_path: null },
-      });
-      if (error) throw error;
-      await removeAvatar(avatarPath);
-      setAvatarPath(null);
-    } catch (err) {
-      logError("RabbitRegistry.avatarDelete", err);
-      setAvatarError("Не вдалося видалити фото. Спробуй ще раз.");
-    } finally {
-      setAvatarBusy(false);
-    }
-  }
-
-  // ── Push-сповіщення: увімкнення/вимкнення ──
-  async function handleTogglePush() {
-    setPushLoading(true);
-    setPushError("");
-    try {
-      if (pushEnabled) {
-        await unsubscribeFromPush();
-        setPushEnabled(false);
-      } else {
-        const ok = await subscribeToPush(session.user.id);
-        if (!ok) {
-          setPushError(
-            "Не вдалося увімкнути сповіщення. Перевір дозволи браузера.",
-          );
-        } else {
-          setPushEnabled(true);
-        }
-      }
-    } catch (err) {
-      logError("RabbitRegistry.handleTogglePush", err);
-      setPushError("Сталася помилка. Спробуй ще раз.");
-    }
-    setPushLoading(false);
-  }
-
-  // Додано (етап 3): вибір або скидання фото у формі «Новий кролик»
-  function selectNewPhoto(file: File | null) {
-    if (newPhotoRef.current) {
-      URL.revokeObjectURL(newPhotoRef.current.url);
-    }
-    const next = file ? { file, url: URL.createObjectURL(file) } : null;
-    newPhotoRef.current = next;
-    setNewPhoto(next);
-  }
-
-  function handleNewPhotoPick(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = ""; // дозволяє обрати той самий файл повторно
-    if (!file) return;
-    setError("");
-    if (!isLikelyImageFile(file)) {
-      setError("Оберіть файл із зображенням");
-      return;
-    }
-    if (file.size > 20 * 1024 * 1024) {
-      setError("Фото завелике (понад 20 МБ)");
-      return;
-    }
-    selectNewPhoto(file);
-  }
-
-  // Змінено (етап 3): після створення кролика (потрібен його id) завантажуємо
-  // обране фото і записуємо шлях у rabbits.photo_path. Якщо фото не вдалося
-  // зберегти, кролик усе одно лишається в реєстрі (форма закривається, щоб
-  // повторне натискання не створило дублікат), а користувач бачить
-  // повідомлення і може додати фото через «Редагувати».
-  async function handleAdd() {
-    setSaving(true);
-    setError("");
-    setPhotoError("");
-    const { data: created, error } = await supabase
-      .from("rabbits")
-      .insert({ ...form, user_id: session.user.id })
-      .select("id")
-      .single();
-    if (error) {
-      logError("RabbitRegistry.handleAdd", error);
-      setError("Помилка збереження");
-      setSaving(false);
-      return;
-    }
-
-    if (newPhoto) {
-      let uploadedPath: string | null = null;
-      try {
-        if (!created?.id) throw new Error("Не отримано id нового кролика");
-        uploadedPath = await uploadRabbitPhoto(
-          session.user.id,
-          created.id,
-          newPhoto.file,
-        );
-        const { error: photoDbError } = await supabase
-          .from("rabbits")
-          .update({ photo_path: uploadedPath })
-          .eq("id", created.id)
-          .eq("user_id", session.user.id);
-        if (photoDbError) throw photoDbError;
-      } catch (err) {
-        logError("RabbitRegistry.handleAddPhoto", err);
-        if (uploadedPath) {
-          try {
-            await removeRabbitPhoto(uploadedPath);
-          } catch (cleanupErr) {
-            logError("RabbitRegistry.handleAddPhotoCleanup", cleanupErr);
-          }
-        }
-        setPhotoError(
-          "Кролика збережено, але фото завантажити не вдалося. Додайте його через «Редагувати»",
-        );
-      }
-    }
-
-    setForm(emptyForm);
-    selectNewPhoto(null);
-    setShowForm(false);
-    loadData();
-    setSaving(false);
-  }
-
   // ── Експорт CSV: логіка в exportAllCSV.ts, тут лише стан кнопки ──
   async function handleExportAll() {
     setExportingAll(true);
@@ -614,120 +351,13 @@ export default function RabbitRegistry({ session }: Props) {
 
       <StatsBar stats={stats} />
 
-      {showForm && (
-        <div className="registry-form">
-          <h2>Новий кролик</h2>
-          <div className="registry-form-grid">
-            <input
-              id="registry-name"
-              name="name"
-              autoComplete="off"
-              placeholder="Кличка *"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <input
-              id="registry-breed"
-              name="breed"
-              placeholder="Порода"
-              value={form.breed}
-              onChange={(e) => setForm({ ...form, breed: e.target.value })}
-            />
-            <select
-              id="registry-gender"
-              name="gender"
-              value={form.gender}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  gender: e.target.value as "male" | "female",
-                })
-              }
-            >
-              <option value="female">Самиця</option>
-              <option value="male">Самець</option>
-            </select>
-            <input
-              id="registry-birth-date"
-              name="birth_date"
-              type="date"
-              value={form.birth_date}
-              onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
-            />
-            <input
-              id="registry-cage-number"
-              name="cage_number"
-              placeholder="Номер клітки"
-              value={form.cage_number}
-              onChange={(e) =>
-                setForm({ ...form, cage_number: e.target.value })
-              }
-            />
-            <input
-              id="registry-notes"
-              name="notes"
-              placeholder="Нотатки"
-              value={form.notes}
-              onChange={(e) => setForm({ ...form, notes: e.target.value })}
-            />
-          </div>
-          {/* Додано (етап 3): фото нового кролика. Зберігається разом із
-              кроликом після натискання «Зберегти». */}
-          <div className="registry-form-photo">
-            {newPhoto && (
-              <div className="registry-form-photo-frame">
-                <img
-                  className="registry-form-photo-img"
-                  src={newPhoto.url}
-                  alt="Попередній перегляд фото"
-                />
-              </div>
-            )}
-            <div className="registry-form-photo-actions">
-              <input
-                ref={newPhotoInputRef}
-                id="registry-new-photo-input"
-                name="photo"
-                type="file"
-                accept="image/*"
-                aria-label="Обрати файл фото кролика"
-                className="photo-file-input"
-                onChange={handleNewPhotoPick}
-              />
-              <button
-                type="button"
-                className="registry-archive-link"
-                onClick={() => newPhotoInputRef.current?.click()}
-                disabled={saving}
-              >
-                {newPhoto ? "Змінити фото" : "Обрати фото"}
-              </button>
-              {newPhoto && (
-                <button
-                  type="button"
-                  className="registry-archive-link"
-                  onClick={() => selectNewPhoto(null)}
-                  disabled={saving}
-                >
-                  Прибрати фото
-                </button>
-              )}
-            </div>
-            <p className="settings-hint">
-              Необов'язково. Фото стискається автоматично і зберігається разом
-              із кроликом.
-            </p>
-          </div>
-          {error && <p className="registry-error">{error}</p>}
-          <button
-            className="registry-save-btn"
-            onClick={handleAdd}
-            disabled={saving || !form.name}
-          >
-            {saving ? "Збереження..." : "Зберегти"}
-          </button>
-        </div>
-      )}
+      <NewRabbitForm
+        open={showForm}
+        userId={session.user.id}
+        onClose={() => setShowForm(false)}
+        onSaved={loadData}
+        onPhotoError={setPhotoError}
+      />
 
       {loadError && <p className="registry-error">{loadError}</p>}
       {/* Додано: помилка відкриття фото */}
@@ -771,196 +401,23 @@ export default function RabbitRegistry({ session }: Props) {
 
       {/* ── Зноска: вік утримання у племінному стаді ── */}
       <BreedingAgeInfo />
-      {showSettings && (
-        <div
-          className="help-overlay"
-          onClick={() => setShowSettings(false)}
-          role="presentation"
-        >
-          <div
-            className="help-modal settings-modal"
-            onClick={(e) => e.stopPropagation()}
-            role="presentation"
-          >
-            <div className="help-modal-header">
-              <h2>⚙️ Налаштування</h2>
-              <button
-                className="help-close"
-                onClick={() => setShowSettings(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="settings-body">
-              {/* Додано (етап 2): фото особистого кабінету */}
-              <div className="settings-avatar-block">
-                <div className="settings-avatar-circle">
-                  {avatarUrl ? (
-                    <img
-                      className="settings-avatar-img"
-                      src={avatarUrl}
-                      alt="Фото кабінету"
-                    />
-                  ) : (
-                    <span aria-hidden="true">
-                      {/* Змінено: літера з email, як в аватарі шапки (раніше
-                          бралась з відображуваного імені) */}
-                      {(session.user.email || "?").charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <div className="settings-avatar-actions">
-                  {/* Змінено: додано id і name — вимога правила ESLint для
-                      полів форми (потрібно для автозаповнення браузера) */}
-                  <input
-                    ref={avatarFileRef}
-                    id="registry-avatar-input"
-                    name="avatar"
-                    type="file"
-                    accept="image/*"
-                    aria-label="Обрати файл фото кабінету"
-                    className="photo-file-input"
-                    onChange={handleAvatarChange}
-                  />
-                  <button
-                    type="button"
-                    className="registry-archive-link"
-                    onClick={() => avatarFileRef.current?.click()}
-                    disabled={avatarBusy}
-                  >
-                    {avatarBusy
-                      ? "Обробка..."
-                      : avatarPath
-                        ? "Замінити фото"
-                        : "Додати фото"}
-                  </button>
-                  {avatarPath && (
-                    <button
-                      type="button"
-                      className="registry-archive-link"
-                      onClick={handleAvatarDelete}
-                      disabled={avatarBusy}
-                    >
-                      Видалити фото
-                    </button>
-                  )}
-                </div>
-              </div>
-              {avatarError && <p className="settings-error">{avatarError}</p>}
-              <label className="settings-label" htmlFor="registry-display-name">
-                Відображуване ім'я або назва господарства
-              </label>
-              <p className="settings-hint">
-                Замінить електронну пошту у заголовку. Наприклад: «Вухані у
-                Петровича» або «ФГ Прозоро».
-              </p>
-              <input
-                id="registry-display-name"
-                className="settings-input"
-                type="text"
-                placeholder="Введіть нік або назву..."
-                value={displayName}
-                maxLength={60}
-                onChange={(e) => setDisplayName(e.target.value)}
-              />
-              {displayNameError && (
-                <p className="settings-error">{displayNameError}</p>
-              )}
-              {displayNameSaved && (
-                <p className="settings-success">✓ Збережено</p>
-              )}
-              <div className="settings-actions">
-                <button
-                  className="registry-save-btn"
-                  onClick={handleSaveDisplayName}
-                  disabled={displayNameSaving}
-                >
-                  {displayNameSaving ? "Збереження..." : "Зберегти"}
-                </button>
-                <button
-                  className="registry-archive-link"
-                  onClick={() => setShowSettings(false)}
-                >
-                  Закрити
-                </button>
-              </div>
-              {/* ── Push-сповіщення: блок у налаштуваннях ── */}
-              <div className="settings-push-block">
-                {/* "Push-сповіщення" тут — заголовок блоку, не мітка для
-                    конкретного поля (нижче йде кнопка-перемикач, не input),
-                    тож span замість label, щоб не вводити в оману читалку
-                    екрана порожньою міткою. */}
-                <span className="settings-label">Push-сповіщення</span>
-                <p className="settings-hint">
-                  Нагадування про вакцинації, окроли та інші події кабінету —
-                  прямо в браузер.
-                </p>
-                {pushError && <p className="settings-error">{pushError}</p>}
-                <button
-                  className="registry-save-btn"
-                  onClick={handleTogglePush}
-                  disabled={pushLoading}
-                >
-                  {pushLoading
-                    ? "Зачекай..."
-                    : pushEnabled
-                      ? "🔕 Вимкнути сповіщення"
-                      : "🔔 Дозволити сповіщення"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <SettingsModal
+        open={showSettings}
+        session={session}
+        onClose={() => setShowSettings(false)}
+      />
       {confirmArchiveId && (
-        <div
-          className="help-overlay"
-          onClick={() => {
+        <ArchiveModal
+          selectedReason={selectedReason}
+          error={archiveError}
+          onSelectReason={setSelectedReason}
+          onCancel={() => {
             setConfirmArchiveId(null);
             setSelectedReason("");
             setArchiveError("");
           }}
-          role="presentation"
-        >
-          <div
-            className="confirm-modal"
-            onClick={(e) => e.stopPropagation()}
-            role="presentation"
-          >
-            <p className="confirm-text">Причина архівування?</p>
-            <div className="archive-reason-list">
-              {archiveReasons.map((r) => (
-                <button
-                  key={r.value}
-                  className={`archive-reason-btn ${selectedReason === r.value ? "active" : ""}`}
-                  onClick={() => setSelectedReason(r.value)}
-                >
-                  {r.label}
-                </button>
-              ))}
-            </div>
-            {archiveError && <p className="registry-error">{archiveError}</p>}
-            <div className="confirm-actions">
-              <button
-                className="confirm-cancel"
-                onClick={() => {
-                  setConfirmArchiveId(null);
-                  setSelectedReason("");
-                  setArchiveError("");
-                }}
-              >
-                Скасувати
-              </button>
-              <button
-                className="confirm-ok"
-                onClick={confirmArchive}
-                disabled={!selectedReason}
-              >
-                Архівувати
-              </button>
-            </div>
-          </div>
-        </div>
+          onConfirm={confirmArchive}
+        />
       )}
     </div>
   );
