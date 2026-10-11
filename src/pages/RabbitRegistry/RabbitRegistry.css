@@ -1207,3 +1207,40 @@ button.registry-email:hover .registry-settings-gear {
     white-space: nowrap;
     border: 0;
 }
+
+/* ===== Додано (етап 3): ФОТО У ФОРМІ «НОВИЙ КРОЛИК» ===== */
+.registry-form-photo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.registry-form-photo-frame {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--gray-light);
+}
+
+.registry-form-photo-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.registry-form-photo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    position: relative;
+}
+
+@media (max-width: 420px) {
+    .registry-form-photo-frame {
+        max-width: 100%;
+    }
+}

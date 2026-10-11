@@ -9,6 +9,8 @@ import {
   getFullUrl,
   uploadAvatar,
   removeAvatar,
+  uploadRabbitPhoto,
+  removeRabbitPhoto,
 } from "../../utils/photoStorage";
 
 vi.mock("../../lib/supabase", () => ({
@@ -24,6 +26,9 @@ vi.mock("../../utils/photoStorage", () => ({
   // Додано (етап 2): аватар кабінету
   uploadAvatar: vi.fn(),
   removeAvatar: vi.fn(),
+  // Додано (етап 3): фото у формі «Новий кролик»
+  uploadRabbitPhoto: vi.fn(),
+  removeRabbitPhoto: vi.fn(),
 }));
 
 vi.mock("../../utils/pushNotifications", () => ({
@@ -55,6 +60,7 @@ function chain(result: Result, onEq?: (args: unknown[]) => void) {
   const c: Record<string, unknown> = {};
   const passthrough = () => c;
   c.select = passthrough;
+  c.single = passthrough;
   c.not = passthrough;
   c.order = passthrough;
   c.eq = (...args: unknown[]) => {
@@ -75,15 +81,27 @@ function chain(result: Result, onEq?: (args: unknown[]) => void) {
 function setupSupabase(config: {
   rabbits?: Result;
   stats?: Result; // застосовується до всіх п'яти запитів статистики
-  archive?: Result;
+  archive?: Result; // результат будь-якого update у таблиці rabbits
+  insert?: Result; // результат створення кролика (за замовчуванням id "new-rabbit")
 }) {
   const archiveCalls: unknown[] = [];
+  const insertCalls: unknown[] = [];
+  // order фіксує послідовність звернень до БД (і до сховища, якщо тест додає)
+  const order: string[] = [];
   vi.mocked(supabase.from).mockImplementation(((table: string) => {
     if (table === "rabbits") {
       return {
         select: () => chain(config.rabbits ?? { data: [rabbit], error: null }),
+        insert: (payload: unknown) => {
+          insertCalls.push(payload);
+          order.push("insert");
+          return chain(
+            config.insert ?? { data: { id: "new-rabbit" }, error: null },
+          );
+        },
         update: (payload: unknown) => {
           archiveCalls.push(payload);
+          order.push(`db:${JSON.stringify(payload)}`);
           return chain(config.archive ?? { error: null });
         },
       };
@@ -92,7 +110,7 @@ function setupSupabase(config: {
       select: () => chain(config.stats ?? { data: [], error: null }),
     };
   }) as never);
-  return { archiveCalls };
+  return { archiveCalls, insertCalls, order };
 }
 
 function renderPage() {
@@ -474,5 +492,225 @@ describe("RabbitRegistry: фото кабінету", () => {
     ).toBeInTheDocument();
     expect(removeAvatar).not.toHaveBeenCalled();
     expect(screen.getByAltText("Фото кабінету")).toBeInTheDocument();
+  });
+});
+
+// Додано (етап 3): фото у формі «Новий кролик»
+describe("RabbitRegistry: фото при додаванні кролика", () => {
+  const NEW_PATH = "user-1/new-rabbit-1.webp";
+  const PHOTO_ERROR =
+    "Кролика збережено, але фото завантажити не вдалося. Додайте його через «Редагувати»";
+
+  const image = () => new File(["x"], "r.jpg", { type: "image/jpeg" });
+
+  async function openForm() {
+    await screen.findByText("Зоря");
+    fireEvent.click(screen.getByRole("button", { name: "+ Додати кролика" }));
+    await screen.findByText("Новий кролик");
+  }
+
+  function fillName(name = "Ласка") {
+    fireEvent.change(screen.getByPlaceholderText("Кличка *"), {
+      target: { value: name },
+    });
+  }
+
+  function pickPhoto(file: File) {
+    const input = screen.getByLabelText(
+      "Обрати файл фото кролика",
+    ) as HTMLInputElement;
+    fireEvent.change(input, { target: { files: [file] } });
+  }
+
+  function clickSave() {
+    fireEvent.click(screen.getByRole("button", { name: "Зберегти" }));
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    // jsdom не реалізує URL.createObjectURL
+    Object.assign(URL, {
+      createObjectURL: vi.fn(() => "blob:preview"),
+      revokeObjectURL: vi.fn(),
+    });
+  });
+
+  it("у формі є вибір фото, без обраного файлу перегляду немає", async () => {
+    setupSupabase({});
+    renderPage();
+    await openForm();
+
+    expect(
+      screen.getByRole("button", { name: "Обрати фото" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Прибрати фото" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByAltText("Попередній перегляд фото"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("обране фото показується в перегляді, 'Прибрати фото' його скидає", async () => {
+    setupSupabase({});
+    renderPage();
+    await openForm();
+
+    pickPhoto(image());
+
+    const preview = await screen.findByAltText("Попередній перегляд фото");
+    expect(preview.getAttribute("src")).toBe("blob:preview");
+    expect(
+      screen.getByRole("button", { name: "Змінити фото" }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Прибрати фото" }));
+
+    expect(
+      screen.queryByAltText("Попередній перегляд фото"),
+    ).not.toBeInTheDocument();
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:preview");
+    expect(
+      screen.getByRole("button", { name: "Обрати фото" }),
+    ).toBeInTheDocument();
+  });
+
+  it("не зображення відхиляється без перегляду і без звернень до сховища", async () => {
+    setupSupabase({});
+    renderPage();
+    await openForm();
+
+    pickPhoto(new File(["x"], "a.pdf", { type: "application/pdf" }));
+
+    expect(
+      await screen.findByText("Оберіть файл із зображенням"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByAltText("Попередній перегляд фото"),
+    ).not.toBeInTheDocument();
+    expect(uploadRabbitPhoto).not.toHaveBeenCalled();
+  });
+
+  it("з фото: спершу створення кролика, потім завантаження, потім запис шляху", async () => {
+    const { order, insertCalls } = setupSupabase({});
+    vi.mocked(uploadRabbitPhoto).mockImplementation(async () => {
+      order.push("upload");
+      return NEW_PATH;
+    });
+    renderPage();
+    await openForm();
+
+    const file = image();
+    fillName();
+    pickPhoto(file);
+    clickSave();
+
+    await waitFor(() =>
+      expect(screen.queryByText("Новий кролик")).not.toBeInTheDocument(),
+    );
+    expect(insertCalls).toHaveLength(1);
+    expect(insertCalls[0]).toMatchObject({ name: "Ласка", user_id: "user-1" });
+    expect(uploadRabbitPhoto).toHaveBeenCalledWith(
+      "user-1",
+      "new-rabbit",
+      file,
+    );
+    // перші три звернення — це саме додавання; далі йде оновлення списку
+    expect(order.slice(0, 3)).toEqual([
+      "insert",
+      "upload",
+      `db:${JSON.stringify({ photo_path: NEW_PATH })}`,
+    ]);
+    expect(removeRabbitPhoto).not.toHaveBeenCalled();
+    expect(screen.queryByText(PHOTO_ERROR)).not.toBeInTheDocument();
+  });
+
+  it("без фото: кролик створюється, сховище не чіпається", async () => {
+    const { insertCalls } = setupSupabase({});
+    renderPage();
+    await openForm();
+
+    fillName();
+    clickSave();
+
+    await waitFor(() =>
+      expect(screen.queryByText("Новий кролик")).not.toBeInTheDocument(),
+    );
+    expect(insertCalls).toHaveLength(1);
+    expect(uploadRabbitPhoto).not.toHaveBeenCalled();
+    expect(removeRabbitPhoto).not.toHaveBeenCalled();
+  });
+
+  it("збій створення кролика: фото не завантажується, форма лишається", async () => {
+    setupSupabase({ insert: { data: null, error: { message: "denied" } } });
+    renderPage();
+    await openForm();
+
+    fillName();
+    pickPhoto(image());
+    clickSave();
+
+    expect(await screen.findByText("Помилка збереження")).toBeInTheDocument();
+    expect(uploadRabbitPhoto).not.toHaveBeenCalled();
+    expect(screen.getByText("Новий кролик")).toBeInTheDocument();
+    // обране фото не губиться, його не треба вибирати повторно
+    expect(screen.getByAltText("Попередній перегляд фото")).toBeInTheDocument();
+  });
+
+  it("збій завантаження фото: кролика збережено, є повідомлення, шлях не записується", async () => {
+    const { archiveCalls } = setupSupabase({});
+    vi.mocked(uploadRabbitPhoto).mockRejectedValue(new Error("boom"));
+    renderPage();
+    await openForm();
+
+    fillName();
+    pickPhoto(image());
+    clickSave();
+
+    expect(await screen.findByText(PHOTO_ERROR)).toBeInTheDocument();
+    expect(screen.queryByText("Новий кролик")).not.toBeInTheDocument();
+    expect(archiveCalls).toHaveLength(0);
+    expect(removeRabbitPhoto).not.toHaveBeenCalled();
+  });
+
+  it("збій запису шляху в БД: завантажений файл прибирається, є повідомлення", async () => {
+    setupSupabase({ archive: { error: { message: "denied" } } });
+    vi.mocked(uploadRabbitPhoto).mockResolvedValue(NEW_PATH);
+    renderPage();
+    await openForm();
+
+    fillName();
+    pickPhoto(image());
+    clickSave();
+
+    expect(await screen.findByText(PHOTO_ERROR)).toBeInTheDocument();
+    expect(removeRabbitPhoto).toHaveBeenCalledTimes(1);
+    expect(removeRabbitPhoto).toHaveBeenCalledWith(NEW_PATH);
+    expect(screen.queryByText("Новий кролик")).not.toBeInTheDocument();
+  });
+
+  it("після успішного додавання фото скидається для наступного кролика", async () => {
+    setupSupabase({});
+    vi.mocked(uploadRabbitPhoto).mockResolvedValue(NEW_PATH);
+    renderPage();
+    await openForm();
+
+    fillName();
+    pickPhoto(image());
+    clickSave();
+    await waitFor(() =>
+      expect(screen.queryByText("Новий кролик")).not.toBeInTheDocument(),
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "+ Додати кролика" }));
+    await screen.findByText("Новий кролик");
+
+    expect(
+      screen.queryByAltText("Попередній перегляд фото"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Обрати фото" }),
+    ).toBeInTheDocument();
   });
 });

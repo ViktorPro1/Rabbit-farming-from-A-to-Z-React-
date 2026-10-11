@@ -15,11 +15,15 @@ import { calcAgeDays, calcAgeLabel } from "../../utils/calcAge";
 import { todayKyiv } from "../../utils/kyivDate";
 // Додано: мініатюри та повні фото кроликів зі сховища Supabase
 // Змінено (етап 2): до імпорту додано uploadAvatar і removeAvatar
+// Змінено (етап 3): додано uploadRabbitPhoto і removeRabbitPhoto для фото
+// у формі «Новий кролик»
 import {
   getThumbUrls,
   getFullUrl,
   uploadAvatar,
   removeAvatar,
+  uploadRabbitPhoto,
+  removeRabbitPhoto,
 } from "../../utils/photoStorage";
 // Додано (етап 2): посилання на аватар кабінету
 import { useAvatarUrl } from "../../hooks/useAvatarUrl";
@@ -213,6 +217,10 @@ export default function RabbitRegistry({ session }: Props) {
       if (displayNameSavedTimeoutRef.current) {
         clearTimeout(displayNameSavedTimeoutRef.current);
       }
+      // Додано (етап 3): звільняємо посилання попереднього перегляду фото
+      if (newPhotoRef.current) {
+        URL.revokeObjectURL(newPhotoRef.current.url);
+      }
     };
   }, []);
 
@@ -230,6 +238,15 @@ export default function RabbitRegistry({ session }: Props) {
     name: string;
   } | null>(null);
   const [photoError, setPhotoError] = useState("");
+  // Додано (етап 3): фото, обране у формі «Новий кролик». Файл завантажується
+  // лише після того, як кролика створено (шлях у сховищі містить його id).
+  // Посилання для попереднього перегляду звільняється вручну, тому стан
+  // дублюється в ref (для прибирання при розмонтуванні).
+  const [newPhoto, setNewPhoto] = useState<{ file: File; url: string } | null>(
+    null,
+  );
+  const newPhotoRef = useRef<{ file: File; url: string } | null>(null);
+  const newPhotoInputRef = useRef<HTMLInputElement | null>(null);
   const currentLabel =
     session.user.user_metadata?.display_name || session.user.email;
   const [stats, setStats] = useState<Stats>({
@@ -618,20 +635,87 @@ export default function RabbitRegistry({ session }: Props) {
     setPushLoading(false);
   }
 
+  // Додано (етап 3): вибір або скидання фото у формі «Новий кролик»
+  function selectNewPhoto(file: File | null) {
+    if (newPhotoRef.current) {
+      URL.revokeObjectURL(newPhotoRef.current.url);
+    }
+    const next = file ? { file, url: URL.createObjectURL(file) } : null;
+    newPhotoRef.current = next;
+    setNewPhoto(next);
+  }
+
+  function handleNewPhotoPick(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // дозволяє обрати той самий файл повторно
+    if (!file) return;
+    setError("");
+    if (!isLikelyImageFile(file)) {
+      setError("Оберіть файл із зображенням");
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      setError("Фото завелике (понад 20 МБ)");
+      return;
+    }
+    selectNewPhoto(file);
+  }
+
+  // Змінено (етап 3): після створення кролика (потрібен його id) завантажуємо
+  // обране фото і записуємо шлях у rabbits.photo_path. Якщо фото не вдалося
+  // зберегти, кролик усе одно лишається в реєстрі (форма закривається, щоб
+  // повторне натискання не створило дублікат), а користувач бачить
+  // повідомлення і може додати фото через «Редагувати».
   async function handleAdd() {
     setSaving(true);
     setError("");
-    const { error } = await supabase
+    setPhotoError("");
+    const { data: created, error } = await supabase
       .from("rabbits")
-      .insert({ ...form, user_id: session.user.id });
+      .insert({ ...form, user_id: session.user.id })
+      .select("id")
+      .single();
     if (error) {
       logError("RabbitRegistry.handleAdd", error);
       setError("Помилка збереження");
-    } else {
-      setForm(emptyForm);
-      setShowForm(false);
-      loadData();
+      setSaving(false);
+      return;
     }
+
+    if (newPhoto) {
+      let uploadedPath: string | null = null;
+      try {
+        if (!created?.id) throw new Error("Не отримано id нового кролика");
+        uploadedPath = await uploadRabbitPhoto(
+          session.user.id,
+          created.id,
+          newPhoto.file,
+        );
+        const { error: photoDbError } = await supabase
+          .from("rabbits")
+          .update({ photo_path: uploadedPath })
+          .eq("id", created.id)
+          .eq("user_id", session.user.id);
+        if (photoDbError) throw photoDbError;
+      } catch (err) {
+        logError("RabbitRegistry.handleAddPhoto", err);
+        if (uploadedPath) {
+          try {
+            await removeRabbitPhoto(uploadedPath);
+          } catch (cleanupErr) {
+            logError("RabbitRegistry.handleAddPhotoCleanup", cleanupErr);
+          }
+        }
+        setPhotoError(
+          "Кролика збережено, але фото завантажити не вдалося. Додайте його через «Редагувати»",
+        );
+      }
+    }
+
+    setForm(emptyForm);
+    selectNewPhoto(null);
+    setShowForm(false);
+    loadData();
     setSaving(false);
   }
 
@@ -1592,6 +1676,53 @@ export default function RabbitRegistry({ session }: Props) {
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
             />
+          </div>
+          {/* Додано (етап 3): фото нового кролика. Зберігається разом із
+              кроликом після натискання «Зберегти». */}
+          <div className="registry-form-photo">
+            {newPhoto && (
+              <div className="registry-form-photo-frame">
+                <img
+                  className="registry-form-photo-img"
+                  src={newPhoto.url}
+                  alt="Попередній перегляд фото"
+                />
+              </div>
+            )}
+            <div className="registry-form-photo-actions">
+              <input
+                ref={newPhotoInputRef}
+                id="registry-new-photo-input"
+                name="photo"
+                type="file"
+                accept="image/*"
+                aria-label="Обрати файл фото кролика"
+                className="photo-file-input"
+                onChange={handleNewPhotoPick}
+              />
+              <button
+                type="button"
+                className="registry-archive-link"
+                onClick={() => newPhotoInputRef.current?.click()}
+                disabled={saving}
+              >
+                {newPhoto ? "Змінити фото" : "Обрати фото"}
+              </button>
+              {newPhoto && (
+                <button
+                  type="button"
+                  className="registry-archive-link"
+                  onClick={() => selectNewPhoto(null)}
+                  disabled={saving}
+                >
+                  Прибрати фото
+                </button>
+              )}
+            </div>
+            <p className="settings-hint">
+              Необов'язково. Фото стискається автоматично і зберігається разом
+              із кроликом.
+            </p>
           </div>
           {error && <p className="registry-error">{error}</p>}
           <button
