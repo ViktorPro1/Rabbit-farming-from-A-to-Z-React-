@@ -487,8 +487,14 @@ export async function loadCalendarEvents(
 
     (fatteningRes.data || []).forEach((f) => {
         const subject = `Клітка ${f.cage_number || "?"}`;
+        // Плановий забій показуємо лише для активних кліток, у яких забій
+        // ще не виконано. Для забитих, проданих чи видалених кліток
+        // планова подія більше не актуальна.
+        const isStillPlanned = f.is_active === true && !f.slaughtered_at;
         [
-            makeEvent(f.id, f.slaughter_date, "slaughterPlanned", subject),
+            isStillPlanned
+                ? makeEvent(f.id, f.slaughter_date, "slaughterPlanned", subject)
+                : null,
             makeEvent(`${f.id}-done`, f.slaughtered_at, "slaughterActual", subject),
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
