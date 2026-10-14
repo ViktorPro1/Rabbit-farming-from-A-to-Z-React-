@@ -264,6 +264,48 @@ describe("Statistics: обробка помилок", () => {
   });
 });
 
+describe("Statistics: плем'я стадо", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  it("рахує лише активних кроликів реєстру, а не всіх зі злучок", async () => {
+    const calls: {
+      table: string;
+      cols: string;
+      method: string;
+      args: unknown[];
+    }[] = [];
+    makeSupabase((table, cols) => {
+      if (table === "rabbits" && cols.includes("is_active"))
+        return {
+          data: [
+            { id: "f1", name: "А", is_active: true },
+            { id: "f2", name: "Б", is_active: true },
+            { id: "f3", name: "В", is_active: false },
+            { id: "m1", name: "Г", is_active: false },
+          ],
+          error: null,
+        };
+      if (table === "matings")
+        return {
+          data: [
+            { id: "mt1", female_id: "f3", male_id: "m1" },
+            { id: "mt2", female_id: "f1", male_id: "m1" },
+          ],
+          error: null,
+        };
+      return emptyOk();
+    }, calls);
+
+    renderPage();
+
+    const label = await screen.findByText("Плем. стадо");
+    expect(label.previousElementSibling).toHaveTextContent("2");
+  });
+});
+
 describe("Statistics: розмонтування під час завантаження", () => {
   beforeEach(() => {
     vi.clearAllMocks();
