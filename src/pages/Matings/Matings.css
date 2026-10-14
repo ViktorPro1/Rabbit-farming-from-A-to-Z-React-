@@ -223,6 +223,16 @@
     color: var(--brown);
 }
 
+/* Фактичні батьки окролу, якщо відрізняються від злучки */
+.litter-actual-parents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green-dark);
+}
+
 .litter-delete-btn {
     background: none;
     border: none;
@@ -251,6 +261,24 @@
 
 .litter-add-btn:hover {
     background: var(--amber);
+    color: white;
+}
+
+/* Кнопка «+ Ще одна клітка…» у формі окролу: займає одну клітинку сітки форми */
+.litter-split-btn {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    background: none;
+    border: 1px dashed var(--green-accent);
+    border-radius: 8px;
+    color: var(--green-accent);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.litter-split-btn:hover {
+    background: var(--green-accent);
     color: white;
 }
 
@@ -353,6 +381,12 @@
     font-size: 0.85rem;
 }
 
+/* Ще зарано відлучати: звичайний відлік днів до відлучення */
+.litter-weaning-default {
+    color: var(--green-dark);
+    font-size: 0.85rem;
+}
+
 .litter-mating-info {
     display: flex;
     flex-wrap: wrap;
@@ -418,6 +452,14 @@
     font-weight: bold;
     display: inline-block;
     margin: 2px 0;
+}
+
+/* Ще далеко до дати (понад 5 днів) — спокійний нейтральний вигляд */
+.nestbox-normal {
+    background-color: var(--cream);
+    color: var(--green-dark);
+    border: 1px solid var(--green-pale);
+    font-weight: 600;
 }
 
 /* За 5, 4, 3 дні — зелений */
