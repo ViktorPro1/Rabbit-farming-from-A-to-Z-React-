@@ -277,6 +277,7 @@ export async function loadCalendarEvents(
         salesRes,
         reminderRabbitsRes,
         reminderFatteningRes,
+        allRabbitsRes,
     ] = await Promise.all([
         supabase
             .from("matings")
@@ -291,7 +292,7 @@ export async function loadCalendarEvents(
         supabase
             .from("litters")
             .select(
-                "id, birth_date, weaned_date, mother_id, father_id, litter_mating_date, litter_control_date, litter_expected_birth, nestbox_date, nestbox_removed_date, failure_type, mating_id",
+                "id, birth_date, weaned_date, mother_id, father_id, actual_male_id, actual_female_id, litter_mating_date, litter_control_date, litter_expected_birth, nestbox_date, nestbox_removed_date, failure_type, mating_id",
             )
             .eq("user_id", userId),
         supabase
@@ -342,15 +343,28 @@ export async function loadCalendarEvents(
             .eq("user_id", userId)
             .eq("is_active", true)
             .not("reminder_days", "is", null),
+        // Усі кролики (разом з архівними) — для визначення клітки самця/самки
+        // у повторних злучках всередині запису окролу
+        supabase
+            .from("rabbits")
+            .select("id, cage_number")
+            .eq("user_id", userId),
     ]);
 
     const events: CalendarEvent[] = [];
 
+    const cageByRabbitId = new Map<string, string>();
+    (allRabbitsRes.data || []).forEach((r) => {
+        if (r.cage_number) cageByRabbitId.set(r.id, r.cage_number);
+    });
+
     const schemeByMatingId = new Map<string, string>();
     const femaleCageByMatingId = new Map<string, string>();
+    const maleCageByMatingId = new Map<string, string>();
     (matingsRes.data || []).forEach((m) => {
         if (m.breeding_scheme) schemeByMatingId.set(m.id, m.breeding_scheme);
         if (m.female_cage) femaleCageByMatingId.set(m.id, m.female_cage);
+        if (m.male_cage) maleCageByMatingId.set(m.id, m.male_cage);
     });
 
     (matingsRes.data || []).forEach((m) => {
@@ -360,11 +374,12 @@ export async function loadCalendarEvents(
             makeEvent(m.id, m.mating_date, "mating", subject),
             makeEvent(m.id, m.control_date, "matingControl", subject),
             makeEvent(m.id, m.expected_birth, "expectedBirth", subject),
+            // Маточник готують у клітці самки, тому самець у підписі не потрібен
             makeEvent(
                 `${m.id}-nestbox`,
                 addDays(m.mating_date, NESTBOX_DAYS_AFTER_MATING),
                 "nestbox",
-                subject,
+                m.female_cage ? `Клітка ${m.female_cage}` : subject,
             ),
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
@@ -386,6 +401,27 @@ export async function loadCalendarEvents(
 
     (littersRes.data || []).forEach((l) => {
         const subject = "Окріл";
+
+        // Підпис для подій повторної злучки всередині існуючого запису
+        // (litter_mating_date / litter_control_date / litter_expected_birth /
+        // маточник): такий самий формат "Клітка X × Y", як у звичайної злучки.
+        // Самець у повторній злучці може бути іншим, ніж у батьківській, тому
+        // спочатку беремо кролика з самого окролу (actual_male_id, потім
+        // father_id) і його клітку з таблиці rabbits; лише якщо там порожньо —
+        // клітку батьківської злучки. Те саме для самки.
+        const litterMaleId = l.actual_male_id || l.father_id;
+        const litterFemaleId = l.actual_female_id || l.mother_id;
+        const litterMaleCage =
+            (litterMaleId && cageByRabbitId.get(litterMaleId)) ||
+            maleCageByMatingId.get(l.mating_id);
+        const litterFemaleCage =
+            (litterFemaleId && cageByRabbitId.get(litterFemaleId)) ||
+            femaleCageByMatingId.get(l.mating_id);
+        const matingSubject =
+            litterFemaleCage || litterMaleCage
+                ? `Клітка ${litterFemaleCage || "?"} × ${litterMaleCage || "?"}`
+                : subject;
+
         // Маточник для повторної злучки конкретного окролу — тільки якщо
         // окріл ще не стався і маточник ще не позначений готовим
         const nestboxEvent =
@@ -394,7 +430,8 @@ export async function loadCalendarEvents(
                     `${l.id}-nestbox`,
                     addDays(l.litter_mating_date, NESTBOX_DAYS_AFTER_MATING),
                     "nestbox",
-                    subject,
+                    // Маточник готують у клітці самки, самець не потрібен
+                    litterFemaleCage ? `Клітка ${litterFemaleCage}` : subject,
                 )
                 : null;
 
@@ -434,18 +471,23 @@ export async function loadCalendarEvents(
         [
             makeEvent(l.id, l.birth_date, "kindling", subject),
             makeEvent(l.id, l.weaned_date, "weaning", subject),
-            makeEvent(`${l.id}-mating`, l.litter_mating_date, "mating", subject),
+            makeEvent(
+                `${l.id}-mating`,
+                l.litter_mating_date,
+                "mating",
+                matingSubject,
+            ),
             makeEvent(
                 `${l.id}-control`,
                 l.litter_control_date,
                 "matingControl",
-                subject,
+                matingSubject,
             ),
             makeEvent(
                 `${l.id}-expected`,
                 l.litter_expected_birth,
                 "expectedBirth",
-                subject,
+                matingSubject,
             ),
             nestboxEvent,
             nestboxRemovalEvent,
