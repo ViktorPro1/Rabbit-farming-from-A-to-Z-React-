@@ -49,6 +49,8 @@ export interface Mating {
   female_cage: string;
   notes: string;
   breeding_scheme: string;
+  nestbox_date: string | null;
+  previous_mating_date: string | null;
   female: { name: string; breed: string; cage_number: string };
   male: { name: string; breed: string; cage_number: string };
   litters?: Litter[];
@@ -114,6 +116,8 @@ export interface MatingActions {
   markNestboxPrepared: (id: string) => Promise<void>;
   markNestboxRemoved: (id: string) => Promise<void>;
   remating: (litter: Litter) => Promise<void>;
+  markMatingNestboxPrepared: (id: string) => Promise<void>;
+  rematingMating: (mating: Mating) => Promise<void>;
 }
 
 /** Керування редагуванням злучки (на сторінці редагується одна злучка за раз). */

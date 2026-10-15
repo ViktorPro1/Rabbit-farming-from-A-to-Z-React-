@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Matings from "./Matings";
@@ -10,8 +16,22 @@ vi.mock("../../lib/supabase", () => ({ supabase: { from: vi.fn() } }));
 const session = { user: { id: "user-1" } } as Session;
 
 const rabbits = [
-  { id: "r-f", name: "Зоря", breed: "Шиншила", gender: "female", cage_number: "1", is_active: true },
-  { id: "r-m", name: "Барон", breed: "Шиншила", gender: "male", cage_number: "2", is_active: true },
+  {
+    id: "r-f",
+    name: "Зоря",
+    breed: "Шиншила",
+    gender: "female",
+    cage_number: "1",
+    is_active: true,
+  },
+  {
+    id: "r-m",
+    name: "Барон",
+    breed: "Шиншила",
+    gender: "male",
+    cage_number: "2",
+    is_active: true,
+  },
 ];
 
 const mating = {
@@ -35,8 +55,14 @@ type Result = { data?: unknown; error?: { message: string } | null };
 function chain(result: Result) {
   const c: Record<string, unknown> = {};
   for (const m of ["select", "order", "eq", "in", "limit"]) c[m] = () => c;
-  c.then = (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
-    Promise.resolve({ data: null, error: null, ...result }).then(resolve, reject);
+  c.then = (
+    resolve: (v: unknown) => unknown,
+    reject: (e: unknown) => unknown,
+  ) =>
+    Promise.resolve({ data: null, error: null, ...result }).then(
+      resolve,
+      reject,
+    );
   return c;
 }
 
@@ -52,7 +78,11 @@ interface Config {
 }
 
 function setup(config: Config = {}) {
-  const calls = { fatteningInsert: [] as unknown[], litterInsert: 0, matingDelete: 0 };
+  const calls = {
+    fatteningInsert: [] as unknown[],
+    litterInsert: 0,
+    matingDelete: 0,
+  };
   vi.mocked(supabase.from).mockImplementation(((table: string) => {
     switch (table) {
       case "rabbits":
@@ -103,11 +133,21 @@ function renderPage() {
 
 async function fillLitterWithWeaning() {
   fireEvent.click(await screen.findByRole("button", { name: "Розгорнути" }));
-  fireEvent.click(await screen.findByRole("button", { name: "+ Додати окріл" }));
+  // Кнопка з такою самою назвою є і вгорі сторінки, тому шукаємо лише в картці
+  const card = document.querySelector(".mating-card") as HTMLElement;
+  fireEvent.click(
+    within(card).getByRole("button", { name: "+ Додати злучку" }),
+  );
   const byId = (id: string) => document.querySelector(id) as HTMLInputElement;
-  fireEvent.change(byId("#litter-add-m1-weaned-date"), { target: { value: "2026-10-01" } });
-  fireEvent.change(byId("#litter-add-m1-weaned-males"), { target: { value: "3" } });
-  fireEvent.change(byId("#litter-add-m1-weaned-males-cage"), { target: { value: "5" } });
+  fireEvent.change(byId("#litter-add-m1-weaned-date"), {
+    target: { value: "2026-10-01" },
+  });
+  fireEvent.change(byId("#litter-add-m1-weaned-males"), {
+    target: { value: "3" },
+  });
+  fireEvent.change(byId("#litter-add-m1-weaned-males-cage"), {
+    target: { value: "5" },
+  });
   fireEvent.click(screen.getByRole("button", { name: "Зберегти окріл" }));
 }
 
@@ -128,21 +168,27 @@ describe("Matings: завантаження", () => {
   it("помилка завантаження злучок: повідомлення, а не 'злучок ще немає'", async () => {
     setup({ matings: { data: null, error: { message: "boom" } } });
     renderPage();
-    expect(await screen.findByText(/Не вдалося завантажити дані парувань/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Не вдалося завантажити дані парувань/),
+    ).toBeInTheDocument();
     expect(screen.queryByText("Злучок ще немає")).not.toBeInTheDocument();
   });
 
   it("помилка завантаження окролів: повідомлення (злучки не показуються без окролів)", async () => {
     setup({ litters: { data: null, error: { message: "boom" } } });
     renderPage();
-    expect(await screen.findByText(/Не вдалося завантажити дані парувань/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Не вдалося завантажити дані парувань/),
+    ).toBeInTheDocument();
     expect(screen.queryByText("Злучок ще немає")).not.toBeInTheDocument();
   });
 
   it("помилка завантаження кроликів: повідомлення", async () => {
     setup({ rabbits: { data: null, error: { message: "boom" } } });
     renderPage();
-    expect(await screen.findByText(/Не вдалося завантажити дані парувань/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Не вдалося завантажити дані парувань/),
+    ).toBeInTheDocument();
   });
 });
 
@@ -184,8 +230,14 @@ describe("Matings: окріл з відлученням створює кліт�
     renderPage();
     await fillLitterWithWeaning();
     await waitFor(() => expect(calls.fatteningInsert).toHaveLength(1));
-    expect(calls.fatteningInsert[0]).toMatchObject({ cage_number: "5", males: 3, females: 0 });
-    expect(screen.queryByText(/Окріл збережено, але клітки/)).not.toBeInTheDocument();
+    expect(calls.fatteningInsert[0]).toMatchObject({
+      cage_number: "5",
+      males: 3,
+      females: 0,
+    });
+    expect(
+      screen.queryByText(/Окріл збережено, але клітки/),
+    ).not.toBeInTheDocument();
   });
 
   it("клітку не створено (помилка запису): користувач бачить попередження", async () => {
@@ -193,17 +245,23 @@ describe("Matings: окріл з відлученням створює кліт�
     renderPage();
     await fillLitterWithWeaning();
     expect(
-      await screen.findByText(/Окріл збережено, але клітки відгодівлі створено не повністю/),
+      await screen.findByText(
+        /Окріл збережено, але клітки відгодівлі створено не повністю/,
+      ),
     ).toBeInTheDocument();
     expect(calls.litterInsert).toBe(1);
   });
 
   it("помилка перевірки існуючої клітки: нову не створюємо (без дублікатів) і попереджаємо", async () => {
-    const calls = setup({ fatteningSelect: { data: null, error: { message: "boom" } } });
+    const calls = setup({
+      fatteningSelect: { data: null, error: { message: "boom" } },
+    });
     renderPage();
     await fillLitterWithWeaning();
     expect(
-      await screen.findByText(/Окріл збережено, але клітки відгодівлі створено не повністю/),
+      await screen.findByText(
+        /Окріл збережено, але клітки відгодівлі створено не повністю/,
+      ),
     ).toBeInTheDocument();
     expect(calls.fatteningInsert).toHaveLength(0);
   });

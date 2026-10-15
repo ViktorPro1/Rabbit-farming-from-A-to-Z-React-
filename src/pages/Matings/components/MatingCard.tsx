@@ -9,6 +9,7 @@ import type {
 import { getUpcomingInfo } from "../utils";
 import LitterAddForm from "./LitterAddForm";
 import LitterBlock from "./LitterBlock";
+import MatingActionsRow from "./MatingActionsRow";
 import MatingDates from "./MatingDates";
 import MatingEditForm from "./MatingEditForm";
 import MatingPair from "./MatingPair";
@@ -44,6 +45,7 @@ export default function MatingCard({
   litterAdd,
 }: Props) {
   const upcoming = getUpcomingInfo(m);
+  const hasLitters = (m.litters || []).length > 0;
 
   return (
     <div className="mating-card">
@@ -75,7 +77,7 @@ export default function MatingCard({
         </div>
       </div>
 
-      {upcoming && (
+      {upcoming && !isExpanded && (
         <div className="mating-summary-date">
           {upcoming.label}:{" "}
           <strong>{new Date(upcoming.date).toLocaleDateString("uk-UA")}</strong>
@@ -84,7 +86,9 @@ export default function MatingCard({
 
       {isExpanded && (
         <>
-          <MatingDates mating={m} />
+          <MatingDates mating={m} hideDates={!hasLitters} />
+
+          {!hasLitters && <MatingActionsRow mating={m} actions={actions} />}
 
           {m.notes && <p className="mating-notes">{m.notes}</p>}
 
@@ -120,7 +124,7 @@ export default function MatingCard({
       )}
 
       <button className="litter-add-btn" onClick={litterAdd.onToggleOpen}>
-        {litterAdd.isOpen ? "✕ Скасувати" : "+ Додати окріл"}
+        {litterAdd.isOpen ? "✕ Скасувати" : "+ Додати злучку"}
       </button>
 
       {litterAdd.isOpen && (

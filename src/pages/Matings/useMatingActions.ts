@@ -1,6 +1,6 @@
 import { supabase } from "../../lib/supabase";
 import { addDaysISO, todayKyiv } from "../../utils/kyivDate";
-import type { Litter, MatingActions } from "./types";
+import type { Litter, Mating, MatingActions } from "./types";
 
 interface Options {
   /** Перезавантажити список злучок після успішної дії */
@@ -133,6 +133,46 @@ export function useMatingActions({
     }
   }
 
+  async function markMatingNestboxPrepared(id: string) {
+    setPageError("");
+    const { error } = await supabase
+      .from("matings")
+      .update({ nestbox_date: todayKyiv() })
+      .eq("id", id);
+    if (error) {
+      console.error("Не вдалося зберегти дату маточника:", error);
+      setPageError("Не вдалося зберегти дату маточника. Спробуйте ще раз");
+      return;
+    }
+    refetch();
+  }
+
+  async function rematingMating(m: Mating) {
+    if (
+      !confirm(
+        "Кролиця покрилась повторно? Дата злучки та контрольна будуть оновлені.",
+      )
+    )
+      return;
+    setPageError("");
+    const today = todayKyiv();
+    const { error } = await supabase
+      .from("matings")
+      .update({
+        mating_date: today,
+        control_date: addDaysISO(today, 7),
+        nestbox_date: null,
+        previous_mating_date: m.mating_date || null,
+      })
+      .eq("id", m.id);
+    if (error) {
+      console.error("Не вдалося оновити дату злучки:", error);
+      setPageError("Не вдалося зберегти повторну злучку. Спробуйте ще раз");
+      return;
+    }
+    refetch();
+  }
+
   return {
     deleteMating,
     archiveMating,
@@ -141,5 +181,7 @@ export function useMatingActions({
     markNestboxPrepared,
     markNestboxRemoved,
     remating,
+    markMatingNestboxPrepared,
+    rematingMating,
   };
 }
