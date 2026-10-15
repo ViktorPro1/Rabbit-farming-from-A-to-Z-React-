@@ -1,3 +1,7 @@
+.weighing-page>* {
+    min-width: 0;
+}
+
 .weighing-page {
     max-width: 900px;
     margin: 0 auto;
@@ -551,11 +555,12 @@
 
 .weighing-gauge-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.5rem;
 }
 
 .weighing-gauge {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -773,6 +778,12 @@
     .weighing-group-header-row {
         align-items: flex-start;
     }
+
+    /* довгий бейдж нагадування переноситься, а не розширює сторінку */
+    .weighing-reminder {
+        white-space: normal;
+        max-width: 100%;
+    }
 }
 
 /* ===== ОДНОРАЗОВА ПІДКАЗКА ПРО НАГАДУВАННЯ ПІСЛЯ ЗБЕРЕЖЕННЯ ===== */
@@ -806,7 +817,7 @@
     font-size: 0.9rem;
 }
 
-/* ===== СПІЛЬНИЙ АРХІВ ЦИКЛІВ ВІДГОДІВЛІ (додати в кінець Weighing.css) ===== */
+/* ===== СПІЛЬНИЙ АРХІВ ЦИКЛІВ ВІДГОДІВЛІ ===== */
 .weighing-archive-body {
     margin-top: 0.75rem;
     display: flex;
@@ -828,24 +839,6 @@
     color: var(--green-dark);
     font-size: 1.05rem;
     margin: 0 0 0.25rem;
-}
-
-/* ===== СПІЛЬНИЙ АРХІВ ЦИКЛІВ ВІДГОДІВЛІ (додати в кінець Weighing.css) ===== */
-.weighing-archive-body {
-    margin-top: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.weighing-archive-cage {
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.weighing-archive-cage:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
 }
 
 /* ===== БЛОК "ВАГА ПАРТІЙ" ===== */
@@ -906,8 +899,44 @@
     color: var(--gray);
 }
 
-.weighing-archive-cage-title {
-    color: var(--green-dark);
-    font-size: 1.05rem;
-    margin: 0 0 0.25rem;
+/* ===== ЦИКЛИ ВІДГОДІВЛІ: ЗАПИСИ ПО МІСЯЦЯХ ===== */
+.weighing-monthly {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.weighing-month-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.weighing-month-summary {
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    background: var(--green-pale);
+    border-radius: 8px;
+}
+
+.weighing-month-records {
+    padding-left: 0.6rem;
+    border-left: 2px solid var(--green-light);
+}
+
+/* Підпис у картці відгодівлі: вага одного показового кролика */
+.weighing-sample-tag {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--gray);
+}
+
+/* Форма редагування всередині списку записів */
+.weighing-inline-edit {
+    margin: 0.25rem 0;
+}
+
+/* Завершений цикл в архіві: трохи приглушений відносно поточних */
+.weighing-cycle-closed {
+    background: rgba(0, 0, 0, 0.03);
 }
