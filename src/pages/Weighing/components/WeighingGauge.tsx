@@ -32,9 +32,15 @@ export default function WeighingGauge({ metric }: { metric: GaugeMetric }) {
     <div className="weighing-gauge">
       <div
         className="weighing-gauge-ring"
-        style={{ width: size, height: size }}
+        // Кільце стискається разом із колонкою на вузьких екранах
+        style={{ width: size, maxWidth: "100%", aspectRatio: "1 / 1" }}
       >
-        <svg width={size} height={size} style={{ overflow: "visible" }}>
+        <svg
+          width="100%"
+          height="100%"
+          viewBox={`0 0 ${size} ${size}`}
+          style={{ overflow: "visible" }}
+        >
           <path
             d={trackPath}
             fill="none"
