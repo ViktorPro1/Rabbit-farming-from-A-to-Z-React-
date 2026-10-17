@@ -422,6 +422,12 @@ export async function loadCalendarEvents(
                 ? `Клітка ${litterFemaleCage || "?"} × ${litterMaleCage || "?"}`
                 : subject;
 
+        // Підпис для відлучення: клітка матері (де сидить виводок),
+        // щоб замість загального "Окріл" було видно, про яку клітку мова.
+        const weaningSubject = litterFemaleCage
+            ? `Клітка ${litterFemaleCage}`
+            : subject;
+
         // Маточник для повторної злучки конкретного окролу — тільки якщо
         // окріл ще не стався і маточник ще не позначений готовим
         const nestboxEvent =
@@ -465,12 +471,12 @@ export async function loadCalendarEvents(
                         ] ?? DEFAULT_WEANING_TARGET_DAYS,
                     ),
                     "weaningExpected",
-                    subject,
+                    weaningSubject,
                 )
                 : null;
         [
             makeEvent(l.id, l.birth_date, "kindling", subject),
-            makeEvent(l.id, l.weaned_date, "weaning", subject),
+            makeEvent(l.id, l.weaned_date, "weaning", weaningSubject),
             makeEvent(
                 `${l.id}-mating`,
                 l.litter_mating_date,
