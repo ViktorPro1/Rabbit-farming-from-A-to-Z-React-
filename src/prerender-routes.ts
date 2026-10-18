@@ -140,6 +140,7 @@ export const prerenderRoutes = [
     "/anesthesia-care",
     "/neutering",
     "/lab-diagnostics",
+    "/blood-test-reference",
     "/necropsy",
     "/treatment-log",
     "/rhdv-strains",
@@ -232,6 +233,7 @@ export const prerenderRoutes = [
     "/privacy-policy",
     "/terms-of-use",
     "/partnership",
+    "/community",
     "/reviews",
     "/nps-survey"
 ];
