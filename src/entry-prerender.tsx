@@ -2,6 +2,7 @@ import { renderToReadableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
 import { HelmetProvider, type HelmetServerState } from "react-helmet-async";
 import AppRoutes from "./routes/AppRoutes";
+import { buildPrerenderHead } from "./seo/prerenderHead";
 
 async function renderToHtml(app: React.ReactElement): Promise<string> {
   const stream = await renderToReadableStream(app, {
@@ -44,14 +45,16 @@ export async function prerender(data: { url: string }) {
     ),
   ]);
 
-  const { helmet } = helmetContext;
-  const head = helmet
-    ? [
-        helmet.title.toString(),
-        helmet.meta.toString(),
-        helmet.link.toString(),
-      ].join("")
-    : "";
+  // Теги <head> беремо з pageMeta, а не з Helmet: usePageMeta працює через
+  // useEffect, який під час серверного рендеру не виконується. Раніше `head`
+  // повертався рядком, а vite-prerender-plugin приймає лише об'єкт
+  // { lang, title, elements }, тому рядок ігнорувався.
+  const { head, hasOwnMeta } = buildPrerenderHead(data.url);
+  if (!hasOwnMeta) {
+    console.warn(
+      `[prerender] Для ${data.url} немає запису в pageMeta: використано title і description головної.`,
+    );
+  }
 
   return { html, head };
 }
