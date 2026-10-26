@@ -5,6 +5,7 @@ import { useStatisticsData } from "./useStatisticsData";
 import { useWeighingData } from "./useWeighingData";
 import BreedingCards from "./components/BreedingCards";
 import FailuresTab from "./components/FailuresTab";
+import FeedTab from "./components/FeedTab";
 import OverviewTab from "./components/OverviewTab";
 import SalesTab from "./components/SalesTab";
 import SlaughterTab from "./components/SlaughterTab";
@@ -117,6 +118,8 @@ export default function Statistics({ session }: Props) {
             {activeTab === "sales" && <SalesTab sales={salesData} />}
 
             {activeTab === "failures" && <FailuresTab stats={failureStats} />}
+
+            {activeTab === "feed" && <FeedTab userId={session.user.id} />}
 
             {activeTab === "overview" && (
               <OverviewTab

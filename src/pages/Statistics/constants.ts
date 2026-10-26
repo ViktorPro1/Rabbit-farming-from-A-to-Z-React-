@@ -49,9 +49,10 @@ export const STATS_TABS: { id: StatsTab; label: string }[] = [
   { id: "pairs", label: "❤️ Пари" },
   { id: "cages", label: "🏠 Клітки" },
   { id: "accuracy", label: "🗓 Точність окролу" },
+  { id: "failures", label: "Невдалі окроли" },
   { id: "slaughter", label: "🔪 Забої" },
   { id: "sales", label: "💰 Продажі" },
   { id: "overview", label: "📈 Огляд" },
-  { id: "failures", label: "Невдалі окроли" },
+  { id: "feed", label: "🌾 Кормування" },
   { id: "weighing", label: "⚖️ Зважування" },
 ];

@@ -208,6 +208,7 @@ export type StatsTab =
   | "sales"
   | "overview"
   | "failures"
+  | "feed"
   | "weighing";
 
 export interface FarmTotals {
