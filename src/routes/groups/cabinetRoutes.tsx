@@ -48,6 +48,9 @@ const CostAnalysis = lazy(
 const FeedStockPage = lazy(
   () => import("../../pages/FeedStockPage/FeedStockPage"),
 );
+const BreedingPlan = lazy(
+  () => import("../../pages/BreedingPlan/BreedingPlan"),
+);
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -301,6 +304,19 @@ export function getCabinetRoutes(session: Session | null) {
             withCabinetBoundary(
               "FeedStockPage",
               <FeedStockPage session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
+      />
+      <Route
+        path="/breeding-plan"
+        element={
+          session ? (
+            withCabinetBoundary(
+              "BreedingPlan",
+              <BreedingPlan session={session} />,
             )
           ) : (
             <Auth />

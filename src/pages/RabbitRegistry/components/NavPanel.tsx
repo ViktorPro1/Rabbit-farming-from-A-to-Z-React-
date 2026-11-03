@@ -17,6 +17,7 @@ const navSections: NavSection[] = [
     items: [
       { label: "🧬 Родовід", path: "/pedigree" },
       { label: "💞 Парування", path: "/matings" },
+      { label: "🗓 План підбору", path: "/breeding-plan" },
       { label: "🏠 Вольєр", path: "/paddocks" },
       { label: "📅 Календар", path: "/my-calendar" },
     ],
@@ -77,9 +78,7 @@ export default function NavPanel({
         onClick={() => setShowNav(!showNav)}
       >
         📊 Панель кролівництва
-        <span className={`registry-nav-arrow ${showNav ? "open" : ""}`}>
-          ▼
-        </span>
+        <span className={`registry-nav-arrow ${showNav ? "open" : ""}`}>▼</span>
       </button>
 
       <div className={`registry-header-nav-wrap ${showNav ? "open" : ""}`}>
