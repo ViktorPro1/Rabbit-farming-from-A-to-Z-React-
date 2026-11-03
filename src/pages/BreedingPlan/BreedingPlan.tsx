@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
@@ -570,12 +569,24 @@ function assessPair(
   }
 
   // 5. Спорідненості не знайдено: чи можна на це покладатися
-  const femaleKnown = !!female.mother_id && !!female.father_id;
-  const maleKnown = !!male.mother_id && !!male.father_id;
-  if (femaleKnown && maleKnown) {
-    return { level: "ok", text: "У відомому родоводі спільних предків немає" };
+  // Змінено: достатньо, щоб у кожного з пари був відомий хоча б один з батьків
+  // (наприклад, самця позичали і другий з батьків невідомий)
+  const femaleAny = !!female.mother_id || !!female.father_id;
+  const maleAny = !!male.mother_id || !!male.father_id;
+  if (femaleAny && maleAny) {
+    const full =
+      !!female.mother_id &&
+      !!female.father_id &&
+      !!male.mother_id &&
+      !!male.father_id;
+    return {
+      level: "ok",
+      text: full
+        ? "У відомому родоводі спільних предків немає"
+        : "Спільних предків у відомому родоводі немає (родовід неповний)",
+    };
   }
-  if (!femaleKnown && !maleKnown) {
+  if (!femaleAny && !maleAny) {
     return {
       level: "unknown",
       text: "Батьки не вказані ні в самки, ні в самця",
@@ -583,7 +594,7 @@ function assessPair(
   }
   return {
     level: "unknown",
-    text: femaleKnown ? "Батьки самця не вказані" : "Батьки самки не вказані",
+    text: femaleAny ? "Батьки самця не вказані" : "Батьки самки не вказані",
   };
 }
 
