@@ -34,7 +34,7 @@ function ModeBlock({ title, s }: { title: string; s: FeedModeStats }) {
     <div className="feed-mode">
       <h4 className="feed-mode-title">{title}</h4>
       <Row label="Згодовано корму" value={`${fmt(s.kg)} кг`} />
-      <Row label="Голів (в середньому)" value={fmt(s.avgHeads)} />
+      <Row label="Голів (в середньому)" value={fmt(s.avgHeads, 0)} />
       <Row label="Кг корму на голову" value={fmt(s.kgPerHead)} />
       <Row label="Грамів на голову за добу" value={fmt(s.gPerHeadDay, 0)} />
       <Row
