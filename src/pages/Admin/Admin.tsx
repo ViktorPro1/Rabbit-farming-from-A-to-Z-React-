@@ -88,6 +88,7 @@ interface UserDataUsage {
   userId: string;
   email: string | null;
   totalBytes: number;
+  dataBytes: number;
 }
 
 interface OnlineVisitor {
@@ -464,10 +465,12 @@ export default function Admin({ session }: Props) {
             user_id: string;
             email: string | null;
             total_bytes: number;
+            data_bytes: number;
           }) => ({
             userId: row.user_id,
             email: row.email,
             totalBytes: Number(row.total_bytes ?? 0),
+            dataBytes: Number(row.data_bytes ?? 0),
           }),
         ),
       );
@@ -867,7 +870,8 @@ export default function Admin({ session }: Props) {
                 <tr>
                   <th>#</th>
                   <th>Email</th>
-                  <th>Обсяг даних</th>
+                  <th>Записи</th>
+                  <th>На диску</th>
                 </tr>
               </thead>
               <tbody>
@@ -875,6 +879,7 @@ export default function Admin({ session }: Props) {
                   <tr key={u.userId}>
                     <td>{i + 1}</td>
                     <td>{u.email || "—"}</td>
+                    <td>{formatBytes(u.dataBytes)}</td>
                     <td>{formatBytes(u.totalBytes)}</td>
                   </tr>
                 ))}
