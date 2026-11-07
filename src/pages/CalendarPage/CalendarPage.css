@@ -204,3 +204,231 @@
 [data-theme="dark"] .calendar-page-event-title {
     color: var(--cream);
 }
+
+.calendar-month {
+    background: var(--cream);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-top: 3px solid var(--brown);
+    padding: 16px 12px 12px;
+}
+
+.calendar-month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.calendar-month-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--green-dark);
+}
+
+.calendar-month-nav-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--green-dark);
+    border-radius: 8px;
+    background: none;
+    color: var(--green-dark);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.calendar-month-nav-btn:hover {
+    background: var(--green-dark);
+    color: white;
+}
+
+.calendar-month-weekdays,
+.calendar-month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-month-weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--gray);
+    padding: 6px 0;
+}
+
+.calendar-month-weekday--sun {
+    color: #c0392b;
+}
+
+.calendar-month-cell {
+    min-height: 48px;
+}
+
+.calendar-month-day {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: none;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.calendar-month-day:hover {
+    background: var(--green-pale);
+}
+
+.calendar-month-day--sun {
+    color: #c0392b;
+}
+
+.calendar-month-day--today .calendar-month-day-num {
+    background: var(--green-dark);
+    color: var(--cream);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-month-day--selected {
+    border-color: var(--green-dark);
+}
+
+.calendar-month-marks {
+    display: flex;
+    gap: 2px;
+    width: 70%;
+    justify-content: center;
+}
+
+.calendar-month-mark {
+    flex: 1;
+    max-width: 12px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+.calendar-month-mark--breeding {
+    background: #2e9e5b;
+}
+
+.calendar-month-mark--birth {
+    background: #f08a24;
+}
+
+.calendar-month-mark--nestbox {
+    background: #8d6e4a;
+}
+
+.calendar-month-mark--weaning {
+    background: #e6c229;
+}
+
+.calendar-month-mark--health {
+    background: #d94848;
+}
+
+.calendar-month-mark--hygiene {
+    background: #3a9bd9;
+}
+
+.calendar-month-mark--weighing {
+    background: #8e5bd0;
+}
+
+.calendar-month-mark--sales {
+    background: #6b7280;
+}
+
+.calendar-month-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 14px;
+    padding: 10px 8px 0;
+    border-top: 1px solid var(--green-pale);
+    font-size: 0.78rem;
+    color: var(--gray);
+}
+
+.calendar-month-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-month-legend-dot {
+    width: 14px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+[data-theme="dark"] .calendar-month-legend {
+    border-top-color: #2a4d1c;
+}
+
+.calendar-page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+[data-theme="dark"] .calendar-month {
+    background: #16330d;
+    border-color: #2a4d1c;
+}
+
+[data-theme="dark"] .calendar-month-title,
+[data-theme="dark"] .calendar-month-day {
+    color: var(--cream);
+}
+
+[data-theme="dark"] .calendar-month-day--sun {
+    color: #e57373;
+}
+
+[data-theme="dark"] .calendar-month-day:hover {
+    background: #1f4413;
+}
+
+[data-theme="dark"] .calendar-month-day--today .calendar-month-day-num {
+    background: var(--cream);
+    color: var(--green-dark);
+}
+
+.calendar-month-details {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--green-pale);
+}
+
+.calendar-month-details-title {
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    padding: 0 8px 8px;
+    text-transform: capitalize;
+}
+
+.calendar-month-details-empty {
+    color: var(--gray);
+    font-size: 0.9rem;
+    padding: 12px 8px;
+}
+
+[data-theme="dark"] .calendar-month-details {
+    border-top-color: #2a4d1c;
+}
+
+[data-theme="dark"] .calendar-month-details-title {
+    color: var(--cream);
+}
