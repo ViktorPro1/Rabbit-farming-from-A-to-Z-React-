@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { computeReminderInfo } from "../reminders";
 import BreedingRecordCard from "./BreedingRecordCard";
 import CycleBody from "./CycleBody";
@@ -20,11 +21,19 @@ export default function GroupBlock({
   ) => void;
 }) {
   const { litter, sorted, groupType, activeCycle } = info;
+  // Акордеон: false — видно тільки останнє зважування, true — усі записи
+  const [showAll, setShowAll] = useState(false);
+
   const reminderInfo = computeReminderInfo(
     sorted,
     view.rabbitById,
     view.fatteningById,
   );
+
+  // sorted іде від старих до нових, тому останнє зважування — в кінці
+  const lastIdx = sorted.length - 1;
+  const last = sorted[lastIdx];
+  const hasMany = sorted.length > 1;
 
   return (
     <div className="weighing-group">
@@ -55,14 +64,39 @@ export default function GroupBlock({
       ) : (
         // Племінне: приріст по добі між зважуваннями
         <div className="weighing-list">
-          {sorted.map((r, idx) => (
-            <BreedingRecordCard
-              key={r.id}
-              r={r}
-              prev={idx > 0 ? sorted[idx - 1] : undefined}
-              view={view}
-            />
-          ))}
+          {showAll || !hasMany
+            ? // Усі записи (або єдиний запис, якщо він один)
+              sorted.map((r, idx) => (
+                <BreedingRecordCard
+                  key={r.id}
+                  r={r}
+                  prev={idx > 0 ? sorted[idx - 1] : undefined}
+                  view={view}
+                />
+              ))
+            : // Згорнуто: тільки останнє зважування
+              last && (
+                <BreedingRecordCard
+                  key={last.id}
+                  r={last}
+                  prev={sorted[lastIdx - 1]}
+                  view={view}
+                />
+              )}
+
+          {/* Кнопка з'являється, тільки якщо записів більше одного */}
+          {hasMany && (
+            <button
+              type="button"
+              className="weighing-accordion-toggle"
+              aria-expanded={showAll}
+              onClick={() => setShowAll((v) => !v)}
+            >
+              {showAll
+                ? "Сховати попередні зважування"
+                : `Показати всі зважування (${sorted.length})`}
+            </button>
+          )}
         </div>
       )}
     </div>

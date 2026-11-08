@@ -39,7 +39,7 @@ export default function Weighing({ session }: Props) {
     fetchRecords,
     fetchOptions,
   } = useWeighingData(session.user.id);
-  const [gaugeMode, setGaugeMode] = useState<WeighingType>("fattening");
+  const [gaugeMode, setGaugeMode] = useState<WeighingType>("breeding");
   // Один спільний архів для всіх кліток; розгортання пам'ятається між режимами
   const [showArchive, setShowArchive] = useState(false);
   const [showComparison, setShowComparison] = useState(false);

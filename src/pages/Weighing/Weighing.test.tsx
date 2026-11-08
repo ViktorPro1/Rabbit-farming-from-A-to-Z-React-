@@ -98,6 +98,15 @@ function renderPage() {
   );
 }
 
+// За замовчуванням сторінка відкривається на вкладці «Племінне», а тестовий
+// запис має тип «Відгодівля». Тому перед пошуком його картки перемикаємось.
+async function showFattening() {
+  await waitFor(() =>
+    expect(screen.queryByText("Завантаження...")).not.toBeInTheDocument(),
+  );
+  fireEvent.click(screen.getByRole("button", { name: "🍖 Відгодівля" }));
+}
+
 describe("Weighing: .range() на основних запитах", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -161,6 +170,7 @@ describe("Weighing: помилки Supabase", () => {
   it("видалення: помилка показується", async () => {
     setup({ del: { error: { message: "denied" } } });
     renderPage();
+    await showFattening();
     await waitFor(() =>
       expect(document.querySelector(".weighing-delete-btn")).not.toBeNull(),
     );
@@ -175,6 +185,7 @@ describe("Weighing: помилки Supabase", () => {
   it("видалення без помилок звертається до бази без повідомлень", async () => {
     const calls = setup();
     renderPage();
+    await showFattening();
     await waitFor(() =>
       expect(document.querySelector(".weighing-delete-btn")).not.toBeNull(),
     );
