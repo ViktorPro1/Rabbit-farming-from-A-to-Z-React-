@@ -10,12 +10,15 @@ import type {
   UserDataUsage,
   LeadRow,
   NpsFeedbackRow,
+  DeactivatedUser,
 } from "./types";
 import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
 import { UserUsageSection } from "./UserUsageSection";
 import { VizytkaSection } from "./VizytkaSection";
 import { LeadsSection } from "./LeadsSection";
 import { NpsSection } from "./NpsSection";
+import { DeactivatedUsersSection } from "./DeactivatedUsersSection";
+import { DocsSection } from "./DocsSection";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -60,11 +63,6 @@ interface RegisteredUser {
   invite_code_id: string | null;
   access_until: string | null;
   plan_type: PlanType;
-}
-
-interface DeactivatedUser {
-  id: string;
-  email: string;
 }
 
 interface TableStat {
@@ -915,42 +913,10 @@ export default function Admin({ session }: Props) {
         </div>
       </div>
 
-      {/* Деактивовані користувачі */}
-      {deactivated.length > 0 && (
-        <div className="admin-section">
-          <h2>
-            🔒 Деактивовані користувачі{" "}
-            <span className="admin-count">{deactivated.length}</span>
-          </h2>
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Email</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {deactivated.map((user, i) => (
-                  <tr key={user.id}>
-                    <td>{i + 1}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      <button
-                        className="admin-btn-add"
-                        onClick={() => handleRestoreUser(user)}
-                      >
-                        Відновити
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      <DeactivatedUsersSection
+        users={deactivated}
+        onRestore={handleRestoreUser}
+      />
 
       {/* Інвайт коди */}
       <div className="admin-section">
@@ -1033,92 +999,7 @@ export default function Admin({ session }: Props) {
         </div>
       </div>
 
-      {/* Документація: як працюють email-сповіщення */}
-      <div className="admin-section">
-        <h2>📧 Документація — Email-сповіщення</h2>
-
-        <details className="docs-details">
-          <summary className="docs-summary">
-            Як це працює (натисніть, щоб розгорнути)
-          </summary>
-
-          <div className="docs-body">
-            <p>
-              <strong>Автоматично, без участі (щодня о 08:00):</strong>
-            </p>
-            <ul>
-              <li>нагадування про пробний період за 3 дні до кінця</li>
-              <li>лист "пробний завершено" у день завершення</li>
-              <li>
-                прохання відгуку через 2 дні після пробного (якщо не оформив
-                підписку)
-              </li>
-              <li>реактивація неактивних (14 днів без входу)</li>
-              <li>
-                нагадування про кінець оплаченого доступу за 3 дні (тип
-                "Платний", не "Засновник")
-              </li>
-            </ul>
-
-            <p>
-              <strong>
-                За вашою дією в адмінці (не саме по собі — тригер це ваш клік):
-              </strong>
-            </p>
-            <ul>
-              <li>
-                Коли у випадаючому списку "Тип" нижче вибираєте{" "}
-                <strong>"Платний"</strong> — в момент цього кліку відбувається
-                одразу три речі: в базі змінюється
-                <code>plan_type</code> на <code>paid</code>, автоматично йде
-                лист "Вашу підписку активовано!", і додатково йде ще один
-                окремий лист — квитанція, з сьогоднішньою датою, фіксованою
-                ціною і фразою "переказ на картку". Людина отримує обидва листи
-                майже одночасно.
-              </li>
-              <li>
-                При поверненні типу назад на <strong>"Пробний"</strong> (з
-                "Платного" чи "Засновника") — тим самим кліком іде лист про
-                скасування підписки.
-              </li>
-              <li>
-                Тип <strong>"VIP"</strong> — для друзів і близьких. При виборі
-                доступ автоматично стає безстроковим, листи не надсилаються.
-                Повернення з VIP на "Пробний" листа про скасування не шле.
-              </li>
-            </ul>
-
-            <p>
-              <strong>Вручну, командою в терміналі:</strong>
-            </p>
-            <ul>
-              <li>
-                анонс нової функції всім користувачам:{" "}
-                <code>node scripts/announce-feature.mjs "опис"</code>
-              </li>
-              <li>
-                тест окремого шаблону на одну адресу:{" "}
-                <code>
-                  node scripts/test-send-email.mjs файл.html "Тема" email
-                </code>
-              </li>
-            </ul>
-
-            <p>
-              <strong>⚠️ Не забути:</strong>
-            </p>
-            <ul>
-              <li>
-                Ціна підписки в листах-нагадуваннях і квитанціях береться зі
-                змінної <code>SUBSCRIPTION_PRICE</code> у Vercel (Settings →
-                Environment Variables), а не з коду. Якщо міняється вартість
-                підписки — треба вручну оновити значення там (наприклад{" "}
-                <code>99 грн/міс</code>), інакше в листах лишиться стара ціна.
-              </li>
-            </ul>
-          </div>
-        </details>
-      </div>
+      <DocsSection />
     </div>
   );
 }

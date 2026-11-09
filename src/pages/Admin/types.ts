@@ -25,3 +25,8 @@ export interface NpsFeedbackRow {
   comment: string | null;
   created_at: string;
 }
+
+export interface DeactivatedUser {
+  id: string;
+  email: string;
+}
