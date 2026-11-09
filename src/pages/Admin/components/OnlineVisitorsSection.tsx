@@ -1,4 +1,4 @@
-import type { OnlineVisitor } from "./types";
+import type { OnlineVisitor } from "../types";
 
 interface Props {
   visitors: OnlineVisitor[];

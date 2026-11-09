@@ -15,16 +15,16 @@ import type {
   PlanType,
   RegisteredUser,
 } from "./types";
-import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
-import { UserUsageSection } from "./UserUsageSection";
-import { VizytkaSection } from "./VizytkaSection";
-import { LeadsSection } from "./LeadsSection";
-import { NpsSection } from "./NpsSection";
-import { DeactivatedUsersSection } from "./DeactivatedUsersSection";
-import { DocsSection } from "./DocsSection";
-import { BackendStatsSection } from "./BackendStatsSection";
-import { InviteCodesSection } from "./InviteCodesSection";
-import { RegisteredUsersSection } from "./RegisteredUsersSection";
+import { OnlineVisitorsSection } from "./components/OnlineVisitorsSection";
+import { UserUsageSection } from "./components/UserUsageSection";
+import { VizytkaSection } from "./components/VizytkaSection";
+import { LeadsSection } from "./components/LeadsSection";
+import { NpsSection } from "./components/NpsSection";
+import { DeactivatedUsersSection } from "./components/DeactivatedUsersSection";
+import { DocsSection } from "./components/DocsSection";
+import { BackendStatsSection } from "./components/BackendStatsSection";
+import { InviteCodesSection } from "./components/InviteCodesSection";
+import { RegisteredUsersSection } from "./components/RegisteredUsersSection";
 
 import "./Admin.css";
 

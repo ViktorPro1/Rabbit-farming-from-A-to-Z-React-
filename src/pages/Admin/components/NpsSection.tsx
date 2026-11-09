@@ -1,4 +1,4 @@
-import type { NpsFeedbackRow } from "./types";
+import type { NpsFeedbackRow } from "../types";
 
 interface Props {
   feedback: NpsFeedbackRow[];

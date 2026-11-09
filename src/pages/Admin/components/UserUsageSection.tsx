@@ -1,5 +1,5 @@
-import { formatBytes } from "./formatBytes";
-import type { UserDataUsage } from "./types";
+import { formatBytes } from "../formatBytes";
+import type { UserDataUsage } from "../types";
 
 interface Props {
   usage: UserDataUsage[];

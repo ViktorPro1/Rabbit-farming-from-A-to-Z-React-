@@ -1,4 +1,4 @@
-import type { BackendStats, InviteCode } from "./types";
+import type { BackendStats, InviteCode } from "../types";
 
 interface Props {
   codes: InviteCode[];

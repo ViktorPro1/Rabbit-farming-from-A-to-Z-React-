@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { formatBytes } from "./formatBytes";
+import { formatBytes } from "../formatBytes";
 import { UsageBar } from "./UsageBar";
-import type { BackendStats } from "./types";
+import type { BackendStats } from "../types";
 
 const DB_LIMIT_BYTES = 500 * 1024 * 1024;
 // Ліміт файлового сховища на тарифі Free

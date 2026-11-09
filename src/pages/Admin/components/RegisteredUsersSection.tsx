@@ -1,4 +1,4 @@
-import type { PlanType, RegisteredUser } from "./types";
+import type { PlanType, RegisteredUser } from "../types";
 
 interface Props {
   users: RegisteredUser[];

@@ -1,4 +1,4 @@
-import type { DeactivatedUser } from "./types";
+import type { DeactivatedUser } from "../types";
 
 interface Props {
   users: DeactivatedUser[];

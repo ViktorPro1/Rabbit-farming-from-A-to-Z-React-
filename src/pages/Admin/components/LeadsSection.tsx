@@ -1,4 +1,4 @@
-import type { LeadRow } from "./types";
+import type { LeadRow } from "../types";
 
 interface Props {
   leads: LeadRow[];
