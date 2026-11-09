@@ -3,6 +3,8 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { todayKyiv } from "../../utils/kyivDate";
+import { formatBytes } from "./formatBytes";
+import { UsageBar } from "./UsageBar";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -132,42 +134,6 @@ const TABLE_LIST: { name: string; label: string }[] = [
   { name: "profiles", label: "Профілі" },
   { name: "invite_codes", label: "Інвайт коди" },
 ];
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} Б`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} КБ`;
-  return `${(bytes / (1024 * 1024)).toFixed(2)} МБ`;
-}
-
-function UsageBar({
-  used,
-  total,
-  label,
-  color = "#4caf50",
-}: {
-  used: number;
-  total: number;
-  label: string;
-  color?: string;
-}) {
-  const pct = Math.min((used / total) * 100, 100);
-  const isWarn = pct >= 70;
-  const isDanger = pct >= 90;
-  const barColor = isDanger ? "#e53935" : isWarn ? "#ff9800" : color;
-
-  return (
-    <div className="stats-bar-row">
-      <div className="stats-bar-label">{label}</div>
-      <div className="stats-bar-track">
-        <div
-          className="stats-bar-fill"
-          style={{ width: `${pct}%`, background: barColor }}
-        />
-      </div>
-      <div className="stats-bar-pct">{pct.toFixed(1)}%</div>
-    </div>
-  );
-}
 
 export default function Admin({ session }: Props) {
   const [isAdmin, setIsAdmin] = useState(false);
