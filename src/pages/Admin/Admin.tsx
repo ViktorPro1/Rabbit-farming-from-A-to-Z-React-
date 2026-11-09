@@ -11,6 +11,7 @@ import type {
   DeactivatedUser,
   TableStat,
   BackendStats,
+  InviteCode,
 } from "./types";
 import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
 import { UserUsageSection } from "./UserUsageSection";
@@ -20,6 +21,8 @@ import { NpsSection } from "./NpsSection";
 import { DeactivatedUsersSection } from "./DeactivatedUsersSection";
 import { DocsSection } from "./DocsSection";
 import { BackendStatsSection } from "./BackendStatsSection";
+import { InviteCodesSection } from "./InviteCodesSection";
+
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -35,14 +38,6 @@ const adminSupabase = createClient(
 
 interface Props {
   session: Session;
-}
-
-interface InviteCode {
-  id: string;
-  code: string;
-  is_used: boolean;
-  used_by: string | null;
-  created_at: string;
 }
 
 // Додано: єдиний тип плану, щоб не дублювати об'єднання в кількох місцях
@@ -769,88 +764,16 @@ export default function Admin({ session }: Props) {
         users={deactivated}
         onRestore={handleRestoreUser}
       />
-
-      {/* Інвайт коди */}
-      <div className="admin-section">
-        <h2>🎟️ Інвайт коди</h2>
-
-        {stats && (
-          <div className="stats-codes-row">
-            <div className="stats-code-badge total">
-              Всього кодів: <strong>{stats.totalCodes}</strong>
-            </div>
-            <div className="stats-code-badge used">
-              Використано: <strong>{stats.usedCodes}</strong>
-            </div>
-            <div className="stats-code-badge free">
-              Вільних: <strong>{stats.freeCodes}</strong>
-            </div>
-          </div>
-        )}
-
-        <div className="admin-add">
-          <input
-            id="new-invite-code"
-            name="newInviteCode"
-            placeholder="Новий код"
-            value={newCode}
-            onChange={(e) => setNewCode(e.target.value.toUpperCase())}
-          />
-          <button className="admin-btn-generate" onClick={generateCode}>
-            Генерувати
-          </button>
-          <button
-            className="admin-btn-add"
-            onClick={handleAdd}
-            disabled={!newCode.trim()}
-          >
-            Додати
-          </button>
-        </div>
-
-        {error && <p className="admin-error">{error}</p>}
-
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Код</th>
-                <th>Статус</th>
-                <th>Створено</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {codes.map((code) => (
-                <tr key={code.id} className={code.is_used ? "used" : ""}>
-                  <td className="code-text">{code.code}</td>
-                  <td>
-                    <span
-                      className={`code-status ${code.is_used ? "used" : "free"}`}
-                    >
-                      {code.is_used ? "Використано" : "Вільний"}
-                    </span>
-                  </td>
-                  <td>
-                    {new Date(code.created_at).toLocaleDateString("uk-UA")}
-                  </td>
-                  <td>
-                    {!code.is_used && (
-                      <button
-                        className="admin-btn-delete"
-                        onClick={() => handleDelete(code.id)}
-                      >
-                        Видалити
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+      <InviteCodesSection
+        codes={codes}
+        stats={stats}
+        newCode={newCode}
+        error={error}
+        onNewCodeChange={setNewCode}
+        onGenerate={generateCode}
+        onAdd={handleAdd}
+        onDelete={handleDelete}
+      />
       <DocsSection />
     </div>
   );

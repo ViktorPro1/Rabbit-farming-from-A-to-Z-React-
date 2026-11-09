@@ -48,3 +48,11 @@ export interface BackendStats {
   usedCodes: number;
   freeCodes: number;
 }
+
+export interface InviteCode {
+  id: string;
+  code: string;
+  is_used: boolean;
+  used_by: string | null;
+  created_at: string;
+}
