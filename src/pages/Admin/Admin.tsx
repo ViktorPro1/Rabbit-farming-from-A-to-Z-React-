@@ -12,6 +12,8 @@ import type {
   TableStat,
   BackendStats,
   InviteCode,
+  PlanType,
+  RegisteredUser,
 } from "./types";
 import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
 import { UserUsageSection } from "./UserUsageSection";
@@ -22,6 +24,7 @@ import { DeactivatedUsersSection } from "./DeactivatedUsersSection";
 import { DocsSection } from "./DocsSection";
 import { BackendStatsSection } from "./BackendStatsSection";
 import { InviteCodesSection } from "./InviteCodesSection";
+import { RegisteredUsersSection } from "./RegisteredUsersSection";
 
 import "./Admin.css";
 
@@ -40,23 +43,10 @@ interface Props {
   session: Session;
 }
 
-// Додано: єдиний тип плану, щоб не дублювати об'єднання в кількох місцях
-type PlanType = "trial" | "paid" | "founder" | "vip";
-
 interface Profile {
   id: string;
   email: string | null;
   created_at: string;
-  access_until: string | null;
-  plan_type: PlanType;
-}
-
-interface RegisteredUser {
-  id: string;
-  email: string;
-  created_at: string;
-  invite_code: string | null;
-  invite_code_id: string | null;
   access_until: string | null;
   plan_type: PlanType;
 }
@@ -631,135 +621,15 @@ export default function Admin({ session }: Props) {
       <VizytkaSection downloads={vizytkaDownloads} />
       <NpsSection feedback={npsFeedback} loading={npsLoading} />
       <LeadsSection leads={leads} />
-
-      {/* Активні користувачі */}
-      <div className="admin-section">
-        <h2>
-          👥 Зареєстровані користувачі{" "}
-          <span className="admin-count">{users.length}</span>
-        </h2>
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Email</th>
-                <th>Інвайт код</th>
-                <th>Дата реєстрації</th>
-                <th>Тип</th>
-                <th>Доступ до</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.length === 0 ? (
-                <tr>
-                  <td colSpan={7} style={{ textAlign: "center", opacity: 0.5 }}>
-                    Немає користувачів
-                  </td>
-                </tr>
-              ) : (
-                users.map((user, i) => {
-                  const isExpired =
-                    !!user.access_until &&
-                    new Date(user.access_until) < new Date();
-                  return (
-                    <tr key={user.id}>
-                      <td>{i + 1}</td>
-                      <td>{user.email}</td>
-                      <td className="code-text">{user.invite_code}</td>
-                      <td>
-                        {new Date(user.created_at).toLocaleDateString("uk-UA")}
-                      </td>
-                      <td>
-                        <select
-                          id={`plan-type-${user.id}`}
-                          name={`plan-type-${user.id}`}
-                          className="access-plan-select"
-                          value={user.plan_type}
-                          onChange={(e) =>
-                            handleSetPlanType(
-                              user.id,
-                              e.target.value as PlanType,
-                            )
-                          }
-                        >
-                          <option value="trial">Пробний</option>
-                          <option value="paid">Платний</option>
-                          <option value="founder">Засновник</option>
-                          <option value="vip">VIP</option>
-                        </select>
-                      </td>
-                      <td>
-                        {user.access_until ? (
-                          <span
-                            className={`code-status access-status ${isExpired ? "used" : "free"}`}
-                            title={new Date(user.access_until).toLocaleString(
-                              "uk-UA",
-                            )}
-                          >
-                            {new Date(user.access_until).toLocaleDateString(
-                              "uk-UA",
-                            )}
-                            {isExpired ? " (прострочено)" : ""}
-                          </span>
-                        ) : (
-                          <span className="code-status access-status free">
-                            Безстроково
-                          </span>
-                        )}
-                        <div className="access-controls">
-                          <input
-                            id={`access-until-${user.id}`}
-                            name={`access-until-${user.id}`}
-                            type="date"
-                            className="access-date-input"
-                            defaultValue={
-                              user.access_until
-                                ? user.access_until.slice(0, 10)
-                                : ""
-                            }
-                            onChange={(e) =>
-                              handleSetAccessUntil(user.id, e.target.value)
-                            }
-                          />
-                          <button
-                            className="admin-btn-add access-btn-mini"
-                            title="Продовжити на 1 місяць від сьогодні"
-                            onClick={() => handleGrantOneMonth(user.id)}
-                          >
-                            +1 міс
-                          </button>
-                          {user.access_until && (
-                            <button
-                              className="admin-btn-generate access-btn-mini"
-                              title="Зробити безстроковим"
-                              onClick={() => handleMakeUnlimited(user.id)}
-                            >
-                              ∞
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        {user.id !== session.user.id && (
-                          <button
-                            className="admin-btn-delete"
-                            onClick={() => handleDeleteUser(user)}
-                          >
-                            Видалити
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+      <RegisteredUsersSection
+        users={users}
+        currentUserId={session.user.id}
+        onSetPlanType={handleSetPlanType}
+        onSetAccessUntil={handleSetAccessUntil}
+        onGrantOneMonth={handleGrantOneMonth}
+        onMakeUnlimited={handleMakeUnlimited}
+        onDelete={handleDeleteUser}
+      />
       <DeactivatedUsersSection
         users={deactivated}
         onRestore={handleRestoreUser}

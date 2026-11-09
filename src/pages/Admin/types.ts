@@ -56,3 +56,16 @@ export interface InviteCode {
   used_by: string | null;
   created_at: string;
 }
+
+// Єдиний тип плану, щоб не дублювати об'єднання в кількох місцях
+export type PlanType = "trial" | "paid" | "founder" | "vip";
+
+export interface RegisteredUser {
+  id: string;
+  email: string;
+  created_at: string;
+  invite_code: string | null;
+  invite_code_id: string | null;
+  access_until: string | null;
+  plan_type: PlanType;
+}
