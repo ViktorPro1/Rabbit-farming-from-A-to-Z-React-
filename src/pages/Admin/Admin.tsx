@@ -5,11 +5,17 @@ import { createClient } from "@supabase/supabase-js";
 import { todayKyiv } from "../../utils/kyivDate";
 import { formatBytes } from "./formatBytes";
 import { UsageBar } from "./UsageBar";
-import type { OnlineVisitor, UserDataUsage, LeadRow } from "./types";
+import type {
+  OnlineVisitor,
+  UserDataUsage,
+  LeadRow,
+  NpsFeedbackRow,
+} from "./types";
 import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
 import { UserUsageSection } from "./UserUsageSection";
 import { VizytkaSection } from "./VizytkaSection";
 import { LeadsSection } from "./LeadsSection";
+import { NpsSection } from "./NpsSection";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -59,14 +65,6 @@ interface RegisteredUser {
 interface DeactivatedUser {
   id: string;
   email: string;
-}
-
-interface NpsFeedbackRow {
-  id: string;
-  score: number;
-  category: "detractor" | "passive" | "promoter";
-  comment: string | null;
-  created_at: string;
 }
 
 interface TableStat {
@@ -648,25 +646,6 @@ export default function Admin({ session }: Props) {
     );
   }
 
-  const npsTotal = npsFeedback.length;
-  const npsPromoters = npsFeedback.filter(
-    (f) => f.category === "promoter",
-  ).length;
-  const npsPassives = npsFeedback.filter(
-    (f) => f.category === "passive",
-  ).length;
-  const npsDetractors = npsFeedback.filter(
-    (f) => f.category === "detractor",
-  ).length;
-  const npsAverage =
-    npsTotal > 0
-      ? (npsFeedback.reduce((sum, f) => sum + f.score, 0) / npsTotal).toFixed(1)
-      : "—";
-  const npsScore =
-    npsTotal > 0
-      ? Math.round(((npsPromoters - npsDetractors) / npsTotal) * 100)
-      : null;
-
   return (
     <div className="admin-page">
       <div className="admin-header">
@@ -804,94 +783,8 @@ export default function Admin({ session }: Props) {
       </div>
 
       <UserUsageSection usage={userUsage} loading={userUsageLoading} />
-
       <VizytkaSection downloads={vizytkaDownloads} />
-
-      {/* Опитування NPS */}
-      <div className="admin-section">
-        <h2>
-          ⭐ Опитування NPS{" "}
-          <span className="admin-count">{npsFeedback.length}</span>
-        </h2>
-
-        {npsTotal > 0 && (
-          <>
-            <div className="stats-limits">
-              <div className="stats-limit-card">
-                <div className="stats-limit-title">Середня оцінка</div>
-                <div className="stats-limit-value">{npsAverage}</div>
-                <div className="stats-limit-max">з 10</div>
-              </div>
-              <div className="stats-limit-card">
-                <div className="stats-limit-title">NPS-індекс</div>
-                <div className="stats-limit-value">{npsScore}</div>
-                <div className="stats-limit-max">
-                  % промоутерів − % детракторів
-                </div>
-              </div>
-            </div>
-
-            <div className="stats-codes-row">
-              <div className="stats-code-badge free">
-                Промоутери (9–10): <strong>{npsPromoters}</strong>
-              </div>
-              <div className="stats-code-badge used">
-                Нейтральні (7–8): <strong>{npsPassives}</strong>
-              </div>
-              <div className="stats-code-badge detractor">
-                Детрактори (0–6): <strong>{npsDetractors}</strong>
-              </div>
-            </div>
-          </>
-        )}
-
-        {npsLoading ? (
-          <p style={{ opacity: 0.6 }}>Завантаження...</p>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Оцінка</th>
-                  <th>Коментар</th>
-                  <th>Дата</th>
-                </tr>
-              </thead>
-              <tbody>
-                {npsFeedback.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={4}
-                      style={{ textAlign: "center", opacity: 0.5 }}
-                    >
-                      Ще немає відповідей
-                    </td>
-                  </tr>
-                ) : (
-                  npsFeedback.map((f, i) => (
-                    <tr key={f.id}>
-                      <td>{i + 1}</td>
-                      <td>
-                        <span
-                          className={`nps-score-badge nps-score-badge--${f.category}`}
-                        >
-                          {f.score}
-                        </span>
-                      </td>
-                      <td>{f.comment || "—"}</td>
-                      <td>
-                        {new Date(f.created_at).toLocaleDateString("uk-UA")}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
+      <NpsSection feedback={npsFeedback} loading={npsLoading} />
       <LeadsSection leads={leads} />
 
       {/* Активні користувачі */}

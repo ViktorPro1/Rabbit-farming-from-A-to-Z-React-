@@ -17,3 +17,11 @@ export interface LeadRow {
   source: string;
   created_at: string;
 }
+
+export interface NpsFeedbackRow {
+  id: string;
+  score: number;
+  category: "detractor" | "passive" | "promoter";
+  comment: string | null;
+  created_at: string;
+}
