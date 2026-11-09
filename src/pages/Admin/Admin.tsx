@@ -77,6 +77,9 @@ interface TableStat {
 
 interface BackendStats {
   dbSizeBytes: number | null;
+  // Додано: скільки місця й файлів у сховищі (Supabase Storage)
+  storageBytes: number | null;
+  storageFiles: number | null;
   tableCounts: TableStat[];
   totalUsers: number;
   totalCodes: number;
@@ -98,6 +101,8 @@ interface OnlineVisitor {
 }
 
 const DB_LIMIT_BYTES = 500 * 1024 * 1024;
+// Додано: ліміт файлового сховища на тарифі Free
+const STORAGE_LIMIT_BYTES = 1024 * 1024 * 1024;
 const MAU_LIMIT = 50000;
 const PRESENCE_CHANNEL = "public-site-presence";
 
@@ -420,6 +425,18 @@ export default function Admin({ session }: Props) {
     const { data: sizeData } = await supabase.rpc("get_db_size");
     if (typeof sizeData === "number") dbSizeBytes = sizeData;
 
+    // Додано: розмір і кількість файлів у сховищі (функція get_storage_usage)
+    let storageBytes: number | null = null;
+    let storageFiles: number | null = null;
+    const { data: storageData, error: storageError } =
+      await supabase.rpc("get_storage_usage");
+    if (storageError) {
+      console.error("Не вдалося завантажити розмір сховища:", storageError);
+    } else if (storageData) {
+      storageBytes = Number(storageData.total_bytes ?? 0);
+      storageFiles = Number(storageData.file_count ?? 0);
+    }
+
     const tableCounts: TableStat[] = [];
     const { data: countsData } = await supabase.rpc("get_table_counts");
     if (countsData) {
@@ -440,6 +457,8 @@ export default function Admin({ session }: Props) {
 
     setStats({
       dbSizeBytes,
+      storageBytes,
+      storageFiles,
       tableCounts,
       totalUsers: userCount,
       totalCodes: allCodes.length,
@@ -785,11 +804,28 @@ export default function Admin({ session }: Props) {
 
               <div className="stats-limit-card">
                 <div className="stats-limit-title">Файлове сховище</div>
-                <div className="stats-limit-value">1 ГБ</div>
-                <div className="stats-limit-max">ліміт 1 ГБ</div>
-                <div className="stats-limit-note">
-                  Моніторинг — у Supabase Dashboard
+                <div className="stats-limit-value">
+                  {stats.storageBytes !== null
+                    ? formatBytes(stats.storageBytes)
+                    : "—"}
                 </div>
+                <div className="stats-limit-max">
+                  ліміт 1 ГБ
+                  {stats.storageFiles !== null
+                    ? ` · ${stats.storageFiles} файлів`
+                    : ""}
+                </div>
+                {stats.storageBytes !== null ? (
+                  <UsageBar
+                    used={stats.storageBytes}
+                    total={STORAGE_LIMIT_BYTES}
+                    label=""
+                  />
+                ) : (
+                  <div className="stats-limit-note">
+                    Не вдалося отримати дані сховища
+                  </div>
+                )}
               </div>
 
               <div className="stats-limit-card">
