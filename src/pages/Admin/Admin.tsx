@@ -5,6 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 import { todayKyiv } from "../../utils/kyivDate";
 import { formatBytes } from "./formatBytes";
 import { UsageBar } from "./UsageBar";
+import type { OnlineVisitor } from "./types";
+import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -94,12 +96,6 @@ interface UserDataUsage {
   email: string | null;
   totalBytes: number;
   dataBytes: number;
-}
-
-interface OnlineVisitor {
-  session_id: string;
-  page: string;
-  joined_at: string;
 }
 
 const DB_LIMIT_BYTES = 500 * 1024 * 1024;
@@ -690,43 +686,7 @@ export default function Admin({ session }: Props) {
 
       {pageError && <p className="admin-error">{pageError}</p>}
 
-      {/* Онлайн відвідувачі довідника */}
-      <div className="admin-section">
-        <h2>
-          🟢 Зараз онлайн у довіднику{" "}
-          <span className="admin-count">{onlineVisitors.length}</span>
-        </h2>
-
-        {onlineVisitors.length === 0 ? (
-          <p className="online-empty">Немає активних відвідувачів</p>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Сторінка</th>
-                  <th>Зайшов</th>
-                </tr>
-              </thead>
-              <tbody>
-                {onlineVisitors.map((v, i) => (
-                  <tr key={v.session_id}>
-                    <td>{i + 1}</td>
-                    <td className="online-page">{v.page || "/"}</td>
-                    <td>
-                      {new Date(v.joined_at).toLocaleTimeString("uk-UA", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <OnlineVisitorsSection visitors={onlineVisitors} />
 
       {/* Статистика бекенду */}
       <div className="admin-section">
