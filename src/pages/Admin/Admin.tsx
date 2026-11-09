@@ -5,8 +5,9 @@ import { createClient } from "@supabase/supabase-js";
 import { todayKyiv } from "../../utils/kyivDate";
 import { formatBytes } from "./formatBytes";
 import { UsageBar } from "./UsageBar";
-import type { OnlineVisitor } from "./types";
+import type { OnlineVisitor, UserDataUsage } from "./types";
 import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
+import { UserUsageSection } from "./UserUsageSection";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -89,13 +90,6 @@ interface BackendStats {
   totalCodes: number;
   usedCodes: number;
   freeCodes: number;
-}
-
-interface UserDataUsage {
-  userId: string;
-  email: string | null;
-  totalBytes: number;
-  dataBytes: number;
 }
 
 const DB_LIMIT_BYTES = 500 * 1024 * 1024;
@@ -814,42 +808,7 @@ export default function Admin({ session }: Props) {
         )}
       </div>
 
-      {/* Використання по користувахах */}
-      <div className="admin-section">
-        <h2>
-          💾 Використання по користувачах{" "}
-          <span className="admin-count">{userUsage.length}</span>
-        </h2>
-
-        {userUsageLoading ? (
-          <p style={{ opacity: 0.6 }}>Завантаження...</p>
-        ) : userUsage.length === 0 ? (
-          <p style={{ opacity: 0.6 }}>Немає даних</p>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Email</th>
-                  <th>Записи</th>
-                  <th>На диску</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userUsage.map((u, i) => (
-                  <tr key={u.userId}>
-                    <td>{i + 1}</td>
-                    <td>{u.email || "—"}</td>
-                    <td>{formatBytes(u.dataBytes)}</td>
-                    <td>{formatBytes(u.totalBytes)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <UserUsageSection usage={userUsage} loading={userUsageLoading} />
 
       {/* Додано: блок з лічильником завантажень візитки */}
       <div className="admin-section">
