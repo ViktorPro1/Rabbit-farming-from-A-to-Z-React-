@@ -5,9 +5,11 @@ import { createClient } from "@supabase/supabase-js";
 import { todayKyiv } from "../../utils/kyivDate";
 import { formatBytes } from "./formatBytes";
 import { UsageBar } from "./UsageBar";
-import type { OnlineVisitor, UserDataUsage } from "./types";
+import type { OnlineVisitor, UserDataUsage, LeadRow } from "./types";
 import { OnlineVisitorsSection } from "./OnlineVisitorsSection";
 import { UserUsageSection } from "./UserUsageSection";
+import { VizytkaSection } from "./VizytkaSection";
+import { LeadsSection } from "./LeadsSection";
 import "./Admin.css";
 
 const adminSupabase = createClient(
@@ -57,13 +59,6 @@ interface RegisteredUser {
 interface DeactivatedUser {
   id: string;
   email: string;
-}
-
-interface LeadRow {
-  id: string;
-  email: string;
-  source: string;
-  created_at: string;
 }
 
 interface NpsFeedbackRow {
@@ -810,15 +805,7 @@ export default function Admin({ session }: Props) {
 
       <UserUsageSection usage={userUsage} loading={userUsageLoading} />
 
-      {/* Додано: блок з лічильником завантажень візитки */}
-      <div className="admin-section">
-        <h2>🖼️ Візитка</h2>
-        <div className="stats-codes-row">
-          <div className="stats-code-badge total">
-            Завантажено разів: <strong>{vizytkaDownloads ?? "…"}</strong>
-          </div>
-        </div>
-      </div>
+      <VizytkaSection downloads={vizytkaDownloads} />
 
       {/* Опитування NPS */}
       <div className="admin-section">
@@ -905,45 +892,7 @@ export default function Admin({ session }: Props) {
         )}
       </div>
 
-      {/* Ліди з лід-магніту */}
-      <div className="admin-section">
-        <h2>
-          📧 Ліди (лід-магніт){" "}
-          <span className="admin-count">{leads.length}</span>
-        </h2>
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Email</th>
-                <th>Джерело</th>
-                <th>Дата</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leads.length === 0 ? (
-                <tr>
-                  <td colSpan={4} style={{ textAlign: "center", opacity: 0.5 }}>
-                    Ще немає лідів
-                  </td>
-                </tr>
-              ) : (
-                leads.map((lead, i) => (
-                  <tr key={lead.id}>
-                    <td>{i + 1}</td>
-                    <td>{lead.email}</td>
-                    <td className="code-text">{lead.source}</td>
-                    <td>
-                      {new Date(lead.created_at).toLocaleDateString("uk-UA")}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <LeadsSection leads={leads} />
 
       {/* Активні користувачі */}
       <div className="admin-section">

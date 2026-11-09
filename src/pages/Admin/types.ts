@@ -10,3 +10,10 @@ export interface UserDataUsage {
   totalBytes: number;
   dataBytes: number;
 }
+
+export interface LeadRow {
+  id: string;
+  email: string;
+  source: string;
+  created_at: string;
+}
