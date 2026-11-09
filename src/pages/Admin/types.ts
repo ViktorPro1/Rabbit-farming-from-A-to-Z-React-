@@ -30,3 +30,21 @@ export interface DeactivatedUser {
   id: string;
   email: string;
 }
+
+export interface TableStat {
+  name: string;
+  label: string;
+  count: number;
+}
+
+export interface BackendStats {
+  dbSizeBytes: number | null;
+  // Скільки місця й файлів у сховищі (Supabase Storage)
+  storageBytes: number | null;
+  storageFiles: number | null;
+  tableCounts: TableStat[];
+  totalUsers: number;
+  totalCodes: number;
+  usedCodes: number;
+  freeCodes: number;
+}
