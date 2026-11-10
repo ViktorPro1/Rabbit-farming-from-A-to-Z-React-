@@ -224,11 +224,11 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 | Показник                 |                 Значення |
 | ------------------------ | -----------------------: |
 | Маршрутна логіка         | 13 файлів у `src/routes` |
-| Публічних сторінок       |                      189 |
+| Публічних сторінок       |                      191 |
 | React-компонентів        |                       54 |
 | Data-модулів             |                       26 |
-| Unit-тестів              |                      200 |
-| Test Suites              |                       27 |
+| Unit-тестів              |                      259 |
+| Test Suites              |                       30 |
 | E2E сценаріїв            |                       10 |
 | TypeScript               |                      Так |
 | PWA                      |                      Так |
@@ -472,7 +472,7 @@ docs/
 
 **Rabbit Farming From A to Z** is a Ukrainian-language rabbit farming knowledge base and farm management platform built with React, TypeScript, Vite and Supabase.
 
-The platform includes **189 public knowledge-base pages** and a private farm management dashboard for registered users.
+The platform includes **191 public knowledge-base pages** and a private farm management dashboard for registered users.
 
 The primary audience is Ukrainian rabbit farmers.
 
