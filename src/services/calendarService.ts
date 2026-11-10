@@ -282,7 +282,7 @@ export async function loadCalendarEvents(
         supabase
             .from("matings")
             .select(
-                "id, mating_date, control_date, expected_birth, female_cage, male_cage, is_archived, breeding_scheme",
+                "id, mating_date, control_date, expected_birth, female_cage, male_cage, is_archived, breeding_scheme, nestbox_date",
             )
             .eq("user_id", userId),
         supabase
@@ -367,6 +367,15 @@ export async function loadCalendarEvents(
         if (m.male_cage) maleCageByMatingId.set(m.id, m.male_cage);
     });
 
+    // Злучки, для яких маточник уже підготовлено (або окріл уже стався)
+    // у пов'язаному записі окролу — для них завдання "Підготувати маточник" не потрібне
+    const preparedMatingIds = new Set<string>();
+    (littersRes.data || []).forEach((l) => {
+        if (l.mating_id && (l.nestbox_date || l.birth_date)) {
+            preparedMatingIds.add(l.mating_id);
+        }
+    });
+
     (matingsRes.data || []).forEach((m) => {
         if (m.is_archived === true) return;
         const subject = `Клітка ${m.female_cage || "?"} × ${m.male_cage || "?"}`;
@@ -375,12 +384,14 @@ export async function loadCalendarEvents(
             makeEvent(m.id, m.control_date, "matingControl", subject),
             makeEvent(m.id, m.expected_birth, "expectedBirth", subject),
             // Маточник готують у клітці самки, тому самець у підписі не потрібен
-            makeEvent(
-                `${m.id}-nestbox`,
-                addDays(m.mating_date, NESTBOX_DAYS_AFTER_MATING),
-                "nestbox",
-                m.female_cage ? `Клітка ${m.female_cage}` : subject,
-            ),
+            m.nestbox_date || preparedMatingIds.has(m.id)
+                ? null
+                : makeEvent(
+                    `${m.id}-nestbox`,
+                    addDays(m.mating_date, NESTBOX_DAYS_AFTER_MATING),
+                    "nestbox",
+                    m.female_cage ? `Клітка ${m.female_cage}` : subject,
+                ),
         ].forEach((e) => e && inRange(e.date) && events.push(e));
     });
 
