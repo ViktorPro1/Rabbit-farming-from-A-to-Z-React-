@@ -10,6 +10,9 @@ interface EmailGateModalProps {
   title: string;
   description: string;
   onClose: () => void;
+  // Викликається при закритті вікна, якщо користувач поставив
+  // відмітку "Більше не показувати".
+  onDismissForever: () => void;
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,6 +25,7 @@ export default function EmailGateModal({
   title,
   description,
   onClose,
+  onDismissForever,
 }: EmailGateModalProps) {
   const [email, setEmail] = useState("");
   // Приховане поле-пастка для ботів: справжній користувач його не бачить
@@ -30,6 +34,16 @@ export default function EmailGateModal({
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [dontShowAgain, setDontShowAgain] = useState(false);
+
+  // Єдина точка закриття: якщо стоїть відмітка — запам'ятовуємо вибір,
+  // потім закриваємо вікно.
+  const handleClose = () => {
+    if (dontShowAgain) {
+      onDismissForever();
+    }
+    onClose();
+  };
 
   const triggerDownload = () => {
     const link = document.createElement("a");
@@ -74,7 +88,7 @@ export default function EmailGateModal({
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-    <div className="email-gate-modal__overlay" onClick={onClose}>
+    <div className="email-gate-modal__overlay" onClick={handleClose}>
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         className="email-gate-modal"
@@ -85,7 +99,7 @@ export default function EmailGateModal({
         <button
           type="button"
           className="email-gate-modal__close"
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Закрити"
         >
           ×
@@ -97,7 +111,7 @@ export default function EmailGateModal({
               <RabbitStamp />
             </div>
             <p>Файл завантажено.</p>
-            <button type="button" onClick={onClose}>
+            <button type="button" onClick={handleClose}>
               Закрити
             </button>
           </div>
@@ -136,6 +150,16 @@ export default function EmailGateModal({
             {status === "error" && (
               <p className="email-gate-modal__error">{errorMessage}</p>
             )}
+
+            <label className="email-gate-modal__checkbox" htmlFor="email-gate-dismiss">
+              <input
+                id="email-gate-dismiss"
+                type="checkbox"
+                checked={dontShowAgain}
+                onChange={(event) => setDontShowAgain(event.target.checked)}
+              />
+              <span>Більше не показувати</span>
+            </label>
 
             <button
               type="submit"

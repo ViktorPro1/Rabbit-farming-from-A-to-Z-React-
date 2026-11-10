@@ -9,15 +9,39 @@ const TITLE = "Чек-лист новачка: перші 30 днів з кро�
 const DESCRIPTION =
   "Що підготувати заздалегідь, як пройде адаптація і на які симптоми реагувати терміново. Один PDF, який можна роздрукувати.";
 
+// Ключ у localStorage, де зберігається вибір "Більше не показувати".
+const DISMISSED_STORAGE_KEY = "lead-magnet-dismissed:" + LEAD_MAGNET_SOURCE;
+
 // Наскільки близько до низу сторінки (в пікселях) має підійти прокрутка,
 // щоб плашка виїхала. Підбирай під висоту свого футера.
 const REVEAL_DISTANCE_FROM_BOTTOM = 500;
 
+// localStorage може бути недоступний (приватний режим, заблоковані
+// дані сайту), тому всі звернення обгорнуті в try/catch.
+function readDismissed(): boolean {
+  try {
+    return localStorage.getItem(DISMISSED_STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function writeDismissed() {
+  try {
+    localStorage.setItem(DISMISSED_STORAGE_KEY, "1");
+  } catch {
+    // нічого не робимо: у цьому разі плашка просто показуватиметься знову
+  }
+}
+
 export default function LeadMagnetWidget() {
+  const [isDismissed, setIsDismissed] = useState(readDismissed);
   const [isTabVisible, setIsTabVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    if (isDismissed) return;
+
     const handleScroll = () => {
       const distanceFromBottom =
         document.documentElement.scrollHeight -
@@ -28,7 +52,14 @@ export default function LeadMagnetWidget() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isDismissed]);
+
+  const handleDismissForever = () => {
+    writeDismissed();
+    setIsDismissed(true);
+  };
+
+  if (isDismissed) return null;
 
   return (
     <>
@@ -53,6 +84,7 @@ export default function LeadMagnetWidget() {
           title={TITLE}
           description={DESCRIPTION}
           onClose={() => setIsModalOpen(false)}
+          onDismissForever={handleDismissForever}
         />
       )}
     </>
