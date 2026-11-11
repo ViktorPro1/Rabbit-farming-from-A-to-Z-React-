@@ -24,6 +24,37 @@ interface MedicationBatch {
 
 const UNIT_OPTIONS = ["мл", "г", "кг", "табл.", "доз", "уп.", "од."];
 
+// Скільки крапель у 1 мл (орієнтовно, для водних розчинів)
+const DROPS_PER_ML = 20;
+
+// Для будь-якого препарату в мл можна списувати і краплями, і мілілітрами.
+function supportsDrops(b: MedicationBatch) {
+  return b.unit === "мл";
+}
+
+// Запам'ятовуємо, у чому користувач списував цей препарат минулого разу
+function usageUnitKey(id: string) {
+  return `aptechka-usage-unit-${id}`;
+}
+
+function loadSavedUsageUnit(id: string): "drops" | "unit" {
+  try {
+    return localStorage.getItem(usageUnitKey(id)) === "drops"
+      ? "drops"
+      : "unit";
+  } catch {
+    return "unit";
+  }
+}
+
+function saveUsageUnit(id: string, unit: "drops" | "unit") {
+  try {
+    localStorage.setItem(usageUnitKey(id), unit);
+  } catch {
+    // нічого страшного, просто не запам'ятаємо вибір
+  }
+}
+
 // Змінено: сьогодні за Києвом (раніше UTC)
 function todayStr() {
   return todayKyiv();
@@ -40,6 +71,11 @@ function isExpiringSoon(expiry_date: string | null) {
     (new Date(expiry_date).getTime() - new Date(todayStr()).getTime()) /
     (1000 * 60 * 60 * 24);
   return diff >= 0 && diff <= 14;
+}
+
+// Округлення до сотих, щоб не було 6.500000001
+function round2(n: number) {
+  return Math.round(n * 100) / 100;
 }
 
 const emptyManualForm = {
@@ -73,8 +109,14 @@ export default function AptechkaPage({ session }: Props) {
   const [remainingEditId, setRemainingEditId] = useState<string | null>(null);
   const [remainingValue, setRemainingValue] = useState("");
 
+  // Нове: списання використаної кількості (краплі або мл)
+  const [usageEditId, setUsageEditId] = useState<string | null>(null);
+  const [usageAmount, setUsageAmount] = useState("");
+  const [usageUnit, setUsageUnit] = useState<"drops" | "unit">("drops");
+
   const [showUsedUp, setShowUsedUp] = useState(false);
   const [showNote, setShowNote] = useState(false);
+  const [showDropsNote, setShowDropsNote] = useState(false);
 
   const navigate = useNavigate();
 
@@ -190,6 +232,7 @@ export default function AptechkaPage({ session }: Props) {
   }
 
   function openRemainingEdit(b: MedicationBatch) {
+    setUsageEditId(null);
     setRemainingEditId(b.id);
     setRemainingValue(
       b.quantity_remaining !== null ? String(b.quantity_remaining) : "",
@@ -212,6 +255,47 @@ export default function AptechkaPage({ session }: Props) {
       return;
     }
     setRemainingEditId(null);
+    loadData();
+  }
+
+  // Нове: відкрити форму списання
+  function openUsageEdit(b: MedicationBatch) {
+    setRemainingEditId(null);
+    setUsageEditId(b.id);
+    setUsageAmount("");
+    // Спершу мл; якщо раніше списували краплями, підставляємо краплі
+    setUsageUnit(supportsDrops(b) ? loadSavedUsageUnit(b.id) : "unit");
+  }
+
+  // Нове: скільки це в одиницях препарату (мл, г...)
+  function usageInBatchUnit(b: MedicationBatch) {
+    const amount = Number(usageAmount);
+    if (Number.isNaN(amount) || amount <= 0) return 0;
+    if (b.unit === "мл" && usageUnit === "drops") {
+      return round2(amount / DROPS_PER_ML);
+    }
+    return round2(amount);
+  }
+
+  // Нове: відняти використане від залишку
+  async function handleSaveUsage(b: MedicationBatch) {
+    const used = usageInBatchUnit(b);
+    if (used <= 0) return;
+    const current = b.quantity_remaining ?? b.quantity_purchased ?? 0;
+    const next = Math.max(0, round2(current - used));
+    setPageError("");
+    const { error: dbErr } = await supabase
+      .from("medication_batches")
+      .update({ quantity_remaining: next, used_up: next === 0 })
+      .eq("id", b.id);
+    if (dbErr) {
+      console.error("Не вдалося списати препарат:", dbErr);
+      setPageError("Не вдалося списати препарат. Спробуйте ще раз");
+      return;
+    }
+    if (supportsDrops(b)) saveUsageUnit(b.id, usageUnit);
+    setUsageEditId(null);
+    setUsageAmount("");
     loadData();
   }
 
@@ -518,6 +602,68 @@ export default function AptechkaPage({ session }: Props) {
                       із {b.quantity_purchased} {b.unit}
                     </button>
                   )}
+
+                  {/* Нове: списання краплями або в одиницях препарату */}
+                  {usageEditId === b.id && (
+                    <>
+                      <div className="aptechka-inline-form row">
+                        <input
+                          id={`aptechka-usage-${b.id}`}
+                          name={`aptechka-usage-${b.id}`}
+                          type="number"
+                          min="0"
+                          placeholder="Скільки"
+                          value={usageAmount}
+                          onChange={(e) => setUsageAmount(e.target.value)}
+                          style={{ width: "80px" }}
+                        />
+                        {supportsDrops(b) ? (
+                          <select
+                            id={`aptechka-usage-unit-${b.id}`}
+                            name={`aptechka-usage-unit-${b.id}`}
+                            value={usageUnit}
+                            onChange={(e) =>
+                              setUsageUnit(e.target.value as "drops" | "unit")
+                            }
+                          >
+                            <option value="drops">крапель</option>
+                            <option value="unit">мл</option>
+                          </select>
+                        ) : (
+                          <span>{b.unit}</span>
+                        )}
+                        <button
+                          className="aptechka-save-btn small"
+                          onClick={() => handleSaveUsage(b)}
+                          disabled={usageInBatchUnit(b) <= 0}
+                        >
+                          &#10003;
+                        </button>
+                        <button
+                          className="aptechka-cancel-btn small"
+                          onClick={() => setUsageEditId(null)}
+                        >
+                          &#10005;
+                        </button>
+                      </div>
+                      {usageInBatchUnit(b) > 0 && (
+                        <p className="aptechka-date">
+                          Спишеться: {usageInBatchUnit(b)} {b.unit}. Залишок
+                          стане:{" "}
+                          {Math.max(
+                            0,
+                            round2(
+                              (b.quantity_remaining ??
+                                b.quantity_purchased ??
+                                0) - usageInBatchUnit(b),
+                            ),
+                          )}{" "}
+                          {b.unit}
+                        </p>
+                      )}
+                    </>
+                  )}
+
                   {b.expiry_date && (
                     <p className="aptechka-expiry">
                       Термін до:{" "}
@@ -525,6 +671,12 @@ export default function AptechkaPage({ session }: Props) {
                     </p>
                   )}
                   <div className="aptechka-card-actions">
+                    <button
+                      className="aptechka-usedup-btn"
+                      onClick={() => openUsageEdit(b)}
+                    >
+                      Списати
+                    </button>
                     <button
                       className="aptechka-usedup-btn"
                       onClick={() => handleMarkUsedUp(b.id)}
@@ -639,6 +791,17 @@ export default function AptechkaPage({ session }: Props) {
                     </div>
                   </div>
                   <div className="aptechka-note-item">
+                    <span className="aptechka-note-icon">&#128167;</span>
+                    <div>
+                      <strong>Списати</strong>
+                      <span>
+                        Впишіть, скільки використали: для препаратів у мл можна
+                        обрати "крапель" (20 крапель = 1 мл, орієнтовно) —
+                        залишок зменшиться сам.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="aptechka-note-item">
                     <span className="aptechka-note-icon">&#9989;</span>
                     <div>
                       <strong>Використано все / залишок</strong>
@@ -646,6 +809,84 @@ export default function AptechkaPage({ session }: Props) {
                         Клікніть на залишок, щоб вписати точну кількість, або
                         тисніть "Використано все" — тоді запис переходить в
                         архів "Використані" внизу сторінки.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* ── Зноска: як працювати з краплями ── */}
+          <div className="aptechka-note">
+            <button
+              className="aptechka-note-toggle"
+              onClick={() => setShowDropsNote(!showDropsNote)}
+            >
+              <span>&#128167; Як вести облік препаратів у краплях</span>
+              <span>{showDropsNote ? "▲" : "▼"}</span>
+            </button>
+
+            {showDropsNote && (
+              <>
+                <p>
+                  Деякі препарати дозують краплями, а на флаконі кількість
+                  вказана в мілілітрах. Щоб не переводити самому, впишіть,
+                  скільки крапель використали, і залишок зменшиться автоматично.
+                </p>
+                <div className="aptechka-note-grid">
+                  <div className="aptechka-note-item">
+                    <span className="aptechka-note-icon">&#9989;</span>
+                    <div>
+                      <strong>Як списати краплі</strong>
+                      <span>
+                        На картці препарату натисніть "Списати", впишіть число,
+                        у списку праворуч оберіть "крапель" і натисніть галочку.
+                        Під полем одразу видно, скільки спишеться і яким стане
+                        залишок.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="aptechka-note-item">
+                    <span className="aptechka-note-icon">&#129518;</span>
+                    <div>
+                      <strong>Як рахується</strong>
+                      <span>
+                        20 крапель дорівнює 1 мл. Наприклад, 30 крапель це 1,5
+                        мл: якщо було 10 мл, залишиться 8,5 мл.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="aptechka-note-item">
+                    <span className="aptechka-note-icon">&#128260;</span>
+                    <div>
+                      <strong>Вибір запам'ятовується</strong>
+                      <span>
+                        Якщо один раз списали препарат краплями, наступного разу
+                        в списку одразу буде "крапель". Для інших препаратів
+                        лишається "мл". Вибір зберігається в цьому браузері, на
+                        іншому пристрої його треба перемкнути ще раз.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="aptechka-note-item">
+                    <span className="aptechka-note-icon">&#9888;&#65039;</span>
+                    <div>
+                      <strong>Це приблизна цифра</strong>
+                      <span>
+                        Розмір краплі залежить від флакона й піпетки, тож 20
+                        крапель в 1 мл це орієнтир. Для обліку аптечки цього
+                        достатньо.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="aptechka-note-item">
+                    <span className="aptechka-note-icon">&#9997;&#65039;</span>
+                    <div>
+                      <strong>Якщо помилилися</strong>
+                      <span>
+                        Клікніть на рядок із залишком і впишіть правильне число
+                        в мл. Воно замінить поточне.
                       </span>
                     </div>
                   </div>

@@ -185,20 +185,23 @@
 /* ── СІТКА КАРТОК ── */
 .aptechka-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.6rem;
 }
 
 .aptechka-card {
     background: #fff;
     border: 1.5px solid var(--gray-light, #e0e0e0);
     border-radius: 12px;
-    padding: 0.9rem 1rem;
+    padding: 0.55rem 0.7rem;
     position: relative;
     transition: box-shadow 0.2s;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.15rem;
+    /* Змінено: картка не розтягується за вміст і кнопки не вилазять за краї */
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .aptechka-card:hover {
@@ -258,7 +261,7 @@
 
 .aptechka-date,
 .aptechka-expiry {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     color: #555;
     margin: 0;
 }
@@ -302,6 +305,8 @@
 .aptechka-inline-form.row {
     flex-direction: row;
     align-items: center;
+    /* Змінено: елементи переносяться, а не вилазять за картку */
+    flex-wrap: wrap;
 }
 
 .aptechka-inline-form input,
@@ -317,20 +322,25 @@
     gap: 0.5rem;
 }
 
+/* Змінено: кнопки в сітці 2 колонки.
+   "Списати" і "Використано все" в першому ряду,
+   "Видалити" на всю ширину в другому. Нічого не вилазить за картку */
 .aptechka-card-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem;
+    margin-top: 0.2rem;
 }
 
 .aptechka-usedup-btn {
-    flex: 1;
+    min-width: 0;
     background: none;
     border: 1px solid var(--green-mid);
     color: var(--green-dark);
-    padding: 0.3rem 0.6rem;
+    padding: 0.2rem 0.35rem;
     border-radius: 7px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    line-height: 1.15;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -340,13 +350,15 @@
 }
 
 .aptechka-delete-btn {
-    flex: 1;
+    grid-column: 1 / -1;
+    min-width: 0;
     background: none;
     border: 1px solid #e57373;
     color: #c62828;
-    padding: 0.3rem 0.6rem;
+    padding: 0.2rem 0.35rem;
     border-radius: 7px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    line-height: 1.15;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -472,6 +484,11 @@
     border: 1.5px solid var(--green-light);
     border-radius: 12px;
     padding: 0.9rem 1.1rem;
+}
+
+/* Друга зноска одразу після першої: менший відступ */
+.aptechka-note+.aptechka-note {
+    margin-top: 0.75rem;
 }
 
 .aptechka-note-toggle {
