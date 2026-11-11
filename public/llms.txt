@@ -268,8 +268,8 @@ Below is the complete site structure mapping for automated AI agents and crawler
 
 ### Core Framework
 - **React 19.2.4** with TypeScript 5.9.3
-- **Vite 8.0.1** - Modern build tool (replaces CRA for better performance)
-- **React Router DOM 7.14.0** - Client-side routing with lazy-loaded pages
+- **Vite 7.3.6** - Modern build tool (replaces CRA for better performance)
+- **React Router DOM 7.18.1** - Client-side routing with lazy-loaded pages
 - **TypeScript** - Strict mode enabled throughout
 
 ### Backend & Authentication
@@ -284,7 +284,7 @@ Below is the complete site structure mapping for automated AI agents and crawler
   - Light/Dark mode toggle support
 
 ### Features & Integrations
-- **PWA** (vite-plugin-pwa 1.2.0) - Offline support, auto-updating service worker
+- **PWA** (vite-plugin-pwa 1.3.0) - Offline support, auto-updating service worker
 - **SEO** - React Helmet Async for meta tags and structured data
 - **Analytics** - Google Analytics & Google Tag Manager (GTM) integration
 - **Additional**: QR code generation, social sharing, cookie consent

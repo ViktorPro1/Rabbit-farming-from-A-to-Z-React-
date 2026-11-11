@@ -9,7 +9,9 @@
  *    з уже наявного public/llms.txt;
  *  - замінює ТІЛЬКИ блок структури сайту (від "## Site Structure & Navigation Links"
  *    до першого рядка "---"); решту файлу не чіпає;
- *  - якщо блок не змінився, файл не перезаписує.
+ *  - підставляє актуальні версії React, TypeScript, Vite, React Router, vite-plugin-pwa
+ *    у розділ Tech Stack (з node_modules або package.json);
+ *  - якщо нічого не змінилося, файл не перезаписує.
  *
  * Запуск: node scripts/generate-llms.mjs
  */
@@ -110,6 +112,55 @@ function loadTitleOverrides() {
   }
 }
 
+const PKG_FILE = resolve(ROOT, "package.json");
+
+function getVersion(pkg, name) {
+  const installed = resolve(ROOT, "node_modules", name, "package.json");
+  try {
+    if (existsSync(installed)) return JSON.parse(readFileSync(installed, "utf8")).version;
+  } catch {
+    // переходимо до package.json
+  }
+  const range = pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
+  return range ? range.replace(/^[\^~>=<\s]+/, "") : null;
+}
+
+/** Підставляє актуальні версії в розділ Tech Stack (за node_modules або package.json). */
+function patchVersions(text) {
+  let pkg;
+  try {
+    pkg = JSON.parse(readFileSync(PKG_FILE, "utf8"));
+  } catch {
+    console.warn("[generate-llms] Увага: не вдалося прочитати package.json, версії в Tech Stack не оновлено.");
+    return text;
+  }
+
+  const v = {
+    react: getVersion(pkg, "react"),
+    ts: getVersion(pkg, "typescript"),
+    vite: getVersion(pkg, "vite"),
+    router: getVersion(pkg, "react-router-dom"),
+    pwa: getVersion(pkg, "vite-plugin-pwa"),
+  };
+
+  const rules = [
+    [/(\*\*React )[\d.]+(\*\* with TypeScript )[\d.]+/, v.react && v.ts, (m, a, b) => a + v.react + b + v.ts, "React / TypeScript"],
+    [/(\*\*Vite )[\d.]+/, v.vite, (m, a) => a + v.vite, "Vite"],
+    [/(\*\*React Router DOM )[\d.]+/, v.router, (m, a) => a + v.router, "React Router DOM"],
+    [/(vite-plugin-pwa )[\d.]+/, v.pwa, (m, a) => a + v.pwa, "vite-plugin-pwa"],
+  ];
+
+  let result = text;
+  for (const [regex, available, replacer, label] of rules) {
+    if (!available || !regex.test(result)) {
+      console.warn(`[generate-llms] Увага: рядок "${label}" у Tech Stack не оновлено (не знайдено версію або рядок).`);
+      continue;
+    }
+    result = result.replace(regex, replacer);
+  }
+  return result;
+}
+
 function buildBlock(sections, titleFor) {
   const lines = [START_MARKER, "", INTRO, ""];
   for (const section of sections) {
@@ -162,12 +213,14 @@ function main() {
     for (const path of missing) console.warn(`  "${path}": "..."`);
   }
 
-  if (newBlock === oldBlock) {
+  let newText = newBlock === oldBlock ? oldText : oldText.slice(0, start) + newBlock + oldText.slice(end);
+  newText = patchVersions(newText);
+
+  if (newText === oldText) {
     console.log(`[generate-llms] Без змін: ${total} сторінок у ${sections.length} розділах.`);
     return;
   }
 
-  let newText = oldText.slice(0, start) + newBlock + oldText.slice(end);
   const today = new Date().toISOString().slice(0, 10);
   newText = newText.replace(/(\*\*Last Updated\*\*:\s*)\d{4}-\d{2}-\d{2}/, `$1${today}`);
 
