@@ -16,6 +16,7 @@ interface TreatmentRecord {
   drug_key: string | null;
   route: string | null;
   course_days: number | null;
+  duration_days: number | null;
   date: string;
   next_date: string | null;
   notes: string | null;
@@ -309,10 +310,11 @@ function getSeasonalRecommendations(): { drug_key: string; reason: string }[] {
 
 const emptyForm = {
   cage_number: "",
-  drug_key: "toltrazuril",
+  drug_key: "baycox",
   drug_name: "",
-  route: "",
-  course_days: "",
+  route: "Орально (з водою)",
+  course_days: "90",
+  duration_days: "2",
   date: "",
   next_date: "",
   notes: "",
@@ -348,6 +350,43 @@ function isSoon(next_date: string | null) {
 function isToday(next_date: string | null) {
   if (!next_date) return false;
   return next_date === todayStr();
+}
+
+// Різниця в днях між двома датами YYYY-MM-DD (через UTC, без проблем з літнім часом)
+function daysBetween(fromISO: string, toISO: string): number {
+  const [fy, fm, fd] = fromISO.slice(0, 10).split("-").map(Number);
+  const [ty, tm, td] = toISO.slice(0, 10).split("-").map(Number);
+  return Math.round(
+    (Date.UTC(ty, tm - 1, td) - Date.UTC(fy, fm - 1, fd)) / 86400000,
+  );
+}
+
+// День курсу (1, 2, 3 ...) і скільки всього днів у курсі.
+// Тільки для курсів з 2 і більше днів
+function getCourseInfo(
+  r: TreatmentRecord,
+): { day: number; total: number } | null {
+  const total = r.duration_days;
+  if (!total || total < 2) return null;
+  return { day: daysBetween(r.date, todayStr()) + 1, total };
+}
+
+function isCourseActive(r: TreatmentRecord): boolean {
+  const info = getCourseInfo(r);
+  return !!info && info.day >= 1 && info.day <= info.total;
+}
+
+// Потрібно дати сьогодні: або день повтору, або йде багатоденний курс
+function isDueToday(r: TreatmentRecord): boolean {
+  return isToday(r.next_date) || isCourseActive(r);
+}
+
+function getCourseText(r: TreatmentRecord): string {
+  const info = getCourseInfo(r);
+  if (!info) return "";
+  if (info.day < 1) return `Курс ${info.total} дн. ще не почався`;
+  if (info.day > info.total) return `Курс ${info.total} дн. завершено`;
+  return `Курс: день ${info.day} з ${info.total}`;
 }
 
 function getRouteIcon(route: string | null): string {
@@ -407,6 +446,7 @@ export default function MyTreatments({ session }: Props) {
         drug_key: editRecord.drug_key,
         route: editRecord.route || null,
         course_days: editRecord.course_days,
+        duration_days: editRecord.duration_days,
         date: editRecord.date,
         next_date: editRecord.next_date || null,
         notes: editRecord.notes || null,
@@ -475,9 +515,14 @@ export default function MyTreatments({ session }: Props) {
       drug_key: key,
       drug_name: key === "custom" ? "" : drug.label,
       route: key === "custom" ? "" : drug.route,
-      course_days: key === "custom" ? "" : String(drug.interval_days),
+      course_days:
+        key === "custom" || drug.interval_days === 0
+          ? ""
+          : String(drug.interval_days),
+      duration_days: key === "custom" ? "" : String(drug.course_days),
+      next_date: "",
     };
-    if (updated.date && key !== "custom") {
+    if (updated.date && key !== "custom" && drug.interval_days > 0) {
       updated.next_date = addDays(updated.date, drug.interval_days);
     }
     setForm(updated);
@@ -496,6 +541,9 @@ export default function MyTreatments({ session }: Props) {
       drug_key: form.drug_key === "custom" ? null : form.drug_key,
       route: form.route || null,
       course_days: form.course_days ? parseInt(form.course_days, 10) : null,
+      duration_days: form.duration_days
+        ? parseInt(form.duration_days, 10)
+        : null,
       date: form.date,
       next_date: form.next_date || null,
       notes: form.notes || null,
@@ -528,9 +576,9 @@ export default function MyTreatments({ session }: Props) {
   }
 
   // Записи на сьогодні
-  const todayRecords = records.filter((r) => isToday(r.next_date));
+  const todayRecords = records.filter((r) => isDueToday(r));
   const overdueRecords = records.filter(
-    (r) => isOverdue(r.next_date) && !isToday(r.next_date),
+    (r) => isOverdue(r.next_date) && !isDueToday(r),
   );
 
   const isCustom = form.drug_key === "custom";
@@ -576,6 +624,11 @@ export default function MyTreatments({ session }: Props) {
                     Клітка {r.cage_number}
                   </span>
                   <p className="mytreat-today-drug">{r.drug_name}</p>
+                  {isCourseActive(r) && (
+                    <p className="mytreat-today-route">
+                      <b>{getCourseText(r)}</b>
+                    </p>
+                  )}
                   {r.route && (
                     <p className="mytreat-today-route">
                       {getRouteIcon(r.route)} {r.route}
@@ -744,6 +797,23 @@ export default function MyTreatments({ session }: Props) {
               />
             </div>
 
+            {/* Скільки днів підряд давати */}
+            <div className="mytreat-field-wrap">
+              <label htmlFor="mytreat-duration-days">
+                Скільки днів підряд давати
+              </label>
+              <input
+                id="mytreat-duration-days"
+                type="number"
+                min="1"
+                placeholder="Наприклад, 5"
+                value={form.duration_days}
+                onChange={(e) =>
+                  setForm({ ...form, duration_days: e.target.value })
+                }
+              />
+            </div>
+
             {/* Інтервал до наступного */}
             <div className="mytreat-field-wrap">
               <label htmlFor="mytreat-course-days">
@@ -823,7 +893,7 @@ export default function MyTreatments({ session }: Props) {
                 <div
                   key={r.id}
                   className={`mytreat-card ${
-                    isToday(r.next_date)
+                    isDueToday(r)
                       ? "today"
                       : isOverdue(r.next_date)
                         ? "overdue"
@@ -834,13 +904,13 @@ export default function MyTreatments({ session }: Props) {
                 >
                   <div className="mytreat-card-top">
                     <span className="mytreat-cage">Клітка {r.cage_number}</span>
-                    {isToday(r.next_date) && (
+                    {isDueToday(r) && (
                       <span className="badge badge-today">Сьогодні</span>
                     )}
-                    {isOverdue(r.next_date) && !isToday(r.next_date) && (
+                    {isOverdue(r.next_date) && !isDueToday(r) && (
                       <span className="badge badge-overdue">Прострочено</span>
                     )}
-                    {isSoon(r.next_date) && !isToday(r.next_date) && (
+                    {isSoon(r.next_date) && !isDueToday(r) && (
                       <span className="badge badge-soon">Скоро</span>
                     )}
                   </div>
@@ -856,6 +926,9 @@ export default function MyTreatments({ session }: Props) {
                   <p className="mytreat-date">
                     Дата: {new Date(r.date).toLocaleDateString("uk-UA")}
                   </p>
+                  {getCourseText(r) && (
+                    <p className="mytreat-date">{getCourseText(r)}</p>
+                  )}
                   {r.next_date && (
                     <p
                       className={`mytreat-next ${
@@ -993,6 +1066,25 @@ export default function MyTreatments({ session }: Props) {
                   value={editRecord.date}
                   onChange={(e) =>
                     handleEditDateOrCourse("date", e.target.value)
+                  }
+                />
+              </div>
+              <div className="mytreat-field-wrap">
+                <label htmlFor="mytreat-edit-duration-days">
+                  Скільки днів підряд давати
+                </label>
+                <input
+                  id="mytreat-edit-duration-days"
+                  type="number"
+                  min="1"
+                  value={editRecord.duration_days ?? ""}
+                  onChange={(e) =>
+                    setEditRecord({
+                      ...editRecord,
+                      duration_days: e.target.value
+                        ? parseInt(e.target.value, 10)
+                        : null,
+                    })
                   }
                 />
               </div>
