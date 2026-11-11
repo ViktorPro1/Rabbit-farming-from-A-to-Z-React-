@@ -305,7 +305,7 @@ export async function loadCalendarEvents(
             .eq("user_id", userId),
         supabase
             .from("treatments")
-            .select("id, date, next_date, cage_number, drug_name")
+            .select("id, date, next_date, cage_number, drug_name, duration_days")
             .eq("user_id", userId),
         supabase
             .from("cage_disinfections")
@@ -530,10 +530,28 @@ export async function loadCalendarEvents(
 
     (treatmentsRes.data || []).forEach((t) => {
         const subject = `Клітка ${t.cage_number || "?"} — ${t.drug_name || ""}`;
+        // Багатоденний курс: окрема подія на кожен день курсу з підписом
+        // "день N з M". Для разових прийомів (duration_days порожнє або 1)
+        // поведінка та сама, що й раніше.
+        const courseDays =
+            t.duration_days && t.duration_days > 1 ? t.duration_days : 0;
+        const dayLabel = (n: number) =>
+            courseDays ? `${subject} (день ${n} з ${courseDays})` : subject;
+
         [
-            makeEvent(t.id, t.date, "treatment", subject),
+            makeEvent(t.id, t.date, "treatment", dayLabel(1)),
             makeEvent(`${t.id}-next`, t.next_date, "treatmentNext", subject),
         ].forEach((e) => e && inRange(e.date) && events.push(e));
+
+        for (let n = 2; n <= courseDays; n++) {
+            const e = makeEvent(
+                `${t.id}-day-${n}`,
+                addDays(t.date, n - 1),
+                "treatment",
+                dayLabel(n),
+            );
+            if (e && inRange(e.date)) events.push(e);
+        }
     });
 
     (disinfectionsRes.data || []).forEach((d) => {
