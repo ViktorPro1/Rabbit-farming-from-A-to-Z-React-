@@ -1,4 +1,40 @@
 User-agent: *
 Allow: /
 
+# AI/LLM context reference
+# llms.txt: https://rabbit-farming-from-a-to-z-react.vercel.app/llms.txt
+# llms-full.txt: https://rabbit-farming-from-a-to-z-react.vercel.app/llms-full.txt
+
+# AI-пошук та цитування
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# AI-краулери загального призначення
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://rabbit-farming-from-a-to-z-react.vercel.app/sitemap.xml
