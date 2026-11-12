@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node scripts/generate-sitemap.mjs && node scripts/generate-llms.mjs && tsc -b && node scripts/build.js",
-    "postbuild": "node scripts/generate-llms-full.mjs",
+    "postbuild": "node scripts/generate-llms-full.mjs && node scripts/sync-ai-catalog.mjs",
     "build:analyze": "npm run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

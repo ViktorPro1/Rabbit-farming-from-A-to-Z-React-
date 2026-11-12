@@ -241,10 +241,10 @@
       ]
     },
     {
-      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:your-deploy-url-here-vercel-app",
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:svizho-skoshena-chy-pryvyalena-trava-netlify-app",
       "displayName": "Свіжа чи прив'яла трава для кролів",
       "type": "text/html",
-      "url": "https://your-deploy-url-here.vercel.app/",
+      "url": "https://svizho-skoshena-chy-pryvyalena-trava.netlify.app/",
       "description": "Свіжозрізана чи прив'яла трава, роса, трава після дощу — міфи та практичні правила годівлі",
       "representativeQueries": [
         "трава для кролів",

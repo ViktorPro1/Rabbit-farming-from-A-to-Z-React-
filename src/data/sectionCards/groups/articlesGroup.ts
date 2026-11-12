@@ -120,7 +120,7 @@ export const articlesGroup: Group = {
       icon: "🍃",
       title: "Свіжа чи прив'яла трава для кролів",
       desc: "Свіжозрізана чи прив'яла трава, роса, трава після дощу — міфи та практичні правила годівлі",
-      path: "https://your-deploy-url-here.vercel.app/",
+      path: "https://svizho-skoshena-chy-pryvyalena-trava.netlify.app/",
       external: true,
       keywords: [
         "трава для кролів",
