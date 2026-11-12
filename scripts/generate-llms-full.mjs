@@ -35,8 +35,8 @@ const SITE_SUFFIX = /\s+[—–-]\s+Кролівництво від А до Я\s
 const FIRST_SECTION = "Головна";
 const AUTO_MARKER = "<!-- auto-generated: delete this line to keep the entry as is -->";
 
-const MAX_KEYWORDS = 20;
-const MAX_KEYWORD_LENGTH = 70;
+const MAX_KEYWORDS = 15;
+const MAX_KEYWORD_LENGTH = 50;
 // Загальні заголовки, які не є ключовими словами.
 const GENERIC_HEADINGS = new Set([
   "джерела",
@@ -174,15 +174,19 @@ function extractKeywords(html, title) {
   const candidates = [title, ...found.map((f) => f.text)];
 
   const result = [];
-  const seen = new Set();
-  for (const candidate of candidates) {
+  candidates.forEach((candidate, index) => {
+    if (result.length >= MAX_KEYWORDS) return;
     const keyword = toKeyword(candidate);
-    if (keyword.length < 3 || keyword.length > MAX_KEYWORD_LENGTH) continue;
-    if (GENERIC_HEADINGS.has(keyword) || seen.has(keyword)) continue;
-    seen.add(keyword);
+    if (keyword.length < 3) return;
+    // Заголовок сторінки (перший кандидат) беремо будь-якої довжини, решту обмежуємо.
+    if (index > 0 && keyword.length > MAX_KEYWORD_LENGTH) return;
+    if (GENERIC_HEADINGS.has(keyword)) return;
+    // Хронологічні мітки на кшталт "xix ст" не є ключовими словами.
+    if (/(^|\s)ст\.?(\s|$)/.test(keyword)) return;
+    // Пропускаємо дублікати та фрази, які вже містяться в одній із відібраних (і навпаки).
+    if (result.some((k) => k === keyword || k.includes(keyword) || keyword.includes(k))) return;
     result.push(keyword);
-    if (result.length >= MAX_KEYWORDS) break;
-  }
+  });
   return result;
 }
 
