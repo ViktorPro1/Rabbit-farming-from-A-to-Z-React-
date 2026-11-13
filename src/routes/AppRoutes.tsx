@@ -15,6 +15,7 @@ import { getPlanningToolsRoutes } from "./groups/planningToolsRoutes";
 import { getCabinetRoutes } from "./groups/cabinetRoutes";
 import { showsAndManagementRoutes } from "./groups/showsAndManagementRoutes";
 import { petAndInfoRoutes } from "./groups/petAndInfoRoutes";
+import { promotionRoutes } from "./groups/promotionRoutes";
 
 // СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ)
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
@@ -58,6 +59,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         {crossbreedRoutes}
         {showsAndManagementRoutes}
         {petAndInfoRoutes}
+        {promotionRoutes}
         {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -21,6 +21,7 @@ import { petGroup } from "./groups/petGroup";
 import { articlesGroup } from "./groups/articlesGroup";
 import { crossbreedGroup } from "./groups/crossbreedGroup";
 import { calculatorsGroup } from "./groups/calculatorsGroup";
+import { promotionGroup } from "./groups/promotionGroup";
 
 export type { Card, Group };
 
@@ -44,6 +45,7 @@ export const groups: Group[] = [
   slaughterGroup,
   showsGroup,
   managementGroup,
+  promotionGroup,
   technologyGroup,
   petGroup,
   articlesGroup,

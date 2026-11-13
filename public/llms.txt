@@ -232,6 +232,15 @@ Below is the complete site structure mapping for automated AI agents and crawler
 * [Імпорт та експорт кролів](https://rabbit-farming-from-a-to-z-react.vercel.app/import-export-rabbits)
 * [Кролівничі кооперативи](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-cooperatives)
 
+### Просування господарства
+* [Бренд госпоадарства ](https://rabbit-farming-from-a-to-z-react.vercel.app/farm-brand)
+* [Фото та відео тварин](https://rabbit-farming-from-a-to-z-react.vercel.app/animal-photo-video)
+* [Соціальні мережі](https://rabbit-farming-from-a-to-z-react.vercel.app/social-media)
+* [Оголошення про продаж](https://rabbit-farming-from-a-to-z-react.vercel.app/sale-listings)
+* [Підтримка після продажу](https://rabbit-farming-from-a-to-z-react.vercel.app/after-sale-support)
+* [Ціноутворення тварину](https://rabbit-farming-from-a-to-z-react.vercel.app/breeding-stock-pricing)
+* [Відгуки та репутація](https://rabbit-farming-from-a-to-z-react.vercel.app/reviews-reputation)
+
 ### Технології
 * [Автоматизація годування](https://rabbit-farming-from-a-to-z-react.vercel.app/feeding-automation)
 * [Автоматизація мікроклімату](https://rabbit-farming-from-a-to-z-react.vercel.app/climate-automation)
@@ -776,6 +785,6 @@ This is a well-maintained, production-ready application. Respect the established
 
 ---
 
-**Last Updated**: 2026-11-11
+**Last Updated**: 2026-11-13
 **Version**: 1.0
 **Language**: Ukrainian (Project), English (This Guide)

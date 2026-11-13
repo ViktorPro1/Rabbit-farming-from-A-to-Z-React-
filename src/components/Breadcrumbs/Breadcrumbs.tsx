@@ -225,6 +225,15 @@ const ROUTE_LABELS: Record<string, string> = {
   "/import-export-rabbits": "Імпорт та експорт племінних кролів",
   "/rabbit-cooperatives": "Кооперативи та об'єднання кролівників",
 
+  // ПРОСУВАННЯ
+  "/farm-brand": "Бренд ферми",
+  "/animal-photo-video": "Фото та відео тварин",
+  "/social-media": "Соціальні мережі",
+  "/sale-listings": "Оголошення про продаж",
+  "/breeding-stock-pricing": "Ціноутворення на племінне поголів'я",
+  "/reviews-reputation": "Відгуки та репутація",
+  "/after-sale-support": "Післяпродажна підтримка",
+
   // ТЕХНОЛОГІЇ ТА АВТОМАТИЗАЦІЯ
   "/feeding-automation": "Автоматизація годівлі та напування",
   "/climate-automation": "Автоматичний контроль мікроклімату",

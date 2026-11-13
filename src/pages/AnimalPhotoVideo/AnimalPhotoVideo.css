@@ -1,0 +1,746 @@
+.ph-page {
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.65;
+    padding: 0 0 5rem;
+    overflow-x: hidden;
+}
+
+.ph-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Hero: плівка і рамка кадру ---------- */
+
+.ph-hero {
+    background: #1a3d0f;
+    color: #f0f7eb;
+    display: flex;
+    flex-direction: column;
+}
+
+.ph-film {
+    height: 1.1rem;
+    background:
+        repeating-linear-gradient(90deg,
+            transparent 0,
+            transparent 0.6rem,
+            rgba(240, 247, 235, 0.55) 0.6rem,
+            rgba(240, 247, 235, 0.55) 1.1rem,
+            transparent 1.1rem,
+            transparent 1.7rem);
+    background-size: 100% 0.45rem;
+    background-repeat: repeat-x;
+    background-position: center;
+    opacity: 0.85;
+}
+
+.ph-hero-inner {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 3.25rem;
+    text-align: center;
+}
+
+.ph-tag {
+    display: inline-block;
+    margin: 0 0 1.25rem;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid rgba(240, 247, 235, 0.5);
+    border-radius: 999px;
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.ph-frame {
+    position: relative;
+    padding: 1.6rem 1.4rem;
+    margin: 0 auto 1.5rem;
+    max-width: 38rem;
+}
+
+.ph-frame::before,
+.ph-frame::after {
+    content: "";
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 2px solid var(--amber);
+}
+
+.ph-frame::before {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+}
+
+.ph-frame::after {
+    right: 0;
+    bottom: 0;
+    border-left: none;
+    border-top: none;
+}
+
+.ph-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.8rem);
+    line-height: 1.2;
+    margin: 0;
+}
+
+.ph-lede {
+    max-width: 38rem;
+    margin: 0 auto;
+    color: rgba(240, 247, 235, 0.85);
+    font-size: 1rem;
+}
+
+/* ---------- Intro ---------- */
+
+.ph-intro {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 0;
+}
+
+.ph-intro-text {
+    font-size: 1.02rem;
+    margin: 0 0 1rem;
+    color: var(--gray);
+}
+
+.ph-intro-text:first-child::first-letter {
+    float: left;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 3.2rem;
+    line-height: 0.9;
+    padding: 0.2rem 0.5rem 0 0;
+    color: var(--amber);
+}
+
+/* ---------- Headings ---------- */
+
+.ph-heading {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(1.35rem, 3.2vw, 1.8rem);
+    text-align: center;
+    margin: 0 0 1rem;
+    color: var(--green-dark);
+}
+
+.ph-heading::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 3px;
+    margin: 0.6rem auto 0;
+    background: var(--amber);
+    border-radius: 2px;
+}
+
+.ph-sub {
+    max-width: 40rem;
+    margin: 0 auto 1.75rem;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.96rem;
+}
+
+/* ---------- Rules: polaroid ---------- */
+
+.ph-rules {
+    max-width: 62rem;
+    margin: 3.5rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-rule-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+}
+
+.ph-polaroid {
+    background: #fff;
+    padding: 0.7rem 0.7rem 1.2rem;
+    border-radius: 3px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+    transition: transform 0.2s ease;
+}
+
+.ph-polaroid:nth-child(1) {
+    transform: rotate(-1.2deg);
+}
+
+.ph-polaroid:nth-child(2) {
+    transform: rotate(0.8deg);
+}
+
+.ph-polaroid:nth-child(3) {
+    transform: rotate(-0.6deg);
+}
+
+.ph-polaroid:hover {
+    transform: rotate(0) translateY(-3px);
+}
+
+.ph-polaroid-top {
+    background: #1a3d0f;
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ph-polaroid-num {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--amber);
+}
+
+.ph-polaroid-caption {
+    padding: 0.9rem 0.4rem 0;
+}
+
+.ph-polaroid-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+    color: #1a3d0f;
+}
+
+.ph-polaroid-text {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #4a4a4a;
+}
+
+/* ---------- Shots: tabs ---------- */
+
+.ph-shots {
+    max-width: 56rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.ph-tab {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1px solid var(--gray-light);
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    font-size: 0.86rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ph-tab:hover {
+    background: var(--amber-light);
+}
+
+.ph-tab--active {
+    background: #1a3d0f;
+    color: #f0f7eb;
+    border-color: #1a3d0f;
+}
+
+.ph-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 2rem;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    padding: 1.5rem 1.6rem;
+}
+
+.ph-panel-label {
+    margin: 0 0 0.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 700;
+}
+
+.ph-panel-text {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--gray);
+}
+
+.ph-panel-tip {
+    grid-column: 1 / -1;
+    border-top: 1px dashed var(--gray-light);
+    padding-top: 1rem;
+}
+
+.ph-panel-tip-mark {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    background: var(--amber);
+    color: #1a3d0f;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ---------- Light: так / не так ---------- */
+
+.ph-light {
+    max-width: 56rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-vs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+}
+
+.ph-vs-col {
+    border-radius: 10px;
+    padding: 1.3rem 1.4rem;
+    border: 1px solid var(--gray-light);
+}
+
+.ph-vs-col--good {
+    background: color-mix(in srgb, #2f7a2a 9%, var(--cream));
+    border-top: 4px solid #2f7a2a;
+}
+
+.ph-vs-col--bad {
+    background: color-mix(in srgb, #b3402c 8%, var(--cream));
+    border-top: 4px solid #b3402c;
+}
+
+.ph-vs-title {
+    margin: 0 0 0.7rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+}
+
+.ph-vs-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--gray);
+    font-size: 0.92rem;
+}
+
+.ph-vs-list li {
+    margin-bottom: 0.55rem;
+}
+
+/* ---------- Handling ---------- */
+
+.ph-handling {
+    max-width: 62rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-hsteps {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.ph-hstep {
+    position: relative;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    padding: 2.4rem 1.1rem 1.1rem;
+}
+
+.ph-hstep-num {
+    position: absolute;
+    top: -0.9rem;
+    left: 1.1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #1a3d0f;
+    color: #f0f7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.ph-hstep-title {
+    margin: 0 0 0.4rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+}
+
+.ph-hstep-text {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--gray);
+}
+
+.ph-warn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.ph-warn {
+    border-radius: 10px;
+    padding: 1.3rem 1.4rem;
+    border: 1px solid var(--gray-light);
+}
+
+.ph-warn--never {
+    background: color-mix(in srgb, #b3402c 8%, var(--cream));
+    border-left: 4px solid #b3402c;
+}
+
+.ph-warn--stop {
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+}
+
+.ph-warn-title {
+    margin: 0 0 0.6rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+}
+
+.ph-warn-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--gray);
+    font-size: 0.92rem;
+}
+
+.ph-warn-list li {
+    margin-bottom: 0.4rem;
+}
+
+.ph-warn-note {
+    margin: 0.8rem 0 0;
+    font-size: 0.86rem;
+    color: var(--gray);
+}
+
+/* ---------- Video timeline ---------- */
+
+.ph-video {
+    max-width: 44rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.4rem;
+    border-left: 2px solid var(--amber);
+}
+
+.ph-scene {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    padding: 0 0 1.4rem 1.2rem;
+}
+
+.ph-scene::before {
+    content: "";
+    position: absolute;
+    left: -1.95rem;
+    top: 0.35rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 3px solid var(--amber);
+}
+
+.ph-scene-time {
+    flex: none;
+    width: 5.5rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    color: var(--amber);
+    font-size: 0.98rem;
+}
+
+.ph-scene-title {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.ph-scene-text {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--gray);
+}
+
+/* ---------- Honesty ---------- */
+
+.ph-honest {
+    max-width: 46rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-honest-card {
+    background: #1a3d0f;
+    color: #f0f7eb;
+    border-radius: 10px;
+    padding: 1.6rem 1.7rem;
+    margin-top: 1.5rem;
+}
+
+.ph-honest-card p {
+    margin: 0 0 0.9rem;
+    font-size: 0.95rem;
+    color: rgba(240, 247, 235, 0.92);
+}
+
+.ph-honest-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Mistakes ---------- */
+
+.ph-mistakes {
+    max-width: 62rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-mistake-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.ph-mistake {
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ph-mistake-wrong {
+    margin: 0;
+    padding: 0.8rem 1.1rem;
+    background: color-mix(in srgb, #b3402c 12%, var(--cream));
+    border-bottom: 1px solid var(--gray-light);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.ph-mistake-wrong::before {
+    content: "Не так: ";
+    color: #b3402c;
+}
+
+.ph-mistake-fix {
+    margin: 0;
+    padding: 0.85rem 1.1rem 1rem;
+    font-size: 0.88rem;
+    color: var(--gray);
+}
+
+.ph-mistake-fix::before {
+    content: "Краще: ";
+    color: #2f7a2a;
+    font-weight: 700;
+}
+
+/* ---------- Checklist ---------- */
+
+.ph-check {
+    max-width: 40rem;
+    margin: 3.75rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ph-check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.93rem;
+}
+
+.ph-check-item input {
+    width: 1.15rem;
+    height: 1.15rem;
+    accent-color: #2f7a2a;
+    flex: none;
+}
+
+.ph-check-item--done {
+    background: color-mix(in srgb, #2f7a2a 10%, var(--cream));
+    text-decoration: line-through;
+    text-decoration-color: rgba(47, 122, 42, 0.5);
+    color: var(--gray);
+}
+
+/* ---------- Related / sources / footer ---------- */
+
+.ph-related,
+.ph-sources {
+    max-width: 46rem;
+    margin: 3.5rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.ph-related-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+    text-align: center;
+    margin: 0 0 1.1rem;
+    color: var(--green-dark);
+}
+
+.ph-related-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.ph-related-link {
+    display: inline-block;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+.ph-related-link:hover {
+    background: var(--amber-light);
+}
+
+.ph-sources-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ph-sources-link {
+    color: var(--green-accent);
+    font-size: 0.88rem;
+    word-break: break-word;
+}
+
+.ph-footer {
+    max-width: 40rem;
+    margin: 3.5rem auto 0;
+    padding: 1.4rem 1.5rem 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.ph-footer p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.84rem;
+    text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .ph-hsteps {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 1.6rem;
+    }
+
+    .ph-mistake-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 720px) {
+    .ph-rule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ph-polaroid:nth-child(n) {
+        transform: none;
+    }
+
+    .ph-panel,
+    .ph-vs,
+    .ph-warn-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .ph-hero-inner {
+        padding: 2.2rem 1.1rem 2.5rem;
+    }
+
+    .ph-frame {
+        padding: 1.2rem 0.9rem;
+    }
+
+    .ph-hsteps,
+    .ph-mistake-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ph-scene {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .ph-scene-time {
+        width: auto;
+    }
+}

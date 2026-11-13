@@ -2675,6 +2675,104 @@
         "розшифровка аналізу крові кролика",
         "лейкоцити кролик норма"
       ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:farm-brand",
+      "displayName": "Бренд господарства",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/farm-brand",
+      "description": "Як створити бренд кролівницького господарства: назва, логотип, історія, торговельна марка, права на логотип та чесні слова в назві й оголошеннях.",
+      "representativeQueries": [
+        "бренд господарства",
+        "що таке бренд простими словами",
+        "з чого складається бренд",
+        "назва",
+        "логотип"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:animal-photo-video",
+      "displayName": "Фото і відео кролів для продажу",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/animal-photo-video",
+      "description": "Як знімати кролів для оголошення: які кадри потрібні, світло без спалаху, безпечне тримання тварини, сценарій відео та чесність фото.",
+      "representativeQueries": [
+        "фото і відео кролів для продажу",
+        "як знімати кролів для продажу",
+        "три головні правила",
+        "показуйте правду",
+        "знімайте при природному світлі"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:social-media",
+      "displayName": "Соцмережі та Telegram-канал господарства",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/social-media",
+      "description": "Як вести Telegram-канал і сторінки кролівницького господарства: запуск, типи постів, план публікацій, шаблони та правила Meta щодо продажу тварин.",
+      "representativeQueries": [
+        "соцмережі та telegram-канал господарства",
+        "де вести сторінку",
+        "facebook і instagram",
+        "чат або група за інтересами",
+        "запуск telegram-каналу"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:sale-listings",
+      "displayName": "Оголошення про продаж кролів",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/sale-listings",
+      "description": "Що писати в оголошенні про продаж кролів: заголовок, обов'язкові дані, конструктор тексту, де публікувати, захист від шахраїв і що каже закон.",
+      "representativeQueries": [
+        "оголошення про продаж кролів",
+        "1 з чого складається оголошення",
+        "заголовок",
+        "фото і відео",
+        "порода і масть"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:after-sale-support",
+      "displayName": "Супровід покупця після продажу кролика",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/after-sale-support",
+      "description": "Що передати новому власнику кролика, як пройти перші дні, перейти на інший корм, які ознаки тривоги та як підтримувати зв'язок після продажу.",
+      "representativeQueries": [
+        "супровід покупця після продажу кролика",
+        "що передати новому власнику",
+        "запис про тварину",
+        "документи, які справді є",
+        "запас корму на кілька днів"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:breeding-stock-pricing",
+      "displayName": "Ціноутворення племінних кролів",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/breeding-stock-pricing",
+      "description": "Від чого залежить ціна племінного кролика: чинники ціни, три рівні тварин, калькулятор собівартості, ринок, торг та різниця між авансом і завдатком.",
+      "representativeQueries": [
+        "ціноутворення племінних кролів",
+        "ціноутворення племінних тварин",
+        "від чого залежить ціна",
+        "порода і напрям",
+        "походження й родовід"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:reviews-reputation",
+      "displayName": "Відгуки, репутація і скарги покупців",
+      "type": "text/html",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/reviews-reputation",
+      "description": "Як збирати відгуки та відповідати на скарги й неправдиві відгуки покупців кролів: порядок дій, шаблони відповідей і права споживачів.",
+      "representativeQueries": [
+        "відгуки, репутація і скарги покупців",
+        "відгуки, репутація і робота зі скаргами",
+        "як збирати відгуки чесно",
+        "попросіть через кілька тижнів",
+        "запитайте в зручному місці"
+      ]
     }
   ]
 }

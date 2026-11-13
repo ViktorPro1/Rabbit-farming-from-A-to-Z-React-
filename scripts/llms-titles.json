@@ -88,5 +88,13 @@
 
   "/partnership": "Партнерство",
   "/reviews": "Відгуки",
-  "/nps-survey": "Опитування користувачів"
+  "/nps-survey": "Опитування користувачів",
+
+  "/farm-brand": "Бренд госпоадарства ",
+  "/animal-photo-video": "Фото та відео тварин",
+  "/social-media": "Соціальні мережі",
+  "/sale-listings": "Оголошення про продаж",
+  "/after-sale-support": "Підтримка після продажу",
+  "/breeding-stock-pricing": "Ціноутворення тварину",
+  "/reviews-reputation": "Відгуки та репутація"
 }

@@ -1,0 +1,620 @@
+.sm-page {
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.65;
+    padding: 0 0 4rem;
+    overflow-x: hidden;
+}
+
+.sm-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Hero: телефон і чат ---------- */
+
+.sm-hero {
+    background: linear-gradient(135deg, #1a3d0f 0%, #2d6a1e 100%);
+    color: #f0f7eb;
+}
+
+.sm-hero-inner {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.sm-pill {
+    display: inline-block;
+    margin: 0 0 1rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(240, 247, 235, 0.15);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sm-title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.8rem, 4.6vw, 2.9rem);
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.sm-lede {
+    margin: 0;
+    max-width: 38rem;
+    color: rgba(240, 247, 235, 0.88);
+    font-size: 1rem;
+}
+
+.sm-phone {
+    width: 100%;
+    max-width: 17rem;
+    margin: 0 auto;
+    background: #f4f8f1;
+    color: #1a3d0f;
+    border: 8px solid #0f2a08;
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+
+.sm-phone-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 0.9rem;
+    background: #1a3d0f;
+    color: #f0f7eb;
+}
+
+.sm-phone-avatar {
+    flex: none;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: var(--amber);
+    color: #1a3d0f;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sm-phone-name {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.sm-phone-meta {
+    margin: 0;
+    font-size: 0.7rem;
+    opacity: 0.75;
+}
+
+.sm-phone-pin {
+    padding: 0.4rem 0.9rem;
+    background: #e3eddc;
+    border-bottom: 1px solid #cfdcc5;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.sm-phone-body {
+    padding: 0.9rem 0.8rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sm-bubble {
+    max-width: 90%;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    border-radius: 14px 14px 14px 4px;
+    font-size: 0.76rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.sm-bubble--photo {
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #d9e6d1;
+    color: #5b7a4f;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ---------- Bands ---------- */
+
+.sm-band {
+    background: var(--green-light);
+    border-top: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-light);
+    padding: 3rem 0;
+}
+
+.sm-band--law {
+    background: var(--amber-light);
+}
+
+.sm-wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.sm-wrap--narrow {
+    max-width: 42rem;
+}
+
+.sm-section {
+    padding-top: 3rem;
+}
+
+.sm-label {
+    margin: 0 0 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+}
+
+.sm-h2 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.sm-p {
+    margin: 0 0 1.4rem;
+    max-width: 44rem;
+    color: var(--gray);
+    font-size: 0.98rem;
+}
+
+.sm-small-title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* ---------- Platforms ---------- */
+
+.sm-platforms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.sm-platform {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 16px;
+    padding: 1.3rem;
+}
+
+.sm-platform-name {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.sm-platform-good {
+    margin: 0 0 0.7rem;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+.sm-platform-caution {
+    margin: 0;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--gray-light);
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+/* ---------- Steps ---------- */
+
+.sm-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.5rem;
+}
+
+.sm-step {
+    display: flex;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 14px;
+}
+
+.sm-step-num {
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: var(--cream);
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sm-step-title {
+    margin: 0 0 0.25rem;
+    font-size: 0.98rem;
+    font-weight: 800;
+}
+
+.sm-step-text {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--gray);
+}
+
+/* ---------- Post types ---------- */
+
+.sm-posts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.sm-post {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 18px 18px 18px 4px;
+    padding: 1.1rem 1.3rem;
+}
+
+.sm-post:nth-child(even) {
+    border-radius: 18px 18px 4px 18px;
+}
+
+.sm-post-title {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.sm-post-text {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+}
+
+.sm-post-note {
+    margin: 0;
+    font-size: 0.84rem;
+    color: var(--gray);
+}
+
+/* ---------- Plan ---------- */
+
+.sm-plan-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.sm-plan-btn {
+    padding: 0.55rem 1.1rem;
+    border: 2px solid var(--green-dark);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--green-dark);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sm-plan-btn--active {
+    background: var(--green-dark);
+    color: var(--cream);
+}
+
+.sm-plan {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 0.75rem;
+}
+
+.sm-plan-day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.9rem 1rem;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-top: 4px solid var(--amber);
+    border-radius: 10px;
+}
+
+.sm-plan-name {
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+
+.sm-plan-what {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+/* ---------- Templates ---------- */
+
+.sm-templates {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.sm-template {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+}
+
+.sm-template-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.sm-template-bubble {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: #fff;
+    color: #1a3d0f;
+    border-radius: 16px 16px 16px 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+    font-size: 0.9rem;
+}
+
+.sm-copy {
+    padding: 0.4rem 0.95rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--green-dark);
+    color: var(--cream);
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sm-copy:hover {
+    background: var(--green-accent);
+}
+
+.sm-copy-note {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+/* ---------- Talk rules ---------- */
+
+.sm-talk {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.sm-talk li {
+    padding: 0.8rem 1rem 0.8rem 1.1rem;
+    background: var(--green-light);
+    border-left: 4px solid var(--amber);
+    border-radius: 0 10px 10px 0;
+    font-size: 0.92rem;
+}
+
+/* ---------- Rules ---------- */
+
+.sm-rules {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.sm-rule {
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 14px;
+    padding: 1.2rem 1.3rem;
+}
+
+.sm-rule-title {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.sm-rule-text {
+    margin: 0 0 0.6rem;
+    font-size: 0.88rem;
+    color: var(--gray);
+}
+
+.sm-rule-tip {
+    margin: 0;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--gray-light);
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+/* ---------- Mistakes ---------- */
+
+.sm-mistakes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+
+.sm-mistake {
+    padding: 1rem 1.1rem;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+}
+
+.sm-mistake-wrong {
+    margin: 0 0 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #b3402c;
+}
+
+.sm-mistake-fix {
+    margin: 0;
+    font-size: 0.87rem;
+    color: var(--gray);
+}
+
+/* ---------- Checklist ---------- */
+
+.sm-check {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sm-check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.sm-check-item input {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: #2f7a2a;
+}
+
+.sm-check-item--done {
+    color: var(--gray);
+    text-decoration: line-through;
+}
+
+/* ---------- Related / sources / footer ---------- */
+
+.sm-related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.sm-related-link {
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: var(--green-dark);
+    color: var(--cream);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.sm-related-link:hover {
+    background: var(--green-accent);
+}
+
+.sm-sources {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sm-sources-link {
+    color: var(--green-accent);
+    font-size: 0.86rem;
+    word-break: break-word;
+}
+
+.sm-footer {
+    max-width: 44rem;
+    margin: 3rem auto 0;
+    padding: 1.25rem 1.5rem 0;
+    border-top: 1px solid var(--gray-light);
+}
+
+.sm-footer p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.84rem;
+    text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+    .sm-hero-inner {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1.25rem;
+    }
+
+    .sm-platforms {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+
+    .sm-steps,
+    .sm-posts,
+    .sm-templates,
+    .sm-rules,
+    .sm-mistakes {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .sm-wrap {
+        padding: 0 1.1rem;
+    }
+
+    .sm-band {
+        padding: 2.25rem 0;
+    }
+}

@@ -207,6 +207,15 @@ export const prerenderRoutes = [
     "/import-export-rabbits",
     "/rabbit-cooperatives",
 
+    // Просування господарства
+    "/farm-brand",
+    "/animal-photo-video",
+    "/social-media",
+    "/sale-listings",
+    "/after-sale-support",
+    "/breeding-stock-pricing",
+    "/reviews-reputation",
+
     // Технології
     "/feeding-automation",
     "/climate-automation",

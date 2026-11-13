@@ -1,0 +1,656 @@
+.pr-page {
+    --pr-red: #b3402c;
+    --pr-line: color-mix(in srgb, var(--gray-light) 80%, transparent);
+
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.65;
+    padding: 0 0 4rem;
+    overflow-x: hidden;
+}
+
+.pr-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Hero: лінований папір бухгалтерської книги ---------- */
+
+.pr-hero {
+    background:
+        linear-gradient(90deg, transparent 3.2rem, var(--pr-red) 3.2rem, var(--pr-red) calc(3.2rem + 2px), transparent calc(3.2rem + 2px)),
+        repeating-linear-gradient(180deg,
+            transparent 0,
+            transparent 1.7rem,
+            var(--pr-line) 1.7rem,
+            var(--pr-line) calc(1.7rem + 1px)),
+        var(--amber-light);
+    border-bottom: 2px solid var(--green-dark);
+}
+
+.pr-hero-inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 3rem 4.8rem;
+}
+
+.pr-tag {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 1rem;
+    padding: 0.3rem 1.1rem 0.3rem 1.6rem;
+    background: var(--pr-red);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0.7rem 50%);
+}
+
+.pr-title {
+    margin: 0 0 0.4rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.9rem, 5vw, 3.1rem);
+    line-height: 1.15;
+    font-weight: 700;
+}
+
+.pr-sub {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--pr-red);
+}
+
+.pr-lede {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--gray);
+    font-size: 1rem;
+}
+
+/* ---------- Layout ---------- */
+
+.pr-wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.pr-wrap--narrow {
+    max-width: 42rem;
+}
+
+.pr-section {
+    padding-top: 3rem;
+}
+
+.pr-band {
+    margin-top: 3rem;
+    padding: 3rem 0;
+    background: var(--green-light);
+    border-top: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.pr-h2 {
+    margin: 0 0 1.2rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.pr-h2::after {
+    content: "";
+    display: block;
+    width: 3.2rem;
+    height: 0;
+    margin-top: 0.5rem;
+    border-top: 3px double var(--pr-red);
+}
+
+.pr-p {
+    margin: 0 0 1.4rem;
+    max-width: 44rem;
+    color: var(--gray);
+    font-size: 0.98rem;
+}
+
+.pr-note {
+    margin: 1.2rem 0 0;
+    max-width: 44rem;
+    color: var(--gray);
+    font-size: 0.86rem;
+    font-style: italic;
+}
+
+.pr-small-title {
+    margin: 0 0 1rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+}
+
+/* ---------- Factors: цінники ---------- */
+
+.pr-factors {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.pr-tagcard {
+    position: relative;
+    padding: 1.7rem 1rem 1.1rem;
+    background: #fff;
+    color: #1a3d0f;
+    border: 1px solid var(--gray-light);
+    border-radius: 4px 4px 12px 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pr-tagcard::before {
+    content: "";
+    position: absolute;
+    top: 0.6rem;
+    left: 50%;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin-left: -0.4rem;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--pr-red);
+}
+
+.pr-tagcard-title {
+    margin: 0 0 0.4rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.pr-tagcard-text {
+    margin: 0;
+    font-size: 0.84rem;
+    color: #4a4a4a;
+}
+
+/* ---------- Tiers ---------- */
+
+.pr-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.pr-tier {
+    background: var(--cream);
+    border: 2px solid var(--green-dark);
+    border-radius: 6px;
+    padding: 0 1.2rem 1.2rem;
+    overflow: hidden;
+}
+
+.pr-tier-price {
+    margin: 0 -1.2rem 1rem;
+    padding: 0.45rem 1.2rem;
+    background: var(--green-dark);
+    color: var(--cream);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.pr-tier-name {
+    margin: 0 0 0.5rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+}
+
+.pr-tier-who {
+    margin: 0 0 0.6rem;
+    font-size: 0.9rem;
+}
+
+.pr-tier-inc {
+    margin: 0;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--gray-light);
+    font-size: 0.86rem;
+    color: var(--gray);
+}
+
+/* ---------- Costs ---------- */
+
+.pr-costs {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    border-top: 2px solid var(--green-dark);
+}
+
+.pr-cost {
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    gap: 1rem;
+    padding: 0.8rem 0.2rem;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.pr-cost-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.pr-cost-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+.pr-fcr {
+    padding: 1.1rem 1.3rem;
+    background: var(--amber-light);
+    border-left: 5px solid var(--pr-red);
+    border-radius: 0 8px 8px 0;
+}
+
+.pr-fcr-title {
+    margin: 0 0 0.5rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+}
+
+.pr-fcr p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--gray);
+}
+
+/* ---------- Calculator + receipt ---------- */
+
+.pr-calc {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.pr-calc-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 1rem;
+}
+
+.pr-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.pr-field input {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 4px;
+    background: var(--cream);
+    color: var(--green-dark);
+    font-family: ui-monospace, "Courier New", monospace;
+    font-size: 1rem;
+}
+
+.pr-field input:focus {
+    outline: 2px solid var(--pr-red);
+    outline-offset: 1px;
+}
+
+.pr-calc-hint {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--gray);
+}
+
+.pr-receipt {
+    position: sticky;
+    top: 7rem;
+    padding: 1.2rem 1.2rem 1.4rem;
+    background: #fff;
+    color: #1a3d0f;
+    border: 2px dashed #8a8a8a;
+    font-family: ui-monospace, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+
+.pr-receipt-head {
+    margin: 0 0 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px dashed #8a8a8a;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.pr-receipt-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.3rem 0;
+}
+
+.pr-receipt-row--strong {
+    font-weight: 800;
+    border-top: 1px dashed #8a8a8a;
+    margin-top: 0.3rem;
+    padding-top: 0.6rem;
+}
+
+.pr-receipt-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-top: 0.6rem;
+    padding: 0.6rem 0.5rem;
+    background: var(--pr-red);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.02rem;
+}
+
+.pr-receipt-note {
+    margin: 0.9rem 0 0;
+    font-size: 0.8rem;
+    color: #555;
+    font-family: inherit;
+}
+
+/* ---------- Market steps ---------- */
+
+.pr-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+}
+
+.pr-step {
+    display: flex;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px dashed var(--gray-light);
+}
+
+.pr-step-num {
+    flex: none;
+    width: 2.1rem;
+    height: 2.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--pr-red);
+    border-radius: 50%;
+    color: var(--pr-red);
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+}
+
+.pr-step-title {
+    margin: 0 0 0.2rem;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.pr-step-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* ---------- Phrases ---------- */
+
+.pr-phrases {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.pr-phrase {
+    padding: 1rem 1.2rem;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+}
+
+.pr-phrase-q {
+    margin: 0 0 0.4rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.02rem;
+    color: var(--pr-red);
+}
+
+.pr-phrase-a {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ---------- Deposit ---------- */
+
+.pr-deposit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.pr-deposit-col {
+    padding: 1.1rem 1.3rem;
+    background: var(--green-light);
+    border: 1px solid var(--gray-light);
+    border-top: 4px solid var(--green-dark);
+    border-radius: 6px;
+}
+
+.pr-deposit-col:last-child {
+    border-top-color: var(--pr-red);
+}
+
+.pr-deposit-title {
+    margin: 0 0 0.5rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+}
+
+.pr-deposit-col p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+.pr-deposit-notes {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.92rem;
+    color: var(--gray);
+}
+
+.pr-deposit-notes li {
+    margin-bottom: 0.5rem;
+}
+
+/* ---------- Mistakes ---------- */
+
+.pr-mistakes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+
+.pr-mistake {
+    padding: 1rem 1.2rem;
+    background: var(--cream);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+}
+
+.pr-mistake-wrong {
+    margin: 0 0 0.4rem;
+    font-weight: 800;
+    font-size: 0.92rem;
+    color: var(--pr-red);
+    text-decoration: line-through;
+    text-decoration-color: rgba(179, 64, 44, 0.5);
+}
+
+.pr-mistake-fix {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--gray);
+}
+
+/* ---------- Checklist ---------- */
+
+.pr-check {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid var(--green-dark);
+}
+
+.pr-check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.75rem 0.3rem;
+    border-bottom: 1px solid var(--gray-light);
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.pr-check-item input {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--pr-red);
+}
+
+.pr-check-item--done {
+    color: var(--gray);
+    text-decoration: line-through;
+}
+
+/* ---------- Related / sources / footer ---------- */
+
+.pr-related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.pr-related-link {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--green-dark);
+    border-radius: 4px;
+    color: var(--green-dark);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.pr-related-link:hover {
+    background: var(--green-dark);
+    color: var(--cream);
+}
+
+.pr-sources {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pr-sources-link {
+    color: var(--green-accent);
+    font-size: 0.86rem;
+    word-break: break-word;
+}
+
+.pr-footer {
+    max-width: 44rem;
+    margin: 3rem auto 0;
+    padding: 1.2rem 1.5rem 0;
+    border-top: 3px double var(--gray-light);
+}
+
+.pr-footer p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.84rem;
+    text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+    .pr-factors {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pr-calc {
+        grid-template-columns: 1fr;
+    }
+
+    .pr-receipt {
+        position: static;
+    }
+}
+
+@media (max-width: 720px) {
+
+    .pr-tiers,
+    .pr-phrases,
+    .pr-deposit,
+    .pr-mistakes {
+        grid-template-columns: 1fr;
+    }
+
+    .pr-cost {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+    }
+
+    .pr-hero-inner {
+        padding: 2.5rem 1.2rem 2.5rem 3.4rem;
+    }
+
+    .pr-hero {
+        background:
+            linear-gradient(90deg, transparent 2rem, var(--pr-red) 2rem, var(--pr-red) calc(2rem + 2px), transparent calc(2rem + 2px)),
+            repeating-linear-gradient(180deg,
+                transparent 0,
+                transparent 1.7rem,
+                var(--pr-line) 1.7rem,
+                var(--pr-line) calc(1.7rem + 1px)),
+            var(--amber-light);
+    }
+}
+
+@media (max-width: 520px) {
+
+    .pr-factors,
+    .pr-calc-form {
+        grid-template-columns: 1fr;
+    }
+
+    .pr-wrap {
+        padding: 0 1.1rem;
+    }
+}
