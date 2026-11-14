@@ -2,6 +2,8 @@
 
 > A comprehensive Ukrainian-language rabbit husbandry reference for beginner and experienced farmers. Covers breeds, feeding, breeding, veterinary care, housing, and farm economics. Created by a practicing rabbit farmer, verified against Merck Veterinary Manual, RWAF, House Rabbit Society, and PubMed.
 
+> Full reference knowledge base: [llms-full.txt](https://rabbit-farming-from-a-to-z-react.vercel.app/llms-full.txt)
+
 ## Project Overview
 
 **Name**: Кролівництво від А до Я (Rabbit Farming From A to Z)

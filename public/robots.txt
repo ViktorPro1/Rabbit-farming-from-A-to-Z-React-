@@ -5,7 +5,7 @@ Allow: /
 # llms.txt: https://rabbit-farming-from-a-to-z-react.vercel.app/llms.txt
 # llms-full.txt: https://rabbit-farming-from-a-to-z-react.vercel.app/llms-full.txt
 
-# AI-пошук та цитування
+# AI-пошук, RAG та цитування в реальному часі
 User-agent: OAI-SearchBot
 Allow: /
 
@@ -24,7 +24,25 @@ Allow: /
 User-agent: Claude-User
 Allow: /
 
-# AI-краулери загального призначення
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: TavilyBot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# AI-краулери навчання та датасетів (LLM pre-training)
+User-agent: CCBot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
@@ -35,6 +53,15 @@ User-agent: Google-Extended
 Allow: /
 
 User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
 Allow: /
 
 Sitemap: https://rabbit-farming-from-a-to-z-react.vercel.app/sitemap.xml

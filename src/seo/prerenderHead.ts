@@ -1,5 +1,8 @@
 import { pageMeta, BASE_URL } from "./pageMeta";
 
+const SITE_NAME = "Кролівництво від А до Я";
+const COMMUNITY_URL = "https://t.me/rabbit_farming_from_a_to_z";
+
 // Формат, який очікує vite-prerender-plugin у полі `head` результату prerender().
 export interface HeadElement {
     type: string;
@@ -43,12 +46,48 @@ export function buildPrerenderHead(url: string): {
         { type: "meta", props: { name: "twitter:description", content: meta.description } },
     ]);
 
-    if (own?.schema) {
+    // Якщо в сторінки є власна схема, беремо її.
+    // Якщо власні мета-дані є, а схеми немає, будуємо стандартну схему Article.
+    // Якщо власних мета-даних немає зовсім, схему не додаємо: інакше сторінка
+    // отримала б назву й опис головної.
+    const pageSchema =
+        own?.schema ??
+        (own
+            ? {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: meta.title,
+                description: meta.description,
+                url: canonical,
+                inLanguage: "uk-UA",
+                author: {
+                    "@type": "Organization",
+                    name: SITE_NAME,
+                    url: BASE_URL,
+                    sameAs: [COMMUNITY_URL],
+                },
+                publisher: {
+                    "@type": "Organization",
+                    name: SITE_NAME,
+                    url: BASE_URL,
+                    logo: {
+                        "@type": "ImageObject",
+                        url: `${BASE_URL}/breed.svg`,
+                    },
+                },
+                mainEntityOfPage: {
+                    "@type": "WebPage",
+                    "@id": canonical,
+                },
+            }
+            : undefined);
+
+    if (pageSchema) {
         elements.add({
             type: "script",
             props: { type: "application/ld+json", id: "page-schema" },
             // "<" екрануємо, щоб текст усередині JSON не міг закрити тег <script>
-            children: JSON.stringify(own.schema).replace(/</g, "\\u003c"),
+            children: JSON.stringify(pageSchema).replace(/</g, "\\u003c"),
         });
     }
 

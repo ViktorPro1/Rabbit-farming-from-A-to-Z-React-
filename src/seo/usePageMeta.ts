@@ -7,6 +7,8 @@ import {
     DEFAULT_OG_IMAGE,
 } from "./pageMeta";
 
+const COMMUNITY_URL = "https://t.me/rabbit_farming_from_a_to_z";
+
 function setMetaByName(name: string, content: string) {
     let el = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
     if (!el) {
@@ -41,7 +43,8 @@ function setCanonical(href: string) {
 
 export function usePageMeta() {
     const { pathname } = useLocation();
-    const meta = pageMeta[pathname] ?? pageMeta["/"];
+    const own = pageMeta[pathname];
+    const meta = own ?? pageMeta["/"];
 
     useEffect(() => {
         // Кожна сторінка має власний canonical (а не завжди головну),
@@ -71,11 +74,47 @@ export function usePageMeta() {
         const existing = document.getElementById("page-schema");
         if (existing) existing.remove();
 
-        if (meta?.schema) {
+        // Якщо в сторінки є власна схема, беремо її.
+        // Якщо власні мета-дані є, а схеми немає, будуємо стандартну схему Article.
+        // Якщо власних мета-даних немає зовсім, схему не додаємо:
+        // інакше сторінка отримала б назву й опис головної.
+        const pageSchema =
+            own?.schema ??
+            (own
+                ? {
+                    "@context": "https://schema.org",
+                    "@type": "Article",
+                    headline: own.title,
+                    description: own.description,
+                    url: canonical,
+                    inLanguage: "uk-UA",
+                    author: {
+                        "@type": "Organization",
+                        name: SITE_NAME,
+                        url: BASE_URL,
+                        sameAs: [COMMUNITY_URL],
+                    },
+                    publisher: {
+                        "@type": "Organization",
+                        name: SITE_NAME,
+                        url: BASE_URL,
+                        logo: {
+                            "@type": "ImageObject",
+                            url: `${BASE_URL}/breed.svg`,
+                        },
+                    },
+                    mainEntityOfPage: {
+                        "@type": "WebPage",
+                        "@id": canonical,
+                    },
+                }
+                : undefined);
+
+        if (pageSchema) {
             const script = document.createElement("script");
             script.type = "application/ld+json";
             script.id = "page-schema";
-            script.textContent = JSON.stringify(meta.schema);
+            script.textContent = JSON.stringify(pageSchema);
             document.head.appendChild(script);
         }
 
@@ -83,5 +122,5 @@ export function usePageMeta() {
             const el = document.getElementById("page-schema");
             if (el) el.remove();
         };
-    }, [pathname, meta]);
+    }, [pathname, own, meta]);
 }
