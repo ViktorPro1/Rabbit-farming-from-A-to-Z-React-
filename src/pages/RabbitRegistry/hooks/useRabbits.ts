@@ -183,7 +183,10 @@ export function useRabbits(userId: string) {
             return;
           }
           setLoadError("");
-          const list = rabbitsData || [];
+          // Природне сортування за номером клітки (1, 2, ..., 9, 10, 15, 16, 17 замість 1, 15, 16, 17, 2...)
+          const list = (rabbitsData || []).slice().sort((a, b) =>
+            (a.cage_number || "").localeCompare(b.cage_number || "", undefined, { numeric: true })
+          );
           setRabbits(list);
           // Додано: один запит підписаних посилань на мініатюри всього списку.
           // Збій не ламає реєстр: картки просто лишаються без фото.
