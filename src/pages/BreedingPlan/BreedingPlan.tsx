@@ -52,7 +52,7 @@ interface LitterRow {
 
 // ── Типи результату ──
 
-type PlanStatus = "overdue" | "ready" | "pregnant" | "nursing";
+type PlanStatus = "overdue" | "ready" | "pregnant" | "nursing" | "young";
 type Filter = "all" | PlanStatus;
 
 interface PregnancyInfo {
@@ -136,10 +136,17 @@ const STATUS_META: Record<PlanStatus, { icon: string; label: string }> = {
   ready: { icon: "💞", label: "Готова до злучки" },
   pregnant: { icon: "⏳", label: "Очікуємо окріл" },
   nursing: { icon: "🍼", label: "Годує малих" },
+  young: { icon: "⚠️", label: "Зарано (до 4 міс.)" },
 };
 
 /** Порядок статусів у фільтрі та в сортуванні. */
-const STATUS_ORDER: PlanStatus[] = ["overdue", "ready", "pregnant", "nursing"];
+const STATUS_ORDER: PlanStatus[] = [
+  "overdue",
+  "ready",
+  "pregnant",
+  "nursing",
+  "young",
+];
 
 // ── Дати ──
 // Усі дати в базі це рядки YYYY-MM-DD. Рахуємо через UTC-північ, щоб літній
@@ -367,18 +374,21 @@ function computeFemalePlans(
     const freeSince = freeDates[freeDates.length - 1] ?? null;
 
     // 5. Підсумковий статус
+    // Змінено: спочатку рахуємо вік самки в місяцях
+    const ageMonths = rabbit.birth_date
+      ? Math.floor(daysBetween(rabbit.birth_date, today) / 30.4375)
+      : null;
+
     let status: PlanStatus;
     if (pregnancy) {
       status = pregnancy.daysLeft < 0 ? "overdue" : "pregnant";
     } else if (nursing) {
       status = "nursing";
+    } else if (ageMonths !== null && ageMonths < 4) {
+      status = "young";
     } else {
       status = "ready";
     }
-
-    const ageMonths = rabbit.birth_date
-      ? Math.floor(daysBetween(rabbit.birth_date, today) / 30.4375)
-      : null;
 
     return {
       rabbit,
@@ -400,19 +410,24 @@ function computeFemalePlans(
 function sortPlans(plans: FemalePlan[]): FemalePlan[] {
   const rank = (s: PlanStatus) => STATUS_ORDER.indexOf(s);
   return [...plans].sort((a, b) => {
+    // 1. Спочатку за групами статусів
     if (a.status !== b.status) return rank(a.status) - rank(b.status);
+
+    // 2. Для вагітних — за терміном окролу
     if (a.status === "overdue" || a.status === "pregnant") {
       const diff = (a.pregnancy?.daysLeft ?? 0) - (b.pregnancy?.daysLeft ?? 0);
       if (diff !== 0) return diff;
     }
-    if (a.status === "ready") {
-      const diff = (b.freeDays ?? -1) - (a.freeDays ?? -1);
-      if (diff !== 0) return diff;
+
+    // 3. Змінено: сортування за номером клітки (1, 2... 9, 10), а якщо немає — за кличкою.
+    // Видалено сортування за freeDays, яке ламало числовий порядок кроличок
+    const cageA = a.rabbit.cage_number || "";
+    const cageB = b.rabbit.cage_number || "";
+    if (cageA || cageB) {
+      const cageDiff = cageA.localeCompare(cageB, "uk", { numeric: true });
+      if (cageDiff !== 0) return cageDiff;
     }
-    if (a.status === "nursing") {
-      const diff = (b.nursing?.daysSince ?? 0) - (a.nursing?.daysSince ?? 0);
-      if (diff !== 0) return diff;
-    }
+
     return a.rabbit.name.localeCompare(b.rabbit.name, "uk", { numeric: true });
   });
 }
@@ -423,6 +438,8 @@ function countByStatus(plans: FemalePlan[]): Record<PlanStatus, number> {
     ready: 0,
     pregnant: 0,
     nursing: 0,
+    // Змінено: лічильник для статусу young
+    young: 0,
   };
   plans.forEach((p) => {
     counts[p.status] += 1;
@@ -1094,7 +1111,8 @@ function PlanCard({
   const meta = STATUS_META[status];
 
   // Підбір самця пропонуємо тим, хто не вагітна: вільним і тим, що годують
-  const canPick = status === "ready" || status === "nursing";
+  const canPick =
+    status === "ready" || status === "nursing" || status === "young";
 
   // Якщо в самки не вказані батьки, перевірка неповна: попереджаємо про це
   const pedigreeNote =
@@ -1214,6 +1232,18 @@ function PlanCard({
           ) : (
             <span>Злучок ще не було</span>
           )}
+        </div>
+      )}
+
+      {/* Змінено: блок застереження для самок до 4 місяців */}
+      {status === "young" && (
+        <div className="plan-block plan-block-young">
+          <span>
+            ⚠️ <strong>Застереження:</strong> вік{" "}
+            {ageMonths !== null ? `${ageMonths} міс.` : "менше 4 міс."} — зарано
+            для злучки. Першу злучку рекомендовано проводити не раніше 4
+            місяців.
+          </span>
         </div>
       )}
 

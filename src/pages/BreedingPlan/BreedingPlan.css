@@ -931,3 +931,25 @@
         white-space: normal;
     }
 }
+
+/* Змінено: стилі для статусу "young" (молода самка до 4 місяців) */
+.plan-card-young {
+    border-left-color: #f59e0b;
+}
+
+.plan-badge-young {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.plan-block-young {
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+    color: #78350f;
+}
+
+.plan-filter-young.active {
+    background: #f59e0b;
+    border-color: #f59e0b;
+    color: #fff;
+}
