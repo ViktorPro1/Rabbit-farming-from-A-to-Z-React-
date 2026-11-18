@@ -216,6 +216,12 @@ export const prerenderRoutes = [
     "/breeding-stock-pricing",
     "/reviews-reputation",
 
+    // Крафтове виробництво
+    "/craft-meat",
+    "/craft-fur",
+    "/craft-angora",
+    "/craft-selling",
+
     // Технології
     "/feeding-automation",
     "/climate-automation",

@@ -178,6 +178,10 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/breeding-stock-pricing": "Просування господарства та репутація",
   "/reviews-reputation": "Просування господарства та репутація",
   "/after-sale-support": "Просування господарства та репутація",
+  "/craft-meat": "Крафтове виробництво",
+  "/craft-fur": "Крафтове виробництво",
+  "/craft-angora": "Крафтове виробництво",
+  "/craft-selling": "Крафтове виробництво",
   "/feeding-automation": "Технології та автоматизація",
   "/climate-automation": "Технології та автоматизація",
   "/farm-management-software": "Технології та автоматизація",
@@ -1054,4 +1058,25 @@ export const LIGHT_CARDS: LightCard[] = [
   { icon: "📢", title: "Оголошення про продаж", path: "/sale-listings" },
   { icon: "💰", title: "Ціноутворення племінного поголів'я", path: "/breeding-stock-pricing" },
   { icon: "⭐", title: "Відгуки та репутація господарства", path: "/reviews-reputation" },
+
+  {
+    icon: "🥓",
+    title: "Крафтові м'ясні вироби з кролятини",
+    path: "/craft-meat",
+  },
+  {
+    icon: "🧥",
+    title: "Вичинка шкурок і хутряні вироби",
+    path: "/craft-fur",
+  },
+  {
+    icon: "🧶",
+    title: "Пух і пряжа з ангорських кролів",
+    path: "/craft-angora",
+  },
+  {
+    icon: "🏷️",
+    title: "Як легально продавати крафтову продукцію",
+    path: "/craft-selling",
+  },
 ];

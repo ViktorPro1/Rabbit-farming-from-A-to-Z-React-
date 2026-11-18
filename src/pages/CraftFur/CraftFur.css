@@ -1,0 +1,672 @@
+.cf-page {
+    --cf-teal: #2f6f7e;
+    --cf-line: color-mix(in srgb, #2f6f7e 34%, var(--gray-light));
+
+    position: relative;
+    min-height: 100vh;
+    padding: 0 0 4.5rem;
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.65;
+    overflow-x: hidden;
+    /* Фон сторінки: тканинна смужка (тонкі вертикальні лінії) і м'які холодні плями */
+    background:
+        radial-gradient(circle at 6% 3%, color-mix(in srgb, #2f6f7e 15%, transparent), transparent 34%),
+        radial-gradient(circle at 98% 38%, color-mix(in srgb, #7a62a8 11%, transparent), transparent 36%),
+        radial-gradient(circle at 4% 78%, color-mix(in srgb, #2f6f7e 11%, transparent), transparent 36%),
+        repeating-linear-gradient(90deg,
+            color-mix(in srgb, #2f6f7e 9%, transparent) 0,
+            color-mix(in srgb, #2f6f7e 9%, transparent) 1px,
+            transparent 1px,
+            transparent 28px),
+        var(--cream);
+}
+
+.cf-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Layout ---------- */
+
+.cf-wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.cf-wrap--narrow {
+    max-width: 42rem;
+}
+
+.cf-section {
+    padding-top: 3.4rem;
+}
+
+.cf-band {
+    margin-top: 3.4rem;
+    padding: 3.2rem 0;
+    background: color-mix(in srgb, var(--cream) 78%, transparent);
+    border-top: 2px dashed var(--cf-line);
+    border-bottom: 2px dashed var(--cf-line);
+}
+
+.cf-band--warn {
+    background: color-mix(in srgb, #b3402c 8%, var(--cream));
+    border-top-color: color-mix(in srgb, #b3402c 45%, var(--gray-light));
+    border-bottom-color: color-mix(in srgb, #b3402c 45%, var(--gray-light));
+}
+
+.cf-h2 {
+    margin: 0 0 1.3rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px dashed var(--cf-teal);
+    color: var(--green-dark);
+    font-size: clamp(1.4rem, 3.4vw, 1.95rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cf-p {
+    margin: 0 0 1.4rem;
+    max-width: 46rem;
+    color: var(--gray);
+    font-size: 0.98rem;
+}
+
+.cf-note {
+    margin: 1.3rem 0 0;
+    max-width: 46rem;
+    color: var(--gray);
+    font-size: 0.86rem;
+    font-style: italic;
+}
+
+.cf-small-title {
+    margin: 0 0 1rem;
+    color: var(--green-dark);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* ---------- Hero ---------- */
+
+.cf-hero {
+    border-bottom: 2px dashed var(--cf-line);
+}
+
+.cf-hero-inner {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 3.6rem 1.5rem 3.4rem;
+}
+
+.cf-kicker {
+    display: inline-block;
+    margin: 0 0 1.2rem;
+    padding: 0.28rem 0.9rem;
+    border: 2px dashed var(--cf-teal);
+    border-radius: 4px;
+    color: var(--cf-teal);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.cf-title {
+    max-width: 46rem;
+    margin: 0 0 1.1rem;
+    color: var(--green-dark);
+    font-size: clamp(2rem, 5.6vw, 3.4rem);
+    line-height: 1.12;
+    font-weight: 800;
+}
+
+.cf-lede {
+    max-width: 46rem;
+    margin: 0 0 2rem;
+    color: var(--gray);
+    font-size: 1.02rem;
+}
+
+.cf-chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    max-width: 46rem;
+}
+
+.cf-chips li {
+    padding: 0.9rem 1.1rem;
+    background: var(--green-light);
+    border-radius: 6px;
+    outline: 1px dashed var(--cf-teal);
+    outline-offset: -6px;
+}
+
+.cf-chip-title {
+    display: block;
+    color: var(--cf-teal);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.cf-chip-text {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--gray);
+    font-size: 0.8rem;
+}
+
+/* ---------- Compare ---------- */
+
+.cf-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+.cf-compare-col {
+    padding: 1.4rem 1.5rem;
+    background: var(--green-light);
+    border-radius: 8px;
+    outline: 1px dashed var(--cf-teal);
+    outline-offset: -8px;
+}
+
+.cf-compare-title {
+    margin: 0 0 0.8rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.cf-compare-col--good .cf-compare-title {
+    color: #2f7a2a;
+}
+
+.cf-compare-col--bad .cf-compare-title {
+    color: #b3402c;
+}
+
+.cf-compare-col ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.cf-compare-col li {
+    margin-bottom: 0.55rem;
+}
+
+.cf-aside {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.3rem;
+    background: color-mix(in srgb, var(--amber) 22%, var(--cream));
+    border-left: 5px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+}
+
+.cf-aside p {
+    margin: 0;
+    font-size: 0.92rem;
+}
+
+/* ---------- Steps ---------- */
+
+.cf-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.8rem;
+    border-left: 2px dashed var(--cf-teal);
+}
+
+.cf-step {
+    position: relative;
+    margin-bottom: 1.1rem;
+    padding: 1.2rem 1.3rem 1.2rem 2.4rem;
+    background: var(--green-light);
+    border-radius: 8px;
+    outline: 1px dashed var(--cf-line);
+    outline-offset: -6px;
+}
+
+.cf-step:last-child {
+    margin-bottom: 0;
+}
+
+.cf-step-num {
+    position: absolute;
+    left: -3.15rem;
+    top: 1.1rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cf-teal);
+    color: #fff;
+    border: 4px solid var(--cream);
+    border-radius: 50%;
+    font-weight: 800;
+}
+
+.cf-step-title {
+    margin: 0 0 0.4rem;
+    color: var(--green-dark);
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.cf-step-text {
+    margin: 0 0 0.6rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.cf-step-tip {
+    margin: 0;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--cf-line);
+    color: var(--cf-teal);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+/* ---------- Table ---------- */
+
+.cf-table-wrap {
+    overflow-x: auto;
+}
+
+.cf-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--green-light);
+    font-size: 0.88rem;
+}
+
+.cf-table th,
+.cf-table td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px dashed var(--cf-line);
+}
+
+.cf-table th {
+    background: var(--cf-teal);
+    color: #fff;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ---------- Safety ---------- */
+
+.cf-safety {
+    margin: 0;
+    padding-left: 1.2rem;
+    max-width: 46rem;
+    font-size: 0.95rem;
+}
+
+.cf-safety li {
+    margin-bottom: 0.7rem;
+}
+
+/* ---------- Levels ---------- */
+
+.cf-levels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.cf-level {
+    padding: 1.3rem;
+    background: var(--green-light);
+    border-top: 5px solid var(--cf-teal);
+    border-radius: 6px;
+    outline: 1px dashed var(--cf-line);
+    outline-offset: -8px;
+}
+
+.cf-level:nth-child(2) {
+    border-top-color: var(--amber);
+}
+
+.cf-level:nth-child(3) {
+    border-top-color: #b3402c;
+}
+
+.cf-level-name {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.cf-level-items {
+    margin: 0 0 0.5rem;
+    color: var(--cf-teal);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.cf-level-note {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.88rem;
+}
+
+/* ---------- Calculator (мірна стрічка) ---------- */
+
+.cf-calc {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 1.4rem;
+    align-items: start;
+}
+
+.cf-calc-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 1rem;
+}
+
+.cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    color: var(--green-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.cf-field--wide {
+    grid-column: 1 / -1;
+}
+
+.cf-field input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background: var(--cream);
+    color: var(--green-dark);
+    border: 1px solid var(--cf-line);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.cf-field input:focus {
+    outline: 2px solid var(--cf-teal);
+    outline-offset: 1px;
+}
+
+.cf-tape {
+    position: sticky;
+    top: 7rem;
+    padding: 2.4rem 1.3rem 1.4rem;
+    background: #fff3c9;
+    color: #3b2f10;
+    border-radius: 4px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+    background-image:
+        repeating-linear-gradient(90deg,
+            #3b2f10 0,
+            #3b2f10 1px,
+            transparent 1px,
+            transparent 8px),
+        repeating-linear-gradient(90deg,
+            #3b2f10 0,
+            #3b2f10 2px,
+            transparent 2px,
+            transparent 40px);
+    background-size: 100% 0.5rem, 100% 0.9rem;
+    background-repeat: repeat-x;
+    background-position: top left, top left;
+    background-color: #fff3c9;
+}
+
+.cf-tape-head {
+    margin: 0 0 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.cf-tape-value {
+    margin: 0;
+    color: var(--cf-teal);
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.cf-tape-sub {
+    margin: 0.5rem 0 0;
+    font-size: 0.88rem;
+}
+
+/* ---------- Sewing ---------- */
+
+.cf-sew {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem 1.1rem;
+}
+
+.cf-sew li {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.85rem 1rem;
+    background: var(--green-light);
+    border-radius: 6px;
+    outline: 1px dashed var(--cf-line);
+    outline-offset: -5px;
+    font-size: 0.9rem;
+}
+
+.cf-sew-num {
+    flex: none;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--cf-teal);
+    border-radius: 50%;
+    color: var(--cf-teal);
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+/* ---------- Mistakes ---------- */
+
+.cf-mistakes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+
+.cf-mistake {
+    padding: 1.1rem 1.2rem;
+    background: var(--green-light);
+    border-radius: 6px;
+    outline: 1px dashed var(--cf-line);
+    outline-offset: -5px;
+}
+
+.cf-mistake-wrong {
+    margin: 0 0 0.4rem;
+    color: #b3402c;
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.cf-mistake-fix {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.88rem;
+}
+
+/* ---------- Checklist ---------- */
+
+.cf-check {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cf-check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.75rem 1rem;
+    background: var(--green-light);
+    border-radius: 6px;
+    outline: 1px dashed var(--cf-line);
+    outline-offset: -5px;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.cf-check-item input {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--cf-teal);
+}
+
+.cf-check-item--done {
+    color: var(--gray);
+    text-decoration: line-through;
+}
+
+/* ---------- Related / sources / footer ---------- */
+
+.cf-related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.cf-related-link {
+    padding: 0.5rem 1.05rem;
+    border: 2px dashed var(--cf-teal);
+    border-radius: 6px;
+    color: var(--cf-teal);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.cf-related-link:hover {
+    background: var(--cf-teal);
+    color: #fff;
+}
+
+.cf-sources {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cf-sources-link {
+    color: var(--cf-teal);
+    font-size: 0.86rem;
+    word-break: break-word;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+    .cf-calc {
+        grid-template-columns: 1fr;
+    }
+
+    .cf-tape {
+        position: static;
+    }
+}
+
+@media (max-width: 720px) {
+
+    .cf-compare,
+    .cf-levels,
+    .cf-sew,
+    .cf-mistakes {
+        grid-template-columns: 1fr;
+    }
+
+    .cf-chips {
+        grid-template-columns: 1fr;
+    }
+
+    .cf-table thead {
+        display: none;
+    }
+
+    .cf-table,
+    .cf-table tbody,
+    .cf-table tr,
+    .cf-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .cf-table tr {
+        margin-bottom: 0.8rem;
+        border: 1px dashed var(--cf-line);
+    }
+
+    .cf-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 0.2rem;
+        color: var(--cf-teal);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+}
+
+@media (max-width: 520px) {
+    .cf-wrap {
+        padding: 0 1.1rem;
+    }
+
+    .cf-hero-inner {
+        padding: 2.4rem 1.1rem 2.4rem;
+    }
+
+    .cf-calc-form {
+        grid-template-columns: 1fr;
+    }
+
+    .cf-steps {
+        padding-left: 1.5rem;
+    }
+
+    .cf-step {
+        padding-left: 1.4rem;
+    }
+
+    .cf-step-num {
+        left: -2.9rem;
+    }
+}

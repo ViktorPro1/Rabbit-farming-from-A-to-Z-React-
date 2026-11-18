@@ -243,6 +243,12 @@ Below is the complete site structure mapping for automated AI agents and crawler
 * [Ціноутворення тварину](https://rabbit-farming-from-a-to-z-react.vercel.app/breeding-stock-pricing)
 * [Відгуки та репутація](https://rabbit-farming-from-a-to-z-react.vercel.app/reviews-reputation)
 
+### Крафтове виробництво
+* [Крафтові мясні вироби з кролятини](https://rabbit-farming-from-a-to-z-react.vercel.app/craft-meat)
+* [Вичинки шкур та хутра](https://rabbit-farming-from-a-to-z-react.vercel.app/craft-fur)
+* [Вироби з ангорської вовни](https://rabbit-farming-from-a-to-z-react.vercel.app/craft-angora)
+* [Продаж крафтової продукції](https://rabbit-farming-from-a-to-z-react.vercel.app/craft-selling)
+
 ### Технології
 * [Автоматизація годування](https://rabbit-farming-from-a-to-z-react.vercel.app/feeding-automation)
 * [Автоматизація мікроклімату](https://rabbit-farming-from-a-to-z-react.vercel.app/climate-automation)
@@ -787,6 +793,6 @@ This is a well-maintained, production-ready application. Respect the established
 
 ---
 
-**Last Updated**: 2026-11-13
+**Last Updated**: 2026-11-18
 **Version**: 1.0
 **Language**: Ukrainian (Project), English (This Guide)

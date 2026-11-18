@@ -1,0 +1,774 @@
+.cm-page {
+    --cm-ember: #c4561b;
+    --cm-ember-soft: color-mix(in srgb, #c4561b 12%, transparent);
+    --cm-line: color-mix(in srgb, #c4561b 30%, var(--gray-light));
+
+    position: relative;
+    min-height: 100vh;
+    padding: 0 0 4.5rem;
+    color: var(--green-dark);
+    font-family: inherit;
+    line-height: 1.65;
+    overflow-x: hidden;
+    /* Фон сторінки: пастельна «сітка» з м'яких кольорових плям і дрібного крапкового візерунка */
+    background:
+        radial-gradient(circle at 10% 6%, color-mix(in srgb, var(--amber) 26%, transparent), transparent 36%),
+        radial-gradient(circle at 92% 24%, color-mix(in srgb, #c4561b 12%, transparent), transparent 38%),
+        radial-gradient(circle at 6% 62%, color-mix(in srgb, var(--green-accent) 16%, transparent), transparent 40%),
+        radial-gradient(circle at 94% 88%, color-mix(in srgb, var(--amber) 20%, transparent), transparent 38%),
+        radial-gradient(color-mix(in srgb, var(--gray) 26%, transparent) 1px, transparent 1.3px) 0 0 / 20px 20px,
+        var(--cream);
+}
+
+.cm-page * {
+    box-sizing: border-box;
+}
+
+/* ---------- Layout ---------- */
+
+.cm-wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.cm-wrap--narrow {
+    max-width: 42rem;
+}
+
+.cm-section {
+    padding-top: 3.4rem;
+}
+
+.cm-band {
+    margin-top: 3.4rem;
+    padding: 3.2rem 0;
+    background: color-mix(in srgb, var(--cream) 55%, transparent);
+    border-top: 1px solid var(--cm-line);
+    border-bottom: 1px solid var(--cm-line);
+    backdrop-filter: blur(2px);
+}
+
+.cm-band--warn {
+    background: color-mix(in srgb, #b3402c 9%, var(--cream));
+    border-top-color: color-mix(in srgb, #b3402c 40%, var(--gray-light));
+    border-bottom-color: color-mix(in srgb, #b3402c 40%, var(--gray-light));
+}
+
+.cm-h2 {
+    margin: 0 0 1.3rem;
+    color: var(--green-dark);
+    font-size: clamp(1.4rem, 3.4vw, 1.95rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cm-h2::before {
+    content: "";
+    display: block;
+    width: 2.6rem;
+    height: 4px;
+    margin-bottom: 0.7rem;
+    background: var(--cm-ember);
+    border-radius: 2px;
+}
+
+.cm-p {
+    margin: 0 0 1.4rem;
+    max-width: 46rem;
+    color: var(--gray);
+    font-size: 0.98rem;
+}
+
+.cm-note {
+    margin: 1.3rem 0 0;
+    max-width: 46rem;
+    color: var(--gray);
+    font-size: 0.86rem;
+    font-style: italic;
+}
+
+.cm-small-title {
+    margin: 0 0 1rem;
+    color: var(--green-dark);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* ---------- Hero ---------- */
+
+.cm-hero {
+    border-bottom: 1px solid var(--cm-line);
+}
+
+.cm-hero-inner {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 3.6rem 1.5rem 3.4rem;
+}
+
+.cm-kicker {
+    display: inline-block;
+    margin: 0 0 1.2rem;
+    padding: 0.28rem 0.9rem;
+    background: var(--cm-ember);
+    border-radius: 3px;
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.cm-title {
+    max-width: 46rem;
+    margin: 0 0 1.1rem;
+    color: var(--green-dark);
+    font-size: clamp(2rem, 5.6vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.cm-lede {
+    max-width: 44rem;
+    margin: 0 0 2rem;
+    color: var(--gray);
+    font-size: 1.02rem;
+}
+
+.cm-hero-stats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    max-width: 44rem;
+}
+
+.cm-hero-stats li {
+    padding: 1rem 1.2rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-bottom: 4px solid var(--cm-ember);
+    border-radius: 8px;
+}
+
+.cm-hero-num {
+    display: block;
+    color: var(--cm-ember);
+    font-size: clamp(1.4rem, 3.6vw, 2rem);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.cm-hero-cap {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--gray);
+    font-size: 0.78rem;
+}
+
+/* ---------- Facts ---------- */
+
+.cm-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.cm-fact {
+    padding: 1.3rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-top: 4px solid var(--cm-ember);
+    border-radius: 8px;
+}
+
+.cm-fact-title {
+    margin: 0 0 0.5rem;
+    color: var(--green-dark);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.cm-fact-text {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+/* ---------- Levels ---------- */
+
+.cm-levels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.cm-level {
+    display: flex;
+    gap: 1.1rem;
+    padding: 1.2rem 1.3rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-radius: 10px;
+}
+
+.cm-level-num {
+    flex: none;
+    width: 2.6rem;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--cm-ember);
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.cm-level-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.cm-level-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.cm-level-name {
+    margin: 0;
+    color: var(--green-dark);
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.cm-risk {
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.cm-risk--1 {
+    color: #2f7a2a;
+}
+
+.cm-risk--2,
+.cm-risk--3 {
+    color: #9a6b0b;
+}
+
+.cm-risk--4 {
+    color: #c4561b;
+}
+
+.cm-risk--5 {
+    color: #b3402c;
+}
+
+.cm-level-ex {
+    margin: 0.25rem 0 0.5rem;
+    color: var(--cm-ember);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.cm-level-note {
+    margin: 0 0 0.7rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.cm-meter {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.cm-meter-bar {
+    flex: 1;
+    max-width: 3rem;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--gray-light);
+}
+
+.cm-meter-bar--on {
+    background: var(--cm-ember);
+}
+
+/* ---------- Key numbers ---------- */
+
+.cm-numbers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.cm-number {
+    padding: 1.4rem 1.3rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-radius: 10px;
+    box-shadow: 0 6px 16px color-mix(in srgb, #c4561b 10%, transparent);
+}
+
+.cm-number-value {
+    margin: 0;
+    color: var(--cm-ember);
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.cm-number-unit {
+    margin-left: 0.25rem;
+    font-size: 1.2rem;
+    color: var(--green-dark);
+}
+
+.cm-number-title {
+    margin: 0.6rem 0 0.5rem;
+    color: var(--green-dark);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.cm-number-text {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.88rem;
+}
+
+/* ---------- Temperature picker ---------- */
+
+.cm-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    align-items: start;
+}
+
+.cm-picker-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cm-opt {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    background: var(--cream);
+    color: var(--green-dark);
+    border: 1px solid var(--cm-line);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.cm-opt:hover {
+    border-color: var(--cm-ember);
+}
+
+.cm-opt--active {
+    background: var(--cm-ember);
+    border-color: var(--cm-ember);
+    color: #fff;
+}
+
+.cm-picker-result {
+    padding: 1.4rem;
+    background: var(--green-light);
+    border: 2px solid var(--cm-ember);
+    border-radius: 10px;
+}
+
+.cm-picker-label {
+    margin: 0 0 0.3rem;
+    color: var(--gray);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.cm-picker-value {
+    margin: 0 0 0.5rem;
+    color: var(--cm-ember);
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+.cm-picker-f {
+    font-size: 1.1rem;
+    color: var(--gray);
+}
+
+.cm-picker-note {
+    margin: 0 0 0.8rem;
+    font-size: 0.9rem;
+}
+
+.cm-picker-steps {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--gray);
+    font-size: 0.86rem;
+}
+
+.cm-picker-steps li {
+    margin-bottom: 0.3rem;
+}
+
+/* ---------- Calculator ---------- */
+
+.cm-calc {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.4rem;
+    align-items: start;
+}
+
+.cm-calc-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 1rem;
+}
+
+.cm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    color: var(--green-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.cm-field--wide {
+    grid-column: 1 / -1;
+}
+
+.cm-field input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background: var(--cream);
+    color: var(--green-dark);
+    border: 1px solid var(--cm-line);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.cm-field input:focus {
+    outline: 2px solid var(--cm-ember);
+    outline-offset: 1px;
+}
+
+.cm-calc-hint {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.82rem;
+}
+
+.cm-ticket {
+    position: sticky;
+    top: 7rem;
+    padding: 1.3rem 1.3rem 1.5rem;
+    background: #fffaf0;
+    color: #2a1d12;
+    border: 2px dashed #b8a58a;
+    border-radius: 4px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.cm-ticket-head {
+    margin: 0 0 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px dashed #b8a58a;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.cm-ticket-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.35rem 0;
+    font-size: 0.92rem;
+}
+
+.cm-ticket-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-top: 0.7rem;
+    padding: 0.7rem 0.8rem;
+    background: var(--cm-ember);
+    color: #fff;
+    font-size: 1.02rem;
+    font-weight: 800;
+}
+
+.cm-ticket-note {
+    margin: 0;
+    color: #5a4a3a;
+    font-size: 0.86rem;
+}
+
+/* ---------- Nitrite ---------- */
+
+.cm-nitrite {
+    margin: 0;
+    padding-left: 1.2rem;
+    max-width: 46rem;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+}
+
+.cm-nitrite li {
+    margin-bottom: 0.7rem;
+}
+
+/* ---------- Journal ---------- */
+
+.cm-journal {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: j;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem 1.2rem;
+}
+
+.cm-journal li {
+    counter-increment: j;
+    position: relative;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.cm-journal li::before {
+    content: counter(j);
+    position: absolute;
+    left: 0.9rem;
+    top: 0.7rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--cm-ember);
+    border-radius: 50%;
+    color: var(--cm-ember);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+/* ---------- Law ---------- */
+
+.cm-law {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.cm-law-card {
+    padding: 1.3rem;
+    background: var(--cream);
+    border: 1px solid var(--cm-line);
+    border-left: 5px solid var(--cm-ember);
+    border-radius: 8px;
+}
+
+.cm-law-title {
+    margin: 0 0 0.5rem;
+    color: var(--green-dark);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.cm-law-text {
+    margin: 0 0 0.6rem;
+    color: var(--gray);
+    font-size: 0.88rem;
+}
+
+.cm-law-tip {
+    margin: 0;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--cm-line);
+    color: var(--green-dark);
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+/* ---------- Mistakes ---------- */
+
+.cm-mistakes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+
+.cm-mistake {
+    padding: 1.1rem 1.2rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-radius: 8px;
+}
+
+.cm-mistake-wrong {
+    margin: 0 0 0.4rem;
+    color: #b3402c;
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.cm-mistake-fix {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.88rem;
+}
+
+/* ---------- Checklist ---------- */
+
+.cm-check {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cm-check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.75rem 1rem;
+    background: var(--green-light);
+    border: 1px solid var(--cm-line);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.cm-check-item input {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--cm-ember);
+}
+
+.cm-check-item--done {
+    color: var(--gray);
+    text-decoration: line-through;
+}
+
+/* ---------- Related / sources / footer ---------- */
+
+.cm-related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.cm-related-link {
+    padding: 0.5rem 1.05rem;
+    border: 2px solid var(--cm-ember);
+    border-radius: 999px;
+    color: var(--cm-ember);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.cm-related-link:hover {
+    background: var(--cm-ember);
+    color: #fff;
+}
+
+.cm-sources {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cm-sources-link {
+    color: var(--green-accent);
+    font-size: 0.86rem;
+    word-break: break-word;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+    .cm-numbers,
+    .cm-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .cm-calc {
+        grid-template-columns: 1fr;
+    }
+
+    .cm-ticket {
+        position: static;
+    }
+}
+
+@media (max-width: 720px) {
+    .cm-picker,
+    .cm-law,
+    .cm-mistakes,
+    .cm-journal {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .cm-wrap {
+        padding: 0 1.1rem;
+    }
+
+    .cm-hero-inner {
+        padding: 2.4rem 1.1rem 2.4rem;
+    }
+
+    .cm-hero-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .cm-calc-form {
+        grid-template-columns: 1fr;
+    }
+
+    .cm-level {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+}
