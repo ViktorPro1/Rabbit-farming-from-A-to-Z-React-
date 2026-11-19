@@ -40,7 +40,7 @@ export default function Pedigree({ session }: Props) {
         "id, name, breed, gender, birth_date, cage_number, mother_id, father_id",
       )
       .eq("user_id", session.user.id)
-      .order("name", { ascending: true })
+      .order("cage_number", { ascending: true })
       .then(
         ({ data, error }) => {
           if (error) {
@@ -51,7 +51,18 @@ export default function Pedigree({ session }: Props) {
             );
             setPageError("Не вдалося завантажити кроликів. Оновіть сторінку");
           } else {
-            setRabbits(data || []);
+            // Сортування за номером клітки (1, 2, ..., 10 замість 1, 10, 2)
+            const sorted = (data || []).slice().sort((a, b) => {
+              const cageDiff = (a.cage_number || "").localeCompare(
+                b.cage_number || "",
+                undefined,
+                { numeric: true },
+              );
+              return cageDiff !== 0
+                ? cageDiff
+                : a.name.localeCompare(b.name, "uk", { numeric: true });
+            });
+            setRabbits(sorted);
           }
           setLoading(false);
         },
@@ -93,7 +104,17 @@ export default function Pedigree({ session }: Props) {
     () =>
       rabbits
         .filter((r) => r.mother_id || r.father_id)
-        .sort((a, b) => a.name.localeCompare(b.name, "uk")),
+        .sort((a, b) => {
+          // Сортування за номером клітки, далі за кличкою
+          const cageDiff = (a.cage_number || "").localeCompare(
+            b.cage_number || "",
+            undefined,
+            { numeric: true },
+          );
+          return cageDiff !== 0
+            ? cageDiff
+            : a.name.localeCompare(b.name, "uk", { numeric: true });
+        }),
     [rabbits],
   );
 
