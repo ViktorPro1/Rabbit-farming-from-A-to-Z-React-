@@ -9,10 +9,19 @@ import {
 // На iOS MIME-тип фото з галереї часто порожній — перевірка спільна
 import { isLikelyImageFile } from "../../../utils/imageCompress";
 import { emptyForm } from "../constants";
+// Додано (нумерація): пропозиція номера на кшталт "VK-F011"
+import {
+  suggestCode,
+  ownerInitials,
+  type NamedRabbit,
+} from "../../NumberingPage/numbering";
+import "./NumberSuggestion.css";
 
 interface Props {
   open: boolean;
   userId: string;
+  // Додано (нумерація): відображуване ім'я власника, з нього беруться ініціали
+  ownerName?: string | null;
   onClose: () => void;
   onSaved: () => void;
   onPhotoError: (message: string) => void;
@@ -24,6 +33,7 @@ interface Props {
 export default function NewRabbitForm({
   open,
   userId,
+  ownerName,
   onClose,
   onSaved,
   onPhotoError,
@@ -40,6 +50,16 @@ export default function NewRabbitForm({
   );
   const newPhotoRef = useRef<{ file: File; url: string } | null>(null);
   const newPhotoInputRef = useRef<HTMLInputElement | null>(null);
+  // Додано (нумерація): усі кролики користувача, разом з архівними (лише
+  // ім'я і стать), щоб порахувати наступний номер. null — ще не завантажено
+  // або завантаження не вдалося (тоді пропозиції просто немає).
+  const [allRabbits, setAllRabbits] = useState<NamedRabbit[] | null>(null);
+  // Додано (нумерація): користувач натиснув «Свій варіант» — пропозицію
+  // ховаємо до наступного відкриття форми.
+  const [suggestDismissed, setSuggestDismissed] = useState(false);
+  // Додано (нумерація): код, який було підставлено кнопкою «Прийняти». Потрібен,
+  // щоб при зміні статі прибрати код, що став неправильним (F замість M).
+  const [acceptedName, setAcceptedName] = useState<string | null>(null);
 
   useEffect(() => {
     return () => {
@@ -49,6 +69,54 @@ export default function NewRabbitForm({
       }
     };
   }, []);
+
+  // Додано (нумерація): при кожному відкритті форми завантажуємо імена і стать
+  // усіх тварин БЕЗ фільтра is_active — архівні номери теж зайняті.
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    supabase
+      .from("rabbits")
+      .select("name, gender")
+      .eq("user_id", userId)
+      .then(
+        ({ data, error }) => {
+          if (cancelled) return;
+          if (error) {
+            logError("NewRabbitForm.loadNumbering", error);
+            return;
+          }
+          setAllRabbits((data || []) as NamedRabbit[]);
+        },
+        (err) => {
+          if (!cancelled) logError("NewRabbitForm.loadNumbering", err);
+        },
+      );
+    return () => {
+      cancelled = true;
+    };
+  }, [open, userId]);
+
+  // Додано (нумерація): пропозиція показується, поки поле клички порожнє і
+  // користувач не відмовився від неї.
+  const suggestedCode = allRabbits
+    ? suggestCode(allRabbits, form.gender, ownerInitials(ownerName))
+    : "";
+  const showSuggestion =
+    !!suggestedCode && !suggestDismissed && form.name === "";
+
+  function acceptSuggestion() {
+    setForm({ ...form, name: suggestedCode });
+    setAcceptedName(suggestedCode);
+  }
+
+  // Додано (нумерація): при зміні статі прибираємо прийнятий раніше код,
+  // бо він був для іншої статі. Власноруч введене ім'я не чіпаємо.
+  function handleGenderChange(gender: "male" | "female") {
+    const clearAccepted = acceptedName !== null && form.name === acceptedName;
+    setForm({ ...form, gender, name: clearAccepted ? "" : form.name });
+    if (clearAccepted) setAcceptedName(null);
+  }
 
   // Додано (етап 3): вибір або скидання фото у формі «Новий кролик»
   function selectNewPhoto(file: File | null) {
@@ -128,6 +196,11 @@ export default function NewRabbitForm({
     }
 
     setForm(emptyForm);
+    // Додано (нумерація): скидаємо стан пропозиції і старий список номерів —
+    // при наступному відкритті форми номери завантажаться заново
+    setSuggestDismissed(false);
+    setAcceptedName(null);
+    setAllRabbits(null);
     selectNewPhoto(null);
     onClose();
     onSaved();
@@ -159,11 +232,9 @@ export default function NewRabbitForm({
           id="registry-gender"
           name="gender"
           value={form.gender}
+          // Змінено (нумерація): зміна статі йде через handleGenderChange
           onChange={(e) =>
-            setForm({
-              ...form,
-              gender: e.target.value as "male" | "female",
-            })
+            handleGenderChange(e.target.value as "male" | "female")
           }
         >
           <option value="female">Самиця</option>
@@ -181,9 +252,7 @@ export default function NewRabbitForm({
           name="cage_number"
           placeholder="Номер клітки"
           value={form.cage_number}
-          onChange={(e) =>
-            setForm({ ...form, cage_number: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, cage_number: e.target.value })}
         />
         <input
           id="registry-notes"
@@ -193,6 +262,34 @@ export default function NewRabbitForm({
           onChange={(e) => setForm({ ...form, notes: e.target.value })}
         />
       </div>
+      {/* Додано (нумерація): пропозиція номера. «Прийняти» підставляє код у
+          поле клички, «Свій варіант» ховає пропозицію. */}
+      {showSuggestion && (
+        <div className="number-suggest">
+          <div className="number-suggest-text">
+            <span className="number-suggest-label">Пропонований номер</span>
+            <span className="number-suggest-code">{suggestedCode}</span>
+          </div>
+          <div className="number-suggest-actions">
+            <button
+              type="button"
+              className="number-suggest-accept"
+              onClick={acceptSuggestion}
+              disabled={saving}
+            >
+              Прийняти
+            </button>
+            <button
+              type="button"
+              className="number-suggest-own"
+              onClick={() => setSuggestDismissed(true)}
+              disabled={saving}
+            >
+              Свій варіант
+            </button>
+          </div>
+        </div>
+      )}
       {/* Додано (етап 3): фото нового кролика. Зберігається разом із
           кроликом після натискання «Зберегти». */}
       <div className="registry-form-photo">
@@ -236,8 +333,8 @@ export default function NewRabbitForm({
           )}
         </div>
         <p className="settings-hint">
-          Необов'язково. Фото стискається автоматично і зберігається разом
-          із кроликом.
+          Необов'язково. Фото стискається автоматично і зберігається разом із
+          кроликом.
         </p>
       </div>
       {error && <p className="registry-error">{error}</p>}

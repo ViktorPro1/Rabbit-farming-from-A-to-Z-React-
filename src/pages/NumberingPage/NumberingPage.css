@@ -1,0 +1,101 @@
+/* Сторінка «Нумерація». Кольори взято зі змінних :root / [data-theme="dark"]
+   глобального CSS, тому світла і темна тема працюють автоматично. */
+
+.numbering-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+.numbering-back {
+  background: none;
+  border: none;
+  padding: 8px 0;
+  font-size: 1rem;
+  color: var(--green-mid);
+  cursor: pointer;
+}
+
+.numbering-title {
+  margin: 8px 0 4px;
+  font-size: 1.8rem;
+  color: var(--green-dark);
+}
+
+.numbering-sub {
+  margin: 0 0 24px;
+  color: var(--green-mid);
+}
+
+.numbering-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.numbering-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 16px;
+  border-radius: 18px;
+  background: var(--green-light);
+  border-top: 4px solid var(--green-accent);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.numbering-card--female {
+  border-top-color: var(--amber);
+}
+
+.numbering-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-mid);
+}
+
+.numbering-next {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--green-dark);
+}
+
+.numbering-hint {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--green-mid);
+}
+
+.numbering-last {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--green-pale);
+  font-size: 0.85rem;
+  color: var(--green-mid);
+}
+
+/* Пропущені номери */
+.numbering-gaps {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--brown);
+  word-break: break-word;
+}
+
+.numbering-error {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border-left: 4px solid var(--amber);
+  background: var(--amber-light);
+  color: var(--brown);
+}
+
+@media (max-width: 380px) {
+  .numbering-grid {
+    grid-template-columns: 1fr;
+  }
+}

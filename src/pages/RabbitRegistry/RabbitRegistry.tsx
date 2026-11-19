@@ -116,6 +116,7 @@ export default function RabbitRegistry({ session }: Props) {
       <NewRabbitForm
         open={showForm}
         userId={session.user.id}
+        ownerName={session.user.user_metadata?.display_name}
         onClose={() => setShowForm(false)}
         onSaved={reload}
         onPhotoError={setPhotoError}

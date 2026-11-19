@@ -51,6 +51,9 @@ const FeedStockPage = lazy(
 const BreedingPlan = lazy(
   () => import("../../pages/BreedingPlan/BreedingPlan"),
 );
+const NumberingPage = lazy(
+  () => import("../../pages/NumberingPage/NumberingPage"),
+);
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -317,6 +320,19 @@ export function getCabinetRoutes(session: Session | null) {
             withCabinetBoundary(
               "BreedingPlan",
               <BreedingPlan session={session} />,
+            )
+          ) : (
+            <Auth />
+          )
+        }
+      />
+      <Route
+        path="/numbering"
+        element={
+          session ? (
+            withCabinetBoundary(
+              "NumberingPage",
+              <NumberingPage session={session} />,
             )
           ) : (
             <Auth />

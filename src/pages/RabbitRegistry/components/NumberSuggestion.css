@@ -1,0 +1,69 @@
+/* Пропозиція номера у формі «Новий кролик». Кольори зі змінних :root /
+   [data-theme="dark"], тому світла і темна тема працюють автоматично. */
+
+.number-suggest {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 4px 0 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px dashed var(--green-accent);
+  background: var(--green-light);
+}
+
+.number-suggest-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.number-suggest-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-mid);
+}
+
+.number-suggest-code {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--green-mid);
+}
+
+.number-suggest-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.number-suggest-accept,
+.number-suggest-own {
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.number-suggest-accept {
+  border: 1.5px solid var(--green-dark);
+  background: var(--green-dark);
+  color: #fff;
+}
+
+.number-suggest-own {
+  border: 1.5px solid var(--green-accent);
+  background: transparent;
+  color: var(--green-mid);
+}
+
+.number-suggest-accept:disabled,
+.number-suggest-own:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

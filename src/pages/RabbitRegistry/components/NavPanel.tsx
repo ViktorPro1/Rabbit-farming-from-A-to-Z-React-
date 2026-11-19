@@ -45,7 +45,6 @@ const navSections: NavSection[] = [
     title: "🧮 Вартість й аналітика",
     items: [
       { label: "💰 Фінанси", path: "/finances" },
-      // Перехід на сторінку «Аналіз собівартості»
       { label: "🏷️ Собівартість", path: "/cost-analysis" },
       { label: "📉 Статистика", path: "/statistics" },
       { label: "🔍 Історія клітки", path: "/cage-search" },
@@ -108,6 +107,12 @@ export default function NavPanel({
                 onClick={() => navigate("/archive")}
               >
                 📦 Архів
+              </button>
+              <button
+                className="registry-archive-link"
+                onClick={() => navigate("/numbering")}
+              >
+                🔢 Нумерація
               </button>
               <button
                 className="registry-archive-link qr-nav-btn"

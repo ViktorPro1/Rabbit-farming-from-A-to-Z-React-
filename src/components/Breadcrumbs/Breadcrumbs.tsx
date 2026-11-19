@@ -277,6 +277,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/cost-analysis": "Аналіз собівартості",
   "/feed-stock": "Запаси кормів",
   "/breeding-plan": "План підбору",
+  "/numbering": "Нумерація",
 
   // АДМІН
   "/admin": "Адмін",
