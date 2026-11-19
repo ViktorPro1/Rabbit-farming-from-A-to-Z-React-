@@ -103,6 +103,19 @@ export default function MatingCard({
               onChange={matingEdit.onChange}
               onCancel={matingEdit.onCancel}
               onSave={matingEdit.onSave}
+              litter={
+                hasLitters
+                  ? undefined
+                  : {
+                      form: matingEdit.litterForm,
+                      splitMale: matingEdit.splitMale,
+                      splitFemale: matingEdit.splitFemale,
+                      onFieldChange: matingEdit.onLitterFieldChange,
+                      onMatingDateChange: matingEdit.onLitterMatingDateChange,
+                      onSplitMale: matingEdit.onSplitMale,
+                      onSplitFemale: matingEdit.onSplitFemale,
+                    }
+              }
             />
           )}
 

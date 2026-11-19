@@ -124,8 +124,16 @@ export interface MatingActions {
 export interface MatingEditControls {
   isEditing: boolean;
   data: Mating | null;
+  /** Поля окролу у формі редагування (використовуються, коли в злучки ще немає окролів) */
+  litterForm: LitterFormState;
+  splitMale: boolean;
+  splitFemale: boolean;
   onToggle: () => void;
   onChange: (patch: Partial<Mating>) => void;
+  onLitterFieldChange: (field: keyof LitterFormState, value: string) => void;
+  onLitterMatingDateChange: (date: string) => void;
+  onSplitMale: () => void;
+  onSplitFemale: () => void;
   onCancel: () => void;
   onSave: () => void;
 }

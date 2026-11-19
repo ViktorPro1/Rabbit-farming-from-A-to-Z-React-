@@ -36,6 +36,39 @@ interface Props {
   session: Session;
 }
 
+/** Дати, що рахуються від дати злучки: контрольна (+7) і очікуваний окріл (+31). */
+function matingDatePatch(date: string): Partial<LitterFormState> {
+  // Додавання днів через kyivDate замість Date + toISOString (UTC)
+  return date
+    ? {
+        litter_mating_date: date,
+        litter_control_date: addDaysISO(date, 7),
+        litter_expected_birth: addDaysISO(date, 31),
+      }
+    : {
+        litter_mating_date: date,
+        litter_control_date: "",
+        litter_expected_birth: "",
+      };
+}
+
+/** Чи заповнено в формі хоч одне поле результату (окріл, відлучення тощо). */
+function hasLitterResult(f: LitterFormState): boolean {
+  return Boolean(
+    f.birth_date ||
+      f.failure_type ||
+      f.total_born ||
+      f.alive ||
+      f.dead ||
+      f.nestbox_date ||
+      f.weaned_date ||
+      f.weaned_males ||
+      f.weaned_males_cage ||
+      f.weaned_females ||
+      f.weaned_females_cage,
+  );
+}
+
 export default function Matings({ session }: Props) {
   const userId = session.user.id;
   const navigate = useNavigate();
@@ -51,6 +84,11 @@ export default function Matings({ session }: Props) {
   const [editingMatingData, setEditingMatingData] = useState<Mating | null>(
     null,
   );
+  // Поля окролу у формі редагування злучки без окролів
+  const [matingLitterForm, setMatingLitterForm] =
+    useState<LitterFormState>(emptyLitterForm);
+  const [matingSplitMale, setMatingSplitMale] = useState(false);
+  const [matingSplitFemale, setMatingSplitFemale] = useState(false);
   const [editingLitterId, setEditingLitterId] = useState<string | null>(null);
   const [editingLitterData, setEditingLitterData] = useState<Litter | null>(
     null,
@@ -131,6 +169,9 @@ export default function Matings({ session }: Props) {
   function cancelMatingEdit() {
     setEditingMatingId(null);
     setEditingMatingData(null);
+    setMatingLitterForm(emptyLitterForm);
+    setMatingSplitMale(false);
+    setMatingSplitFemale(false);
   }
 
   function toggleMatingEdit(m: Mating) {
@@ -139,6 +180,17 @@ export default function Matings({ session }: Props) {
     } else {
       setEditingMatingId(m.id);
       setEditingMatingData({ ...m });
+      // Початкові значення блоку окролу беремо зі злучки
+      setMatingLitterForm({
+        ...emptyLitterForm,
+        litter_mating_date: m.mating_date || "",
+        litter_control_date: m.control_date || "",
+        litter_expected_birth: m.expected_birth || "",
+        nestbox_date: m.nestbox_date || "",
+        notes: m.notes || "",
+      });
+      setMatingSplitMale(false);
+      setMatingSplitFemale(false);
     }
   }
 
@@ -146,6 +198,13 @@ export default function Matings({ session }: Props) {
     if (!editingMatingData) return;
     setSaving(true);
     setError("");
+    setPageError("");
+
+    const current = matings.find((x) => x.id === editingMatingData.id);
+    // Блок окролу у формі показується лише для злучки без окролів
+    const withLitterBlock = (current?.litters || []).length === 0;
+    const lf = matingLitterForm;
+
     const { error: updateError } = await supabase
       .from("matings")
       .update({
@@ -153,18 +212,55 @@ export default function Matings({ session }: Props) {
         male_id: editingMatingData.male_id,
         male_cage: editingMatingData.male_cage,
         female_cage: editingMatingData.female_cage,
-        mating_date: editingMatingData.mating_date,
-        control_date: editingMatingData.control_date,
+        mating_date: withLitterBlock
+          ? lf.litter_mating_date
+          : editingMatingData.mating_date,
+        control_date: withLitterBlock
+          ? lf.litter_control_date
+          : editingMatingData.control_date,
         breeding_scheme: editingMatingData.breeding_scheme,
-        notes: editingMatingData.notes,
+        notes: withLitterBlock ? lf.notes : editingMatingData.notes,
       })
       .eq("id", editingMatingData.id);
     if (updateError) {
       setError("Помилка збереження");
-    } else {
-      cancelMatingEdit();
-      refetch();
+      setSaving(false);
+      return;
     }
+
+    // Окріл створюємо лише якщо заповнено хоч одне поле результату.
+    // Нотатки лишаються на злучці, щоб вони не показувались двічі.
+    if (withLitterBlock && hasLitterResult(lf)) {
+      const { error: litterError } = await supabase.from("litters").insert({
+        user_id: userId,
+        mating_id: editingMatingData.id,
+        ...buildLitterFields({ ...lf, notes: "" }),
+      });
+      if (litterError) {
+        setPageError(
+          "Злучку збережено, але окріл не збережено. Додайте його кнопкою «+ Додати злучку» в картці.",
+        );
+      } else if (lf.weaned_date) {
+        // Порода — як у getBreedForFattening без «фактичних» батьків:
+        // спочатку крольчиха, потім кролик
+        const breed =
+          allRabbits.find((r) => r.id === editingMatingData.female_id)?.breed ||
+          allRabbits.find((r) => r.id === editingMatingData.male_id)?.breed ||
+          "";
+        const fatteningSaved = await createFatteningRecords(
+          userId,
+          lf.birth_date,
+          breed,
+          buildFatteningEntries(lf),
+        );
+        if (!fatteningSaved) {
+          setPageError(FATTENING_NOT_SAVED_MESSAGE);
+        }
+      }
+    }
+
+    cancelMatingEdit();
+    refetch();
     setSaving(false);
   }
 
@@ -244,21 +340,7 @@ export default function Matings({ session }: Props) {
   }
 
   function handleLitterMatingDateChange(matingId: string, date: string) {
-    // Змінено: додавання днів через kyivDate замість Date + toISOString (UTC)
-    updateLitterForm(
-      matingId,
-      date
-        ? {
-            litter_mating_date: date,
-            litter_control_date: addDaysISO(date, 7),
-            litter_expected_birth: addDaysISO(date, 31),
-          }
-        : {
-            litter_mating_date: date,
-            litter_control_date: "",
-            litter_expected_birth: "",
-          },
-    );
+    updateLitterForm(matingId, matingDatePatch(date));
   }
 
   async function handleAddLitter(matingId: string, mating: Mating) {
@@ -357,11 +439,23 @@ export default function Matings({ session }: Props) {
               matingEdit={{
                 isEditing: editingMatingId === m.id,
                 data: editingMatingData,
+                litterForm: matingLitterForm,
+                splitMale: matingSplitMale,
+                splitFemale: matingSplitFemale,
                 onToggle: () => toggleMatingEdit(m),
                 onChange: (patch) =>
                   setEditingMatingData((prev) =>
                     prev ? { ...prev, ...patch } : prev,
                   ),
+                onLitterFieldChange: (field, value) =>
+                  setMatingLitterForm((prev) => ({ ...prev, [field]: value })),
+                onLitterMatingDateChange: (date) =>
+                  setMatingLitterForm((prev) => ({
+                    ...prev,
+                    ...matingDatePatch(date),
+                  })),
+                onSplitMale: () => setMatingSplitMale(true),
+                onSplitFemale: () => setMatingSplitFemale(true),
                 onCancel: cancelMatingEdit,
                 onSave: handleEditMating,
               }}
