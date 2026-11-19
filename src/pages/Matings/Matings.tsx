@@ -56,16 +56,16 @@ function matingDatePatch(date: string): Partial<LitterFormState> {
 function hasLitterResult(f: LitterFormState): boolean {
   return Boolean(
     f.birth_date ||
-      f.failure_type ||
-      f.total_born ||
-      f.alive ||
-      f.dead ||
-      f.nestbox_date ||
-      f.weaned_date ||
-      f.weaned_males ||
-      f.weaned_males_cage ||
-      f.weaned_females ||
-      f.weaned_females_cage,
+    f.failure_type ||
+    f.total_born ||
+    f.alive ||
+    f.dead ||
+    f.nestbox_date ||
+    f.weaned_date ||
+    f.weaned_males ||
+    f.weaned_males_cage ||
+    f.weaned_females ||
+    f.weaned_females_cage,
   );
 }
 
@@ -76,7 +76,7 @@ export default function Matings({ session }: Props) {
   const { rabbits, allRabbits, matings, loadError, refetch } =
     useMatingsData(userId);
 
-  const [sortType, setSortType] = useState<SortType>("date_desc");
+  const [sortType, setSortType] = useState<SortType>("male");
   const [showMatingForm, setShowMatingForm] = useState(false);
   const [matingForm, setMatingForm] =
     useState<MatingFormState>(emptyMatingForm);
