@@ -24,9 +24,7 @@ export default function RabbitCard({
         </span>
         <h3>{rabbit.name}</h3>
         {rabbit.cage_number && (
-          <span className="rabbit-cage">
-            Клітка {rabbit.cage_number}
-          </span>
+          <span className="rabbit-cage">Клітка {rabbit.cage_number}</span>
         )}
       </div>
       {/* Додано: мініатюра племінного кролика, по кліку — повне фото.
@@ -60,9 +58,7 @@ export default function RabbitCard({
               <strong>Нар.:</strong>{" "}
               {new Date(rabbit.birth_date).toLocaleDateString("uk-UA")}
             </p>
-            <p className="rabbit-age">
-              Вік: {calcAgeLabel(rabbit.birth_date)}
-            </p>
+            <p className="rabbit-age">Вік: {calcAgeLabel(rabbit.birth_date)}</p>
           </>
         )}
         {rabbit.notes && <p className="rabbit-notes">{rabbit.notes}</p>}
@@ -89,16 +85,10 @@ export default function RabbitCard({
           );
         })()}
       <div className="rabbit-card-actions">
-        <button
-          className="rabbit-edit-btn"
-          onClick={onEdit}
-        >
+        <button className="rabbit-edit-btn" onClick={onEdit}>
           Редагувати
         </button>
-        <button
-          className="rabbit-archive-btn"
-          onClick={onArchive}
-        >
+        <button className="rabbit-archive-btn" onClick={onArchive}>
           Архівувати
         </button>
       </div>
