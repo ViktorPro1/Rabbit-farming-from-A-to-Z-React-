@@ -21,7 +21,7 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 # Основні можливості
 
 - Великий довідник із кролівництва
-- Понад 180 тематичних сторінок
+- 202 публічні сторінки (26 тематичних розділів)
 - Симптоматичний пошук
 - Довідник хвороб
 - Практичні рекомендації
@@ -40,6 +40,10 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - SEO-оптимізація
 - Швидка навігація
 - Збільшення розміру шрифту для зручнішого читання
+- Чат для учасників — закритий чат спільноти з реакціями, гілками відповідей, автоочищенням через 3 дні та лічильником нових повідомлень
+- Нові тематичні блоки довідника: «Просування господарства та репутація» (7 сторінок) і «Крафтове виробництво» (4 сторінки)
+- Інструменти кабінету: автогенерація номерів кролів (модуль «Нумерація»), «План підбору самок», облік залишків кормів і партій, календар у вигляді інтерактивної сітки місяця
+- Публічні візитки та паспорти: сторінка-візитка господарства (`/vizytka`), публічні профілі кролів та партій відгодівлі за QR-кодом
 
 ---
 
@@ -221,21 +225,21 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 
 # Статистика проєкту
 
-| Показник                 |                 Значення |
-| ------------------------ | -----------------------: |
-| Маршрутна логіка         | 13 файлів у `src/routes` |
-| Публічних сторінок       |                      196 |
-| React-компонентів        |                       54 |
-| Data-модулів             |                       26 |
-| Unit-тестів              |                      259 |
-| Test Suites              |                       30 |
-| E2E сценаріїв            |                       10 |
-| TypeScript               |                      Так |
-| PWA                      |                      Так |
-| Push-сповіщення          |                      Так |
-| Android-застосунок (TWA) |                      Так |
-| SEO                      |                      Так |
-| Supabase                 |                      Так |
+| Показник                 |                           Значення |
+| ------------------------ | ---------------------------------: |
+| Маршрутна логіка         | 14 груп (16 файлів у `src/routes`) |
+| Публічних сторінок       |                                202 |
+| React-компонентів        |                                 54 |
+| Data-модулів             |                                 30 |
+| Unit-тестів              |                                285 |
+| Test Suites              |                                 34 |
+| E2E сценаріїв            |                                 10 |
+| TypeScript               |                                Так |
+| PWA                      |                                Так |
+| Push-сповіщення          |                                Так |
+| Android-застосунок (TWA) |                                Так |
+| SEO                      |                                Так |
+| Supabase                 |                                Так |
 
 ---
 
@@ -295,6 +299,8 @@ https://rabbit-farming-from-a-to-z-react.vercel.app/
 - Sitemap
 - robots.txt
 - llms.txt
+- llms-full.txt (розширений контекст для ШІ)
+- AI-каталог (`sync-ai-catalog.mjs`)
 - Prerender
 
 ---
@@ -321,15 +327,21 @@ src/
 
 api/
 ├── _lib/
-│   ├── push.ts
+│   ├── auth.ts                 # Авторизація серверних запитів
 │   ├── dates.ts
-│   ├── reminders.ts
-│   ├── email.ts
+│   ├── email-templates/        # 17 HTML-шаблонів листів
 │   ├── email-templates.ts
-│   └── email-templates/       # 17 HTML-шаблонів листів
-├── send-notification.ts
+│   ├── email.ts
+│   ├── push.ts
+│   └── reminders.ts
+├── daily-reminders.ts
+├── notify-payment-receipt.ts
+├── notify-subscription-activated.ts
+├── notify-subscription-cancelled.ts
 ├── send-email.ts
-└── daily-reminders.ts
+├── send-feature-announcement.ts
+├── send-notification.ts
+└── welcome-email.ts
 ```
 
 ---
@@ -352,10 +364,10 @@ api/
 
 | Метрика    | Покриття |
 | ---------- | -------: |
-| Statements |   52.38% |
-| Branches   |   34.29% |
-| Functions  |   37.84% |
-| Lines      |   53.64% |
+| Statements |   56.72% |
+| Branches   |   40.37% |
+| Functions  |   45.01% |
+| Lines      |   58.22% |
 
 ---
 
@@ -419,6 +431,8 @@ docs/
 
 Основні документи:
 
+- [docs/README.md](docs/README.md) — зведений індекс документації
+- [docs/Планування/ROADMAP.md](docs/Планування/ROADMAP.md) — актуальний план розвитку
 - [docs/Розробка/DEVELOPER_GUIDE.md](docs/Розробка/DEVELOPER_GUIDE.md)
 - [docs/Тестування/TESTING.md](docs/Тестування/TESTING.md)
 - [LICENSE](LICENSE)
@@ -456,6 +470,17 @@ docs/
 - Календар господарства
 - Фінансовий облік
 
+## Версії 1.1–1.3 (поточна версія — 1.3.0)
+
+- Чат для учасників (реакції, гілки відповідей, автоочищення, лічильник нових повідомлень)
+- Крафтове виробництво (4 сторінки довідника)
+- Просування господарства та репутація (7 сторінок довідника)
+- Модуль «Нумерація» — автогенерація номерів кролів
+- «План підбору самок»
+- Розширений облік: залишки кормів і партії
+- Календар у вигляді інтерактивної сітки місяця
+- Публічна візитка господарства та публічні профілі кролів і партій відгодівлі за QR-кодом
+
 ---
 
 # Автор
@@ -472,7 +497,7 @@ docs/
 
 **Rabbit Farming From A to Z** is a Ukrainian-language rabbit farming knowledge base and farm management platform built with React, TypeScript, Vite and Supabase.
 
-The platform includes **191 public knowledge-base pages** and a private farm management dashboard for registered users.
+The platform includes **202 public knowledge-base pages** and a private farm management dashboard for registered users.
 
 The primary audience is Ukrainian rabbit farmers.
 
