@@ -276,6 +276,17 @@ const features = [
       "Наступний прийом препарату та вакцинація",
     ],
   },
+  {
+    icon: "💬",
+    title: "Чат учасників",
+    desc: "Закритий чат для зареєстрованих користувачів: короткі повідомлення між учасниками. Повідомлення живуть 3 дні й автоматично видаляються без архіву.",
+    details: [
+      "Тільки текст, до 1000 символів",
+      "Відповіді на повідомлення та реакції: подобається, не подобається, рукостискання",
+      "Червоний кружечок із кількістю нових повідомлень",
+      "Правила чату зверху, свої повідомлення можна редагувати й видаляти",
+    ],
+  },
 ];
 
 const Subscription = () => {
@@ -312,8 +323,8 @@ const Subscription = () => {
           </div>
           <div className="sub-hero-stats">
             <div className="sub-stat">
-              <span className="sub-stat-num">25</span>
-              <span className="sub-stat-label">розділи обліку</span>
+              <span className="sub-stat-num">26</span>
+              <span className="sub-stat-label">розділів обліку</span>
             </div>
             <div className="sub-stat">
               <span className="sub-stat-num">∞</span>

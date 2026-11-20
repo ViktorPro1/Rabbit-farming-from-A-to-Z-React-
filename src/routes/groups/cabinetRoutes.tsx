@@ -54,6 +54,8 @@ const BreedingPlan = lazy(
 const NumberingPage = lazy(
   () => import("../../pages/NumberingPage/NumberingPage"),
 );
+// Додано: внутрішній чат для зареєстрованих користувачів
+const Chat = lazy(() => import("../../pages/Chat/Chat"));
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -338,6 +340,12 @@ export function getCabinetRoutes(session: Session | null) {
             <Auth />
           )
         }
+      />
+      {/* Додано: чат. Тільки для залогінених, як і решта кабінету; термін
+          доступу перевіряє AccessGuard усередині withCabinetBoundary. */}
+      <Route
+        path="/chat"
+        element={session ? withCabinetBoundary("Chat", <Chat />) : <Auth />}
       />
     </>
   );

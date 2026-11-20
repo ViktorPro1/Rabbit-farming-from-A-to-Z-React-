@@ -17,6 +17,7 @@ vi.mock("../ThemeToggle/ThemeToggle", () => ({ default: () => null }));
 vi.mock("../../features/font-size/FontSizeToggle", () => ({
   default: () => null,
 }));
+vi.mock("../../hooks/useChatUnread", () => ({ useChatUnread: () => 0 }));
 
 const session = {
   user: { id: "user-1", email: "viktor@example.com" },

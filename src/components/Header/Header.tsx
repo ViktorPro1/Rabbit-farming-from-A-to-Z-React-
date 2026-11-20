@@ -8,6 +8,9 @@ import { CHANGELOG } from "../../data/changelog";
 import FontSizeToggle from "../../features/font-size/FontSizeToggle";
 // Додано: фото особистого кабінету в аватарі (шлях у user_metadata.avatar_path)
 import { useAvatarUrl } from "../../hooks/useAvatarUrl";
+// Додано: лічильник нових повідомлень чату й червоний кружечок
+import { useChatUnread } from "../../hooks/useChatUnread";
+import ChatUnreadBadge from "../ChatUnreadBadge/ChatUnreadBadge";
 import {
   Calculator,
   Users,
@@ -23,6 +26,7 @@ import {
   MessageSquareHeart,
   ChevronDown,
   Image, // Додано: іконка для пункту "Візитка"
+  MessagesSquare, // Додано: іконка для пункту "Чат"
 } from "lucide-react";
 import "./Header.css";
 
@@ -171,6 +175,8 @@ const Header = ({ session }: Props) => {
   // кабінету (як у реєстрі), а якщо його не задано — email
   const userLabel =
     session?.user.user_metadata?.display_name || session?.user.email;
+  // Додано: кількість нових повідомлень чату (0, якщо не залогінений)
+  const chatUnread = useChatUnread(session);
 
   return (
     <>
@@ -195,6 +201,8 @@ const Header = ({ session }: Props) => {
               aria-expanded={showMore}
             >
               Ще
+              {/* Додано: крапка на "Ще", бо пункт "Чат" схований у цьому меню */}
+              <ChatUnreadBadge count={chatUnread} variant="dot" />
               <ChevronDown
                 size={14}
                 strokeWidth={2.5}
@@ -221,6 +229,14 @@ const Header = ({ session }: Props) => {
                   <Image size={16} />
                   Візитка
                 </NavLink>
+                {/* Додано: пункт "Чат" у дропдауні "Ще", тільки для залогінених */}
+                {session && (
+                  <NavLink to="/chat" onClick={() => setShowMore(false)}>
+                    <MessagesSquare size={16} />
+                    Чат
+                    <ChatUnreadBadge count={chatUnread} />
+                  </NavLink>
+                )}
               </div>
             )}
           </div>
@@ -459,6 +475,13 @@ const Header = ({ session }: Props) => {
               <NavLink to="/registry" onClick={closeMenu}>
                 <Rabbit size={18} />
                 Мої кролики
+              </NavLink>
+              {/* Додано: пункт "Чат" у мобільному меню (тільки для залогінених,
+                  бо знаходиться всередині гілки session) */}
+              <NavLink to="/chat" onClick={closeMenu}>
+                <MessagesSquare size={18} />
+                Чат
+                <ChatUnreadBadge count={chatUnread} />
               </NavLink>
               {isAdmin && (
                 <NavLink to="/admin" onClick={closeMenu}>
