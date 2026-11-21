@@ -23,7 +23,8 @@ export function loadTemplate(filename: string): string {
 export function renderTemplate(filename: string, vars: Record<string, string> = {}): string {
     let html = loadTemplate(filename);
     for (const [key, value] of Object.entries(vars)) {
-        html = html.replaceAll(`{{${key}}}`, value);
+        // Функція-замінник, щоб символи $ у значенні ($$, $&, $1...) вставлялися буквально
+        html = html.replaceAll(`{{${key}}}`, () => value);
     }
     return html;
 }

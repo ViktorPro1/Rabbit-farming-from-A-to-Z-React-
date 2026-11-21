@@ -3,6 +3,19 @@ import { supabase } from './_lib/push.js';
 import { sendEmail } from './_lib/email.js';
 import { renderTemplate } from './_lib/email-templates.js';
 
+// Текст, якщо в користувача немає дати завершення доступу (access_until = null)
+const NO_DATE_TEXT = 'найближчим часом';
+
+// access_until — timestamptz. Адмінка записує дату як північ за UTC,
+// тому беремо UTC-дату (так само, як решта логіки в api/_lib/reminders.ts).
+function formatAccessUntil(value: string | null | undefined): string {
+    if (!value) return NO_DATE_TEXT;
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return NO_DATE_TEXT;
+    const [year, month, day] = date.toISOString().slice(0, 10).split('-');
+    return `${day}.${month}.${year}`;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
 
@@ -25,8 +38,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { email } = req.body ?? {};
     if (!email) return res.status(400).json({ error: 'Missing email' });
 
+    // Додано: дата для листа береться з бази. Скасування підписки змінює лише
+    // plan_type, а access_until лишається, тому порядок викликів в адмінці не впливає.
+    const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('access_until')
+        .eq('email', email)
+        .maybeSingle();
+    if (profileError) {
+        console.error('[notify-subscription-cancelled] profile query failed:', profileError);
+    }
+
     try {
-        const html = renderTemplate('lyst-pidpyska_skasovana.html');
+        const html = renderTemplate('lyst-pidpyska_skasovana.html', {
+            DATA: formatAccessUntil(profile?.access_until),
+        });
         const ok = await sendEmail(email, 'Вашу підписку скасовано', html);
         res.status(200).json({ success: ok });
     } catch (err) {
