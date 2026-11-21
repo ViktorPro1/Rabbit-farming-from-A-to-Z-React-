@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
     todayKyiv: vi.fn(),
 }));
 
-vi.mock('./_lib/push.js', () => ({
+vi.mock('../_lib/push.js', () => ({
     supabase: {
         auth: { getUser: mocks.getUser },
         from: () => ({
@@ -20,11 +20,11 @@ vi.mock('./_lib/push.js', () => ({
         }),
     },
 }));
-vi.mock('./_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
-vi.mock('./_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
-vi.mock('./_lib/dates.js', () => ({ todayKyiv: mocks.todayKyiv }));
+vi.mock('../_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
+vi.mock('../_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
+vi.mock('../_lib/dates.js', () => ({ todayKyiv: mocks.todayKyiv }));
 
-import handler from './notify-payment-receipt';
+import handler from '../notify-payment-receipt';
 
 function makeReq(opts: {
     method?: string;

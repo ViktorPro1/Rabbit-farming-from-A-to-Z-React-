@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
     renderTemplate: vi.fn(),
 }));
 
-vi.mock('./_lib/push.js', () => ({
+vi.mock('../_lib/push.js', () => ({
     supabase: {
         auth: { getUser: mocks.getUser },
         from: (table: string) => ({
@@ -22,11 +22,11 @@ vi.mock('./_lib/push.js', () => ({
         }),
     },
 }));
-vi.mock('./_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
-vi.mock('./_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
+vi.mock('../_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
+vi.mock('../_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
 
-import activated from './notify-subscription-activated';
-import cancelled from './notify-subscription-cancelled';
+import activated from '../notify-subscription-activated';
+import cancelled from '../notify-subscription-cancelled';
 
 type Handler = (req: VercelRequest, res: VercelResponse) => unknown;
 
@@ -90,7 +90,7 @@ const cases = [
 describe.each(cases)('$name', ({ handler, subject, renderArgs }) => {
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.spyOn(console, 'error').mockImplementation(() => { });
+        vi.spyOn(console, 'error').mockImplementation(() => {});
         mocks.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } }, error: null });
         mocks.maybeSingle.mockImplementation(async (table: string) =>
             table === 'admins'
@@ -209,7 +209,7 @@ describe.each(cases)('$name', ({ handler, subject, renderArgs }) => {
 describe('notify-subscription-cancelled: дата доступу в листі', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.spyOn(console, 'error').mockImplementation(() => { });
+        vi.spyOn(console, 'error').mockImplementation(() => {});
         mocks.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } }, error: null });
         mocks.sendEmail.mockResolvedValue(true);
         mocks.renderTemplate.mockReturnValue('<html>letter</html>');

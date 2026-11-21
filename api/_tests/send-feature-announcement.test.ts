@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
     renderTemplate: vi.fn(),
 }));
 
-vi.mock('./_lib/push.js', () => ({
+vi.mock('../_lib/push.js', () => ({
     supabase: {
         from: (table: string) => {
             mocks.from(table);
@@ -17,10 +17,10 @@ vi.mock('./_lib/push.js', () => ({
         },
     },
 }));
-vi.mock('./_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
-vi.mock('./_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
+vi.mock('../_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
+vi.mock('../_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
 
-import handler from './send-feature-announcement';
+import handler from '../send-feature-announcement';
 
 function makeReq(opts: { method?: string; secret?: string; body?: unknown }): VercelRequest {
     return {

@@ -7,10 +7,10 @@ const mocks = vi.hoisted(() => ({
     renderTemplate: vi.fn(),
 }));
 
-vi.mock('./_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
-vi.mock('./_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
+vi.mock('../_lib/email.js', () => ({ sendEmail: mocks.sendEmail }));
+vi.mock('../_lib/email-templates.js', () => ({ renderTemplate: mocks.renderTemplate }));
 
-import handler from './welcome-email';
+import handler from '../welcome-email';
 
 function makeReq(opts: { method?: string; secret?: string; body?: unknown }): VercelRequest {
     return {

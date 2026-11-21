@@ -4,12 +4,12 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const mocks = vi.hoisted(() => ({ sendMail: vi.fn() }));
 
-vi.mock('./_lib/email.js', () => ({
+vi.mock('../_lib/email.js', () => ({
     transporter: { sendMail: mocks.sendMail },
     FROM_ADDRESS: '"Test" <test@example.com>',
 }));
 
-import handler from './send-email';
+import handler from '../send-email';
 
 function makeReq(opts: { method?: string; secret?: string; body?: unknown }): VercelRequest {
     return {

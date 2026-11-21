@@ -27,7 +27,7 @@ function makeQuery() {
     return query;
 }
 
-vi.mock('./_lib/push.js', () => ({
+vi.mock('../_lib/push.js', () => ({
     supabase: {
         from: (table: string) => {
             mocks.from(table);
@@ -44,7 +44,7 @@ vi.mock('./_lib/push.js', () => ({
     removeExpiredSubscription: mocks.removeExpiredSubscription,
 }));
 
-import handler from './send-notification';
+import handler from '../send-notification';
 
 function makeReq(opts: { method?: string; secret?: string; body?: unknown }): VercelRequest {
     return {

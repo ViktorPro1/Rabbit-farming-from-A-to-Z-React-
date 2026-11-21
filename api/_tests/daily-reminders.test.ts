@@ -9,12 +9,12 @@ const mocks = vi.hoisted(() => ({
     checkC: vi.fn(),
 }));
 
-vi.mock('./_lib/dates.js', () => ({ tomorrowDate: mocks.tomorrowDate }));
-vi.mock('./_lib/reminders.js', () => ({
+vi.mock('../_lib/dates.js', () => ({ tomorrowDate: mocks.tomorrowDate }));
+vi.mock('../_lib/reminders.js', () => ({
     ALL_CHECKS: [mocks.checkA, mocks.checkB, mocks.checkC],
 }));
 
-import handler from './daily-reminders';
+import handler from '../daily-reminders';
 
 function makeReq(opts: { method?: string; secret?: string }): VercelRequest {
     return {
