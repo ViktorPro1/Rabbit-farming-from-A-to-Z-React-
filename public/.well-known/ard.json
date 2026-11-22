@@ -7,6 +7,30 @@
   },
   "entries": [
     {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:resource:llms",
+      "displayName": "LLMs Довідник (llms.txt)",
+      "type": "text/plain",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/llms.txt",
+      "description": "Компактний індекс структури сайту, тем і навігаційних посилань для мовних моделей",
+      "representativeQueries": [
+        "довідник кролівництва для штучного інтелекту",
+        "llms txt кролівництво",
+        "структура сайту кролівництво"
+      ]
+    },
+    {
+      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:resource:llms-full",
+      "displayName": "Повний LLMs Довідник (llms-full.txt)",
+      "type": "text/plain",
+      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/llms-full.txt",
+      "description": "Повний текстовий масив усіх статей та матеріалів сайту для аналізу мовними моделями",
+      "representativeQueries": [
+        "повна база знань про кролівництво",
+        "всі статті про кролів одним файлом",
+        "повний текст посібника з кролівництва"
+      ]
+    },
+    {
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:biology",
       "displayName": "Біологія та анатомія",
       "type": "text/html",

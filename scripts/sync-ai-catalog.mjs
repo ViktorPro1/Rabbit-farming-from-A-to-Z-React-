@@ -16,6 +16,8 @@
  *  - записи для сторінок, яких у каталозі ще немає, створюються автоматично:
  *    displayName і description з <title> та meta description сторінки,
  *    representativeQueries із заголовків сторінки (до 5);
+ *  - базові ШІ-ресурси (/llms.txt, /llms-full.txt, див. BASE_RESOURCES) вставляються на ПОЧАТОК
+ *    масиву "entries", якщо їх там ще немає; якщо вони вже є, нічого не змінюється;
  *  - службові сторінки з множини EXCLUDE (про проєкт, політика, відгуки тощо) в каталог не додаються;
  *  - скрипт лише попереджає (нічого не змінює), якщо:
  *      * запис містить заглушку в адресі (наприклад, your-deploy-url-here),
@@ -49,6 +51,35 @@ const EXCLUDE = new Set([
   "/reviews",
   "/nps-survey",
 ]);
+
+// Первинні ШІ-ресурси: стоять на початку каталогу, не є сторінками з prerender-routes.ts.
+const BASE_RESOURCES = [
+  {
+    identifier: `urn:air:${new URL(BASE_URL).host}:resource:llms`,
+    displayName: "LLMs Довідник (llms.txt)",
+    type: "text/plain",
+    url: `${BASE_URL}/llms.txt`,
+    description: "Компактний індекс структури сайту, тем і навігаційних посилань для мовних моделей",
+    representativeQueries: [
+      "довідник кролівництва для штучного інтелекту",
+      "llms txt кролівництво",
+      "структура сайту кролівництво",
+    ],
+  },
+  {
+    identifier: `urn:air:${new URL(BASE_URL).host}:resource:llms-full`,
+    displayName: "Повний LLMs Довідник (llms-full.txt)",
+    type: "text/plain",
+    url: `${BASE_URL}/llms-full.txt`,
+    description: "Повний текстовий масив усіх статей та матеріалів сайту для аналізу мовними моделями",
+    representativeQueries: [
+      "повна база знань про кролівництво",
+      "всі статті про кролів одним файлом",
+      "повний текст посібника з кролівництва",
+    ],
+  },
+];
+const BASE_PATHS = new Set(BASE_RESOURCES.map((r) => new URL(r.url).pathname));
 
 const SITE_SUFFIX = /\s+[—–-]\s+Кролівництво від А до Я\s*$/;
 const FIRST_SECTION = "Головна";
@@ -206,14 +237,33 @@ function processCatalog(fileName, routes, routeSet, titles) {
     if (PLACEHOLDER_RE.test(entry.url ?? "") || PLACEHOLDER_RE.test(entry.identifier ?? "")) {
       warn(
         `${fileName}: запис "${entry.displayName}" містить заглушку в адресі (${entry.url}). ` +
-          `Замініть "url" та "identifier" на справжні.`
+        `Замініть "url" та "identifier" на справжні.`
       );
     }
     if (host === siteHost) {
       existingPaths.add(path);
-      if (!routeSet.has(path)) {
+      if (!routeSet.has(path) && !BASE_PATHS.has(path)) {
         warn(`${fileName}: запис "${entry.displayName}" веде на ${path}, якої немає в prerender-routes.ts.`);
       }
+    }
+  }
+
+  // Базові ШІ-ресурси: вставляємо на початок масиву, лише якщо їх ще немає.
+  let text = original;
+  const missingBase = BASE_RESOURCES.filter(
+    (base) => !catalog.entries.some((e) => e.identifier === base.identifier || e.url === base.url)
+  );
+  if (missingBase.length > 0) {
+    const open = /"entries"\s*:\s*\[\n/.exec(original);
+    if (!open) fail(`${fileName}: непередбачена структура файлу, базові ресурси не додано.`);
+    const at = open.index + open[0].length;
+    const block = missingBase.map(formatEntry).join(",\n");
+    const separator = catalog.entries.length > 0 ? ",\n" : "\n";
+    text = `${original.slice(0, at)}${block}${separator}${original.slice(at)}`;
+    try {
+      JSON.parse(text);
+    } catch (error) {
+      fail(`${fileName}: після додавання базових ресурсів виник некоректний JSON (${error.message}). Файл не змінено.`);
     }
   }
 
@@ -241,18 +291,17 @@ function processCatalog(fileName, routes, routeSet, titles) {
   if (skipped.length > 0) {
     warn(
       `${fileName}: не додано ${skipped.length} сторінок, бо в dist немає їх опису ` +
-        `(виконайте npm run build): ${skipped.slice(0, 5).join(", ")}${skipped.length > 5 ? ", ..." : ""}`
+      `(виконайте npm run build): ${skipped.slice(0, 5).join(", ")}${skipped.length > 5 ? ", ..." : ""}`
     );
   }
 
-  let text = original;
   if (additions.length > 0) {
-    const close = original.lastIndexOf("\n  ]");
-    if (close === -1 || !original.slice(0, close).trimEnd().endsWith("}")) {
+    const close = text.lastIndexOf("\n  ]");
+    if (close === -1 || !text.slice(0, close).trimEnd().endsWith("}")) {
       fail(`${fileName}: непередбачена структура файлу, нові записи не додано.`);
     }
-    const before = original.slice(0, close);
-    const after = original.slice(close);
+    const before = text.slice(0, close);
+    const after = text.slice(close);
     text = `${before},\n${additions.map(formatEntry).join(",\n")}${after}`;
     try {
       JSON.parse(text);
@@ -274,9 +323,10 @@ function processCatalog(fileName, routes, routeSet, titles) {
     }
   }
 
+  const added = missingBase.length + additions.length;
   console.log(
-    additions.length > 0
-      ? `[sync-ai-catalog] ${fileName}: додано записів: ${additions.length}, усього ${catalog.entries.length + additions.length}.`
+    added > 0
+      ? `[sync-ai-catalog] ${fileName}: додано записів: ${added} (базових: ${missingBase.length}), усього ${catalog.entries.length + added}.`
       : `[sync-ai-catalog] ${fileName}: без змін, записів ${catalog.entries.length}.`
   );
 }

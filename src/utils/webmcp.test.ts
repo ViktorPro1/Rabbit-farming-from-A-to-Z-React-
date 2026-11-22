@@ -3,7 +3,12 @@ import { registerWebMCPTools, type SiteCard } from "./webmcp";
 
 type Tool = {
   name: string;
-  execute: (a: Record<string, unknown>) => Promise<{ content: { text: string }[] }>;
+  outputSchema?: { type: string; required: string[]; properties: Record<string, unknown> };
+  execute: (a: Record<string, unknown>) => Promise<{
+    content: { type?: string; text: string }[];
+    structuredContent?: Record<string, unknown>;
+    isError?: boolean;
+  }>;
 };
 
 const CARDS: SiteCard[] = [
@@ -127,5 +132,72 @@ describe("registerWebMCPTools", () => {
     await Promise.resolve();
     await Promise.resolve();
     expect(err).not.toHaveBeenCalled();
+  });
+
+  it("обидва інструменти мають outputSchema для structuredContent", () => {
+    const { tools } = stubModelContext();
+    registerWebMCPTools({ navigate: vi.fn(), loadCards: async () => CARDS });
+    const search = tools.get("search_rabbit_articles")!.outputSchema!;
+    expect(search.type).toBe("object");
+    expect(search.required).toEqual(["results"]);
+    expect(Object.keys(search.properties).sort()).toEqual(["message", "results"]);
+    const open = tools.get("open_site_page")!.outputSchema!;
+    expect(open.required).toEqual(["opened", "message"]);
+  });
+
+  it("search: structuredContent містить results і відповідає тексту", async () => {
+    const { tools } = stubModelContext();
+    registerWebMCPTools({ navigate: vi.fn(), loadCards: async () => CARDS });
+    const search = tools.get("search_rabbit_articles")!;
+
+    const hit = await search.execute({ query: "раціон" });
+    expect(hit.structuredContent).toEqual({
+      results: [{ title: "Годування кролів", path: "/feeding", section: "Догляд", desc: "Раціон і норми" }],
+    });
+    expect(hit.isError).toBeUndefined();
+
+    expect((await search.execute({ query: "xyz" })).structuredContent).toEqual({
+      results: [],
+      message: "Нічого не знайдено.",
+    });
+    expect((await search.execute({ query: " " })).structuredContent).toEqual({
+      results: [],
+      message: "Порожній запит.",
+    });
+  });
+
+  it("open_site_page: structuredContent і isError для успіху та відмов", async () => {
+    const { tools } = stubModelContext();
+    registerWebMCPTools({ navigate: vi.fn(), loadCards: async () => CARDS });
+    const open = tools.get("open_site_page")!;
+
+    const ok = await open.execute({ path: "/feeding" });
+    expect(ok.structuredContent).toEqual({ opened: true, path: "/feeding", message: "Відкрито: /feeding" });
+    expect(ok.isError).toBeUndefined();
+
+    for (const bad of ["https://evil.com", "/registry"]) {
+      const r = await open.execute({ path: bad });
+      expect(r.structuredContent).toMatchObject({ opened: false });
+      expect(r.isError).toBe(true);
+      expect(r.content[0].type).toBe("text");
+    }
+  });
+
+  it("structuredContent відповідає required-полям outputSchema", async () => {
+    const { tools } = stubModelContext();
+    registerWebMCPTools({ navigate: vi.fn(), loadCards: async () => CARDS });
+    const calls: [string, Record<string, unknown>][] = [
+      ["search_rabbit_articles", { query: "раціон" }],
+      ["search_rabbit_articles", { query: "xyz" }],
+      ["open_site_page", { path: "/feeding" }],
+      ["open_site_page", { path: "//evil.com" }],
+    ];
+    for (const [name, args] of calls) {
+      const tool = tools.get(name)!;
+      const r = await tool.execute(args);
+      for (const key of tool.outputSchema!.required) {
+        expect(r.structuredContent).toHaveProperty(key);
+      }
+    }
   });
 });
