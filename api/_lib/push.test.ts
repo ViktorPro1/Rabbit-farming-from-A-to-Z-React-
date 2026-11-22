@@ -27,7 +27,11 @@ function makeBuilder(table: string) {
                 if (prop === 'then') {
                     return (resolve: (v: QueryResult) => unknown, reject: (e: unknown) => unknown) => {
                         const first = entry.calls[0]?.method === 'delete' ? 'delete' : 'select';
-                        return Promise.resolve(mocks.results[first]).then(resolve, reject);
+                        const result: unknown = mocks.results[first];
+                        // Error у results означає, що сам запит відхилено (збій мережі), а не повернуто {error}
+                        const outcome: Promise<QueryResult> =
+                            result instanceof Error ? Promise.reject(result) : Promise.resolve(result as QueryResult);
+                        return outcome.then(resolve, reject);
                     };
                 }
                 return (...args: unknown[]) => {
@@ -137,6 +141,40 @@ describe('removeExpiredSubscription', () => {
         const { removeExpiredSubscription } = await loadModule();
         await expect(removeExpiredSubscription('sub-1', 410)).resolves.toBeUndefined();
         expect(console.error).toHaveBeenCalled();
+    });
+});
+
+describe('removeExpiredSubscription: збій мережі', () => {
+    it('якщо запит видалення відхилено, пише в лог і не кидає виняток', async () => {
+        mocks.results.delete = new Error('network down') as never;
+        const { removeExpiredSubscription } = await loadModule();
+        await expect(removeExpiredSubscription('sub-1', 410)).resolves.toBeUndefined();
+        expect(console.error).toHaveBeenCalledWith(
+            expect.stringContaining('sub-1'),
+            expect.any(Error)
+        );
+    });
+});
+
+describe('sendToUser: збій мережі', () => {
+    it('якщо запит підписок відхилено, пише в лог, нічого не надсилає і не кидає виняток', async () => {
+        mocks.results.select = new Error('network down') as never;
+        const { sendToUser } = await loadModule();
+        await expect(sendToUser('user-1', 'T', 'B', '/u')).resolves.toBeUndefined();
+        expect(console.error).toHaveBeenCalledWith(
+            expect.stringContaining('user-1'),
+            expect.any(Error)
+        );
+        expect(mocks.sendNotification).not.toHaveBeenCalled();
+    });
+
+    it('збій видалення мертвої підписки не заважає іншим підпискам', async () => {
+        mocks.results.select = { data: [sub('s1'), sub('s2')], error: null };
+        mocks.results.delete = new Error('network down') as never;
+        mocks.sendNotification.mockRejectedValueOnce(pushError(410)).mockResolvedValueOnce(undefined);
+        const { sendToUser } = await loadModule();
+        await expect(sendToUser('user-1', 'T', 'B', '/u')).resolves.toBeUndefined();
+        expect(mocks.sendNotification).toHaveBeenCalledTimes(2);
     });
 });
 

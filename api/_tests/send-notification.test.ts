@@ -195,9 +195,116 @@ describe('send-notification', () => {
             expect(mocks.sendNotification).not.toHaveBeenCalled();
         });
 
-        it('не падає, коли тіло запиту порожнє', async () => {
-            const res = await call(makeReq({ secret: 'push-secret' }));
+    });
+
+    describe('перевірка тіла запиту', () => {
+        it.each([
+            ['тіло відсутнє', undefined],
+            ['тіло null', null],
+            ['тіло не об\'єкт', 'рядок'],
+            ['порожній об\'єкт', {}],
+        ])('%s: 400 і нічого не надсилається', async (_name, body) => {
+            const res = await call(makeReq({ secret: 'push-secret', body }));
+            expect(res.statusCode).toBe(400);
+            expect(mocks.select).not.toHaveBeenCalled();
+            expect(mocks.sendNotification).not.toHaveBeenCalled();
+        });
+
+        it.each([
+            ['title: undefined', { title: undefined }, 'title is required'],
+            ['title: порожній', { title: '' }, 'title is required'],
+            ['title: лише пробіли', { title: '   ' }, 'title is required'],
+            ['title: число', { title: 5 }, 'title is required'],
+            ['body: undefined', { body: undefined }, 'body is required'],
+            ['body: порожній', { body: '' }, 'body is required'],
+            ['body: лише пробіли', { body: '  ' }, 'body is required'],
+            ['body: масив', { body: ['a'] }, 'body is required'],
+        ])('%s: 400 з поясненням', async (_name, extra, message) => {
+            const res = await call(validReq(extra));
+            expect(res.statusCode).toBe(400);
+            expect(res.body).toEqual({ error: message });
+            expect(mocks.sendNotification).not.toHaveBeenCalled();
+        });
+
+        it('title довший за 100 символів відхиляється, рівно 100 проходить', async () => {
+            expect((await call(validReq({ title: 'a'.repeat(101) }))).statusCode).toBe(400);
+            expect((await call(validReq({ title: 'a'.repeat(100) }))).statusCode).toBe(200);
+        });
+
+        it('body довший за 500 символів відхиляється, рівно 500 проходить', async () => {
+            expect((await call(validReq({ body: 'a'.repeat(501) }))).statusCode).toBe(400);
+            expect((await call(validReq({ body: 'a'.repeat(500) }))).statusCode).toBe(200);
+        });
+
+        it.each(['/', '/matings', '/matings?tab=1', 'https://example.com/page'])(
+            'url «%s» дозволений',
+            async (url) => {
+                const res = await call(validReq({ url }));
+                expect(res.statusCode).toBe(200);
+            }
+        );
+
+        it.each([
+            'javascript:alert(1)',
+            'data:text/html,<script>1</script>',
+            'http://example.com',
+            '//evil.example.com',
+            'matings',
+            '',
+            42,
+            { a: 1 },
+        ])('url %j відхиляється', async (url) => {
+            const res = await call(validReq({ url }));
+            expect(res.statusCode).toBe(400);
+            expect(mocks.sendNotification).not.toHaveBeenCalled();
+        });
+
+        it('занадто довгий url відхиляється', async () => {
+            const res = await call(validReq({ url: '/' + 'a'.repeat(500) }));
+            expect(res.statusCode).toBe(400);
+        });
+
+        it('url можна не вказувати: у сповіщення йдуть лише title і body', async () => {
+            mocks.state.result = { data: [sub('s1')], error: null };
+            const res = await call(makeReq({ secret: 'push-secret', body: { title: 'T', body: 'B' } }));
             expect(res.statusCode).toBe(200);
+            expect(mocks.sendNotification).toHaveBeenCalledWith(expect.anything(), JSON.stringify({ title: 'T', body: 'B' }));
+        });
+
+        it.each([5, '', {}, []])('userId %j відхиляється', async (userId) => {
+            const res = await call(validReq({ userId }));
+            expect(res.statusCode).toBe(400);
+            expect(mocks.select).not.toHaveBeenCalled();
+        });
+
+        it('userId: null означає «усім»', async () => {
+            const res = await call(validReq({ userId: null }));
+            expect(res.statusCode).toBe(200);
+            expect(mocks.eq).not.toHaveBeenCalled();
+        });
+
+        it('зайві поля в тілі не потрапляють у сповіщення', async () => {
+            mocks.state.result = { data: [sub('s1')], error: null };
+            await call(validReq({ admin: true, extra: 'x' }));
+            expect(mocks.sendNotification).toHaveBeenCalledWith(expect.anything(), JSON.stringify(payload));
+        });
+
+        it('перевірка секрету іде раніше за перевірку тіла', async () => {
+            const res = await call(makeReq({ secret: 'wrong', body: {} }));
+            expect(res.statusCode).toBe(401);
+        });
+    });
+
+    describe('несподівані збої', () => {
+        it('якщо звернення до бази кидає виняток, відповідає 500 без деталей і нічого не надсилає', async () => {
+            mocks.from.mockImplementationOnce(() => {
+                throw new Error('network down');
+            });
+            const res = await call(validReq());
+            expect(res.statusCode).toBe(500);
+            expect(res.body).toEqual({ error: 'Internal error' });
+            expect(mocks.sendNotification).not.toHaveBeenCalled();
+            expect(console.error).toHaveBeenCalled();
         });
     });
 });

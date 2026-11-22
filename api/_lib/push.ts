@@ -20,13 +20,17 @@ export { webpush, WebPushError };
 export async function removeExpiredSubscription(subId: string, statusCode?: number) {
     if (statusCode !== 410 && statusCode !== 404) return;
 
-    const { error: deleteError } = await supabase
-        .from('push_subscriptions')
-        .delete()
-        .eq('id', subId);
+    try {
+        const { error: deleteError } = await supabase
+            .from('push_subscriptions')
+            .delete()
+            .eq('id', subId);
 
-    if (deleteError) {
-        console.error(`[removeExpiredSubscription] failed to delete subscription ${subId}:`, deleteError);
+        if (deleteError) {
+            console.error(`[removeExpiredSubscription] failed to delete subscription ${subId}:`, deleteError);
+        }
+    } catch (err) {
+        console.error(`[removeExpiredSubscription] unexpected error for subscription ${subId}:`, err);
     }
 }
 
@@ -37,34 +41,40 @@ export async function removeExpiredSubscription(subId: string, statusCode?: numb
  * не зупиняв розсилку іншим користувачам.
  */
 export async function sendToUser(userId: string, title: string, body: string, url: string) {
-    const { data: subs, error: subsError } = await supabase
-        .from('push_subscriptions')
-        .select('*')
-        .eq('user_id', userId);
+    try {
+        const { data: subs, error: subsError } = await supabase
+            .from('push_subscriptions')
+            .select('*')
+            .eq('user_id', userId);
 
-    if (subsError) {
-        console.error(`[sendToUser] failed to fetch subscriptions for user ${userId}:`, subsError);
-        return;
+        if (subsError) {
+            console.error(`[sendToUser] failed to fetch subscriptions for user ${userId}:`, subsError);
+            return;
+        }
+
+        console.log(`sendToUser ${userId}: found ${subs?.length ?? 0} subscription(s)`);
+
+        await Promise.allSettled(
+            (subs ?? []).map((sub) =>
+                webpush
+                    .sendNotification(
+                        { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
+                        JSON.stringify({ title, body, url })
+                    )
+                    .then(() => {
+                        console.log(`push OK -> subscription ${sub.id}`);
+                    })
+                    .catch(async (err: WebPushError) => {
+                        console.error(
+                            `push FAILED -> subscription ${sub.id}, status ${err.statusCode}, body: ${err.body}`
+                        );
+                        await removeExpiredSubscription(sub.id, err.statusCode);
+                    })
+            )
+        );
+    } catch (err) {
+        // Збій одного користувача (наприклад, мережі) не має обривати цикл
+        // по інших користувачах усередині перевірки нагадувань.
+        console.error(`[sendToUser] unexpected error for user ${userId}:`, err);
     }
-
-    console.log(`sendToUser ${userId}: found ${subs?.length ?? 0} subscription(s)`);
-
-    await Promise.allSettled(
-        (subs ?? []).map((sub) =>
-            webpush
-                .sendNotification(
-                    { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
-                    JSON.stringify({ title, body, url })
-                )
-                .then(() => {
-                    console.log(`push OK -> subscription ${sub.id}`);
-                })
-                .catch(async (err: WebPushError) => {
-                    console.error(
-                        `push FAILED -> subscription ${sub.id}, status ${err.statusCode}, body: ${err.body}`
-                    );
-                    await removeExpiredSubscription(sub.id, err.statusCode);
-                })
-        )
-    );
 }

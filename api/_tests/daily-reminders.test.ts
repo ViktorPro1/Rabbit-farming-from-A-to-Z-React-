@@ -147,4 +147,60 @@ describe('daily-reminders', () => {
             expect(mocks.checkC).toHaveBeenCalled();
         });
     });
+
+    describe('несподівані виключення в перевірках', () => {
+        it('перевірка, що кинула виняток, не зупиняє наступні', async () => {
+            mocks.checkA.mockRejectedValue(new Error('network down'));
+            mocks.checkB.mockResolvedValue({ sent: 2 });
+            mocks.checkC.mockResolvedValue({ sent: 3 });
+            const res = await call(makeReq({ secret: 'cron-secret' }));
+            expect(mocks.checkB).toHaveBeenCalledWith('2026-11-21');
+            expect(mocks.checkC).toHaveBeenCalledWith('2026-11-21');
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toMatchObject({ sent: 5, date: '2026-11-21' });
+        });
+
+        it('додає назву проваленої перевірки до failedQueries', async () => {
+            async function checkBroken(): Promise<{ sent: number }> {
+                throw new Error('boom');
+            }
+            const checks = (await import('../_lib/reminders.js')).ALL_CHECKS;
+            checks.splice(1, 1, checkBroken);
+            const res = await call(makeReq({ secret: 'cron-secret' }));
+            expect(res.body).toMatchObject({ failedQueries: ['checkBroken'] });
+            checks.splice(1, 1, mocks.checkB);
+        });
+
+        it('для безіменної функції використовує порядковий номер', async () => {
+            const checks = (await import('../_lib/reminders.js')).ALL_CHECKS;
+            const anonymous = [async (): Promise<{ sent: number }> => { throw new Error('boom'); }][0];
+            checks.splice(2, 1, anonymous);
+            const res = await call(makeReq({ secret: 'cron-secret' }));
+            expect(res.body).toMatchObject({ failedQueries: ['check#3'] });
+            checks.splice(2, 1, mocks.checkC);
+        });
+
+        it('пише причину збою в лог', async () => {
+            const error = new Error('network down');
+            mocks.checkA.mockRejectedValue(error);
+            await call(makeReq({ secret: 'cron-secret' }));
+            expect(console.error).toHaveBeenCalledWith(expect.stringContaining('daily-reminders'), error);
+        });
+
+        it('збій і помилка запиту разом потрапляють в один список', async () => {
+            mocks.checkA.mockRejectedValue(new Error('boom'));
+            mocks.checkB.mockResolvedValue({ sent: 0, error: 'weighings' });
+            const res = await call(makeReq({ secret: 'cron-secret' }));
+            const failed = (res.body as { failedQueries: string[] }).failedQueries;
+            expect(failed).toHaveLength(2);
+            expect(failed).toContain('weighings');
+        });
+
+        it('якщо всі перевірки впали, відповідь усе одно 200 (cron не повторює розсилку)', async () => {
+            for (const m of [mocks.checkA, mocks.checkB, mocks.checkC]) m.mockRejectedValue(new Error('x'));
+            const res = await call(makeReq({ secret: 'cron-secret' }));
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toMatchObject({ sent: 0 });
+        });
+    });
 });
