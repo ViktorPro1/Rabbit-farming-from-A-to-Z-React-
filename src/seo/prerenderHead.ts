@@ -3,6 +3,9 @@ import { pageMeta, BASE_URL } from "./pageMeta";
 const SITE_NAME = "Кролівництво від А до Я";
 const COMMUNITY_URL = "https://t.me/rabbit_farming_from_a_to_z";
 
+// JSON для <script type="application/ld+json">: "<" екрануємо, щоб текст не міг закрити тег
+const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
+
 // Формат, який очікує vite-prerender-plugin у полі `head` результату prerender().
 export interface HeadElement {
     type: string;
@@ -59,6 +62,7 @@ export function buildPrerenderHead(url: string): {
                 headline: meta.title,
                 description: meta.description,
                 url: canonical,
+                image: [`${BASE_URL}/og-image.webp`],
                 inLanguage: "uk-UA",
                 author: {
                     "@type": "Organization",
@@ -87,7 +91,22 @@ export function buildPrerenderHead(url: string): {
             type: "script",
             props: { type: "application/ld+json", id: "page-schema" },
             // "<" екрануємо, щоб текст усередині JSON не міг закрити тег <script>
-            children: JSON.stringify(pageSchema).replace(/</g, "\\u003c"),
+            children: ld(pageSchema),
+        });
+    }
+
+    if (own && path !== "/") {
+        elements.add({
+            type: "script",
+            props: { type: "application/ld+json", id: "breadcrumb-schema" },
+            children: ld({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                    { "@type": "ListItem", position: 1, name: "Головна", item: `${BASE_URL}/` },
+                    { "@type": "ListItem", position: 2, name: meta.title, item: canonical },
+                ],
+            }),
         });
     }
 

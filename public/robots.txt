@@ -65,3 +65,5 @@ User-agent: Bytespider
 Allow: /
 
 Sitemap: https://rabbit-farming-from-a-to-z-react.vercel.app/sitemap.xml
+
+Agentmap: https://rabbit-farming-from-a-to-z-react.vercel.app/.well-known/ard.json
