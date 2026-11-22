@@ -282,6 +282,21 @@ describe("Admin: перевірка прав", () => {
     expect(await screen.findByText("Доступ заборонено.")).toBeInTheDocument();
   });
 
+  it("звичайний користувач не бачить блок розсилки сповіщень", async () => {
+    setupSupabase({ admin: { data: null, error: null } });
+    renderAdmin();
+    await screen.findByText("Доступ заборонено.");
+    expect(screen.queryByText(/Розсилка push-сповіщень/)).not.toBeInTheDocument();
+  });
+
+  it("адміністратор бачить блок розсилки сповіщень", async () => {
+    setupSupabase({});
+    renderAdmin();
+    expect(
+      await screen.findByText(/Розсилка push-сповіщень/),
+    ).toBeInTheDocument();
+  });
+
   it("технічна помилка перевірки не видається за 'Доступ заборонено'", async () => {
     setupSupabase({ admin: { data: null, error: { message: "boom" } } });
     renderAdmin();

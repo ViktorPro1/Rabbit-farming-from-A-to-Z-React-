@@ -22,6 +22,7 @@ import { LeadsSection } from "./components/LeadsSection";
 import { NpsSection } from "./components/NpsSection";
 import { DeactivatedUsersSection } from "./components/DeactivatedUsersSection";
 import { DocsSection } from "./components/DocsSection";
+import { PushBroadcastSection } from "./components/PushBroadcastSection";
 import { BackendStatsSection } from "./components/BackendStatsSection";
 import { InviteCodesSection } from "./components/InviteCodesSection";
 import { RegisteredUsersSection } from "./components/RegisteredUsersSection";
@@ -644,6 +645,7 @@ export default function Admin({ session }: Props) {
         onAdd={handleAdd}
         onDelete={handleDelete}
       />
+      <PushBroadcastSection accessToken={session.access_token} />
       <DocsSection />
     </div>
   );

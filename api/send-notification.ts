@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabase, webpush, WebPushError, removeExpiredSubscription } from './_lib/push.js';
 import { isAuthorized } from './_lib/auth.js';
+import { isAdminRequest } from './_lib/admin-auth.js';
 
 const MAX_TITLE_LENGTH = 100;
 const MAX_BODY_LENGTH = 500;
@@ -58,7 +59,11 @@ function validateBody(raw: unknown): Validated {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') return res.status(405).end();
 
-    if (!isAuthorized(req, 'x-push-secret', process.env.PUSH_SEND_SECRET)) return res.status(401).end();
+    // Дозволено двом: власнику з секретним ключем (curl, Postman) і адміністратору,
+    // який увійшов на сайті (блок розсилки в адмінці). Ключ у браузер не потрапляє.
+    const allowed =
+        isAuthorized(req, 'x-push-secret', process.env.PUSH_SEND_SECRET) || (await isAdminRequest(req));
+    if (!allowed) return res.status(401).end();
 
     const parsed = validateBody(req.body);
     if (!parsed.ok) return res.status(400).json({ error: parsed.error });
@@ -84,7 +89,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             )
         );
 
-        res.status(200).json({ sent: results.filter((r) => r.status === 'fulfilled').length });
+        res.status(200).json({
+            sent: results.filter((r) => r.status === 'fulfilled').length,
+            total: results.length,
+        });
     } catch (err) {
         console.error('[send-notification] unexpected error:', err);
         res.status(500).json({ error: 'Internal error' });

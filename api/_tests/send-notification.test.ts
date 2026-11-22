@@ -10,6 +10,7 @@ const mocks = vi.hoisted(() => ({
     eq: vi.fn(),
     sendNotification: vi.fn(),
     removeExpiredSubscription: vi.fn(),
+    isAdminRequest: vi.fn(),
     state: { result: { data: [], error: null } as { data: unknown; error: { message: string } | null } },
 }));
 
@@ -43,6 +44,8 @@ vi.mock('../_lib/push.js', () => ({
     WebPushError: class WebPushError extends Error {},
     removeExpiredSubscription: mocks.removeExpiredSubscription,
 }));
+
+vi.mock('../_lib/admin-auth.js', () => ({ isAdminRequest: mocks.isAdminRequest }));
 
 import handler from '../send-notification';
 
@@ -100,6 +103,7 @@ describe('send-notification', () => {
         mocks.state.result = { data: [sub('s1'), sub('s2')], error: null };
         mocks.sendNotification.mockResolvedValue(undefined);
         mocks.removeExpiredSubscription.mockResolvedValue(undefined);
+        mocks.isAdminRequest.mockResolvedValue(false);
     });
 
     afterEach(() => {
@@ -121,6 +125,56 @@ describe('send-notification', () => {
             expect((await call(validReq())).statusCode).toBe(401);
             expect(mocks.select).not.toHaveBeenCalled();
             expect(mocks.sendNotification).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('доступ адміністратора з адмінки', () => {
+        const adminReq = (body: unknown = payload) =>
+            ({
+                method: 'POST',
+                headers: { authorization: 'Bearer admin-token' },
+                body,
+            }) as unknown as VercelRequest;
+
+        it('адміністратор без секретного ключа може надсилати', async () => {
+            mocks.isAdminRequest.mockResolvedValue(true);
+            const res = await call(adminReq());
+            expect(res.statusCode).toBe(200);
+            expect(mocks.sendNotification).toHaveBeenCalledTimes(2);
+        });
+
+        it('передає запит у перевірку адміна', async () => {
+            mocks.isAdminRequest.mockResolvedValue(true);
+            const req = adminReq();
+            await call(req);
+            expect(mocks.isAdminRequest).toHaveBeenCalledWith(req);
+        });
+
+        it('не адміністратор без секретного ключа отримує 401 і нічого не надсилається', async () => {
+            mocks.isAdminRequest.mockResolvedValue(false);
+            const res = await call(adminReq());
+            expect(res.statusCode).toBe(401);
+            expect(mocks.select).not.toHaveBeenCalled();
+            expect(mocks.sendNotification).not.toHaveBeenCalled();
+        });
+
+        it('секретний ключ працює і тоді, коли перевірка адміна каже «ні»', async () => {
+            mocks.isAdminRequest.mockResolvedValue(false);
+            const res = await call(validReq());
+            expect(res.statusCode).toBe(200);
+        });
+
+        it('адміністратор теж проходить перевірку полів: без заголовка 400', async () => {
+            mocks.isAdminRequest.mockResolvedValue(true);
+            const res = await call(adminReq({ body: 'Текст' }));
+            expect(res.statusCode).toBe(400);
+            expect(mocks.sendNotification).not.toHaveBeenCalled();
+        });
+
+        it('адміністратор не обходить перевірку посилання', async () => {
+            mocks.isAdminRequest.mockResolvedValue(true);
+            const res = await call(adminReq({ ...payload, url: 'javascript:alert(1)' }));
+            expect(res.statusCode).toBe(400);
         });
     });
 
@@ -160,7 +214,7 @@ describe('send-notification', () => {
         it('відповідає 200 і рахує успішно доставлені сповіщення', async () => {
             const res = await call(validReq());
             expect(res.statusCode).toBe(200);
-            expect(res.body).toEqual({ sent: 2 });
+            expect(res.body).toEqual({ sent: 2, total: 2 });
         });
 
         it('невдале сповіщення не зупиняє інші і не рахується в sent', async () => {
@@ -169,7 +223,7 @@ describe('send-notification', () => {
                 .mockResolvedValueOnce(undefined);
             const res = await call(validReq());
             expect(res.statusCode).toBe(200);
-            expect(res.body).toEqual({ sent: 1 });
+            expect(res.body).toEqual({ sent: 1, total: 2 });
             expect(mocks.sendNotification).toHaveBeenCalledTimes(2);
         });
 
@@ -189,9 +243,9 @@ describe('send-notification', () => {
 
         it('повертає sent: 0, коли підписок немає або data = null', async () => {
             mocks.state.result = { data: [], error: null };
-            expect((await call(validReq())).body).toEqual({ sent: 0 });
+            expect((await call(validReq())).body).toEqual({ sent: 0, total: 0 });
             mocks.state.result = { data: null, error: null };
-            expect((await call(validReq())).body).toEqual({ sent: 0 });
+            expect((await call(validReq())).body).toEqual({ sent: 0, total: 0 });
             expect(mocks.sendNotification).not.toHaveBeenCalled();
         });
 
