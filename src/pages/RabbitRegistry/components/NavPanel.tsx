@@ -128,6 +128,12 @@ export default function NavPanel({
                 📥 {exporting ? "Формую файл..." : "Експорт CSV"}
               </button>
               {exportError && <p className="registry-error">{exportError}</p>}
+              <button
+                className="registry-archive-link"
+                onClick={() => navigate("/backup")}
+              >
+                💾 Резервна копія
+              </button>
               <button className="registry-help-btn" onClick={onOpenHelp}>
                 ? Довідка
               </button>

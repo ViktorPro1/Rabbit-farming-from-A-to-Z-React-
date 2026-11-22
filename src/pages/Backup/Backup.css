@@ -1,0 +1,235 @@
+.backup-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px 56px;
+}
+
+.backup-back {
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  font: inherit;
+  font-weight: 600;
+  color: #4f8a1e;
+  cursor: pointer;
+}
+
+.backup-hero {
+  margin: 8px 0 28px;
+  padding-left: 16px;
+  border-left: 4px solid #6aa84f;
+}
+
+.backup-title {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.backup-lead {
+  margin: 0;
+  line-height: 1.55;
+  opacity: 0.8;
+}
+
+/* Три кроки з номерами в колах */
+.backup-steps {
+  list-style: none;
+  counter-reset: step;
+  margin: 0 0 28px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.backup-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 14px 16px 14px 62px;
+  line-height: 1.45;
+  border: 1px solid rgba(127, 127, 127, 0.28);
+  border-radius: 14px;
+  background: rgba(127, 127, 127, 0.07);
+}
+
+.backup-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #5a9a24, #2d5a0e);
+}
+
+/* Блок з головною кнопкою */
+.backup-action {
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(106, 168, 79, 0.45);
+  background: linear-gradient(160deg,
+      rgba(106, 168, 79, 0.16),
+      rgba(106, 168, 79, 0.04));
+}
+
+.backup-save {
+  width: 100%;
+  padding: 16px 20px;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #fff;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4f8a1e, #2d5a0e);
+  box-shadow: 0 6px 16px rgba(45, 90, 14, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.backup-save:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 9px 20px rgba(45, 90, 14, 0.42);
+}
+
+.backup-save:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.backup-save:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+.backup-msg {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  line-height: 1.45;
+}
+
+.backup-msg--ok {
+  border-left: 4px solid #5a9a24;
+  background: rgba(106, 168, 79, 0.14);
+}
+
+.backup-msg--error {
+  border-left: 4px solid #c0392b;
+  background: rgba(192, 57, 43, 0.14);
+}
+
+.backup-counts {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+.backup-counts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(127, 127, 127, 0.3);
+}
+
+.backup-counts li:last-child {
+  border-bottom: 0;
+}
+
+.backup-note {
+  margin: 20px 4px 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* ── Відновлення ── */
+.backup-h2 {
+  margin: 0 0 14px;
+  font-size: 1.2rem;
+  letter-spacing: -0.005em;
+}
+
+.backup-h2--spaced {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px dashed rgba(127, 127, 127, 0.35);
+}
+
+.backup-steps code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  background: rgba(127, 127, 127, 0.18);
+}
+
+/* Вибір файлу: справжній input прихований, label виглядає як кнопка */
+.backup-pick {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #4f8a1e;
+  cursor: pointer;
+  border: 2px dashed #6aa84f;
+  border-radius: 14px;
+  background: rgba(106, 168, 79, 0.08);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.backup-pick:hover {
+  background: rgba(106, 168, 79, 0.16);
+  transform: translateY(-1px);
+}
+
+.backup-pick input {
+  display: none;
+}
+
+.backup-pick--disabled {
+  opacity: 0.6;
+  cursor: progress;
+  pointer-events: none;
+}
+
+.backup-msg--info {
+  border-left: 4px solid #3b82a0;
+  background: rgba(59, 130, 160, 0.14);
+}
+
+.backup-meta {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.backup-save--spaced {
+  margin-top: 16px;
+}
+
+.backup-link-btn {
+  margin-top: 14px;
+  padding: 10px 16px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4f8a1e, #2d5a0e);
+}

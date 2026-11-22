@@ -54,8 +54,8 @@ const BreedingPlan = lazy(
 const NumberingPage = lazy(
   () => import("../../pages/NumberingPage/NumberingPage"),
 );
-// Додано: внутрішній чат для зареєстрованих користувачів
 const Chat = lazy(() => import("../../pages/Chat/Chat"));
+const Backup = lazy(() => import("../../pages/Backup/Backup"));
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -341,11 +341,26 @@ export function getCabinetRoutes(session: Session | null) {
           )
         }
       />
-      {/* Додано: чат. Тільки для залогінених, як і решта кабінету; термін
-          доступу перевіряє AccessGuard усередині withCabinetBoundary. */}
       <Route
         path="/chat"
         element={session ? withCabinetBoundary("Chat", <Chat />) : <Auth />}
+      />
+      <Route
+        path="/backup"
+        element={
+          session ? (
+            <ErrorBoundary
+              boundaryName="Backup"
+              fallbackTitle="Сталася помилка на сторінці «Резервна копія». Спробуйте перезавантажити."
+            >
+              <RequireOnline>
+                <Backup session={session} />
+              </RequireOnline>
+            </ErrorBoundary>
+          ) : (
+            <Auth />
+          )
+        }
       />
     </>
   );
