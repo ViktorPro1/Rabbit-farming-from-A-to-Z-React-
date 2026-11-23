@@ -1,12 +1,58 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+// ЗМІНА: імпорт клієнта Supabase для перевірки сесії.
+// ВАЖЛИВО: якщо у вашому проєкті клієнт лежить в іншому місці — виправте шлях.
+import { supabase } from "../../lib/supabase";
 import "./CopyProtection.css";
 
 const CopyProtection = () => {
   const [showModal, setShowModal] = useState(false);
   const [copiedText, setCopiedText] = useState("");
 
+  // ЗМІНА: ref з ознакою "користувач увійшов у кабінет".
+  // Ref, а не state, щоб обробники подій завжди бачили актуальне значення
+  // і слухачі не перереєстровувалися при кожній зміні сесії.
+  // Початкове значення true: поки сесія перевіряється, модалка не спливає
+  // у зареєстрованих користувачів. Якщо перевірка завершилась без сесії —
+  // ставимо false, і захист вмикається.
+  const isLoggedInRef = useRef(true);
+
+  // ЗМІНА: відстеження сесії (початкова перевірка + вхід/вихід у реальному часі).
+  useEffect(() => {
+    let active = true;
+
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!active) return;
+        isLoggedInRef.current = !!data.session;
+      })
+      .catch(() => {
+        // Якщо не вдалося перевірити сесію — вважаємо користувача гостем.
+        if (active) isLoggedInRef.current = false;
+      });
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        isLoggedInRef.current = !!session;
+        // Якщо користувач увійшов, поки модалка відкрита — закриваємо її.
+        if (session) {
+          setShowModal(false);
+          setCopiedText("");
+        }
+      },
+    );
+
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
   useEffect(() => {
     const handleCopy = (e: ClipboardEvent) => {
+      // ЗМІНА: для зареєстрованих копіювання працює як звичайно, без модалки.
+      if (isLoggedInRef.current) return;
+
       const selected = window.getSelection()?.toString();
       if (selected && selected.trim().length > 0) {
         // Ми перехоплюємо подію копіювання, щоб показати модалку
@@ -17,6 +63,9 @@ const CopyProtection = () => {
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // ЗМІНА: те саме для Ctrl+C.
+      if (isLoggedInRef.current) return;
+
       if (e.ctrlKey && e.key.toLowerCase() === "c") {
         const selected = window.getSelection()?.toString();
         if (selected && selected.trim().length > 0) {
