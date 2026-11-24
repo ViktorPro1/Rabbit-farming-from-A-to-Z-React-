@@ -73,6 +73,7 @@ export const PATH_TO_SECTION: Record<string, string> = {
   "/telegony": "Розведення",
   "/buck-management": "Розведення",
   "/half-siblings": "Розведення",
+  "/dates-calculator": "Розведення",
   "/verified-crosses": "Помісь",
   "/meat-crosses": "Помісь",
   "/outdoor-crosses": "Помісь",

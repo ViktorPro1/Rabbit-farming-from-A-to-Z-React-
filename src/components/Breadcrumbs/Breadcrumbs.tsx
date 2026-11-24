@@ -104,6 +104,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/fostering": "Фостеринг",
   "/half-siblings": "Напівсибси",
   "/conveyor": "Конвеєр окролів",
+  "/dates-calculator": "Калькулятор дат розведення",
 
   // ПОМІСЬ
 
@@ -280,6 +281,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/numbering": "Нумерація",
   "/chat": "Чат",
   "/backup": "Резервна копія",
+  "/grain-calculator": "Калькулятор кормів",
 
   // АДМІН
   "/admin": "Адмін",

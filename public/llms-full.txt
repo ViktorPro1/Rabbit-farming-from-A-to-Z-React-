@@ -8,8 +8,8 @@
 **Content language**: Ukrainian (Українська)
 **Interface language**: Ukrainian
 **Audience**: Ukrainian-speaking rabbit keepers — beginners to professionals
-**Last updated**: 2026-11-22
-**Total pages**: 202
+**Last updated**: 2026-11-24
+**Total pages**: 203
 
 ---
 
@@ -17,7 +17,7 @@
 
 - **Framework**: React 19.2.4 + TypeScript 5.9.3
 - **Build tool**: Vite 7.3.6
-- **Routing**: React Router DOM 7.18.1 (lazy-loaded pages)
+- **Routing**: React Router DOM 7.18.6 (lazy-loaded pages)
 - **Backend**: Supabase (Auth, PostgreSQL, Realtime)
 - **PWA**: vite-plugin-pwa 1.3.0 — offline support, auto-update
 - **SEO**: React Helmet Async — meta tags, Open Graph, Schema.org
@@ -358,6 +358,11 @@ Keywords: напівсибси у кролів, що таке напівсибс
 **GET /conveyor** — Конвеєр окролів
 Розрахунок графіка злучок для рівномірного виходу кролячого м'яса цілий рік: оберіть режим (по одній кроличці чи групами), кількість тварин і дату старту — система розрахує дати злучок, окролів, відлучення та забою.
 Keywords: конвеєр окролів, принцип безперервного виробництва, розрахунок графіка, графік по групах, гр. 1, гр. 2, гр. 3, прогноз виходу молодняку на забій, практичні поради, коли обирати "по одній", коли обирати "групами", це орієнтир, не жорсткий план
+<!-- auto-generated: delete this line to keep the entry as is -->
+
+**GET /dates-calculator** — Кролівництво від А до Я — облік, догляд та лікування кролів
+Сучасна платформа для кролівників: облік поголів'я, годівля, вакцинація, лікування, розведення та ведення домашнього господарства крок за кроком.
+Keywords: кролівництво від а до я — облік, догляд та лікування кролів, калькулятор дат розведення, кроличка (самка), кролик (самець)
 <!-- auto-generated: delete this line to keep the entry as is -->
 
 ---
@@ -1070,6 +1075,6 @@ Reproduction without attribution is prohibited.
 
 ---
 
-*Generated: 2026-11-22*
+*Generated: 2026-11-24*
 *Format: llms-full.txt — complete extended LLM profile*
-*Covers: 202 pages, all routes, all keywords, all groups*
+*Covers: 203 pages, all routes, all keywords, all groups*

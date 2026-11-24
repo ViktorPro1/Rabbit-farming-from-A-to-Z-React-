@@ -12,7 +12,6 @@ import { useAvatarUrl } from "../../hooks/useAvatarUrl";
 import { useChatUnread } from "../../hooks/useChatUnread";
 import ChatUnreadBadge from "../ChatUnreadBadge/ChatUnreadBadge";
 import {
-  Calculator,
   Users,
   Bell,
   CreditCard,
@@ -212,10 +211,6 @@ const Header = ({ session }: Props) => {
 
             {showMore && (
               <div className="header-more-dropdown">
-                <NavLink to="/calculator" onClick={() => setShowMore(false)}>
-                  <Calculator size={16} />
-                  Калькулятор
-                </NavLink>
                 <NavLink to="/community" onClick={() => setShowMore(false)}>
                   <Users size={16} />
                   Спільноти
@@ -428,10 +423,6 @@ const Header = ({ session }: Props) => {
         )}
 
         <div className="drawer-links">
-          <NavLink to="/calculator" onClick={closeMenu}>
-            <Calculator size={18} />
-            Калькулятор
-          </NavLink>
           <NavLink to="/community" onClick={closeMenu}>
             <Users size={18} />
             Спільноти
@@ -472,16 +463,16 @@ const Header = ({ session }: Props) => {
           </NavLink>
           {session ? (
             <>
-              <NavLink to="/registry" onClick={closeMenu}>
-                <Rabbit size={18} />
-                Мої кролики
-              </NavLink>
               {/* Додано: пункт "Чат" у мобільному меню (тільки для залогінених,
                   бо знаходиться всередині гілки session) */}
               <NavLink to="/chat" onClick={closeMenu}>
                 <MessagesSquare size={18} />
                 Чат
                 <ChatUnreadBadge count={chatUnread} />
+              </NavLink>
+              <NavLink to="/registry" onClick={closeMenu}>
+                <Rabbit size={18} />
+                Мої кролики
               </NavLink>
               {isAdmin && (
                 <NavLink to="/admin" onClick={closeMenu}>

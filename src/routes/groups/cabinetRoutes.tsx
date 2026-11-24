@@ -28,6 +28,9 @@ const DisinfectionLog = lazy(
   () => import("../../pages/DisinfectionLog/DisinfectionLog"),
 );
 const CageSearch = lazy(() => import("../../pages/CageSearch/CageSearch"));
+const GrainCalculator = lazy(
+  () => import("../../pages/GrainCalculator/GrainCalculator"),
+);
 const GrainRecipesHistory = lazy(
   () => import("../../pages/GrainRecipesHistory/GrainRecipesHistory"),
 );
@@ -212,6 +215,19 @@ export function getCabinetRoutes(session: Session | null) {
         element={
           session ? (
             withCabinetBoundary("CageSearch", <CageSearch session={session} />)
+          ) : (
+            <Auth />
+          )
+        }
+      />
+      <Route
+        path="/grain-calculator"
+        element={
+          session ? (
+            withCabinetBoundary(
+              "GrainCalculator",
+              <GrainCalculator session={session} />,
+            )
           ) : (
             <Auth />
           )

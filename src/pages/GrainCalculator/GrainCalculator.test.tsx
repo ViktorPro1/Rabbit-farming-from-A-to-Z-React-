@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
-import Calculator from "./Calculator";
+import GrainCalculator from "./GrainCalculator";
 import { supabase } from "../../lib/supabase";
 import { logError } from "../../lib/logError";
 
@@ -16,16 +16,12 @@ vi.mock("../../lib/supabase", () => ({
 
 vi.mock("../../lib/logError", () => ({ logError: vi.fn() }));
 
-vi.mock("../../components/ShareButton/ShareButton", () => ({
-  default: () => null,
-}));
-
 const session = { user: { id: "user-1" } } as Session;
 
 function setup() {
   return render(
     <MemoryRouter>
-      <Calculator session={session} />
+      <GrainCalculator session={session} />
     </MemoryRouter>,
   );
 }
@@ -69,25 +65,17 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-describe("Calculator: вкладки", () => {
-  it("за замовчуванням відкрита зернова суміш", () => {
+describe("GrainCalculator: навігація", () => {
+  it("кнопка «Мої кролики» веде в реєстр", () => {
     setup();
-    expect(screen.getByText("Оберіть зернові")).toBeInTheDocument();
-    expect(screen.queryByText("🐰 Кроличка (самка)")).not.toBeInTheDocument();
-  });
-
-  it("перемикається на дати розведення і назад", () => {
-    setup();
-    fireEvent.click(screen.getByRole("button", { name: /Дати розведення/ }));
-    expect(screen.getByText("🐰 Кроличка (самка)")).toBeInTheDocument();
-    expect(screen.queryByText("Оберіть зернові")).not.toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: /Зернова суміш/ }));
-    expect(screen.getByText("Оберіть зернові")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Мої кролики" })).toHaveAttribute(
+      "href",
+      "/registry",
+    );
   });
 });
 
-describe("Calculator: зернова суміш, племінне стадо", () => {
+describe("GrainCalculator: зернова суміш, племінне стадо", () => {
   it("за замовчуванням вибрані овес, ячмінь і пшениця", () => {
     setup();
     expect(checkbox(/Овес/)).toBeChecked();
@@ -146,7 +134,7 @@ describe("Calculator: зернова суміш, племінне стадо", (
   });
 });
 
-describe("Calculator: перевірка введених даних", () => {
+describe("GrainCalculator: перевірка введених даних", () => {
   it("нульова вага: помилка і немає результату", () => {
     const { container } = setup();
     setWeight("0");
@@ -205,7 +193,7 @@ describe("Calculator: перевірка введених даних", () => {
   });
 });
 
-describe("Calculator: висівка", () => {
+describe("GrainCalculator: висівка", () => {
   it("забирає третину кілограмів у пшениці й додає окремим рядком", () => {
     const { container } = setup();
     fireEvent.click(checkbox(/Висівка/));
@@ -235,7 +223,7 @@ describe("Calculator: висівка", () => {
   });
 });
 
-describe("Calculator: макуха", () => {
+describe("GrainCalculator: макуха", () => {
   it("одна макуха займає 10% суміші, решта ділиться між зерновими", () => {
     const { container } = setup();
     fireEvent.click(checkbox(/Соєва макуха/));
@@ -283,7 +271,7 @@ describe("Calculator: макуха", () => {
   });
 });
 
-describe("Calculator: відгодівля", () => {
+describe("GrainCalculator: відгодівля", () => {
   function openFattening() {
     fireEvent.click(screen.getByRole("button", { name: /Відгодівля/ }));
   }
@@ -338,7 +326,7 @@ describe("Calculator: відгодівля", () => {
   });
 });
 
-describe("Calculator: добавки для гранулятора", () => {
+describe("GrainCalculator: добавки для гранулятора", () => {
   function withGranulator() {
     const view = setup();
     calcGrain();
@@ -399,7 +387,7 @@ describe("Calculator: добавки для гранулятора", () => {
   });
 });
 
-describe("Calculator: збереження рецепта", () => {
+describe("GrainCalculator: збереження рецепта", () => {
   const insert = vi.fn();
 
   beforeEach(() => {
@@ -527,7 +515,7 @@ describe("Calculator: збереження рецепта", () => {
   });
 });
 
-describe("Calculator: довідка по зернових", () => {
+describe("GrainCalculator: довідка по зернових", () => {
   it("таблиця схована, поки не натиснути заголовок", () => {
     setup();
     expect(screen.queryByRole("table")).not.toBeInTheDocument();
@@ -540,179 +528,5 @@ describe("Calculator: довідка по зернових", () => {
       screen.getByRole("button", { name: /Довідка по зернових/ }),
     );
     expect(screen.queryByRole("table")).not.toBeInTheDocument();
-  });
-});
-
-describe("Calculator: дати для самки", () => {
-  function openDates() {
-    fireEvent.click(screen.getByRole("button", { name: /Дати розведення/ }));
-  }
-
-  const choose = (label: string, value: string) =>
-    fireEvent.change(screen.getByLabelText(label), { target: { value } });
-
-  const setFemaleDate = (id: string, value: string) =>
-    fireEvent.change(document.getElementById(id) as HTMLElement, {
-      target: { value },
-    });
-
-  const calcFemale = () =>
-    fireEvent.click(screen.getByRole("button", { name: "Розрахувати дати" }));
-
-  /** Значення з рядка результату за його підписом. */
-  const rowValue = (label: string) => {
-    const row = screen.getByText(label).closest(".calc-row");
-    return row?.querySelector("strong")?.textContent;
-  };
-
-  it("без вибору способу розрахунку просить його обрати", () => {
-    setup();
-    openDates();
-    calcFemale();
-    expect(screen.getByText("Оберіть спосіб розрахунку.")).toBeInTheDocument();
-  });
-
-  it("поле дати з'являється тільки після вибору способу", () => {
-    setup();
-    openDates();
-    expect(document.getElementById("calc-female-date-birth")).toBeNull();
-    expect(document.getElementById("calc-female-date-mating")).toBeNull();
-    choose("Обрати спосіб розрахунку:", "birth");
-    expect(document.getElementById("calc-female-date-birth")).not.toBeNull();
-    choose("Обрати спосіб розрахунку:", "mating");
-    expect(screen.getByLabelText("Дата злучки:")).toBeInTheDocument();
-  });
-
-  it("без дати просить її ввести", () => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "birth");
-    calcFemale();
-    expect(screen.getByText("Введіть дату.")).toBeInTheDocument();
-  });
-
-  it("від народження, середня порода, екстенсивна схема", () => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "birth");
-    setFemaleDate("calc-female-date-birth", "2026-01-01");
-    calcFemale();
-    // Готова через 135 днів, контроль +7, окріл +31, відлучення +60, наступна +14
-    expect(rowValue("Дата готовності до першої злучки:")).toBe("16.05.2026");
-    expect(rowValue("Контрольна злучка:")).toBe("23.05.2026");
-    expect(rowValue("Очікувана дата окролу:")).toBe("16.06.2026");
-    expect(rowValue("Дата відлучення малюків:")).toBe("15.08.2026");
-    expect(rowValue("Наступна злучка після відлучення:")).toBe("29.08.2026");
-  });
-
-  it.each([
-    ["small", "01.05.2026"],
-    ["medium_large", "16.05.2026"],
-    ["giant", "30.07.2026"],
-  ])("розмір породи %s: готовність до злучки %s", (size, expected) => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "birth");
-    choose("Розмір породи:", size);
-    setFemaleDate("calc-female-date-birth", "2026-01-01");
-    calcFemale();
-    expect(rowValue("Дата готовності до першої злучки:")).toBe(expected);
-  });
-
-  it.each([
-    ["intensive", "14.07.2026", "18.06.2026"],
-    ["semi_intensive", "31.07.2026", "28.06.2026"],
-    ["extensive", "15.08.2026", "29.08.2026"],
-  ])("схема %s: відлучення %s, наступна злучка %s", (scheme, weaning, next) => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "birth");
-    choose("Схема злучування:", scheme);
-    setFemaleDate("calc-female-date-birth", "2026-01-01");
-    calcFemale();
-    // Окріл у всіх схем 16.06.2026
-    expect(rowValue("Очікувана дата окролу:")).toBe("16.06.2026");
-    expect(rowValue("Дата відлучення малюків:")).toBe(weaning);
-    expect(rowValue("Наступна злучка після відлучення:")).toBe(next);
-  });
-
-  it("від дати злучки: без рядка готовності, але з попередженням про вік", () => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "mating");
-    setFemaleDate("calc-female-date-mating", "2026-03-01");
-    calcFemale();
-    // Перехід на літній час 29 березня не зсуває дату на день
-    expect(rowValue("Контрольна злучка:")).toBe("08.03.2026");
-    expect(rowValue("Очікувана дата окролу:")).toBe("01.04.2026");
-    expect(rowValue("Дата відлучення малюків:")).toBe("31.05.2026");
-    expect(rowValue("Наступна злучка після відлучення:")).toBe("14.06.2026");
-    expect(screen.queryByText("Дата готовності до першої злучки:")).toBeNull();
-    expect(
-      screen.getByText(/Мінімальний вік для злучки/, { exact: false }),
-    ).toHaveTextContent("5 міс.");
-  });
-
-  it.each([
-    ["small", "4 міс."],
-    ["medium_large", "5 міс."],
-    ["giant", "7 міс."],
-  ])("мінімальний вік для породи %s: %s", (size, months) => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "mating");
-    choose("Розмір породи:", size);
-    setFemaleDate("calc-female-date-mating", "2026-03-01");
-    calcFemale();
-    expect(screen.getByText(/Мінімальний вік для злучки/)).toHaveTextContent(
-      months,
-    );
-  });
-
-  it("зміна способу розрахунку прибирає старий результат", () => {
-    setup();
-    openDates();
-    choose("Обрати спосіб розрахунку:", "birth");
-    setFemaleDate("calc-female-date-birth", "2026-01-01");
-    calcFemale();
-    expect(screen.getByText("Контрольна злучка:")).toBeInTheDocument();
-    choose("Обрати спосіб розрахунку:", "mating");
-    expect(screen.queryByText("Контрольна злучка:")).toBeNull();
-  });
-});
-
-describe("Calculator: дати для самця", () => {
-  function openDates() {
-    fireEvent.click(screen.getByRole("button", { name: /Дати розведення/ }));
-  }
-
-  const calcMale = () =>
-    fireEvent.click(
-      screen.getByRole("button", { name: "Розрахувати період спаровування" }),
-    );
-
-  it("без дати просить її ввести", () => {
-    setup();
-    openDates();
-    calcMale();
-    expect(screen.getByText("Введіть дату народження.")).toBeInTheDocument();
-  });
-
-  it("початок через 150 днів, кінець через 1095 днів", () => {
-    setup();
-    openDates();
-    const input = document.getElementById("calc-male-date") as HTMLElement;
-    fireEvent.change(input, { target: { value: "2026-01-01" } });
-    calcMale();
-    const start = screen
-      .getByText("Вік для початку спаровування:")
-      .closest(".calc-row");
-    const end = screen
-      .getByText("Рекомендований період до:")
-      .closest(".calc-row");
-    // 1 січня 2026 + 150 днів = 31 травня 2026
-    expect(start?.querySelector("strong")?.textContent).toBe("31.05.2026");
-    // + 1095 днів = 31 грудня 2028 (2028 високосний)
-    expect(end?.querySelector("strong")?.textContent).toBe("31.12.2028");
   });
 });

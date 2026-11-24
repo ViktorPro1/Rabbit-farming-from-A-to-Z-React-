@@ -47,6 +47,9 @@ const HalfSiblings = lazy(
   () => import("../../pages/HalfSiblings/HalfSiblings"),
 );
 const Conveyor = lazy(() => import("../../pages/Conveyor/Conveyor"));
+const DatesCalculator = lazy(
+  () => import("../../pages/DatesCalculator/DatesCalculator"),
+);
 
 /**
  * Розведення: окріл, парування, вагітність та пов'язані ускладнення.
@@ -75,5 +78,6 @@ export const breedingRoutes = (
     <Route path="/fostering" element={<Fostering />} />
     <Route path="/half-siblings" element={<HalfSiblings />} />
     <Route path="/conveyor" element={<Conveyor />} />
+    <Route path="/dates-calculator" element={<DatesCalculator />} />
   </>
 );

@@ -1,0 +1,825 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import "./GrainCalculator.css";
+import type { Session } from "@supabase/supabase-js";
+import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
+
+// ===== ЗЕРНОВА СУМІШ =====
+interface Grain {
+  id: string;
+  icon: string;
+  name: string;
+  note: string;
+  pct: number;
+  defaultOn: boolean;
+}
+
+const breedingGrains: Grain[] = [
+  {
+    id: "oat",
+    icon: "🌾",
+    name: "Овес",
+    note: "Основа — самки та самці",
+    pct: 40,
+    defaultOn: true,
+  },
+  {
+    id: "barley",
+    icon: "🌾",
+    name: "Ячмінь",
+    note: "Дробити або замочити",
+    pct: 56,
+    defaultOn: true,
+  },
+  {
+    id: "wheat",
+    icon: "🌾",
+    name: "Пшениця",
+    note: "До 30%, не більше",
+    pct: 33,
+    defaultOn: true,
+  },
+  {
+    id: "bran",
+    icon: "🟫",
+    name: "Висівка/Ґрис",
+    note: "Замінює ~33% пшениці, клітковина",
+    pct: 0,
+    defaultOn: false,
+  },
+  {
+    id: "corn",
+    icon: "🌽",
+    name: "Кукурудза",
+    note: "Небажано — знижує плідність",
+    pct: 11,
+    defaultOn: false,
+  },
+  {
+    id: "pea",
+    icon: "🟡",
+    name: "Горох",
+    note: "До 10%, тільки дроблений",
+    pct: 8,
+    defaultOn: false,
+  },
+  {
+    id: "rye",
+    icon: "🌾",
+    name: "Жито",
+    note: "До 10%, тільки в суміші",
+    pct: 8,
+    defaultOn: false,
+  },
+  {
+    id: "buck",
+    icon: "⚫",
+    name: "Гречка",
+    note: "До 10%, помірно",
+    pct: 8,
+    defaultOn: false,
+  },
+  {
+    id: "soy",
+    icon: "🟤",
+    name: "Соєва макуха",
+    note: "Білок 35–40%, до 10%",
+    pct: 5,
+    defaultOn: false,
+  },
+  {
+    id: "sunflower",
+    icon: "🌻",
+    name: "Соняшникова макуха",
+    note: "Білок 28–35%, до 10%",
+    pct: 5,
+    defaultOn: false,
+  },
+];
+
+const fatteningGrains: Grain[] = [
+  {
+    id: "barley",
+    icon: "🌾",
+    name: "Ячмінь",
+    note: "Основа, дробити",
+    pct: 40,
+    defaultOn: true,
+  },
+  {
+    id: "wheat",
+    icon: "🌾",
+    name: "Пшениця",
+    note: "Набір маси, до 20%",
+    pct: 20,
+    defaultOn: true,
+  },
+  {
+    id: "bran",
+    icon: "🟫",
+    name: "Висівка/Ґрис",
+    note: "Замінює ~33% пшениці, клітковина",
+    pct: 0,
+    defaultOn: false,
+  },
+  {
+    id: "corn",
+    icon: "🌽",
+    name: "Кукурудза",
+    note: "Від 4 міс., дробити",
+    pct: 15,
+    defaultOn: true,
+  },
+  {
+    id: "oat",
+    icon: "🌾",
+    name: "Овес",
+    note: "Легке травлення",
+    pct: 15,
+    defaultOn: true,
+  },
+  {
+    id: "pea",
+    icon: "🟡",
+    name: "Горох",
+    note: "Білок до 10%, дроблений",
+    pct: 10,
+    defaultOn: false,
+  },
+  {
+    id: "rye",
+    icon: "🌾",
+    name: "Жито",
+    note: "До 10%, тільки в суміші",
+    pct: 8,
+    defaultOn: false,
+  },
+  {
+    id: "buck",
+    icon: "⚫",
+    name: "Гречка",
+    note: "До 10%, помірно",
+    pct: 8,
+    defaultOn: false,
+  },
+  {
+    id: "soy",
+    icon: "🟤",
+    name: "Соєва макуха",
+    note: "Білок 35–40%, до 10%",
+    pct: 10,
+    defaultOn: false,
+  },
+  {
+    id: "sunflower",
+    icon: "🌻",
+    name: "Соняшникова макуха",
+    note: "Білок 28–35%, до 10%",
+    pct: 10,
+    defaultOn: false,
+  },
+];
+
+// Ідентифікатори макух — рахуються окремо від зернових
+const MAKUHA_IDS = ["soy", "sunflower"];
+const BRAN_ID = "bran";
+const BRAN_WHEAT_RATIO = 1 / 3; // висівка замінює 1/3 від кг пшениці
+
+const grainTable = [
+  {
+    name: "🌾 Овес",
+    breeding: "40%",
+    fattening: "15%",
+    note: "Основа для самок і самців. Не жиріє, добре засвоюється",
+  },
+  {
+    name: "🌾 Ячмінь",
+    breeding: "~56%",
+    fattening: "40%",
+    note: "Основне зерно в обох раціонах. Дробити або замочувати",
+  },
+  {
+    name: "🌾 Пшениця",
+    breeding: "~33%",
+    fattening: "20%",
+    note: "Для племінного більше — формує м'язово-кісткову основу. При надлишку — здуття",
+  },
+  {
+    name: "🟫 Висівка/Ґрис",
+    breeding: "до 10%",
+    fattening: "до 10%",
+    note: "Замінює ~33% пшениці. Клітковина, покращує травлення та зв'язку при гранулюванні",
+  },
+  {
+    name: "🌽 Кукурудза",
+    breeding: "до 11%",
+    fattening: "15%",
+    note: "Для племінного — небажана, знижує плідність. Для відгодівлі — дробити, від 4 міс.",
+  },
+  {
+    name: "🟡 Горох",
+    breeding: "до 8%",
+    fattening: "до 10%",
+    note: "Тільки дроблений або запарений. Додатковий білок",
+  },
+  {
+    name: "🌾 Жито",
+    breeding: "до 8%",
+    fattening: "до 8%",
+    note: "Тільки в суміші з іншими. Самостійно викликає розлади",
+  },
+  {
+    name: "⚫ Гречка",
+    breeding: "до 8%",
+    fattening: "до 8%",
+    note: "Різноманітність раціону. Польова в чорній оболонці — нормально, лузга дає клітковину",
+  },
+  {
+    name: "🟤 Соєва макуха",
+    breeding: "до 5%",
+    fattening: "до 10%",
+    note: "Термооброблена. Білок 35–40%. Рахується окремо від зернових",
+  },
+  {
+    name: "🌻 Соняшникова макуха",
+    breeding: "до 5%",
+    fattening: "до 10%",
+    note: "Білок 28–35%. Суха, без цвілі. Рахується окремо від зернових. Сумарно з соєвою — не більше 15%",
+  },
+];
+
+interface GrainResult {
+  icon: string;
+  name: string;
+  pct: number;
+  kg: number;
+}
+
+interface GranulatorAdditives {
+  lucerne: number;
+  salt: number;
+  premix: number;
+  waterMin: number;
+  waterMax: number;
+}
+
+// grainKg — вага зернової суміші. Люцерна (20%) рахується від зерна і
+// додається зверху. Сіль, премікс і вода рахуються від ВСІЄЇ маси гранули
+// (зерно + люцерна), бо відсоток внесення вказаний саме на неї.
+// Якщо люцерни немає (withLucerne = false) — від ваги зерна.
+function calcGranulatorAdditives(
+  grainKg: number,
+  withLucerne: boolean = true,
+): GranulatorAdditives {
+  const lucerne = withLucerne ? Math.round(grainKg * 0.2 * 10) / 10 : 0;
+  const totalKg = grainKg + lucerne;
+
+  return {
+    lucerne,
+    salt: Math.round(totalKg * 0.005 * 10000) / 10,
+    premix: Math.round(totalKg * 0.01 * 1000),
+    waterMin: Math.round(totalKg * 0.08 * 10) / 10,
+    waterMax: Math.round(totalKg * 0.12 * 10) / 10,
+  };
+}
+
+function calcGrains(
+  grains: Grain[],
+  selected: string[],
+  totalKg: number,
+): GrainResult[] {
+  const checked = grains.filter((g) => selected.includes(g.id));
+  if (!checked.length || totalKg <= 0) return [];
+
+  const roundHalf = (n: number) => Math.round(n * 2) / 2;
+
+  const hasBran = selected.includes(BRAN_ID);
+  const hasWheat = selected.includes("wheat");
+
+  // Розділяємо на зернові і макухи (без висівки — вона окрема логіка)
+  const grainItems = checked.filter(
+    (g) => !MAKUHA_IDS.includes(g.id) && g.id !== BRAN_ID,
+  );
+  const mealItems = checked.filter((g) => MAKUHA_IDS.includes(g.id));
+
+  // Макухи — фіксована сумарна частка 10% від totalKg, рівномірно між вибраними
+  const MAKUHA_TOTAL_PCT = 10;
+  const mealPctEach =
+    mealItems.length > 0 ? MAKUHA_TOTAL_PCT / mealItems.length : 0;
+  const mealPcts: Record<string, number> = {};
+  mealItems.forEach((g) => {
+    mealPcts[g.id] = mealPctEach;
+  });
+
+  const mealResults: GrainResult[] = mealItems.map((g) => ({
+    icon: g.icon,
+    name: g.name,
+    pct: mealPcts[g.id],
+    kg: roundHalf((totalKg * mealPcts[g.id]) / 100),
+  }));
+
+  const mealKg = mealResults.reduce((a, r) => a + r.kg, 0);
+
+  // Зернові ділять між собою решту ваги після макух
+  const grainKg = totalKg - mealKg;
+  const grainSum = grainItems.reduce((a, g) => a + g.pct, 0);
+
+  const grainResults: GrainResult[] = grainItems.map((g) => {
+    const kg = grainSum > 0 ? roundHalf((grainKg * g.pct) / grainSum) : 0;
+    const pct =
+      grainSum > 0 ? (g.pct / grainSum) * (grainKg / totalKg) * 100 : 0;
+    return { icon: g.icon, name: g.name, pct, kg };
+  });
+
+  // Коригуємо залишок через округлення — до найбільшого зернового
+  const sumGrainKg = grainResults.reduce((a, r) => a + r.kg, 0);
+  const diff = parseFloat((grainKg - sumGrainKg).toFixed(1));
+  if (diff !== 0 && grainResults.length > 0) {
+    const maxIdx = grainResults.reduce(
+      (bestIdx, r, i) => (r.kg > grainResults[bestIdx].kg ? i : bestIdx),
+      0,
+    );
+    grainResults[maxIdx].kg = roundHalf(grainResults[maxIdx].kg + diff);
+  }
+
+  // Висівка: забирає 1/3 від кг пшениці і додається окремим рядком
+  let branResult: GrainResult | null = null;
+  if (hasBran && hasWheat) {
+    const wheatIdx = grainResults.findIndex((r) => r.name === "Пшениця");
+    if (wheatIdx !== -1) {
+      const branKg = roundHalf(grainResults[wheatIdx].kg * BRAN_WHEAT_RATIO);
+      grainResults[wheatIdx].kg = roundHalf(grainResults[wheatIdx].kg - branKg);
+      grainResults[wheatIdx].pct = (grainResults[wheatIdx].kg / totalKg) * 100;
+      branResult = {
+        icon: "🟫",
+        name: "Висівка/Ґрис",
+        pct: (branKg / totalKg) * 100,
+        kg: branKg,
+      };
+    }
+  } else if (hasBran && !hasWheat) {
+    // Пшениця не вибрана — висівка не має від чого відняти, ігноруємо
+    branResult = null;
+  }
+
+  const allResults = [...grainResults, ...mealResults];
+  if (branResult) allResults.push(branResult);
+
+  return allResults;
+}
+
+// ===== КОМПОНЕНТ =====
+type GrainMode = "breeding" | "fattening";
+
+interface GrainCalculatorProps {
+  session: Session;
+}
+
+export default function GrainCalculator({ session }: GrainCalculatorProps) {
+  const [grainMode, setGrainMode] = useState<GrainMode>("breeding");
+  const [breedingSel, setBreedingSel] = useState<string[]>(
+    breedingGrains.filter((g) => g.defaultOn).map((g) => g.id),
+  );
+  const [fatteningSel, setFatteningSel] = useState<string[]>(
+    fatteningGrains.filter((g) => g.defaultOn).map((g) => g.id),
+  );
+  const [grainWeight, setGrainWeight] = useState<number>(10);
+  const [grainResults, setGrainResults] = useState<GrainResult[]>([]);
+  const [grainError, setGrainError] = useState("");
+  const [hasGranulator, setHasGranulator] = useState(false);
+  const [hasLucerne, setHasLucerne] = useState(true);
+  const [showGrainInfo, setShowGrainInfo] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveMsg, setSaveMsg] = useState("");
+
+  const currentGrains =
+    grainMode === "breeding" ? breedingGrains : fatteningGrains;
+  const currentSel = grainMode === "breeding" ? breedingSel : fatteningSel;
+  const setSel = grainMode === "breeding" ? setBreedingSel : setFatteningSel;
+
+  const toggleGrain = (id: string) => {
+    setSel((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+  };
+
+  const handleCalcGrain = () => {
+    if (grainWeight <= 0) {
+      setGrainError("Введіть правильну вагу!");
+      setGrainResults([]);
+      return;
+    }
+    if (!currentSel.length) {
+      setGrainError("Оберіть хоча б одне зерно!");
+      setGrainResults([]);
+      return;
+    }
+    // Попередження якщо висівка вибрана без пшениці
+    if (currentSel.includes(BRAN_ID) && !currentSel.includes("wheat")) {
+      setGrainError(
+        "Висівка вибрана, але пшениця не вибрана — висівку не додано. Виберіть пшеницю разом з висівкою.",
+      );
+      setGrainResults(calcGrains(currentGrains, currentSel, grainWeight));
+      return;
+    }
+    const selectedMakuha = currentSel.filter((id) => MAKUHA_IDS.includes(id));
+    if (selectedMakuha.length === 2) {
+      setGrainError(
+        "Соєва і соняшникова макуха вибрані разом — сумарна частка обмежена до 15%, розподілена порівну між ними.",
+      );
+    } else {
+      setGrainError("");
+    }
+    setGrainResults(calcGrains(currentGrains, currentSel, grainWeight));
+  };
+
+  const handleSaveRecipe = async () => {
+    if (!grainResults.length) return;
+
+    setSaving(true);
+    setSaveMsg("");
+
+    const items: {
+      name: string;
+      icon: string;
+      kg: number;
+      pct: number | null;
+    }[] = grainResults.map((r) => ({
+      name: r.name,
+      icon: r.icon,
+      kg: r.kg,
+      pct: Math.round(r.pct * 10) / 10,
+    }));
+
+    let lucerneKg: number | null = null;
+    let saltG: number | null = null;
+    let premixG: number | null = null;
+
+    if (hasGranulator) {
+      const additives = calcGranulatorAdditives(grainWeight, hasLucerne);
+      lucerneKg = hasLucerne ? additives.lucerne : null;
+      saltG = additives.salt;
+      premixG = additives.premix;
+      if (hasLucerne) {
+        items.push({
+          name: "Люцерна подрібнена",
+          icon: "🌿",
+          kg: additives.lucerne,
+          pct: null,
+        });
+      }
+    }
+
+    try {
+      const { error } = await supabase.from("grain_recipes").insert({
+        user_id: session.user.id,
+        mode: grainMode,
+        total_kg: grainWeight + (lucerneKg || 0),
+        items,
+        lucerne_kg: lucerneKg,
+        salt_g: saltG,
+        premix_g: premixG,
+      });
+      if (error) throw error;
+      setSaveMsg("Відмітку додано!");
+    } catch (err) {
+      logError("Calculator.handleSaveRecipe", err);
+      setSaveMsg("Помилка збереження. Спробуйте ще раз.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const maxPct = grainResults.length
+    ? Math.max(...grainResults.map((r) => r.pct))
+    : 1;
+
+  return (
+    <main className="calc-page">
+      <div className="calc-header">
+        <h1>Калькулятор зернової суміші</h1>
+        <p>Рецепт суміші та добавки для гранулятора</p>
+      </div>
+
+      <div className="calc-wrap">
+        <div>
+          <div className="calc-back">
+            <Link to="/registry" className="calc-back-btn">
+              Мої кролики
+            </Link>
+          </div>
+          <div className="calc-mode-tabs">
+            <button
+              className={`calc-mode-btn ${grainMode === "breeding" ? "active" : ""}`}
+              onClick={() => {
+                setGrainMode("breeding");
+                setGrainResults([]);
+                setGrainError("");
+              }}
+            >
+              🐇 Племінне стадо
+            </button>
+            <button
+              className={`calc-mode-btn ${grainMode === "fattening" ? "active" : ""}`}
+              onClick={() => {
+                setGrainMode("fattening");
+                setGrainResults([]);
+                setGrainError("");
+              }}
+            >
+              🥩 Відгодівля
+            </button>
+          </div>
+
+          <div className="calc-card">
+            <h2>Оберіть зернові</h2>
+            <div className="grain-grid">
+              {currentGrains.map((g) => (
+                <label
+                  key={g.id}
+                  className={`grain-item ${currentSel.includes(g.id) ? "selected" : ""}`}
+                >
+                  <input
+                    id={`grain-${grainMode}-${g.id}`}
+                    name={`grain-${g.id}`}
+                    type="checkbox"
+                    checked={currentSel.includes(g.id)}
+                    onChange={() => toggleGrain(g.id)}
+                  />
+                  <span className="grain-icon">{g.icon}</span>
+                  <span className="grain-name">{g.name}</span>
+                  <span className="grain-note">{g.note}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="calc-card">
+            <h2>Загальна вага суміші</h2>
+            <div className="weight-row">
+              <button
+                className="weight-btn"
+                onClick={() => setGrainWeight((w) => Math.max(1, w - 1))}
+              >
+                −
+              </button>
+              <input
+                type="number"
+                className="weight-input"
+                name="grainWeight"
+                id="grainWeight"
+                value={grainWeight}
+                min={1}
+                onChange={(e) => setGrainWeight(Number(e.target.value))}
+              />
+              <span className="weight-unit">кг</span>
+              <button
+                className="weight-btn"
+                onClick={() => setGrainWeight((w) => w + 1)}
+              >
+                +
+              </button>
+            </div>
+            {grainError && <p className="calc-error">{grainError}</p>}
+            <button className="calc-btn" onClick={handleCalcGrain}>
+              Розрахувати рецепт
+            </button>
+          </div>
+
+          {grainResults.length > 0 && (
+            <div className="calc-card">
+              <h2>Результат — {grainWeight} кг суміші</h2>
+              {grainResults.map((r) => (
+                <div key={r.name} className="result-row">
+                  <span className="result-icon">{r.icon}</span>
+                  <div className="result-info">
+                    <div className="result-top">
+                      <span className="result-name">{r.name}</span>
+                      <span className="result-pct">{r.pct.toFixed(1)}%</span>
+                    </div>
+                    <div className="result-bar-wrap">
+                      <div
+                        className="result-bar"
+                        style={{
+                          width: `${Math.round((r.pct / maxPct) * 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <span className="result-kg">{r.kg} кг</span>
+                </div>
+              ))}
+
+              {/* ===== ГРАНУЛЯТОР ===== */}
+              <label className="granulator-toggle">
+                <input
+                  id="has-granulator"
+                  name="hasGranulator"
+                  type="checkbox"
+                  checked={hasGranulator}
+                  onChange={(e) => setHasGranulator(e.target.checked)}
+                />
+                <span>Є гранулятор</span>
+              </label>
+
+              {hasGranulator &&
+                (() => {
+                  const { lucerne, salt, premix, waterMin, waterMax } =
+                    calcGranulatorAdditives(grainWeight, hasLucerne);
+                  return (
+                    <div className="granulator-block">
+                      <div className="calc-alert warn">
+                        ⚙️ Перед закладкою в гранулятор перемоліть всю суміш
+                        через млин або зернодробарку. Рекомендована фракція
+                        після помолу: <strong>1.5–2 мм</strong>. Розмір гранул
+                        на виході: <strong>4–5 мм</strong>.
+                      </div>
+                      <div
+                        className="calc-alert warn"
+                        style={{ marginTop: "8px" }}
+                      >
+                        💡 При гранулюванні частину пшениці можна замінити
+                        ґрисом (висівкою) — він краще зв'язує масу перед
+                        пресуванням і додає клітковину. Ґрис — це тверда
+                        оболонка зерна що залишається після помелу борошна,
+                        продається на ринку або в магазині для тварин.
+                      </div>
+
+                      <h3>Добавки до суміші</h3>
+
+                      <div className="result-row">
+                        <span className="result-icon">🌿</span>
+                        <div className="result-info">
+                          <div className="result-top">
+                            <span className="result-name">
+                              Люцерна подрібнена
+                            </span>
+                            <span className="result-pct">
+                              {hasLucerne ? "20%" : "0%"}
+                            </span>
+                          </div>
+                          <span className="granulator-note">
+                            Клітковина та білок (15–18%). Подрібнити до 3–5 мм
+                            окремо, потім змішати із зерном. Якщо люцерни немає
+                            — можна замінити частково або повністю ячмінною чи
+                            пшеничною соломою: солома дає клітковину, але білка
+                            в ній майже немає, тому гранула буде менш поживною
+                          </span>
+                          <label className="lucerne-switch">
+                            <input
+                              id="has-lucerne"
+                              name="hasLucerne"
+                              type="checkbox"
+                              checked={hasLucerne}
+                              onChange={(e) => setHasLucerne(e.target.checked)}
+                            />
+                            <span className="lucerne-switch-track" />
+                            <span>Є люцерна</span>
+                          </label>
+                          {!hasLucerne && (
+                            <span
+                              className="granulator-note"
+                              style={{ display: "block", marginTop: "6px" }}
+                            >
+                              Без люцерни (або її заміни) в гранулі мало
+                              клітковини. Залишайте сіно в клітці постійно,
+                              вільним доступом. Якщо замінюєте люцерну соломою
+                              чи сінним борошном у тій самій кількості — залиште
+                              повзунок увімкненим.
+                            </span>
+                          )}
+                        </div>
+                        <span className="result-kg">
+                          {hasLucerne ? `${lucerne} кг` : "—"}
+                        </span>
+                      </div>
+
+                      <div className="result-row">
+                        <span className="result-icon">🧂</span>
+                        <div className="result-info">
+                          <div className="result-top">
+                            <span className="result-name">Сіль кухонна</span>
+                            <span className="result-pct">0.5%</span>
+                          </div>
+                          <span className="granulator-note">
+                            Проста харчова сіль (NaCl). Додати в суміш і
+                            рівномірно перемішати
+                          </span>
+                        </div>
+                        <span className="result-kg">{salt} г</span>
+                      </div>
+
+                      <div className="result-row">
+                        <span className="result-icon">💊</span>
+                        <div className="result-info">
+                          <div className="result-top">
+                            <span className="result-name">Премікс</span>
+                            <span className="result-pct">1%</span>
+                          </div>
+                          <span className="granulator-note">
+                            Вітамінно-мінеральна добавка. Преміксі різні за
+                            складом і концентрацією — орієнтуйтесь на відсоток
+                            внесення, вказаний на упаковці конкретного преміксу.
+                            Забезпечує кролів необхідними мікроелементами для
+                            росту та імунітету.
+                          </span>
+                        </div>
+                        <span className="result-kg">{premix} г</span>
+                      </div>
+
+                      <div className="result-row">
+                        <span className="result-icon">💧</span>
+                        <div className="result-info">
+                          <div className="result-top">
+                            <span className="result-name">Вода</span>
+                            <span className="result-pct">8–12%</span>
+                          </div>
+                          <span className="granulator-note">
+                            Технологічна волога для пресування — в годівницю не
+                            додається. Вливати поступово перед гранулятором.
+                            Суміш має ліпитись у руці, але не розтікатись. Точна
+                            кількість залежить від вологості сировини
+                          </span>
+                        </div>
+                        <span className="result-kg">
+                          {waterMin}–{waterMax} л
+                        </span>
+                      </div>
+
+                      <div
+                        className="calc-alert ok"
+                        style={{ marginTop: "14px" }}
+                      >
+                        {hasLucerne
+                          ? "✅ Після переходу на гранули окрема люцерна, зернова суміш і сіль-лизунець з клітки прибираються — все це вже в складі гранули. В клітці залишається тільки годівниця з гранулами і поїлка з чистою водою."
+                          : "✅ Зернова суміш і сіль-лизунець з клітки прибираються — вони вже в гранулі. Оскільки в гранулі немає люцерни, сіно в клітці залишається постійно, поряд з годівницею і поїлкою з чистою водою."}
+                      </div>
+                    </div>
+                  );
+                })()}
+              <button
+                className="calc-btn"
+                style={{ marginTop: "14px" }}
+                onClick={handleSaveRecipe}
+                disabled={saving}
+              >
+                {saving ? "Збереження..." : "💾 Додати відмітку"}
+              </button>
+              {saveMsg && (
+                <p
+                  className={
+                    saveMsg.startsWith("Відмітку")
+                      ? "calc-alert ok"
+                      : "calc-error"
+                  }
+                >
+                  {saveMsg}
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="calc-card">
+            <button
+              className="grain-info-toggle"
+              onClick={() => setShowGrainInfo((v) => !v)}
+            >
+              <h2>Довідка по зернових</h2>
+              <span
+                className={`grain-info-arrow ${showGrainInfo ? "open" : ""}`}
+              >
+                ▾
+              </span>
+            </button>
+
+            {showGrainInfo && (
+              <div className="calc-table-wrap">
+                <table className="calc-table">
+                  <thead>
+                    <tr>
+                      <th>Зерно</th>
+                      <th>Плем. стадо</th>
+                      <th>Відгодівля</th>
+                      <th>Примітка</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {grainTable.map((row) => (
+                      <tr key={row.name}>
+                        <td>{row.name}</td>
+                        <td>{row.breeding}</td>
+                        <td>{row.fattening}</td>
+                        <td>{row.note}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}

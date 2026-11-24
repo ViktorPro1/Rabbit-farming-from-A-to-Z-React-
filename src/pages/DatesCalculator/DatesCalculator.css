@@ -1,0 +1,163 @@
+/* Стилі сторінки "Калькулятор дат розведення" */
+
+/* --- Спільна основа сторінки --- */
+
+.calc-page {
+    min-height: 100vh;
+}
+
+.calc-header {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid), var(--green-accent));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.calc-header h1 {
+    font-size: clamp(22px, 3.6vw, 36px);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.calc-header p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.calc-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.calc-card {
+    background: var(--cream);
+    border-radius: 16px;
+    border: 0.5px solid var(--gray-light);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.calc-card h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.calc-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.calc-btn:hover {
+    background: var(--green-mid);
+}
+
+.calc-error {
+    color: var(--brown);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.calc-alert {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.calc-alert.ok {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
+}
+
+.calc-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.calc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.calc-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.calc-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* --- Форма і результат дат --- */
+
+.calc-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+    margin-top: 12px;
+}
+
+.calc-select,
+.calc-date {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--green-dark);
+    background: var(--cream);
+    margin-bottom: 4px;
+}
+
+.calc-result {
+    margin-top: 1rem;
+}
+
+.calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--gray-light);
+    font-size: 14px;
+    color: var(--gray);
+    gap: 1rem;
+}
+
+.calc-row:last-of-type {
+    border-bottom: none;
+}
+
+.calc-row strong {
+    color: var(--green-dark);
+    white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+    .calc-header {
+        padding: 1.5rem 1rem;
+    }
+}

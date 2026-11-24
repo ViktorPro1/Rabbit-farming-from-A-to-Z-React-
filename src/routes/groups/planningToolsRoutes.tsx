@@ -1,16 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { Route } from "react-router-dom";
-import type { Session } from "@supabase/supabase-js";
-import Auth from "../../pages/Auth/Auth";
-import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 const Calendar = lazy(() => import("../../pages/Calendar/Calendar"));
 const Tips = lazy(() => import("../../pages/Tips/Tips"));
 const BreedingHerd = lazy(
   () => import("../../pages/BreedingHerd/BreedingHerd"),
 );
-const Calculator = lazy(() => import("../../pages/Calculator/Calculator"));
 const Equipment = lazy(() => import("../../pages/Equipment/Equipment"));
 const Tools = lazy(() => import("../../pages/Tools/Tools"));
 const RabbitIdentification = lazy(
@@ -25,10 +21,9 @@ const Transport = lazy(() => import("../../pages/Transport/Transport"));
 const Recipes = lazy(() => import("../../pages/Recipes/Recipes"));
 
 /**
- * Планування, інструменти (включно з калькулятором, що потребує session),
- * фінальний етап (забій/переробка) та рецепти.
+ * Планування, інструменти, фінальний етап (забій/переробка) та рецепти.
  */
-export function getPlanningToolsRoutes(session: Session | null) {
+export function getPlanningToolsRoutes() {
   return (
     <>
       {/* 11. ПЛАНУВАННЯ */}
@@ -36,21 +31,6 @@ export function getPlanningToolsRoutes(session: Session | null) {
       <Route path="/tips" element={<Tips />} />
       <Route path="/breeding-herd" element={<BreedingHerd />} />
       {/* 12. ІНСТРУМЕНТИ */}
-      <Route
-        path="/calculator"
-        element={
-          session ? (
-            <ErrorBoundary
-              boundaryName="Calculator"
-              fallbackTitle="Сталася помилка в калькуляторі. Спробуйте перезавантажити."
-            >
-              <Calculator session={session} />
-            </ErrorBoundary>
-          ) : (
-            <Auth returnTo="/calculator" />
-          )
-        }
-      />
       <Route path="/equipment" element={<Equipment />} />
       <Route path="/tools" element={<Tools />} />
       <Route path="/rabbit-identification" element={<RabbitIdentification />} />

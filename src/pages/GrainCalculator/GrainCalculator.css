@@ -1,3 +1,7 @@
+/* Стилі сторінки "Калькулятор зернової суміші" */
+
+/* --- Спільна основа сторінки --- */
+
 .calc-page {
     min-height: 100vh;
 }
@@ -26,38 +30,86 @@
     padding: 2rem 1rem 3rem;
 }
 
-.calc-tabs {
-    display: flex;
-    gap: 6px;
+.calc-card {
     background: var(--cream);
     border-radius: 16px;
     border: 0.5px solid var(--gray-light);
-    padding: 6px;
-    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.calc-tab {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
+.calc-card h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+}
+
+.calc-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    color: var(--gray);
-    background: transparent;
-    transition: all 0.2s;
+    border: none;
+    transition: background 0.2s;
+    margin-top: 8px;
 }
 
-.calc-tab.active {
-    background: var(--green-dark);
-    color: var(--green-pale);
+.calc-btn:hover {
+    background: var(--green-mid);
 }
 
-.calc-tab:not(.active):hover {
+.calc-error {
+    color: var(--brown);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.calc-alert {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.calc-alert.ok {
     background: var(--green-light);
     color: var(--green-dark);
+    border-left: 3px solid var(--green-dark);
 }
+
+.calc-alert.warn {
+    background: var(--amber-light);
+    color: var(--brown);
+    border-left: 3px solid var(--amber);
+}
+
+.calc-back {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.calc-back-btn {
+    background: var(--green-dark);
+    color: var(--green-pale);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.calc-back-btn:hover {
+    background: var(--green-mid);
+}
+
+/* --- Режими, вибір зернових, вага --- */
 
 .calc-mode-tabs {
     display: flex;
@@ -82,21 +134,6 @@
     background: var(--green-light);
     color: var(--green-dark);
     border-color: var(--green-accent);
-}
-
-.calc-card {
-    background: var(--cream);
-    border-radius: 16px;
-    border: 0.5px solid var(--gray-light);
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.calc-card h2 {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--green-dark);
-    margin-bottom: 1rem;
 }
 
 .grain-grid {
@@ -192,28 +229,7 @@
     color: var(--gray);
 }
 
-.calc-btn {
-    background: var(--green-dark);
-    color: var(--green-pale);
-    padding: 10px 24px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    transition: background 0.2s;
-    margin-top: 8px;
-}
-
-.calc-btn:hover {
-    background: var(--green-mid);
-}
-
-.calc-error {
-    color: var(--brown);
-    font-size: 13px;
-    margin-bottom: 8px;
-}
+/* --- Результат --- */
 
 .result-row {
     display: flex;
@@ -272,70 +288,7 @@
     text-align: right;
 }
 
-.calc-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--green-dark);
-    margin-bottom: 6px;
-    margin-top: 12px;
-}
-
-.calc-select,
-.calc-date {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--gray-light);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--green-dark);
-    background: var(--cream);
-    margin-bottom: 4px;
-}
-
-.calc-result {
-    margin-top: 1rem;
-}
-
-.calc-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 0.5px solid var(--gray-light);
-    font-size: 14px;
-    color: var(--gray);
-    gap: 1rem;
-}
-
-.calc-row:last-of-type {
-    border-bottom: none;
-}
-
-.calc-row strong {
-    color: var(--green-dark);
-    white-space: nowrap;
-}
-
-.calc-alert {
-    margin-top: 10px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.calc-alert.ok {
-    background: var(--green-light);
-    color: var(--green-dark);
-    border-left: 3px solid var(--green-dark);
-}
-
-.calc-alert.warn {
-    background: var(--amber-light);
-    color: var(--brown);
-    border-left: 3px solid var(--amber);
-}
+/* --- Довідкова таблиця --- */
 
 .calc-table-wrap {
     overflow-x: auto;
@@ -370,26 +323,28 @@
     background: var(--green-light);
 }
 
-.calc-back {
+.grain-info-toggle {
+    width: 100%;
     display: flex;
-    justify-content: center;
-    margin-top: 1.5rem;
-    margin-bottom: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
 }
 
-.calc-back-btn {
-    background: var(--green-dark);
-    color: var(--green-pale);
-    padding: 10px 24px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background 0.2s;
+.grain-info-arrow {
+    font-size: 1.4rem;
+    transition: transform 0.2s ease;
 }
 
-.calc-back-btn:hover {
-    background: var(--green-mid);
+.grain-info-arrow.open {
+    transform: rotate(180deg);
 }
+
+/* --- Гранулятор і люцерна --- */
 
 .granulator-toggle {
     display: flex;
@@ -426,55 +381,6 @@
     margin-top: 3px;
     display: block;
 }
-
-@media (max-width: 640px) {
-    .grain-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 420px) {
-    .calc-header {
-        padding: 1.5rem 1rem;
-    }
-
-    .grain-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .calc-mode-tabs {
-        flex-direction: column;
-    }
-
-    .calc-table th,
-    .calc-table td {
-        padding: 8px;
-        font-size: 12px;
-    }
-}
-
-.grain-info-toggle {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    text-align: left;
-}
-
-.grain-info-arrow {
-    font-size: 1.4rem;
-    transition: transform 0.2s ease;
-}
-
-.grain-info-arrow.open {
-    transform: rotate(180deg);
-}
-
-/* Додати в кінець Calculator.css */
 
 .lucerne-switch {
     display: inline-flex;
@@ -525,4 +431,32 @@
 .lucerne-switch input:focus-visible+.lucerne-switch-track {
     outline: 2px solid #6a9f2f;
     outline-offset: 2px;
+}
+
+/* --- Адаптивність --- */
+
+@media (max-width: 640px) {
+    .grain-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 420px) {
+    .calc-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .grain-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calc-mode-tabs {
+        flex-direction: column;
+    }
+
+    .calc-table th,
+    .calc-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
 }

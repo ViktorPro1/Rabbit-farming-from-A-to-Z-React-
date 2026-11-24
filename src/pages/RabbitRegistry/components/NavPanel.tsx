@@ -37,6 +37,7 @@ const navSections: NavSection[] = [
     items: [
       { label: "⚖️ Зважування", path: "/weighing" },
       { label: "🥩 Відгодівля", path: "/fattening" },
+      { label: "🧮 Калькулятор корму", path: "/grain-calculator" },
       { label: "🧾 Раціони", path: "/grain-recipes-history" },
       { label: "🌾 Корми", path: "/feed-stock" },
     ],

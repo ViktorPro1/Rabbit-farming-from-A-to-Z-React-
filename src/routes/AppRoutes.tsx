@@ -55,7 +55,7 @@ export default function AppRoutes({ session }: AppRoutesProps) {
         {breedingRoutes}
         {healthRoutes}
         {treatmentRoutes}
-        {getPlanningToolsRoutes(session)}
+        {getPlanningToolsRoutes()}
         {getCabinetRoutes(session)}
         {crossbreedRoutes}
         {showsAndManagementRoutes}

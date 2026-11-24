@@ -35,10 +35,14 @@ vi.mock("../pages/Admin/Admin", () => ({
   ),
 }));
 
-vi.mock("../pages/Calculator/Calculator", () => ({
+vi.mock("../pages/GrainCalculator/GrainCalculator", () => ({
   default: ({ session }: { session: Session }) => (
-    <div data-testid="calculator-page">{session.user.id}</div>
+    <div data-testid="grain-calculator-page">{session.user.id}</div>
   ),
+}));
+
+vi.mock("../pages/DatesCalculator/DatesCalculator", () => ({
+  default: () => <div data-testid="dates-calculator-page" />,
 }));
 
 vi.mock("../pages/RabbitRegistry/RabbitRegistry", () => ({
@@ -72,18 +76,47 @@ describe("AppRoutes — auth-гейтинг захищених маршруті�
     expect(await screen.findByTestId("admin-page")).toHaveTextContent("user-1");
   });
 
-  it('/calculator без сесії показує Auth з returnTo="/calculator"', async () => {
-    renderAt("/calculator", null);
-    expect(await screen.findByTestId("auth-page")).toHaveTextContent(
-      "/calculator",
-    );
+  it("/dates-calculator відкритий для гостей: без сесії показує калькулятор дат", async () => {
+    renderAt("/dates-calculator", null);
+    expect(
+      await screen.findByTestId("dates-calculator-page"),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("auth-page")).not.toBeInTheDocument();
   });
 
-  it("/calculator з сесією показує Calculator", async () => {
-    renderAt("/calculator", mockSession);
-    expect(await screen.findByTestId("calculator-page")).toHaveTextContent(
-      "user-1",
-    );
+  it("/grain-calculator без сесії показує Auth", async () => {
+    renderAt("/grain-calculator", null);
+    expect(await screen.findByTestId("auth-page")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("grain-calculator-page"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("/grain-calculator з сесією показує калькулятор корму", async () => {
+    renderAt("/grain-calculator", mockSession);
+    expect(
+      await screen.findByTestId("grain-calculator-page", {}, { timeout: 3000 }),
+    ).toHaveTextContent("user-1");
+  });
+
+  it("/grain-calculator з простроченим доступом показує екран блокування", async () => {
+    vi.mocked(supabase.rpc).mockResolvedValueOnce({
+      data: [{ is_expired: true }],
+      error: null,
+    } as never);
+
+    renderAt("/grain-calculator", mockSession);
+
+    expect(
+      await screen.findByText(
+        /Термін доступу закінчився/,
+        {},
+        { timeout: 3000 },
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("grain-calculator-page"),
+    ).not.toBeInTheDocument();
   });
 
   it("/registry без сесії показує Auth", async () => {

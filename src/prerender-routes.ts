@@ -84,6 +84,7 @@ export const prerenderRoutes = [
     "/fostering",
     "/half-siblings",
     "/conveyor",
+    "/dates-calculator",
 
     // Помісь
     "/verified-crosses",
