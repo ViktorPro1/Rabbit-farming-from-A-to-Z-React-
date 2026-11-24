@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import { usePageMeta } from "../seo/usePageMeta";
+import MinuteOfSilence from "../components/MinuteOfSilence/MinuteOfSilence";
 
 import { getCoreRoutes } from "./groups/coreRoutes";
 import { animalBasicsRoutes } from "./groups/animalBasicsRoutes";
@@ -46,25 +47,30 @@ export default function AppRoutes({ session }: AppRoutesProps) {
   usePageMeta();
 
   return (
-    <Suspense fallback={<PageLoader />}>
-      <Routes>
-        {getCoreRoutes(session)}
-        {animalBasicsRoutes}
-        {housingFeedingRoutes}
-        {careRoutes}
-        {breedingRoutes}
-        {healthRoutes}
-        {treatmentRoutes}
-        {getPlanningToolsRoutes()}
-        {getCabinetRoutes(session)}
-        {crossbreedRoutes}
-        {showsAndManagementRoutes}
-        {promotionRoutes}
-        {craftRoutes}
-        {petAndInfoRoutes}
-        {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
+    <>
+      {/* ХВИЛИНА МОВЧАННЯ (щодня о 9:00 за Києвом, на будь-якій сторінці) */}
+      <MinuteOfSilence />
+
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {getCoreRoutes(session)}
+          {animalBasicsRoutes}
+          {housingFeedingRoutes}
+          {careRoutes}
+          {breedingRoutes}
+          {healthRoutes}
+          {treatmentRoutes}
+          {getPlanningToolsRoutes()}
+          {getCabinetRoutes(session)}
+          {crossbreedRoutes}
+          {showsAndManagementRoutes}
+          {promotionRoutes}
+          {craftRoutes}
+          {petAndInfoRoutes}
+          {/* СТОРІНКА 404 (ЗАВЖДИ ОСТАННЯ) */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </>
   );
 }

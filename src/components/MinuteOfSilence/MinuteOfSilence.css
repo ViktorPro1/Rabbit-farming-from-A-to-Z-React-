@@ -1,0 +1,181 @@
+.mos-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 14, 22, 0.88) 0%,
+    rgba(4, 6, 10, 0.97) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: mos-fade-in 0.8s ease both;
+}
+
+.mos-card {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  padding: 3rem 2rem 2.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 28, 40, 0.9) 0%,
+    rgba(12, 16, 24, 0.95) 100%
+  );
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.6);
+  color: #e8ecf3;
+  text-align: center;
+  overflow: hidden;
+  animation: mos-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Тонка смуга синього та жовтого у верхній частині картки */
+.mos-flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to bottom, #0057b7 50%, #ffd700 50%);
+}
+
+.mos-timer {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto 1.5rem;
+}
+
+.mos-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.mos-ring-track,
+.mos-ring-progress {
+  fill: none;
+  stroke-width: 3;
+}
+
+.mos-ring-track {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.mos-ring-progress {
+  stroke: #ffd700;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.mos-seconds {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.mos-time {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: rgba(232, 236, 243, 0.5);
+}
+
+.mos-title {
+  margin: 0 0 1rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.mos-tagline {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: #ffd700;
+}
+
+.mos-text {
+  margin: 0 auto 2rem;
+  max-width: 22rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(232, 236, 243, 0.78);
+}
+
+.mos-text p {
+  margin: 0 0 0.9rem;
+}
+
+.mos-text p:last-child {
+  margin-bottom: 0;
+}
+
+.mos-list {
+  font-size: 0.95rem;
+  color: rgba(232, 236, 243, 0.62);
+}
+
+.mos-close {
+  padding: 0.7rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: transparent;
+  color: #e8ecf3;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mos-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.mos-close:focus-visible {
+  outline: 2px solid #ffd700;
+  outline-offset: 3px;
+}
+
+@keyframes mos-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mos-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mos-overlay,
+  .mos-card {
+    animation: none;
+  }
+  .mos-ring-progress {
+    transition: none;
+  }
+}
