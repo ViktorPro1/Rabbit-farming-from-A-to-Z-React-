@@ -1,17 +1,24 @@
+// Додано: вікно налаштувань винесено зі сторінки реєстру в спільні
+// компоненти, щоб його можна було відкривати з шапки (аватарка) на будь-якій
+// сторінці. Логіка не змінювалась. Змінено: імпорти (рівень вкладеності) і
+// назви CSS-класів (help-*, registry-* -> settings-*), бо старі стилі лежали
+// у RabbitRegistry.css, який підвантажується лише разом зі сторінкою реєстру.
+// Старий файл pages/RabbitRegistry/components/SettingsModal.tsx поки залишено.
+import "./SettingsModal.css";
 import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { supabase } from "../../../lib/supabase";
-import { logError } from "../../../lib/logError";
+import { supabase } from "../../lib/supabase";
+import { logError } from "../../lib/logError";
 import {
   subscribeToPush,
   unsubscribeFromPush,
   getPushSubscriptionStatus,
-} from "../../../utils/pushNotifications";
-import { uploadAvatar, removeAvatar } from "../../../utils/photoStorage";
-import { useAvatarUrl } from "../../../hooks/useAvatarUrl";
+} from "../../utils/pushNotifications";
+import { uploadAvatar, removeAvatar } from "../../utils/photoStorage";
+import { useAvatarUrl } from "../../hooks/useAvatarUrl";
 // На iOS MIME-тип фото з галереї часто порожній — перевірка спільна
-import { isLikelyImageFile } from "../../../utils/imageCompress";
+import { isLikelyImageFile } from "../../utils/imageCompress";
 
 interface Props {
   open: boolean;
@@ -37,7 +44,7 @@ export default function SettingsModal({ open, session, onClose }: Props) {
   const [pushLoading, setPushLoading] = useState(false);
   const [pushError, setPushError] = useState("");
 
-  // Додано (етап 2): фото особистого кабінету (аватар у шапці).
+  // Додано: фото особистого кабінету (аватар у шапці).
   // Шлях зберігається в user_metadata.avatar_path, як і display_name.
   const [avatarPath, setAvatarPath] = useState<string | null>(
     session.user.user_metadata?.avatar_path ?? null,
@@ -82,7 +89,7 @@ export default function SettingsModal({ open, session, onClose }: Props) {
     setDisplayNameSaving(false);
   }
 
-  // Додано (етап 2): додавання або заміна аватара.
+  // Додано: додавання або заміна аватара.
   // Порядок: завантажити файл -> записати шлях у метадані -> видалити старий.
   // Якщо запис метаданих не вдався, новий файл прибирається.
   async function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
@@ -121,7 +128,7 @@ export default function SettingsModal({ open, session, onClose }: Props) {
     }
   }
 
-  // Додано (етап 2): видалення аватара. Спершу метадані, потім файл.
+  // Додано: видалення аватара. Спершу метадані, потім файл.
   async function handleAvatarDelete() {
     if (!avatarPath) return;
     setAvatarError("");
@@ -169,22 +176,16 @@ export default function SettingsModal({ open, session, onClose }: Props) {
   if (!open) return null;
 
   return (
-    <div
-      className="help-overlay"
-      onClick={onClose}
-      role="presentation"
-    >
+    <div className="settings-overlay" onClick={onClose} role="presentation">
       <div
-        className="help-modal settings-modal"
+        className="settings-dialog"
         onClick={(e) => e.stopPropagation()}
         role="presentation"
       >
-        <div className="help-modal-header">
-          <h2>⚙️ Налаштування</h2>
-          <button
-            className="help-close"
-            onClick={onClose}
-          >
+        <div className="settings-dialog-header">
+          {/* Змінено: було "⚙️ Налаштування" */}
+          <h2>Кабінет</h2>
+          <button className="settings-close" onClick={onClose}>
             ✕
           </button>
         </div>
@@ -216,12 +217,12 @@ export default function SettingsModal({ open, session, onClose }: Props) {
                 type="file"
                 accept="image/*"
                 aria-label="Обрати файл фото кабінету"
-                className="photo-file-input"
+                className="settings-file-input"
                 onChange={handleAvatarChange}
               />
               <button
                 type="button"
-                className="registry-archive-link"
+                className="settings-btn-secondary"
                 onClick={() => avatarFileRef.current?.click()}
                 disabled={avatarBusy}
               >
@@ -234,7 +235,7 @@ export default function SettingsModal({ open, session, onClose }: Props) {
               {avatarPath && (
                 <button
                   type="button"
-                  className="registry-archive-link"
+                  className="settings-btn-secondary"
                   onClick={handleAvatarDelete}
                   disabled={avatarBusy}
                 >
@@ -248,8 +249,15 @@ export default function SettingsModal({ open, session, onClose }: Props) {
             Відображуване ім'я або назва господарства
           </label>
           <p className="settings-hint">
-            Замінить електронну пошту у заголовку. Наприклад: «Вухані у
-            Петровича» або «ФГ Прозоро».
+            Замінить електронну пошту у заголовку. Наприклад: «Вухані Петровича»
+            або «ФГ Прозоро».
+          </p>
+          {/* Додано: ім'я впливає на нумерацію кроликів — префікс
+              коду беруться з перших літер двох перших слів (ownerInitials) */}
+          <p className="settings-hint">
+            Від цього імені залежить нумерація ваших кроликів: до коду додаються
+            перші літери двох перших слів (наприклад, «Вухані Петровича» дає
+            VP-F007). Змінюйте його обережно.
           </p>
           <input
             id="registry-display-name"
@@ -263,21 +271,16 @@ export default function SettingsModal({ open, session, onClose }: Props) {
           {displayNameError && (
             <p className="settings-error">{displayNameError}</p>
           )}
-          {displayNameSaved && (
-            <p className="settings-success">✓ Збережено</p>
-          )}
+          {displayNameSaved && <p className="settings-success">✓ Збережено</p>}
           <div className="settings-actions">
             <button
-              className="registry-save-btn"
+              className="settings-btn-primary"
               onClick={handleSaveDisplayName}
               disabled={displayNameSaving}
             >
               {displayNameSaving ? "Збереження..." : "Зберегти"}
             </button>
-            <button
-              className="registry-archive-link"
-              onClick={onClose}
-            >
+            <button className="settings-btn-secondary" onClick={onClose}>
               Закрити
             </button>
           </div>
@@ -289,12 +292,12 @@ export default function SettingsModal({ open, session, onClose }: Props) {
                 екрана порожньою міткою. */}
             <span className="settings-label">Push-сповіщення</span>
             <p className="settings-hint">
-              Нагадування про вакцинації, окроли та інші події кабінету —
-              прямо в браузер.
+              Нагадування про вакцинації, окроли та інші події кабінету — прямо
+              в браузер.
             </p>
             {pushError && <p className="settings-error">{pushError}</p>}
             <button
-              className="registry-save-btn"
+              className="settings-btn-primary"
               onClick={handleTogglePush}
               disabled={pushLoading}
             >

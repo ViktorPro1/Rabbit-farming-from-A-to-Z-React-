@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import type { Session } from "@supabase/supabase-js";
 import Header from "./Header";
@@ -18,6 +24,12 @@ vi.mock("../../features/font-size/FontSizeToggle", () => ({
   default: () => null,
 }));
 vi.mock("../../hooks/useChatUnread", () => ({ useChatUnread: () => 0 }));
+// Додано: push-утиліти для вікна налаштувань (мережі в тестах немає)
+vi.mock("../../utils/pushNotifications", () => ({
+  subscribeToPush: vi.fn(),
+  unsubscribeFromPush: vi.fn(),
+  getPushSubscriptionStatus: vi.fn().mockResolvedValue(false),
+}));
 
 const session = {
   user: { id: "user-1", email: "viktor@example.com" },
@@ -285,5 +297,72 @@ describe("Header: фото кабінету в мобільному меню", (
     renderWith(null);
 
     expect(document.querySelector(".drawer-user")).toBeNull();
+  });
+});
+
+// Додано: налаштування кабінету відкриваються з аватарки
+describe("Header: вікно кабінету", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockAdminQuery({ data: null });
+  });
+
+  // Змінено: після рендеру чекаємо завершення асинхронної перевірки
+  // адміна, щоб не було попереджень "not wrapped in act(...)".
+  async function renderSettled() {
+    const result = renderHeader();
+    await act(async () => {});
+    return result;
+  }
+
+  it("вікно налаштувань спочатку закрите", async () => {
+    await renderSettled();
+    expect(document.querySelector(".settings-dialog")).toBeNull();
+  });
+
+  it("пункт 'Кабінет' в меню аватара відкриває вікно і закриває меню", async () => {
+    await renderSettled();
+    fireEvent.click(screen.getByRole("button", { name: "Меню користувача" }));
+    fireEvent.click(
+      document.querySelector(".header-user-dropdown-item") as HTMLElement,
+    );
+    await act(async () => {});
+    expect(document.querySelector(".settings-dialog")).not.toBeNull();
+    expect(document.querySelector(".header-user-dropdown")).toBeNull();
+  });
+
+  it("кнопка закриття ховає вікно", async () => {
+    await renderSettled();
+    fireEvent.click(screen.getByRole("button", { name: "Меню користувача" }));
+    fireEvent.click(
+      document.querySelector(".header-user-dropdown-item") as HTMLElement,
+    );
+    await act(async () => {});
+    fireEvent.click(document.querySelector(".settings-close") as HTMLElement);
+    expect(document.querySelector(".settings-dialog")).toBeNull();
+  });
+
+  it("мобільне меню: пункт 'Кабінет' відкриває вікно", async () => {
+    await renderSettled();
+    fireEvent.click(document.querySelector(".drawer-settings") as HTMLElement);
+    await act(async () => {});
+    expect(document.querySelector(".settings-dialog")).not.toBeNull();
+  });
+
+  // Змінено: пошук тільки всередині контейнера цього рендеру
+  // (було document.querySelector — чіпляв сторонні елементи документа).
+  it("гість: пункту 'Кабінет' і вікна налаштувань немає", async () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Header session={null} />
+      </MemoryRouter>,
+    );
+    await act(async () => {});
+    expect(container.querySelector(".drawer-settings")).toBeNull();
+    expect(container.querySelector(".header-user-dropdown-item")).toBeNull();
+    expect(container.querySelector(".settings-dialog")).toBeNull();
+    expect(screen.queryByText("Кабінет")).toBeNull();
+    // Додано: «Мої кролики» (меню і кнопка) — лише для залогінених
+    expect(screen.queryByText("Мої кролики")).toBeNull();
   });
 });

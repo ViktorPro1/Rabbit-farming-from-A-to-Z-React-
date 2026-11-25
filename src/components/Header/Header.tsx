@@ -11,6 +11,8 @@ import { useAvatarUrl } from "../../hooks/useAvatarUrl";
 // Додано: лічильник нових повідомлень чату й червоний кружечок
 import { useChatUnread } from "../../hooks/useChatUnread";
 import ChatUnreadBadge from "../ChatUnreadBadge/ChatUnreadBadge";
+// Додано: вікно налаштувань кабінету відкривається з аватарки
+import SettingsModal from "../SettingsModal/SettingsModal";
 import {
   Users,
   Bell,
@@ -26,6 +28,7 @@ import {
   ChevronDown,
   Image, // Додано: іконка для пункту "Візитка"
   MessagesSquare, // Додано: іконка для пункту "Чат"
+  Settings, // Додано: іконка для пункту "Налаштування"
 } from "lucide-react";
 import "./Header.css";
 
@@ -41,6 +44,8 @@ const Header = ({ session }: Props) => {
   const [showMore, setShowMore] = useState(false); // дропдаун "Ще"
   const [showUserMenu, setShowUserMenu] = useState(false); // дропдаун аватара
   const [menuOpen, setMenuOpen] = useState(false); // мобільний drawer
+  // Додано: вікно налаштувань (фото, ім'я, push)
+  const [showSettings, setShowSettings] = useState(false);
   const [unreadCount, setUnreadCount] = useState(() => {
     const lastSeenId =
       Number(localStorage.getItem("changelog_last_seen_id")) || 0;
@@ -157,6 +162,8 @@ const Header = ({ session }: Props) => {
     } finally {
       setShowUserMenu(false);
       setMenuOpen(false);
+      // Додано (крок 2): щоб вікно не відкрилось саме після нового входу
+      setShowSettings(false);
     }
   }
 
@@ -333,6 +340,19 @@ const Header = ({ session }: Props) => {
 
               {showUserMenu && (
                 <div className="header-user-dropdown">
+                  {/* Додано: налаштування кабінету перенесено з
+                      сторінки реєстру сюди */}
+                  <button
+                    className="header-user-dropdown-item"
+                    onClick={() => {
+                      setShowUserMenu(false);
+                      setShowSettings(true);
+                    }}
+                  >
+                    <Settings size={16} />
+                    {/* Змінено: було "Налаштування" */}
+                    Кабінет
+                  </button>
                   {isAdmin && (
                     <NavLink to="/admin" onClick={() => setShowUserMenu(false)}>
                       <ShieldCheck size={16} />
@@ -423,6 +443,24 @@ const Header = ({ session }: Props) => {
         )}
 
         <div className="drawer-links">
+          {/* Додано: налаштування кабінету в мобільному меню.
+              Змінено: кнопку обгорнуто в session && — кабінет є лише у
+              зареєстрованого користувача, гість її не бачить. */}
+          {session && (
+            <button
+              className="drawer-settings"
+              onClick={() => {
+                closeMenu();
+                setShowSettings(true);
+              }}
+            >
+              <Settings size={18} />
+              {/* Змінено: було "Налаштування" */}
+              Кабінет
+            </button>
+          )}
+          {/* Змінено: «Мої кролики» і «Адмін» перенесено нижче, у гілку
+              session (як у версії на GitHub) — гість їх не бачить. */}
           <NavLink to="/community" onClick={closeMenu}>
             <Users size={18} />
             Спільноти
@@ -470,6 +508,7 @@ const Header = ({ session }: Props) => {
                 Чат
                 <ChatUnreadBadge count={chatUnread} />
               </NavLink>
+              {/* Повернено в гілку session: тільки для залогінених */}
               <NavLink to="/registry" onClick={closeMenu}>
                 <Rabbit size={18} />
                 Мої кролики
@@ -480,6 +519,7 @@ const Header = ({ session }: Props) => {
                   Адмін
                 </NavLink>
               )}
+
               <button className="drawer-logout" onClick={handleLogout}>
                 <LogOut size={18} />
                 Вийти
@@ -493,6 +533,19 @@ const Header = ({ session }: Props) => {
           )}
         </div>
       </nav>
+
+      {/* Додано: вікно налаштувань. Монтується лише коли відкрите,
+          щоб на кожній сторінці не робити зайвий запит посилання на аватар
+          (useAvatarUrl усередині вікна). Стан береться зі свіжої сесії при
+          кожному відкритті. key — на випадок входу іншого користувача. */}
+      {session && showSettings && (
+        <SettingsModal
+          key={session.user.id}
+          open={showSettings}
+          session={session}
+          onClose={() => setShowSettings(false)}
+        />
+      )}
     </>
   );
 };

@@ -16,7 +16,9 @@ import StatsBar from "./components/StatsBar";
 import RabbitCard from "./components/RabbitCard";
 import BreedingAgeInfo from "./components/BreedingAgeInfo";
 import ArchiveModal from "./components/ArchiveModal";
-import SettingsModal from "./components/SettingsModal";
+// Видалено: вікно налаштувань («Кабінет») відкривається з аватарки в
+// шапці (Header), а не зі сторінки реєстру. Було:
+// import SettingsModal from "../../components/SettingsModal/SettingsModal";
 import NewRabbitForm from "./components/NewRabbitForm";
 
 interface Props {
@@ -44,9 +46,11 @@ export default function RabbitRegistry({ session }: Props) {
   const [exportingAll, setExportingAll] = useState(false);
   const [exportError, setExportError] = useState("");
 
-  const currentLabel =
-    session.user.user_metadata?.display_name || session.user.email;
-  const [showSettings, setShowSettings] = useState(false);
+  // Видалено: currentLabel і showSettings були потрібні лише для
+  // кнопки з іменем і вікна налаштувань; обидва перенесено в Header. Було:
+  // const currentLabel =
+  //   session.user.user_metadata?.display_name || session.user.email;
+  // const [showSettings, setShowSettings] = useState(false);
 
   const navigate = useNavigate();
 
@@ -81,16 +85,10 @@ export default function RabbitRegistry({ session }: Props) {
       <div className="registry-header">
         <div className="registry-header-top">
           <h1>🐇 Мої кролики</h1>
-          <button
-            className="registry-email"
-            onClick={() => setShowSettings(true)}
-            title="Налаштування"
-          >
-            {currentLabel}
-            <span className="registry-settings-gear" aria-hidden="true">
-              ⚙️
-            </span>
-          </button>
+          {/* Видалено: кнопка з іменем і шестернею, що відкривала
+              налаштування. Тепер вони в меню аватарки: «Кабінет». Було:
+              <button className="registry-email" onClick={() => setShowSettings(true)}
+                title="Налаштування">{currentLabel}<span className="registry-settings-gear">⚙️</span></button> */}
         </div>
 
         <NavPanel
@@ -161,11 +159,8 @@ export default function RabbitRegistry({ session }: Props) {
 
       {/* ── Зноска: вік утримання у племінному стаді ── */}
       <BreedingAgeInfo />
-      <SettingsModal
-        open={showSettings}
-        session={session}
-        onClose={() => setShowSettings(false)}
-      />
+      {/* Видалено: <SettingsModal open={showSettings} session={session}
+          onClose={() => setShowSettings(false)} /> — тепер рендериться в Header */}
       {confirmArchiveId && (
         <ArchiveModal
           selectedReason={selectedReason}

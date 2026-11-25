@@ -200,6 +200,17 @@
     width: 100%;
 }
 
+/* Додано: активне посилання (напр. "Адмін" на сторінці /admin) отримувало
+   глобальний колір .header-nav a.active (світлий, для темної шапки) і
+   зливалось з білим фоном меню. Той самий виправлений вигляд, що й у
+   .header-more-dropdown a.active. */
+.header-user-dropdown a.active {
+    background: rgba(99, 153, 34, 0.1);
+    color: var(--green-dark) !important;
+    font-weight: 600;
+    opacity: 1;
+}
+
 .header-user-dropdown a:hover,
 .header-user-dropdown-logout:hover {
     background: rgba(0, 0, 0, 0.05);
@@ -207,6 +218,33 @@
 
 .header-user-dropdown a svg,
 .header-user-dropdown-logout svg {
+    flex-shrink: 0;
+    color: var(--green-dark);
+}
+
+/* Додано (крок 2): пункт "Налаштування" у меню аватара — вигляд як у
+   інших пунктів меню (a / logout) */
+.header-user-dropdown-item {
+    color: #1a1a1a;
+    font-size: 13.5px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    width: 100%;
+}
+
+.header-user-dropdown-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.header-user-dropdown-item svg {
     flex-shrink: 0;
     color: var(--green-dark);
 }
@@ -540,6 +578,35 @@
     color: var(--amber-light);
 }
 
+/* Додано (крок 2): пункт "Налаштування" у мобільному меню — вигляд як у
+   посилань drawer-links */
+.drawer-settings {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--green-pale);
+    font-size: 16px;
+    padding: 14px 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+    cursor: pointer;
+    opacity: 0.85;
+    font-family: inherit;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.drawer-settings:hover {
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.drawer-settings svg {
+    flex-shrink: 0;
+    stroke-width: 2;
+}
+
 .drawer-logout {
     background: none;
     border: none;
@@ -553,6 +620,10 @@
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     margin-top: auto;
     transition: background 0.2s;
+    /* Додано: вирівнювання іконки й тексту, як в інших пунктах меню */
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .drawer-logout:hover {

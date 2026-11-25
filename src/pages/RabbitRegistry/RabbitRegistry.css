@@ -28,10 +28,8 @@
     display: flex;
 }
 
-.registry-email {
-    color: var(--gray);
-    font-size: 0.9rem;
-}
+/* Видалено (крок 3): кнопка з іменем у заголовку реєстру (.registry-email). Вікно налаштувань («Кабінет») тепер у
+   src/components/SettingsModal/ зі своїм CSS і відкривається з аватарки в шапці. */
 
 .registry-add-btn {
     padding: 0.6rem 1.2rem;
@@ -693,99 +691,17 @@
 }
 
 /* ===== SETTINGS MODAL ===== */
-.settings-modal {
-    max-width: 440px;
-}
-
-.settings-body {
-    padding: 1.25rem 1.5rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-}
-
-.settings-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--green-dark);
-}
-
+/* Видалено : правила .settings-modal, .settings-body, .settings-label,
+   .settings-input(:focus), .settings-error, .settings-success, .settings-actions,
+   .settings-push-block, .settings-avatar-*, .registry-settings-gear та
+   button.registry-email — вікно налаштувань («Кабінет») тепер у
+   src/components/SettingsModal/SettingsModal.css, відкривається з аватарки в
+   шапці. Залишено лише .settings-hint (його використовує NewRabbitForm). */
 .settings-hint {
     font-size: 13px;
     color: var(--gray);
     margin: 0;
     line-height: 1.5;
-}
-
-.settings-input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--gray-light);
-    border-radius: 8px;
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--green-dark);
-    background: var(--cream);
-    outline: none;
-    transition: border-color 0.2s;
-    margin-top: 4px;
-}
-
-.settings-input:focus {
-    border-color: var(--green-accent, #639922);
-}
-
-.settings-error {
-    font-size: 13px;
-    color: #dc2626;
-    margin: 0;
-}
-
-.settings-success {
-    font-size: 13px;
-    color: var(--green-mid);
-    font-weight: 600;
-    margin: 0;
-}
-
-.settings-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 4px;
-}
-
-/* email як кнопка */
-button.registry-email {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    padding: 2px 6px;
-    border-radius: 6px;
-    transition: background 0.2s;
-    text-decoration: underline dotted;
-}
-
-button.registry-email:hover {
-    background: rgba(0, 0, 0, 0.06);
-}
-
-button.registry-email {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.registry-settings-gear {
-    font-size: 0.85rem;
-    opacity: 0.65;
-    transition: opacity 0.2s, transform 0.3s;
-}
-
-button.registry-email:hover .registry-settings-gear {
-    opacity: 1;
-    transform: rotate(60deg);
 }
 
 /* ===== SKELETON LOADER ===== */
@@ -988,12 +904,6 @@ button.registry-email:hover .registry-settings-gear {
     transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-.settings-push-block {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color, #e0e0e0);
-}
-
 /* ===== Акордеон для Облік кролівництва ===== */
 .registry-nav-toggle {
     width: 100%;
@@ -1157,43 +1067,7 @@ button.registry-email:hover .registry-settings-gear {
     color: #fff;
 }
 
-/* ===== Додано (етап 2): ФОТО ОСОБИСТОГО КАБІНЕТУ В НАЛАШТУВАННЯХ ===== */
-.settings-avatar-block {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.4rem;
-}
-
-.settings-avatar-circle {
-    width: 72px;
-    height: 72px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    overflow: hidden;
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-size: 1.8rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.settings-avatar-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.settings-avatar-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    position: relative;
-}
-
+/* =====  Стилі фото кабінету перенесено в SettingsModal.css; тут лишився лише .photo-file-input (його використовує NewRabbitForm) ===== */
 /* Змінено: не hidden/display:none — на iOS програмний click() по такому
    input часто не відкриває галерею. Поле лишається в розкладці, але зрізане. */
 .photo-file-input {
