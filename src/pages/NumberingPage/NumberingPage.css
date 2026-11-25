@@ -1,6 +1,3 @@
-/* Сторінка «Нумерація». Кольори взято зі змінних :root / [data-theme="dark"]
-   глобального CSS, тому світла і темна тема працюють автоматично. */
-
 .numbering-page {
   max-width: 720px;
   margin: 0 auto;
@@ -98,4 +95,112 @@
   .numbering-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Додано (пояснення): акордеон «Звідки беруться літери в номері?» */
+
+.numbering-info-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--green-pale);
+  border-radius: 14px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.numbering-info-arrow {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  transition: transform 0.25s ease;
+}
+
+.numbering-info-arrow.open {
+  transform: rotate(180deg);
+}
+
+.numbering-info-body {
+  margin-top: 10px;
+  padding: 18px 16px;
+  border-radius: 14px;
+  background: var(--green-light);
+  border-left: 4px solid var(--green-accent);
+  animation: numbering-info-in 0.25s ease;
+}
+
+@keyframes numbering-info-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.numbering-info-lead {
+  margin: 0 0 10px;
+  color: var(--green-mid);
+}
+
+.numbering-code-example {
+  display: inline-flex;
+  align-items: baseline;
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--green-accent);
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.numbering-part-dash {
+  margin: 0 2px;
+  color: var(--green-mid);
+}
+
+/* Кольори частин коду: однакові в прикладі та в поясненні нижче */
+.numbering-part--owner {
+  color: var(--green-mid);
+}
+
+.numbering-part--sex {
+  color: var(--brown);
+}
+
+.numbering-part--num {
+  color: var(--green-dark);
+}
+
+.numbering-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+.numbering-info-list strong {
+  font-weight: 800;
+}
+
+.numbering-info-note {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px dashed var(--green-pale);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--green-mid);
 }
