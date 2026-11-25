@@ -22,7 +22,7 @@
 
 **Довідник**
 
-- 202 публічні сторінки у 26 тематичних розділах
+- 200 тем і 12 статей у 24 тематичних розділах
 - Симптоматичний пошук і довідник хвороб
 - Практичні рекомендації та калькулятори
 - Блоки «Просування господарства та репутація» (7 сторінок) і «Крафтове виробництво» (4 сторінки)
@@ -72,8 +72,8 @@
 | Lighthouse (Perf / A11y / BP / SEO) | 100 / 96 / 92 / 100 |
 | GTmetrix                            |       Grade A (87%) |
 | Security headers                    |            Rating A |
-| Unit-тести                          |     598 у 48 файлах |
-| Покриття (statements / branches)    |     60.08% / 44.28% |
+| Unit-тести                          |     941 у 56 файлах |
+| Покриття (statements / branches)    |     65.78% / 52.06% |
 | E2E-сценарії (Playwright)           |                  10 |
 
 Кожна зміна проходить ESLint, TypeScript, unit-тести з покриттям, production-збірку та E2E у GitHub Actions. Звіти з графіками — у [документації якості](docs/Тестування/QUALITY_REPORTS.md).
@@ -145,7 +145,7 @@ Production-збірка: `npm run build`. Тести: `npm test`. Змінні �
 
 **Rabbit Farming From A to Z** is a Ukrainian-language rabbit farming knowledge base and farm management platform built with React, TypeScript, Vite and Supabase.
 
-The platform includes **202 public knowledge-base pages** and a private farm management dashboard for registered users.
+The platform includes **200 knowledge-base topics and 12 articles** in 24 sections, and a private farm management dashboard for registered users.
 
 The primary audience is Ukrainian rabbit farmers.
 

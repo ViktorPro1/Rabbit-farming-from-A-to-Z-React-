@@ -22,7 +22,6 @@ import { articlesGroup } from "./groups/articlesGroup";
 import { crossbreedGroup } from "./groups/crossbreedGroup";
 import { calculatorsGroup } from "./groups/calculatorsGroup";
 import { promotionGroup } from "./groups/promotionGroup";
-// ДОДАНО: група «Крафтове виробництво».
 import { craftGroup } from "./groups/craftGroup";
 
 export type { Card, Group };
