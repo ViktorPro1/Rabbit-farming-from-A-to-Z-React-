@@ -18,6 +18,8 @@ import type {
 import { OnlineVisitorsSection } from "./components/OnlineVisitorsSection";
 import { UserUsageSection } from "./components/UserUsageSection";
 import { VizytkaSection } from "./components/VizytkaSection";
+// Додано: галочка святкового режиму
+import { FestiveSection } from "./components/FestiveSection";
 import { LeadsSection } from "./components/LeadsSection";
 import { NpsSection } from "./components/NpsSection";
 import { DeactivatedUsersSection } from "./components/DeactivatedUsersSection";
@@ -620,6 +622,7 @@ export default function Admin({ session }: Props) {
       <BackendStatsSection stats={stats} loading={statsLoading} />
       <UserUsageSection usage={userUsage} loading={userUsageLoading} />
       <VizytkaSection downloads={vizytkaDownloads} />
+
       <NpsSection feedback={npsFeedback} loading={npsLoading} />
       <LeadsSection leads={leads} />
       <RegisteredUsersSection
@@ -646,6 +649,8 @@ export default function Admin({ session }: Props) {
         onDelete={handleDelete}
       />
       <PushBroadcastSection accessToken={session.access_token} />
+      {/* Додано: галочка святкового режиму (гірлянди й сніг) */}
+      <FestiveSection />
       <DocsSection />
     </div>
   );

@@ -27,12 +27,19 @@ const Assistant = lazy(() => import("./components/Assistant/Assistant"));
 const AssistantPromo = lazy(
   () => import("./components/AssistantPromo/AssistantPromo"),
 );
+// Додано: сніг на весь екран (новорічні свята). Показується автоматично
+// у святковий період (див. useFestiveMode). Гірлянда рендериться окремо — всередині Hero.
+const FestiveSnow = lazy(
+  () => import("./components/FestiveEffects/FestiveSnow"),
+);
 import "./print.css";
 import "./App-states.css";
 import { FontSizeProvider } from "./features/font-size/FontSizeProvider";
 import { useTVNavigation } from "./hooks/useTVNavigation";
 import DonationPopup from "./components/DonationPopup/DonationPopup";
 import MetaPixelTracker from "./components/MetaPixelTracker/MetaPixelTracker";
+// Додано: святковий режим (автоматично за датою)
+import { useFestiveMode } from "./hooks/useFestiveMode";
 // Додано: реєстрація WebMCP-інструментів для ШІ-агентів (прогресивне покращення,
 // без підтримки браузера нічого не робить).
 import WebMCPRegistrar from "./components/WebMCPRegistrar/WebMCPRegistrar";
@@ -104,6 +111,21 @@ function SubscriptionExpired() {
         </button>
       </div>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+// Додано: сніг показується лише у святковий період;
+// fallback={null} — збій ефекту не ламає сайт.
+function FestiveLayer() {
+  const enabled = useFestiveMode();
+  if (!enabled) return null;
+  return (
+    <ErrorBoundary boundaryName="FestiveSnow" fallback={null}>
+      <Suspense fallback={null}>
+        <FestiveSnow />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
@@ -262,6 +284,8 @@ function App() {
             </div>
           )}
           <WelcomePopup />
+          {/* Додано: сніг (лише у святковий період) */}
+          <FestiveLayer />
           <ErrorBoundary boundaryName="Assistant" fallback={null}>
             <Suspense fallback={null}>
               <Assistant />

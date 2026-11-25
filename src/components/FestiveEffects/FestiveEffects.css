@@ -1,0 +1,77 @@
+/* Додано: стилі святкових ефектів (гірлянда + сніг).
+   Сніг: z-index 9000 — поверх липкої шапки (100) і drawer (150),
+   але під модалками й банером cookies (9999+).
+   Гірлянда: усередині .hero під рядком тем, прокручується разом із ним. */
+.festive-snow {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+.festive-garland {
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* під плашкою погоди (z-index 2, вона йде в DOM пізніше) */
+  z-index: 2;
+}
+
+.festive-wire {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.festive-wire path {
+  fill: none;
+  stroke: #3a3a3a;
+  stroke-width: 2px;
+}
+
+.festive-bulb {
+  position: absolute;
+  width: 10px;
+  height: 15px;
+  margin-left: -5px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: currentColor;
+  box-shadow: 0 0 10px 2px currentColor;
+  animation: festive-blink 1.6s infinite alternate;
+}
+
+/* «цоколь» лампочки */
+.festive-bulb::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 2px;
+  width: 6px;
+  height: 5px;
+  background: #333;
+  border-radius: 2px;
+}
+
+.festive-bulb--0 { color: #ff3b3b; animation-delay: 0s; }
+.festive-bulb--1 { color: #ffd93b; animation-delay: 0.4s; }
+.festive-bulb--2 { color: #3bff6b; animation-delay: 0.8s; }
+.festive-bulb--3 { color: #3b9bff; animation-delay: 1.2s; }
+
+@keyframes festive-blink {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .festive-bulb { animation: none; }
+}
+
+@media print {
+  .festive-garland,
+  .festive-snow { display: none; }
+}

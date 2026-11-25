@@ -3,6 +3,9 @@ import "./Hero.css";
 import rabbitPhoto from "../../assets/my-breed.webp";
 import TempWarningPopup from "../TempWarningPopup/TempWarningPopup";
 import RunningTicker from "../RunningTicker/RunningTicker";
+// Додано: святкова гірлянда під рядком тем
+import FestiveGarland from "../FestiveEffects/FestiveGarland";
+import { useFestiveMode } from "../../hooks/useFestiveMode";
 
 const WMO_ICON: Record<number, string> = {
   0: "☀️",
@@ -32,6 +35,8 @@ const Hero = () => {
   const [temp, setTemp] = useState<number | null>(null);
   const [icon, setIcon] = useState<string>("");
   const [showPopup, setShowPopup] = useState(false);
+  // Додано: гірлянда лише у святковий період
+  const festive = useFestiveMode();
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -54,6 +59,8 @@ const Hero = () => {
   return (
     <section className="hero">
       <RunningTicker />
+      {/* Додано: гірлянда під рядком тем (position: absolute, макет не зсуває) */}
+      {festive && <FestiveGarland />}
 
       {temp !== null && (
         <button

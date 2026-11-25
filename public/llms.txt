@@ -287,7 +287,7 @@ Below is the complete site structure mapping for automated AI agents and crawler
 ### Core Framework
 - **React 19.2.4** with TypeScript 5.9.3
 - **Vite 7.3.6** - Modern build tool (replaces CRA for better performance)
-- **React Router DOM 7.18.6** - Client-side routing with lazy-loaded pages
+- **React Router DOM 7.18.7** - Client-side routing with lazy-loaded pages
 - **TypeScript** - Strict mode enabled throughout
 
 ### Backend & Authentication
@@ -794,6 +794,6 @@ This is a well-maintained, production-ready application. Respect the established
 
 ---
 
-**Last Updated**: 2026-11-24
+**Last Updated**: 2026-11-25
 **Version**: 1.0
 **Language**: Ukrainian (Project), English (This Guide)
