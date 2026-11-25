@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/ViktorPro1/Rabbit-farming-from-A-to-Z-React-/actions/workflows/ci.yml"><img src="https://github.com/ViktorPro1/Rabbit-farming-from-A-to-Z-React-/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <img src="https://img.shields.io/badge/version-1.3.0-2e7d32" alt="Версія 1.3.0">
+  <img src="https://img.shields.io/badge/version-1.4.0-2e7d32" alt="Версія 1.4.0">
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="Ліцензія MIT">
 </p>
 
@@ -124,7 +124,7 @@ Production-збірка: `npm run build`. Тести: `npm test`. Змінні �
 
 ## Roadmap
 
-Поточна версія — **1.3.0**. Детальний план — у [ROADMAP.md](docs/Планування/ROADMAP.md).
+Поточна версія — **1.4.0**. Детальний план — у [ROADMAP.md](docs/Планування/ROADMAP.md).
 
 - **1.0** — довідник, PWA, реєстр господарства, статистика, SEO, Supabase, автотести, Android (TWA), push-сповіщення, календар, фінансовий облік
 - **1.1–1.3** — чат учасників, крафтове виробництво, просування та репутація, нумерація кролів, розширений облік (корми, партії), календар-сітка, публічні візитки й паспорти за QR-кодом
