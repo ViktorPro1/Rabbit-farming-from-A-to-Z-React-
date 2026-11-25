@@ -1,7 +1,3 @@
-/* Стилі сторінки "Калькулятор зернової суміші" */
-
-/* --- Спільна основа сторінки --- */
-
 .calc-page {
     min-height: 100vh;
 }
@@ -92,21 +88,60 @@
     display: flex;
     justify-content: center;
     margin-top: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 8px;
 }
 
+/* Кнопка в одному стилі з вкладками режимів (.calc-mode-btn) */
 .calc-back-btn {
-    background: var(--green-dark);
-    color: var(--green-pale);
-    padding: 10px 24px;
-    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 50%;
+    min-width: 220px;
+    padding: 10px;
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    background: var(--cream);
+    color: var(--green-dark);
     font-size: 14px;
     font-weight: 500;
-    transition: background 0.2s;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Стрілка "назад" без іконок і емодзі */
+.calc-back-btn::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
 }
 
 .calc-back-btn:hover {
-    background: var(--green-mid);
+    background: var(--green-light);
+    border-color: var(--green-accent);
+}
+
+.calc-back-btn:hover::before {
+    transform: translateX(-3px) rotate(45deg);
+}
+
+.calc-back-btn:focus-visible {
+    outline: 2px solid var(--green-accent);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .calc-back-btn,
+    .calc-back-btn::before {
+        transition: none;
+    }
 }
 
 /* --- Режими, вибір зернових, вага --- */
