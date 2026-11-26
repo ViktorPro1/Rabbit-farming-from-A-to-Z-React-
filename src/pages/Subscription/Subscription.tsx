@@ -1,13 +1,29 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Subscription.css";
 
-const features = [
+type Feature = {
+  icon: string;
+  title: string;
+  desc: string;
+  details: string[];
+};
+
+type Category = {
+  id: string;
+  icon: string;
+  title: string;
+  tagline: string;
+  items: string[];
+};
+
+const features: Feature[] = [
   {
     icon: "🐇",
     title: "Мої кролики",
     desc: "Реєстр дорослих тварин. Додавайте кожного кролика з кличкою, породою, кліткою і датою народження. Вік розраховується автоматично.",
     details: [
-      "Необмежена кількість тварин",
+      "Зручний реєстр усього поголів'я",
       "Фільтр за статтю, породою, кліткою",
       "Автоматичний розрахунок віку",
       "Редагування та видалення записів",
@@ -55,7 +71,7 @@ const features = [
       "Один плідник — кілька самок",
       "Окремий облік кожної самки",
       "Злучки та окроли по загону",
-      "Зручно для великого поголів'я",
+      "Зручно для групового утримання",
     ],
   },
   {
@@ -301,7 +317,140 @@ const features = [
   },
 ];
 
+const categories: Category[] = [
+  {
+    id: "herd",
+    icon: "🐇",
+    title: "Облік поголів'я",
+    tagline: "Реєстр, нумерація, QR-паспорти та історія кожної клітки",
+    items: [
+      "Мої кролики",
+      "Нумерація тварин",
+      "QR-коди кліток",
+      "Історія клітки",
+      "Статистика",
+      "Архів",
+    ],
+  },
+  {
+    id: "breeding",
+    icon: "🧬",
+    title: "Розведення",
+    tagline: "Родовід, злучки та автоматичний розрахунок окролу",
+    items: ["Родовід", "Парування", "План підбору", "Вольєрне утримання"],
+  },
+  {
+    id: "growing",
+    icon: "🥩",
+    title: "Молодняк та відгодівля",
+    tagline: "Контроль приросту ваги та дати забою",
+    items: ["Відгодівля", "Зважування"],
+  },
+  {
+    id: "health",
+    icon: "💉",
+    title: "Здоров'я тварин",
+    tagline: "Щеплення, лікування, карантин і журнал дезінфекції",
+    items: ["Вакцинація", "Лікування", "Карантин", "Дезінфекція", "Аптечка"],
+  },
+  {
+    id: "feeding",
+    icon: "🌾",
+    title: "Годування",
+    tagline: "Запаси кормів, раціони та калькулятор суміші",
+    items: ["Корми", "Раціони", "Калькулятор корму"],
+  },
+  {
+    id: "finance",
+    icon: "💰",
+    title: "Фінанси",
+    tagline: "Доходи, витрати та собівартість без повторного введення",
+    items: ["Фінанси", "Собівартість"],
+  },
+  {
+    id: "control",
+    icon: "📅",
+    title: "Контроль господарства",
+    tagline: "Усі події в одному календарі та нагадування на телефон",
+    items: ["Календар господарства", "Push-сповіщення"],
+  },
+  {
+    id: "extra",
+    icon: "🧩",
+    title: "Додаткові можливості",
+    tagline: "Експорт даних, резервна копія та чат учасників",
+    items: ["Експорт CSV", "Резервна копія", "Чат учасників"],
+  },
+];
+
+const benefits = [
+  {
+    icon: "🗂",
+    title: "Все в одному місці",
+    desc: "Реєстр, злучки, здоров'я, корми та фінанси замість зошитів і таблиць.",
+  },
+  {
+    icon: "⚡",
+    title: "Автоматичні розрахунки",
+    desc: "Дати окролу, відлучення, забою та наступних щеплень система рахує сама.",
+  },
+  {
+    icon: "🔔",
+    title: "Нагадування на телефон",
+    desc: "Push-сповіщення про ключові події господарства вчасно.",
+  },
+  {
+    icon: "📱",
+    title: "З будь-якого пристрою",
+    desc: "Телефон, планшет чи комп'ютер. Дані зберігаються в хмарі.",
+  },
+];
+
+const screens = [
+  {
+    id: "menu",
+    label: "Меню розділів",
+    desktop: "/screens/desktop.webp",
+    mobile: "/screens/mobile.webp",
+  },
+  {
+    id: "registry",
+    label: "Реєстр тварин",
+    desktop: "/screens/desktop-1.webp",
+    mobile: "/screens/mobile-1.webp",
+  },
+];
+
+const featureByTitle = new Map(features.map((f) => [f.title, f]));
+
+type ScreenShotProps = {
+  src: string;
+  alt: string;
+  placeholder: string;
+};
+
+const ScreenShot = ({ src, alt, placeholder }: ScreenShotProps) => {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return <div className="sub-shot-placeholder">{placeholder}</div>;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      onError={() => setFailed(true)}
+    />
+  );
+};
+
 const Subscription = () => {
+  const [showAll, setShowAll] = useState(false);
+  const [shot, setShot] = useState(0);
+
   return (
     <main className="sub-page">
       <div className="sub-header">
@@ -314,8 +463,9 @@ const Subscription = () => {
 
       <div className="sub-wrap">
         {/* ГОЛОВНИЙ БЛОК */}
-        <div className="sub-hero">
+        <section className="sub-hero">
           <div className="sub-hero-text">
+            <span className="sub-eyebrow">Для домашнього кролівництва</span>
             <h2>Система обліку кролівництва</h2>
             <p>
               Більше не потрібні зошити, таблиці в Excel чи записки на папері.
@@ -339,8 +489,8 @@ const Subscription = () => {
               <span className="sub-stat-label">розділів обліку</span>
             </div>
             <div className="sub-stat">
-              <span className="sub-stat-num">∞</span>
-              <span className="sub-stat-label">кроликів у реєстрі</span>
+              <span className="sub-stat-num">8</span>
+              <span className="sub-stat-label">категорій</span>
             </div>
             <div className="sub-stat">
               <span className="sub-stat-num">24/7</span>
@@ -349,21 +499,159 @@ const Subscription = () => {
               </span>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* ПЕРЕВАГИ */}
+        <section className="sub-benefits" aria-label="Основні переваги">
+          {benefits.map((b) => (
+            <div key={b.title} className="sub-benefit">
+              <span className="sub-benefit-icon" aria-hidden="true">
+                {b.icon}
+              </span>
+              <strong>{b.title}</strong>
+              <p>{b.desc}</p>
+            </div>
+          ))}
+        </section>
 
         {/* ЦІНА */}
-        <div className="sub-price-block">
+        <section className="sub-price-block">
           <div className="sub-price">
             <span className="sub-price-amount">250 грн</span>
             <span className="sub-price-period">/ місяць</span>
           </div>
           <p className="sub-price-desc">
-            Повний доступ до всіх функцій без обмежень
+            Повний доступ до всіх функцій. Система створена для господарів, які
+            утримують кролів вдома, орієнтовно до 100 кроликів.
           </p>
+        </section>
+
+        {/* СКРІНШОТИ */}
+        <div className="sub-section-title">Як це виглядає</div>
+        <section className="sub-shots" aria-label="Скріншоти системи">
+          <div
+            className="sub-shot-tabs"
+            role="tablist"
+            aria-label="Екран системи"
+          >
+            {screens.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                role="tab"
+                aria-selected={shot === i}
+                className={`sub-shot-tab${shot === i ? " is-active" : ""}`}
+                onClick={() => setShot(i)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
+          <figure className="sub-shot sub-shot-desktop">
+            <div className="sub-browser-bar" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="sub-shot-screen">
+              <ScreenShot
+                key={screens[shot].desktop}
+                src={screens[shot].desktop}
+                alt={`Облік кролівництва на комп'ютері: ${screens[shot].label}`}
+                placeholder="Скріншот з комп'ютера"
+              />
+            </div>
+            <figcaption>На комп'ютері</figcaption>
+          </figure>
+
+          <figure className="sub-shot sub-shot-mobile">
+            <div className="sub-phone">
+              <div className="sub-shot-screen">
+                <ScreenShot
+                  key={screens[shot].mobile}
+                  src={screens[shot].mobile}
+                  alt={`Облік кролівництва на телефоні: ${screens[shot].label}`}
+                  placeholder="Скріншот з телефону"
+                />
+              </div>
+            </div>
+            <figcaption>На телефоні</figcaption>
+          </figure>
+        </section>
+
+        {/* КАТЕГОРІЇ */}
+        <div className="sub-section-title">Що входить у підписку</div>
+        <div className="sub-categories">
+          {categories.map((c, i) => (
+            <article key={c.id} className="sub-category">
+              <div className="sub-category-top">
+                <span className="sub-category-icon" aria-hidden="true">
+                  {c.icon}
+                </span>
+                <span className="sub-category-count">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <h3>{c.title}</h3>
+              <p>{c.tagline}</p>
+              <ul className="sub-chips">
+                {c.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
 
+        <div className="sub-toggle-wrap">
+          <button
+            type="button"
+            className={`sub-toggle-btn${showAll ? " is-open" : ""}`}
+            onClick={() => setShowAll((v) => !v)}
+            aria-expanded={showAll}
+            aria-controls="sub-all-features"
+          >
+            {showAll ? "Сховати деталі" : "Переглянути всі можливості"}
+            <span className="sub-toggle-chevron" aria-hidden="true" />
+          </button>
+        </div>
+
+        {showAll && (
+          <div id="sub-all-features" className="sub-all">
+            {categories.map((c) => (
+              <section key={c.id} className="sub-all-group">
+                <h3 className="sub-all-title">
+                  <span aria-hidden="true">{c.icon}</span>
+                  {c.title}
+                </h3>
+                <div className="sub-features-grid">
+                  {c.items.map((title) => {
+                    const f = featureByTitle.get(title);
+                    if (!f) return null;
+                    return (
+                      <article key={f.title} className="sub-feature-card">
+                        <div className="sub-feature-header">
+                          <span className="sub-feature-icon">{f.icon}</span>
+                          <h4>{f.title}</h4>
+                        </div>
+                        <p className="sub-feature-desc">{f.desc}</p>
+                        <ul className="sub-feature-details">
+                          {f.details.map((d) => (
+                            <li key={d}>{d}</li>
+                          ))}
+                        </ul>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
+
         {/* ТЕСТОВИЙ ПЕРІОД */}
-        <div className="sub-trial-block">
+        <section className="sub-trial-block">
           <div className="sub-trial-icon">🎁</div>
           <div className="sub-trial-content">
             <h3>Тестовий період</h3>
@@ -372,29 +660,10 @@ const Subscription = () => {
               надамо тестовий доступ, щоб Ви оцінили систему перед оплатою.
             </p>
           </div>
-        </div>
-
-        {/* ФУНКЦІЇ */}
-        <div className="sub-section-title">📋 Що входить у підписку</div>
-        <div className="sub-features-grid">
-          {features.map((f) => (
-            <article key={f.title} className="sub-feature-card">
-              <div className="sub-feature-header">
-                <span className="sub-feature-icon">{f.icon}</span>
-                <h3>{f.title}</h3>
-              </div>
-              <p className="sub-feature-desc">{f.desc}</p>
-              <ul className="sub-feature-details">
-                {f.details.map((d) => (
-                  <li key={d}>✅ {d}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+        </section>
 
         {/* ЯК ОТРИМАТИ */}
-        <div className="sub-section-title">📩 Як отримати доступ</div>
+        <div className="sub-section-title">Як отримати доступ</div>
         <div className="sub-steps">
           <div className="sub-step">
             <div className="sub-step-num">1</div>
@@ -447,7 +716,7 @@ const Subscription = () => {
         </div>
 
         {/* FAQ */}
-        <div className="sub-section-title">❓ Часті питання</div>
+        <div className="sub-section-title">Часті питання</div>
         <div className="sub-faq">
           <div className="sub-faq-item">
             <strong>З якого пристрою можна користуватись?</strong>
@@ -464,10 +733,12 @@ const Subscription = () => {
             </p>
           </div>
           <div className="sub-faq-item">
-            <strong>Скільки кроликів можна додати?</strong>
+            <strong>Для кого створена система?</strong>
             <p>
-              Необмежена кількість. Немає жодних лімітів на кількість тварин або
-              записів.
+              Система створена для господарів, які утримують кролів вдома,
+              орієнтовно до 100 кроликів. Жорсткого ліміту на кількість тварин
+              немає. Якщо у Вас більше поголів'я — напишіть нам, обговоримо
+              умови.
             </p>
           </div>
           <div className="sub-faq-item">
@@ -479,7 +750,7 @@ const Subscription = () => {
         </div>
 
         {/* CTA ВНИЗУ */}
-        <div className="sub-bottom-cta">
+        <section className="sub-bottom-cta">
           <h2>Готові почати?</h2>
           <p>
             Напишіть нам — і вже сьогодні ваше господарство буде під контролем
@@ -500,7 +771,7 @@ const Subscription = () => {
               📧 Написати на Email
             </a>
           </div>
-        </div>
+        </section>
 
         <div className="sub-back">
           <Link to="/" className="sub-back-btn">

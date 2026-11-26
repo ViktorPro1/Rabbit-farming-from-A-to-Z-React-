@@ -8,7 +8,7 @@
 **Content language**: Ukrainian (Українська)
 **Interface language**: Ukrainian
 **Audience**: Ukrainian-speaking rabbit keepers — beginners to professionals
-**Last updated**: 2026-11-25
+**Last updated**: 2026-11-26
 **Total pages**: 203
 
 ---
@@ -1075,6 +1075,6 @@ Reproduction without attribution is prohibited.
 
 ---
 
-*Generated: 2026-11-25*
+*Generated: 2026-11-26*
 *Format: llms-full.txt — complete extended LLM profile*
 *Covers: 203 pages, all routes, all keywords, all groups*
