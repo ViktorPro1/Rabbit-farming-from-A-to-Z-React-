@@ -383,7 +383,25 @@ export default function Admin({ session }: Props) {
 
   async function fetchUserUsage() {
     setUserUsageLoading(true);
-    const { data, error: rpcError } = await supabase.rpc("get_user_data_usage");
+    // Додано: кількість голів по користувачах (окрема функція
+    // get_user_herd_counts). Якщо її ще немає в базі, колонка "Голів"
+    // покаже "—", решта таблиці працює як раніше.
+    const [usageRes, herdRes] = await Promise.all([
+      supabase.rpc("get_user_data_usage"),
+      supabase.rpc("get_user_herd_counts"),
+    ]);
+    const { data, error: rpcError } = usageRes;
+    const herdMap = new Map<string, number>();
+    if (herdRes.error) {
+      console.error("Не вдалося завантажити кількість голів:", herdRes.error);
+    } else {
+      for (const row of (herdRes.data ?? []) as {
+        uid: string;
+        herd_count: number;
+      }[]) {
+        herdMap.set(row.uid, Number(row.herd_count ?? 0));
+      }
+    }
     if (rpcError) {
       console.error(
         "Не вдалося завантажити використання по користувачах:",
@@ -403,6 +421,7 @@ export default function Admin({ session }: Props) {
             email: row.email,
             totalBytes: Number(row.total_bytes ?? 0),
             dataBytes: Number(row.data_bytes ?? 0),
+            herdCount: herdRes.error ? null : (herdMap.get(row.user_id) ?? 0),
           }),
         ),
       );

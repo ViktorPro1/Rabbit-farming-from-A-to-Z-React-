@@ -9,6 +9,8 @@ export interface UserDataUsage {
   email: string | null;
   totalBytes: number;
   dataBytes: number;
+  // Кількість голів (null, якщо не вдалося завантажити)
+  herdCount: number | null;
 }
 
 export interface LeadRow {

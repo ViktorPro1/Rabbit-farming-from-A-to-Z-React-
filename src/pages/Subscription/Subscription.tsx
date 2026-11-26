@@ -406,18 +406,27 @@ const benefits = [
   },
 ];
 
+// Додано точні розміри зображень для десктопу та мобілки, щоб уникнути CLS при loading="lazy"
 const screens = [
   {
     id: "menu",
     label: "Меню розділів",
     desktop: "/screens/desktop.webp",
+    desktopWidth: 1280,
+    desktopHeight: 800,
     mobile: "/screens/mobile.webp",
+    mobileWidth: 228,
+    mobileHeight: 513,
   },
   {
     id: "registry",
     label: "Реєстр тварин",
     desktop: "/screens/desktop-1.webp",
+    desktopWidth: 1280,
+    desktopHeight: 800,
     mobile: "/screens/mobile-1.webp",
+    mobileWidth: 230,
+    mobileHeight: 515,
   },
 ];
 
@@ -427,9 +436,18 @@ type ScreenShotProps = {
   src: string;
   alt: string;
   placeholder: string;
+  // Додано обов'язкові розміри для атрибутів width та height у <img> з loading="lazy"
+  width: number;
+  height: number;
 };
 
-const ScreenShot = ({ src, alt, placeholder }: ScreenShotProps) => {
+const ScreenShot = ({
+  src,
+  alt,
+  placeholder,
+  width,
+  height,
+}: ScreenShotProps) => {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
@@ -440,13 +458,16 @@ const ScreenShot = ({ src, alt, placeholder }: ScreenShotProps) => {
     <img
       src={src}
       alt={alt}
+      width={width}
+      height={height}
+      // Явний CSS aspect-ratio разом із height: auto прибирає попередження DevTools
+      style={{ aspectRatio: `${width} / ${height}` }}
       loading="lazy"
       decoding="async"
       onError={() => setFailed(true)}
     />
   );
 };
-
 const Subscription = () => {
   const [showAll, setShowAll] = useState(false);
   const [shot, setShot] = useState(0);
@@ -517,12 +538,14 @@ const Subscription = () => {
         {/* ЦІНА */}
         <section className="sub-price-block">
           <div className="sub-price">
-            <span className="sub-price-amount">250 грн</span>
+            <span className="sub-price-amount">150 грн</span>
             <span className="sub-price-period">/ місяць</span>
           </div>
           <p className="sub-price-desc">
-            Повний доступ до всіх функцій. Система створена для господарів, які
-            утримують кролів вдома, орієнтовно до 100 кроликів.
+            Повний доступ до всіх функцій. Тариф для господарів, які утримують
+            кролів вдома, до 100 кроликів.
+            <br />
+            Для більшого поголів'я — 250 грн на місяць.
           </p>
         </section>
 
@@ -555,11 +578,14 @@ const Subscription = () => {
               <span />
             </div>
             <div className="sub-shot-screen">
+              {/* Передано width і height для десктопного скріншота (1280x800) */}
               <ScreenShot
                 key={screens[shot].desktop}
                 src={screens[shot].desktop}
                 alt={`Облік кролівництва на комп'ютері: ${screens[shot].label}`}
                 placeholder="Скріншот з комп'ютера"
+                width={screens[shot].desktopWidth}
+                height={screens[shot].desktopHeight}
               />
             </div>
             <figcaption>На комп'ютері</figcaption>
@@ -568,11 +594,14 @@ const Subscription = () => {
           <figure className="sub-shot sub-shot-mobile">
             <div className="sub-phone">
               <div className="sub-shot-screen">
+                {/* Передано width і height для мобільного скріншота (228x513 або 230x515) */}
                 <ScreenShot
                   key={screens[shot].mobile}
                   src={screens[shot].mobile}
                   alt={`Облік кролівництва на телефоні: ${screens[shot].label}`}
                   placeholder="Скріншот з телефону"
+                  width={screens[shot].mobileWidth}
+                  height={screens[shot].mobileHeight}
                 />
               </div>
             </div>
@@ -735,10 +764,10 @@ const Subscription = () => {
           <div className="sub-faq-item">
             <strong>Для кого створена система?</strong>
             <p>
-              Система створена для господарів, які утримують кролів вдома,
-              орієнтовно до 100 кроликів. Жорсткого ліміту на кількість тварин
-              немає. Якщо у Вас більше поголів'я — напишіть нам, обговоримо
-              умови.
+              Система створена для господарів, які утримують кролів вдома. Тариф
+              150 грн на місяць розрахований до 100 кроликів, для більшого
+              поголів'я — 250 грн на місяць. Жорсткого технічного ліміту на
+              кількість тварин немає.
             </p>
           </div>
           <div className="sub-faq-item">
