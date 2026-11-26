@@ -9,6 +9,8 @@ const mocks = vi.hoisted(() => ({
     sendEmail: vi.fn(),
     renderTemplate: vi.fn(),
     listUsers: vi.fn(),
+    // Додано: rpc для перевірки ліміту поголів'я (get_herd_counts_for_cron)
+    rpc: vi.fn(),
     queues: new Map<string, unknown[]>(),
     log: [] as { table: string; calls: { method: string; args: unknown[] }[] }[],
 }));
@@ -45,6 +47,7 @@ vi.mock('./push.js', () => ({
     supabase: {
         from: (table: string) => makeBuilder(table, nextResult(table)),
         auth: { admin: { listUsers: mocks.listUsers } },
+        rpc: mocks.rpc,
     },
     sendToUser: mocks.sendToUser,
 }));
@@ -66,6 +69,7 @@ import {
     checkTrialFeedbackRequest,
     checkInactiveReactivation,
     checkWeighing,
+    checkHerdLimit,
 } from './reminders';
 
 const TOMORROW = '2026-11-22';
@@ -977,5 +981,141 @@ describe('checkWeighing (зважування)', () => {
         queueResult('weighings', { data: null, error: new Error('db down') });
         expect(await checkWeighing(TOMORROW)).toEqual({ sent: 0, error: 'weighings' });
         expect(mocks.sendToUser).not.toHaveBeenCalled();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// Ліміт поголів'я: лист платним користувачам при 90+ і при 100+ голів.
+// Рівень останнього листа зберігається в profiles.herd_notice_level, щоб лист
+// не йшов щодня. Порядок запитів до profiles: список, потім "займання" рівня
+// (update ... select), за потреби повернення рівня назад.
+// ---------------------------------------------------------------------------
+describe('checkHerdLimit (ліміт поголів\'я)', () => {
+    function profile(id: string, level: number, email: string | null = `${id}@example.com`) {
+        return { id, email, herd_notice_level: level };
+    }
+    function counts(rows: { uid: string; herd_count: number }[]) {
+        mocks.rpc.mockResolvedValue({ data: rows, error: null });
+    }
+    const CLAIMED = { data: [{ id: 'x' }], error: null };
+
+    beforeEach(() => {
+        mocks.rpc.mockReset();
+        counts([]);
+        mocks.sendEmail.mockResolvedValue(true);
+        mocks.renderTemplate.mockReturnValue('<html>letter</html>');
+    });
+
+    it('запитує підрахунок голів і лише платних користувачів', async () => {
+        queueResult('profiles', { data: [], error: null });
+        await checkHerdLimit();
+        expect(mocks.rpc).toHaveBeenCalledWith('get_herd_counts_for_cron');
+        expect(mocks.log[0].table).toBe('profiles');
+        expect(mocks.log[0].calls).toContainEqual({ method: 'eq', args: ['plan_type', 'paid'] });
+    });
+
+    it('при 90 голів надсилає лист "наближаєтесь" і записує рівень 1', async () => {
+        counts([{ uid: 'u1', herd_count: 90 }]);
+        queueResult('profiles', { data: [profile('u1', 0)], error: null });
+        queueResult('profiles', CLAIMED);
+        const result = await checkHerdLimit();
+        expect(result).toEqual({ sent: 1 });
+        expect(mocks.renderTemplate).toHaveBeenCalledWith('lyst-limit-nablyzhennya.html', { HERD: '90' });
+        expect(mocks.sendEmail).toHaveBeenCalledWith(
+            'u1@example.com',
+            'Ваше господарство наближається до 100 голів',
+            '<html>letter</html>'
+        );
+        expect(mocks.log[1].calls).toContainEqual({ method: 'update', args: [{ herd_notice_level: 1 }] });
+    });
+
+    it('рівно 100 голів ще вважається "наближаєтесь", а 101 вже "перевищило"', async () => {
+        counts([
+            { uid: 'u1', herd_count: 100 },
+            { uid: 'u2', herd_count: 101 },
+        ]);
+        queueResult('profiles', { data: [profile('u1', 0), profile('u2', 0)], error: null });
+        queueResult('profiles', CLAIMED);
+        queueResult('profiles', CLAIMED);
+        expect(await checkHerdLimit()).toEqual({ sent: 2 });
+        expect(mocks.renderTemplate).toHaveBeenNthCalledWith(1, 'lyst-limit-nablyzhennya.html', { HERD: '100' });
+        expect(mocks.renderTemplate).toHaveBeenNthCalledWith(2, 'lyst-limit-perevyshcheno.html', { HERD: '101' });
+        expect(mocks.sendEmail).toHaveBeenNthCalledWith(
+            2,
+            'u2@example.com',
+            "Ваше поголів'я перевищило 100 голів",
+            '<html>letter</html>'
+        );
+    });
+
+    it('не надсилає нижче 90 голів, а також нікому без підрахунку', async () => {
+        counts([{ uid: 'u1', herd_count: 89 }]);
+        queueResult('profiles', { data: [profile('u1', 0), profile('u2', 0)], error: null });
+        expect(await checkHerdLimit()).toEqual({ sent: 0 });
+        expect(mocks.sendEmail).not.toHaveBeenCalled();
+    });
+
+    it('не повторює лист, якщо цей рівень уже надсилали', async () => {
+        counts([
+            { uid: 'u1', herd_count: 95 },
+            { uid: 'u2', herd_count: 150 },
+        ]);
+        queueResult('profiles', { data: [profile('u1', 1), profile('u2', 2)], error: null });
+        expect(await checkHerdLimit()).toEqual({ sent: 0 });
+        expect(mocks.sendEmail).not.toHaveBeenCalled();
+    });
+
+    it('при зростанні з рівня 1 до перевищення надсилає другий лист', async () => {
+        counts([{ uid: 'u1', herd_count: 120 }]);
+        queueResult('profiles', { data: [profile('u1', 1)], error: null });
+        queueResult('profiles', CLAIMED);
+        expect(await checkHerdLimit()).toEqual({ sent: 1 });
+        expect(mocks.renderTemplate).toHaveBeenCalledWith('lyst-limit-perevyshcheno.html', { HERD: '120' });
+        expect(mocks.log[1].calls).toContainEqual({ method: 'eq', args: ['herd_notice_level', 1] });
+    });
+
+    it('якщо рівень уже "зайняв" інший запуск (0 оновлених рядків), лист не надсилає', async () => {
+        counts([{ uid: 'u1', herd_count: 95 }]);
+        queueResult('profiles', { data: [profile('u1', 0)], error: null });
+        queueResult('profiles', { data: [], error: null });
+        expect(await checkHerdLimit()).toEqual({ sent: 0 });
+        expect(mocks.sendEmail).not.toHaveBeenCalled();
+    });
+
+    it('якщо лист не надіслався, повертає рівень назад, щоб спробувати завтра', async () => {
+        counts([{ uid: 'u1', herd_count: 95 }]);
+        mocks.sendEmail.mockResolvedValue(false);
+        queueResult('profiles', { data: [profile('u1', 0)], error: null });
+        queueResult('profiles', CLAIMED);
+        expect(await checkHerdLimit()).toEqual({ sent: 0 });
+        expect(mocks.log[2].calls).toContainEqual({ method: 'update', args: [{ herd_notice_level: 0 }] });
+    });
+
+    it('скидає рівень у 0, коли поголів\'я впало нижче 80, і лист не надсилає', async () => {
+        counts([{ uid: 'u1', herd_count: 70 }]);
+        queueResult('profiles', { data: [profile('u1', 2)], error: null });
+        expect(await checkHerdLimit()).toEqual({ sent: 0 });
+        expect(mocks.log[1].calls).toContainEqual({ method: 'update', args: [{ herd_notice_level: 0 }] });
+        expect(mocks.sendEmail).not.toHaveBeenCalled();
+    });
+
+    it('пропускає користувача без email', async () => {
+        counts([{ uid: 'u1', herd_count: 95 }]);
+        queueResult('profiles', { data: [profile('u1', 0, null)], error: null });
+        expect(await checkHerdLimit()).toEqual({ sent: 0 });
+        expect(mocks.sendEmail).not.toHaveBeenCalled();
+    });
+
+    it('при помилці підрахунку повертає herdLimit, пише в лог і не запитує профілі', async () => {
+        mocks.rpc.mockResolvedValue({ data: null, error: new Error('rpc down') });
+        expect(await checkHerdLimit()).toEqual({ sent: 0, error: 'herdLimit' });
+        expect(console.error).toHaveBeenCalled();
+        expect(mocks.log).toHaveLength(0);
+    });
+
+    it('при помилці запиту профілів повертає herdLimit і нічого не надсилає', async () => {
+        queueResult('profiles', { data: null, error: new Error('db down') });
+        expect(await checkHerdLimit()).toEqual({ sent: 0, error: 'herdLimit' });
+        expect(mocks.sendEmail).not.toHaveBeenCalled();
     });
 });

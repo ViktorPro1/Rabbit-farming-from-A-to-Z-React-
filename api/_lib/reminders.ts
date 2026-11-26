@@ -478,6 +478,94 @@ export async function checkInactiveReactivation(tomorrow: string): Promise<Check
     return { sent };
 }
 
+// 15. Ліміт поголів'я: лист платним користувачам, коли їхнє поголів'я підходить
+// до 100 голів (тариф 150 грн) або перевищує його (тариф 250 грн).
+// Додано: у цієї перевірки немає "дати події", тому, щоб лист не йшов щодня,
+// рівень останнього надісланого листа зберігається в profiles.herd_notice_level
+// (0 = нічого не надсилали, 1 = "наближаєтесь", 2 = "перевищило").
+// Лист надсилається лише коли рівень став вищим за збережений. Якщо поголів'я
+// впало нижче HERD_RESET_BELOW, рівень скидається в 0, і при новому зростанні
+// лист піде знову. Дата (tomorrow) цій перевірці не потрібна, тому параметра немає.
+const HERD_APPROACHING_FROM = 90;
+const HERD_TARIFF_LIMIT = 100;
+const HERD_RESET_BELOW = 80;
+
+export async function checkHerdLimit(): Promise<CheckResult> {
+    // Кількість голів по користувачах: окрема функція в базі, доступна лише service role
+    const { data: counts, error: countsError } = await supabase.rpc('get_herd_counts_for_cron');
+    if (countsError) {
+        console.error('[daily-reminders] herdLimit counts failed:', countsError);
+        return { sent: 0, error: 'herdLimit' };
+    }
+    const herdByUser = new Map<string, number>();
+    for (const row of (counts ?? []) as { uid: string; herd_count: number }[]) {
+        herdByUser.set(row.uid, Number(row.herd_count ?? 0));
+    }
+
+    // Лише платні користувачі: пробні, "засновники" та VIP не отримують листа про тариф
+    const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, email, herd_notice_level')
+        .eq('plan_type', 'paid');
+    if (profilesError) {
+        console.error('[daily-reminders] herdLimit profiles failed:', profilesError);
+        return { sent: 0, error: 'herdLimit' };
+    }
+
+    let sent = 0;
+    for (const p of profiles ?? []) {
+        const herd = herdByUser.get(p.id) ?? 0;
+        const stored = p.herd_notice_level ?? 0;
+
+        // Поголів'я зменшилось: скидаємо рівень, щоб майбутнє зростання знову дало лист
+        if (herd < HERD_RESET_BELOW && stored > 0) {
+            const { error: resetError } = await supabase
+                .from('profiles')
+                .update({ herd_notice_level: 0 })
+                .eq('id', p.id);
+            if (resetError) console.error('[daily-reminders] herdLimit reset failed:', resetError);
+            continue;
+        }
+
+        const level = herd > HERD_TARIFF_LIMIT ? 2 : herd >= HERD_APPROACHING_FROM ? 1 : 0;
+        if (!p.email || level <= stored) continue;
+
+        // Спочатку "займаємо" рівень в базі (з перевіркою старого значення), потім
+        // надсилаємо лист. Так збій запису не призведе до листа щодня, а при збої
+        // відправки рівень повертається назад і наступного дня спроба повториться.
+        const { data: claimed, error: claimError } = await supabase
+            .from('profiles')
+            .update({ herd_notice_level: level })
+            .eq('id', p.id)
+            .eq('herd_notice_level', stored)
+            .select('id');
+        if (claimError || !claimed || claimed.length === 0) {
+            if (claimError) console.error('[daily-reminders] herdLimit claim failed:', claimError);
+            continue;
+        }
+
+        const html =
+            level === 2
+                ? renderTemplate('lyst-limit-perevyshcheno.html', { HERD: String(herd) })
+                : renderTemplate('lyst-limit-nablyzhennya.html', { HERD: String(herd) });
+        const subject =
+            level === 2
+                ? "Ваше поголів'я перевищило 100 голів"
+                : 'Ваше господарство наближається до 100 голів';
+        const ok = await sendEmail(p.email, subject, html);
+        if (ok) {
+            sent++;
+        } else {
+            const { error: revertError } = await supabase
+                .from('profiles')
+                .update({ herd_notice_level: stored })
+                .eq('id', p.id);
+            if (revertError) console.error('[daily-reminders] herdLimit revert failed:', revertError);
+        }
+    }
+    return { sent };
+}
+
 export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkControlMatings,
     checkExpectedBirths,
@@ -493,4 +581,6 @@ export const ALL_CHECKS: Array<(tomorrow: string) => Promise<CheckResult>> = [
     checkTrialEndedToday,
     checkTrialFeedbackRequest,
     checkInactiveReactivation,
+    // Додано: ліміт поголів'я (лист при 90+ та 100+ голів)
+    checkHerdLimit,
 ];
