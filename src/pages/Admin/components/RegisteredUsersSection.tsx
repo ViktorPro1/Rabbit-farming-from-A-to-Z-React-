@@ -1,9 +1,10 @@
-import type { PlanType, RegisteredUser } from "../types";
+import type { PlanType, RegisteredUser, TariffType } from "../types";
 
 interface Props {
   users: RegisteredUser[];
   currentUserId: string;
   onSetPlanType: (userId: string, planType: PlanType) => void;
+  onSetTariff: (userId: string, tariff: TariffType) => void;
   onSetAccessUntil: (userId: string, dateValue: string) => void;
   onGrantOneMonth: (userId: string) => void;
   onMakeUnlimited: (userId: string) => void;
@@ -14,6 +15,7 @@ export function RegisteredUsersSection({
   users,
   currentUserId,
   onSetPlanType,
+  onSetTariff,
   onSetAccessUntil,
   onGrantOneMonth,
   onMakeUnlimited,
@@ -34,6 +36,7 @@ export function RegisteredUsersSection({
               <th>Інвайт код</th>
               <th>Дата реєстрації</th>
               <th>Тип</th>
+              <th>Тариф</th>
               <th>Доступ до</th>
               <th></th>
             </tr>
@@ -41,7 +44,7 @@ export function RegisteredUsersSection({
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: "center", opacity: 0.5 }}>
+                <td colSpan={8} style={{ textAlign: "center", opacity: 0.5 }}>
                   Немає користувачів
                 </td>
               </tr>
@@ -72,6 +75,21 @@ export function RegisteredUsersSection({
                         <option value="paid">Платний</option>
                         <option value="founder">Засновник</option>
                         <option value="vip">VIP</option>
+                      </select>
+                    </td>
+                    <td>
+                      {/* Додано: тариф (впливає на суму в квитанції про оплату) */}
+                      <select
+                        id={`tariff-${user.id}`}
+                        name={`tariff-${user.id}`}
+                        className="access-plan-select"
+                        value={user.tariff}
+                        onChange={(e) =>
+                          onSetTariff(user.id, e.target.value as TariffType)
+                        }
+                      >
+                        <option value="base">Базовий (до 100)</option>
+                        <option value="large">Більший (понад 100)</option>
                       </select>
                     </td>
                     <td>

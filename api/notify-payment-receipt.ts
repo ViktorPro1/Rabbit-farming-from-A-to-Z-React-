@@ -27,13 +27,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!email) return res.status(400).json({ error: 'Missing email' });
 
     try {
+        // Додано: сума залежить від тарифу користувача (profiles.tariff).
+        // base (за замовчуванням) → SUBSCRIPTION_PRICE, large → SUBSCRIPTION_PRICE_LARGE.
+        // Якщо профіль не знайдено або запит упав, береться базовий тариф,
+        // як було раніше. Якщо для large не задано змінну — запасний текст, а не
+        // базова ціна, щоб не вказати людині неправильну суму.
+        const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('tariff')
+            .eq('email', email)
+            .maybeSingle();
+        if (profileError) {
+            console.error('[notify-payment-receipt] profile query failed:', profileError);
+        }
+        const price =
+            profile?.tariff === 'large'
+                ? process.env.SUBSCRIPTION_PRICE_LARGE
+                : process.env.SUBSCRIPTION_PRICE;
+
         // Змінено: дата за Києвом. Vercel працює в UTC, тому getDate() вночі
         // (з 00:00 до ~03:00 за Києвом) давав вчорашню дату в квитанції.
         const [year, month, day] = todayKyiv().split('-');
         const formattedDate = `${day}.${month}.${year}`;
 
         const html = renderTemplate('lyst-kvytantsiya_pro_oplatu.html', {
-            SUMA: process.env.SUBSCRIPTION_PRICE ?? 'уточнюйте у адміністратора',
+            SUMA: price ?? 'уточнюйте у адміністратора',
             DATA: formattedDate,
             SPOSIB_OPLATY: 'переказ на картку',
         });

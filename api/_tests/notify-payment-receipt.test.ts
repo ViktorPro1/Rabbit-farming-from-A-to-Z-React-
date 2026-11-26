@@ -70,21 +70,26 @@ const validReq = () =>
 
 describe('notify-payment-receipt', () => {
     const originalPrice = process.env.SUBSCRIPTION_PRICE;
+    // Додано: ціна для тарифу large (profiles.tariff = 'large')
+    const originalPriceLarge = process.env.SUBSCRIPTION_PRICE_LARGE;
 
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.spyOn(console, 'error').mockImplementation(() => {});
+        vi.spyOn(console, 'error').mockImplementation(() => { });
         mocks.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } }, error: null });
         mocks.maybeSingle.mockResolvedValue({ data: { user_id: 'admin-1' } });
         mocks.sendEmail.mockResolvedValue(true);
         mocks.renderTemplate.mockReturnValue('<html>receipt</html>');
         mocks.todayKyiv.mockReturnValue('2026-11-20');
         process.env.SUBSCRIPTION_PRICE = '199 грн';
+        delete process.env.SUBSCRIPTION_PRICE_LARGE;
     });
 
     afterEach(() => {
         if (originalPrice === undefined) delete process.env.SUBSCRIPTION_PRICE;
         else process.env.SUBSCRIPTION_PRICE = originalPrice;
+        if (originalPriceLarge === undefined) delete process.env.SUBSCRIPTION_PRICE_LARGE;
+        else process.env.SUBSCRIPTION_PRICE_LARGE = originalPriceLarge;
     });
 
     describe('доступ', () => {
@@ -185,6 +190,64 @@ describe('notify-payment-receipt', () => {
                 'lyst-kvytantsiya_pro_oplatu.html',
                 expect.objectContaining({ SUMA: 'уточнюйте у адміністратора' })
             );
+        });
+
+        // Додано: тарифи. Перший виклик maybeSingle — перевірка адміна, другий — профіль.
+        describe('тариф користувача', () => {
+            function withTariff(profile: unknown, error: unknown = null) {
+                mocks.maybeSingle
+                    .mockResolvedValueOnce({ data: { user_id: 'admin-1' } })
+                    .mockResolvedValueOnce({ data: profile, error });
+            }
+
+            it('для тарифу large бере суму зі SUBSCRIPTION_PRICE_LARGE', async () => {
+                process.env.SUBSCRIPTION_PRICE_LARGE = '299 грн';
+                withTariff({ tariff: 'large' });
+                await call(validReq());
+                expect(mocks.renderTemplate).toHaveBeenCalledWith(
+                    'lyst-kvytantsiya_pro_oplatu.html',
+                    expect.objectContaining({ SUMA: '299 грн' })
+                );
+            });
+
+            it('для тарифу base бере SUBSCRIPTION_PRICE, навіть якщо large теж задано', async () => {
+                process.env.SUBSCRIPTION_PRICE_LARGE = '299 грн';
+                withTariff({ tariff: 'base' });
+                await call(validReq());
+                expect(mocks.renderTemplate).toHaveBeenCalledWith(
+                    'lyst-kvytantsiya_pro_oplatu.html',
+                    expect.objectContaining({ SUMA: '199 грн' })
+                );
+            });
+
+            it('для large без змінної SUBSCRIPTION_PRICE_LARGE пише запасний текст, а не базову ціну', async () => {
+                withTariff({ tariff: 'large' });
+                await call(validReq());
+                expect(mocks.renderTemplate).toHaveBeenCalledWith(
+                    'lyst-kvytantsiya_pro_oplatu.html',
+                    expect.objectContaining({ SUMA: 'уточнюйте у адміністратора' })
+                );
+            });
+
+            it('якщо профіль не знайдено, бере базову ціну', async () => {
+                withTariff(null);
+                await call(validReq());
+                expect(mocks.renderTemplate).toHaveBeenCalledWith(
+                    'lyst-kvytantsiya_pro_oplatu.html',
+                    expect.objectContaining({ SUMA: '199 грн' })
+                );
+            });
+
+            it('при помилці запиту профілю бере базову ціну, пише в лог і все одно надсилає лист', async () => {
+                withTariff(null, new Error('db down'));
+                const res = await call(validReq());
+                expect(console.error).toHaveBeenCalled();
+                expect(mocks.renderTemplate).toHaveBeenCalledWith(
+                    'lyst-kvytantsiya_pro_oplatu.html',
+                    expect.objectContaining({ SUMA: '199 грн' })
+                );
+                expect(res.statusCode).toBe(200);
+            });
         });
 
         it('повертає success: false, коли sendEmail повернув false', async () => {

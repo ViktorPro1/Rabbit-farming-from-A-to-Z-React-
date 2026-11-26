@@ -13,6 +13,7 @@ import type {
   BackendStats,
   InviteCode,
   PlanType,
+  TariffType,
   RegisteredUser,
 } from "./types";
 import { OnlineVisitorsSection } from "./components/OnlineVisitorsSection";
@@ -52,6 +53,7 @@ interface Profile {
   created_at: string;
   access_until: string | null;
   plan_type: PlanType;
+  tariff: TariffType;
 }
 
 const PRESENCE_CHANNEL = "public-site-presence";
@@ -130,7 +132,7 @@ export default function Admin({ session }: Props) {
   async function fetchUsers(allCodes: InviteCode[]) {
     const { data: profiles, error: profilesError } = await supabase
       .from("profiles")
-      .select("id, email, created_at, access_until, plan_type");
+      .select("id, email, created_at, access_until, plan_type, tariff");
 
     if (profilesError) {
       // Змінено: при помилці лишаємо поточний список користувачів
@@ -151,6 +153,7 @@ export default function Admin({ session }: Props) {
           invite_code_id: matchedCode?.id || null,
           access_until: p.access_until,
           plan_type: p.plan_type,
+          tariff: p.tariff ?? "base",
         };
       });
       setUsers(mapped);
@@ -243,6 +246,24 @@ export default function Admin({ session }: Props) {
       }
     }
 
+    const allCodes = await fetchCodes();
+    if (allCodes) await fetchUsers(allCodes);
+  }
+
+  // Додано: тариф користувача (base / large). Впливає лише на суму в квитанції про
+  // оплату, доступ не змінює. Тариф треба ставити ДО переведення на "Платний",
+  // бо квитанція надсилається саме в цей момент.
+  async function handleSetTariff(userId: string, tariff: TariffType) {
+    setPageError("");
+    const { error } = await supabase
+      .from("profiles")
+      .update({ tariff })
+      .eq("id", userId);
+    if (error) {
+      console.error("Не вдалося оновити тариф:", error);
+      setPageError("Не вдалося оновити тариф");
+      return;
+    }
     const allCodes = await fetchCodes();
     if (allCodes) await fetchUsers(allCodes);
   }
@@ -648,6 +669,7 @@ export default function Admin({ session }: Props) {
         users={users}
         currentUserId={session.user.id}
         onSetPlanType={handleSetPlanType}
+        onSetTariff={handleSetTariff}
         onSetAccessUntil={handleSetAccessUntil}
         onGrantOneMonth={handleGrantOneMonth}
         onMakeUnlimited={handleMakeUnlimited}

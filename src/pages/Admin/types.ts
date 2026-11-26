@@ -62,6 +62,10 @@ export interface InviteCode {
 // Єдиний тип плану, щоб не дублювати об'єднання в кількох місцях
 export type PlanType = "trial" | "paid" | "founder" | "vip";
 
+// Додано: тариф користувача. base — базовий (до 100 голів), large — для більшого
+// поголів'я. Сума для кожного береться зі змінних Vercel (див. DocsSection).
+export type TariffType = "base" | "large";
+
 export interface RegisteredUser {
   id: string;
   email: string;
@@ -70,4 +74,5 @@ export interface RegisteredUser {
   invite_code_id: string | null;
   access_until: string | null;
   plan_type: PlanType;
+  tariff: TariffType;
 }
