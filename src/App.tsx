@@ -27,6 +27,10 @@ const Assistant = lazy(() => import("./components/Assistant/Assistant"));
 const AssistantPromo = lazy(
   () => import("./components/AssistantPromo/AssistantPromo"),
 );
+// Додано: віконце "ця функція вже є в обліку" на сторінках тем.
+const CabinetPromo = lazy(
+  () => import("./components/CabinetPromo/CabinetPromo"),
+);
 // Додано: сніг на весь екран (новорічні свята). Показується автоматично
 // у святковий період (див. useFestiveMode). Гірлянда рендериться окремо — всередині Hero.
 const FestiveSnow = lazy(
@@ -290,6 +294,13 @@ function App() {
             <Suspense fallback={null}>
               <Assistant />
               <AssistantPromo />
+            </Suspense>
+          </ErrorBoundary>
+          {/* Додано: віконце про функції обліку (не показується залогіненим);
+              fallback={null} - збій не ламає сайт */}
+          <ErrorBoundary boundaryName="CabinetPromo" fallback={null}>
+            <Suspense fallback={null}>
+              <CabinetPromo session={session} />
             </Suspense>
           </ErrorBoundary>
           <Header session={session} />

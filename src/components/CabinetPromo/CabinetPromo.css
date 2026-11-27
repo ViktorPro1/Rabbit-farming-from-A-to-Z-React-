@@ -1,0 +1,211 @@
+.cpromo {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: min(460px, calc(100vw - 32px));
+  box-sizing: border-box;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 40px 16px 18px;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--green-light) 100%);
+  border: 1px solid var(--green-pale);
+  border-radius: 18px;
+  box-shadow:
+    0 14px 40px rgba(39, 80, 10, 0.18),
+    0 2px 6px rgba(39, 80, 10, 0.08);
+  overflow: hidden;
+  animation: cpromo-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Акцентна смуга зліва */
+.cpromo::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--green-accent), var(--green-dark));
+}
+
+/* Декоративне коло праворуч знизу */
+.cpromo::after {
+  content: "";
+  position: absolute;
+  right: -34px;
+  bottom: -44px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--green-pale) 0%, transparent 70%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@keyframes cpromo-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.cpromo__icon {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--green-accent), var(--green-mid));
+  box-shadow: 0 6px 14px rgba(59, 109, 17, 0.35);
+  transform: rotate(-4deg);
+}
+
+.cpromo__body {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.cpromo__title {
+  margin: 0 0 6px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--green-dark);
+}
+
+.cpromo__text {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #3a3a33;
+}
+
+.cpromo__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.cpromo__badge {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--green-mid);
+  background: var(--green-light);
+  border: 1px solid var(--green-pale);
+  border-radius: 999px;
+}
+
+.cpromo__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--green-mid);
+  border-radius: 999px;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.cpromo__link:hover {
+  background: var(--green-dark);
+  transform: translateX(2px);
+}
+
+.cpromo__link:focus-visible,
+.cpromo__close:focus-visible {
+  outline: 2px solid var(--green-accent);
+  outline-offset: 2px;
+}
+
+.cpromo__close {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  background: transparent;
+  border-radius: 50%;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.cpromo__close:hover {
+  color: var(--green-dark);
+  background: rgba(39, 80, 10, 0.1);
+}
+
+/* Темна тема */
+[data-theme="dark"] .cpromo {
+  background: linear-gradient(135deg, #131f0b 0%, var(--green-light) 100%);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .cpromo__title {
+  color: #e4edd6;
+}
+
+[data-theme="dark"] .cpromo__text {
+  color: #cfd3c6;
+}
+
+[data-theme="dark"] .cpromo__link {
+  color: #10190a;
+  background: var(--green-mid);
+}
+
+[data-theme="dark"] .cpromo__link:hover {
+  background: #c4de9a;
+}
+
+/* Мобільні: піднімаємо над кнопкою помічника (64px + відступ) */
+@media (max-width: 640px) {
+  .cpromo {
+    bottom: 96px;
+    padding: 14px 38px 14px 16px;
+    gap: 12px;
+  }
+
+  .cpromo__icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Повага до налаштування "зменшити рух" */
+@media (prefers-reduced-motion: reduce) {
+  .cpromo {
+    animation: none;
+  }
+
+  .cpromo__link {
+    transition: none;
+  }
+}
