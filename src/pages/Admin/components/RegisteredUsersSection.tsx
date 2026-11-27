@@ -78,19 +78,25 @@ export function RegisteredUsersSection({
                       </select>
                     </td>
                     <td>
-                      {/* Додано: тариф (впливає на суму в квитанції про оплату) */}
-                      <select
-                        id={`tariff-${user.id}`}
-                        name={`tariff-${user.id}`}
-                        className="access-plan-select"
-                        value={user.tariff}
-                        onChange={(e) =>
-                          onSetTariff(user.id, e.target.value as TariffType)
-                        }
-                      >
-                        <option value="base">Базовий (до 100)</option>
-                        <option value="large">Більший (понад 100)</option>
-                      </select>
+                      {/* Додано: тариф (впливає на суму в квитанції про оплату).
+                          Для "Засновника" та VIP не показуємо: вони не платять за тарифом. */}
+                      {user.plan_type === "founder" ||
+                      user.plan_type === "vip" ? (
+                        <span style={{ opacity: 0.5 }}>—</span>
+                      ) : (
+                        <select
+                          id={`tariff-${user.id}`}
+                          name={`tariff-${user.id}`}
+                          className="access-plan-select"
+                          value={user.tariff}
+                          onChange={(e) =>
+                            onSetTariff(user.id, e.target.value as TariffType)
+                          }
+                        >
+                          <option value="base">Базовий (до 100)</option>
+                          <option value="large">Більший (понад 100)</option>
+                        </select>
+                      )}
                     </td>
                     <td>
                       {user.access_until ? (
