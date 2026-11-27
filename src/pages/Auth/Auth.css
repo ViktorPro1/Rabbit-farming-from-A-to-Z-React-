@@ -139,3 +139,26 @@
         border-radius: 8px;
     }
 }
+
+/* Додано: повідомлення про успіх (лист для відновлення пароля надіслано) */
+.auth-success {
+    color: var(--green-dark);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Додано: текстова кнопка-посилання "Забули пароль?" / "Назад до входу" */
+.auth-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--green-dark);
+    font-size: 0.9rem;
+    text-decoration: underline;
+    cursor: pointer;
+    align-self: center;
+}
+
+.auth-link:hover {
+    color: var(--green-mid);
+}

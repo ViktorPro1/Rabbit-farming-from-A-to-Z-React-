@@ -4,7 +4,9 @@ import { supabase } from "../../lib/supabase";
 import { Link } from "react-router-dom";
 import "./Auth.css";
 
-type Mode = "login" | "register";
+// Додано режим "forgot" — відновлення пароля. Раніше було лише "login" та
+// "register", тож користувач, що забув пароль, не мав способу повернути доступ.
+type Mode = "login" | "register" | "forgot";
 
 interface Props {
   returnTo?: string;
@@ -16,8 +18,56 @@ export default function Auth({ returnTo = "/registry" }: Props) {
   const [password, setPassword] = useState("");
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState("");
+  // Додано: повідомлення про успіх (лист для відновлення надіслано)
+  const [info, setInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Додано: надсилає лист із посиланням для відновлення пароля.
+  // Supabase повертає успіх і для неіснуючого email, тому не розкриваємо,
+  // чи є такий акаунт. redirectTo веде на сторінку /reset-password (крок 2).
+  async function handleForgot() {
+    setError("");
+    setInfo("");
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
+      setError("Введіть email, який ви вказували при реєстрації");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) {
+        if (error.message.toLowerCase().includes("rate limit")) {
+          setError(
+            "Забагато спроб. Зачекайте кілька хвилин і спробуйте ще раз",
+          );
+        } else {
+          setError("Не вдалося надіслати лист. Спробуйте ще раз пізніше");
+        }
+      } else {
+        setInfo(
+          "Якщо такий акаунт існує, на пошту надіслано лист із посиланням для зміни пароля. Перевірте також папку Спам",
+        );
+      }
+    } catch (err) {
+      console.error("Помилка відновлення пароля:", err);
+      setError(
+        "Не вдалося надіслати лист. Перевірте з'єднання й спробуйте ще раз",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Додано: перемикання режиму з очищенням повідомлень
+  function switchMode(next: Mode) {
+    setMode(next);
+    setError("");
+    setInfo("");
+  }
 
   // Змінено: try/catch/finally — раніше виняток (напр. збій мережі) лишав
   // кнопку в стані "Завантаження..." назавжди.
@@ -153,13 +203,13 @@ export default function Auth({ returnTo = "/registry" }: Props) {
         <div className="auth-tabs">
           <button
             className={mode === "login" ? "active" : ""}
-            onClick={() => setMode("login")}
+            onClick={() => switchMode("login")}
           >
             Вхід
           </button>
           <button
             className={mode === "register" ? "active" : ""}
-            onClick={() => setMode("register")}
+            onClick={() => switchMode("register")}
           >
             Реєстрація
           </button>
@@ -175,17 +225,20 @@ export default function Auth({ returnTo = "/registry" }: Props) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
-            id="auth-password"
-            name="password"
-            type="password"
-            placeholder="Пароль"
-            autoComplete={
-              mode === "login" ? "current-password" : "new-password"
-            }
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          {/* Змінено: у режимі "forgot" поле пароля не показується */}
+          {mode !== "forgot" && (
+            <input
+              id="auth-password"
+              name="password"
+              type="password"
+              placeholder="Пароль"
+              autoComplete={
+                mode === "login" ? "current-password" : "new-password"
+              }
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          )}
 
           {mode === "register" && (
             <input
@@ -199,18 +252,48 @@ export default function Auth({ returnTo = "/registry" }: Props) {
           )}
 
           {error && <p className="auth-error">{error}</p>}
+          {info && <p className="auth-success">{info}</p>}
 
+          {/* Змінено: кнопка залежно від режиму (додано "forgot") */}
           <button
             className="auth-submit"
-            onClick={mode === "login" ? handleLogin : handleRegister}
+            onClick={
+              mode === "login"
+                ? handleLogin
+                : mode === "register"
+                  ? handleRegister
+                  : handleForgot
+            }
             disabled={loading}
           >
             {loading
               ? "Завантаження..."
               : mode === "login"
                 ? "Увійти"
-                : "Зареєструватись"}
+                : mode === "register"
+                  ? "Зареєструватись"
+                  : "Надіслати посилання"}
           </button>
+
+          {/* Додано: перехід до відновлення пароля / назад до входу */}
+          {mode === "login" && (
+            <button
+              type="button"
+              className="auth-link"
+              onClick={() => switchMode("forgot")}
+            >
+              Забули пароль?
+            </button>
+          )}
+          {mode === "forgot" && (
+            <button
+              type="button"
+              className="auth-link"
+              onClick={() => switchMode("login")}
+            >
+              Назад до входу
+            </button>
+          )}
         </div>
 
         {mode === "register" && (

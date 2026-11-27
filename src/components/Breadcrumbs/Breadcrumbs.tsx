@@ -282,6 +282,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/chat": "Чат",
   "/backup": "Резервна копія",
   "/grain-calculator": "Калькулятор кормів",
+  "/reset-password": "Скидання пароля",
 
   // АДМІН
   "/admin": "Адмін",

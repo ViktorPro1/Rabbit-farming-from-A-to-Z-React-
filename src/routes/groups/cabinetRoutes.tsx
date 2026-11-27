@@ -59,6 +59,10 @@ const NumberingPage = lazy(
 );
 const Chat = lazy(() => import("../../pages/Chat/Chat"));
 const Backup = lazy(() => import("../../pages/Backup/Backup"));
+// Додано: сторінка встановлення нового пароля (посилання з листа відновлення)
+const ResetPassword = lazy(
+  () => import("../../pages/ResetPassword/ResetPassword"),
+);
 
 /**
  * Обгортає елемент сторінки кабінету власним ErrorBoundary,
@@ -88,6 +92,8 @@ function withCabinetBoundary(name: string, element: ReactNode) {
 export function getCabinetRoutes(session: Session | null) {
   return (
     <>
+      {/* Додано: не потребує сесії на вході, сесію створює посилання з листа */}
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route
         path="/registry"
         element={
