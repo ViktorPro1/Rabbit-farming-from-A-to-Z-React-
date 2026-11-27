@@ -197,7 +197,6 @@ Below is the complete site structure mapping for automated AI agents and crawler
 ### Інструменти
 * [Обладнання ферми](https://rabbit-farming-from-a-to-z-react.vercel.app/equipment)
 * [Інструменти](https://rabbit-farming-from-a-to-z-react.vercel.app/tools)
-* [Калькулятор](https://rabbit-farming-from-a-to-z-react.vercel.app/calculator)
 * [Ідентифікація кролів (мітки та чипи)](https://rabbit-farming-from-a-to-z-react.vercel.app/rabbit-identification)
 
 ### Фінал
@@ -794,6 +793,6 @@ This is a well-maintained, production-ready application. Respect the established
 
 ---
 
-**Last Updated**: 2026-11-25
+**Last Updated**: 2026-11-27
 **Version**: 1.0
 **Language**: Ukrainian (Project), English (This Guide)

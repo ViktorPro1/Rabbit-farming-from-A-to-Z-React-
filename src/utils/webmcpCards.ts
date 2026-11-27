@@ -28,7 +28,9 @@ const PRIVATE_PREFIXES = [
   "/grain-recipes-history",
   "/weighing",
   "/pedigree",
-  "/calculator",
+  // Зміна 2026-11-27: було "/calculator" (маршруту більше немає). Закритий
+  // калькулятор кабінету тепер /grain-calculator; /dates-calculator публічний.
+  "/grain-calculator",
   "/admin",
 ];
 

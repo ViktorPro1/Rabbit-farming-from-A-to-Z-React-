@@ -1,3 +1,11 @@
+/*
+  Зміна 2026-11-27: з масиву прибрано маршрут /calculator, бо його більше немає:
+  єдиний калькулятор розділено на /dates-calculator і /grain-calculator (2026-11-24).
+  Старі посилання ведуть через редірект у src/routes/groups/breedingRoutes.tsx.
+  Увага: scripts/generate-sitemap.mjs бере з цього файлу КОЖЕН рядок у подвійних лапках
+  з адресою, а scripts/generate-llms.mjs перетворює кожен коментар у масиві на розділ,
+  тому пояснення пишемо тільки тут, поза масивом, і без адрес у лапках.
+*/
 export const prerenderRoutes = [
     "/",
 
@@ -170,7 +178,6 @@ export const prerenderRoutes = [
     // Інструменти
     "/equipment",
     "/tools",
-    "/calculator",
     "/rabbit-identification",
 
     // Фінал

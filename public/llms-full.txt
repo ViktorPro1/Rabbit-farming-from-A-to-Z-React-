@@ -9,7 +9,7 @@
 **Interface language**: Ukrainian
 **Audience**: Ukrainian-speaking rabbit keepers — beginners to professionals
 **Last updated**: 2026-11-27
-**Total pages**: 203
+**Total pages**: 202
 
 ---
 
@@ -360,9 +360,9 @@ Keywords: напівсибси у кролів, що таке напівсибс
 Keywords: конвеєр окролів, принцип безперервного виробництва, розрахунок графіка, графік по групах, гр. 1, гр. 2, гр. 3, прогноз виходу молодняку на забій, практичні поради, коли обирати "по одній", коли обирати "групами", це орієнтир, не жорсткий план
 <!-- auto-generated: delete this line to keep the entry as is -->
 
-**GET /dates-calculator** — Кролівництво від А до Я — облік, догляд та лікування кролів
-Сучасна платформа для кролівників: облік поголів'я, годівля, вакцинація, лікування, розведення та ведення домашнього господарства крок за кроком.
-Keywords: кролівництво від а до я — облік, догляд та лікування кролів, калькулятор дат розведення, кроличка (самка), кролик (самець)
+**GET /dates-calculator** — Калькулятор дат розведення кролів
+Калькулятор дат розведення кролів: злучка, окріл, відлучення та наступна злучка для самки і самця.
+Keywords: калькулятор дат розведення кролів, кроличка (самка), кролик (самець)
 <!-- auto-generated: delete this line to keep the entry as is -->
 
 ---
@@ -670,10 +670,6 @@ Keywords: маточне поголів'я, кількість самок, ск�
 ---
 
 ### GROUP: ІНСТРУМЕНТИ ТА ОБЛАДНАННЯ (Tools & Equipment)
-
-**GET /calculator** — Калькулятор (Calculator) [REQUIRES LOGIN]
-Grain mixture and breeding date calculator.
-Keywords: калькулятор, зернова суміш, раціон, дата злучки, дата окролу, розрахунок, рецепт комбікорму, пропорції зерна, соєва макуха, соняшникова макуха, годування ячменем, овес для кролів, планування окролів, календар розведення, норми годівлі
 
 **GET /equipment** — Обладнання (Equipment)
 Granulator, extruder, grass cutter, mixer.
@@ -1013,7 +1009,7 @@ The following pages require a valid Supabase session:
 - **GET /statistics** — Farm statistics and analytics
 - **GET /my-vaccinations** — Personal vaccination tracking
 - **GET /my-treatments** — Personal treatment logs
-- **GET /calculator** — Grain mix and breeding date calculator
+- **GET /grain-calculator** — Grain mix calculator
 - **GET /admin** — Admin panel (admin session required)
 
 ---
@@ -1077,4 +1073,4 @@ Reproduction without attribution is prohibited.
 
 *Generated: 2026-11-27*
 *Format: llms-full.txt — complete extended LLM profile*
-*Covers: 203 pages, all routes, all keywords, all groups*
+*Covers: 202 pages, all routes, all keywords, all groups*

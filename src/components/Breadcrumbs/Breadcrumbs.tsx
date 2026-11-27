@@ -188,7 +188,8 @@ const ROUTE_LABELS: Record<string, string> = {
   "/breeding-herd": "Маточне поголів'я",
 
   // ІНСТРУМЕНТИ
-  "/calculator": "Калькулятор",
+  // Зміна 2026-11-27: прибрано "/calculator": "Калькулятор" — маршруту більше немає;
+  // назви нових адрес уже є нижче: /dates-calculator і /grain-calculator.
   "/equipment": "Обладнання",
   "/tools": "Інструменти",
   "/rabbit-identification": "Ідентифікація кролів",
@@ -282,7 +283,6 @@ const ROUTE_LABELS: Record<string, string> = {
   "/chat": "Чат",
   "/backup": "Резервна копія",
   "/grain-calculator": "Калькулятор кормів",
-  "/reset-password": "Скидання пароля",
 
   // АДМІН
   "/admin": "Адмін",

@@ -665,7 +665,9 @@ const MatingPage = () => {
               desc: "Від народження до 90 днів",
             },
             {
-              to: "/calculator",
+              // Зміна 2026-11-27: було to: "/calculator" (маршруту більше немає);
+              // опис «дата злучки та окролу» відповідає /dates-calculator.
+              to: "/dates-calculator",
               icon: "🧮",
               title: "Калькулятор",
               desc: "Розрахунок дати злучки та окролу",

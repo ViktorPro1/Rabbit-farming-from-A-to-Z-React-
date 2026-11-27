@@ -38,14 +38,18 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: /mobile\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
     },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
+    /* Мобільний екран (Pixel 5). Запускає лише мобільні сценарії з
+       e2e/mobile.spec.ts, щоб не подвоювати час прогону всіх тестів.
+       Зміна 2026-11-27: було закоментовано, тепер увімкнено. */
+    {
+      name: 'Mobile Chrome',
+      testMatch: /mobile\.spec\.ts/,
+      use: { ...devices['Pixel 5'] },
+    },
   ],
 
   /* Піднімаємо production-preview (не dev-сервер!) — тестуємо саме

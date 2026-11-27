@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
-import { Route } from "react-router-dom";
+import { Navigate, Route } from "react-router-dom";
 
 const Okril = lazy(() => import("../../pages/Okril/Okril"));
 const WinterLitter = lazy(
@@ -79,5 +79,12 @@ export const breedingRoutes = (
     <Route path="/half-siblings" element={<HalfSiblings />} />
     <Route path="/conveyor" element={<Conveyor />} />
     <Route path="/dates-calculator" element={<DatesCalculator />} />
+    {/* Додано 2026-11-27: старий єдиний калькулятор /calculator розділено на
+        /dates-calculator (публічний) і /grain-calculator (кабінет). Редірект
+        зберігає старі посилання із закладок і пошуку; веде на публічну сторінку. */}
+    <Route
+      path="/calculator"
+      element={<Navigate to="/dates-calculator" replace />}
+    />
   </>
 );

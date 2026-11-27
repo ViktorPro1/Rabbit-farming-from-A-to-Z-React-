@@ -2288,20 +2288,6 @@
       ]
     },
     {
-      "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:calculator",
-      "displayName": "Калькулятор",
-      "type": "text/html",
-      "url": "https://rabbit-farming-from-a-to-z-react.vercel.app/calculator",
-      "description": "Зернова суміш і Дати розведення (Підписка!)",
-      "representativeQueries": [
-        "овес для кролів",
-        "калькулятор",
-        "зернова суміш",
-        "раціон",
-        "дата злучки"
-      ]
-    },
-    {
       "identifier": "urn:air:rabbit-farming-from-a-to-z-react.vercel.app:page:equipment",
       "displayName": "Обладнання",
       "type": "text/html",
