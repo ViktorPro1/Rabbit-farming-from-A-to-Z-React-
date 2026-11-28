@@ -108,13 +108,12 @@ function MalePicker({
       plannedDate: date,
       notes: notes.trim(),
     });
-    if (ok) {
-      setMessage(
-        `Заплановано: ${chosen.rabbit.name}, ${formatDateUA(date)}. Дивіться список нижче.`,
-      );
-      setBackupId("");
-      setNotes("");
-    }
+    // Змінено: раніше тут після успіху показувався локальний рядок
+    // «Заплановано: ... Дивіться список нижче.» та очищалися поля. Після
+    // успішного збереження сторінка тепер закриває весь блок підбору
+    // (handleCreatePlan -> setOpenFemaleId(null)), тож цей рядок зникав разом
+    // із формою. Підтвердження показується в картці самки (plan-card-notice).
+    if (ok) setMessage("");
   }
 
   return (
@@ -430,6 +429,88 @@ function PlanQueue({
   );
 }
 
+// ── Додано: пояснення «Як це працює» (акордеон) ──
+
+const GUIDE_ITEMS: { title: string; paragraphs: string[] }[] = [
+  {
+    title: "Що означає «Запланувати»",
+    paragraphs: [
+      "Кнопка «Запланувати» лише зберігає намір: яку самку з яким самцем і в який день ви хочете звести. Це нагадування для себе, а не сама злучка.",
+      "Після натискання блок підбору закривається, у картці самки з'являється підтвердження, а запис потрапляє до списку «Заплановані злучки» внизу сторінки. У розділі «Парування» на цьому етапі нічого не з'являється.",
+    ],
+  },
+  {
+    title: "Як відбувається планування",
+    paragraphs: [
+      "1. У картці самки натисніть «Підібрати самця». Система покаже самців з оцінкою спорідненості та навантаження за останні 7 днів.",
+      "2. Оберіть самця (за потреби запасного), вкажіть планову дату й нотатку, натисніть «Запланувати». Самців із небезпечною спорідненістю обрати не можна.",
+      "3. У списку запланованих видно дату, скільки днів залишилось, і запасного самця. Плани можна відмінити, відновити або видалити.",
+    ],
+  },
+  {
+    title: "Коли злучку виконано",
+    paragraphs: [
+      "Коли злучка справді відбулась, натисніть «Виконано» біля запису в списку запланованих. Система попросить підтвердити запис на сьогоднішню дату.",
+      "Після підтвердження злучка записується в розділ «Парування»: з'являється запис про парування, контрольна дата через 7 днів і очікуваний окріл. План отримує статус «Виконано» і переходить в історію з позначкою «Записано в Парування».",
+      "Якщо самка вже є в обліку, повторна злучка додається до її поточного запису як новий окріл, а не окремим рядком.",
+    ],
+  },
+];
+
+function PlanGuide() {
+  // Відкритий пункт (одночасно відкритий лише один), null: усе згорнуто
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="plan-guide" aria-labelledby="plan-guide-title">
+      <h2 className="plan-guide-title" id="plan-guide-title">
+        Як це працює
+      </h2>
+      <div className="plan-guide-list">
+        {GUIDE_ITEMS.map((item, i) => {
+          const open = openIndex === i;
+          return (
+            <div
+              key={item.title}
+              className={`plan-guide-item${open ? " is-open" : ""}`}
+            >
+              <h3 className="plan-guide-heading">
+                <button
+                  type="button"
+                  className="plan-guide-trigger"
+                  id={`plan-guide-trigger-${i}`}
+                  aria-expanded={open}
+                  aria-controls={`plan-guide-panel-${i}`}
+                  onClick={() => setOpenIndex(open ? null : i)}
+                >
+                  <span className="plan-guide-num" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <span className="plan-guide-label">{item.title}</span>
+                  <span className="plan-guide-chevron" aria-hidden="true" />
+                </button>
+              </h3>
+              <div
+                className="plan-guide-panel"
+                id={`plan-guide-panel-${i}`}
+                role="region"
+                aria-labelledby={`plan-guide-trigger-${i}`}
+                aria-hidden={!open}
+              >
+                <div className="plan-guide-panel-inner">
+                  {item.paragraphs.map((p) => (
+                    <p key={p}>{p}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 // ── Картка самки ──
 
 interface PlanCardProps {
@@ -445,6 +526,8 @@ interface PlanCardProps {
   plannedForFemale: PlanRecord[];
   saving: boolean;
   createError: string;
+  /** Додано: підтвердження про щойно створений план (показується після закриття підбору). */
+  notice: string | null;
   today: string;
   onCreatePlan: (input: NewPlanInput) => Promise<boolean>;
 }
@@ -459,6 +542,7 @@ function PlanCard({
   plannedForFemale,
   saving,
   createError,
+  notice,
   today,
   onCreatePlan,
 }: PlanCardProps) {
@@ -630,6 +714,12 @@ function PlanCard({
           </span>
         )}
       </div>
+      {/* Додано: підтвердження після закриття підбору, щоб було видно, що план збережено */}
+      {notice && (
+        <p className="plan-card-notice" role="status">
+          {notice}
+        </p>
+      )}
       {canPick && (
         <>
           <button
@@ -682,6 +772,11 @@ export default function BreedingPlan({ session }: Props) {
   const [saving, setSaving] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [showHistory, setShowHistory] = useState(false);
+  // Додано: підтвердження про створений план (прив'язане до картки самки)
+  const [planNotice, setPlanNotice] = useState<{
+    femaleId: string;
+    text: string;
+  } | null>(null);
   // Збільшуємо після запису в базу, щоб перезавантажити дані сторінки
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -813,6 +908,13 @@ export default function BreedingPlan({ session }: Props) {
         notes: input.notes || null,
       });
       if (error) throw error;
+      // Додано: після успішного збереження закриваємо блок підбору
+      // і показуємо підтвердження в картці самки.
+      setPlanNotice({
+        femaleId: input.femaleId,
+        text: `Заплановано: ♂ ${rabbitName(input.maleId)}, ${formatDateUA(input.plannedDate)}. Запис додано в список «Заплановані злучки» внизу сторінки.`,
+      });
+      setOpenFemaleId(null);
       setReloadKey((k) => k + 1);
       return true;
     } catch (err) {
@@ -1034,6 +1136,7 @@ export default function BreedingPlan({ session }: Props) {
                   pickerOpen={plan.rabbit.id === openFemaleId}
                   onTogglePicker={() => {
                     setCreateError("");
+                    setPlanNotice(null);
                     setOpenFemaleId((prev) =>
                       prev === plan.rabbit.id ? null : plan.rabbit.id,
                     );
@@ -1050,6 +1153,11 @@ export default function BreedingPlan({ session }: Props) {
                   saving={saving}
                   createError={
                     plan.rabbit.id === openFemaleId ? createError : ""
+                  }
+                  notice={
+                    planNotice?.femaleId === plan.rabbit.id
+                      ? planNotice.text
+                      : null
                   }
                   today={today}
                   onCreatePlan={handleCreatePlan}
@@ -1071,6 +1179,9 @@ export default function BreedingPlan({ session }: Props) {
             onSetStatus={(r, status) => void handleSetStatus(r, status)}
             onDelete={(r) => void handleDeleteRecord(r)}
           />
+
+          {/* Додано: акордеон з поясненням, як працює планування */}
+          <PlanGuide />
         </>
       )}
     </div>
