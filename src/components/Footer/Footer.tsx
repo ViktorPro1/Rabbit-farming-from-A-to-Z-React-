@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
-import logo from "../../assets/logo.webp";
+// Змінено: було import logo from "../../assets/logo.webp" (1024x1536, 205 КБ)
+// для іконки 58 px. Тепер logo-footer.webp (116x174, 6 КБ) — запас ×2 для
+// щільних екранів. Оригінал logo.webp залишено в assets, не видалено.
+import logo from "../../assets/logo-footer.webp";
 import "./Footer.css";
 
 const Footer = () => {
@@ -15,6 +18,12 @@ const Footer = () => {
             <img
               src={logo}
               alt="Кролівництво від А до Я"
+              // Додано: розміри й lazy — футер нижче екрана, картинка не
+              // потрібна для першого малювання.
+              width={58}
+              height={58}
+              loading="lazy"
+              decoding="async"
               className="footer-brand-icon"
             />
             <div>

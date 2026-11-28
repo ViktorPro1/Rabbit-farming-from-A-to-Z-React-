@@ -26,7 +26,10 @@ const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 const PageLoader = () => (
   <div
     style={{
-      minHeight: "60vh",
+      // Змінено: було "60vh". Через це футер потрапляв в екран телефона,
+      // а після підвантаження сторінки відштовхувався вниз (CLS 0.297,
+      // елемент <footer> у звіті PageSpeed). 100vh тримає футер нижче екрана.
+      minHeight: "100vh",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",

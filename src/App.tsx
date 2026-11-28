@@ -12,13 +12,22 @@ import { logError } from "./lib/logError";
 import type { Session } from "@supabase/supabase-js";
 import CopyProtection from "./components/CopyProtection/CopyProtection";
 
-import WelcomePopup from "./components/WelcomePopup/WelcomePopup";
+// Змінено: WelcomePopup, CookieConsentBanner і DonationPopup тепер lazy
+// (було звичайні імпорти). Вони не потрібні для першого малювання сторінки,
+// а CSS банера cookie блокував відображення (PageSpeed: ~620 мс).
+// Усі три position: fixed, тому їх пізня поява не зсуває макет.
+const WelcomePopup = lazy(
+  () => import("./components/WelcomePopup/WelcomePopup"),
+);
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { UpdatePrompt } from "./components/UpdatePrompt/UpdatePrompt";
 import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import AppRoutes from "./routes/AppRoutes";
-import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
+// Змінено: було import CookieConsentBanner from "./components/CookieConsent/CookieConsent";
+const CookieConsentBanner = lazy(
+  () => import("./components/CookieConsent/CookieConsent"),
+);
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { usePublicPresence } from "./hooks/usePublicPresence";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
@@ -40,7 +49,10 @@ import "./print.css";
 import "./App-states.css";
 import { FontSizeProvider } from "./features/font-size/FontSizeProvider";
 import { useTVNavigation } from "./hooks/useTVNavigation";
-import DonationPopup from "./components/DonationPopup/DonationPopup";
+// Змінено: було import DonationPopup from "./components/DonationPopup/DonationPopup";
+const DonationPopup = lazy(
+  () => import("./components/DonationPopup/DonationPopup"),
+);
 import MetaPixelTracker from "./components/MetaPixelTracker/MetaPixelTracker";
 // Додано: святковий режим (автоматично за датою)
 import { useFestiveMode } from "./hooks/useFestiveMode";
@@ -275,9 +287,15 @@ function App() {
   return (
     <FontSizeProvider>
       <ErrorBoundary>
-        <DonationPopup />
+        {/* Змінено: DonationPopup і CookieConsentBanner обгорнуто в Suspense
+            (вони lazy). fallback={null} — поки вантажаться, нічого не показуємо. */}
+        <Suspense fallback={null}>
+          <DonationPopup />
+        </Suspense>
         <CopyProtection />
-        <CookieConsentBanner />
+        <Suspense fallback={null}>
+          <CookieConsentBanner />
+        </Suspense>
         <BrowserRouter>
           <MetaPixelTracker />
           {/* Додано: має бути всередині BrowserRouter (використовує useNavigate) */}
@@ -287,7 +305,10 @@ function App() {
               Немає з'єднання з інтернетом — показано збережену версію платформи
             </div>
           )}
-          <WelcomePopup />
+          {/* Змінено: WelcomePopup тепер lazy, тому в Suspense */}
+          <Suspense fallback={null}>
+            <WelcomePopup />
+          </Suspense>
           {/* Додано: сніг (лише у святковий період) */}
           <FestiveLayer />
           <ErrorBoundary boundaryName="Assistant" fallback={null}>
